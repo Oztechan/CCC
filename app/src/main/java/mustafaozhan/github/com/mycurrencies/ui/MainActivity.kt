@@ -3,6 +3,8 @@ package mustafaozhan.github.com.mycurrencies.ui
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import mustafaozhan.github.com.mycurrencies.R
@@ -88,5 +90,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         mSpinner.adapter = dataAdapterDepartment
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> {
+//                startActivity(Intent(this@MainActivity, MainActivity::class.java))
+            }
+            else -> {
+            }
+        }
+
+        return true
     }
 }
