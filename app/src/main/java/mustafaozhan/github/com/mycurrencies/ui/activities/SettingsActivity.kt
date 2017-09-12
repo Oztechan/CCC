@@ -3,12 +3,11 @@ package mustafaozhan.github.com.mycurrencies.ui.activities
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_settings.*
 
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.ui.adapters.MyAdapter
+import mustafaozhan.github.com.mycurrencies.ui.adapters.MySettingsAdapter
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -52,7 +51,7 @@ class SettingsActivity : AppCompatActivity() {
         baseList.add("ZAR")
 
         mRecViewSettings.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false)
-        val adapter = MyAdapter(baseList)
+        val adapter = MySettingsAdapter(baseList)
         mRecViewSettings.adapter = adapter
 
     }
