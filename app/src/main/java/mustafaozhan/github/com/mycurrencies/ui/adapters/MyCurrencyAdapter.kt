@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_settings.view.*
+import kotlinx.android.synthetic.main.item_currency.view.*
+
 import mustafaozhan.github.com.mycurrencies.R
 
 /**
@@ -31,6 +32,7 @@ class MyCurrencyAdapter(private var baseList: List<String>?) :
 
         fun bindCocktail(base: String) {
             itemView.txtBase.text = base
+            itemView.txtResult.text="100000"
         }
 
 

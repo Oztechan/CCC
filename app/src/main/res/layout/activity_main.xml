@@ -8,6 +8,7 @@
 
     <EditText
         android:id="@+id/eTxt"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -23,11 +24,27 @@
         android:layout_below="@+id/eTxt"
         android:gravity="center" />
 
+    <LinearLayout
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mSpinner"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="@color/colorAccent"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
+        android:paddingTop="10sp"
         android:id="@+id/mRecViewCurrency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/mSpinner" />
+        android:layout_below="@+id/v" />
 
 
 </RelativeLayout>

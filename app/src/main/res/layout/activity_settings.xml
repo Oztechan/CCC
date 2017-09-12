@@ -7,6 +7,8 @@
     <TextView
         android:padding="5sp"
         android:layout_width="match_parent"
+
+        android:textColor="@color/cyan_900"
         android:text="@string/settings_text"
         android:gravity="center"
         android:id="@+id/txtSettings"

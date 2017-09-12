@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -16,10 +17,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_settings.*
+import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.ui.adapters.MySettingsAdapter
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -87,6 +94,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val dataAdapterDepartment = ArrayAdapter(this, android.R.layout.simple_spinner_item, baseList)
         dataAdapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mSpinner.adapter = dataAdapterDepartment
+
+        mRecViewCurrency.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false)
+        val adapter = MyCurrencyAdapter(baseList)
+        mRecViewCurrency.adapter = adapter
 
 
     }
