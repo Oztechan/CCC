@@ -1,5 +1,6 @@
-package mustafaozhan.github.com.mycurrencies.ui
+package mustafaozhan.github.com.mycurrencies.ui.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,8 +16,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.ArrayAdapter
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val myCall = apiService.getByBase(mSpinner.selectedItem.toString())
         myCall.enqueue(object : Callback<ResponseAll> {
             override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
-                var value: Double = 0.0
+                var value = 0.0
                 if (eTxt.text.toString() != "")
                     value = java.lang.Double.parseDouble(eTxt.text.toString())
                 Log.w("${eTxt.text} ${mSpinner.selectedItem} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
@@ -52,40 +51,40 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
         mSpinner.onItemSelectedListener = this
-        val categoriesDepartment = ArrayList<String>()
-        categoriesDepartment.add("EUR")
-        categoriesDepartment.add("AUD")
-        categoriesDepartment.add("BGN")
-        categoriesDepartment.add("BRL")
-        categoriesDepartment.add("CAD")
-        categoriesDepartment.add("CHF")
-        categoriesDepartment.add("CNY")
-        categoriesDepartment.add("CZK")
-        categoriesDepartment.add("DKK")
-        categoriesDepartment.add("GBP")
-        categoriesDepartment.add("HKD")
-        categoriesDepartment.add("HRK")
-        categoriesDepartment.add("HUF")
-        categoriesDepartment.add("IDR")
-        categoriesDepartment.add("ILS")
-        categoriesDepartment.add("INR")
-        categoriesDepartment.add("JPY")
-        categoriesDepartment.add("KRW")
-        categoriesDepartment.add("MXN")
-        categoriesDepartment.add("MYR")
-        categoriesDepartment.add("NOK")
-        categoriesDepartment.add("NZD")
-        categoriesDepartment.add("PHP")
-        categoriesDepartment.add("PLN")
-        categoriesDepartment.add("RON")
-        categoriesDepartment.add("RUB")
-        categoriesDepartment.add("SEK")
-        categoriesDepartment.add("SGD")
-        categoriesDepartment.add("THB")
-        categoriesDepartment.add("TRY")
-        categoriesDepartment.add("USD")
-        categoriesDepartment.add("ZAR")
-        val dataAdapterDepartment = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoriesDepartment)
+        val baseList = ArrayList<String>()
+        baseList.add("EUR")
+        baseList.add("AUD")
+        baseList.add("BGN")
+        baseList.add("BRL")
+        baseList.add("CAD")
+        baseList.add("CHF")
+        baseList.add("CNY")
+        baseList.add("CZK")
+        baseList.add("DKK")
+        baseList.add("GBP")
+        baseList.add("HKD")
+        baseList.add("HRK")
+        baseList.add("HUF")
+        baseList.add("IDR")
+        baseList.add("ILS")
+        baseList.add("INR")
+        baseList.add("JPY")
+        baseList.add("KRW")
+        baseList.add("MXN")
+        baseList.add("MYR")
+        baseList.add("NOK")
+        baseList.add("NZD")
+        baseList.add("PHP")
+        baseList.add("PLN")
+        baseList.add("RON")
+        baseList.add("RUB")
+        baseList.add("SEK")
+        baseList.add("SGD")
+        baseList.add("THB")
+        baseList.add("TRY")
+        baseList.add("USD")
+        baseList.add("ZAR")
+        val dataAdapterDepartment = ArrayAdapter(this, android.R.layout.simple_spinner_item, baseList)
         dataAdapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mSpinner.adapter = dataAdapterDepartment
 
@@ -100,11 +99,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> {
-//                startActivity(Intent(this@MainActivity, MainActivity::class.java))
-            }
-            else -> {
-            }
+            R.id.settings ->
+                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
 
         return true
