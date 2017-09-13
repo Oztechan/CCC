@@ -4,35 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="5sp"
-    android:padding="5sp">
+    android:padding="5sp"
+    android:paddingTop="5sp">
 
-
-    <TextView
-        android:id="@+id/txtBase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        tools:ignore="RelativeOverlap" />
-
-    <TextView
-        android:id="@+id/txtResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="@color/cyan_700"
-        tools:ignore="RelativeOverlap" />
-    <View
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="1sp"
-        android:background="@color/cyan_900"
-        tools:ignore="SmallSp"
-        android:layout_below="@id/txtResult"
-        />
 
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:padding="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                tools:ignore="RelativeOverlap" />
+
+            <TextView
+                android:id="@+id/txtResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/cyan_700"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>
