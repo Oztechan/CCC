@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -21,7 +20,6 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
-import mustafaozhan.github.com.mycurrencies.ui.adapters.MySettingsAdapter
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
