@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -19,7 +20,6 @@ import retrofit2.Response
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_settings.*
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MySettingsAdapter
 
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        init()
 
 
 
@@ -95,10 +96,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         dataAdapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mSpinner.adapter = dataAdapterDepartment
 
-        mRecViewCurrency.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false)
+        mRecViewCurrency.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
         val adapter = MyCurrencyAdapter(baseList)
         mRecViewCurrency.adapter = adapter
 
+
+    }
+
+    private fun init() {
 
     }
 
@@ -110,8 +115,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings ->
-                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+
+
         }
 
         return true

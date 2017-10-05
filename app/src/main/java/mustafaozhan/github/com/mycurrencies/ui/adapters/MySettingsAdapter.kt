@@ -20,7 +20,7 @@ class MySettingsAdapter(private var baseList: List<String>?) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindCocktail(baseList!![position])
+        holder.bindBase(baseList!![position])
 
     }
 
@@ -29,7 +29,7 @@ class MySettingsAdapter(private var baseList: List<String>?) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindCocktail(base: String) {
+        fun bindBase(base: String) {
             itemView.txtBase.text = base
         }
 
