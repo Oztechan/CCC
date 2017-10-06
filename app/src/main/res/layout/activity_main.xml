@@ -17,7 +17,7 @@
         android:inputType="numberDecimal"
         tools:ignore="LabelFor" />
 
-    <Spinner
+    <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/mSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

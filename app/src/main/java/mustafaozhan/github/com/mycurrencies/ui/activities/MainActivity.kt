@@ -32,20 +32,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         val apiService = ApiClient.get().create(ApiInterface::class.java)
 
-        val myCall = apiService.getByBase(mSpinner.selectedItem.toString())
-        myCall.enqueue(object : Callback<ResponseAll> {
-            override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
-                var value = 0.0
-                if (eTxt.text.toString() != "")
-                    value = java.lang.Double.parseDouble(eTxt.text.toString())
-                Log.w("${eTxt.text} ${mSpinner.selectedItem} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
-            }
-
-            override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
-
-            }
-
-        })
+//        val myCall = apiService.getByBase(mSpinner.selectedItem.toString())
+//        myCall.enqueue(object : Callback<ResponseAll> {
+//            override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
+//                var value = 0.0
+//                if (eTxt.text.toString() != "")
+//                    value = java.lang.Double.parseDouble(eTxt.text.toString())
+//                Log.w("${eTxt.text} ${mSpinner.selectedItem} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
+//            }
+//
+//            override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
+//
+//            }
+//
+//        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
 
-        mSpinner.onItemSelectedListener = this
+      //  mSpinner.onItemSelectedListener = this
         val baseList = ArrayList<String>()
         baseList.add("EUR")
         baseList.add("AUD")
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         baseList.add("ZAR")
         val dataAdapterDepartment = ArrayAdapter(this, android.R.layout.simple_spinner_item, baseList)
         dataAdapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mSpinner.adapter = dataAdapterDepartment
+        mSpinner.setAdapter(dataAdapterDepartment)
 
         mRecViewCurrency.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
         val adapter = MyCurrencyAdapter(baseList)
