@@ -2,24 +2,11 @@ package mustafaozhan.github.com.mycurrencies.ui.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
+import android.widget.Toast
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.model.ResponseAll
-import mustafaozhan.github.com.mycurrencies.rest.ApiClient
-import mustafaozhan.github.com.mycurrencies.rest.ApiInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +32,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+        set()
+    }
 
+    private fun set() {
+        mSpinner.setOnItemSelectedListener { view, position, id, item ->
+            Toast.makeText(applicationContext, "Clicked " + item, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun init() {
