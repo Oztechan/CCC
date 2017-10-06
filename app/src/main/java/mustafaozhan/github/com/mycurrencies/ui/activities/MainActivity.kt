@@ -22,15 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        val apiService = ApiClient.get().create(ApiInterface::class.java)
 
 //        val myCall = apiService.getByBase(mSpinner.selectedItem.toString())
 //        myCall.enqueue(object : Callback<ResponseAll> {
@@ -46,63 +39,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //            }
 //
 //        })
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         init()
-
-
-
-      //  mSpinner.onItemSelectedListener = this
-        val baseList = ArrayList<String>()
-        baseList.add("EUR")
-        baseList.add("AUD")
-        baseList.add("BGN")
-        baseList.add("BRL")
-        baseList.add("CAD")
-        baseList.add("CHF")
-        baseList.add("CNY")
-        baseList.add("CZK")
-        baseList.add("DKK")
-        baseList.add("GBP")
-        baseList.add("HKD")
-        baseList.add("HRK")
-        baseList.add("HUF")
-        baseList.add("IDR")
-        baseList.add("ILS")
-        baseList.add("INR")
-        baseList.add("JPY")
-        baseList.add("KRW")
-        baseList.add("MXN")
-        baseList.add("MYR")
-        baseList.add("NOK")
-        baseList.add("NZD")
-        baseList.add("PHP")
-        baseList.add("PLN")
-        baseList.add("RON")
-        baseList.add("RUB")
-        baseList.add("SEK")
-        baseList.add("SGD")
-        baseList.add("THB")
-        baseList.add("TRY")
-        baseList.add("USD")
-        baseList.add("ZAR")
-        val dataAdapterDepartment = ArrayAdapter(this, android.R.layout.simple_spinner_item, baseList)
-        dataAdapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mSpinner.setAdapter(dataAdapterDepartment)
-
-        mRecViewCurrency.layoutManager = LinearLayoutManager(applicationContext, LinearLayout.VERTICAL, false) as RecyclerView.LayoutManager?
-        val adapter = MyCurrencyAdapter(baseList)
-        mRecViewCurrency.adapter = adapter
-
 
     }
 
     private fun init() {
-
+        mSpinner.setItems("EUR", "AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK",
+                "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN",
+                "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB",
+                "TRY", "USD", "ZAR")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

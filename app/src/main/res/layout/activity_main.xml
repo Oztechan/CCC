@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/blue_grey_100"
     tools:context="mustafaozhan.github.com.mycurrencies.ui.activities.MainActivity">
-
-
     <EditText
         android:id="@+id/eTxt"
         android:layout_width="368dp"
@@ -31,22 +29,22 @@
         android:layout_below="@+id/eTxt"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="-2dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_background_color="@color/colorPrimary"
-        app:ms_text_color="@color/colorAccent" />
+        app:ms_text_color="@color/blue_grey_50" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewCurrency"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:paddingTop="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
