@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun set() {
 
         val apiService = ApiClient.get().create(ApiInterface::class.java)
-
+        val myCall = apiService.getByBase(mSpinner.text.toString())
 
 
 
@@ -53,19 +53,16 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
 
-                    val myCall = apiService.getByBase(mSpinner.text.toString())
                     myCall.enqueue(object : Callback<ResponseAll> {
                         override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
                             var value = 0.0
-                            if (eTxt.text.toString() != "")
-                                value = java.lang.Double.parseDouble(eTxt.text.toString())
-                            Log.e("${eTxt.text} ${mSpinner.text} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
+                            if (text.toString() != "")
+                                value = java.lang.Double.parseDouble(text.toString())
+                            Log.e("$text ${mSpinner.text} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
                         }
 
                         override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
-
                         }
-
                     })
 
 
