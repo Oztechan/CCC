@@ -63,51 +63,54 @@ class MainActivity : AppCompatActivity() {
                                            start: Int, before: Int,
                                            count: Int)
                         = subscriber.onNext(s.toString())
-            })
 
+            })
 
 
         }).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
 
-                    myCall.enqueue(object : Callback<ResponseAll> {
+                    myCall.clone().enqueue(object : Callback<ResponseAll> {
                         override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
 
                             currencyList.clear()
-
-                            currencyList.add(Currency("EUR", response?.body()?.rates!!.eUR?: 1 * text.toDouble()))
-                            currencyList.add(Currency("AUD", response?.body()?.rates!!.aUD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("BGN", response?.body()?.rates!!.bGN?: 1 * text.toDouble()))
-                            currencyList.add(Currency("BRL", response?.body()?.rates!!.bRL?: 1 * text.toDouble()))
-                            currencyList.add(Currency("CAD", response?.body()?.rates!!.cAD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("CHF", response?.body()?.rates!!.cHF?: 1 * text.toDouble()))
-                            currencyList.add(Currency("CNY", response?.body()?.rates!!.cNY?: 1 * text.toDouble()))
-                            currencyList.add(Currency("CZK", response?.body()?.rates!!.cZK?: 1 * text.toDouble()))
-                            currencyList.add(Currency("DKK", response?.body()?.rates!!.dKK?: 1 * text.toDouble()))
-                            currencyList.add(Currency("GBP", response?.body()?.rates!!.gBP?: 1 * text.toDouble()))
-                            currencyList.add(Currency("HKD", response?.body()?.rates!!.hKD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("HRK", response?.body()?.rates!!.hRK?: 1 * text.toDouble()))
-                            currencyList.add(Currency("HUF", response?.body()?.rates!!.hUF?: 1 * text.toDouble()))
-                            currencyList.add(Currency("IDR", response?.body()?.rates!!.iDR?: 1 * text.toDouble()))
-                            currencyList.add(Currency("ILS", response?.body()?.rates!!.iLS?: 1 * text.toDouble()))
-                            currencyList.add(Currency("INR", response?.body()?.rates!!.iNR?: 1 * text.toDouble()))
-                            currencyList.add(Currency("JPY", response?.body()?.rates!!.jPY?: 1 * text.toDouble()))
-                            currencyList.add(Currency("KRW", response?.body()?.rates!!.kRW?: 1 * text.toDouble()))
-                            currencyList.add(Currency("MXN", response?.body()?.rates!!.mXN?: 1 * text.toDouble()))
-                            currencyList.add(Currency("MYR", response?.body()?.rates!!.mYR?: 1 * text.toDouble()))
-                            currencyList.add(Currency("NOK", response?.body()?.rates!!.nOK?: 1 * text.toDouble()))
-                            currencyList.add(Currency("NZD", response?.body()?.rates!!.nZD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("PHP", response?.body()?.rates!!.pHP?: 1 * text.toDouble()))
-                            currencyList.add(Currency("PLN", response?.body()?.rates!!.pLN?: 1 * text.toDouble()))
-                            currencyList.add(Currency("RON", response?.body()?.rates!!.rON?: 1 * text.toDouble()))
-                            currencyList.add(Currency("RUB", response?.body()?.rates!!.rUB?: 1 * text.toDouble()))
-                            currencyList.add(Currency("SEK", response?.body()?.rates!!.sEK?: 1 * text.toDouble()))
-                            currencyList.add(Currency("SGD", response?.body()?.rates!!.sGD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("THB", response?.body()?.rates!!.tHB?: 1 * text.toDouble()))
-                            currencyList.add(Currency("TRY", response?.body()?.rates!!.tRY?: 1 * text.toDouble()))
-                            currencyList.add(Currency("USD", response?.body()?.rates!!.uSD?: 1 * text.toDouble()))
-                            currencyList.add(Currency("ZAR", response?.body()?.rates!!.zAR?: 1 * text.toDouble()))
+                            val temp = if (text.isEmpty())
+                                1.toString()
+                            else
+                                text
+                            currencyList.add(Currency("EUR", response?.body()?.rates!!.eUR ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("AUD", response.body()?.rates!!.aUD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("BGN", response.body()?.rates!!.bGN ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("BRL", response.body()?.rates!!.bRL ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("CAD", response.body()?.rates!!.cAD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("CHF", response.body()?.rates!!.cHF ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("CNY", response.body()?.rates!!.cNY ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("CZK", response.body()?.rates!!.cZK ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("DKK", response.body()?.rates!!.dKK ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("GBP", response.body()?.rates!!.gBP ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("HKD", response.body()?.rates!!.hKD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("HRK", response.body()?.rates!!.hRK ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("HUF", response.body()?.rates!!.hUF ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("IDR", response.body()?.rates!!.iDR ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("ILS", response.body()?.rates!!.iLS ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("INR", response.body()?.rates!!.iNR ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("JPY", response.body()?.rates!!.jPY ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("KRW", response.body()?.rates!!.kRW ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("MXN", response.body()?.rates!!.mXN ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("MYR", response.body()?.rates!!.mYR ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("NOK", response.body()?.rates!!.nOK ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("NZD", response.body()?.rates!!.nZD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("PHP", response.body()?.rates!!.pHP ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("PLN", response.body()?.rates!!.pLN ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("RON", response.body()?.rates!!.rON ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("RUB", response.body()?.rates!!.rUB ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("SEK", response.body()?.rates!!.sEK ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("SGD", response.body()?.rates!!.sGD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("THB", response.body()?.rates!!.tHB ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("TRY", response.body()?.rates!!.tRY ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("USD", response.body()?.rates!!.uSD ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("ZAR", response.body()?.rates!!.zAR ?: 1 * temp.toDouble()))
 
                             mAdapter.notifyDataSetChanged()
 
@@ -118,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                     })
 
 
-                })
+                }, { e -> onError(e) })
 
 
     }
