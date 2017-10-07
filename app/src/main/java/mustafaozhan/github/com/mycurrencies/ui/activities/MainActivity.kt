@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import io.reactivex.plugins.RxJavaPlugins.onError
 
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
-//        mRecViewCurrency.itemAnimator = DefaultItemAnimator()
+        mRecViewCurrency.itemAnimator = DefaultItemAnimator()
         mRecViewCurrency.adapter = mAdapter
 
 
@@ -45,10 +46,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun set() {
-
-        val apiService = ApiClient.get().create(ApiInterface::class.java)
-        val myCall = apiService.getByBase(mSpinner.text.toString())
-
+        mSpinner.setOnItemSelectedListener { view, position, id, item ->
+            val temp = eTxt.text
+            eTxt.text = null
+            eTxt.text = temp
+        }
 
 
         Observable.create(Observable.OnSubscribe<String> { subscriber ->
@@ -63,54 +65,56 @@ class MainActivity : AppCompatActivity() {
                                            start: Int, before: Int,
                                            count: Int)
                         = subscriber.onNext(s.toString())
-
             })
-
 
         }).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
 
+                    val apiService = ApiClient.get().create(ApiInterface::class.java)
+                    val myCall = apiService.getByBase(mSpinner.text.toString())
+                    currencyList.clear()
                     myCall.clone().enqueue(object : Callback<ResponseAll> {
                         override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
 
-                            currencyList.clear()
+                            val tempCurrency = response!!.body()!!.rates!!
+
                             val temp = if (text.isEmpty())
                                 1.toString()
                             else
                                 text
-                            currencyList.add(Currency("EUR", response?.body()?.rates!!.eUR ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("AUD", response.body()?.rates!!.aUD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("BGN", response.body()?.rates!!.bGN ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("BRL", response.body()?.rates!!.bRL ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("CAD", response.body()?.rates!!.cAD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("CHF", response.body()?.rates!!.cHF ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("CNY", response.body()?.rates!!.cNY ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("CZK", response.body()?.rates!!.cZK ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("DKK", response.body()?.rates!!.dKK ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("GBP", response.body()?.rates!!.gBP ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("HKD", response.body()?.rates!!.hKD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("HRK", response.body()?.rates!!.hRK ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("HUF", response.body()?.rates!!.hUF ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("IDR", response.body()?.rates!!.iDR ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("ILS", response.body()?.rates!!.iLS ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("INR", response.body()?.rates!!.iNR ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("JPY", response.body()?.rates!!.jPY ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("KRW", response.body()?.rates!!.kRW ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("MXN", response.body()?.rates!!.mXN ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("MYR", response.body()?.rates!!.mYR ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("NOK", response.body()?.rates!!.nOK ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("NZD", response.body()?.rates!!.nZD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("PHP", response.body()?.rates!!.pHP ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("PLN", response.body()?.rates!!.pLN ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("RON", response.body()?.rates!!.rON ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("RUB", response.body()?.rates!!.rUB ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("SEK", response.body()?.rates!!.sEK ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("SGD", response.body()?.rates!!.sGD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("THB", response.body()?.rates!!.tHB ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("TRY", response.body()?.rates!!.tRY ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("USD", response.body()?.rates!!.uSD ?: 1 * temp.toDouble()))
-                            currencyList.add(Currency("ZAR", response.body()?.rates!!.zAR ?: 1 * temp.toDouble()))
+                            currencyList.add(Currency("EUR", tempCurrency.eUR?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("AUD", tempCurrency.aUD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("BGN", tempCurrency.bGN?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("BRL", tempCurrency.bRL?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("CAD", tempCurrency.cAD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("CHF", tempCurrency.cHF?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("CNY", tempCurrency.cNY?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("CZK", tempCurrency.cZK?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("DKK", tempCurrency.dKK?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("GBP", tempCurrency.gBP?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("HKD", tempCurrency.hKD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("HRK", tempCurrency.hRK?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("HUF", tempCurrency.hUF?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("IDR", tempCurrency.iDR?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("ILS", tempCurrency.iLS?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("INR", tempCurrency.iNR?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("JPY", tempCurrency.jPY?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("KRW", tempCurrency.kRW?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("MXN", tempCurrency.mXN?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("MYR", tempCurrency.mYR?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("NOK", tempCurrency.nOK?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("NZD", tempCurrency.nZD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("PHP", tempCurrency.pHP?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("PLN", tempCurrency.pLN?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("RON", tempCurrency.rON?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("RUB", tempCurrency.rUB?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("SEK", tempCurrency.sEK?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("SGD", tempCurrency.sGD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("THB", tempCurrency.tHB?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("TRY", tempCurrency.tRY?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("USD", tempCurrency.uSD?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.add(Currency("ZAR", tempCurrency.zAR?.times(temp.toDouble()) ?: temp.toDouble()))
 
                             mAdapter.notifyDataSetChanged()
 
@@ -141,8 +145,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
-
+            R.id.settings -> Toast.makeText(applicationContext, "Under process", Toast.LENGTH_SHORT).show()
         }
 
         return true
