@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey_100"
+    android:background="@color/blue_grey_500"
     tools:context="mustafaozhan.github.com.mycurrencies.ui.activities.MainActivity">
+
     <EditText
         android:id="@+id/eTxt"
         android:layout_width="368dp"
@@ -15,6 +16,7 @@
         android:layout_marginTop="0dp"
         android:gravity="center"
         android:inputType="numberDecimal"
+        android:textColor="@color/blue_grey_50"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

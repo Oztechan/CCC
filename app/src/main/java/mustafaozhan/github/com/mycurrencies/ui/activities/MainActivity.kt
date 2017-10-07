@@ -2,31 +2,20 @@ package mustafaozhan.github.com.mycurrencies.ui.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import mustafaozhan.github.com.mycurrencies.R
 import kotlinx.android.synthetic.main.activity_main.*
+import mustafaozhan.github.com.mycurrencies.model.ResponseAll
+import mustafaozhan.github.com.mycurrencies.rest.ApiClient
+import mustafaozhan.github.com.mycurrencies.rest.ApiInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
-
-
-//        val myCall = apiService.getByBase(mSpinner.selectedItem.toString())
-//        myCall.enqueue(object : Callback<ResponseAll> {
-//            override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
-//                var value = 0.0
-//                if (eTxt.text.toString() != "")
-//                    value = java.lang.Double.parseDouble(eTxt.text.toString())
-//                Log.w("${eTxt.text} ${mSpinner.selectedItem} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
-//            }
-//
-//            override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
-//
-//            }
-//
-//        })
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +26,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun set() {
         mSpinner.setOnItemSelectedListener { view, position, id, item ->
-            Toast.makeText(applicationContext, "Clicked " + item, Toast.LENGTH_LONG).show()
+            val apiService = ApiClient.get().create(ApiInterface::class.java)
+            val myCall = apiService.getByBase(item.toString())
+            myCall.enqueue(object : Callback<ResponseAll> {
+                override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
+                    var value = 0.0
+                    if (eTxt.text.toString() != "")
+                        value = java.lang.Double.parseDouble(eTxt.text.toString())
+                    Log.e("${eTxt.text} $item ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
+                }
+
+                override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
+
+                }
+
+            })
         }
     }
 

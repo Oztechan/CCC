@@ -12,5 +12,4 @@ import retrofit2.http.Query
 interface ApiInterface {
     @GET("latest")
     fun getByBase(@Query("base") base: String): Call<ResponseAll>
-
 }
