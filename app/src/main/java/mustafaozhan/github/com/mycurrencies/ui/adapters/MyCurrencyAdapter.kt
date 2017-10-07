@@ -6,12 +6,13 @@ import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.model.Currency
 
 
 /**
  * Created by Mustafa Ozhan on 10/7/17 at 6:56 PM on Arch Linux.
  */
-class MyCurencyAdapter(private val moviesList: List<String>) : RecyclerView.Adapter<MyCurencyAdapter.MyViewHolder>() {
+class MyCurrencyAdapter(private val moviesList: ArrayList<Currency>?) : RecyclerView.Adapter<MyCurrencyAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var type: TextView = view.findViewById(R.id.txtType)
@@ -27,13 +28,13 @@ class MyCurencyAdapter(private val moviesList: List<String>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val movie = moviesList[position]
+        val currency = moviesList!![position]
+        holder.type.text = currency.name
+        holder.amount.text = currency.rate.toString()
 //        holder.title.setText(movie.getTitle())
 //        holder.genre.setText(movie.getGenre())
 //        holder.year.setText(movie.getYear())
     }
 
-    override fun getItemCount(): Int {
-        return moviesList.size
-    }
+    override fun getItemCount(): Int = moviesList?.size ?: -1
 }
