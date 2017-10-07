@@ -102,5 +102,8 @@ class Rates {
     @SerializedName("ZAR")
     @Expose
     var zAR: Double? = null
+    @SerializedName("EUR")
+    @Expose
+    var eUR: Double? = null
 
 }

@@ -4,13 +4,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import android.view.Menu
 import android.view.MenuItem
 import mustafaozhan.github.com.mycurrencies.R
 import kotlinx.android.synthetic.main.activity_main.*
+import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.ResponseAll
 import mustafaozhan.github.com.mycurrencies.rest.ApiClient
 import mustafaozhan.github.com.mycurrencies.rest.ApiInterface
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
-
+    val currencyList: ArrayList<Currency>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,10 +55,41 @@ class MainActivity : AppCompatActivity() {
 
                     myCall.enqueue(object : Callback<ResponseAll> {
                         override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
-                            var value = 0.0
-                            if (text.toString() != "")
-                                value = java.lang.Double.parseDouble(text.toString())
-                            Log.e("$text ${mSpinner.text} ", "${(response!!.body()!!.rates!!.tRY!! * value)} Turkish Lira")
+
+                            currencyList?.add(Currency("EUR", response?.body()?.rates!!.eUR!!*text.toDouble()))
+                            currencyList?.add(Currency("AUD", response?.body()?.rates!!.aUD!!*text.toDouble()))
+                            currencyList?.add(Currency("BGN", response?.body()?.rates!!.bGN!!*text.toDouble()))
+                            currencyList?.add(Currency("BRL", response?.body()?.rates!!.bRL!!*text.toDouble()))
+                            currencyList?.add(Currency("CAD", response?.body()?.rates!!.cAD!!*text.toDouble()))
+                            currencyList?.add(Currency("CHF", response?.body()?.rates!!.cHF!!*text.toDouble()))
+                            currencyList?.add(Currency("CNY", response?.body()?.rates!!.cNY!!*text.toDouble()))
+                            currencyList?.add(Currency("CZK", response?.body()?.rates!!.cZK!!*text.toDouble()))
+                            currencyList?.add(Currency("DKK", response?.body()?.rates!!.dKK!!*text.toDouble()))
+                            currencyList?.add(Currency("GBP", response?.body()?.rates!!.gBP!!*text.toDouble()))
+                            currencyList?.add(Currency("HKD", response?.body()?.rates!!.hKD!!*text.toDouble()))
+                            currencyList?.add(Currency("HRK", response?.body()?.rates!!.hRK!!*text.toDouble()))
+                            currencyList?.add(Currency("HUF", response?.body()?.rates!!.hUF!!*text.toDouble()))
+                            currencyList?.add(Currency("IDR", response?.body()?.rates!!.iDR!!*text.toDouble()))
+                            currencyList?.add(Currency("ILS", response?.body()?.rates!!.iLS!!*text.toDouble()))
+                            currencyList?.add(Currency("INR", response?.body()?.rates!!.iNR!!*text.toDouble()))
+                            currencyList?.add(Currency("JPY", response?.body()?.rates!!.jPY!!*text.toDouble()))
+                            currencyList?.add(Currency("KRW", response?.body()?.rates!!.kRW!!*text.toDouble()))
+                            currencyList?.add(Currency("MXN", response?.body()?.rates!!.mXN!!*text.toDouble()))
+                            currencyList?.add(Currency("MYR", response?.body()?.rates!!.mYR!!*text.toDouble()))
+                            currencyList?.add(Currency("NOK", response?.body()?.rates!!.nOK!!*text.toDouble()))
+                            currencyList?.add(Currency("NZD", response?.body()?.rates!!.nZD!!*text.toDouble()))
+                            currencyList?.add(Currency("PHP", response?.body()?.rates!!.pHP!!*text.toDouble()))
+                            currencyList?.add(Currency("PLN", response?.body()?.rates!!.pLN!!*text.toDouble()))
+                            currencyList?.add(Currency("RON", response?.body()?.rates!!.rON!!*text.toDouble()))
+                            currencyList?.add(Currency("RUB", response?.body()?.rates!!.rUB!!*text.toDouble()))
+                            currencyList?.add(Currency("SEK", response?.body()?.rates!!.sEK!!*text.toDouble()))
+                            currencyList?.add(Currency("SGD", response?.body()?.rates!!.sGD!!*text.toDouble()))
+                            currencyList?.add(Currency("THB", response?.body()?.rates!!.tHB!!*text.toDouble()))
+                            currencyList?.add(Currency("TRY", response?.body()?.rates!!.tRY!!*text.toDouble()))
+                            currencyList?.add(Currency("USD", response?.body()?.rates!!.uSD!!*text.toDouble()))
+                            currencyList?.add(Currency("ZAR", response?.body()?.rates!!.zAR!!*text.toDouble()))
+
+
                         }
 
                         override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
