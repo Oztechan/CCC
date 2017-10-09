@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun set() {
-        mSpinner.setOnItemSelectedListener { view, position, id, item ->
+        mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             val temp = eTxt.text
             eTxt.text = null
             eTxt.text = temp

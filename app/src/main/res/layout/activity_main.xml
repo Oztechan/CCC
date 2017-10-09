@@ -26,9 +26,8 @@
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading"
         style="@style/AVLoadingIndicatorView"
-        android:layout_width="120dp"
-
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
