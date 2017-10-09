@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -146,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> Toast.makeText(applicationContext, "Under process", Toast.LENGTH_SHORT).show()
+            R.id.settings -> startActivity(Intent(this,SettingsActivity::class.java))
         }
 
         return true

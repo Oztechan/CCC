@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 10/7/17 at 6:56 PM on Arch Linux.
  */
-class MyCurrencyAdapter(private val moviesList: ArrayList<Currency>?) : RecyclerView.Adapter<MyCurrencyAdapter.MyViewHolder>() {
+class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : RecyclerView.Adapter<MyCurrencyAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var type: TextView = view.findViewById(R.id.txtType)
@@ -28,7 +28,7 @@ class MyCurrencyAdapter(private val moviesList: ArrayList<Currency>?) : Recycler
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currency = moviesList!![position]
+        val currency = currencyList!![position]
         holder.type.text = currency.name
         holder.amount.text = currency.rate.toString()
 //        holder.title.setText(movie.getTitle())
@@ -36,5 +36,5 @@ class MyCurrencyAdapter(private val moviesList: ArrayList<Currency>?) : Recycler
 //        holder.year.setText(movie.getYear())
     }
 
-    override fun getItemCount(): Int = moviesList?.size ?: -1
+    override fun getItemCount(): Int = currencyList?.size ?: -1
 }
