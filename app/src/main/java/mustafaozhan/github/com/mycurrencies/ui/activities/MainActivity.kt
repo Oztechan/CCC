@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> startActivity(Intent(this,SettingsActivity::class.java))
+            R.id.settings -> Toast.makeText(this,"Under process",Toast.LENGTH_SHORT).show()
         }
 
         return true
