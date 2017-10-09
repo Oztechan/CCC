@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import io.reactivex.plugins.RxJavaPlugins.onError
 
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
 
+                    loading.visibility = View.VISIBLE
+                    loading.bringToFront()
                     val apiService = ApiClient.get().create(ApiInterface::class.java)
                     val myCall = apiService.getByBase(mSpinner.text.toString())
                     currencyList.clear()
@@ -117,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                             currencyList.add(Currency("TRY", tempCurrency.tRY?.times(temp.toDouble()) ?: temp.toDouble()))
                             currencyList.add(Currency("USD", tempCurrency.uSD?.times(temp.toDouble()) ?: temp.toDouble()))
                             currencyList.add(Currency("ZAR", tempCurrency.zAR?.times(temp.toDouble()) ?: temp.toDouble()))
-
+                            loading.visibility = View.INVISIBLE
                             mAdapter.notifyDataSetChanged()
 
                         }
@@ -147,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> Toast.makeText(this,"Under process",Toast.LENGTH_SHORT).show()
+            R.id.settings -> Toast.makeText(this, "Under process", Toast.LENGTH_SHORT).show()
         }
 
         return true

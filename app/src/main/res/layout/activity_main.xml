@@ -23,6 +23,22 @@
         app:layout_constraintTop_toBottomOf="@+id/mSpinner"
         tools:ignore="LabelFor" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="120dp"
+
+        android:layout_height="120dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        app:indicatorColor="@color/colorPrimary"
+        app:indicatorName="BallPulseIndicator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mRecViewCurrency" />
+
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/mSpinner"
         android:layout_width="0dp"
@@ -50,9 +66,11 @@
         android:layout_marginTop="0dp"
         android:paddingTop="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/eTxt"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </android.support.constraint.ConstraintLayout>
