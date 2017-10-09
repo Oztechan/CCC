@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                                 1.toString()
                             else
                                 text
+
                             currencyList.add(Currency("EUR", tempCurrency.eUR?.times(temp.toDouble()) ?: temp.toDouble()))
                             currencyList.add(Currency("AUD", tempCurrency.aUD?.times(temp.toDouble()) ?: temp.toDouble()))
                             currencyList.add(Currency("BGN", tempCurrency.bGN?.times(temp.toDouble()) ?: temp.toDouble()))
