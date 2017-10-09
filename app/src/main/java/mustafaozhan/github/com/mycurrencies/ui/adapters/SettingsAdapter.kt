@@ -14,8 +14,8 @@ import mustafaozhan.github.com.mycurrencies.model.Setting
 class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var name: TextView = view.findViewById(R.id.txtType)
-        var isActive: TextView = view.findViewById(R.id.checkBox)
+        var name: TextView = view.findViewById(R.id.textView)
+        var checkBox: TextView = view.findViewById(R.id.checkBox)
 
     }
 
@@ -29,10 +29,8 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val setting = settingsList!![position]
         holder.name.text = setting.name
-        holder.isActive.isActivated = setting.isActive
-//        holder.title.setText(movie.getTitle())
-//        holder.genre.setText(movie.getGenre())
-//        holder.year.setText(movie.getYear())
+        holder.checkBox.isSelected=setting.isActive
+
     }
 
     override fun getItemCount(): Int = settingsList?.size ?: -1

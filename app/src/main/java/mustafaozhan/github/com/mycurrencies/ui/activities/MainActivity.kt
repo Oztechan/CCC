@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                             val tempCurrency = response!!.body()!!.rates!!
 
                             val temp = if (text.isEmpty())
-                                1.toString()
+                                0.toString()
                             else
                                 text
 
