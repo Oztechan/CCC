@@ -24,6 +24,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import io.reactivex.plugins.RxJavaPlugins.onError
+import mustafaozhan.github.com.mycurrencies.model.data.Setting
+import ninja.sakib.pultusorm.core.PultusORM
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,10 +45,28 @@ class MainActivity : AppCompatActivity() {
 
 
         init()
+
         set()
+
+        functionality()
     }
 
     private fun set() {
+        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
+        val items = myDatabase.find(Setting())
+
+        val tempList = ArrayList<String>()
+
+        items
+                .map { it -> it as Setting }
+                .filter { it.isActive }
+                .mapTo(tempList) { it.name.toString() }
+
+
+        mSpinner.setItems(tempList.toList())
+    }
+
+    private fun functionality() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             val temp = eTxt.text
             eTxt.text = null
@@ -135,10 +155,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        mSpinner.setItems("EUR", "AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK",
-                "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN",
-                "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB",
-                "TRY", "USD", "ZAR")
+        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
+        myDatabase.save(Setting("EUR"))
+        myDatabase.save(Setting("AUD"))
+        myDatabase.save(Setting("BGN"))
+        myDatabase.save(Setting("BRL"))
+        myDatabase.save(Setting("CAD"))
+        myDatabase.save(Setting("CHF"))
+        myDatabase.save(Setting("CNY"))
+        myDatabase.save(Setting("CZK"))
+        myDatabase.save(Setting("DKK"))
+        myDatabase.save(Setting("GBP"))
+        myDatabase.save(Setting("HKD"))
+        myDatabase.save(Setting("HRK"))
+        myDatabase.save(Setting("HUF"))
+        myDatabase.save(Setting("IDR"))
+        myDatabase.save(Setting("ILS"))
+        myDatabase.save(Setting("INR"))
+        myDatabase.save(Setting("JPY"))
+        myDatabase.save(Setting("KRW"))
+        myDatabase.save(Setting("MXN"))
+        myDatabase.save(Setting("MYR"))
+        myDatabase.save(Setting("NOK"))
+        myDatabase.save(Setting("NZD"))
+        myDatabase.save(Setting("PHP"))
+        myDatabase.save(Setting("PLN"))
+        myDatabase.save(Setting("RON"))
+        myDatabase.save(Setting("RUB"))
+        myDatabase.save(Setting("SEK"))
+        myDatabase.save(Setting("SGD"))
+        myDatabase.save(Setting("THB"))
+        myDatabase.save(Setting("TRY"))
+        myDatabase.save(Setting("USD"))
+        myDatabase.save(Setting("ZAR"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
