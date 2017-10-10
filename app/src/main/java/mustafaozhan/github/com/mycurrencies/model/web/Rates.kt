@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.model
+package mustafaozhan.github.com.mycurrencies.model.web
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

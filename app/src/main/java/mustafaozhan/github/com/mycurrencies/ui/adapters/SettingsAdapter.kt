@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.model.Setting
+import mustafaozhan.github.com.mycurrencies.model.data.Setting
 
 /**
  * Created by Mustafa Ozhan on 10/9/17 at 12:57 PM on Arch Linux.

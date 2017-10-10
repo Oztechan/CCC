@@ -6,7 +6,7 @@ import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.data.Currency
 
 
 /**

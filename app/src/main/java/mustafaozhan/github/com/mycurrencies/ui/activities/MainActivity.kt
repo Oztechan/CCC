@@ -10,8 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import mustafaozhan.github.com.mycurrencies.R
 import kotlinx.android.synthetic.main.activity_main.*
-import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.model.ResponseAll
+import mustafaozhan.github.com.mycurrencies.model.data.Currency
+import mustafaozhan.github.com.mycurrencies.model.web.ResponseAll
 import mustafaozhan.github.com.mycurrencies.rest.ApiClient
 import mustafaozhan.github.com.mycurrencies.rest.ApiInterface
 import retrofit2.Call
