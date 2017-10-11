@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -43,8 +44,11 @@ class MainActivity : AppCompatActivity() {
         mRecViewCurrency.adapter = mAdapter
 
 
+        if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
+            init()
+            getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).commit()
+        }
 
-        init()
 
         set()
 
@@ -61,9 +65,12 @@ class MainActivity : AppCompatActivity() {
                 .map { it -> it as Setting }
                 .filter { it.isActive }
                 .mapTo(tempList) { it.name.toString() }
+        myDatabase.close()
+        if (tempList.toList().isEmpty())
+            mSpinner.setItems("Please Select at least one Currency")
+        else
+            mSpinner.setItems(tempList.toList())
 
-
-        mSpinner.setItems(tempList.toList())
     }
 
     private fun functionality() {
@@ -102,10 +109,12 @@ class MainActivity : AppCompatActivity() {
 
                             val tempCurrency = response!!.body()!!.rates!!
 
-                            val temp = if (text.isEmpty())
+                            val temp = if (text.isEmpty()) {
+                                eTxt.setText("0")
                                 0.toString()
-                            else
+                            } else
                                 text
+
 
                             currencyList.add(Currency("EUR", tempCurrency.eUR?.times(temp.toDouble()) ?: temp.toDouble()))
                             currencyList.add(Currency("AUD", tempCurrency.aUD?.times(temp.toDouble()) ?: temp.toDouble()))
@@ -188,6 +197,7 @@ class MainActivity : AppCompatActivity() {
         myDatabase.save(Setting("TRY"))
         myDatabase.save(Setting("USD"))
         myDatabase.save(Setting("ZAR"))
+        myDatabase.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -198,7 +208,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> Toast.makeText(this, "Under process", Toast.LENGTH_SHORT).show()
+            R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         return true
