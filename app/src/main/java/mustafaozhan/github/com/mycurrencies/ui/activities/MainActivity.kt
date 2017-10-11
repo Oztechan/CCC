@@ -50,8 +50,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        set()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        set()
         functionality()
     }
 
@@ -63,9 +66,9 @@ class MainActivity : AppCompatActivity() {
 
         items
                 .map { it -> it as Setting }
-                .filter { it.isActive }
+                .filter { it.isActive == "true" }
                 .mapTo(tempList) { it.name.toString() }
-        myDatabase.close()
+        // myDatabase.close()
         if (tempList.toList().isEmpty())
             mSpinner.setItems("Please Select at least one Currency")
         else
@@ -197,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         myDatabase.save(Setting("TRY"))
         myDatabase.save(Setting("USD"))
         myDatabase.save(Setting("ZAR"))
-        myDatabase.close()
+        // myDatabase.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
