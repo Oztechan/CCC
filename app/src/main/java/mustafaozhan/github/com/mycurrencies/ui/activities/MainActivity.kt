@@ -23,7 +23,6 @@ import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import io.reactivex.plugins.RxJavaPlugins.onError
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
@@ -77,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun functionality() {
+
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             val temp = eTxt.text
             eTxt.text = null
@@ -118,39 +118,121 @@ class MainActivity : AppCompatActivity() {
                             } else
                                 text
 
+                            val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
+                            val items = myDatabase.find(Setting())
 
-                            currencyList.add(Currency("EUR", tempCurrency.eUR?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("AUD", tempCurrency.aUD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("BGN", tempCurrency.bGN?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("BRL", tempCurrency.bRL?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("CAD", tempCurrency.cAD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("CHF", tempCurrency.cHF?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("CNY", tempCurrency.cNY?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("CZK", tempCurrency.cZK?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("DKK", tempCurrency.dKK?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("GBP", tempCurrency.gBP?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("HKD", tempCurrency.hKD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("HRK", tempCurrency.hRK?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("HUF", tempCurrency.hUF?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("IDR", tempCurrency.iDR?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("ILS", tempCurrency.iLS?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("INR", tempCurrency.iNR?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("JPY", tempCurrency.jPY?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("KRW", tempCurrency.kRW?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("MXN", tempCurrency.mXN?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("MYR", tempCurrency.mYR?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("NOK", tempCurrency.nOK?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("NZD", tempCurrency.nZD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("PHP", tempCurrency.pHP?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("PLN", tempCurrency.pLN?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("RON", tempCurrency.rON?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("RUB", tempCurrency.rUB?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("SEK", tempCurrency.sEK?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("SGD", tempCurrency.sGD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("THB", tempCurrency.tHB?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("TRY", tempCurrency.tRY?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("USD", tempCurrency.uSD?.times(temp.toDouble()) ?: temp.toDouble()))
-                            currencyList.add(Currency("ZAR", tempCurrency.zAR?.times(temp.toDouble()) ?: temp.toDouble()))
+                            currencyList.clear()
+
+                            for (it in items) {
+                                it as Setting
+                                if (it.isActive == "true") {
+
+                                    var result = 0.0
+                                    when (it.name) {
+                                        "EUR" -> {
+                                            result = tempCurrency.eUR?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "AUD" -> {
+                                            result = tempCurrency.aUD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "BGN" -> {
+                                            result = tempCurrency.bGN?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "BRL" -> {
+                                            result = tempCurrency.bRL?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "CAD" -> {
+                                            result = tempCurrency.cAD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "CHF" -> {
+                                            result = tempCurrency.cHF?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "CNY" -> {
+                                            result = tempCurrency.cNY?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "CZK" -> {
+                                            result = tempCurrency.cZK?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "DKK" -> {
+                                            result = tempCurrency.dKK?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "GBP" -> {
+                                            result = tempCurrency.gBP?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "HKD" -> {
+                                            result = tempCurrency.hKD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "HRK" -> {
+                                            result = tempCurrency.hRK?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "HUF" -> {
+                                            result = tempCurrency.hUF?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "IDR" -> {
+                                            result = tempCurrency.iDR?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "ILS" -> {
+                                            result = tempCurrency.iLS?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "INR" -> {
+                                            result = tempCurrency.iNR?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "JPY" -> {
+                                            result = tempCurrency.jPY?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "KRW" -> {
+                                            result = tempCurrency.kRW?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "MXN" -> {
+                                            result = tempCurrency.mXN?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "MYR" -> {
+                                            result = tempCurrency.mYR?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "NOK" -> {
+                                            result = tempCurrency.nOK?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "NZD" -> {
+                                            result = tempCurrency.nZD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "PHP" -> {
+                                            result = tempCurrency.pHP?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "PLN" -> {
+                                            result = tempCurrency.pLN?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "RON" -> {
+                                            result = tempCurrency.rON?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "RUB" -> {
+                                            result = tempCurrency.rUB?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "SEK" -> {
+                                            result = tempCurrency.sEK?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "SGD" -> {
+                                            result = tempCurrency.sGD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "THB" -> {
+                                            result = tempCurrency.tHB?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "TRY" -> {
+                                            result = tempCurrency.tRY?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "USD" -> {
+                                            result = tempCurrency.uSD?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+                                        "ZAR" -> {
+                                            result = tempCurrency.zAR?.times(temp.toDouble()) ?: temp.toDouble()
+                                        }
+
+//
+
+                                    }
+                                    currencyList.add(Currency(it.name.toString(), result))
+                                }
+
+                            }
                             loading.visibility = View.INVISIBLE
                             mAdapter.notifyDataSetChanged()
 
