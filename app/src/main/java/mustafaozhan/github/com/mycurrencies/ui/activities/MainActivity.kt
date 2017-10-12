@@ -117,11 +117,13 @@ class MainActivity : AppCompatActivity() {
 
                                 val tempCurrency = response!!.body()!!.rates!!
 
-                                val temp = if (text.isEmpty()) {
+                                var temp = if (text.isEmpty()) {
                                     eTxt.setText("")
                                     0.toString()
                                 } else
                                     text
+                                if(temp.startsWith("."))
+                                    temp="0"+text
 
                                 val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
                                 val items = myDatabase.find(Setting())

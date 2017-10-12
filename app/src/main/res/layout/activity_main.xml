@@ -15,7 +15,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:gravity="center"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/blue_grey_50"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +52,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_background_color="@color/colorPrimary"
-        app:ms_text_color="@color/blue_grey_50" />
+        app:ms_text_color="@color/blue_grey_50"
+        android:layout_alignParentLeft="true" />
 
 
     <android.support.v7.widget.RecyclerView
