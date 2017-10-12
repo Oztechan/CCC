@@ -35,7 +35,6 @@ class SettingsActivity : AppCompatActivity() {
         val items = myDatabase.find(Setting())
 
         items.mapTo(settingsList) { it -> it as Setting }
-        //myDatabase.close()
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewSettings.layoutManager = mLayoutManager
         mRecViewSettings.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
