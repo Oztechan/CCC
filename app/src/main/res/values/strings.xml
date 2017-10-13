@@ -2,6 +2,4 @@
     <string name="app_name">My Currencies</string>
     <string name="settings">Settings</string>
     <string name="settings_text">Please select your currencies to display</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
 </resources>

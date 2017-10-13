@@ -35,7 +35,7 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
         val setting = settingsList!![position]
         holder.setIsRecyclable(false)
         holder.name.text = setting.name
-        holder.checkBox.isChecked = setting.isActive=="true"
+        holder.checkBox.isChecked = setting.isActive == "true"
 
         val myDatabase = PultusORM("myDatabase.db", holder.itemView.context.filesDir.absolutePath)
 

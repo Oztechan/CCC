@@ -17,7 +17,7 @@ class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : Recycl
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var type: TextView = view.findViewById(R.id.txtType)
         var amount: TextView = view.findViewById(R.id.txtAmount)
-        var view:View=view.findViewById(R.id.view)
+        var view: View = view.findViewById(R.id.view)
 
     }
 
