@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5sp"
-    android:paddingTop="5sp">
+
+    android:paddingLeft="5sp"
+    android:paddingEnd="5sp"
+    android:paddingRight="5sp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -15,7 +17,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10sp">
+            android:paddingLeft="5sp"
+            android:paddingEnd="5sp"
+            android:paddingRight="5sp">
 
             <TextView
                 android:id="@+id/txtBase"

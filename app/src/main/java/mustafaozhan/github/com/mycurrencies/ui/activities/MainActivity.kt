@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.ads.AdRequest
@@ -40,8 +41,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
+
+        setSupportActionBar(myToolbar)
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
         mRecViewCurrency.itemAnimator = DefaultItemAnimator()
