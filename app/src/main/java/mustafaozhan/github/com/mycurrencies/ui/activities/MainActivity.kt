@@ -23,6 +23,7 @@ import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.WindowManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
@@ -48,11 +49,7 @@ class MainActivity : AppCompatActivity() {
 
 
         MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
-
-//Initializing the mAdView Variable
         val mAdView = findViewById(R.id.adView) as AdView
-
-//Initializing the adRequest Variable and Loading the Ad by calling loadAd Method
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
