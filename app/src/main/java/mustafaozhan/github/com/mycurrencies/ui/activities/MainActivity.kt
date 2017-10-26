@@ -122,9 +122,11 @@ class MainActivity : AppCompatActivity() {
                     loading.visibility = View.VISIBLE
                     loading.bringToFront()
 
+
                     val apiService = ApiClient.get().create(ApiInterface::class.java)
                     val myCall = apiService.getByBase(mSpinner.text.toString())
                     currencyList.clear()
+                    mAdapter.notifyDataSetChanged()
                     if (!text.isEmpty())
                         myCall.clone().enqueue(object : Callback<ResponseAll> {
                             override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
