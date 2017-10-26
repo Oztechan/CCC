@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.adapters
 
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.findViewById(R.id.textView)
         var checkBox: CheckBox = view.findViewById(R.id.checkBox)
+        var constraintRow:ConstraintLayout=view.findViewById(R.id.constraintRow)
 
     }
 
@@ -37,6 +39,9 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
         holder.name.text = setting.name
         holder.checkBox.isChecked = setting.isActive == "true"
 
+        holder.constraintRow.setOnClickListener{
+            holder.checkBox.isChecked=!holder.checkBox.isChecked
+        }
         val myDatabase = PultusORM("myDatabase.db", holder.itemView.context.filesDir.absolutePath)
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->

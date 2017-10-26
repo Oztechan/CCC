@@ -7,6 +7,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/constraintRow"
         android:layout_height="match_parent"
         android:background="@color/blue_grey_500">
 
