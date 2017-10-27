@@ -22,11 +22,9 @@ import java.util.concurrent.TimeUnit
 import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import io.reactivex.plugins.RxJavaPlugins.onError
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
