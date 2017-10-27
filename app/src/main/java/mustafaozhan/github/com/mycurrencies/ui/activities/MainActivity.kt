@@ -25,7 +25,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.WindowManager
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import io.reactivex.plugins.RxJavaPlugins.onError
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
@@ -35,7 +34,7 @@ import com.google.android.gms.ads.MobileAds
 class MainActivity : AppCompatActivity() {
     val currencyList = ArrayList<Currency>()
     val mAdapter = MyCurrencyAdapter(currencyList)
-//todo don't show same currency
+    //todo don't show same currency
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,9 +49,8 @@ class MainActivity : AppCompatActivity() {
 
 
         MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
-        val mAdView = findViewById(R.id.adView) as AdView
         val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+        adView.loadAd(adRequest)
 
 
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
