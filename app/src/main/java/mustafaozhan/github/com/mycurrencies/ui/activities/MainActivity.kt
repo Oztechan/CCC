@@ -245,10 +245,10 @@ class MainActivity : AppCompatActivity() {
                                                 result = tempCurrency.zAR?.times(temp.toDouble()) ?: temp.toDouble()
                                             }
 
-//
 
                                         }
-                                        currencyList.add(Currency(it.name.toString(), result))
+                                        if (mSpinner.text != it.name)
+                                            currencyList.add(Currency(it.name.toString(), result))
                                     }
 
                                 }
