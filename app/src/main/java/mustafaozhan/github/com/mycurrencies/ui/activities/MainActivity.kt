@@ -33,7 +33,7 @@ import com.google.android.gms.ads.MobileAds
 
 class MainActivity : AppCompatActivity() {
     val currencyList = ArrayList<Currency>()
-    val mAdapter = MyCurrencyAdapter(currencyList)
+    val mAdapter = MyCurrencyAdapter(currencyList, this)
     //todo don't show same currency
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

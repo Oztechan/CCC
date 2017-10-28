@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue_grey_500"
-    android:paddingLeft="2sp"
-    android:paddingRight="2sp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="3sp"
+    android:paddingRight="3sp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         android:background="@color/blue_grey_100">
 
@@ -22,13 +21,15 @@
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:paddingEnd="0sp"
+            android:paddingLeft="5sp"
+            android:paddingRight="0sp"
+            android:paddingStart="5sp"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/txtType"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/txtType"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
@@ -41,13 +42,13 @@
             android:layout_marginTop="8dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtIcon"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <View
             android:id="@+id/view"
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
@@ -56,6 +57,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/txtIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="8dp" />
 
 
     </android.support.constraint.ConstraintLayout>
