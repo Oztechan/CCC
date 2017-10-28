@@ -31,7 +31,7 @@ class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : Recycl
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currency = currencyList!![position]
         holder.type.text = currency.name
-        holder.amount.text = currency.rate.toString()
+        holder.amount.text =  (Math.floor(currency.rate * 100) / 100).toString()
 //        holder.title.setText(movie.getTitle())
 //        holder.genre.setText(movie.getGenre())
 //        holder.year.setText(movie.getYear())
