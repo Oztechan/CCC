@@ -1,11 +1,13 @@
 package mustafaozhan.github.com.mycurrencies.ui.adapters
 
+import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
@@ -17,13 +19,13 @@ import org.jetbrains.anko.doAsync
 /**
  * Created by Mustafa Ozhan on 10/9/17 at 12:57 PM on Arch Linux.
  */
-class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
+class SettingsAdapter(private val settingsList: ArrayList<Setting>?,val context:Context) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.findViewById(R.id.textView)
         var checkBox: CheckBox = view.findViewById(R.id.checkBox)
-        var constraintRow:ConstraintLayout=view.findViewById(R.id.constraintRow)
-
+        var constraintRow: ConstraintLayout = view.findViewById(R.id.constraintRow)
+        var icon: ImageView = view.findViewById(R.id.icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -39,8 +41,17 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
         holder.name.text = setting.name
         holder.checkBox.isChecked = setting.isActive == "true"
 
-        holder.constraintRow.setOnClickListener{
-            holder.checkBox.isChecked=!holder.checkBox.isChecked
+
+        var mDrawableName = holder.name.text.toString().toLowerCase()
+        if (mDrawableName == "try")
+            mDrawableName = "tryy"
+        val id = context.resources.getIdentifier(mDrawableName, "drawable", context.packageName)
+        val drawable = context.resources.getDrawable(id)
+        holder.icon.setImageDrawable(drawable)
+
+
+        holder.constraintRow.setOnClickListener {
+            holder.checkBox.isChecked = !holder.checkBox.isChecked
         }
         val myDatabase = PultusORM("myDatabase.db", holder.itemView.context.filesDir.absolutePath)
 

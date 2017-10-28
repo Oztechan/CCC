@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun get() {
 
         val settingsList = ArrayList<Setting>()
-        val mAdapter = SettingsAdapter(settingsList)
+        val mAdapter = SettingsAdapter(settingsList,applicationContext)
 
 
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
