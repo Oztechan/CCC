@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun set() {
+        mSpinner.width=10
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
         val items = myDatabase.find(Setting())
 
