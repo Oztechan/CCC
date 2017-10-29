@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun get() {
 
         val settingsList = ArrayList<Setting>()
-        val mAdapter = SettingsAdapter(settingsList,applicationContext)
+        val mAdapter = SettingsAdapter(settingsList)
 
 
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
         items.mapTo(settingsList) { it -> it as Setting }
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewSettings.layoutManager = mLayoutManager
-        mRecViewSettings.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
+        mRecViewSettings.itemAnimator = DefaultItemAnimator()
         mRecViewSettings.adapter = mAdapter
 
         mAdapter.notifyDataSetChanged()

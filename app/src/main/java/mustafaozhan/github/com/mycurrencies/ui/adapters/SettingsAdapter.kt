@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
+import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import ninja.sakib.pultusorm.callbacks.Callback
 import ninja.sakib.pultusorm.core.*
 import ninja.sakib.pultusorm.exceptions.PultusORMException
@@ -19,7 +20,7 @@ import org.jetbrains.anko.doAsync
 /**
  * Created by Mustafa Ozhan on 10/9/17 at 12:57 PM on Arch Linux.
  */
-class SettingsAdapter(private val settingsList: ArrayList<Setting>?,val context:Context) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
+class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.findViewById(R.id.textView)
@@ -40,14 +41,7 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?,val context:
         holder.setIsRecyclable(false)
         holder.name.text = setting.name
         holder.checkBox.isChecked = setting.isActive == "true"
-
-
-        var mDrawableName = holder.name.text.toString().toLowerCase()
-        if (mDrawableName == "try")
-            mDrawableName = "tryy"
-        val id = context.resources.getIdentifier(mDrawableName, "drawable", context.packageName)
-        val drawable = context.resources.getDrawable(id)
-        holder.icon.setImageDrawable(drawable)
+        holder.icon.setBackgroundByName(holder.name.text.toString())
 
 
         holder.constraintRow.setOnClickListener {
