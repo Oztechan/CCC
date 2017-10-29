@@ -22,7 +22,6 @@ class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : Recycl
 
         var type: TextView = view.findViewById(R.id.txtType)
         var amount: TextView = view.findViewById(R.id.txtAmount)
-        var view: View = view.findViewById(R.id.view)
         var icon: ImageView = view.findViewById(R.id.txtIcon)
     }
 
