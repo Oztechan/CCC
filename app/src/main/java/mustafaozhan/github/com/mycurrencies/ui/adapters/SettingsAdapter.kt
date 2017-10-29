@@ -1,14 +1,11 @@
 package mustafaozhan.github.com.mycurrencies.ui.adapters
 
-import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
@@ -32,7 +29,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.row_settings, parent, false)
-
         return MyViewHolder(itemView)
     }
 

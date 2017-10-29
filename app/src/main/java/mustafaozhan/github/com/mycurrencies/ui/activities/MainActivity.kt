@@ -81,8 +81,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        if (tempList.toList().isEmpty())
-            mSpinner.setItems("Please Select at least one Currency")
+        if (tempList.toList().lastIndex<1)
+            mSpinner.setItems("Please select at least two currency")
         else
             mSpinner.setItems(tempList.toList())
 
@@ -324,4 +324,7 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
+
+
+
 }
