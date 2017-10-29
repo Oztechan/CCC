@@ -29,6 +29,7 @@ import io.reactivex.plugins.RxJavaPlugins.onError
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
+import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 
 
 class MainActivity : AppCompatActivity() {
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         else
             mSpinner.setItems(tempList.toList())
 
+        imgBase.setBackgroundByName(mSpinner.text.toString())
     }
 
     private fun functionality() {
@@ -94,8 +96,14 @@ class MainActivity : AppCompatActivity() {
             eTxt.text = null
             eTxt.text = temp
             eTxt.setSelection(eTxt.text.length)
+            imgBase.setBackgroundByName(mSpinner.text.toString())
         }
-
+        imgBase.setOnClickListener {
+            if (mSpinner.isActivated)
+                mSpinner.collapse()
+            else
+                mSpinner.expand()
+        }
 
         Observable.create(Observable.OnSubscribe<String> { subscriber ->
             eTxt.addTextChangedListener(object : TextWatcher {

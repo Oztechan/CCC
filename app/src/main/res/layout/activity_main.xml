@@ -62,21 +62,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mSpinner" />
-
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/mSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="0dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myToolbar"
-        app:ms_background_color="@color/colorPrimary"
-        app:ms_text_color="@color/blue_grey_50" />
+        app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
 
 
     <android.support.v7.widget.RecyclerView
@@ -88,7 +74,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -101,6 +87,45 @@
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintLeft_toLeftOf="parent"
         ads:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mConstraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/mRecViewCurrency"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myToolbar">
+
+        <ImageView
+            android:id="@+id/imgBase"
+
+            android:layout_width="32sp"
+            android:layout_height="32sp"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@string/base_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/transparent"
+            android:layout_marginLeft="16dp" />
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/mSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgBase"
+            app:layout_constraintTop_toTopOf="parent"
+            app:ms_background_color="@color/colorPrimary"
+            app:ms_hide_arrow="true"
+            app:ms_text_color="@color/blue_grey_50" />
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
