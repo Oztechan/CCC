@@ -4,28 +4,22 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.row_settings.view.*
 
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import mustafaozhan.github.com.mycurrencies.ui.adapters.SettingsAdapter
-import ninja.sakib.pultusorm.callbacks.Callback
 import ninja.sakib.pultusorm.core.*
-import ninja.sakib.pultusorm.exceptions.PultusORMException
 import org.jetbrains.anko.doAsync
 
 class SettingsActivity : AppCompatActivity() {
-    val settingsList = ArrayList<Setting>()
-    val mAdapter = SettingsAdapter(settingsList)
+    private val settingsList = ArrayList<Setting>()
+    private val mAdapter = SettingsAdapter(settingsList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-
-
 
         getItems()
 
@@ -65,7 +59,6 @@ class SettingsActivity : AppCompatActivity() {
         mRecViewSettings.layoutManager = mLayoutManager
         mRecViewSettings.itemAnimator = DefaultItemAnimator()
         mRecViewSettings.adapter = mAdapter
-
         mAdapter.notifyDataSetChanged()
     }
 
