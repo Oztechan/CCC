@@ -56,7 +56,7 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
                         .build()
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", value)
-                        .condition(condition)   // condition is optional
+                        .condition(condition)
                         .build()
 
                 class ResponseCallback : Callback {
