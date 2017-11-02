@@ -34,18 +34,7 @@ class SettingsActivity : AppCompatActivity() {
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", "true")
                         .build()
-
-                class ResponseCallback : Callback {
-                    override fun onSuccess(type: PultusORMQuery.Type) {
-                        log(type.name, "Success")
-                    }
-
-                    override fun onFailure(type: PultusORMQuery.Type, exception: PultusORMException) {
-                        log(type.name, "Failure")
-                        exception.printStackTrace()
-                    }
-                }
-                myDatabase.update(Setting(), updater, ResponseCallback())
+                myDatabase.update(Setting(), updater)
 
                 runOnUiThread {
                     getItems()
@@ -57,18 +46,7 @@ class SettingsActivity : AppCompatActivity() {
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", "false")
                         .build()
-
-                class ResponseCallback : Callback {
-                    override fun onSuccess(type: PultusORMQuery.Type) {
-                        log(type.name, "Success")
-                    }
-
-                    override fun onFailure(type: PultusORMQuery.Type, exception: PultusORMException) {
-                        log(type.name, "Failure")
-                        exception.printStackTrace()
-                    }
-                }
-                myDatabase.update(Setting(), updater, ResponseCallback())
+                myDatabase.update(Setting(), updater)
 
                 runOnUiThread {
                     getItems()
