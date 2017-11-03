@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        if (tempList.toList().lastIndex<1)
+        if (tempList.toList().lastIndex < 1)
             mSpinner.setItems("Please select at least two currency")
         else
             mSpinner.setItems(tempList.toList())
@@ -320,11 +320,19 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.feedback -> {
+                val Email = Intent(Intent.ACTION_SEND)
+                Email.type = "text/email"
+                Email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
+                Email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
+                Email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
+                startActivity(Intent.createChooser(Email, "Send Feedback:"))
+                return true
+            }
         }
 
         return true
     }
-
 
 
 }
