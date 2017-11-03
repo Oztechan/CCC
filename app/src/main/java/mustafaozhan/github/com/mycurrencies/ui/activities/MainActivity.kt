@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
-import android.content.Context
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -32,10 +32,7 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
-import android.support.v4.content.ContextCompat.startActivity
 import android.content.pm.PackageManager
-import android.content.DialogInterface
-import android.support.v7.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
@@ -327,44 +324,38 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
             R.id.feedback -> {
-                val Email = Intent(Intent.ACTION_SEND)
-                Email.type = "text/email"
-                Email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
-                Email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
-                Email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
-                startActivity(Intent.createChooser(Email, "Send Feedback:"))
+                val email = Intent(Intent.ACTION_SEND)
+                email.type = "text/email"
+                email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
+                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
+                email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
+                startActivity(Intent.createChooser(email, "Send Feedback:"))
                 return true
             }
-            R.id.support->{
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=PackageName")))
+            R.id.support -> {
+                showRateDialog()
             }
         }
 
         return true
     }
 
-    fun showRateDialog(context: Context) {
-        val builder = AlertDialog.Builder(context)
+    private fun showRateDialog() {
+        val builder = AlertDialog.Builder(this)
                 .setTitle("Rate application")
-                .setMessage("Please, rate the app at PlayMarket")
-                .setPositiveButton("RATE", DialogInterface.OnClickListener { dialog, which ->
-                    if (context != null) {
-                        var link = "market://details?id="
-                        try {
-                            // play market available
-                            context!!.getPackageManager()
-                                    .getPackageInfo("com.android.vending", 0)
-                            // not available
-                        } catch (e: PackageManager.NameNotFoundException) {
-                            e.printStackTrace()
-                            // should use browser
-                            link = "https://play.google.com/store/apps/details?id="
-                        }
+                .setMessage("Please, rate and commend the app at PlayMarket")
+                .setPositiveButton("RATE", { _, _ ->
 
-                        // starts external action
-                        context!!.startActivity(Intent(Intent.ACTION_VIEW,
-                                Uri.parse(link + context!!.getPackageName())))
+                    var link = "market://details?id="
+                    try {
+                        packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        link = "https://play.google.com/store/apps/details?id="
                     }
+
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                            Uri.parse(link + packageName)))
+
                 })
                 .setNegativeButton("CANCEL", null)
         builder.show()
