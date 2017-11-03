@@ -341,9 +341,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRateDialog() {
-        val builder = AlertDialog.Builder(this)
-                .setTitle("Rate application")
-                .setMessage("Please, rate and commend the app at PlayMarket")
+        val builder = AlertDialog.Builder(this,R.style.AlertDialogCustom)
+                .setTitle("Support us !")
+                .setMessage("Please, rate and commend to the app at Google Play Store")
                 .setPositiveButton("RATE", { _, _ ->
 
                     var link = "market://details?id="
