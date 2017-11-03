@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/settings_icon"
         android:orderInCategory="1"
         android:title="@string/settings"
         app:showAsAction="never" />
@@ -13,5 +12,10 @@
         android:id="@+id/feedback"
         android:orderInCategory="2"
         android:title="@string/feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/support"
+        android:orderInCategory="3"
+        android:title="@string/support"
         app:showAsAction="never" />
 </menu>

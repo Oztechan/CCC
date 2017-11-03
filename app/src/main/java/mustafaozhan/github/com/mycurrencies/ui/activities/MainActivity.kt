@@ -1,6 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -30,6 +32,10 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.pm.PackageManager
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
@@ -329,10 +335,39 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent.createChooser(Email, "Send Feedback:"))
                 return true
             }
+            R.id.support->{
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=PackageName")))
+            }
         }
 
         return true
     }
 
+    fun showRateDialog(context: Context) {
+        val builder = AlertDialog.Builder(context)
+                .setTitle("Rate application")
+                .setMessage("Please, rate the app at PlayMarket")
+                .setPositiveButton("RATE", DialogInterface.OnClickListener { dialog, which ->
+                    if (context != null) {
+                        var link = "market://details?id="
+                        try {
+                            // play market available
+                            context!!.getPackageManager()
+                                    .getPackageInfo("com.android.vending", 0)
+                            // not available
+                        } catch (e: PackageManager.NameNotFoundException) {
+                            e.printStackTrace()
+                            // should use browser
+                            link = "https://play.google.com/store/apps/details?id="
+                        }
+
+                        // starts external action
+                        context!!.startActivity(Intent(Intent.ACTION_VIEW,
+                                Uri.parse(link + context!!.getPackageName())))
+                    }
+                })
+                .setNegativeButton("CANCEL", null)
+        builder.show()
+    }
 
 }
