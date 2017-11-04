@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.ui.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -9,7 +8,6 @@ import android.view.View
 import android.widget.ImageView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Currency
-import android.graphics.drawable.Drawable
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 
 

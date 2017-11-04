@@ -7,7 +7,6 @@ import mustafaozhan.github.com.mycurrencies.R
  * Created by Mustafa Ozhan on 10/29/17 at 11:22 AM on Arch Linux.
  */
 fun ImageView.setBackgroundByName(name: String) {
-
     when (name) {
         "EUR" -> this.setImageResource(R.drawable.eur)
         "AUD" -> this.setImageResource(R.drawable.aud)

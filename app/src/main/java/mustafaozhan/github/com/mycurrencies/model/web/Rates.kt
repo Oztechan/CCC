@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName
  * Created by Mustafa Ozhan on 9/6/17 at 7:57 PM on Arch Linux.
  */
 class Rates {
-
     @SerializedName("AUD")
     @Expose
     var aUD: Double? = null
@@ -105,5 +104,4 @@ class Rates {
     @SerializedName("EUR")
     @Expose
     var eUR: Double? = null
-
 }

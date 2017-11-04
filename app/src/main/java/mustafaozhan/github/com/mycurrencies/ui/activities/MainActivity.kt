@@ -341,21 +341,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRateDialog() {
-        val builder = AlertDialog.Builder(this,R.style.AlertDialogCustom)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 .setTitle("Support us !")
                 .setMessage("Please, rate and commend to the app at Google Play Store")
                 .setPositiveButton("RATE", { _, _ ->
-
                     var link = "market://details?id="
                     try {
                         packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
                     } catch (e: PackageManager.NameNotFoundException) {
                         link = "https://play.google.com/store/apps/details?id="
                     }
-
                     startActivity(Intent(Intent.ACTION_VIEW,
                             Uri.parse(link + packageName)))
-
                 })
                 .setNegativeButton("CANCEL", null)
         builder.show()

@@ -26,14 +26,12 @@ class SettingsActivity : AppCompatActivity() {
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
 
         getItems()
-
         selectAll.setOnClickListener {
             doAsync {
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", "true")
                         .build()
                 myDatabase.update(Setting(), updater)
-
                 runOnUiThread {
                     getItems()
                 }
@@ -45,13 +43,11 @@ class SettingsActivity : AppCompatActivity() {
                         .set("isActive", "false")
                         .build()
                 myDatabase.update(Setting(), updater)
-
                 runOnUiThread {
                     getItems()
                 }
             }
         }
-
     }
 
     private fun getItems() {
@@ -68,7 +64,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val interstitial = InterstitialAd(this@SettingsActivity)
-        interstitial.adUnitId =resources.getString(R.string.interstitial)
+        interstitial.adUnitId = resources.getString(R.string.interstitial)
         val adRequest1 = AdRequest.Builder().build()
         interstitial.loadAd(adRequest1)
         interstitial.adListener = object : AdListener() {
@@ -78,7 +74,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
-
         finish()
     }
 }

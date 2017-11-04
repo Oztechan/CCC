@@ -39,7 +39,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
         holder.checkBox.isChecked = setting.isActive == "true"
         holder.icon.setBackgroundByName(holder.name.text.toString())
 
-
         holder.constraintRow.setOnClickListener {
             holder.checkBox.isChecked = !holder.checkBox.isChecked
         }
@@ -50,7 +49,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
 
             doAsync {
                 val value = isChecked.toString()
-
                 val condition: PultusORMCondition = PultusORMCondition.Builder()
                         .eq("name", setting.name.toString())
                         .build()
@@ -73,8 +71,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
 
             }
         }
-
-
     }
 
     override fun getItemCount(): Int = settingsList?.size ?: -1
