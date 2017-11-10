@@ -15,7 +15,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 
-
+// Todo add default currency
 class SettingsActivity : AppCompatActivity() {
     private val settingsList = ArrayList<Setting>()
     private val mAdapter = SettingsAdapter(settingsList)
