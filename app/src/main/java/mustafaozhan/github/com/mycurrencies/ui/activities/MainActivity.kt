@@ -33,6 +33,7 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
+import android.support.v7.widget.RecyclerView
 
 
 class MainActivity : AppCompatActivity() {
