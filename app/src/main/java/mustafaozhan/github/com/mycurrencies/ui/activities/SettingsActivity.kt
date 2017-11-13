@@ -14,6 +14,8 @@ import org.jetbrains.anko.doAsync
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import kotlinx.android.synthetic.main.activity_main.*
+import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 
 // Todo add default currency
 class SettingsActivity : AppCompatActivity() {
@@ -47,6 +49,26 @@ class SettingsActivity : AppCompatActivity() {
                     getItems()
                 }
             }
+        }
+
+        val items = myDatabase.find(Setting())
+        val tempList = ArrayList<String>()
+        items
+                .map { it -> it as Setting }
+                .filter { it.isActive == "true" }
+                .mapTo(tempList) { it.name.toString() }
+        if (!tempList.isEmpty()) {
+            mSpinnerSettings.setItems(tempList.toList())
+           // imgBase.setBackgroundByName(mSpinner.text.toString())
+        }
+        mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
+            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
+        }
+        mConstraintLayoutSettings.setOnClickListener {
+            if (mSpinnerSettings.isActivated)
+                mSpinnerSettings.collapse()
+            else
+                mSpinnerSettings.expand()
         }
     }
 
