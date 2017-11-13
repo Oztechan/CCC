@@ -33,7 +33,6 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
-import android.support.v7.widget.RecyclerView
 
 
 class MainActivity : AppCompatActivity() {
@@ -102,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             eTxt.setSelection(eTxt.text.length)
             imgBase.setBackgroundByName(mSpinner.text.toString())
         }
-        imgBase.setOnClickListener {
+        mConstraintLayout.setOnClickListener {
             if (mSpinner.isActivated)
                 mSpinner.collapse()
             else
@@ -129,7 +128,6 @@ class MainActivity : AppCompatActivity() {
 
                     loading.visibility = View.VISIBLE
                     loading.bringToFront()
-
 
                     val apiService = ApiClient.get().create(ApiInterface::class.java)
                     val myCall = apiService.getByBase(mSpinner.text.toString())
