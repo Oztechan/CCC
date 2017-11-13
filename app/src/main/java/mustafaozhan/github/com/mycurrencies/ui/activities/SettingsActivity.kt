@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity() {
                 .mapTo(tempList) { it.name.toString() }
         if (!tempList.isEmpty()) {
             mSpinnerSettings.setItems(tempList.toList())
-           // imgBase.setBackgroundByName(mSpinner.text.toString())
+            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
