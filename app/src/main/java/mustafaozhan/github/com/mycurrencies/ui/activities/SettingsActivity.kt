@@ -87,17 +87,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-//        val interstitial = InterstitialAd(this@SettingsActivity)
-//        interstitial.adUnitId = resources.getString(R.string.interstitial)
-//        val adRequest1 = AdRequest.Builder().build()
-//        interstitial.loadAd(adRequest1)
-//        interstitial.adListener = object : AdListener() {
-//            override fun onAdLoaded() {
-//                if (interstitial.isLoaded) {
-//                    interstitial.show()
-//                }
-//            }
-//        }
+        val interstitial = InterstitialAd(this@SettingsActivity)
+        interstitial.adUnitId = resources.getString(R.string.interstitial)
+        val adRequest1 = AdRequest.Builder().build()
+        interstitial.loadAd(adRequest1)
+        interstitial.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                if (interstitial.isLoaded) {
+                    interstitial.show()
+                }
+            }
+        }
         finish()
     }
 }
