@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity() {
                 .mapTo(tempList) { it.name.toString() }
         if (!tempList.isEmpty()) {
 
-            mSpinnerSettings.setItems(setBase(tempList, getPreferences(MODE_PRIVATE).getString("default_currency", "EUR")).toList())
+            mSpinnerSettings.setItems(tempList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
@@ -73,13 +73,6 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBase(list: ArrayList<String>, string: String): ArrayList<String> {
-        val tempId = list.indexOf(string)
-        val tempString = list[list.indexOf(string)]
-        list[0] = string
-        list[tempId] = tempString
-        return list
-    }
 
     private fun getItems() {
         val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
