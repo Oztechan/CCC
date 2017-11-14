@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
             init()
-            getPreferences(MODE_PRIVATE).getString("default_currency", "EUR")
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
 
@@ -89,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             mSpinner.setItems("Please select at least two currency")
         else {
             mSpinner.setItems(tempList.toList())
-            // mSpinner.setItems(tempList.toList())
         }
         imgBase.setBackgroundByName(mSpinner.text.toString())
     }
