@@ -62,7 +62,6 @@ class SettingsActivity : AppCompatActivity() {
         }
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
-            getPreferences(MODE_PRIVATE).edit().putString("default_currency", mSpinnerSettings.text.toString()).apply()
 
         }
         mConstraintLayoutSettings.setOnClickListener {
