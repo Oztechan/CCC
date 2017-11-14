@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
             init()
+            getPreferences(MODE_PRIVATE).getString("default_currency","EUR")
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
 
@@ -86,9 +87,10 @@ class MainActivity : AppCompatActivity() {
 
         if (tempList.toList().lastIndex < 1)
             mSpinner.setItems("Please select at least two currency")
-        else
-            mSpinner.setItems(tempList.toList())
-
+        else {
+            mSpinner.setItems(setBase(tempList, getPreferences(MODE_PRIVATE).getString("default_currency", "EUR")).toList())
+           // mSpinner.setItems(tempList.toList())
+        }
         imgBase.setBackgroundByName(mSpinner.text.toString())
     }
 
@@ -356,5 +358,11 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton("CANCEL", null)
         builder.show()
     }
-
+    private fun setBase(list: ArrayList<String>, string: String): ArrayList<String> {
+        val tempId = list.indexOf(string)
+        val tempString = list[list.indexOf(string)]
+        list[0] = string
+        list[tempId] = tempString
+        return list
+    }
 }

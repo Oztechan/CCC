@@ -56,11 +56,14 @@ class SettingsActivity : AppCompatActivity() {
                 .filter { it.isActive == "true" }
                 .mapTo(tempList) { it.name.toString() }
         if (!tempList.isEmpty()) {
-            mSpinnerSettings.setItems(tempList.toList())
+
+            mSpinnerSettings.setItems(setBase(tempList, getPreferences(MODE_PRIVATE).getString("default_currency", "EUR")).toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
+            getPreferences(MODE_PRIVATE).edit().putString("default_currency", mSpinnerSettings.text.toString()).apply()
+
         }
         mConstraintLayoutSettings.setOnClickListener {
             if (mSpinnerSettings.isActivated)
@@ -68,6 +71,14 @@ class SettingsActivity : AppCompatActivity() {
             else
                 mSpinnerSettings.expand()
         }
+    }
+
+    private fun setBase(list: ArrayList<String>, string: String): ArrayList<String> {
+        val tempId = list.indexOf(string)
+        val tempString = list[list.indexOf(string)]
+        list[0] = string
+        list[tempId] = tempString
+        return list
     }
 
     private fun getItems() {
@@ -83,17 +94,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val interstitial = InterstitialAd(this@SettingsActivity)
-        interstitial.adUnitId = resources.getString(R.string.interstitial)
-        val adRequest1 = AdRequest.Builder().build()
-        interstitial.loadAd(adRequest1)
-        interstitial.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                if (interstitial.isLoaded) {
-                    interstitial.show()
-                }
-            }
-        }
+//        val interstitial = InterstitialAd(this@SettingsActivity)
+//        interstitial.adUnitId = resources.getString(R.string.interstitial)
+//        val adRequest1 = AdRequest.Builder().build()
+//        interstitial.loadAd(adRequest1)
+//        interstitial.adListener = object : AdListener() {
+//            override fun onAdLoaded() {
+//                if (interstitial.isLoaded) {
+//                    interstitial.show()
+//                }
+//            }
+//        }
         finish()
     }
 }
