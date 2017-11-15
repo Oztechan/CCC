@@ -19,7 +19,7 @@ import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 class SettingsActivity : AppCompatActivity() {
     private val settingsList = ArrayList<Setting>()
     private val mAdapter = SettingsAdapter(settingsList)
-    private val spinnerList = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -49,16 +49,21 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        refreshSpinner()
-        if (!spinnerList.isEmpty()) {
+        val items = myDatabase.find(Setting())
 
-            mSpinnerSettings.setItems(spinnerList.toList())
+        val tempList = ArrayList<String>()
+
+        items
+                .map { it -> it as Setting }
+                .filter { it.isActive == "true" }
+                .mapTo(tempList) { it.name.toString() }
+        if (!tempList.isEmpty()) {
+
+
+            mSpinnerSettings.setItems(tempList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
-            changeOrder(mSpinnerSettings.text.toString())
-            refreshSpinner()
-            mSpinnerSettings.setItems(spinnerList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
 
         }
@@ -67,33 +72,6 @@ class SettingsActivity : AppCompatActivity() {
                 mSpinnerSettings.collapse()
             else
                 mSpinnerSettings.expand()
-        }
-    }
-
-    private fun refreshSpinner() {
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-        val items = myDatabase.find(Setting())
-
-        items
-                .map { it -> it as Setting }
-                .filter { it.isActive == "true" }
-                .mapTo(spinnerList) { it.name.toString() }
-    }
-
-    private fun changeOrder(base: String) {
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-        val items = myDatabase.find(Setting())
-        // val tempList = ArrayList<String>()
-        val itemList = ArrayList<Setting>()
-        items.mapTo(itemList) { it -> it as Setting }
-
-        val tempId = itemList.indexOf(Setting(base))
-        val tempName = itemList[tempId].name
-        itemList[0].name = base
-        itemList[tempId].name = tempName
-        myDatabase.drop(Setting())
-        for (i in 0 until itemList.size) {
-            myDatabase.save(itemList[i])
         }
     }
 
