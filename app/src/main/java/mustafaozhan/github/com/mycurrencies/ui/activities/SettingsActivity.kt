@@ -48,10 +48,8 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
-
         val items = myDatabase.find(Setting())
         val tempList = ArrayList<String>()
-
         items
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
