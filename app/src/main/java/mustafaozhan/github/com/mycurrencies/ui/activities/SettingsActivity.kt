@@ -50,7 +50,6 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val items = myDatabase.find(Setting())
-
         val tempList = ArrayList<String>()
 
         items
