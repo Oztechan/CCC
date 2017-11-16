@@ -39,8 +39,8 @@ import mustafaozhan.github.com.mycurrencies.model.web.Rates
 class MainActivity : AppCompatActivity() {
     val currencyList = ArrayList<Currency>()
     val mAdapter = MyCurrencyAdapter(currencyList)
-    var tempCurrency: Rates? = null
     private var myDatabase: PultusORM? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,53 +48,17 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(myToolbar)
 
-        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
         mRecViewCurrency.itemAnimator = DefaultItemAnimator()
         mRecViewCurrency.adapter = mAdapter
 
-
-        MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-
+        loadAd()
 
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        set()
-        functionality()
-    }
-
-    private fun set() {
-        val items = myDatabase?.find(Setting())
-        val tempList = ArrayList<String>()
-        items
-                ?.map { it -> it as Setting }
-                ?.filter { it.isActive == "true" }
-                ?.mapTo(tempList) { it.name.toString() }
-
-
-
-        if (tempList.toList().lastIndex < 1)
-            mSpinner.setItems("Please select at least two currency")
-        else {
-            mSpinner.setItems(tempList.toList())
-        }
-        imgBase.setBackgroundByName(mSpinner.text.toString())
-    }
-
-    private fun functionality() {
-
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             val temp = eTxt.text
             eTxt.text = null
@@ -108,21 +72,44 @@ class MainActivity : AppCompatActivity() {
             else
                 mSpinner.expand()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        set()
+        functionality()
+    }
+
+    private fun loadAd() {
+        MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+    }
+
+    private fun set() {
+        val items = myDatabase!!.find(Setting())
+        val tempList = ArrayList<String>()
+        items
+                .map { it -> it as Setting }
+                .filter { it.isActive == "true" }
+                .mapTo(tempList) { it.name.toString() }
+
+        if (tempList.toList().lastIndex < 1)
+            mSpinner.setItems("Please select at least two currency")
+        else {
+            mSpinner.setItems(tempList.toList())
+            imgBase.setBackgroundByName(mSpinner.text.toString())
+        }
+    }
+
+    private fun functionality() {
 
         Observable.create(Observable.OnSubscribe<String> { subscriber ->
             eTxt.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) = Unit
-
-                override fun beforeTextChanged(s: CharSequence?,
-                                               start: Int, count: Int,
-                                               after: Int) = Unit
-
-                override fun onTextChanged(s: CharSequence,
-                                           start: Int, before: Int,
-                                           count: Int)
-                        = subscriber.onNext(s.toString())
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) = subscriber.onNext(s.toString())
             })
-
         }).debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
@@ -137,11 +124,9 @@ class MainActivity : AppCompatActivity() {
                     if (!text.isEmpty())
                         myCall.clone().enqueue(object : Callback<ResponseAll> {
                             override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
-
-                                tempCurrency = response!!.body()!!.rates!!
-
                                 var temp = if (text.isEmpty()) {
                                     eTxt.setText("")
+                                    loading.visibility = View.INVISIBLE
                                     0.toString()
                                 } else
                                     text
@@ -154,132 +139,61 @@ class MainActivity : AppCompatActivity() {
                                 for (it in items) {
                                     it as Setting
                                     if (it.isActive == "true") {
-
-                                        val result: Double = getResult(it, temp)
-
+                                        val result: Double = getResult(it, temp, response!!.body()!!.rates!!)
                                         if (mSpinner.text != it.name)
                                             currencyList.add(Currency(it.name.toString(), result))
                                     }
-
                                 }
                                 loading.visibility = View.INVISIBLE
                                 mAdapter.notifyDataSetChanged()
-
                             }
 
-                            override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {
-                            }
-                        })
-
-
+                            override fun onFailure(call: Call<ResponseAll>?, t: Throwable?) {}
+                        }) else
+                        loading.visibility = View.INVISIBLE
                 }, { e -> onError(e) })
-
-
     }
 
-    private fun getResult(it: Setting, temp: String): Double {
+    private fun getResult(it: Setting, temp: String, rate: Rates): Double {
         when (it.name) {
-            "EUR" -> {
-                return (tempCurrency?.eUR?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "AUD" -> {
-                return (tempCurrency?.aUD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "BGN" -> {
-                return (tempCurrency?.bGN?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "BRL" -> {
-                return (tempCurrency?.bRL?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "CAD" -> {
-                return (tempCurrency?.cAD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "CHF" -> {
-                return (tempCurrency?.cHF?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "CNY" -> {
-                return (tempCurrency?.cNY?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "CZK" -> {
-                return (tempCurrency?.cZK?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "DKK" -> {
-                return (tempCurrency?.dKK?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "GBP" -> {
-                return (tempCurrency?.gBP?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "HKD" -> {
-                return (tempCurrency?.hKD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "HRK" -> {
-                return (tempCurrency?.hRK?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "HUF" -> {
-                return (tempCurrency?.hUF?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "IDR" -> {
-                return (tempCurrency?.iDR?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "ILS" -> {
-                return (tempCurrency?.iLS?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "INR" -> {
-                return (tempCurrency?.iNR?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "JPY" -> {
-                return (tempCurrency?.jPY?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "KRW" -> {
-                return (tempCurrency?.kRW?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "MXN" -> {
-                return (tempCurrency?.mXN?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "MYR" -> {
-                return (tempCurrency?.mYR?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "NOK" -> {
-                return (tempCurrency?.nOK?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "NZD" -> {
-                return (tempCurrency?.nZD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "PHP" -> {
-                return (tempCurrency?.pHP?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "PLN" -> {
-                return (tempCurrency?.pLN?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "RON" -> {
-                return (tempCurrency?.rON?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "RUB" -> {
-                return (tempCurrency?.rUB?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "SEK" -> {
-                return (tempCurrency?.sEK?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "SGD" -> {
-                return (tempCurrency?.sGD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "THB" -> {
-                return (tempCurrency?.tHB?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "TRY" -> {
-                return (tempCurrency?.tRY?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "USD" -> {
-                return (tempCurrency?.uSD?.times(temp.toDouble()) ?: temp.toDouble())
-            }
-            "ZAR" -> {
-                return (tempCurrency?.zAR?.times(temp.toDouble()) ?: temp.toDouble())
-            }
+            "EUR" -> return (rate.eUR?.times(temp.toDouble()) ?: temp.toDouble())
+            "AUD" -> return (rate.aUD?.times(temp.toDouble()) ?: temp.toDouble())
+            "BGN" -> return (rate.bGN?.times(temp.toDouble()) ?: temp.toDouble())
+            "BRL" -> return (rate.bRL?.times(temp.toDouble()) ?: temp.toDouble())
+            "CAD" -> return (rate.cAD?.times(temp.toDouble()) ?: temp.toDouble())
+            "CHF" -> return (rate.cHF?.times(temp.toDouble()) ?: temp.toDouble())
+            "CNY" -> return (rate.cNY?.times(temp.toDouble()) ?: temp.toDouble())
+            "CZK" -> return (rate.cZK?.times(temp.toDouble()) ?: temp.toDouble())
+            "DKK" -> return (rate.dKK?.times(temp.toDouble()) ?: temp.toDouble())
+            "GBP" -> return (rate.gBP?.times(temp.toDouble()) ?: temp.toDouble())
+            "HKD" -> return (rate.hKD?.times(temp.toDouble()) ?: temp.toDouble())
+            "HRK" -> return (rate.hRK?.times(temp.toDouble()) ?: temp.toDouble())
+            "HUF" -> return (rate.hUF?.times(temp.toDouble()) ?: temp.toDouble())
+            "IDR" -> return (rate.iDR?.times(temp.toDouble()) ?: temp.toDouble())
+            "ILS" -> return (rate.iLS?.times(temp.toDouble()) ?: temp.toDouble())
+            "INR" -> return (rate.iNR?.times(temp.toDouble()) ?: temp.toDouble())
+            "JPY" -> return (rate.jPY?.times(temp.toDouble()) ?: temp.toDouble())
+            "KRW" -> return (rate.kRW?.times(temp.toDouble()) ?: temp.toDouble())
+            "MXN" -> return (rate.mXN?.times(temp.toDouble()) ?: temp.toDouble())
+            "MYR" -> return (rate.mYR?.times(temp.toDouble()) ?: temp.toDouble())
+            "NOK" -> return (rate.nOK?.times(temp.toDouble()) ?: temp.toDouble())
+            "NZD" -> return (rate.nZD?.times(temp.toDouble()) ?: temp.toDouble())
+            "PHP" -> return (rate.pHP?.times(temp.toDouble()) ?: temp.toDouble())
+            "PLN" -> return (rate.pLN?.times(temp.toDouble()) ?: temp.toDouble())
+            "RON" -> return (rate.rON?.times(temp.toDouble()) ?: temp.toDouble())
+            "RUB" -> return (rate.rUB?.times(temp.toDouble()) ?: temp.toDouble())
+            "SEK" -> return (rate.sEK?.times(temp.toDouble()) ?: temp.toDouble())
+            "SGD" -> return (rate.sGD?.times(temp.toDouble()) ?: temp.toDouble())
+            "THB" -> return (rate.tHB?.times(temp.toDouble()) ?: temp.toDouble())
+            "TRY" -> return (rate.tRY?.times(temp.toDouble()) ?: temp.toDouble())
+            "USD" -> return (rate.uSD?.times(temp.toDouble()) ?: temp.toDouble())
+            "ZAR" -> return (rate.zAR?.times(temp.toDouble()) ?: temp.toDouble())
             else -> return 0.0
         }
     }
 
     private fun init() {
+        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
         myDatabase?.save(Setting("EUR"))
         myDatabase?.save(Setting("AUD"))
         myDatabase?.save(Setting("BGN"))
@@ -314,6 +228,23 @@ class MainActivity : AppCompatActivity() {
         myDatabase?.save(Setting("ZAR"))
     }
 
+    private fun showRateDialog() {
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+                .setTitle("Support us !")
+                .setMessage("Please, rate and commend to the app at Google Play Store")
+                .setPositiveButton("RATE", { _, _ ->
+                    var link = "market://details?id="
+                    try {
+                        packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        link = "https://play.google.com/store/apps/details?id="
+                    }
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + packageName)))
+                })
+                .setNegativeButton("CANCEL", null)
+        builder.show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -336,25 +267,6 @@ class MainActivity : AppCompatActivity() {
                 showRateDialog()
             }
         }
-
         return true
-    }
-
-    private fun showRateDialog() {
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
-                .setTitle("Support us !")
-                .setMessage("Please, rate and commend to the app at Google Play Store")
-                .setPositiveButton("RATE", { _, _ ->
-                    var link = "market://details?id="
-                    try {
-                        packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
-                    } catch (e: PackageManager.NameNotFoundException) {
-                        link = "https://play.google.com/store/apps/details?id="
-                    }
-                    startActivity(Intent(Intent.ACTION_VIEW,
-                            Uri.parse(link + packageName)))
-                })
-                .setNegativeButton("CANCEL", null)
-        builder.show()
     }
 }
