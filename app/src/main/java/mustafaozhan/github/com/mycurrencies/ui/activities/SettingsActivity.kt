@@ -19,11 +19,11 @@ import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 class SettingsActivity : AppCompatActivity() {
     private val settingsList = ArrayList<Setting>()
     private val mAdapter = SettingsAdapter(settingsList)
-
+    private var myDatabase: PultusORM? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
+        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
 
         getItems()
         selectAll.setOnClickListener {
@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", "true")
                         .build()
-                myDatabase.update(Setting(), updater)
+                myDatabase!!.update(Setting(), updater)
                 runOnUiThread {
                     getItems()
                 }
@@ -42,13 +42,13 @@ class SettingsActivity : AppCompatActivity() {
                 val updater: PultusORMUpdater = PultusORMUpdater.Builder()
                         .set("isActive", "false")
                         .build()
-                myDatabase.update(Setting(), updater)
+                myDatabase?.update(Setting(), updater)
                 runOnUiThread {
                     getItems()
                 }
             }
         }
-        val items = myDatabase.find(Setting())
+        val items = myDatabase!!.find(Setting())
         val tempList = ArrayList<String>()
         items
                 .map { it -> it as Setting }
@@ -74,9 +74,8 @@ class SettingsActivity : AppCompatActivity() {
 
 
     private fun getItems() {
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
         settingsList.clear()
-        val items = myDatabase.find(Setting())
+        val items = myDatabase!!.find(Setting())
         items.mapTo(settingsList) { it -> it as Setting }
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewSettings.layoutManager = mLayoutManager
