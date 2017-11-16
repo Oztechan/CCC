@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(myToolbar)
 
-        myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
+        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
@@ -74,15 +74,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun set() {
-        val myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
         val items = myDatabase?.find(Setting())
-
         val tempList = ArrayList<String>()
-
         items
-                .map { it -> it as Setting }
-                .filter { it.isActive == "true" }
-                .mapTo(tempList) { it.name.toString() }
+                ?.map { it -> it as Setting }
+                ?.filter { it.isActive == "true" }
+                ?.mapTo(tempList) { it.name.toString() }
 
 
 
@@ -149,9 +146,7 @@ class MainActivity : AppCompatActivity() {
                                 if (temp.startsWith("."))
                                     temp = "0" + text
 
-                                val myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
-                                val items = myDatabase?.find(Setting())
-
+                                val items = myDatabase!!.find(Setting())
                                 currencyList.clear()
 
                                 for (it in items) {
