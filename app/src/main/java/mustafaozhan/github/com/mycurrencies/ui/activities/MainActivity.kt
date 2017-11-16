@@ -38,14 +38,16 @@ import android.content.pm.PackageManager
 class MainActivity : AppCompatActivity() {
     val currencyList = ArrayList<Currency>()
     val mAdapter = MyCurrencyAdapter(currencyList)
-
+    private var myDatabase: PultusORM? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-
         setSupportActionBar(myToolbar)
+
+        myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
+
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
         mRecViewCurrency.itemAnimator = DefaultItemAnimator()
@@ -72,8 +74,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun set() {
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-        val items = myDatabase.find(Setting())
+        val myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
+        val items = myDatabase?.find(Setting())
 
         val tempList = ArrayList<String>()
 
@@ -147,8 +149,8 @@ class MainActivity : AppCompatActivity() {
                                 if (temp.startsWith("."))
                                     temp = "0" + text
 
-                                val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-                                val items = myDatabase.find(Setting())
+                                val myDatabase = PultusORM("myDatabase?.db", applicationContext.filesDir.absolutePath)
+                                val items = myDatabase?.find(Setting())
 
                                 currencyList.clear()
 
@@ -278,39 +280,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        val myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-        myDatabase.save(Setting("EUR"))
-        myDatabase.save(Setting("AUD"))
-        myDatabase.save(Setting("BGN"))
-        myDatabase.save(Setting("BRL"))
-        myDatabase.save(Setting("CAD"))
-        myDatabase.save(Setting("CHF"))
-        myDatabase.save(Setting("CNY"))
-        myDatabase.save(Setting("CZK"))
-        myDatabase.save(Setting("DKK"))
-        myDatabase.save(Setting("GBP"))
-        myDatabase.save(Setting("HKD"))
-        myDatabase.save(Setting("HRK"))
-        myDatabase.save(Setting("HUF"))
-        myDatabase.save(Setting("IDR"))
-        myDatabase.save(Setting("ILS"))
-        myDatabase.save(Setting("INR"))
-        myDatabase.save(Setting("JPY"))
-        myDatabase.save(Setting("KRW"))
-        myDatabase.save(Setting("MXN"))
-        myDatabase.save(Setting("MYR"))
-        myDatabase.save(Setting("NOK"))
-        myDatabase.save(Setting("NZD"))
-        myDatabase.save(Setting("PHP"))
-        myDatabase.save(Setting("PLN"))
-        myDatabase.save(Setting("RON"))
-        myDatabase.save(Setting("RUB"))
-        myDatabase.save(Setting("SEK"))
-        myDatabase.save(Setting("SGD"))
-        myDatabase.save(Setting("THB"))
-        myDatabase.save(Setting("TRY"))
-        myDatabase.save(Setting("USD"))
-        myDatabase.save(Setting("ZAR"))
+        myDatabase?.save(Setting("EUR"))
+        myDatabase?.save(Setting("AUD"))
+        myDatabase?.save(Setting("BGN"))
+        myDatabase?.save(Setting("BRL"))
+        myDatabase?.save(Setting("CAD"))
+        myDatabase?.save(Setting("CHF"))
+        myDatabase?.save(Setting("CNY"))
+        myDatabase?.save(Setting("CZK"))
+        myDatabase?.save(Setting("DKK"))
+        myDatabase?.save(Setting("GBP"))
+        myDatabase?.save(Setting("HKD"))
+        myDatabase?.save(Setting("HRK"))
+        myDatabase?.save(Setting("HUF"))
+        myDatabase?.save(Setting("IDR"))
+        myDatabase?.save(Setting("ILS"))
+        myDatabase?.save(Setting("INR"))
+        myDatabase?.save(Setting("JPY"))
+        myDatabase?.save(Setting("KRW"))
+        myDatabase?.save(Setting("MXN"))
+        myDatabase?.save(Setting("MYR"))
+        myDatabase?.save(Setting("NOK"))
+        myDatabase?.save(Setting("NZD"))
+        myDatabase?.save(Setting("PHP"))
+        myDatabase?.save(Setting("PLN"))
+        myDatabase?.save(Setting("RON"))
+        myDatabase?.save(Setting("RUB"))
+        myDatabase?.save(Setting("SEK"))
+        myDatabase?.save(Setting("SGD"))
+        myDatabase?.save(Setting("THB"))
+        myDatabase?.save(Setting("TRY"))
+        myDatabase?.save(Setting("USD"))
+        myDatabase?.save(Setting("ZAR"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
