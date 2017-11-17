@@ -40,5 +40,6 @@ fun ImageView.setBackgroundByName(name: String) {
         "TRY" -> this.setImageResource(R.drawable.tryy)
         "USD" -> this.setImageResource(R.drawable.usd)
         "ZAR" -> this.setImageResource(R.drawable.zar)
+        "transparent"->this.setImageResource(R.drawable.transparent)
     }
 }

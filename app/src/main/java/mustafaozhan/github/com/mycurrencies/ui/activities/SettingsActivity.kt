@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_settings.*
 
 import mustafaozhan.github.com.mycurrencies.R
@@ -17,7 +18,12 @@ import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.utils.putString
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(),SettingsAdapter.SettingsAdapterInterface {
+    override fun checkChangeListener() {
+        Toast.makeText(applicationContext,"asdasdasdsaads",Toast.LENGTH_SHORT).show()
+    }
+
+
     private val settingsList = ArrayList<Setting>()
     private val spinnerList = ArrayList<String>()
     private val mAdapter = SettingsAdapter(settingsList)
@@ -30,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setListeners()
     }
+
     override fun onResume() {
         getSpinnerList()
         getSettingList()
@@ -37,14 +44,16 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun getSpinnerList() {
-        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext,"base_currency","EUR")
+        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext, "base_currency", "EUR")
         spinnerList.clear()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(spinnerList) { it.name.toString() }
-        spinnerList.remove(base)
-        spinnerList.add(0,base)
+        if (spinnerList.contains(base)) {
+            spinnerList.remove(base)
+            spinnerList.add(0, base)
+        }
         if (!spinnerList.isEmpty()) {
             mSpinnerSettings.setItems(spinnerList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
@@ -53,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setListeners() {
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
-            putString(applicationContext,"base_currency",mSpinnerSettings.text.toString())
+            putString(applicationContext, "base_currency", mSpinnerSettings.text.toString())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
 
         }

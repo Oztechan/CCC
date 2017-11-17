@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -34,6 +33,7 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
+import android.graphics.Color
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.putString
 
@@ -59,9 +59,7 @@ class MainActivity : AppCompatActivity() {
         loadAd()
         setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
-
-            putString(applicationContext,"base_currency","EUR")
-
+            putString(applicationContext, "base_currency", "EUR")
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
@@ -91,18 +89,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSpinner() {
-        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext,"base_currency","EUR")
+        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext, "base_currency", "EUR")
         val tempList = ArrayList<String>()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(tempList) { it.name.toString() }
 
-        tempList.remove(base)
-        tempList.add(0, base)
-        if (tempList.toList().lastIndex < 1)
-            mSpinner.setItems("Please select at least two currency")
-        else {
+        if (tempList.contains(base)) {
+            tempList.remove(base)
+            tempList.add(0, base)
+        }
+        if (tempList.toList().lastIndex < 1) {
+            mSpinner.setItems("Please select at least two currency from Settings")
+            imgBase.setBackgroundByName("transparent")
+        } else {
             mSpinner.setItems(tempList.toList())
             imgBase.setBackgroundByName(mSpinner.text.toString())
         }
