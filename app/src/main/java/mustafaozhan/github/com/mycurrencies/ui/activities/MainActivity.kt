@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -57,15 +58,17 @@ class MainActivity : AppCompatActivity() {
         loadAd()
         setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
+            getPreferences(MODE_PRIVATE).getString("base_currency", "EUR")
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
     }
 
     override fun onResume() {
-        super.onResume()
+
         setSpinner()
         functionality()
+        super.onResume()
     }
 
     private fun setListeners() {
@@ -85,12 +88,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSpinner() {
+        val base = getPreferences(MODE_PRIVATE).getString("base_currency", "EUR")
         val tempList = ArrayList<String>()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(tempList) { it.name.toString() }
 
+        tempList.remove(base)
+        tempList.add(0, base)
         if (tempList.toList().lastIndex < 1)
             mSpinner.setItems("Please select at least two currency")
         else {
@@ -225,13 +231,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRateDialog() {
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
+        val builder = AlertDialog.Builder(applicationContext, R.style.AlertDialogCustom)
                 .setTitle("Support us !")
                 .setMessage("Please, rate and commend to the app at Google Play Store")
                 .setPositiveButton("RATE", { _, _ ->
                     var link = "market://details?id="
                     try {
-                        packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
+                        packageManager.getPackageInfo(applicationContext.packageName + ":My Currencies", 0)
                     } catch (e: PackageManager.NameNotFoundException) {
                         link = "https://play.google.com/store/apps/details?id="
                     }
@@ -242,7 +248,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadAd() {
-        MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
+        MobileAds.initialize(applicationContext, resources.getString(R.string.banner_ad_unit_id))
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
@@ -255,7 +261,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.settings -> startActivity(Intent(applicationContext, SettingsActivity::class.java))
             R.id.feedback -> {
                 val email = Intent(Intent.ACTION_SEND)
                 email.type = "text/email"

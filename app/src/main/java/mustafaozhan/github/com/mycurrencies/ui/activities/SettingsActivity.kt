@@ -28,17 +28,22 @@ class SettingsActivity : AppCompatActivity() {
         myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
 
         setListeners()
+    }
+    override fun onResume() {
         getSpinnerList()
         getSettingList()
-
+        super.onResume()
     }
 
     private fun getSpinnerList() {
+        val base=getPreferences(MODE_PRIVATE).getString("base_currency", "EUR")
         spinnerList.clear()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(spinnerList) { it.name.toString() }
+        spinnerList.remove(base)
+        spinnerList.add(0,base)
         if (!spinnerList.isEmpty()) {
             mSpinnerSettings.setItems(spinnerList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
@@ -47,6 +52,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setListeners() {
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
+            getPreferences(MODE_PRIVATE).edit().putString("base_currency", mSpinnerSettings.text.toString()).apply()
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
 
         }
