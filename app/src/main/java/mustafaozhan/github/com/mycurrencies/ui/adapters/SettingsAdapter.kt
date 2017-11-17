@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.adapters
 
+import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,11 +14,14 @@ import ninja.sakib.pultusorm.callbacks.Callback
 import ninja.sakib.pultusorm.core.*
 import ninja.sakib.pultusorm.exceptions.PultusORMException
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+
 
 /**
  * Created by Mustafa Ozhan on 10/9/17 at 12:57 PM on Arch Linux.
  */
-class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
+class SettingsAdapter(private val settingsList: ArrayList<Setting>?, context: Context?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
+    private val mAdapterCallback: AdapterCallback = context as AdapterCallback
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.findViewById(R.id.textView)
@@ -47,6 +51,8 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             setting.isActive = isChecked.toString()
 
+
+
             doAsync {
                 val value = isChecked.toString()
                 val condition: PultusORMCondition = PultusORMCondition.Builder()
@@ -69,9 +75,15 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?) : RecyclerV
                 }
                 myDatabase.update(Setting(), updater, ResponseCallback())
 
+
+                uiThread { mAdapterCallback.onMethodCallback() }
+
             }
         }
     }
 
     override fun getItemCount(): Int = settingsList?.size ?: -1
+    interface AdapterCallback {
+        fun onMethodCallback()
+    }
 }

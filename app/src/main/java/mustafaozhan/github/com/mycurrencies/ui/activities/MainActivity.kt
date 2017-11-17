@@ -33,7 +33,6 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
-import android.graphics.Color
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.putString
 
@@ -101,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             tempList.add(0, base)
         }
         if (tempList.toList().lastIndex < 1) {
-            mSpinner.setItems("Please select at least two currency from Settings")
+            mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
         } else {
             mSpinner.setItems(tempList.toList())

@@ -4,9 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_settings.*
-
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import mustafaozhan.github.com.mycurrencies.ui.adapters.SettingsAdapter
@@ -18,22 +16,17 @@ import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.utils.putString
 
-class SettingsActivity : AppCompatActivity(),SettingsAdapter.SettingsAdapterInterface {
-    override fun checkChangeListener() {
-        Toast.makeText(applicationContext,"asdasdasdsaads",Toast.LENGTH_SHORT).show()
-    }
-
+class SettingsActivity : AppCompatActivity(), SettingsAdapter.AdapterCallback {
 
     private val settingsList = ArrayList<Setting>()
     private val spinnerList = ArrayList<String>()
-    private val mAdapter = SettingsAdapter(settingsList)
+    private val mAdapter = SettingsAdapter(settingsList, this)
     private var myDatabase: PultusORM? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
-
         setListeners()
     }
 
@@ -80,6 +73,7 @@ class SettingsActivity : AppCompatActivity(),SettingsAdapter.SettingsAdapterInte
                 myDatabase!!.update(Setting(), updater)
                 runOnUiThread {
                     getSettingList()
+                    getSpinnerList()
                 }
             }
         }
@@ -90,7 +84,11 @@ class SettingsActivity : AppCompatActivity(),SettingsAdapter.SettingsAdapterInte
                         .build()
                 myDatabase?.update(Setting(), updater)
                 runOnUiThread {
+                    spinnerList.clear()
+                    mSpinnerSettings.setItems("")
+                    imgBaseSettings.setBackgroundByName("transparent")
                     getSettingList()
+                    getSpinnerList()
                 }
             }
         }
@@ -123,5 +121,13 @@ class SettingsActivity : AppCompatActivity(),SettingsAdapter.SettingsAdapterInte
     override fun onBackPressed() {
         loadAd()
         finish()
+    }
+
+    override fun onMethodCallback() {
+        if (spinnerList.size == 1) {
+            mSpinnerSettings.setItems("")
+            imgBaseSettings.setBackgroundByName("transparent")
+        }
+        getSpinnerList()
     }
 }
