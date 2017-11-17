@@ -18,48 +18,34 @@ import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 
 class SettingsActivity : AppCompatActivity() {
     private val settingsList = ArrayList<Setting>()
+    private val spinnerList = ArrayList<String>()
     private val mAdapter = SettingsAdapter(settingsList)
     private var myDatabase: PultusORM? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
 
-        getItems()
-        selectAll.setOnClickListener {
-            doAsync {
-                val updater: PultusORMUpdater = PultusORMUpdater.Builder()
-                        .set("isActive", "true")
-                        .build()
-                myDatabase!!.update(Setting(), updater)
-                runOnUiThread {
-                    getItems()
-                }
-            }
-        }
-        deSelectAll.setOnClickListener {
-            doAsync {
-                val updater: PultusORMUpdater = PultusORMUpdater.Builder()
-                        .set("isActive", "false")
-                        .build()
-                myDatabase?.update(Setting(), updater)
-                runOnUiThread {
-                    getItems()
-                }
-            }
-        }
-        val items = myDatabase!!.find(Setting())
-        val tempList = ArrayList<String>()
-        items
+        setListeners()
+        getSpinnerList()
+        getSettingList()
+
+    }
+
+    private fun getSpinnerList() {
+        spinnerList.clear()
+        myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
-                .mapTo(tempList) { it.name.toString() }
-        if (!tempList.isEmpty()) {
-
-
-            mSpinnerSettings.setItems(tempList.toList())
+                .mapTo(spinnerList) { it.name.toString() }
+        if (!spinnerList.isEmpty()) {
+            mSpinnerSettings.setItems(spinnerList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
+    }
+
+    private fun setListeners() {
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
 
@@ -70,10 +56,32 @@ class SettingsActivity : AppCompatActivity() {
             else
                 mSpinnerSettings.expand()
         }
+        selectAll.setOnClickListener {
+            doAsync {
+                val updater: PultusORMUpdater = PultusORMUpdater.Builder()
+                        .set("isActive", "true")
+                        .build()
+                myDatabase!!.update(Setting(), updater)
+                runOnUiThread {
+                    getSettingList()
+                }
+            }
+        }
+        deSelectAll.setOnClickListener {
+            doAsync {
+                val updater: PultusORMUpdater = PultusORMUpdater.Builder()
+                        .set("isActive", "false")
+                        .build()
+                myDatabase?.update(Setting(), updater)
+                runOnUiThread {
+                    getSettingList()
+                }
+            }
+        }
     }
 
 
-    private fun getItems() {
+    private fun getSettingList() {
         settingsList.clear()
         val items = myDatabase!!.find(Setting())
         items.mapTo(settingsList) { it -> it as Setting }
@@ -84,18 +92,20 @@ class SettingsActivity : AppCompatActivity() {
         mAdapter.notifyDataSetChanged()
     }
 
-    override fun onBackPressed() {
-        val interstitial = InterstitialAd(this@SettingsActivity)
+    private fun loadAd() {
+        val interstitial = InterstitialAd(applicationContext)
         interstitial.adUnitId = resources.getString(R.string.interstitial)
-        val adRequest1 = AdRequest.Builder().build()
-        interstitial.loadAd(adRequest1)
+        interstitial.loadAd(AdRequest.Builder().build())
         interstitial.adListener = object : AdListener() {
             override fun onAdLoaded() {
-                if (interstitial.isLoaded) {
+                if (interstitial.isLoaded)
                     interstitial.show()
-                }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        loadAd()
         finish()
     }
 }

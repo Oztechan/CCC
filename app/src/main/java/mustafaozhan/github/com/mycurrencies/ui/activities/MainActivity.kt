@@ -48,17 +48,27 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(myToolbar)
 
+        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
         val mLayoutManager = LinearLayoutManager(applicationContext)
         mRecViewCurrency.layoutManager = mLayoutManager
         mRecViewCurrency.itemAnimator = DefaultItemAnimator()
         mRecViewCurrency.adapter = mAdapter
 
         loadAd()
-
+        setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setSpinner()
+        functionality()
+    }
+
+    private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             val temp = eTxt.text
             eTxt.text = null
@@ -74,22 +84,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        set()
-        functionality()
-    }
-
-    private fun loadAd() {
-        MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
-
-    private fun set() {
-        val items = myDatabase!!.find(Setting())
+    private fun setSpinner() {
         val tempList = ArrayList<String>()
-        items
+        myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(tempList) { it.name.toString() }
@@ -139,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                                 for (it in items) {
                                     it as Setting
                                     if (it.isActive == "true") {
-                                        val result: Double = getResult(it, temp, response!!.body()!!.rates!!)
+                                        val result: Double = getResult(it.name!!, temp, response!!.body()!!.rates!!)
                                         if (mSpinner.text != it.name)
                                             currencyList.add(Currency(it.name.toString(), result))
                                     }
@@ -154,8 +151,8 @@ class MainActivity : AppCompatActivity() {
                 }, { e -> onError(e) })
     }
 
-    private fun getResult(it: Setting, temp: String, rate: Rates): Double {
-        when (it.name) {
+    private fun getResult(name: String, temp: String, rate: Rates): Double {
+        when (name) {
             "EUR" -> return (rate.eUR?.times(temp.toDouble()) ?: temp.toDouble())
             "AUD" -> return (rate.aUD?.times(temp.toDouble()) ?: temp.toDouble())
             "BGN" -> return (rate.bGN?.times(temp.toDouble()) ?: temp.toDouble())
@@ -193,7 +190,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        myDatabase = PultusORM("myDatabase.db", applicationContext.filesDir.absolutePath)
         myDatabase?.save(Setting("EUR"))
         myDatabase?.save(Setting("AUD"))
         myDatabase?.save(Setting("BGN"))
@@ -243,6 +239,12 @@ class MainActivity : AppCompatActivity() {
                 })
                 .setNegativeButton("CANCEL", null)
         builder.show()
+    }
+
+    private fun loadAd() {
+        MobileAds.initialize(this, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

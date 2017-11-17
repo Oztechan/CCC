@@ -11,10 +11,8 @@ class ApiClient {
     companion object {
         fun get(): Retrofit {
             return Retrofit.Builder()
-                    .addCallAdapterFactory(
-                            RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(
-                            GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl("http://api.fixer.io/")
                     .build()
         }
