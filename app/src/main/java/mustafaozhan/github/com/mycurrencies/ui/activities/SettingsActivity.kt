@@ -1,9 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.activities
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -17,10 +15,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
-import android.text.Selection.getSelectionEnd
-import android.text.Selection.getSelectionStart
-import android.content.SharedPreferences
-
+import mustafaozhan.github.com.mycurrencies.utils.putString
 
 class SettingsActivity : AppCompatActivity() {
     private val settingsList = ArrayList<Setting>()
@@ -35,7 +30,6 @@ class SettingsActivity : AppCompatActivity() {
 
         setListeners()
     }
-
     override fun onResume() {
         getSpinnerList()
         getSettingList()
@@ -43,15 +37,14 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun getSpinnerList() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val base = preferences.getString("base_currency", "EUR")
+        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext,"base_currency","EUR")
         spinnerList.clear()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
                 .filter { it.isActive == "true" }
                 .mapTo(spinnerList) { it.name.toString() }
         spinnerList.remove(base)
-        spinnerList.add(0, base)
+        spinnerList.add(0,base)
         if (!spinnerList.isEmpty()) {
             mSpinnerSettings.setItems(spinnerList.toList())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
@@ -60,11 +53,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setListeners() {
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
-
-            val editor = getPreferences(Context.MODE_PRIVATE).edit()
-            editor.putString("base_currency", mSpinnerSettings.text.toString())
-            editor.commit()
-
+            putString(applicationContext,"base_currency",mSpinnerSettings.text.toString())
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
 
         }

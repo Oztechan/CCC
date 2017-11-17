@@ -34,8 +34,8 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
-import android.preference.PreferenceManager
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
+import mustafaozhan.github.com.mycurrencies.utils.putString
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,10 +60,7 @@ class MainActivity : AppCompatActivity() {
         setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
 
-            val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            val editor = preferences.edit()
-            editor.putString("base_currency", "EUR")
-            editor.commit()
+            putString(applicationContext,"base_currency","EUR")
 
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
@@ -94,12 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSpinner() {
-
-
-        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val base = preferences.getString("base_currency", "EUR")
-
-
+        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext,"base_currency","EUR")
         val tempList = ArrayList<String>()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
