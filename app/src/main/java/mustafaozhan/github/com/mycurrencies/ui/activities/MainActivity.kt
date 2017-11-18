@@ -66,16 +66,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         setSpinner()
-        functionality()
         super.onResume()
     }
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            val temp = eTxt.text
-            eTxt.text = null
-            eTxt.text = temp
-            eTxt.setSelection(eTxt.text.length)
+            refreshEditText()
             imgBase.setBackgroundByName(mSpinner.text.toString())
         }
         mConstraintLayout.setOnClickListener {
@@ -84,6 +80,13 @@ class MainActivity : AppCompatActivity() {
             else
                 mSpinner.expand()
         }
+    }
+
+    private fun refreshEditText() {
+        val temp = eTxt.text
+        eTxt.text = null
+        eTxt.text = temp
+        eTxt.setSelection(eTxt.text.length)
     }
 
     private fun setSpinner() {
@@ -101,14 +104,17 @@ class MainActivity : AppCompatActivity() {
         if (tempList.toList().lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
+            currencyList.clear()
+            mAdapter.notifyDataSetChanged()
         } else {
             mSpinner.setItems(tempList.toList())
             imgBase.setBackgroundByName(mSpinner.text.toString())
+            functionality()
         }
     }
 
     private fun functionality() {
-
+        refreshEditText()
         Observable.create(Observable.OnSubscribe<String> { subscriber ->
             eTxt.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) = Unit
