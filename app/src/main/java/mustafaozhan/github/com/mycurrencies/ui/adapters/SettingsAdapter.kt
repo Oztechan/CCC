@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
-import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 import ninja.sakib.pultusorm.callbacks.Callback
 import ninja.sakib.pultusorm.core.*
 import ninja.sakib.pultusorm.exceptions.PultusORMException
@@ -51,8 +51,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?, context: Co
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             setting.isActive = isChecked.toString()
 
-
-
             doAsync {
                 val value = isChecked.toString()
                 val condition: PultusORMCondition = PultusORMCondition.Builder()
@@ -74,8 +72,6 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?, context: Co
                     }
                 }
                 myDatabase.update(Setting(), updater, ResponseCallback())
-
-
                 uiThread { mAdapterCallback.onMethodCallback() }
 
             }

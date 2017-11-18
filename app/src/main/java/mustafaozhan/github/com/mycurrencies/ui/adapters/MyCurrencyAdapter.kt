@@ -8,8 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Currency
-import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
-
+import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 
 /**
  * Created by Mustafa Ozhan on 10/7/17 at 6:56 PM on Arch Linux.
@@ -17,7 +16,6 @@ import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : RecyclerView.Adapter<MyCurrencyAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         var type: TextView = view.findViewById(R.id.txtType)
         var amount: TextView = view.findViewById(R.id.txtAmount)
         var icon: ImageView = view.findViewById(R.id.txtIcon)
@@ -26,7 +24,6 @@ class MyCurrencyAdapter(private val currencyList: ArrayList<Currency>?) : Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.row, parent, false)
-
         return MyViewHolder(itemView)
     }
 

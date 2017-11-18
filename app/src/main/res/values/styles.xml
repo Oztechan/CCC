@@ -18,16 +18,6 @@
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="buttonBarPositiveButtonStyle">@style/positive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/negative</item>
-    </style>
-
-    <style name="positive">
         <item name="android:textColor">@color/cyan_700</item>
-    </style>
-
-    <style name="negative">
-        <item name="android:textColor">@color/blue_grey_50</item>
     </style>
 </resources>

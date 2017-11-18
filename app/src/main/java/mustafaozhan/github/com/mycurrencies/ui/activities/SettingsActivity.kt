@@ -13,8 +13,8 @@ import org.jetbrains.anko.doAsync
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.utils.putString
+import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 
 class SettingsActivity : AppCompatActivity(), SettingsAdapter.AdapterCallback {
 

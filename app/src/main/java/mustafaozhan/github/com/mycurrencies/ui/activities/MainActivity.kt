@@ -31,10 +31,10 @@ import io.reactivex.plugins.RxJavaPlugins.onError
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
-import mustafaozhan.github.com.mycurrencies.model.extensions.setBackgroundByName
 import android.content.pm.PackageManager
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.putString
+import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 
 
 class MainActivity : AppCompatActivity() {
@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-
         setSpinner()
         functionality()
         super.onResume()
@@ -244,8 +243,7 @@ class MainActivity : AppCompatActivity() {
                     } catch (e: PackageManager.NameNotFoundException) {
                         link = "https://play.google.com/store/apps/details?id="
                     }
-                    startActivity(Intent(Intent.ACTION_VIEW,
-                            Uri.parse(link + packageName)))
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + packageName)))
                 })
                 .setNegativeButton("CANCEL", null)
         builder.show()
@@ -266,19 +264,18 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> startActivity(Intent(applicationContext, SettingsActivity::class.java))
-            R.id.feedback -> {
-                val email = Intent(Intent.ACTION_SEND)
-                email.type = "text/email"
-                email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
-                email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
-                email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
-                startActivity(Intent.createChooser(email, "Send Feedback:"))
-                return true
-            }
-            R.id.support -> {
-                showRateDialog()
-            }
+            R.id.feedback -> sendFeedBack()
+            R.id.support -> showRateDialog()
         }
         return true
+    }
+
+    private fun sendFeedBack() {
+        val email = Intent(Intent.ACTION_SEND)
+        email.type = "text/email"
+        email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
+        email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
+        email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
+        startActivity(Intent.createChooser(email, "Send Feedback:"))
     }
 }
