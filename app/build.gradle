@@ -25,6 +25,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-core:11.6.0'//firebase
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -49,3 +50,5 @@ repositories {
     mavenCentral()
     google()
 }
+
+apply plugin: 'com.google.gms.google-services'//firebae

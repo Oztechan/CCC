@@ -32,6 +32,7 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.putString
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
@@ -41,10 +42,12 @@ class MainActivity : AppCompatActivity() {
     val currencyList = ArrayList<Currency>()
     val mAdapter = MyCurrencyAdapter(currencyList)
     private var myDatabase: PultusORM? = null
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         setSupportActionBar(myToolbar)
