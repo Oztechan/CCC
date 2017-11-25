@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.interfaces.SettingsAdapterCallback
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 import ninja.sakib.pultusorm.callbacks.Callback
@@ -21,7 +22,7 @@ import org.jetbrains.anko.uiThread
  * Created by Mustafa Ozhan on 10/9/17 at 12:57 PM on Arch Linux.
  */
 class SettingsAdapter(private val settingsList: ArrayList<Setting>?, context: Context?) : RecyclerView.Adapter<SettingsAdapter.MyViewHolder>() {
-    private val mAdapterCallback: AdapterCallback = context as AdapterCallback
+    private val mSettingsAdapterCallback: SettingsAdapterCallback = context as SettingsAdapterCallback
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.findViewById(R.id.textView)
@@ -72,14 +73,12 @@ class SettingsAdapter(private val settingsList: ArrayList<Setting>?, context: Co
                     }
                 }
                 myDatabase.update(Setting(), updater, ResponseCallback())
-                uiThread { mAdapterCallback.onMethodCallback() }
+                uiThread { mSettingsAdapterCallback.onSettingsUpdated() }
 
             }
         }
     }
 
     override fun getItemCount(): Int = settingsList?.size ?: -1
-    interface AdapterCallback {
-        fun onMethodCallback()
-    }
+
 }

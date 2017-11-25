@@ -34,7 +34,8 @@ import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
-import mustafaozhan.github.com.mycurrencies.utils.putString
+import mustafaozhan.github.com.mycurrencies.utils.getStringPreferences
+import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 
 
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         loadAd()
         setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
-            putString(applicationContext, "base_currency", "EUR")
+            putStringPreferences(applicationContext, "base_currency", "EUR")
             init()
             getPreferences(MODE_PRIVATE).edit().putBoolean("is_first_run", false).apply()
         }
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSpinner() {
-        val base = mustafaozhan.github.com.mycurrencies.utils.getString(applicationContext, "base_currency", "EUR")
+        val base = getStringPreferences(applicationContext, "base_currency", "EUR")
         val tempList = ArrayList<String>()
         myDatabase!!.find(Setting())
                 .map { it -> it as Setting }
