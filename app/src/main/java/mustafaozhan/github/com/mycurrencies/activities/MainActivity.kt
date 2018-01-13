@@ -208,7 +208,18 @@ class MainActivity : AppCompatActivity() {
                 }, { e -> onError(e) })
     }
 
-    private fun calculate(text: String?) = Expression(text).calculate().toString()
+    private fun calculate(text: String?): String {
+        var result: String? = null
+
+        if (text != null) {
+            result = if (text.contains("%"))
+                Expression(text.replace("%", "/100*")).calculate().toString()
+            else
+                Expression(text).calculate().toString()
+        }
+
+        return result.toString()
+    }
 
 
     private fun getResult(name: String, temp: String, rate: Rates): Double {
@@ -302,7 +313,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -326,6 +336,7 @@ class MainActivity : AppCompatActivity() {
         email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
         startActivity(Intent.createChooser(email, "Send Feedback:"))
     }
+
     private fun loadAd() {
         MobileAds.initialize(applicationContext, resources.getString(R.string.banner_ad_unit_id))
         val adRequest = AdRequest.Builder().build()
