@@ -53,7 +53,7 @@
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="12sp"
-            android:text="/"
+            android:text="@string/divide"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </TableRow>
 
