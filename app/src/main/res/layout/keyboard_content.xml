@@ -16,6 +16,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/seven"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -27,6 +28,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/eight"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -38,6 +40,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/nine"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -49,6 +52,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="/"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </TableRow>
@@ -66,6 +70,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/four"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -77,6 +82,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/five"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -88,6 +94,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/six"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -99,6 +106,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/multiply"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </TableRow>
@@ -116,6 +124,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/one"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -127,6 +136,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/two"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -138,6 +148,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/three"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -149,6 +160,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/minus"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -167,6 +179,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/dot"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -178,6 +191,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/zero"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -189,6 +203,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/percent"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -200,6 +215,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/plus"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -219,6 +235,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/double_zero"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -230,6 +247,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/ac"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -241,7 +259,9 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="12sp"
             android:text="@string/delete"
+
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </TableRow>
 

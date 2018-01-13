@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     private var myDatabase: PultusORM? = null
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
-    private var input: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -69,7 +68,6 @@ class MainActivity : AppCompatActivity() {
             eTxt.showSoftInputOnFocus = false
         else
             eTxt.setTextIsSelectable(true)
-
 
         loadAd()
         setListeners()
@@ -113,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         btnZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "0") }
         btnPercent.setOnClickListener { eTxt.setText(eTxt.text.toString() + "%") }
         btnPlus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "+") }
-        btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "00") }
+        btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "000") }
         btnAc.setOnClickListener { eTxt.setText("") }
         btnDelete.setOnClickListener {
             if (eTxt.text.toString() != "")
@@ -162,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) = subscriber.onNext(s.toString())
             })
-        }).debounce(500, TimeUnit.MILLISECONDS)
+        }).debounce(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text ->
 
@@ -187,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
                                 val items = myDatabase!!.find(Setting())
                                 currencyList.clear()
-                                var calculatedValue = calculate(temp)
+                                val calculatedValue = calculate(temp)
 
                                 if (calculatedValue == "NaN")
                                     Toast.makeText(applicationContext, "Wrong expression", Toast.LENGTH_SHORT).show()
@@ -303,11 +301,7 @@ class MainActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun loadAd() {
-        MobileAds.initialize(applicationContext, resources.getString(R.string.banner_ad_unit_id))
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -331,5 +325,10 @@ class MainActivity : AppCompatActivity() {
         email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
         email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
         startActivity(Intent.createChooser(email, "Send Feedback:"))
+    }
+    private fun loadAd() {
+        MobileAds.initialize(applicationContext, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 }
