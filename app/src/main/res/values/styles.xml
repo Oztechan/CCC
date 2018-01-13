@@ -5,7 +5,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/cyan_700</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

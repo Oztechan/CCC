@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.activities
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -34,6 +35,7 @@ import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
 import android.os.Build
 import com.google.firebase.analytics.FirebaseAnalytics
+import kotlinx.android.synthetic.main.keyboard_content.*
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.getStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private var myDatabase: PultusORM? = null
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
+    private var input: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -80,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
             refreshEditText()
@@ -91,6 +95,29 @@ class MainActivity : AppCompatActivity() {
             else
                 mSpinner.expand()
         }
+        btnSeven.setOnClickListener { eTxt.setText(eTxt.text.toString() + "7") }
+        btnEight.setOnClickListener { eTxt.setText(eTxt.text.toString() + "8") }
+        btnNine.setOnClickListener { eTxt.setText(eTxt.text.toString() + "9") }
+        btnDivide.setOnClickListener { eTxt.setText(eTxt.text.toString() + "/") }
+        btnFour.setOnClickListener { eTxt.setText(eTxt.text.toString() + "4") }
+        btnFive.setOnClickListener { eTxt.setText(eTxt.text.toString() + "5") }
+        btnSix.setOnClickListener { eTxt.setText(eTxt.text.toString() + "6") }
+        btnMultiply.setOnClickListener { eTxt.setText(eTxt.text.toString() + "X") }
+        btnOne.setOnClickListener { eTxt.setText(eTxt.text.toString() + "1") }
+        btnTwo.setOnClickListener { eTxt.setText(eTxt.text.toString() + "2") }
+        btnThree.setOnClickListener { eTxt.setText(eTxt.text.toString() + "3") }
+        btnMinus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "-") }
+        btnDot.setOnClickListener { eTxt.setText(eTxt.text.toString() + ".") }
+        btnPercent.setOnClickListener { eTxt.setText(eTxt.text.toString() + "%") }
+        btnPlus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "+") }
+        btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "00") }
+        btnAc.setOnClickListener { eTxt.setText("") }
+        btnDelete.setOnClickListener {
+            if (eTxt.text.toString() != "")
+                eTxt.setText(eTxt.text.toString().substring(0, eTxt.text.toString().length - 1))
+        }
+
+
     }
 
     private fun refreshEditText() {
@@ -157,11 +184,11 @@ class MainActivity : AppCompatActivity() {
 
                                 val items = myDatabase!!.find(Setting())
                                 currencyList.clear()
-
+                                val calculatedValue = calculate(temp)
                                 for (it in items) {
                                     it as Setting
                                     if (it.isActive == "true") {
-                                        val result: Double = getResult(it.name!!, temp, response!!.body()!!.rates!!)
+                                        val result: Double = getResult(it.name!!, calculatedValue, response!!.body()!!.rates!!)
                                         if (mSpinner.text != it.name)
                                             currencyList.add(Currency(it.name.toString(), result))
                                     }
@@ -174,6 +201,11 @@ class MainActivity : AppCompatActivity() {
                         }) else
                         loading.visibility = View.INVISIBLE
                 }, { e -> onError(e) })
+    }
+
+    private fun calculate(text: String?): String {
+
+        return text.toString()
     }
 
     private fun getResult(name: String, temp: String, rate: Rates): Double {
