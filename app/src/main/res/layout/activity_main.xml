@@ -27,6 +27,7 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:id="@+id/eTxt"
                 android:layout_width="368dp"
                 android:layout_height="wrap_content"

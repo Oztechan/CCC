@@ -25,7 +25,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-core:11.6.2'//firebase
+    implementation 'com.google.firebase:firebase-core:11.6.2'
+    //firebase
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -46,6 +47,7 @@ dependencies {
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
+    implementation files('libs/MathParser.org-mXparser-jdk17-4.1.1.jar')
 }
 repositories {
     mavenCentral()

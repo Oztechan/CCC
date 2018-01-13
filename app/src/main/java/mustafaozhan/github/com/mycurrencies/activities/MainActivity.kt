@@ -34,12 +34,14 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.keyboard_content.*
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.getStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
+import org.mariuszgromada.math.mxparser.Expression
 
 
 class MainActivity : AppCompatActivity() {
@@ -102,12 +104,13 @@ class MainActivity : AppCompatActivity() {
         btnFour.setOnClickListener { eTxt.setText(eTxt.text.toString() + "4") }
         btnFive.setOnClickListener { eTxt.setText(eTxt.text.toString() + "5") }
         btnSix.setOnClickListener { eTxt.setText(eTxt.text.toString() + "6") }
-        btnMultiply.setOnClickListener { eTxt.setText(eTxt.text.toString() + "X") }
+        btnMultiply.setOnClickListener { eTxt.setText(eTxt.text.toString() + "*") }
         btnOne.setOnClickListener { eTxt.setText(eTxt.text.toString() + "1") }
         btnTwo.setOnClickListener { eTxt.setText(eTxt.text.toString() + "2") }
         btnThree.setOnClickListener { eTxt.setText(eTxt.text.toString() + "3") }
         btnMinus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "-") }
         btnDot.setOnClickListener { eTxt.setText(eTxt.text.toString() + ".") }
+        btnZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "0") }
         btnPercent.setOnClickListener { eTxt.setText(eTxt.text.toString() + "%") }
         btnPlus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "+") }
         btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "00") }
@@ -184,15 +187,19 @@ class MainActivity : AppCompatActivity() {
 
                                 val items = myDatabase!!.find(Setting())
                                 currencyList.clear()
-                                val calculatedValue = calculate(temp)
-                                for (it in items) {
-                                    it as Setting
-                                    if (it.isActive == "true") {
-                                        val result: Double = getResult(it.name!!, calculatedValue, response!!.body()!!.rates!!)
-                                        if (mSpinner.text != it.name)
-                                            currencyList.add(Currency(it.name.toString(), result))
+                                var calculatedValue = calculate(temp)
+
+                                if (calculatedValue == "NaN")
+                                    Toast.makeText(applicationContext, "Wrong expression", Toast.LENGTH_SHORT).show()
+                                else
+                                    for (it in items) {
+                                        it as Setting
+                                        if (it.isActive == "true") {
+                                            val result: Double = getResult(it.name!!, calculatedValue, response!!.body()!!.rates!!)
+                                            if (mSpinner.text != it.name)
+                                                currencyList.add(Currency(it.name.toString(), result))
+                                        }
                                     }
-                                }
                                 loading.visibility = View.INVISIBLE
                                 mAdapter.notifyDataSetChanged()
                             }
@@ -203,10 +210,8 @@ class MainActivity : AppCompatActivity() {
                 }, { e -> onError(e) })
     }
 
-    private fun calculate(text: String?): String {
+    private fun calculate(text: String?) = Expression(text).calculate().toString()
 
-        return text.toString()
-    }
 
     private fun getResult(name: String, temp: String, rate: Rates): Double {
         when (name) {
