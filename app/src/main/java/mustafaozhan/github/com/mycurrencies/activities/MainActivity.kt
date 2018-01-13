@@ -32,6 +32,7 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
+import android.os.Build
 import com.google.firebase.analytics.FirebaseAnalytics
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
 import mustafaozhan.github.com.mycurrencies.utils.getStringPreferences
@@ -58,6 +59,12 @@ class MainActivity : AppCompatActivity() {
         mRecViewCurrency.layoutManager = mLayoutManager
         mRecViewCurrency.itemAnimator = DefaultItemAnimator()
         mRecViewCurrency.adapter = mAdapter
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            eTxt.showSoftInputOnFocus = false
+        else
+            eTxt.setTextIsSelectable(true)
+
 
         loadAd()
         setListeners()
