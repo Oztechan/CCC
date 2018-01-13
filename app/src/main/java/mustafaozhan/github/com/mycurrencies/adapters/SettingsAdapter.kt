@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.adapters
+package mustafaozhan.github.com.mycurrencies.adapters
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout

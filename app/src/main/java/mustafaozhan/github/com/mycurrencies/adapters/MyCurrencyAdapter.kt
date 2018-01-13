@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.adapters
+package mustafaozhan.github.com.mycurrencies.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

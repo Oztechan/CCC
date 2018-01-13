@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.activities
+package mustafaozhan.github.com.mycurrencies.activities
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
-import mustafaozhan.github.com.mycurrencies.ui.adapters.MyCurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.adapters.MyCurrencyAdapter
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View

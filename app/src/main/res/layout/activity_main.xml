@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_grey_500"
-    tools:context="mustafaozhan.github.com.mycurrencies.ui.activities.MainActivity">
+    tools:context=".activities.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/myToolbar"

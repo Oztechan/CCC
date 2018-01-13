@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.activities
+package mustafaozhan.github.com.mycurrencies.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_settings.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
-import mustafaozhan.github.com.mycurrencies.ui.adapters.SettingsAdapter
+import mustafaozhan.github.com.mycurrencies.adapters.SettingsAdapter
 import ninja.sakib.pultusorm.core.*
 import org.jetbrains.anko.doAsync
 import com.google.android.gms.ads.AdListener
