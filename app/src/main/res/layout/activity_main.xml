@@ -29,6 +29,7 @@
             <EditText
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:id="@+id/eTxt"
+                android:textStyle="bold"
                 android:layout_width="368dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
@@ -37,7 +38,7 @@
                 android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:inputType="numberDecimal"
-                android:textColor="@color/blue_grey_50"
+                android:textColor="@color/blue_grey_100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -51,8 +52,8 @@
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading"
         style="@style/AVLoadingIndicatorView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"

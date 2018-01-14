@@ -9,7 +9,7 @@
         <!--<item name="colorControlNormal">@color/cyan_700</item>-->
         <item name="editTextStyle">@color/colorPrimary</item>
         <item name="android:checkBoxPreferenceStyle">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/blue_grey_600</item>
+        <item name="colorControlHighlight">@color/blue_grey_800</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="android:textColor">@color/colorAccent</item>
