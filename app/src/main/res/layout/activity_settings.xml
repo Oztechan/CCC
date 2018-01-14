@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey_500"
+    android:background="@color/colorPrimary"
     tools:context=".activities.SettingsActivity">
 
     <android.support.v7.widget.Toolbar
@@ -67,7 +67,7 @@
         android:id="@+id/mConstraintLayoutSettings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myToolbar">
@@ -95,7 +95,7 @@
             app:layout_constraintEnd_toStartOf="@+id/imgBaseSettings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:ms_background_color="@color/colorPrimary"
+            app:ms_background_color="@color/colorPrimaryDark"
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
 

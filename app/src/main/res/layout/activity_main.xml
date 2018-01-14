@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey_500"
+    android:background="@color/colorPrimary"
     tools:context=".activities.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -90,7 +90,7 @@
 
     <RelativeLayout
         android:id="@+id/bannerLayout"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -108,7 +108,7 @@
         android:id="@+id/mConstraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/mRecViewCurrency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +136,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgBase"
             app:layout_constraintTop_toTopOf="parent"
-            app:ms_background_color="@color/colorPrimary"
+            app:ms_background_color="@color/colorPrimaryDark"
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
     </android.support.constraint.ConstraintLayout>

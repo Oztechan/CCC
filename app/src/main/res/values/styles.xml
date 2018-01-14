@@ -1,16 +1,16 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
 
         <!--<item name="colorControlNormal">@color/cyan_700</item>-->
         <item name="editTextStyle">@color/colorPrimary</item>
         <item name="android:checkBoxPreferenceStyle">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/blue_grey_600</item>
     </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:itemBackground">@color/blue_grey_800</item>
