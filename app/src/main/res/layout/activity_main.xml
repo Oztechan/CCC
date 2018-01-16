@@ -27,9 +27,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:id="@+id/eTxt"
-                android:textStyle="bold"
                 android:layout_width="368dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
@@ -38,7 +36,9 @@
                 android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:inputType="numberDecimal"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/blue_grey_100"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -71,29 +71,30 @@
         android:id="@+id/mRecViewCurrency"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
 
-    <LinearLayout
+
+    <include
         android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        layout="@layout/keyboard_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bannerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <include layout="@layout/keyboard_content" />
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/bannerLayout"
-        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -105,6 +106,7 @@
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id" />
     </RelativeLayout>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mConstraintLayout"
         android:layout_width="0dp"
@@ -141,6 +143,13 @@
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
 
 
 </android.support.constraint.ConstraintLayout>

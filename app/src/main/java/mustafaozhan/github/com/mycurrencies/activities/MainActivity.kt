@@ -33,9 +33,7 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Build
-import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.keyboard_content.*
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
@@ -188,9 +186,7 @@ class MainActivity : AppCompatActivity() {
                                 currencyList.clear()
                                 val calculatedValue = calculate(temp)
 
-                                if (calculatedValue == "NaN")
-                                    Toast.makeText(applicationContext, "Wrong expression", Toast.LENGTH_SHORT).show()
-                                else
+                                if (calculatedValue != "NaN")
                                     for (it in items) {
                                         it as Setting
                                         if (it.isActive == "true") {
