@@ -186,15 +186,19 @@ class MainActivity : AppCompatActivity() {
                                 currencyList.clear()
                                 val calculatedValue = calculate(temp)
 
-                                if (calculatedValue != "NaN")
-                                    for (it in items) {
-                                        it as Setting
-                                        if (it.isActive == "true") {
-                                            val result: Double = getResult(it.name!!, calculatedValue, response!!.body()!!.rates!!)
-                                            if (mSpinner.text != it.name)
-                                                currencyList.add(Currency(it.name.toString(), result))
+                                try {
+                                    if (calculatedValue != "NaN")
+                                        for (it in items) {
+                                            it as Setting
+                                            if (it.isActive == "true") {
+                                                val result: Double = getResult(it.name!!, calculatedValue, response!!.body()!!.rates!!)
+                                                if (mSpinner.text != it.name)
+                                                    currencyList.add(Currency(it.name.toString(), result))
+                                            }
                                         }
-                                    }
+                                } catch (e: Exception) {
+                                    e.stackTrace
+                                }
                                 loading.visibility = View.INVISIBLE
                                 mAdapter.notifyDataSetChanged()
                             }
