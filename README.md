@@ -9,12 +9,16 @@ A currency application to check out popular currencies and convert them eachothe
 </p>
 
 <p align="center">
+You can quickly convert and make mathematichal operations between currencies
+</p>
+
+<p align="center">
 <img src="https://s19.postimg.org/cfcb4or37/Screenshot_1516095702.png" width="275px"/> <img src="https://s19.postimg.org/yra3y3ss3/Screenshot_1516096120.png" width="275px"/> <img src="https://s19.postimg.org/fyy8uigyb/Screenshot_1516095713.png" width="555px"/> 
   
 </p>
 
 <p align="center">
-You can quickly convert and make mathematichal operations between currencies
+You can change your base currency and your favorite currencies to filter currencies on your main screen.
 </p>
 
 <p align="center">
@@ -22,14 +26,11 @@ You can quickly convert and make mathematichal operations between currencies
 </p>
 
 <p align="center">
-You can change your base currency and your favorite currencies to filter currencies on your main screen.
-</p>
-
-
-<p align="center">
-<img src="https://s19.postimg.org/5c4fp3vyb/Screenshot_1516095856.png"/> <img src="https://s19.postimg.org/xozxfkpeb/Screenshot_1516095947.png"/> <img src="https://s19.postimg.org/lzvxrlbab/Screenshot_1516095939.png"/> 
-</p>
-
-<p align="center">
 Tablets
 </p>
+
+<p align="center">
+<img src="https://s19.postimg.org/5c4fp3vyb/Screenshot_1516095856.png" width="434px"/> <img src="https://s19.postimg.org/xozxfkpeb/Screenshot_1516095947.png" width="434px"/> <img src="https://s19.postimg.org/lzvxrlbab/Screenshot_1516095939.png"/> 
+</p>
+
+
