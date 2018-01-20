@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.activities
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_settings.*
 import mustafaozhan.github.com.mycurrencies.R
@@ -16,6 +17,10 @@ import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.interfaces.SettingsAdapterCallback
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
+import android.widget.Toast
+import android.R.attr.orientation
+import android.content.res.Configuration
+
 
 class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
 
@@ -95,13 +100,23 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+            mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 2)
+        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
+            mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 1)
+        }
+    }
 
     private fun getSettingList() {
         settingsList.clear()
         val items = myDatabase!!.find(Setting())
         items.mapTo(settingsList) { it -> it as Setting }
-        val mLayoutManager = LinearLayoutManager(applicationContext)
-        mRecViewSettings.layoutManager = mLayoutManager
+
+        mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 1)
         mRecViewSettings.itemAnimator = DefaultItemAnimator()
         mRecViewSettings.adapter = mAdapter
         mAdapter.notifyDataSetChanged()

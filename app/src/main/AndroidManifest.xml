@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="mustafaozhan.github.com.mycurrencies.activities.SettingsActivity" />
+        <activity
+            android:name="mustafaozhan.github.com.mycurrencies.activities.SettingsActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
