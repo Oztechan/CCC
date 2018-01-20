@@ -112,7 +112,11 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
         val items = myDatabase!!.find(Setting())
         items.mapTo(settingsList) { it -> it as Setting }
 
-        mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 1)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 2)
+        else if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+            mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 1)
+
         mRecViewSettings.itemAnimator = DefaultItemAnimator()
         mRecViewSettings.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
