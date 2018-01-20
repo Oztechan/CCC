@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_settings.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.data.Setting
@@ -17,8 +16,6 @@ import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.interfaces.SettingsAdapterCallback
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
-import android.widget.Toast
-import android.R.attr.orientation
 import android.content.res.Configuration
 
 
@@ -100,15 +97,14 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
         }
     }
 
+    @Suppress("DEPRECATED_IDENTITY_EQUALS")
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE)
+            mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 2)
+        else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT)
+            mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 1)
 
-        // Checks the orientation of the screen
-        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
-            mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 2)
-        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
-            mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 1)
-        }
     }
 
     private fun getSettingList() {
@@ -116,7 +112,7 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
         val items = myDatabase!!.find(Setting())
         items.mapTo(settingsList) { it -> it as Setting }
 
-        mRecViewSettings.layoutManager =  GridLayoutManager(applicationContext, 1)
+        mRecViewSettings.layoutManager = GridLayoutManager(applicationContext, 1)
         mRecViewSettings.itemAnimator = DefaultItemAnimator()
         mRecViewSettings.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
