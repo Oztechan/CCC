@@ -10,8 +10,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 27
-        versionName "4.6"
+        versionCode 28
+        versionName "4.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,7 +32,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'ninja.sakib:PultusORM:v1.6'
     compile 'org.jetbrains.anko:anko-commons:0.10.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'

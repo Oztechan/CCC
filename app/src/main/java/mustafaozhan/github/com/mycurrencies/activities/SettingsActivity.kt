@@ -135,7 +135,7 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
     }
 
     override fun onBackPressed() {
-        loadAd()
+       // loadAd()
         finish()
     }
 
