@@ -111,7 +111,10 @@ class MainActivity : AppCompatActivity() {
         btnPercent.setOnClickListener { eTxt.setText(eTxt.text.toString() + "%") }
         btnPlus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "+") }
         btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "000") }
-        btnAc.setOnClickListener { eTxt.setText("") }
+        btnAc.setOnClickListener {
+            eTxt.setText("")
+            txtResult.text = ""
+        }
         btnDelete.setOnClickListener {
             if (eTxt.text.toString() != "")
                 eTxt.setText(eTxt.text.toString().substring(0, eTxt.text.toString().length - 1))
