@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                     mAdapter.notifyDataSetChanged()
                     if (!text.isEmpty())
                         myCall.clone().enqueue(object : Callback<ResponseAll> {
+                            @SuppressLint("SetTextI18n")
                             override fun onResponse(call: Call<ResponseAll>?, response: Response<ResponseAll>?) {
                                 var temp = if (text.isEmpty()) {
                                     eTxt.setText("")
@@ -180,11 +181,15 @@ class MainActivity : AppCompatActivity() {
                                 } else
                                     text
                                 if (temp.startsWith("."))
-                                    temp = "0" + text
+                                    temp = "0$text"
 
                                 val items = myDatabase!!.find(Setting())
                                 currencyList.clear()
                                 val calculatedValue = calculate(temp)
+                                if (calculatedValue != "" && calculatedValue != "NaN")
+                                    txtResult.text = "=    $calculatedValue"
+                                else
+                                    txtResult.text = ""
 
                                 try {
                                     if (calculatedValue != "NaN")

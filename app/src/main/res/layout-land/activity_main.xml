@@ -14,7 +14,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         app:elevation="0dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -137,6 +137,21 @@
             app:ms_background_color="@color/colorPrimaryDark"
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
+
+        <TextView
+
+            android:id="@+id/txtResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
+            app:layout_constraintStart_toEndOf="@+id/mSpinner"
+            app:layout_constraintTop_toTopOf="@+id/mSpinner" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline

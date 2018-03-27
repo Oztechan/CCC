@@ -143,6 +143,19 @@
             app:ms_background_color="@color/colorPrimaryDark"
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
+
+        <TextView
+            android:id="@+id/txtResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
+            app:layout_constraintStart_toEndOf="@+id/mSpinner"
+            app:layout_constraintTop_toTopOf="@+id/mSpinner" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline
