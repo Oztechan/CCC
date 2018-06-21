@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_icon">Base Icon</string>
+    <string name="settings">Settings</string>
+    <string name="select_all">Select All</string>
+    <string name="deSelect_all">Deselect All</string>
+    <string name="base_currency">Base Currency</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="divide">/</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="multiply">*</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="minus">-</string>
+    <string name="dot">.</string>
+    <string name="zero">0</string>
+    <string name="percent">%</string>
+    <string name="plus">+</string>
+    <string name="triple_zero">000</string>
+    <string name="ac">AC</string>
+    <string name="delete">DEL</string>
+    <string name="currency_icon">Currency Icon</string>
+    <string name="feedback">Feedback</string>
+    <string name="support">Support</string>
+    <string name="banner_ad_unit_id_settings">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

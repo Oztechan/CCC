@@ -20,30 +20,6 @@ fun putStringPreferences(context: Context, key: String, value: String) {
     editor.apply()
 }
 
-fun getLongPreferences(context: Context, key: String, defValue: Long): Long {
-    val pref = PreferenceManager.getDefaultSharedPreferences(context)
-    return pref.getLong(key, defValue)
-}
-
-fun putLongPreferences(context: Context, key: String, value: Long) {
-    val pref = PreferenceManager.getDefaultSharedPreferences(context)
-    val editor = pref.edit()
-    editor.putLong(key, value)
-    editor.apply()
-}
-
-fun isExistsPreferences(context: Context, key: String): Boolean {
-    val pref = PreferenceManager.getDefaultSharedPreferences(context)
-    return pref.contains(key)
-}
-
-fun removePreferences(context: Context, key: String) {
-    val pref = PreferenceManager.getDefaultSharedPreferences(context)
-    val editor = pref.edit()
-    editor.remove(key)
-    editor.apply()
-}
-
 fun ImageView.setBackgroundByName(name: String) {
     when (name) {
         "EUR" -> this.setImageResource(R.drawable.eur)

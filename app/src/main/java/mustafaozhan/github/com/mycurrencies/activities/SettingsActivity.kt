@@ -10,13 +10,12 @@ import mustafaozhan.github.com.mycurrencies.model.data.Setting
 import mustafaozhan.github.com.mycurrencies.adapters.SettingsAdapter
 import ninja.sakib.pultusorm.core.*
 import org.jetbrains.anko.doAsync
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import mustafaozhan.github.com.mycurrencies.interfaces.SettingsAdapterCallback
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
 import android.content.res.Configuration
+import com.google.android.gms.ads.MobileAds
 
 
 class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
@@ -36,6 +35,7 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
     override fun onResume() {
         getSpinnerList()
         getSettingList()
+        loadAd()
         super.onResume()
     }
 
@@ -145,5 +145,10 @@ class SettingsActivity : AppCompatActivity(), SettingsAdapterCallback {
             imgBaseSettings.setBackgroundByName("transparent")
         }
         getSpinnerList()
+    }
+    private fun loadAd() {
+        MobileAds.initialize(applicationContext, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
 }

@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
         else
             eTxt.setTextIsSelectable(true)
 
-        loadAd()
         setListeners()
         if (getPreferences(MODE_PRIVATE).getBoolean("is_first_run", true)) {
             putStringPreferences(applicationContext, "base_currency", "EUR")
@@ -76,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         setSpinner()
+        loadAd()
         super.onResume()
     }
 
@@ -305,7 +305,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
                 .setTitle("Support us !")
                 .setMessage("Please, rate and commend to the app at Google Play Store")
-                .setPositiveButton("RATE", { _, _ ->
+                .setPositiveButton("RATE") { _, _ ->
                     var link = "market://details?id="
                     try {
                         packageManager.getPackageInfo(MainActivity@ this.packageName + ":My Currencies", 0)
@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity() {
                         link = "https://play.google.com/store/apps/details?id="
                     }
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + packageName)))
-                })
+                }
                 .setNegativeButton("CANCEL", null)
         builder.show()
     }
