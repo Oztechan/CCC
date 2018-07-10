@@ -1,6 +1,10 @@
 # MyCurrencies
 
 <p align="center">
+  <b>!!! Please check v1.0 in order to check complete project !!!</b>
+</p>
+
+<p align="center">
 A currency application to check out popular currencies and convert them eachother.
 </p>
 
