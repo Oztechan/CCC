@@ -34,8 +34,10 @@ import ninja.sakib.pultusorm.core.PultusORM
 import com.google.android.gms.ads.MobileAds
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.EditText
 import kotlinx.android.synthetic.main.keyboard_content.*
 import mustafaozhan.github.com.mycurrencies.model.web.Rates
+import mustafaozhan.github.com.mycurrencies.utils.addText
 import mustafaozhan.github.com.mycurrencies.utils.getStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.putStringPreferences
 import mustafaozhan.github.com.mycurrencies.utils.setBackgroundByName
@@ -91,23 +93,23 @@ class MainActivity : AppCompatActivity() {
             else
                 mSpinner.expand()
         }
-        btnSeven.setOnClickListener { eTxt.setText(eTxt.text.toString() + "7") }
-        btnEight.setOnClickListener { eTxt.setText(eTxt.text.toString() + "8") }
-        btnNine.setOnClickListener { eTxt.setText(eTxt.text.toString() + "9") }
-        btnDivide.setOnClickListener { eTxt.setText(eTxt.text.toString() + "/") }
-        btnFour.setOnClickListener { eTxt.setText(eTxt.text.toString() + "4") }
-        btnFive.setOnClickListener { eTxt.setText(eTxt.text.toString() + "5") }
-        btnSix.setOnClickListener { eTxt.setText(eTxt.text.toString() + "6") }
-        btnMultiply.setOnClickListener { eTxt.setText(eTxt.text.toString() + "*") }
-        btnOne.setOnClickListener { eTxt.setText(eTxt.text.toString() + "1") }
-        btnTwo.setOnClickListener { eTxt.setText(eTxt.text.toString() + "2") }
-        btnThree.setOnClickListener { eTxt.setText(eTxt.text.toString() + "3") }
-        btnMinus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "-") }
-        btnDot.setOnClickListener { eTxt.setText(eTxt.text.toString() + ".") }
-        btnZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "0") }
-        btnPercent.setOnClickListener { eTxt.setText(eTxt.text.toString() + "%") }
-        btnPlus.setOnClickListener { eTxt.setText(eTxt.text.toString() + "+") }
-        btnDoubleZero.setOnClickListener { eTxt.setText(eTxt.text.toString() + "000") }
+        btnSeven.setOnClickListener { eTxt.addText("7") }
+        btnEight.setOnClickListener { eTxt.addText("8") }
+        btnNine.setOnClickListener { eTxt.addText("9") }
+        btnDivide.setOnClickListener { eTxt.addText("/") }
+        btnFour.setOnClickListener { eTxt.addText("4") }
+        btnFive.setOnClickListener { eTxt.addText("5") }
+        btnSix.setOnClickListener { eTxt.addText("6") }
+        btnMultiply.setOnClickListener { eTxt.addText("*") }
+        btnOne.setOnClickListener { eTxt.addText("1") }
+        btnTwo.setOnClickListener { eTxt.addText("2") }
+        btnThree.setOnClickListener { eTxt.addText("3") }
+        btnMinus.setOnClickListener { eTxt.addText("-") }
+        btnDot.setOnClickListener { eTxt.addText(".") }
+        btnZero.setOnClickListener { eTxt.addText("0") }
+        btnPercent.setOnClickListener { eTxt.addText("%") }
+        btnPlus.setOnClickListener { eTxt.addText("+") }
+        btnDoubleZero.setOnClickListener { eTxt.addText("000") }
         btnAc.setOnClickListener {
             eTxt.setText("")
             txtResult.text = ""

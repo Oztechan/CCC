@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.utils
 
 import android.content.Context
 import android.preference.PreferenceManager
+import android.widget.EditText
 import android.widget.ImageView
 import mustafaozhan.github.com.mycurrencies.R
 
@@ -56,4 +57,8 @@ fun ImageView.setBackgroundByName(name: String) {
         "ZAR" -> this.setImageResource(R.drawable.zar)
         "transparent" -> this.setImageResource(R.drawable.transparent)
     }
+}
+
+fun EditText.addText(text: String) {
+    this.setText(this.text.toString() + text)
 }
