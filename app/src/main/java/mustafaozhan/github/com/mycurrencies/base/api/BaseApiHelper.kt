@@ -13,10 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 abstract class BaseApiHelper {
 
-    companion object {
-        const val SIMPLE_YYYY_MM_DD = "yyyy-MM-dd'T'HH:mm:ss"
-    }
-
     protected val gson: Gson
         get() = GsonBuilder().create()
 

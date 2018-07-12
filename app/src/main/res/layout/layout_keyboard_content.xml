@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnSeven"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/seven"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnEight"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/eight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnNine"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/nine"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnDivide"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/divide"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnFour"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/four"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnFive"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/five"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSix"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/six"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnMultiply"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/multiply"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnOne"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/one"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnTwo"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/two"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnThree"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/three"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnMinus"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/minus"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnDot"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/dot"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnZero"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/zero"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnPercent"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="92dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/percent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnPlus"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/plus"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnDoubleZero"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/triple_zero"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100" />
+
+        <Button
+            android:id="@+id/btnAc"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/ac"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="@string/delete"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue_grey_100" />
+    </TableRow>
+
+
+</TableLayout>

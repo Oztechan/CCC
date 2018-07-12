@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main
+package mustafaozhan.github.com.mycurrencies.main.activity
 
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 
