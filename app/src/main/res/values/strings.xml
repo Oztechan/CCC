@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">My Currencies</string>
+
+    <string name="network_error_connection">Problem with the Internet connection.</string>
+    <string name="network_error_server">Server is temporarily not available.</string>
+    <string name="network_error_unexpected">An unexpected error occurred.</string>
 </resources>
