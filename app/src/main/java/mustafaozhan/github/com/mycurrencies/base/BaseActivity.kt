@@ -3,12 +3,8 @@ package mustafaozhan.github.com.mycurrencies.base
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
-import android.support.annotation.MenuRes
-import android.support.annotation.StringRes
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 
 
@@ -22,34 +18,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @IdRes
     open var containerId: Int = R.id.content
-    @StringRes
-    open val screenTitleId: Int? = null
-    @MenuRes
-    open var menuResID: Int? = null
-
-    private val toolbarWidget: Toolbar?
-        get() = toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResId())
-        initToolbar(screenTitleId)
-
         getDefaultFragment()?.let {
-            replaceFragment(it)
-        }
-    }
-
-    private fun initToolbar(title: Int?) {
-        toolbarWidget?.let {
-            setSupportActionBar(toolbarWidget)
-            setActionBarTitle(title)
-        }
-    }
-
-    fun setActionBarTitle(title: Int?) {
-        title?.let {
-            this.supportActionBar?.title = getString(it)
+            replaceFragment(it,false)
         }
     }
 
@@ -71,8 +45,18 @@ abstract class BaseActivity : AppCompatActivity() {
         addFragment(containerId, fragment)
     }
 
-    fun replaceFragment(fragment: BaseFragment) {
-        replaceFragment(containerId, fragment)
+    fun replaceFragment(fragment: BaseFragment, withBackStack: Boolean) {
+        if (withBackStack) {
+            replaceFragmentWithBackStack(containerId, fragment)
+        } else {
+            replaceFragment(containerId, fragment)
+        }
+    }
+    protected fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(containerViewId, fragment, fragment.fragmentTag)
+        ft.addToBackStack(null)
+        ft.commit()
     }
 
     protected fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {

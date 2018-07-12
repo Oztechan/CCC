@@ -17,12 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/layout_main_toolbar" />
+        <include layout="@layout/layout_settings_toolbar" />
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/mConstraintLayout"
+        android:id="@+id/mConstraintLayoutSettings"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -31,93 +31,62 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <ImageView
-            android:id="@+id/imgBase"
+            android:id="@+id/imgBaseSettings"
             android:layout_width="32sp"
             android:layout_height="32sp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:contentDescription="@string/base_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@color/transparent" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/mSpinner"
+            android:id="@+id/mSpinnerSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgBase"
+            app:layout_constraintEnd_toStartOf="@+id/imgBaseSettings"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             app:ms_background_color="@color/colorPrimaryDark"
             app:ms_hide_arrow="true"
             app:ms_text_color="@color/blue_grey_50" />
 
         <TextView
-            android:id="@+id/txtResult"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
-            app:layout_constraintStart_toEndOf="@+id/mSpinner"
-            app:layout_constraintTop_toTopOf="@+id/mSpinner" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/base_currency"
+            android:textColor="@color/blue_grey_100"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
-
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loading"
-        style="@style/AVLoadingIndicatorView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:visibility="invisible"
-        app:indicatorColor="@color/blue_grey_100"
-        app:indicatorName="BallPulseIndicator"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecViewCurrency"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
-
-    <include
-        android:id="@+id/content"
-        layout="@layout/layout_keyboard_content"
+        android:id="@+id/mRecViewSettings"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bannerLayout"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mConstraintLayoutSettings" />
 
     <RelativeLayout
         android:id="@+id/bannerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -127,8 +96,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id" />
+            ads:adUnitId="@string/banner_ad_unit_id_settings" />
     </RelativeLayout>
-
-
 </android.support.constraint.ConstraintLayout>

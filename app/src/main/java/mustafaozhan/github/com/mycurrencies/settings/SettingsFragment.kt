@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment
+package mustafaozhan.github.com.mycurrencies.settings
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,15 +8,15 @@ import android.view.View
 import android.widget.Toast
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
+
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
+class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     companion object {
-        fun newInstance(): MainFragment = MainFragment()
+        fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,8 +24,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initToolbar()
     }
 
-    override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
+    override fun getViewModelClass(): Class<SettingsFragmentViewModel> = SettingsFragmentViewModel::class.java
 
-    override fun getLayoutResId(): Int = R.layout.fragment_main
+    override fun getLayoutResId(): Int = R.layout.fragment_settings
 
 }

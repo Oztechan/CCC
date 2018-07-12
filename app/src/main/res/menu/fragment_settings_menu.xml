@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.LoginActivity">
+
+    <item
+        android:id="@+id/feedback"
+        android:orderInCategory="2"
+        android:title="@string/feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/support"
+        android:orderInCategory="3"
+        android:title="@string/support"
+        app:showAsAction="never" />
+</menu>
