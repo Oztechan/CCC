@@ -9,5 +9,5 @@ abstract class BaseMvvmFragment<VM : BaseViewModel> : BaseFragment() {
 
     protected abstract fun getViewModelClass(): Class<VM>
 
-    private val viewModel: VM by lazy { ViewModelProviders.of(this).get(getViewModelClass()) }
+    protected val viewModel: VM by lazy { ViewModelProviders.of(this).get(getViewModelClass()) }
 }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mustafaozhan.github.com.mycurrencies">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".application.Application"
         android:allowBackup="true"

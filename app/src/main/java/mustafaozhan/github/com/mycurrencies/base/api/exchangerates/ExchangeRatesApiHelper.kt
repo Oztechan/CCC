@@ -34,7 +34,7 @@ constructor() : BaseApiHelper() {
     private fun createInterceptorRequest(chain: Interceptor.Chain): Request {
         val original = chain.request()
         val builder = original.newBuilder()
-                .header("", TOKEN)
+//                .header("", TOKEN)
         return builder.build()
     }
 }

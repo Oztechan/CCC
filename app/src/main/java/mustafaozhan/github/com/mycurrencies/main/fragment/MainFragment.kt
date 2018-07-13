@@ -22,6 +22,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+
+        viewModel.getCurrencies()
     }
 
     override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
