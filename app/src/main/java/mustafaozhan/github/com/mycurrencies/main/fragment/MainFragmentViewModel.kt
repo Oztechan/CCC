@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.Currency
+import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
