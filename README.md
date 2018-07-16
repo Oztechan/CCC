@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <b>!!! Project is currently moving MVVM Achitecture !!!</b>
+</p>
+
+<p align="center">
 A currency application to check out popular currencies and convert them eachother.
 </p>
 
