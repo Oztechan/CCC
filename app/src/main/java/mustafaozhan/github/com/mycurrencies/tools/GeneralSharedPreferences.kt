@@ -18,5 +18,4 @@ constructor() : BaseSharedPreferences() {
     override val preferencesName: String
         get() = GENERAL_SHARED_PREFS
 
-
 }

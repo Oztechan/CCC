@@ -17,4 +17,7 @@ abstract class SettingDao {
     @Query("SELECT * FROM setting")
     abstract fun getAllSettings(): MutableList<Setting>
 
+    @Query("SELECT * FROM setting WHERE isActive==1")
+    abstract fun getActiveSettings(): MutableList<Setting>
+
 }

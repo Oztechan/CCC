@@ -16,6 +16,10 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     @Inject
     lateinit var exchangeRatesApiHelper: ExchangeRatesApiHelper
 
+    var firstTime: Boolean = true
+
+    var baseCurrency= Currencies.EUR
+
     fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
 

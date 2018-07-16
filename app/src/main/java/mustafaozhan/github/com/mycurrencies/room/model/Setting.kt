@@ -9,5 +9,5 @@ import android.arch.persistence.room.PrimaryKey
  */
 @Entity(tableName = "setting")
 data class Setting(
-        @PrimaryKey @ColumnInfo(name = "name") var name: String? = null,
-        @ColumnInfo var isActive: Boolean = true)
+        @PrimaryKey @ColumnInfo(name = "name") var name: String,
+        @ColumnInfo var isActive: Int = 1)
