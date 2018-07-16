@@ -70,7 +70,7 @@
         style="@style/AVLoadingIndicatorView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:indicatorColor="@color/blue_grey_100"
         app:indicatorName="BallPulseIndicator"
         app:layout_constraintHorizontal_bias="0.5"

@@ -8,7 +8,9 @@ import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.SettingDao
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
+import mustafaozhan.github.com.mycurrencies.tools.getResult
 import mustafaozhan.github.com.mycurrencies.tools.insertInitialSettings
+import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
 
 /**
@@ -27,12 +29,14 @@ class MainFragmentViewModel : BaseViewModel() {
     lateinit var settingDao: SettingDao
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
+    var base: String = dataManager.baseCurrency.toString()
+
     var currencyList: MutableList<Currency> = ArrayList()
     var input: String = ""
-    var output: String = ""
+    var output: String = "0.0"
 
     fun getCurrencies() {
-        subscribeService(dataManager.getAllOnBase(dataManager.baseCurrency),
+        subscribeService(dataManager.getAllOnBase(base),
                 ::eventDownloadSuccess, ::eventDownloadFail)
 
     }
@@ -53,8 +57,25 @@ class MainFragmentViewModel : BaseViewModel() {
         }
         settingDao.getActiveSettings().forEach {
             currencyList.add(Currency(it.name))
+
         }
+        currencyList.forEach { it.rate=getResult(it.name,output,ratesLiveData.value) }
     }
+
+    fun calculate(text: String?): String {
+        var result: String? = null
+
+        if (text != null) {
+            result = if (text.contains("%"))
+                Expression(text.replace("%", "/100*")).calculate().toString()
+            else
+                Expression(text).calculate().toString()
+        }
+
+        return result.toString()
+    }
+
+    fun getBaseCurrency() = dataManager.baseCurrency
 }
 
 

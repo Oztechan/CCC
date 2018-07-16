@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-import android.arch.lifecycle.MutableLiveData
+
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -13,12 +13,8 @@ import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.RatesAdapter
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.tools.addText
-import mustafaozhan.github.com.mycurrencies.tools.getResult
-import mustafaozhan.github.com.mycurrencies.tools.reObserve
-import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
-import kotlin.math.log
+import mustafaozhan.github.com.mycurrencies.tools.*
+import org.mariuszgromada.math.mxparser.Expression
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -36,30 +32,68 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initToolbar()
         viewModel.initData()
         setListeners()
-        initRecycler()
-        initLiveData()
+        setSpinner()
         initRx()
-        viewModel.getCurrencies()
+        initLiveData()
+        initRecycler()
+
+
+    }
+
+    private fun setSpinner() {
+
+        val spinnerList = ArrayList<String>()
+        viewModel.currencyList.forEach {
+            spinnerList.add(it.name)
+        }
+
+        if (spinnerList.contains(viewModel.getBaseCurrency().toString())) {
+            spinnerList.remove(viewModel.getBaseCurrency().toString())
+            spinnerList.add(0, viewModel.getBaseCurrency().toString())
+        }
+        if (spinnerList.toList().lastIndex < 1) {
+            mSpinner.setItems("Select at least two currency from Settings")
+            imgBase.setBackgroundByName("transparent")
+            viewModel.currencyList.clear()
+            ratesAdapter.notifyDataSetChanged()
+        } else {
+            mSpinner.setItems(spinnerList.toList())
+            imgBase.setBackgroundByName(mSpinner.text.toString())
+        }
+
     }
 
     private fun initRx() {
         txtMainToolbar.textChanges()
                 .subscribe {
-                    viewModel.input=it.toString()
+                    loading.visibility = View.VISIBLE
+                    loading.bringToFront()
+
+                    viewModel.getCurrencies()
+                    viewModel.input = it.toString()
+                    viewModel.output = viewModel.calculate(it.toString())
+
+                    if (viewModel.output != "NaN" && viewModel.output != "")
+                        txtResult.text = "=    ${viewModel.output}"
+                    else
+                        txtResult.text = ""
+
                 }
     }
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            //            refreshEditText()
+            viewModel.base = mSpinner.text.toString()
             imgBase.setBackgroundByName(mSpinner.text.toString())
         }
+
         mConstraintLayout.setOnClickListener {
             if (mSpinner.isActivated)
                 mSpinner.collapse()
             else
                 mSpinner.expand()
         }
+
         btnSeven.setOnClickListener { txtMainToolbar.addText("7") }
         btnEight.setOnClickListener { txtMainToolbar.addText("8") }
         btnNine.setOnClickListener { txtMainToolbar.addText("9") }
@@ -76,11 +110,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         btnZero.setOnClickListener { txtMainToolbar.addText("0") }
         btnPercent.setOnClickListener { txtMainToolbar.addText("%") }
         btnPlus.setOnClickListener { txtMainToolbar.addText("+") }
+
         btnDoubleZero.setOnClickListener { txtMainToolbar.addText("000") }
         btnAc.setOnClickListener {
             txtMainToolbar.text = ""
             txtResult.text = ""
         }
+
         btnDelete.setOnClickListener {
             if (txtMainToolbar.text.toString() != "")
                 txtMainToolbar.text = txtMainToolbar.text.toString().substring(0, txtMainToolbar.text.toString().length - 1)
@@ -90,9 +126,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer {
             it.let {
-                //                viewModel.currencyList.add(
-//                        Currency("UR", getResult(Currencies.EUR, "10", it!!)))
-//                ratesAdapter.refreshList(viewModel.currencyList)
+                val tempRate = it
+                viewModel.currencyList.forEach {
+                    Log.d("ASdas", "dasda")
+                    it.rate = getResult(it.name, viewModel.calculate(viewModel.output), tempRate)
+                }
+                ratesAdapter.refreshList(viewModel.currencyList)
+                loading.visibility = View.GONE
+
             }
         })
     }

@@ -22,7 +22,7 @@ class RatesAdapter : BaseRecyclerViewAdapter<Currency>() {
         override fun bind(item: Currency) {
             itemView.txtType.text = item.name
             itemView.txtAmount.text = item.rate.toString()
-            itemView.imgBase.setBackgroundByName(item.name)
+            itemView.imgRow.setBackgroundByName(item.name)
         }
     }
 

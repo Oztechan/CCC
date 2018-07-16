@@ -41,11 +41,11 @@
         android:textColor="@color/blue_grey_50"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtIcon"
+        app:layout_constraintEnd_toStartOf="@+id/imgRow"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/txtIcon"
+        android:id="@+id/imgRow"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginBottom="8dp"

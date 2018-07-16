@@ -11,11 +11,11 @@ import retrofit2.http.Query
  */
 interface ExchangeRatesApiServices {
     @GET("latest")
-    fun getAllOnBase(@Query("base") base: Currencies):
+    fun getAllOnBase(@Query("base") base: String):
             Observable<CurrencyResponse>
 
     @GET("latest")
-    fun getAllOnBaseAndLimitWith(@Query("base") base: Currencies, @Query("symbols") symbols: ArrayList<Currencies>):
+    fun getAllOnBaseAndLimitWith(@Query("base") base: String, @Query("symbols") symbols: ArrayList<Currencies>):
             Observable<CurrencyResponse>
 
 }

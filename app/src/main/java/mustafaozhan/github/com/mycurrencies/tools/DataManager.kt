@@ -18,12 +18,12 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
 
     var firstTime: Boolean = true
 
-    var baseCurrency= Currencies.EUR
+    var baseCurrency = Currencies.EUR
 
-    fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
+    fun getAllOnBase(base: String): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
 
-    fun getAllOnBaseAndLimithWith(base: Currencies, limit: ArrayList<Currencies>): Observable<CurrencyResponse> =
+    fun getAllOnBaseAndLimithWith(base: String, limit: ArrayList<Currencies>): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBaseAndLimitWith(base, limit)
 
 }

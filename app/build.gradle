@@ -77,5 +77,8 @@ dependencies {
 
     //Admob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
+    //Math Parser
+    implementation files('libs/MathParser.org-mXparser-jdk17-4.1.1.jar')
 }
 
