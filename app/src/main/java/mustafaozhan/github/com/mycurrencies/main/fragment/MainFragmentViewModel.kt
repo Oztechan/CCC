@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.main.fragment.model.Currency
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -15,11 +16,16 @@ class MainFragmentViewModel : BaseViewModel() {
         viewModelComponent.inject(this)
     }
 
-    val eventsLiveData: MutableLiveData<MutableList<Rates>> = MutableLiveData()
+    val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
+    var currencyList: MutableList<Currency> = ArrayList()
+
     fun getCurrencies() {
-        val asd: ArrayList<Currencies>? = ArrayList<Currencies>()
+        val asd: ArrayList<Currencies>? = ArrayList()
         asd?.add(Currencies.USD)
         asd?.add(Currencies.CZK)
+        asd?.add(Currencies.TRY)
+        asd?.add(Currencies.ZAR)
+        asd?.add(Currencies.GBP)
         asd?.let {
             dataManager.getAllOnBaseAndLimithWith(Currencies.EUR, it)
         }?.let {
@@ -27,8 +33,10 @@ class MainFragmentViewModel : BaseViewModel() {
         }
     }
 
-    private fun eventDownloadSuccess(eventsResponse: CurrencyResponse) {
-        eventsResponse.rates
+    private fun eventDownloadSuccess(currencyResponse: CurrencyResponse) {
+        currencyResponse.rates
+        ratesLiveData.postValue(currencyResponse.rates)
+
     }
 
     private fun eventDownloadFail(t: Throwable) {
