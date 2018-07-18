@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -26,6 +27,10 @@ android {
 }
 androidExtensions {
     experimental = true
+}
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -80,5 +85,10 @@ dependencies {
 
     //Math Parser
     implementation files('libs/MathParser.org-mXparser-jdk17-4.1.1.jar')
+
+    //Fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true
+    }
 }
 

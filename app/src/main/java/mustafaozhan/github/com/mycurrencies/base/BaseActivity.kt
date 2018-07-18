@@ -6,6 +6,8 @@ import android.support.annotation.LayoutRes
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import mustafaozhan.github.com.mycurrencies.R
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 
 /**
@@ -21,9 +23,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fabric.with(this, Crashlytics())
         setContentView(getLayoutResId())
         getDefaultFragment()?.let {
-            replaceFragment(it,false)
+            replaceFragment(it, false)
         }
     }
 
@@ -52,6 +55,7 @@ abstract class BaseActivity : AppCompatActivity() {
             replaceFragment(containerId, fragment)
         }
     }
+
     protected fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
