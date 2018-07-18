@@ -40,6 +40,16 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     }
 
+    fun refreshUI(){
+        setSpinner()
+//        currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshUI()
+    }
+
     private fun setSpinner() {
 
         val spinnerList = ArrayList<String>()
@@ -47,16 +57,17 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             spinnerList.add(it.name)
         }
 
-        if (spinnerList.contains(viewModel.getBaseCurrency().toString())) {
-            spinnerList.remove(viewModel.getBaseCurrency().toString())
-            spinnerList.add(0, viewModel.getBaseCurrency().toString())
-        }
+//        if (spinnerList.contains(viewModel.getBaseCurrency().toString())) {
+//            spinnerList.remove(viewModel.getBaseCurrency().toString())
+//            spinnerList.add(0, viewModel.getBaseCurrency().toString())
+//        }
         if (spinnerList.toList().lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
         } else {
             mSpinner.setItems(spinnerList.toList())
+            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
         }
 

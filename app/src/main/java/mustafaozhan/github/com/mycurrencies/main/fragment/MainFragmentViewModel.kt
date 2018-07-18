@@ -52,7 +52,6 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyDao.getActiveCurrencies().forEach {
             currencyList.add(Currency(it.name))
         }
-//        currencyList.forEach { it.rate=getResult(it.name,output,ratesLiveData.value) }
     }
 
     fun calculate(text: String?): String {
