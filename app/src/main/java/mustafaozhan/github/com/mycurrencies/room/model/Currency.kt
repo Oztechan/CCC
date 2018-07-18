@@ -10,4 +10,5 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "currency")
 data class Currency(
         @PrimaryKey @ColumnInfo(name = "name") var name: String,
-        @ColumnInfo(name = "rate") var rate: Double = 0.0)
+        @ColumnInfo(name = "rate") var rate: Double = 0.0,
+        @ColumnInfo(name = "isActive") var isActive: Int = 1)

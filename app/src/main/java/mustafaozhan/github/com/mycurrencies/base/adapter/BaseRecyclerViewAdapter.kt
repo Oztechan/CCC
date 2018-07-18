@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import kotlin.properties.Delegates
 
 /**
@@ -12,9 +15,11 @@ import kotlin.properties.Delegates
  */
 abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Boolean = { o, n -> o == n }) : RecyclerView.Adapter<BaseViewHolder<T>>(), AutoUpdatableAdapter {
 
+
     private var items: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> compareFun(o, n) }
     }
+
 
     fun isEmpty(): Boolean = items.isEmpty()
 
@@ -24,10 +29,17 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
+
+
         val item = items[position]
         holder.bind(item)
         holder.itemView.setOnClickListener { onItemSelectedListener(item, it, it) }
-        getAllChildren(holder.itemView).forEach { view -> view.setOnClickListener { onItemSelectedListener(item, it, holder.itemView) } }
+        getAllChildren(holder.itemView).forEach { view ->
+            view.setOnClickListener {
+                onItemSelectedListener(item, it, holder.itemView)
+            }
+        }
+
     }
 
     private fun getAllChildren(v: View): ArrayList<View> {
@@ -58,9 +70,21 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
             LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
-    fun refreshList(newList: MutableList<T>) {
-        items = newList
+    fun refreshList(newList: MutableList<T>, currentBase: Currencies, baseCurrency: Currencies) {
+
+
+        if (newList.checkItemsAre<Currency>())
+            items = newList.filter {
+                it as Currency
+                it.name != currentBase.toString() && it.isActive == 1 && it.rate.toString() != "NaN"
+            }.toMutableList()
+
+        notifyDataSetChanged()
     }
+
+
+    private inline fun <reified T : Any> MutableList<*>.checkItemsAre() =
+            all { it is T }
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
 }

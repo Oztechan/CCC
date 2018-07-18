@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 import io.reactivex.Observable
 import mustafaozhan.github.com.mycurrencies.base.api.exchangerates.ExchangeRatesApiHelper
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,10 +18,10 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     lateinit var exchangeRatesApiHelper: ExchangeRatesApiHelper
 
     var firstTime: Boolean = true
-
     var baseCurrency = Currencies.EUR
+    var currentBase= Currencies.EUR
 
-    fun getAllOnBase(base: String): Observable<CurrencyResponse> =
+    fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
 
     fun getAllOnBaseAndLimithWith(base: String, limit: ArrayList<Currencies>): Observable<CurrencyResponse> =

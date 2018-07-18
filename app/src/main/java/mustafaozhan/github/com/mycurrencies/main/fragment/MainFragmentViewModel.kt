@@ -6,10 +6,8 @@ import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.SettingDao
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import mustafaozhan.github.com.mycurrencies.tools.getResult
-import mustafaozhan.github.com.mycurrencies.tools.insertInitialSettings
+import mustafaozhan.github.com.mycurrencies.tools.insertInitialCurrencies
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
 
@@ -25,18 +23,13 @@ class MainFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    @Inject
-    lateinit var settingDao: SettingDao
-
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
-    var base: String = dataManager.baseCurrency.toString()
-
     var currencyList: MutableList<Currency> = ArrayList()
     var input: String = ""
     var output: String = "0.0"
 
     fun getCurrencies() {
-        subscribeService(dataManager.getAllOnBase(base),
+        subscribeService(dataManager.getAllOnBase(dataManager.currentBase),
                 ::eventDownloadSuccess, ::eventDownloadFail)
 
     }
@@ -48,18 +41,18 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun eventDownloadFail(t: Throwable) {
+        t.printStackTrace()
     }
 
     fun initData() {
         if (dataManager.firstTime) {
-            settingDao.insertInitialSettings()
+            currencyDao.insertInitialCurrencies()
             dataManager.firstTime = false
         }
-        settingDao.getActiveSettings().forEach {
+        currencyDao.getActiveCurrencies().forEach {
             currencyList.add(Currency(it.name))
-
         }
-        currencyList.forEach { it.rate=getResult(it.name,output,ratesLiveData.value) }
+//        currencyList.forEach { it.rate=getResult(it.name,output,ratesLiveData.value) }
     }
 
     fun calculate(text: String?): String {
@@ -76,6 +69,34 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getBaseCurrency() = dataManager.baseCurrency
+    fun setBaseCurrency(newBase: String) {
+        dataManager.baseCurrency = Currencies.valueOf(newBase)
+    }
+
+    fun setCurrentBase(newBase: String) {
+        currencyList.filter {
+            it.name == getCurrentBase().toString()
+        }.forEach {
+            it.isActive = 1
+        }
+
+        dataManager.currentBase = Currencies.valueOf(newBase)
+        currencyList.filter {
+            it.name == newBase
+        }.forEach {
+            it.isActive = 0
+        }
+    }
+
+    fun getCurrentBase() = dataManager.currentBase
+    fun checkList() {
+        currencyList.filter {
+            it.name == getCurrentBase().toString()
+        }.forEach {
+            it.isActive = 0
+        }
+    }
+
 }
 
 

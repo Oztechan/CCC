@@ -17,4 +17,8 @@ abstract class CurrencyDao {
     @Query("SELECT * FROM currency")
     abstract fun getAllCurrencies(): MutableList<Currency>
 
+    @Query("SELECT * FROM currency WHERE isActive=1")
+    abstract fun getActiveCurrencies(): MutableList<Currency>
+
+
 }

@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import mustafaozhan.github.com.mycurrencies.R
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import com.crashlytics.android.core.CrashlyticsCore
+import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 
 /**
@@ -23,7 +25,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Fabric.with(this, Crashlytics())
+
+        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
+        Fabric.with(this, Crashlytics.Builder().core(core).build())
+
         setContentView(getLayoutResId())
         getDefaultFragment()?.let {
             replaceFragment(it, false)

@@ -8,8 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.dao.SettingDao
-import mustafaozhan.github.com.mycurrencies.room.model.Setting
+import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.room.model.Currency
+
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
@@ -55,40 +56,40 @@ fun getResult(name: String, temp: String, rate: Rates?) = when (name) {
     else -> 0.0
 }
 
-fun SettingDao.insertInitialSettings() {
+fun CurrencyDao.insertInitialCurrencies() {
     this.apply {
-        insertSetting(Setting("EUR"))
-        insertSetting(Setting("AUD"))
-        insertSetting(Setting("BGN"))
-        insertSetting(Setting("BRL"))
-        insertSetting(Setting("CAD"))
-        insertSetting(Setting("CHF"))
-        insertSetting(Setting("CNY"))
-        insertSetting(Setting("CZK"))
-        insertSetting(Setting("DKK"))
-        insertSetting(Setting("GBP"))
-        insertSetting(Setting("HKD"))
-        insertSetting(Setting("HRK"))
-        insertSetting(Setting("HUF"))
-        insertSetting(Setting("IDR"))
-        insertSetting(Setting("ILS"))
-        insertSetting(Setting("INR"))
-        insertSetting(Setting("JPY"))
-        insertSetting(Setting("KRW"))
-        insertSetting(Setting("MXN"))
-        insertSetting(Setting("MYR"))
-        insertSetting(Setting("NOK"))
-        insertSetting(Setting("NZD"))
-        insertSetting(Setting("PHP"))
-        insertSetting(Setting("PLN"))
-        insertSetting(Setting("RON"))
-        insertSetting(Setting("RUB"))
-        insertSetting(Setting("SEK"))
-        insertSetting(Setting("SGD"))
-        insertSetting(Setting("THB"))
-        insertSetting(Setting("TRY"))
-        insertSetting(Setting("USD"))
-        insertSetting(Setting("ZAR"))
+        insertCurrency(Currency("EUR"))
+        insertCurrency(Currency("AUD"))
+        insertCurrency(Currency("BGN"))
+        insertCurrency(Currency("BRL"))
+        insertCurrency(Currency("CAD"))
+        insertCurrency(Currency("CHF"))
+        insertCurrency(Currency("CNY"))
+        insertCurrency(Currency("CZK"))
+        insertCurrency(Currency("DKK"))
+        insertCurrency(Currency("GBP"))
+        insertCurrency(Currency("HKD"))
+        insertCurrency(Currency("HRK"))
+        insertCurrency(Currency("HUF"))
+        insertCurrency(Currency("IDR"))
+        insertCurrency(Currency("ILS"))
+        insertCurrency(Currency("INR"))
+        insertCurrency(Currency("JPY"))
+        insertCurrency(Currency("KRW"))
+        insertCurrency(Currency("MXN"))
+        insertCurrency(Currency("MYR"))
+        insertCurrency(Currency("NOK"))
+        insertCurrency(Currency("NZD"))
+        insertCurrency(Currency("PHP"))
+        insertCurrency(Currency("PLN"))
+        insertCurrency(Currency("RON"))
+        insertCurrency(Currency("RUB"))
+        insertCurrency(Currency("SEK"))
+        insertCurrency(Currency("SGD"))
+        insertCurrency(Currency("THB"))
+        insertCurrency(Currency("TRY"))
+        insertCurrency(Currency("USD"))
+        insertCurrency(Currency("ZAR"))
     }
 }
 

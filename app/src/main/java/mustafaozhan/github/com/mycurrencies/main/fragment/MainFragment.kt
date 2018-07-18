@@ -1,10 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -12,9 +12,8 @@ import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.RatesAdapter
+import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.tools.*
-import org.mariuszgromada.math.mxparser.Expression
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -25,11 +24,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         fun newInstance(): MainFragment = MainFragment()
     }
 
-    private val ratesAdapter: RatesAdapter by lazy { RatesAdapter() }
+    private val currencyAdapter: CurrencyAdapter by lazy { CurrencyAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        loading.bringToFront()
         viewModel.initData()
         setListeners()
         setSpinner()
@@ -54,8 +54,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         if (spinnerList.toList().lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
-            viewModel.currencyList.clear()
-            ratesAdapter.notifyDataSetChanged()
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
         } else {
             mSpinner.setItems(spinnerList.toList())
             imgBase.setBackgroundByName(mSpinner.text.toString())
@@ -63,12 +62,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initRx() {
         txtMainToolbar.textChanges()
                 .subscribe {
-                    loading.visibility = View.VISIBLE
-                    loading.bringToFront()
-
+                    loading.smoothToShow()
                     viewModel.getCurrencies()
                     viewModel.input = it.toString()
                     viewModel.output = viewModel.calculate(it.toString())
@@ -77,14 +75,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         txtResult.text = "=    ${viewModel.output}"
                     else
                         txtResult.text = ""
-
                 }
     }
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            viewModel.base = mSpinner.text.toString()
+            viewModel.setCurrentBase(mSpinner.text.toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
+            txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
         }
 
         mConstraintLayout.setOnClickListener {
@@ -128,12 +126,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             it.let {
                 val tempRate = it
                 viewModel.currencyList.forEach {
-                    Log.d("ASdas", "dasda")
-                    it.rate = getResult(it.name, viewModel.calculate(viewModel.output), tempRate)
+                    it.rate = getResult(it.name, viewModel.output, tempRate)
                 }
-                ratesAdapter.refreshList(viewModel.currencyList)
-                loading.visibility = View.GONE
-
+                viewModel.checkList()
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
+                loading.smoothToHide()
             }
         })
     }
@@ -142,8 +139,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initRecycler() {
         context?.let {
             mRecViewCurrency.layoutManager = LinearLayoutManager(it)
-            mRecViewCurrency.adapter = ratesAdapter
-//            ratesAdapter.onItemSelectedListener = { rates: Rates, _, _ -> replaceFragment(SelectModeFragment.newInstance(), true) }
+            mRecViewCurrency.adapter = currencyAdapter
+//            currencyAdapter.onItemSelectedListener = { rates: Rates, _, _ -> replaceFragment(SelectModeFragment.newInstance(), true) }
         }
     }
 

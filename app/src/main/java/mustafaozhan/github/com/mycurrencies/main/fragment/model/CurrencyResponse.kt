@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Created by Mustafa Ozhan on 2018-07-13.
  */
 data class CurrencyResponse(
-        @SerializedName("base") var base: String? = null,
+        @SerializedName("baseCurrency") var base: String? = null,
         @SerializedName("date") var date: String? = null,
         @SerializedName("rates") var rates: Rates? = null
 )

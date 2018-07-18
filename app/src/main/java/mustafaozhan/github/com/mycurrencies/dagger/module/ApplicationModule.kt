@@ -40,11 +40,6 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     internal fun currencyDao(database: AppDatabase) = database.currencyDao()
 
-    @Provides
-    @Singleton
-    internal fun settingsDao(database: AppDatabase) = database.settingDao()
-
-
     @Singleton
     @Provides
     fun provideAppExecutors(): AppExecutors {
