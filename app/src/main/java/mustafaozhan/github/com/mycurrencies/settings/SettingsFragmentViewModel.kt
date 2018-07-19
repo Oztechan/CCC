@@ -35,8 +35,13 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun getCurrentBase() = dataManager.currentBase
     fun getBaseCurrency() = dataManager.baseCurrency
 
-    fun setBaseCurrency(newBase: String) {
-        dataManager.baseCurrency = Currencies.valueOf(newBase)
+    fun setBaseCurrency(newBase: String?) {
+        if (newBase == null)
+            dataManager.baseCurrency = Currencies.NULL
+        else {
+            dataManager.baseCurrency = Currencies.valueOf(newBase.toString())
+            dataManager.currentBase = Currencies.valueOf(newBase.toString())
+        }
     }
 
     fun updateCurrencyStateByName(name: String, i: Int) {
@@ -44,6 +49,10 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun updateAllCurrencyState(value: Int) {
+        currencyList.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
+
+
+
 }

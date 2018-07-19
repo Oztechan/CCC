@@ -3,12 +3,15 @@ package mustafaozhan.github.com.mycurrencies.settings
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.item_setting.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -35,7 +38,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         context?.let {
             mRecViewSettings.layoutManager = LinearLayoutManager(it)
             mRecViewSettings.adapter = settingAdapter
-            settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), false)
+            settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
         settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
 
@@ -74,7 +77,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         }
 
         btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
-        btnDeSelectAll.setOnClickListener { updateUi(true, false, 0) }
+        btnDeSelectAll.setOnClickListener {
+            updateUi(true, false, 0)
+            viewModel.setBaseCurrency(null)
+        }
     }
 
 
@@ -87,16 +93,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
         doAsync {
             if (update)
-                if (byName)
+                if (byName) {
                     viewModel.updateCurrencyStateByName(name, value)
-                else
+                } else
                     viewModel.updateAllCurrencyState(value)
 
             viewModel.initData()
 
             uiThread {
                 setSpinner()
-                settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), false)
+                settingAdapter.refreshList(viewModel.currencyList, null, false)
             }
         }
     }
@@ -109,11 +115,14 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             spinnerList.add(it.name)
         }
         if (spinnerList.toList().lastIndex < 1) {
-            mSpinnerSettings.setItems("Select at least two currency from Settings")
+            Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBaseSettings.setBackgroundByName("transparent")
-
+            mSpinnerSettings.setItems("")
+            settingAdapter.refreshList(viewModel.currencyList, null, false)
         } else {
             mSpinnerSettings.setItems(spinnerList.toList())
+            if (viewModel.getBaseCurrency() == Currencies.NULL)
+                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
             mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
             imgBaseSettings.setBackgroundByName(viewModel.getBaseCurrency().toString())
         }

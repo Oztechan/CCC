@@ -35,5 +35,6 @@ enum class Currencies {
     TRY,
     USD,
     ZAR,
-    EUR
+    EUR,
+    NULL
 }

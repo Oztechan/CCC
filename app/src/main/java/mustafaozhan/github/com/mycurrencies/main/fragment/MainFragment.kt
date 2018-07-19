@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
@@ -40,13 +41,17 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     }
 
-    override fun onResume() {
+    fun updateUi() {
         doAsync {
             viewModel.initData()
             uiThread {
                 setSpinner()
             }
         }
+    }
+
+    override fun onResume() {
+        updateUi()
         super.onResume()
     }
 
@@ -59,11 +64,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             spinnerList.add(it.name)
         }
         if (spinnerList.lastIndex < 1) {
-            mSpinner.setItems("Select at least two currency from Settings")
+            Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBase.setBackgroundByName("transparent")
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
         } else {
             mSpinner.setItems(spinnerList)
+            if (viewModel.getBaseCurrency() == Currencies.NULL)
+                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
