@@ -18,15 +18,16 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     @Inject
     lateinit var currencyDao: CurrencyDao
-    var currencyList: MutableList<Currency> =  mutableListOf()
+    var currencyList: MutableList<Currency> = mutableListOf()
 
 
     fun initData() {
+        currencyList.clear()
         if (dataManager.firstTime) {
             currencyDao.insertInitialCurrencies()
             dataManager.firstTime = false
         }
-        currencyDao.getActiveCurrencies().forEach {
+        currencyDao.getAllCurrencies().forEach {
             currencyList.add(Currency(it.name))
         }
     }
@@ -36,5 +37,13 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun setBaseCurrency(newBase: String) {
         dataManager.baseCurrency = Currencies.valueOf(newBase)
+    }
+
+    fun updateCurrencyActivityByName(name: String, i: Int) {
+        currencyDao.updateCurrencyActivityByName(name, i)
+    }
+
+    fun updateAllCurrencyActivity(value: Int) {
+        currencyDao.updateAllCurrencyActivity(value)
     }
 }

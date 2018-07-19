@@ -90,5 +90,7 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
+    //anko
+    implementation 'org.jetbrains.anko:anko-commons:0.10.5'
 }
 

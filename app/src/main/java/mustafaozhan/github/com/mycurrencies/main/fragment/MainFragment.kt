@@ -14,6 +14,8 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.tools.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -38,9 +40,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
-
-        viewModel.initData()
-        setSpinner()
+        doAsync {
+            viewModel.initData()
+            uiThread {
+                setSpinner()
+            }
+        }
         super.onResume()
     }
 
@@ -56,7 +61,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         if (spinnerList.toList().lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency(), true)
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
         } else {
             mSpinner.setItems(spinnerList.toList())
             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
@@ -132,7 +137,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     it.rate = getResult(it.name, viewModel.output, tempRate)
                 }
                 viewModel.checkList()
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency(), true)
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
                 loading.smoothToHide()
             }
         })

@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.widget.checked
 import kotlinx.android.synthetic.main.item_setting.view.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
@@ -14,6 +15,8 @@ import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
  */
 class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
+    var onCheckBoxChangeListener: ((Currency, View, Boolean) -> Unit) = { currency: Currency, buttonView: View, isChecked: Boolean -> }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
             RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
 
@@ -25,6 +28,7 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
                 else -> itemView.checkBox.isChecked = true
             }
             itemView.icon.setBackgroundByName(item.name)
+
         }
     }
 }

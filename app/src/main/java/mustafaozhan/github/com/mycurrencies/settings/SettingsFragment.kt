@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 /**
@@ -32,26 +35,25 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         context?.let {
             mRecViewSettings.layoutManager = LinearLayoutManager(it)
             mRecViewSettings.adapter = settingAdapter
-            settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency(), false)
+            settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), false)
         }
-        settingAdapter.onItemSelectedListener = { currency: Currency, _, _ ->
-            when (viewModel.currencyList[viewModel.currencyList.indexOf(currency)].isActive) {
+        settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
+            when (viewModel.currencyList[position].isActive) {
                 0 -> {
-                    viewModel.currencyList[viewModel.currencyList.indexOf(currency)].isActive = 1
-                    viewModel.currencyDao.updateCurrencyActivityByName(currency.name, 1)
+                    viewModel.currencyList[position].isActive = 1
+                    updateUi(update = true,byName = true, name = currency.name, value = 1)
                 }
                 1 -> {
-                    if (viewModel.currencyList[viewModel.currencyList.indexOf(currency)].name == viewModel.getBaseCurrency().toString()) {
-                        viewModel.setBaseCurrency(viewModel.currencyList[viewModel.currencyList.indexOf(currency) + 1].name)
-                        viewModel.initData()
-                        setSpinner()
-                    }
-                    viewModel.currencyList[viewModel.currencyList.indexOf(currency)].isActive = 0
-                    viewModel.currencyDao.updateCurrencyActivityByName(currency.name, 0)
+                    if (viewModel.currencyList[position].name == viewModel.getBaseCurrency().toString())
+                        viewModel.setBaseCurrency(viewModel.currencyList[position + 1].name)
+
+                    viewModel.currencyList[position].isActive = 0
+                    updateUi(update = true,byName = true, name = currency.name, value = 0)
                 }
             }
 
         }
+
     }
 
     private fun setListeners() {
@@ -67,13 +69,35 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             else
                 mSpinnerSettings.expand()
         }
+
+        btnSelectAll.setOnClickListener {
+
+        }
+        btnDeSelectAll.setOnClickListener { }
     }
 
 
     override fun onResume() {
+        updateUi()
         super.onResume()
-        viewModel.initData()
-        setSpinner()
+    }
+
+    private fun updateUi(update: Boolean = false, byName: Boolean = false, value: Int = 0, name: String = "") {
+
+        doAsync {
+            if (update)
+                if (byName)
+                    viewModel.updateCurrencyActivityByName(name, value)
+                else
+                    viewModel.updateAllCurrencyActivity(value)
+
+            viewModel.initData()
+
+            uiThread {
+                setSpinner()
+                settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
+            }
+        }
     }
 
     private fun setSpinner() {
