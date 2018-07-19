@@ -18,7 +18,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     @Inject
     lateinit var currencyDao: CurrencyDao
-    var currencyList: MutableList<Currency> = ArrayList()
+    var currencyList: MutableList<Currency> =  mutableListOf()
 
 
     fun initData() {

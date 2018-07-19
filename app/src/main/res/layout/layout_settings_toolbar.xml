@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/selectAll"
+                android:id="@+id/btnSelectAll"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,14 +48,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/deSelectAll"
+                android:id="@+id/btnDeSelectAll"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/deSelect_all"
                 android:textColor="@color/blue_grey_100"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/selectAll"
+                app:layout_constraintEnd_toStartOf="@+id/btnSelectAll"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.Toolbar>

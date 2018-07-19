@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import kotlin.properties.Delegates
@@ -24,7 +23,7 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     fun isEmpty(): Boolean = items.isEmpty()
 
 
-    private var onItemSelectedListener: ((T, view: View, viewParent: View) -> Unit) = { t: T, view: View, viewParent: View -> }
+    var onItemSelectedListener: ((T, view: View, viewParent: View) -> Unit) = { t: T, view: View, viewParent: View -> }
 
     override fun getItemCount() = items.size
 
@@ -70,14 +69,16 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
             LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
-    fun refreshList(newList: MutableList<T>, currentBase: Currencies, baseCurrency: Currencies) {
+    fun refreshList(list: MutableList<T>, currentBase: Currencies, baseCurrency: Currencies, mainFragment:Boolean) {
 
 
-        if (newList.checkItemsAre<Currency>())
-            items = newList.filter {
+        items = if (list.checkItemsAre<Currency>() && mainFragment)
+            list.filter {
                 it as Currency
                 it.name != currentBase.toString() && it.isActive == 1 && it.rate.toString() != "NaN"
             }.toMutableList()
+        else
+            list
 
         notifyDataSetChanged()
     }

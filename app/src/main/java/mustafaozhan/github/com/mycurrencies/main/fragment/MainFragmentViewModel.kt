@@ -24,7 +24,7 @@ class MainFragmentViewModel : BaseViewModel() {
     lateinit var currencyDao: CurrencyDao
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
-    var currencyList: MutableList<Currency> = ArrayList()
+    var currencyList: MutableList<Currency> =  mutableListOf()
     var input: String = ""
     var output: String = "0.0"
 
@@ -45,6 +45,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun initData() {
+        currencyList.clear()
         if (dataManager.firstTime) {
             currencyDao.insertInitialCurrencies()
             dataManager.firstTime = false

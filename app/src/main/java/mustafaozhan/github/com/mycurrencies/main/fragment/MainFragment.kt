@@ -30,41 +30,33 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         loading.bringToFront()
-        viewModel.initData()
         setListeners()
-        setSpinner()
         initRx()
         initLiveData()
         initRecycler()
 
-
-    }
-
-    fun refreshUI(){
-        setSpinner()
-//        currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
     }
 
     override fun onResume() {
+
+        viewModel.initData()
+        setSpinner()
         super.onResume()
-        refreshUI()
     }
 
     private fun setSpinner() {
 
         val spinnerList = ArrayList<String>()
-        viewModel.currencyList.forEach {
+        spinnerList.clear()
+        viewModel.currencyList.filter {
+            it.isActive == 1
+        }.forEach {
             spinnerList.add(it.name)
         }
-
-//        if (spinnerList.contains(viewModel.getBaseCurrency().toString())) {
-//            spinnerList.remove(viewModel.getBaseCurrency().toString())
-//            spinnerList.add(0, viewModel.getBaseCurrency().toString())
-//        }
         if (spinnerList.toList().lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency(), true)
         } else {
             mSpinner.setItems(spinnerList.toList())
             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
@@ -140,7 +132,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     it.rate = getResult(it.name, viewModel.output, tempRate)
                 }
                 viewModel.checkList()
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency())
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), viewModel.getBaseCurrency(), true)
                 loading.smoothToHide()
             }
         })
