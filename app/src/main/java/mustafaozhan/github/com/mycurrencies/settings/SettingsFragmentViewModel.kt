@@ -32,7 +32,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
         }
     }
 
-    fun getCurrentBase() = dataManager.currentBase
     fun getBaseCurrency() = dataManager.baseCurrency
 
     fun setBaseCurrency(newBase: String?) {

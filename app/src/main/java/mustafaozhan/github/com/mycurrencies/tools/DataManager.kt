@@ -27,4 +27,6 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     fun getAllOnBaseAndLimithWith(base: String, limit: ArrayList<Currencies>): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBaseAndLimitWith(base, limit)
 
+
+
 }

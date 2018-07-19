@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.item_setting.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
@@ -86,6 +88,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         updateUi()
+        loadAd()
         super.onResume()
     }
 
@@ -134,4 +137,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_settings
 
+    private fun loadAd() {
+        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+    }
 }

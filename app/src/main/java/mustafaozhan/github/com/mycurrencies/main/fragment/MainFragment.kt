@@ -8,6 +8,8 @@ import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
@@ -52,6 +54,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onResume() {
         updateUi()
+        loadAd()
         super.onResume()
     }
 
@@ -163,5 +166,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
 
     override fun getLayoutResId(): Int = R.layout.fragment_main
+
+    private fun loadAd() {
+        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id))
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+    }
 
 }
