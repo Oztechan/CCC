@@ -63,6 +63,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
+        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
         ft.addToBackStack(null)
         ft.commit()
@@ -70,6 +71,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
+        ft.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
         ft.commit()
     }

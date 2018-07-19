@@ -15,18 +15,13 @@ import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
  */
 class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
-    var onCheckBoxChangeListener: ((Currency, View, Boolean) -> Unit) = { currency: Currency, buttonView: View, isChecked: Boolean -> }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
             RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {
             itemView.textView.text = item.name
-            when (item.isActive) {
-                0 -> itemView.checkBox.isChecked = false
-                else -> itemView.checkBox.isChecked = true
-            }
+            itemView.checkBox.isChecked = item.isActive == 1
             itemView.icon.setBackgroundByName(item.name)
 
         }

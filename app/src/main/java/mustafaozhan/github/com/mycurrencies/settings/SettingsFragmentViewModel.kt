@@ -28,7 +28,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
             dataManager.firstTime = false
         }
         currencyDao.getAllCurrencies().forEach {
-            currencyList.add(Currency(it.name))
+            currencyList.add(it)
         }
     }
 

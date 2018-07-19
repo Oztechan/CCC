@@ -7,10 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.MenuRes
-import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.Toast
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
@@ -50,8 +48,6 @@ abstract class BaseFragment : Fragment() {
 
     protected fun getBaseActivity(): BaseActivity = activity as BaseActivity
 
-    protected fun replaceFragment(fragment: BaseFragment) = getBaseActivity().replaceFragment(fragment, true)
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         menu?.clear()
         when (getLayoutResId()) {
@@ -64,7 +60,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.settings -> replaceFragment(SettingsFragment.newInstance())
+            R.id.settings -> getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
             R.id.feedback -> sendFeedBack()
             R.id.support -> showRateDialog()
         }

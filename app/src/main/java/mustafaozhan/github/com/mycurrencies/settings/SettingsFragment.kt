@@ -95,7 +95,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
             uiThread {
                 setSpinner()
-                settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
+                settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), false)
             }
         }
     }

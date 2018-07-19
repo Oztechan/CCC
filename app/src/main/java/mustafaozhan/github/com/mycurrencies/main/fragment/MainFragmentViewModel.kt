@@ -51,7 +51,7 @@ class MainFragmentViewModel : BaseViewModel() {
             dataManager.firstTime = false
         }
         currencyDao.getActiveCurrencies().forEach {
-            currencyList.add(Currency(it.name))
+            currencyList.add(it)
         }
     }
 

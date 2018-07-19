@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.main.activity
 
-import android.support.v7.widget.Toolbar
+
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
