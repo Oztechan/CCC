@@ -4,6 +4,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -52,20 +53,20 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun setSpinner() {
 
         val spinnerList = ArrayList<String>()
-        spinnerList.clear()
         viewModel.currencyList.filter {
             it.isActive == 1
         }.forEach {
             spinnerList.add(it.name)
         }
-        if (spinnerList.toList().lastIndex < 1) {
+        if (spinnerList.lastIndex < 1) {
             mSpinner.setItems("Select at least two currency from Settings")
             imgBase.setBackgroundByName("transparent")
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
         } else {
-            mSpinner.setItems(spinnerList.toList())
+            mSpinner.setItems(spinnerList)
             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
         }
 
     }

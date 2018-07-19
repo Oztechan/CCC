@@ -38,23 +38,26 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             settingAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), false)
         }
         settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
+
             when (viewModel.currencyList[position].isActive) {
                 0 -> {
                     viewModel.currencyList[position].isActive = 1
-                    updateUi(update = true,byName = true, name = currency.name, value = 1)
+                    updateUi(update = true, byName = true, name = currency.name, value = 1)
                 }
                 1 -> {
-                    if (viewModel.currencyList[position].name == viewModel.getBaseCurrency().toString())
-                        viewModel.setBaseCurrency(viewModel.currencyList[position + 1].name)
-
                     viewModel.currencyList[position].isActive = 0
-                    updateUi(update = true,byName = true, name = currency.name, value = 0)
+
+                    if (viewModel.currencyList[position].name == viewModel.getBaseCurrency().toString())
+                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+
+                    updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
 
         }
 
     }
+
 
     private fun setListeners() {
         mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
@@ -70,10 +73,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 mSpinnerSettings.expand()
         }
 
-        btnSelectAll.setOnClickListener {
-
-        }
-        btnDeSelectAll.setOnClickListener { }
+        btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
+        btnDeSelectAll.setOnClickListener { updateUi(true, false, 0) }
     }
 
 
@@ -87,9 +88,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         doAsync {
             if (update)
                 if (byName)
-                    viewModel.updateCurrencyActivityByName(name, value)
+                    viewModel.updateCurrencyStateByName(name, value)
                 else
-                    viewModel.updateAllCurrencyActivity(value)
+                    viewModel.updateAllCurrencyState(value)
 
             viewModel.initData()
 

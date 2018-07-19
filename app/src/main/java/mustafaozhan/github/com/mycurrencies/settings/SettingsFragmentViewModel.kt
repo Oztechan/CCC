@@ -39,11 +39,11 @@ class SettingsFragmentViewModel : BaseViewModel() {
         dataManager.baseCurrency = Currencies.valueOf(newBase)
     }
 
-    fun updateCurrencyActivityByName(name: String, i: Int) {
-        currencyDao.updateCurrencyActivityByName(name, i)
+    fun updateCurrencyStateByName(name: String, i: Int) {
+        currencyDao.updateCurrencyStateByName(name, i)
     }
 
-    fun updateAllCurrencyActivity(value: Int) {
-        currencyDao.updateAllCurrencyActivity(value)
+    fun updateAllCurrencyState(value: Int) {
+        currencyDao.updateAllCurrencyState(value)
     }
 }
