@@ -18,15 +18,8 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     @Inject
     lateinit var exchangeRatesApiHelper: ExchangeRatesApiHelper
 
-    var firstTime: Boolean = true
-    var baseCurrency: Currencies? = Currencies.EUR
-    var currentBase = Currencies.EUR
-
     fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
             exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
-
-    fun getAllOnBaseAndLimithWith(base: String, limit: ArrayList<Currencies>): Observable<CurrencyResponse> =
-            exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBaseAndLimitWith(base, limit)
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 

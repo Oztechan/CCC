@@ -2,13 +2,13 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.base.model.MainData
+import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import mustafaozhan.github.com.mycurrencies.tools.insertInitialCurrencies
 import javax.inject.Inject
 
 /**
@@ -24,14 +24,12 @@ class SettingsFragmentViewModel : BaseViewModel() {
     lateinit var currencyDao: CurrencyDao
 
     @Inject
-    private
     lateinit var offlineRatesDao: OfflineRatesDao
 
     var currencyList: MutableList<Currency> = mutableListOf()
 
     private var currentBase: Currencies = Currencies.EUR
     private var firstTime = false
-    private var firstCache = false
     var baseCurrency: Currencies = Currencies.EUR
 
     fun initData() {
@@ -44,19 +42,8 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyDao.getAllCurrencies().forEach {
             currencyList.add(it)
         }
-        if (firstCache) {
-            for (i in 0 until Currencies.values().size)
-                subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
-                        ::offlineRateAllSuccess, ::offlineRateAllFail)
-        }
-    }
 
-    private fun offlineRateAllFail(throwable: Throwable) {
-        throwable.printStackTrace()
-    }
 
-    private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.rates?.let { OfflineRates(currencyResponse.base.toString(), it) }?.let { offlineRatesDao.insertOfflineRates(it) }
     }
 
 
@@ -81,11 +68,11 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     private fun eventDownloadByNameFail(throwable: Throwable) {
-        throwable.printStackTrace()
+//        throwable.printStackTrace()
     }
 
     private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.rates?.let { OfflineRates(currencyResponse.base.toString(), it) }?.let { offlineRatesDao.updateOfflineRates(it) }
+        currencyResponse.toOfflineRates()?.let { offlineRatesDao.updateOfflineRates(it) }
     }
 
     fun updateAllCurrencyState(value: Int) {
@@ -96,13 +83,12 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun loadPreferences() {
         val mainData = dataManager.loadMainData()
         firstTime = mainData.firstRun
-        firstCache = mainData.firstCache
         currentBase = mainData.currentBase
         baseCurrency = mainData.baseCurrency
     }
 
     fun savePreferences() {
-        dataManager.persistMainData(MainData(firstTime, firstCache, baseCurrency, currentBase))
+        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
     }
 
 }

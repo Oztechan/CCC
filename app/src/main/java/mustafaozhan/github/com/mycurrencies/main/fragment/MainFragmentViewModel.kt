@@ -3,12 +3,15 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.base.model.MainData
+import mustafaozhan.github.com.mycurrencies.extensions.getRates
+import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import mustafaozhan.github.com.mycurrencies.tools.insertInitialCurrencies
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
 
@@ -24,13 +27,15 @@ class MainFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
+    @Inject
+    lateinit var offlineRatesDao: OfflineRatesDao
+
     val currenciesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyList: MutableList<Currency> = mutableListOf()
 
     lateinit var currentBase: Currencies
     lateinit var baseCurrency: Currencies
 
-    private var firstCache: Boolean = true
     private var firstTime: Boolean = true
 
     var input: String = ""
@@ -38,29 +43,42 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun getCurrencies() {
         subscribeService(dataManager.getAllOnBase(currentBase),
-                ::eventDownloadSuccess, ::eventDownloadFail)
+                ::rateDownloadSuccess, ::rateDownloadFail)
 
     }
 
-    private fun eventDownloadSuccess(currencyResponse: CurrencyResponse) {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.rates
         currenciesLiveData.postValue(currencyResponse.rates)
 
     }
 
-    private fun eventDownloadFail(t: Throwable) {
-        t.printStackTrace()
+    private fun rateDownloadFail(t: Throwable) {
+//        t.printStackTrace()
+        currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(currentBase.toString()).getRates())
     }
 
     fun initData() {
         currencyList.clear()
         if (firstTime) {
             currencyDao.insertInitialCurrencies()
+            for (i in 0 until Currencies.values().size - 1)
+                subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
+                        ::offlineRateAllSuccess, ::offlineRateAllFail)
             firstTime = false
         }
         currencyDao.getActiveCurrencies().forEach {
             currencyList.add(it)
         }
+    }
+
+    private fun offlineRateAllFail(throwable: Throwable) {
+//        throwable.printStackTrace()
+
+    }
+
+    private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
+        currencyResponse.toOfflineRates()?.let { offlineRatesDao.insertOfflineRates(it) }
     }
 
     fun calculate(text: String?): String {
@@ -104,15 +122,16 @@ class MainFragmentViewModel : BaseViewModel() {
     fun loadPreferences() {
         val mainData = dataManager.loadMainData()
         firstTime = mainData.firstRun
-        firstCache = mainData.firstCache
         currentBase = mainData.currentBase
         baseCurrency = mainData.baseCurrency
     }
 
     fun savePreferences() {
-        dataManager.persistMainData(MainData(firstTime,firstCache, baseCurrency, currentBase))
+        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
     }
 
 }
+
+
 
 

@@ -7,7 +7,6 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
  */
 data class MainData(
         var firstRun: Boolean,
-        var firstCache:Boolean,
         var baseCurrency: Currencies,
         var currentBase: Currencies
 )

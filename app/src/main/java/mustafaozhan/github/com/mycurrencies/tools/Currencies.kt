@@ -4,6 +4,7 @@ package mustafaozhan.github.com.mycurrencies.tools
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 enum class Currencies {
+    EUR,
     AUD,
     BGN,
     BRL,
@@ -35,6 +36,5 @@ enum class Currencies {
     TRY,
     USD,
     ZAR,
-    EUR,
     NULL
 }

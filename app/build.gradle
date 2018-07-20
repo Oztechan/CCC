@@ -8,6 +8,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
+        multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 27
@@ -92,5 +93,8 @@ dependencies {
     }
     //anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
+
+    //multidex
+    implementation 'com.android.support:multidex:1.0.3'
 }
 

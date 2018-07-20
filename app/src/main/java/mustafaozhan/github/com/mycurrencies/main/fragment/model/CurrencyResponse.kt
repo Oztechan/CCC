@@ -12,6 +12,7 @@ data class CurrencyResponse(
 )
 
 data class Rates(
+        @SerializedName("EUR") var eUR: Double? = null,
         @SerializedName("AUD") var aUD: Double? = null,
         @SerializedName("BGN") var bGN: Double? = null,
         @SerializedName("BRL") var bRL: Double? = null,
@@ -42,6 +43,5 @@ data class Rates(
         @SerializedName("THB") var tHB: Double? = null,
         @SerializedName("TRY") var tRY: Double? = null,
         @SerializedName("USD") var uSD: Double? = null,
-        @SerializedName("ZAR") var zAR: Double? = null,
-        @SerializedName("EUR") var eUR: Double? = null
+        @SerializedName("ZAR") var zAR: Double? = null
 )

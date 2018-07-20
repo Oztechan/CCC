@@ -3,7 +3,6 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -16,6 +15,10 @@ import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.extensions.addText
+import mustafaozhan.github.com.mycurrencies.extensions.getResult
+import mustafaozhan.github.com.mycurrencies.extensions.reObserve
+import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.tools.*
 import org.jetbrains.anko.doAsync
@@ -55,7 +58,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onResume() {
         updateUi()
-        loadAd()
+        try {
+            loadAd()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         super.onResume()
     }
 

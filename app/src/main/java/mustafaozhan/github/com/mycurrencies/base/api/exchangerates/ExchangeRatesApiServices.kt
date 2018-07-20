@@ -13,9 +13,4 @@ interface ExchangeRatesApiServices {
     @GET("latest")
     fun getAllOnBase(@Query("base") base: Currencies):
             Observable<CurrencyResponse>
-
-    @GET("latest")
-    fun getAllOnBaseAndLimitWith(@Query("baseCurrency") base: String, @Query("symbols") symbols: ArrayList<Currencies>):
-            Observable<CurrencyResponse>
-
-}
+    }

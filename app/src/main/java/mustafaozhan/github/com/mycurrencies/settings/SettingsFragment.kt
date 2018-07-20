@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-import android.content.Context
+
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import mustafaozhan.github.com.mycurrencies.tools.setBackgroundByName
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -89,7 +89,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         updateUi()
-        loadAd()
+        try {
+            loadAd()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         super.onResume()
     }
 
