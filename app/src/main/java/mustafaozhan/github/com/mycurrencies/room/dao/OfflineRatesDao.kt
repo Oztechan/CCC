@@ -12,9 +12,8 @@ abstract class OfflineRatesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertOfflineRates(offlineRates: OfflineRates)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     abstract fun updateOfflineRates(offlineRates: OfflineRates)
-
 
     @Query("SELECT * FROM offline_rates WHERE base=:base")
     abstract fun getOfflineRatesOnBase(base: String): OfflineRates

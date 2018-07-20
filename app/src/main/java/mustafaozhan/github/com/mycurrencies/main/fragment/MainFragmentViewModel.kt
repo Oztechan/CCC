@@ -51,15 +51,23 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.rates
         currenciesLiveData.postValue(currencyResponse.rates)
 
+        currencyResponse.toOfflineRates()?.let { offlineRatesDao.updateOfflineRates(it) }
+
     }
 
     private fun rateDownloadFail(t: Throwable) {
-//        t.printStackTrace()
-        currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(currentBase.toString()).getRates())
+        if (t.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+            t.printStackTrace()
+        try {
+            currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(currentBase.toString()).getRates())
+        } catch (e: Exception) {
+            e.printStackTrace()//first run without internet
+        }
     }
 
     fun initData() {
         currencyList.clear()
+
         if (firstTime) {
             currencyDao.insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1)
@@ -67,18 +75,21 @@ class MainFragmentViewModel : BaseViewModel() {
                         ::offlineRateAllSuccess, ::offlineRateAllFail)
             firstTime = false
         }
+
         currencyDao.getActiveCurrencies().forEach {
             currencyList.add(it)
         }
     }
 
     private fun offlineRateAllFail(throwable: Throwable) {
-//        throwable.printStackTrace()
+        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+            throwable.printStackTrace()
 
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.toOfflineRates()?.let { offlineRatesDao.insertOfflineRates(it) }
+
     }
 
     fun calculate(text: String?): String {

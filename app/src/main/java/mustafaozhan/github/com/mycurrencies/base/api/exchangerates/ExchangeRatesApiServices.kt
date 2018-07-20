@@ -13,4 +13,4 @@ interface ExchangeRatesApiServices {
     @GET("latest")
     fun getAllOnBase(@Query("base") base: Currencies):
             Observable<CurrencyResponse>
-    }
+}

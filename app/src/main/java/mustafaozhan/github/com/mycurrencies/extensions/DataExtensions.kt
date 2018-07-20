@@ -130,7 +130,7 @@ fun CurrencyResponse.toOfflineRates() = this.rates?.findBase()?.let {
 }
 
 
-fun OfflineRates.getRates():Rates? = Rates(
+fun OfflineRates.getRates(): Rates? = Rates(
         this.eUR,
         this.aUD,
         this.bGN,

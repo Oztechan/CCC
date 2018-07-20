@@ -42,7 +42,7 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    internal fun offlineRatesDao(database: AppDatabase)=database.offlineRatesDao()
+    internal fun offlineRatesDao(database: AppDatabase) = database.offlineRatesDao()
 
     @Singleton
     @Provides

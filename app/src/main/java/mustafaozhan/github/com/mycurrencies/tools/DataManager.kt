@@ -4,7 +4,6 @@ import io.reactivex.Observable
 import mustafaozhan.github.com.mycurrencies.base.api.exchangerates.ExchangeRatesApiHelper
 import mustafaozhan.github.com.mycurrencies.base.model.MainData
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +22,7 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 
-    fun persistMainData(mainData: MainData){
+    fun persistMainData(mainData: MainData) {
         generalSharedPreferences.persistMainData(mainData)
     }
 

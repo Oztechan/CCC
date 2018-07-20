@@ -43,7 +43,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
             currencyList.add(it)
         }
 
-
     }
 
 
@@ -68,7 +67,8 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     private fun eventDownloadByNameFail(throwable: Throwable) {
-//        throwable.printStackTrace()
+        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+            throwable.printStackTrace()
     }
 
     private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
@@ -76,7 +76,10 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun updateAllCurrencyState(value: Int) {
-        currencyList.forEach { it.isActive = value }
+        currencyList.forEach {
+            it.isActive = value
+            updateOfflineRateByName(it.name)
+        }
         currencyDao.updateAllCurrencyState(value)
     }
 

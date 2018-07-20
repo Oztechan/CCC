@@ -11,12 +11,8 @@ abstract class CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertCurrency(currency: Currency)
 
-    @Update
-    abstract fun updateCurrency(currency: Currency)
-
     @Query("UPDATE currency set isActive=:isActive WHERE name=:name ")
     abstract fun updateCurrencyStateByName(name: String, isActive: Int)
-
 
     @Query("SELECT * FROM currency")
     abstract fun getAllCurrencies(): MutableList<Currency>
