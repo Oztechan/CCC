@@ -1,6 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.application
 
 import android.content.Context
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
+import io.fabric.sdk.android.Fabric
+import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.dagger.component.ApplicationComponent
 import mustafaozhan.github.com.mycurrencies.dagger.component.DaggerApplicationComponent
 import mustafaozhan.github.com.mycurrencies.dagger.module.ApplicationModule
@@ -20,6 +24,10 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
+        Fabric.with(this, Crashlytics.Builder().core(core).build())
+
         instance = this
     }
 

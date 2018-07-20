@@ -3,8 +3,8 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
@@ -34,6 +34,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadPreferences()
         initToolbar()
         loading.bringToFront()
         setListeners()
@@ -43,7 +44,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     }
 
-    fun updateUi() {
+    private fun updateUi() {
         doAsync {
             viewModel.initData()
             uiThread {
@@ -69,14 +70,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         if (spinnerList.lastIndex < 1) {
             Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBase.setBackgroundByName("transparent")
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
         } else {
             mSpinner.setItems(spinnerList)
-            if (viewModel.getBaseCurrency() == Currencies.NULL)
-                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
+            if (viewModel.baseCurrency == Currencies.NULL)
+                viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.currentBase.toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
         }
 
     }
@@ -141,14 +142,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun initLiveData() {
-        viewModel.ratesLiveData.reObserve(this, Observer {
+        viewModel.currenciesLiveData.reObserve(this, Observer {
             it.let {
                 val tempRate = it
                 viewModel.currencyList.forEach {
                     it.rate = getResult(it.name, viewModel.output, tempRate)
                 }
                 viewModel.checkList()
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.getCurrentBase(), true)
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
                 loading.smoothToHide()
             }
         })
@@ -172,5 +173,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
+
+    override fun onDestroyView() {
+        viewModel.savePreferences()
+        super.onDestroyView()
+    }
+
 
 }

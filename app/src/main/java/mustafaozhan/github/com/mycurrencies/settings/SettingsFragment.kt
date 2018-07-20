@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -7,7 +8,6 @@ import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.item_setting.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
@@ -31,6 +31,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private val settingAdapter: SettingAdapter by lazy { SettingAdapter() }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadPreferences()
         initToolbar()
         initRecycler()
         setListeners()
@@ -52,7 +53,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
 
-                    if (viewModel.currencyList[position].name == viewModel.getBaseCurrency().toString())
+                    if (viewModel.currencyList[position].name == viewModel.baseCurrency.toString())
                         viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
 
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
@@ -124,10 +125,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         } else {
             mSpinnerSettings.setItems(spinnerList.toList())
-            if (viewModel.getBaseCurrency() == Currencies.NULL)
+            if (viewModel.baseCurrency == Currencies.NULL)
                 viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-            mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.getBaseCurrency().toString())
-            imgBaseSettings.setBackgroundByName(viewModel.getBaseCurrency().toString())
+            mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+            imgBaseSettings.setBackgroundByName(viewModel.baseCurrency.toString())
         }
 
 
@@ -142,4 +143,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
+
+    override fun onDestroyView() {
+        viewModel.savePreferences()
+        super.onDestroyView()
+    }
+
 }

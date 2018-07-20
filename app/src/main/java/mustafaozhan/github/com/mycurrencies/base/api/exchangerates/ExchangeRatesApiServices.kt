@@ -11,7 +11,7 @@ import retrofit2.http.Query
  */
 interface ExchangeRatesApiServices {
     @GET("latest")
-    fun getAllOnBase(@Query("baseCurrency") base: Currencies):
+    fun getAllOnBase(@Query("base") base: Currencies):
             Observable<CurrencyResponse>
 
     @GET("latest")

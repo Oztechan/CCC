@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -19,27 +20,28 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
     var currencyList: MutableList<Currency> = mutableListOf()
-
+    private var currentBase: Currencies = Currencies.EUR
+    private var firstTime = false
+    var baseCurrency: Currencies = Currencies.EUR
 
     fun initData() {
         currencyList.clear()
-        if (dataManager.firstTime) {
+        if (firstTime) {
             currencyDao.insertInitialCurrencies()
-            dataManager.firstTime = false
+            firstTime = false
         }
         currencyDao.getAllCurrencies().forEach {
             currencyList.add(it)
         }
     }
 
-    fun getBaseCurrency() = dataManager.baseCurrency
 
     fun setBaseCurrency(newBase: String?) {
         if (newBase == null)
-            dataManager.baseCurrency = Currencies.NULL
+            baseCurrency = Currencies.NULL
         else {
-            dataManager.baseCurrency = Currencies.valueOf(newBase.toString())
-            dataManager.currentBase = Currencies.valueOf(newBase.toString())
+            baseCurrency = Currencies.valueOf(newBase.toString())
+            currentBase = Currencies.valueOf(newBase.toString())
         }
     }
 
@@ -52,6 +54,15 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyDao.updateAllCurrencyState(value)
     }
 
+    fun loadPreferences() {
+        val mainData = dataManager.loadMainData()
+        firstTime = mainData.isFirstTime
+        currentBase = mainData.currentBase
+        baseCurrency = mainData.baseCurrency
+    }
 
+    fun savePreferences() {
+        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
+    }
 
 }

@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
@@ -23,20 +24,26 @@ class MainFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
-    var currencyList: MutableList<Currency> =  mutableListOf()
+    val currenciesLiveData: MutableLiveData<Rates> = MutableLiveData()
+    var currencyList: MutableList<Currency> = mutableListOf()
+
+    lateinit var currentBase: Currencies
+    lateinit var baseCurrency: Currencies
+
+    private var firstTime: Boolean = true
+
     var input: String = ""
     var output: String = "0.0"
 
     fun getCurrencies() {
-        subscribeService(dataManager.getAllOnBase(dataManager.currentBase),
+        subscribeService(dataManager.getAllOnBase(currentBase),
                 ::eventDownloadSuccess, ::eventDownloadFail)
 
     }
 
     private fun eventDownloadSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.rates
-        ratesLiveData.postValue(currencyResponse.rates)
+        currenciesLiveData.postValue(currencyResponse.rates)
 
     }
 
@@ -46,9 +53,9 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun initData() {
         currencyList.clear()
-        if (dataManager.firstTime) {
+        if (firstTime) {
             currencyDao.insertInitialCurrencies()
-            dataManager.firstTime = false
+            firstTime = false
         }
         currencyDao.getActiveCurrencies().forEach {
             currencyList.add(it)
@@ -68,19 +75,15 @@ class MainFragmentViewModel : BaseViewModel() {
         return result.toString()
     }
 
-    fun getBaseCurrency() = dataManager.baseCurrency
-    fun setBaseCurrency(newBase: String) {
-        dataManager.baseCurrency = Currencies.valueOf(newBase)
-    }
 
     fun setCurrentBase(newBase: String) {
         currencyList.filter {
-            it.name == getCurrentBase().toString()
+            it.name == currentBase.toString()
         }.forEach {
             it.isActive = 1
         }
 
-        dataManager.currentBase = Currencies.valueOf(newBase)
+        currentBase = Currencies.valueOf(newBase)
         currencyList.filter {
             it.name == newBase
         }.forEach {
@@ -88,13 +91,24 @@ class MainFragmentViewModel : BaseViewModel() {
         }
     }
 
-    fun getCurrentBase() = dataManager.currentBase
+
     fun checkList() {
         currencyList.filter {
-            it.name == getCurrentBase().toString()
+            it.name == currentBase.toString()
         }.forEach {
             it.isActive = 0
         }
+    }
+
+    fun loadPreferences() {
+        val mainData = dataManager.loadMainData()
+        firstTime = mainData.isFirstTime
+        currentBase = mainData.currentBase
+        baseCurrency = mainData.baseCurrency
+    }
+
+    fun savePreferences() {
+        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
     }
 
 }
