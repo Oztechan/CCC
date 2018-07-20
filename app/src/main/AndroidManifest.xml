@@ -11,13 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.activity.MainActivity">
+        <activity
+            android:name=".splash.SplashActivity"
+            android:theme="@style/AppTheme.Fullscreen.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.activity.MainActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="fbacbda6e429dfadcba3d54f47c1588d524b5b24" />

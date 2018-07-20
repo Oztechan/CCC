@@ -17,4 +17,13 @@
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cyan_700</item>
     </style>
+
+    <style name="AppTheme.Fullscreen.SplashTheme">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="AppTheme.Fullscreen">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
