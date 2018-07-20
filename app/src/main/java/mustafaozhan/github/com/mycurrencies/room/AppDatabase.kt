@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.room
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 
 /**
@@ -12,5 +13,7 @@ import mustafaozhan.github.com.mycurrencies.room.model.Currency
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun currencyDao(): CurrencyDao
+
+    abstract fun offlineRatesDao(): OfflineRatesDao
 
 }
