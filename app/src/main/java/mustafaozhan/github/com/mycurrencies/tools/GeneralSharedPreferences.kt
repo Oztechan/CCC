@@ -28,6 +28,6 @@ constructor() : BaseSharedPreferences() {
     fun loadMainData(): MainData {
         val mainDataJson = getStringEntry(MAIN_DATA)
         return Gson().fromJson(mainDataJson, MainData::class.java)
-                ?: MainData(true, Currencies.EUR, Currencies.EUR)
+                ?: MainData(true,true, Currencies.EUR, Currencies.EUR)
     }
 }

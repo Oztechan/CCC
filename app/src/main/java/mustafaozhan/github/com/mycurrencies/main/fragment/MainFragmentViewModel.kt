@@ -30,6 +30,7 @@ class MainFragmentViewModel : BaseViewModel() {
     lateinit var currentBase: Currencies
     lateinit var baseCurrency: Currencies
 
+    private var firstCache: Boolean = true
     private var firstTime: Boolean = true
 
     var input: String = ""
@@ -102,13 +103,14 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun loadPreferences() {
         val mainData = dataManager.loadMainData()
-        firstTime = mainData.isFirstTime
+        firstTime = mainData.firstRun
+        firstCache = mainData.firstCache
         currentBase = mainData.currentBase
         baseCurrency = mainData.baseCurrency
     }
 
     fun savePreferences() {
-        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
+        dataManager.persistMainData(MainData(firstTime,firstCache, baseCurrency, currentBase))
     }
 
 }
