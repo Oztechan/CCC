@@ -2,11 +2,11 @@ package mustafaozhan.github.com.mycurrencies.base.api.exchangerates
 
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import javax.inject.Inject
 import javax.inject.Singleton
-import okhttp3.Request
-import okhttp3.Interceptor
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.

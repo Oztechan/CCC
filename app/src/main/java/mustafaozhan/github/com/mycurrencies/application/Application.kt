@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.application
 
 import android.content.Context
+import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
@@ -12,8 +13,8 @@ import mustafaozhan.github.com.mycurrencies.dagger.module.ApplicationModule
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:43 PM on Arch Linux wit Love <3.
  */
-class Application : android.app.Application() {
-
+class Application : MultiDexApplication() {
+    //For supporting multidex before android 5
     companion object {
         lateinit var instance: Application
 

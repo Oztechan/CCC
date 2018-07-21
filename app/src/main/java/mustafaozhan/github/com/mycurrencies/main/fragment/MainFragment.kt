@@ -20,7 +20,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.getResult
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
-import mustafaozhan.github.com.mycurrencies.tools.*
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
