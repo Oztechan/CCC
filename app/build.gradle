@@ -12,8 +12,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 37
-        versionName "6.12"
+        versionCode 38
+        versionName "6.13"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,10 +29,6 @@ android {
 androidExtensions {
     experimental = true
 }
-repositories {
-    mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -46,27 +42,18 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    // rx java
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjavaVersion}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroidVersion}"
+    // Rx java
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:${rootProject.ext.rxBindingVersion}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:${rootProject.ext.rxBindingVersion}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:${rootProject.ext.rxBindingVersion}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    implementation "android.arch.lifecycle:reactivestreams:1.1.1"
 
     // Http client
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
 
     // Retrofit
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
@@ -84,17 +71,14 @@ dependencies {
     //Admob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 
-    //Math Parser
-    implementation files('libs/MathParser.org-mXparser-jdk17-4.1.1.jar')
-
     //Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
+
     //anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
 
     //multidex
     implementation 'com.android.support:multidex:1.0.3'
 }
-

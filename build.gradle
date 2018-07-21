@@ -29,13 +29,8 @@ task clean(type: Delete) {
 ext {
     supportLibraryVersion = '27.1.1'
     daggerVersion = '2.14.1'
-    rxjavaVersion = '2.1.0'
-    rxandroidVersion = '2.0.1'
     retrofitVersion = '2.1.0'
-    gsonVersion = '2.7'
+    gsonVersion = '2.8.2'
     rxBindingVersion = '2.0.0'
-    permission_dispatcher = '3.1.0'
-    estimoteVersion = '1.4.1'
     okHttpVersion = '3.9.0'
-    retrofitVersion = '2.1.0'
 }
