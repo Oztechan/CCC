@@ -1,37 +1,21 @@
-# MyCurrencies
+<p align="center">A currency application for popular currencies listed in European Central Bank.You can quickly convert and make mathematichal operations between currencies</p>
+<p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"></a></p>
+
+## Features 
+- Clean Interface
+- Conversation
+- Mathematical Calculation
+- Offline Support
+- Fast
+- Filterable Currencies
+- European Central Bank Rates
+
+## Screenshots
 
 
-<p align="center">
-A currency application to check out popular currencies and convert them eachother.
-</p>
+<img src="https://s19.postimg.cc/vryhmo9ub/image.png" width="218px"/> <img src="https://s19.postimg.cc/5jncxb56b/image.png" width="218px"/> <img src="https://s19.postimg.cc/aiavbv3ub/image.png" width="218px"/> <img src="https://s19.postimg.cc/ksdab3m03/image.png" width="218px"/>
 
-<p align="center">
-<a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies">Google Play Store</a>
-</p>
+<img src="https://s19.postimg.cc/sxvc99poj/image.png" width="218px"/> <img src="https://s19.postimg.cc/4hd6eru2r/image.png" width="218px"/> <img src="https://s19.postimg.cc/l54oh99er/image.png" width="218px"/> <img src="https://s19.postimg.cc/a5jh5o64z/image.png" width="218px"/>
 
-<p align="center">
-You can quickly convert and make mathematichal operations between currencies
-</p>
-
-<p align="center">
-<img src="https://s19.postimg.cc/cfcb4or37/Screenshot_1516095702.png" width="275px"/> <img src="https://s19.postimg.cc/yra3y3ss3/Screenshot_1516096120.png" width="275px"/> <img src="https://s19.postimg.cc/fyy8uigyb/Screenshot_1516095713.png" width="555px"/> 
-  
-</p>
-
-<p align="center">
-You can change your base currency and your favorite currencies to filter currencies on your main screen.
-</p>
-
-<p align="center">
-<img src="https://s19.postimg.cc/t33t76e4z/Screenshot_1516095746.png" width="275px"/> <img src="https://s19.postimg.cc/mcnbxr6er/Screenshot_1516095753.png" width="275px"/> <img src="https://s19.postimg.cc/w9ycqtlqb/Screenshot_1516095763.png" width="555px"/>
-</p>
-
-<p align="center">
-Tablets
-</p>
-
-<p align="center">
-<img src="https://s19.postimg.cc/5c4fp3vyb/Screenshot_1516095856.png" width="434px"/> <img src="https://s19.postimg.cc/xozxfkpeb/Screenshot_1516095947.png" width="434px"/> <img src="https://s19.postimg.cc/lzvxrlbab/Screenshot_1516095939.png"/> 
-</p>
 
 
