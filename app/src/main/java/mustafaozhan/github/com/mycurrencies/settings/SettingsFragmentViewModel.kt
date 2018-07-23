@@ -53,6 +53,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
             baseCurrency = Currencies.valueOf(newBase.toString())
             currentBase = Currencies.valueOf(newBase.toString())
         }
+        dataManager.persistMainData(MainData(firstTime,baseCurrency,currentBase))
     }
 
     fun updateCurrencyStateByName(name: String, i: Int) {

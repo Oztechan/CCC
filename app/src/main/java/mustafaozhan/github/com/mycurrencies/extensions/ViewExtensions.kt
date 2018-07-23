@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.extensions
 import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import mustafaozhan.github.com.mycurrencies.R
 
 /**
@@ -47,6 +48,9 @@ fun ImageView.setBackgroundByName(name: String) {
 }
 
 @SuppressLint("SetTextI18n")
-fun TextView.addText(text: String) {
-    this.text = this.text.toString() + text
+fun TextView.addText(text: String, size: Int) {
+    if (size > 1)
+        this.text = this.text.toString() + text
+    else
+        Toast.makeText(this.context,"Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
 }

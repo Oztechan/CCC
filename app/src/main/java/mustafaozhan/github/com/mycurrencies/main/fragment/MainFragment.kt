@@ -37,9 +37,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadPreferences()
         initToolbar()
+        viewModel.loadPreferences()
         loading.bringToFront()
+        loading.smoothToHide()
         setListeners()
         initRx()
         initLiveData()
@@ -57,6 +58,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
+        viewModel.loadPreferences()
         updateUi()
         try {
             loadAd()
@@ -77,23 +79,29 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         if (spinnerList.lastIndex < 1) {
             Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBase.setBackgroundByName("transparent")
+            mSpinner.setItems("")
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
         } else {
             mSpinner.setItems(spinnerList)
-            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty())
+            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                 viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
-            else {
-                try {
-
-
                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.currentBase.toString())
                 imgBase.setBackgroundByName(mSpinner.text.toString())
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)}
-                catch (e:Exception){
-                    e.printStackTrace()
+            } else {
+                mSpinner.setItems(spinnerList)
+                if (viewModel.baseCurrency == Currencies.NULL)
+                    viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                viewModel.currencyList.filter {
+                    it.isActive == 1
+                }.forEach {
+                    if (it.name == viewModel.baseCurrency.toString())
+                        mSpinner.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
                 }
             }
+            imgBase.setBackgroundByName(mSpinner.text.toString())
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
         }
+
 
     }
 
@@ -101,15 +109,17 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initRx() {
         txtMainToolbar.textChanges()
                 .subscribe {
-                    loading.smoothToShow()
-                    viewModel.getCurrencies()
-                    viewModel.input = it.toString()
-                    viewModel.output = viewModel.calculate(it.toString())
+                    if (viewModel.currencyList.size > 1) {
+                        loading.smoothToShow()
+                        viewModel.getCurrencies()
+                        viewModel.input = it.toString()
+                        viewModel.output = viewModel.calculate(it.toString())
 
-                    if (viewModel.output != "NaN" && viewModel.output != "")
-                        txtResult.text = "=    ${viewModel.output}"
-                    else
-                        txtResult.text = ""
+                        if (viewModel.output != "NaN" && viewModel.output != "")
+                            txtResult.text = "=    ${viewModel.output}"
+                        else
+                            txtResult.text = ""
+                    }
                 }
     }
 
@@ -127,24 +137,24 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 mSpinner.expand()
         }
 
-        btnSeven.setOnClickListener { txtMainToolbar.addText("7") }
-        btnEight.setOnClickListener { txtMainToolbar.addText("8") }
-        btnNine.setOnClickListener { txtMainToolbar.addText("9") }
-        btnDivide.setOnClickListener { txtMainToolbar.addText("/") }
-        btnFour.setOnClickListener { txtMainToolbar.addText("4") }
-        btnFive.setOnClickListener { txtMainToolbar.addText("5") }
-        btnSix.setOnClickListener { txtMainToolbar.addText("6") }
-        btnMultiply.setOnClickListener { txtMainToolbar.addText("*") }
-        btnOne.setOnClickListener { txtMainToolbar.addText("1") }
-        btnTwo.setOnClickListener { txtMainToolbar.addText("2") }
-        btnThree.setOnClickListener { txtMainToolbar.addText("3") }
-        btnMinus.setOnClickListener { txtMainToolbar.addText("-") }
-        btnDot.setOnClickListener { txtMainToolbar.addText(".") }
-        btnZero.setOnClickListener { txtMainToolbar.addText("0") }
-        btnPercent.setOnClickListener { txtMainToolbar.addText("%") }
-        btnPlus.setOnClickListener { txtMainToolbar.addText("+") }
+        btnSeven.setOnClickListener { txtMainToolbar.addText("7", viewModel.currencyList.size) }
+        btnEight.setOnClickListener { txtMainToolbar.addText("8", viewModel.currencyList.size) }
+        btnNine.setOnClickListener { txtMainToolbar.addText("9", viewModel.currencyList.size) }
+        btnDivide.setOnClickListener { txtMainToolbar.addText("/", viewModel.currencyList.size) }
+        btnFour.setOnClickListener { txtMainToolbar.addText("4", viewModel.currencyList.size) }
+        btnFive.setOnClickListener { txtMainToolbar.addText("5", viewModel.currencyList.size) }
+        btnSix.setOnClickListener { txtMainToolbar.addText("6", viewModel.currencyList.size) }
+        btnMultiply.setOnClickListener { txtMainToolbar.addText("*", viewModel.currencyList.size) }
+        btnOne.setOnClickListener { txtMainToolbar.addText("1", viewModel.currencyList.size) }
+        btnTwo.setOnClickListener { txtMainToolbar.addText("2", viewModel.currencyList.size) }
+        btnThree.setOnClickListener { txtMainToolbar.addText("3", viewModel.currencyList.size) }
+        btnMinus.setOnClickListener { txtMainToolbar.addText("-", viewModel.currencyList.size) }
+        btnDot.setOnClickListener { txtMainToolbar.addText(".", viewModel.currencyList.size) }
+        btnZero.setOnClickListener { txtMainToolbar.addText("0", viewModel.currencyList.size) }
+        btnPercent.setOnClickListener { txtMainToolbar.addText("%", viewModel.currencyList.size) }
+        btnPlus.setOnClickListener { txtMainToolbar.addText("+", viewModel.currencyList.size) }
 
-        btnDoubleZero.setOnClickListener { txtMainToolbar.addText("000") }
+        btnDoubleZero.setOnClickListener { txtMainToolbar.addText("000", viewModel.currencyList.size) }
         btnAc.setOnClickListener {
             txtMainToolbar.text = ""
             txtResult.text = ""
@@ -189,10 +199,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         adView.loadAd(adRequest)
     }
 
-    override fun onDestroyView() {
+    override fun onPause() {
         viewModel.savePreferences()
-        super.onDestroyView()
+        super.onPause()
     }
-
 
 }

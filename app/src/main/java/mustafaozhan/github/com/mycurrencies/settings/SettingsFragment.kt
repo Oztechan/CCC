@@ -31,7 +31,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private val settingAdapter: SettingAdapter by lazy { SettingAdapter() }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadPreferences()
         initToolbar()
         initRecycler()
         setListeners()
@@ -53,12 +52,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
 
-                    if (viewModel.currencyList[position].name == viewModel.baseCurrency.toString())
-                        try {
-                            viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-                        } catch (e: Exception) {
+                    if (viewModel.currencyList[position].name == viewModel.baseCurrency.toString()
+                            && viewModel.currencyList.filter { it.isActive == 1 }.size > 1)
+                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
 
-                        }
 
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
@@ -92,6 +89,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
     override fun onResume() {
+        viewModel.loadPreferences()
         updateUi()
         try {
             loadAd()
@@ -126,23 +124,34 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         }.forEach {
             spinnerList.add(it.name)
         }
-        if (spinnerList.toList().lastIndex < 1) {
+        if (spinnerList.toList().size <= 1) {
             Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBaseSettings.setBackgroundByName("transparent")
             mSpinnerSettings.setItems("")
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         } else {
-            mSpinnerSettings.setItems(spinnerList.toList())
-            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty())
+            mSpinnerSettings.setItems(spinnerList)
+            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                 viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-            else {
-                try {
-                    mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
-                    imgBaseSettings.setBackgroundByName(viewModel.baseCurrency.toString())
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
+            } else {
+                mSpinnerSettings.setItems(spinnerList)
+                if (viewModel.baseCurrency == Currencies.NULL)
+                    viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+
+                viewModel.currencyList.filter {
+                    it.isActive == 1
+                }.forEach {
+                    if (it.name == viewModel.baseCurrency.toString()) {
+                        mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                        viewModel.setBaseCurrency(it.name)
+                    }
                 }
+
+
             }
+            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
 
 
@@ -158,9 +167,12 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         adView.loadAd(adRequest)
     }
 
-    override fun onDestroyView() {
+
+    override fun onPause() {
         viewModel.savePreferences()
-        super.onDestroyView()
+        super.onPause()
     }
+
+
 
 }
