@@ -14,6 +14,6 @@ import mustafaozhan.github.com.mycurrencies.settings.SettingsFragmentViewModel
 @Subcomponent(modules = [(ViewModelModule::class)])
 interface ViewModelComponent {
     fun inject(mainActivityViewModel: MainActivityViewModel)
-    fun inject(mainActivityViewModel: MainFragmentViewModel)
+    fun inject(mainFragmentViewModel: MainFragmentViewModel)
     fun inject(settingsFragmentViewModel: SettingsFragmentViewModel)
 }

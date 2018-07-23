@@ -80,11 +80,19 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
         } else {
             mSpinner.setItems(spinnerList)
-            if (viewModel.baseCurrency == Currencies.NULL)
+            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty())
                 viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
-            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.currentBase.toString())
-            imgBase.setBackgroundByName(mSpinner.text.toString())
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
+            else {
+                try {
+
+
+                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.currentBase.toString())
+                imgBase.setBackgroundByName(mSpinner.text.toString())
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)}
+                catch (e:Exception){
+                    e.printStackTrace()
+                }
+            }
         }
 
     }

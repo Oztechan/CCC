@@ -54,7 +54,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     viewModel.currencyList[position].isActive = 0
 
                     if (viewModel.currencyList[position].name == viewModel.baseCurrency.toString())
-                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                        try {
+                            viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                        } catch (e: Exception) {
+
+                        }
 
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
@@ -129,10 +133,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         } else {
             mSpinnerSettings.setItems(spinnerList.toList())
-            if (viewModel.baseCurrency == Currencies.NULL)
+            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty())
                 viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-            mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
-            imgBaseSettings.setBackgroundByName(viewModel.baseCurrency.toString())
+            else {
+                try {
+                    mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                    imgBaseSettings.setBackgroundByName(viewModel.baseCurrency.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
 
 

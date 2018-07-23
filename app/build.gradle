@@ -40,6 +40,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibraryVersion}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
+    // Dagger
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
 
