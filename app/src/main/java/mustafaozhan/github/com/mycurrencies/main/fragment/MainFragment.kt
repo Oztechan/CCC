@@ -184,7 +184,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun getLayoutResId(): Int = R.layout.fragment_main
 
     private fun loadAd() {
-        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id))
+        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id_main))
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }

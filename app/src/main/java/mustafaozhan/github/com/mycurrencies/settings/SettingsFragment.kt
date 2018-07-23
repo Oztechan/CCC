@@ -153,7 +153,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun getLayoutResId(): Int = R.layout.fragment_settings
 
     private fun loadAd() {
-        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id))
+        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id_settings))
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
