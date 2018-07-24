@@ -28,15 +28,13 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     var currencyList: MutableList<Currency> = mutableListOf()
 
-    private var currentBase: Currencies = Currencies.EUR
-    private var firstTime = false
-    var baseCurrency: Currencies = Currencies.EUR
+    lateinit var mainData: MainData
 
     fun initData() {
         currencyList.clear()
-        if (firstTime) {
+        if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
-            firstTime = false
+            mainData.firstRun = false
         }
 
         currencyDao.getAllCurrencies().forEach {
@@ -48,18 +46,37 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun setBaseCurrency(newBase: String?) {
         if (newBase == null)
-            baseCurrency = Currencies.NULL
+            mainData.baseCurrency = Currencies.NULL
         else {
-            baseCurrency = Currencies.valueOf(newBase.toString())
-            currentBase = Currencies.valueOf(newBase.toString())
+            mainData.baseCurrency = Currencies.valueOf(newBase.toString())
+            mainData.currentBase = Currencies.valueOf(newBase.toString())
         }
-        dataManager.persistMainData(MainData(firstTime,baseCurrency,currentBase))
+        dataManager.persistMainData(mainData)
     }
 
     fun updateCurrencyStateByName(name: String, i: Int) {
         currencyDao.updateCurrencyStateByName(name, i)
         if (i == 1)
             updateOfflineRateByName(name)
+    }
+
+
+
+    fun updateAllCurrencyState(value: Int) {
+        currencyList.forEach {
+            it.isActive = value
+            updateOfflineRateByName(it.name)
+        }
+        currencyDao.updateAllCurrencyState(value)
+    }
+
+    fun loadPreferences() {
+        mainData = dataManager.loadMainData()
+
+    }
+
+    fun savePreferences() {
+        dataManager.persistMainData(mainData)
     }
 
     private fun updateOfflineRateByName(name: String) {
@@ -75,24 +92,4 @@ class SettingsFragmentViewModel : BaseViewModel() {
     private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.toOfflineRates()?.let { offlineRatesDao.updateOfflineRates(it) }
     }
-
-    fun updateAllCurrencyState(value: Int) {
-        currencyList.forEach {
-            it.isActive = value
-            updateOfflineRateByName(it.name)
-        }
-        currencyDao.updateAllCurrencyState(value)
-    }
-
-    fun loadPreferences() {
-        val mainData = dataManager.loadMainData()
-        firstTime = mainData.firstRun
-        currentBase = mainData.currentBase
-        baseCurrency = mainData.baseCurrency
-    }
-
-    fun savePreferences() {
-        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
-    }
-
 }

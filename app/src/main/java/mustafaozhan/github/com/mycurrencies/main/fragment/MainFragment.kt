@@ -80,26 +80,26 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
             imgBase.setBackgroundByName("transparent")
             mSpinner.setItems("")
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
         } else {
             mSpinner.setItems(spinnerList)
-            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
-                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.currentBase.toString())
+            if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                 imgBase.setBackgroundByName(mSpinner.text.toString())
             } else {
                 mSpinner.setItems(spinnerList)
-                if (viewModel.baseCurrency == Currencies.NULL)
-                    viewModel.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                if (viewModel.mainData.baseCurrency == Currencies.NULL)
+                    viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
                 viewModel.currencyList.filter {
                     it.isActive == 1
                 }.forEach {
-                    if (it.name == viewModel.baseCurrency.toString())
-                        mSpinner.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                    if (it.name == viewModel.mainData.baseCurrency.toString())
+                        mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                 }
             }
             imgBase.setBackgroundByName(mSpinner.text.toString())
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
         }
 
 
@@ -125,7 +125,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            viewModel.setCurrentBase(mSpinner.text.toString())
+            viewModel.mainData.currentBase=Currencies.valueOf(mSpinner.text.toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
             txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
         }
@@ -173,8 +173,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 viewModel.currencyList.forEach {
                     it.rate = getResult(it.name, viewModel.output, tempRate)
                 }
-                viewModel.checkList()
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.currentBase, true)
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                 loading.smoothToHide()
             }
         })
@@ -184,9 +183,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initRecycler() {
         context?.let {
             mRecViewCurrency.layoutManager = LinearLayoutManager(it)
-            mRecViewCurrency.adapter = currencyAdapter
-//            currencyAdapter.onItemSelectedListener = { rates: Rates, _, _ -> replaceFragment(SelectModeFragment.newInstance(), true) }
-        }
+            mRecViewCurrency.adapter = currencyAdapter       }
     }
 
     override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java

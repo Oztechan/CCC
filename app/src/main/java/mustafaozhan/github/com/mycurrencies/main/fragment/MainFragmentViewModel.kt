@@ -33,16 +33,39 @@ class MainFragmentViewModel : BaseViewModel() {
     val currenciesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyList: MutableList<Currency> = mutableListOf()
 
-    lateinit var currentBase: Currencies
-    lateinit var baseCurrency: Currencies
-
-    private var firstTime: Boolean = true
+    lateinit var mainData: MainData
 
     var input: String = ""
     var output: String = "0.0"
 
+
+    fun initData() {
+        currencyList.clear()
+
+        if (mainData.firstRun) {
+            currencyDao.insertInitialCurrencies()
+            for (i in 0 until Currencies.values().size - 1)
+                subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
+                        ::offlineRateAllSuccess, ::offlineRateAllFail)
+            mainData.firstRun = false
+        }
+
+        currencyDao.getActiveCurrencies().forEach {
+            currencyList.add(it)
+        }
+    }
+
+
+    fun loadPreferences() {
+        mainData = dataManager.loadMainData()
+    }
+
+    fun savePreferences() {
+        dataManager.persistMainData(mainData)
+    }
+
     fun getCurrencies() {
-        subscribeService(dataManager.getAllOnBase(currentBase),
+        subscribeService(dataManager.getAllOnBase(mainData.currentBase),
                 ::rateDownloadSuccess, ::rateDownloadFail)
 
     }
@@ -59,25 +82,9 @@ class MainFragmentViewModel : BaseViewModel() {
         if (t.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
             t.printStackTrace()
         try {
-            currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(currentBase.toString()).getRates())
+            currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).getRates())
         } catch (e: Exception) {
             e.printStackTrace()//first run without internet
-        }
-    }
-
-    fun initData() {
-        currencyList.clear()
-
-        if (firstTime) {
-            currencyDao.insertInitialCurrencies()
-            for (i in 0 until Currencies.values().size - 1)
-                subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
-                        ::offlineRateAllSuccess, ::offlineRateAllFail)
-            firstTime = false
-        }
-
-        currencyDao.getActiveCurrencies().forEach {
-            currencyList.add(it)
         }
     }
 
@@ -104,43 +111,6 @@ class MainFragmentViewModel : BaseViewModel() {
 
         return result.toString()
     }
-
-
-    fun setCurrentBase(newBase: String) {
-        currencyList.filter {
-            it.name == currentBase.toString()
-        }.forEach {
-            it.isActive = 1
-        }
-
-        currentBase = Currencies.valueOf(newBase)
-        currencyList.filter {
-            it.name == newBase
-        }.forEach {
-            it.isActive = 0
-        }
-    }
-
-
-    fun checkList() {
-        currencyList.filter {
-            it.name == currentBase.toString()
-        }.forEach {
-            it.isActive = 0
-        }
-    }
-
-    fun loadPreferences() {
-        val mainData = dataManager.loadMainData()
-        firstTime = mainData.firstRun
-        currentBase = mainData.currentBase
-        baseCurrency = mainData.baseCurrency
-    }
-
-    fun savePreferences() {
-        dataManager.persistMainData(MainData(firstTime, baseCurrency, currentBase))
-    }
-
 }
 
 

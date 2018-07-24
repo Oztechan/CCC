@@ -52,7 +52,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
 
-                    if (viewModel.currencyList[position].name == viewModel.baseCurrency.toString()
+                    if (viewModel.currencyList[position].name == viewModel.mainData.baseCurrency.toString()
                             && viewModel.currencyList.filter { it.isActive == 1 }.size > 1)
                         viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
 
@@ -131,20 +131,20 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         } else {
             mSpinnerSettings.setItems(spinnerList)
-            if (viewModel.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+            if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                 viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                 imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
             } else {
                 mSpinnerSettings.setItems(spinnerList)
-                if (viewModel.baseCurrency == Currencies.NULL)
+                if (viewModel.mainData.baseCurrency == Currencies.NULL)
                     viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
 
                 viewModel.currencyList.filter {
                     it.isActive == 1
                 }.forEach {
-                    if (it.name == viewModel.baseCurrency.toString()) {
-                        mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.baseCurrency.toString())
+                    if (it.name == viewModel.mainData.baseCurrency.toString()) {
+                        mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                         viewModel.setBaseCurrency(it.name)
                     }
                 }
