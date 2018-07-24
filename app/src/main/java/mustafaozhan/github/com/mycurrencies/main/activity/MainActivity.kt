@@ -6,9 +6,11 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
@@ -17,6 +19,8 @@ import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 
 class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
+
+    private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
 
@@ -56,18 +60,12 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         }
         webView.settings.javaScriptEnabled = true
         webView.settings.setSupportZoom(true)
+        webView.settings.builtInZoomControls = true
+        webView.settings.displayZoomControls = false
         webView.settings.userAgentString = newUserAgent
         webView.loadUrl("https://github.com/mustafaozhan/CurrencyConverterCalculator")
         webView.bringToFront()
         webView.visibility = View.VISIBLE
-    }
-
-    override fun onBackPressed() {
-        if (webView.visibility == View.VISIBLE)
-            webView.visibility = View.GONE
-        else
-            super.onBackPressed()
-
     }
 
     private fun showRateDialog() {
@@ -94,6 +92,23 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
         email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
         startActivity(Intent.createChooser(email, "Send Feedback:"))
+    }
+
+    override fun onBackPressed() {
+        when {
+            webView.visibility == View.VISIBLE -> webView.visibility = View.GONE
+            supportFragmentManager.findFragmentById(containerId) is MainFragment -> {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            }
+            else -> super.onBackPressed()
+        }
+
     }
 
 }

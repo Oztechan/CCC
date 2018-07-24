@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
@@ -28,15 +27,20 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
+    override fun getViewModelClass(): Class<SettingsFragmentViewModel> = SettingsFragmentViewModel::class.java
+
+    override fun getLayoutResId(): Int = R.layout.fragment_settings
+
     private val settingAdapter: SettingAdapter by lazy { SettingAdapter() }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        initRecycler()
+        initViews()
         setListeners()
     }
 
-    private fun initRecycler() {
+    private fun initViews() {
         context?.let {
             mRecViewSettings.layoutManager = LinearLayoutManager(it)
             mRecViewSettings.adapter = settingAdapter
@@ -54,7 +58,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
                     if (viewModel.currencyList[position].name == viewModel.mainData.baseCurrency.toString()
                             && viewModel.currencyList.filter { it.isActive == 1 }.size > 1)
-                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                        viewModel.setBaseCurrency(viewModel.currencyList.filter {
+                            it.isActive == 1
+                        }[0].name)
 
 
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
@@ -85,18 +91,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             updateUi(true, false, 0)
             viewModel.setBaseCurrency(null)
         }
-    }
-
-
-    override fun onResume() {
-        viewModel.loadPreferences()
-        updateUi()
-        try {
-            loadAd()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        super.onResume()
     }
 
     private fun updateUi(update: Boolean = false, byName: Boolean = false, value: Int = 0, name: String = "") {
@@ -148,31 +142,25 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                         viewModel.setBaseCurrency(it.name)
                     }
                 }
-
-
             }
             imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
-
-
+        viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else mSpinnerSettings.text.toString())
     }
-
-    override fun getViewModelClass(): Class<SettingsFragmentViewModel> = SettingsFragmentViewModel::class.java
-
-    override fun getLayoutResId(): Int = R.layout.fragment_settings
-
-    private fun loadAd() {
-        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id_settings))
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
-
 
     override fun onPause() {
         viewModel.savePreferences()
         super.onPause()
     }
 
-
-
+    override fun onResume() {
+        viewModel.loadPreferences()
+        updateUi()
+        try {
+            adView.loadAd(R.string.banner_ad_unit_id_settings)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.onResume()
+    }
 }

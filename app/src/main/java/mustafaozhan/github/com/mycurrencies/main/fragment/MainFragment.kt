@@ -1,24 +1,18 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.extensions.addText
-import mustafaozhan.github.com.mycurrencies.extensions.getResult
-import mustafaozhan.github.com.mycurrencies.extensions.reObserve
-import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.extensions.*
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
@@ -33,19 +27,56 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         fun newInstance(): MainFragment = MainFragment()
     }
 
+    override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
+
+    override fun getLayoutResId(): Int = R.layout.fragment_main
+
     private val currencyAdapter: CurrencyAdapter by lazy { CurrencyAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        viewModel.loadPreferences()
+        initViews()
+        setListeners()
+        initData()
+    }
+
+    private fun initData() {
+
+        txtMainToolbar.textChanges()
+                .subscribe {
+                    if (viewModel.currencyList.size > 1) {
+                        loading.smoothToShow()
+                        viewModel.getCurrencies()
+                        viewModel.input = it.toString()
+                        viewModel.output = viewModel.calculate(it.toString())
+
+                        if (viewModel.output != "NaN" && viewModel.output != "")
+                            txtResult.text = "=    ${viewModel.output}"
+                        else
+                            txtResult.text = ""
+                    }
+                }
+
+        viewModel.currenciesLiveData.reObserve(this, Observer {
+            it.let {
+                val tempRate = it
+                viewModel.currencyList.forEach {
+                    it.rate = getResult(it.name, viewModel.output, tempRate)
+                }
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+                loading.smoothToHide()
+            }
+        })
+    }
+
+    private fun initViews() {
         loading.bringToFront()
         loading.smoothToHide()
-        setListeners()
-        initRx()
-        initLiveData()
-        initRecycler()
-
+        context?.let {
+            mRecViewCurrency.layoutManager = LinearLayoutManager(it)
+            mRecViewCurrency.adapter = currencyAdapter
+        }
     }
 
     private fun updateUi() {
@@ -55,17 +86,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 setSpinner()
             }
         }
-    }
-
-    override fun onResume() {
-        viewModel.loadPreferences()
-        updateUi()
-        try {
-            loadAd()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        super.onResume()
     }
 
     private fun setSpinner() {
@@ -101,31 +121,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             imgBase.setBackgroundByName(mSpinner.text.toString())
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
         }
-
-
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun initRx() {
-        txtMainToolbar.textChanges()
-                .subscribe {
-                    if (viewModel.currencyList.size > 1) {
-                        loading.smoothToShow()
-                        viewModel.getCurrencies()
-                        viewModel.input = it.toString()
-                        viewModel.output = viewModel.calculate(it.toString())
-
-                        if (viewModel.output != "NaN" && viewModel.output != "")
-                            txtResult.text = "=    ${viewModel.output}"
-                        else
-                            txtResult.text = ""
-                    }
-                }
-    }
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            viewModel.mainData.currentBase=Currencies.valueOf(mSpinner.text.toString())
+            viewModel.mainData.currentBase = Currencies.valueOf(mSpinner.text.toString())
             imgBase.setBackgroundByName(mSpinner.text.toString())
             txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
         }
@@ -153,52 +154,31 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         btnZero.setOnClickListener { txtMainToolbar.addText("0", viewModel.currencyList.size) }
         btnPercent.setOnClickListener { txtMainToolbar.addText("%", viewModel.currencyList.size) }
         btnPlus.setOnClickListener { txtMainToolbar.addText("+", viewModel.currencyList.size) }
-
         btnDoubleZero.setOnClickListener { txtMainToolbar.addText("000", viewModel.currencyList.size) }
         btnAc.setOnClickListener {
             txtMainToolbar.text = ""
             txtResult.text = ""
         }
-
         btnDelete.setOnClickListener {
             if (txtMainToolbar.text.toString() != "")
                 txtMainToolbar.text = txtMainToolbar.text.toString().substring(0, txtMainToolbar.text.toString().length - 1)
         }
     }
 
-    private fun initLiveData() {
-        viewModel.currenciesLiveData.reObserve(this, Observer {
-            it.let {
-                val tempRate = it
-                viewModel.currencyList.forEach {
-                    it.rate = getResult(it.name, viewModel.output, tempRate)
-                }
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-                loading.smoothToHide()
-            }
-        })
-    }
-
-
-    private fun initRecycler() {
-        context?.let {
-            mRecViewCurrency.layoutManager = LinearLayoutManager(it)
-            mRecViewCurrency.adapter = currencyAdapter       }
-    }
-
-    override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
-
-    override fun getLayoutResId(): Int = R.layout.fragment_main
-
-    private fun loadAd() {
-        MobileAds.initialize(context, resources.getString(R.string.banner_ad_unit_id_main))
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-    }
 
     override fun onPause() {
         viewModel.savePreferences()
         super.onPause()
     }
 
+    override fun onResume() {
+        viewModel.loadPreferences()
+        updateUi()
+        try {
+            adView.loadAd(R.string.banner_ad_unit_id_main)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        super.onResume()
+    }
 }

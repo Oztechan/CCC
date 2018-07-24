@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
 
 /**
@@ -52,5 +55,11 @@ fun TextView.addText(text: String, size: Int) {
     if (size > 1)
         this.text = this.text.toString() + text
     else
-        Toast.makeText(this.context,"Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
+}
+
+fun AdView.loadAd(adId: Int) {
+    MobileAds.initialize(context, resources.getString(adId))
+    val adRequest = AdRequest.Builder().build()
+    this.loadAd(adRequest)
 }

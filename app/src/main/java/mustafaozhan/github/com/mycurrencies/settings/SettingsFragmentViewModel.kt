@@ -61,7 +61,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
 
-
     fun updateAllCurrencyState(value: Int) {
         currencyList.forEach {
             it.isActive = value
