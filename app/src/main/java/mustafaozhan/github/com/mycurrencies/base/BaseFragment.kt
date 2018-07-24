@@ -36,7 +36,6 @@ abstract class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        initToolbar()
     }
 
     protected fun initToolbar() {
@@ -48,49 +47,5 @@ abstract class BaseFragment : Fragment() {
 
     protected fun getBaseActivity(): BaseActivity = activity as BaseActivity
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.clear()
-        when (getLayoutResId()) {
-            R.layout.fragment_main -> inflater!!.inflate(R.menu.fragment_main_menu, menu)
-            R.layout.fragment_settings -> inflater!!.inflate(R.menu.fragment_settings_menu, menu)
-        }
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.settings -> getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-            R.id.feedback -> sendFeedBack()
-            R.id.support -> showRateDialog()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun showRateDialog() {
-        val builder = AlertDialog.Builder(getBaseActivity(), R.style.AlertDialogCustom)
-                .setTitle("Support us !")
-                .setMessage("Please, rate and commend to the app at Google Play Store")
-                .setPositiveButton("RATE") { _, _ ->
-                    var link = "market://details?id="
-                    try {
-                        getBaseActivity().packageManager.getPackageInfo(MainActivity@ getBaseActivity().packageName + ":My Currencies", 0)
-                    } catch (e: PackageManager.NameNotFoundException) {
-                        link = "https://play.google.com/store/apps/details?id="
-                    }
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + getBaseActivity().packageName)))
-                }
-                .setNegativeButton("CANCEL", null)
-        builder.show()
-    }
-
-    private fun sendFeedBack() {
-        val email = Intent(Intent.ACTION_SEND)
-        email.type = "text/email"
-        email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
-        email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
-        email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
-        startActivity(Intent.createChooser(email, "Send Feedback:"))
-    }
 
 }

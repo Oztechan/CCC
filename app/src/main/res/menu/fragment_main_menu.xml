@@ -18,4 +18,9 @@
         android:orderInCategory="3"
         android:title="@string/support"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/onGithub"
+        android:orderInCategory="4"
+        android:title="@string/on_github"
+        app:showAsAction="never" />
 </menu>

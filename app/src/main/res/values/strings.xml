@@ -46,4 +46,5 @@
     <string name="deSelect_all">Deselect All</string>
     <string name="base_currency">Base Currency</string>
     <string name="currency_icon">Currency Icon</string>
+    <string name="on_github">On Github</string>
 </resources>
