@@ -3,11 +3,11 @@ package mustafaozhan.github.com.mycurrencies.extensions
 import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -55,7 +55,7 @@ fun TextView.addText(text: String, size: Int) {
     if (size > 1)
         this.text = this.text.toString() + text
     else
-        Toast.makeText(this.context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
+        (this.context as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
 }
 
 fun AdView.loadAd(adId: Int) {

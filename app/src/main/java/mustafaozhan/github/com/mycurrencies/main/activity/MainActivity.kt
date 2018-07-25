@@ -5,12 +5,14 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Handler
+import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
@@ -103,7 +105,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     return
                 }
                 this.doubleBackToExitPressedOnce = true
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+                snacky("Please click BACK again to exit")
                 Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
             }
             else -> super.onBackPressed()
@@ -111,4 +113,22 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     }
 
+    fun snacky(text: String, hasAction: Boolean = false, actionText: String = "") {
+
+        val mySnacky = Snacky.builder()
+                .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
+                .setText(text)
+                .setIcon(R.mipmap.ic_launcher)
+                .setActivity(this)
+                .setDuration(Snacky.LENGTH_SHORT)
+
+        if (hasAction) {
+            mySnacky.setActionText(actionText.toUpperCase())
+                    .setActionTextColor(ContextCompat.getColor(this,R.color.cyan_700))
+                    .setActionTextTypefaceStyle(Typeface.BOLD)
+                    .setActionClickListener { replaceFragment(SettingsFragment.newInstance(), true) }
+
+        }
+        mySnacky.build().show()
+    }
 }

@@ -4,13 +4,13 @@ package mustafaozhan.github.com.mycurrencies.settings
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -119,7 +119,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             spinnerList.add(it.name)
         }
         if (spinnerList.toList().size <= 1) {
-            Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
+            (activity as MainActivity).snacky("Please Select at least 2 currencies")
             imgBaseSettings.setBackgroundByName("transparent")
             mSpinnerSettings.setItems("")
             settingAdapter.refreshList(viewModel.currencyList, null, false)

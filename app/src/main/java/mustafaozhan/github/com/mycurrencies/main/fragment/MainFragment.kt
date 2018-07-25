@@ -1,11 +1,11 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Toast
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.*
+import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
@@ -41,6 +42,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initData()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initData() {
 
         txtMainToolbar.textChanges()
@@ -97,7 +99,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             spinnerList.add(it.name)
         }
         if (spinnerList.lastIndex < 1) {
-            Toast.makeText(context, "Please Select at least 2 currency from Settings", Toast.LENGTH_SHORT).show()
+            (activity as MainActivity).snacky("Please Select at least 2 currency from Settings",true,"Select")
             imgBase.setBackgroundByName("transparent")
             mSpinner.setItems("")
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
