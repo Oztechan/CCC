@@ -21,6 +21,7 @@
 
     <style name="AppTheme.Fullscreen.SplashTheme">
         <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
     </style>
 
     <style name="AppTheme.Fullscreen">

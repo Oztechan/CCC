@@ -1,6 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
+import android.view.animation.AnimationUtils
+import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
@@ -62,4 +64,10 @@ fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))
     val adRequest = AdRequest.Builder().build()
     this.loadAd(adRequest)
+}
+fun WebView.fadeIO(isIn: Boolean) {
+    if (isIn)
+        this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
+    else
+        this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
 }

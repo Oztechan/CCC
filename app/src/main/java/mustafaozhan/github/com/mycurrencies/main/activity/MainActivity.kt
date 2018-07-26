@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
+import mustafaozhan.github.com.mycurrencies.extensions.fadeIO
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 
@@ -66,6 +67,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         webView.settings.displayZoomControls = false
         webView.settings.userAgentString = newUserAgent
         webView.loadUrl("https://github.com/mustafaozhan/CurrencyConverterCalculator")
+        webView.fadeIO(true)
         webView.bringToFront()
         webView.visibility = View.VISIBLE
     }
@@ -98,7 +100,10 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onBackPressed() {
         when {
-            webView.visibility == View.VISIBLE -> webView.visibility = View.GONE
+            webView.visibility == View.VISIBLE -> {
+                webView.fadeIO(false)
+                webView.visibility = View.GONE
+            }
             supportFragmentManager.findFragmentById(containerId) is MainFragment -> {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
@@ -124,7 +129,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
         if (hasAction) {
             mySnacky.setActionText(actionText.toUpperCase())
-                    .setActionTextColor(ContextCompat.getColor(this,R.color.cyan_700))
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
                     .setActionTextTypefaceStyle(Typeface.BOLD)
                     .setActionClickListener { replaceFragment(SettingsFragment.newInstance(), true) }
 

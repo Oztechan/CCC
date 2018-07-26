@@ -5,15 +5,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '27.0.3'
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 45
-        versionName "6.23"
+        targetSdkVersion 28
+        versionCode 46
+        versionName "6.24"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
