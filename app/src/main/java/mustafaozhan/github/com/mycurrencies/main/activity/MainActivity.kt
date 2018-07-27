@@ -53,23 +53,30 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun showGithub() {
-        var newUserAgent: String? = webView.settings.userAgentString
-        try {
-            val ua = webView.settings.userAgentString
-            val androidOSString = webView.settings.userAgentString.substring(ua.indexOf("("), ua.indexOf(")") + 1)
-            newUserAgent = webView.settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
-        } catch (e: Exception) {
-            e.printStackTrace()
+        webView.apply {
+            var newUserAgent: String? = settings.userAgentString
+            try {
+                val ua = settings.userAgentString
+                val androidOSString = settings.userAgentString.substring(ua.indexOf("("), ua.indexOf(")") + 1)
+                newUserAgent = settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            settings.apply {
+                loadWithOverviewMode = true
+                javaScriptEnabled = true
+                useWideViewPort = true
+                setSupportZoom(true)
+                builtInZoomControls = true
+                displayZoomControls = false
+                userAgentString = newUserAgent
+            }
+            loadUrl("https://github.com/mustafaozhan/CurrencyConverterCalculator")
+            fadeIO(true)
+            bringToFront()
+            visibility = View.VISIBLE
         }
-        webView.settings.javaScriptEnabled = true
-        webView.settings.setSupportZoom(true)
-        webView.settings.builtInZoomControls = true
-        webView.settings.displayZoomControls = false
-        webView.settings.userAgentString = newUserAgent
-        webView.loadUrl("https://github.com/mustafaozhan/CurrencyConverterCalculator")
-        webView.fadeIO(true)
-        webView.bringToFront()
-        webView.visibility = View.VISIBLE
     }
 
     private fun showRateDialog() {
@@ -90,28 +97,33 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     }
 
     private fun sendFeedBack() {
-        val email = Intent(Intent.ACTION_SEND)
-        email.type = "text/email"
-        email.putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
-        email.putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
-        email.putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
-        startActivity(Intent.createChooser(email, "Send Feedback:"))
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/email"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
+            putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
+            startActivity(Intent.createChooser(this, "Send Feedback:"))
+        }
     }
 
     override fun onBackPressed() {
         when {
             webView.visibility == View.VISIBLE -> {
-                webView.fadeIO(false)
-                webView.visibility = View.GONE
+                webView.apply {
+                    fadeIO(false)
+                    visibility = View.GONE
+                }
             }
             supportFragmentManager.findFragmentById(containerId) is MainFragment -> {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
                     return
                 }
-                this.doubleBackToExitPressedOnce = true
+                doubleBackToExitPressedOnce = true
                 snacky("Please click BACK again to exit")
-                Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler().postDelayed({
+                    doubleBackToExitPressedOnce = false
+                }, 2000)
             }
             else -> super.onBackPressed()
         }

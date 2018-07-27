@@ -39,7 +39,7 @@ class MainFragmentViewModel : BaseViewModel() {
     var output: String = "0.0"
 
 
-    fun initData() {
+    fun refreshData() {
         currencyList.clear()
 
         if (mainData.firstRun) {

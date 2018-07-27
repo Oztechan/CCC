@@ -105,48 +105,43 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             viewModel.initData()
 
             uiThread {
-                setSpinner()
-                settingAdapter.refreshList(viewModel.currencyList, null, false)
-            }
-        }
-    }
+                try {
+                    val spinnerList = ArrayList<String>()
+                    viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
 
-    private fun setSpinner() {
-        val spinnerList = ArrayList<String>()
-        viewModel.currencyList.filter {
-            it.isActive == 1
-        }.forEach {
-            spinnerList.add(it.name)
-        }
-        if (spinnerList.toList().size <= 1) {
-            (activity as MainActivity).snacky("Please Select at least 2 currencies")
-            imgBaseSettings.setBackgroundByName("transparent")
-            mSpinnerSettings.setItems("")
-            settingAdapter.refreshList(viewModel.currencyList, null, false)
-        } else {
-            mSpinnerSettings.setItems(spinnerList)
-            if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
-                imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
-            } else {
-                mSpinnerSettings.setItems(spinnerList)
-                if (viewModel.mainData.baseCurrency == Currencies.NULL)
-                    viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                    if (spinnerList.toList().size <= 1) {
+                        (activity as MainActivity).snacky("Please Select at least 2 currencies")
+                        imgBaseSettings.setBackgroundByName("transparent")
+                        mSpinnerSettings.setItems("")
+                    } else {
+                        mSpinnerSettings.setItems(spinnerList)
+                        if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+                            viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                            mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                        } else {
+                            mSpinnerSettings.setItems(spinnerList)
+                            if (viewModel.mainData.baseCurrency == Currencies.NULL)
+                                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
 
-                viewModel.currencyList.filter {
-                    it.isActive == 1
-                }.forEach {
-                    if (it.name == viewModel.mainData.baseCurrency.toString()) {
-                        mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
-                        viewModel.setBaseCurrency(it.name)
+                            viewModel.currencyList.filter {
+                                it.isActive == 1
+                                        && it.name == viewModel.mainData.baseCurrency.toString()
+                            }.forEach {
+                                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                                viewModel.setBaseCurrency(it.name)
+                            }
+                        }
+                        imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
                     }
+                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else mSpinnerSettings.text.toString())
+                    settingAdapter.refreshList(viewModel.currencyList, null, false)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
-            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
         }
-        viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else mSpinnerSettings.text.toString())
     }
+
 
     override fun onPause() {
         viewModel.savePreferences()

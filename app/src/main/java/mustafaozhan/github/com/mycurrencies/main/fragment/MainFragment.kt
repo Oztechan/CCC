@@ -73,8 +73,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun initViews() {
-        loading.bringToFront()
-        loading.smoothToHide()
+        loading.apply {
+            bringToFront()
+            smoothToHide()
+        }
         context?.let {
             mRecViewCurrency.layoutManager = LinearLayoutManager(it)
             mRecViewCurrency.adapter = currencyAdapter
@@ -83,48 +85,43 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun updateUi() {
         doAsync {
-            viewModel.initData()
+            viewModel.refreshData()
             uiThread {
-                setSpinner()
-            }
-        }
-    }
+                try {
+                    val spinnerList = ArrayList<String>()
+                    viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
 
-    private fun setSpinner() {
+                    if (spinnerList.size < 1) {
+                        (activity as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+                        imgBase.setBackgroundByName("transparent")
+                        mSpinner.setItems("")
+                    } else {
+                        mSpinner.setItems(spinnerList)
 
-        val spinnerList = ArrayList<String>()
-        viewModel.currencyList.filter {
-            it.isActive == 1
-        }.forEach {
-            spinnerList.add(it.name)
-        }
-        if (spinnerList.lastIndex < 1) {
-            (activity as MainActivity).snacky("Please Select at least 2 currency from Settings",true,"Select")
-            imgBase.setBackgroundByName("transparent")
-            mSpinner.setItems("")
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-        } else {
-            mSpinner.setItems(spinnerList)
-            if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
-                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
-                imgBase.setBackgroundByName(mSpinner.text.toString())
-            } else {
-                mSpinner.setItems(spinnerList)
-                if (viewModel.mainData.baseCurrency == Currencies.NULL)
-                    viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
-                viewModel.currencyList.filter {
-                    it.isActive == 1
-                }.forEach {
-                    if (it.name == viewModel.mainData.baseCurrency.toString())
-                        mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                        if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+                            viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                        } else {
+                            mSpinner.setItems(spinnerList)
+                            if (viewModel.mainData.baseCurrency == Currencies.NULL)
+                                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                            viewModel.currencyList.filter {
+                                it.isActive == 1
+                                        && it.name == viewModel.mainData.baseCurrency.toString()
+                            }.forEach {
+                                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                            }
+                        }
+                        imgBase.setBackgroundByName(mSpinner.text.toString())
+                    }
+                    currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
-            imgBase.setBackgroundByName(mSpinner.text.toString())
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+
         }
     }
-
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, _ ->
@@ -134,10 +131,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
 
         mConstraintLayout.setOnClickListener {
-            if (mSpinner.isActivated)
-                mSpinner.collapse()
-            else
-                mSpinner.expand()
+            mSpinner.apply {
+                if (isActivated)
+                    collapse()
+                else
+                    expand()
+            }
         }
 
         btnSeven.setOnClickListener { txtMainToolbar.addText("7", viewModel.currencyList.size) }
@@ -174,7 +173,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.loadPreferences()
+        viewModel.apply {
+            loadPreferences()
+            mainData.apply {
+                currentBase=baseCurrency
+            }
+        }
         updateUi()
         try {
             adView.loadAd(R.string.banner_ad_unit_id_main)
