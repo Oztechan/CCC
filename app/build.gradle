@@ -12,8 +12,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 47
-        versionName "6.25"
+        versionCode 48
+        versionName "6.26"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -44,7 +44,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
 
-    // Rx java
+    // Rx
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 
     //Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+    implementation ('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true
     }
 

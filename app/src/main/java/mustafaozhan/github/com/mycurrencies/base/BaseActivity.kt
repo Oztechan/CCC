@@ -64,7 +64,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
-        if (fragmentManager.backStackEntryCount != 0)
+        if (supportFragmentManager.backStackEntryCount != 0)
             ft.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
         ft.commit()
