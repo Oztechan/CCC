@@ -5,6 +5,7 @@ import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,6 +24,8 @@ constructor() : BaseApiHelper() {
 
     private fun initExchangeRatesApiServices(): ExchangeRatesApiServices {
         val clientBuilder = OkHttpClient.Builder()
+                .readTimeout(50, TimeUnit.MILLISECONDS)
+                .connectTimeout(50, TimeUnit.MILLISECONDS)
         clientBuilder.addInterceptor {
             it.proceed(createInterceptorRequest(it))
         }
