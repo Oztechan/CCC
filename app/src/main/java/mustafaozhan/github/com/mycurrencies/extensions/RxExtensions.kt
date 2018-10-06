@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.tools
+package mustafaozhan.github.com.mycurrencies.extensions
 
 import io.reactivex.Completable
 import io.reactivex.Flowable

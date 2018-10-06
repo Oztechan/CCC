@@ -42,7 +42,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initData()
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "CheckResult")
     private fun initData() {
 
         txtMainToolbar.textChanges()
@@ -60,11 +60,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     }
                 }
 
-        viewModel.currenciesLiveData.reObserve(this, Observer {
-            it.let {
+        viewModel.currenciesLiveData.reObserve(this, Observer { rates ->
+            rates.let {
                 val tempRate = it
-                viewModel.currencyList.forEach {
-                    it.rate = getResult(it.name, viewModel.output, tempRate)
+                viewModel.currencyList.forEach { currency ->
+                    currency.rate = getResult(currency.name, viewModel.output, tempRate)
                 }
                 currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                 loading.smoothToHide()
@@ -86,7 +86,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun updateUi() {
         doAsync {
             viewModel.refreshData()
-            uiThread {
+            uiThread { _ ->
                 try {
                     val spinnerList = ArrayList<String>()
                     viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
@@ -176,7 +176,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.apply {
             loadPreferences()
             mainData.apply {
-                currentBase=baseCurrency
+                currentBase = baseCurrency
             }
         }
         updateUi()

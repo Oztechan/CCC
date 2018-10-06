@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
@@ -42,7 +42,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun initViews() {
         context?.let {
-            mRecViewSettings.layoutManager = LinearLayoutManager(it)
+            mRecViewSettings.layoutManager = GridLayoutManager(it, 2)
             mRecViewSettings.adapter = settingAdapter
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
@@ -104,7 +104,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
             viewModel.initData()
 
-            uiThread {
+            uiThread { _ ->
                 try {
                     val spinnerList = ArrayList<String>()
                     viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
