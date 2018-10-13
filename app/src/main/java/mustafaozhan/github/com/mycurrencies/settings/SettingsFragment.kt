@@ -24,6 +24,7 @@ import org.jetbrains.anko.uiThread
 class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     companion object {
+        val TAG: String = SettingsFragment::class.java.name
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
@@ -152,7 +153,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         viewModel.loadPreferences()
         updateUi()
         try {
-            adView.loadAd(R.string.banner_ad_unit_id_settings)
+            adView.loadAd(TAG)
         } catch (e: Exception) {
             e.printStackTrace()
         }

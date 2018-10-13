@@ -71,7 +71,7 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.1.1"
 
     //Admob
-    implementation 'com.google.android.gms:play-services-ads:17.0.0'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
 
     //Fabric
     implementation ('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {

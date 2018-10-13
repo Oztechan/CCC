@@ -41,8 +41,8 @@
             android:id="@+id/mSpinnerSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imgBaseSettings"
@@ -56,8 +56,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@string/base_currency"
             android:textColor="@color/blue_grey_100"
             android:textSize="18sp"
@@ -91,6 +91,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id_settings" />
+            ads:adUnitId="@string/banner_ad_unit_id_test" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
