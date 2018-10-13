@@ -74,7 +74,10 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.rates
         currenciesLiveData.postValue(currencyResponse.rates)
 
-        currencyResponse.toOfflineRates()?.let { offlineRatesDao.updateOfflineRates(it) }
+
+        currencyResponse.toOfflineRates().let {
+            offlineRatesDao.updateOfflineRates(it)
+        }
 
     }
 
@@ -95,7 +98,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates()?.let { offlineRatesDao.insertOfflineRates(it) }
+        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
 
     }
 

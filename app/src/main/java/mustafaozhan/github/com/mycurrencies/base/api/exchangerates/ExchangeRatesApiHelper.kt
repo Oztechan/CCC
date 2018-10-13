@@ -24,8 +24,8 @@ constructor() : BaseApiHelper() {
 
     private fun initExchangeRatesApiServices(): ExchangeRatesApiServices {
         val clientBuilder = OkHttpClient.Builder()
-                .readTimeout(300, TimeUnit.MILLISECONDS)
-                .connectTimeout(300, TimeUnit.MILLISECONDS)
+                .readTimeout(333, TimeUnit.MILLISECONDS)
+                .connectTimeout(333, TimeUnit.MILLISECONDS)
         clientBuilder.addInterceptor {
             it.proceed(createInterceptorRequest(it))
         }
