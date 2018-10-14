@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
+import android.content.ContextWrapper
 import android.view.animation.AnimationUtils
 import android.webkit.WebView
 import android.widget.ImageView
@@ -60,7 +61,7 @@ fun TextView.addText(text: String, size: Int) {
     if (size > 1)
         this.text = this.text.toString() + text
     else
-        (this.context as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+        ((this.context as ContextWrapper).baseContext as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
 }
 
 fun AdView.loadAd(tag: String?) {

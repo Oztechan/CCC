@@ -58,12 +58,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     viewModel.currencyList[position].isActive = 0
 
                     if (viewModel.currencyList[position].name == viewModel.mainData.baseCurrency.toString()
-                            && viewModel.currencyList.filter { it.isActive == 1 }.size > 1)
-                        viewModel.setBaseCurrency(viewModel.currencyList.filter {
-                            it.isActive == 1
-                        }[0].name)
-
-
+                            &&
+                            viewModel.currencyList.filter { it.isActive == 1 }.size > 2)
+                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
@@ -119,7 +116,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     spinnerList.add("LAST USED")
                     viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
 
-                    if (spinnerList.toList().size <= 1) {
+                    if (spinnerList.toList().size <= 2) {
                         (activity as MainActivity).snacky("Please Select at least 2 currencies")
                         imgBaseSettings.setBackgroundByName("transparent")
                         mSpinnerSettings.setItems("")
@@ -127,7 +124,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                         mSpinnerSettings.setItems(spinnerList)
                         if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                             viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
-                            mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                            if (viewModel.mainData.lastUsed)
+                                mSpinnerSettings.selectedIndex = spinnerList.indexOf("LAST USED")
+                            else
+                                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                         } else {
                             mSpinnerSettings.setItems(spinnerList)
                             if (viewModel.mainData.baseCurrency == Currencies.NULL)
@@ -137,11 +137,17 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                                 it.isActive == 1
                                         && it.name == viewModel.mainData.baseCurrency.toString()
                             }.forEach {
-                                mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                                if (viewModel.mainData.lastUsed)
+                                    mSpinnerSettings.selectedIndex = spinnerList.indexOf("LAST USED")
+                                else
+                                    mSpinnerSettings.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                                 viewModel.setBaseCurrency(it.name)
                             }
                         }
-                        imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
+                        if (viewModel.mainData.lastUsed)
+                            imgBaseSettings.setBackgroundByName(viewModel.mainData.currentBase.toString())
+                        else
+                            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
                     }
                     viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else mSpinnerSettings.text.toString())
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
