@@ -65,6 +65,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
+            settingAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, false)
 
         }
 
@@ -72,7 +73,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
     private fun setListeners() {
-        mSpinnerSettings.setOnItemSelectedListener { view, position, id, item ->
+        mSpinnerSettings.setOnItemSelectedListener { _, _, _, item ->
             if (item == "LAST USED") {
                 viewModel.setBaseCurrency(viewModel.mainData.currentBase.toString())
                 viewModel.mainData.lastUsed = true
@@ -140,7 +141,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                         mSpinnerSettings.setSelectedIndex(viewModel.mainData.lastUsed, viewModel.mainData.baseCurrency.toString())
                         imgBaseSettings.setBackgroundByName(viewModel.mainData.baseCurrency.toString())
                     }
-                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else mSpinnerSettings.text.toString())
+                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else if (mSpinnerSettings.text.toString() == "LAST USED") viewModel.mainData.baseCurrency.toString() else mSpinnerSettings.text.toString())
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {
                     e.printStackTrace()
