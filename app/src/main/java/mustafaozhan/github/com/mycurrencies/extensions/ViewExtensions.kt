@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
+import android.content.ContextWrapper
 import android.view.animation.AnimationUtils
 import android.webkit.WebView
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
@@ -60,7 +62,7 @@ fun TextView.addText(text: String, size: Int) {
     if (size > 1)
         this.text = this.text.toString() + text
     else
-        (this.context as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+        ((this.context as ContextWrapper).baseContext as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
 }
 
 fun AdView.loadAd(tag: String?) {
@@ -81,4 +83,11 @@ fun WebView.fadeIO(isIn: Boolean) {
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
     else
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
+}
+
+fun MaterialSpinner.setSelectedIndex(lastUsed: Boolean, base: String) {
+    if (lastUsed)
+        this.selectedIndex = this.getItems<String>().indexOf("LAST USED")
+    else
+        this.selectedIndex = this.getItems<String>().indexOf(base)
 }

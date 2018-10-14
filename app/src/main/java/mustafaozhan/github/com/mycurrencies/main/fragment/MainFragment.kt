@@ -125,9 +125,18 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun setListeners() {
-        mSpinner.setOnItemSelectedListener { _, _, _, _ ->
-            viewModel.mainData.currentBase = Currencies.valueOf(mSpinner.text.toString())
-            imgBase.setBackgroundByName(mSpinner.text.toString())
+        mSpinner.setOnItemSelectedListener { _, _, _, item ->
+            viewModel.mainData.apply {
+                Currencies.valueOf(item.toString()).let { currency ->
+                    if (lastUsed) {
+                        currentBase = currency
+                        baseCurrency = currency
+                    } else {
+                        currentBase = currency
+                    }
+                }
+            }
+            imgBase.setBackgroundByName(item.toString())
             txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
         }
 
