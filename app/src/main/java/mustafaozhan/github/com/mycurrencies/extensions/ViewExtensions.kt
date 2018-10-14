@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
@@ -82,4 +83,11 @@ fun WebView.fadeIO(isIn: Boolean) {
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
     else
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out))
+}
+
+fun MaterialSpinner.setSelectedIndex(lastUsed: Boolean, base: String) {
+    if (lastUsed)
+        this.selectedIndex = this.getItems<String>().indexOf("LAST USED")
+    else
+        this.selectedIndex = this.getItems<String>().indexOf(base)
 }
