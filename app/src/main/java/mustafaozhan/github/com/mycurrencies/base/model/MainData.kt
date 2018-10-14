@@ -8,5 +8,6 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
 data class MainData(
         var firstRun: Boolean,
         var baseCurrency: Currencies,
-        var currentBase: Currencies
+        var currentBase: Currencies,
+        var lastUsed: Boolean
 )

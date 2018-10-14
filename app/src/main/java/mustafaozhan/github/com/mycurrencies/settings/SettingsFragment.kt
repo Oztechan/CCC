@@ -74,9 +74,17 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
     private fun setListeners() {
-        mSpinnerSettings.setOnItemSelectedListener { _, _, _, _ ->
-            viewModel.setBaseCurrency(mSpinnerSettings.text.toString())
-            imgBaseSettings.setBackgroundByName(mSpinnerSettings.text.toString())
+        mSpinnerSettings.setOnItemSelectedListener { view, position, id, item ->
+            if (item == "LAST USED") {
+                viewModel.setBaseCurrency(viewModel.mainData.currentBase.toString())
+                viewModel.mainData.lastUsed = true
+                imgBaseSettings.setBackgroundByName(viewModel.mainData.currentBase.toString())
+            } else {
+                viewModel.setBaseCurrency(item.toString())
+                viewModel.mainData.lastUsed = true
+                imgBaseSettings.setBackgroundByName(item.toString())
+            }
+
         }
 
 
@@ -108,6 +116,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread { _ ->
                 try {
                     val spinnerList = ArrayList<String>()
+                    spinnerList.add("LAST USED")
                     viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
 
                     if (spinnerList.toList().size <= 1) {
