@@ -32,7 +32,8 @@
     <string name="delete">DEL</string>
 
     <!--Ad-->
-    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id_main">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id_settings">ca-app-pub-3940256099942544/6300978111</string>
 
     <!--Menu-->
     <string name="settings">Settings</string>

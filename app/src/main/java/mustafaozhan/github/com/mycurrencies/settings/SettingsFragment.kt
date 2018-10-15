@@ -25,7 +25,6 @@ import org.jetbrains.anko.uiThread
 class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     companion object {
-        val TAG: String = SettingsFragment::class.java.name
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
@@ -65,8 +64,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
-            settingAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, false)
-
         }
 
     }
@@ -160,7 +157,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         viewModel.loadPreferences()
         updateUi()
         try {
-            adView.loadAd(TAG)
+            adView.loadAd(R.string.banner_ad_unit_id_settings)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -10,11 +10,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
-import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
-import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
-import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -65,19 +62,11 @@ fun TextView.addText(text: String, size: Int) {
         ((this.context as ContextWrapper).baseContext as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
 }
 
-fun AdView.loadAd(tag: String?) {
-    val adId = if (BuildConfig.DEBUG) {
-        R.string.banner_ad_unit_id_test
-    } else when (tag) {
-        MainFragment.TAG -> R.string.banner_ad_unit_id_main
-        SettingsFragment.TAG -> R.string.banner_ad_unit_id_settings
-        else -> R.string.banner_ad_unit_id_test
-    }
+fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))
     val adRequest = AdRequest.Builder().build()
     this.loadAd(adRequest)
 }
-
 fun WebView.fadeIO(isIn: Boolean) {
     if (isIn)
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))

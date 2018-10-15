@@ -25,7 +25,6 @@ import org.jetbrains.anko.uiThread
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
-        val TAG: String = MainFragment::class.java.name
         fun newInstance(): MainFragment = MainFragment()
     }
 
@@ -191,7 +190,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
         updateUi()
         try {
-            adView.loadAd(TAG)
+            adView.loadAd(R.string.banner_ad_unit_id_main)
         } catch (e: Exception) {
             e.printStackTrace()
         }
