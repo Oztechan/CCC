@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 interface ExchangeRatesApiServices {
-    @GET("latest")
+    @GET("byBase")
     fun getAllOnBase(@Query("base") base: Currencies):
             Observable<CurrencyResponse>
 }
