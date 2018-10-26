@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
-import android.content.ContextWrapper
 import android.view.animation.AnimationUtils
 import android.webkit.WebView
 import android.widget.ImageView
@@ -11,7 +10,6 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -55,11 +53,8 @@ fun ImageView.setBackgroundByName(name: String) {
 }
 
 @SuppressLint("SetTextI18n")
-fun TextView.addText(text: String, size: Int) {
-    if (size > 1)
-        this.text = this.text.toString() + text
-    else
-        ((this.context as ContextWrapper).baseContext as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+fun TextView.addText(text: String) {
+    this.text = this.text.toString() + text
 }
 
 fun AdView.loadAd(adId: Int) {
@@ -67,6 +62,7 @@ fun AdView.loadAd(adId: Int) {
     val adRequest = AdRequest.Builder().build()
     this.loadAd(adRequest)
 }
+
 fun WebView.fadeIO(isIn: Boolean) {
     if (isIn)
         this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in))
