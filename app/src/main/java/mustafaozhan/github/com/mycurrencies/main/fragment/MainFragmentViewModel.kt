@@ -82,8 +82,9 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        if (t.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+        if (t.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
             t.printStackTrace()
+        }
         try {
             currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).getRates())
         } catch (e: Exception) {
@@ -92,9 +93,9 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllFail(throwable: Throwable) {
-        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
             throwable.printStackTrace()
-
+        }
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
@@ -106,10 +107,11 @@ class MainFragmentViewModel : BaseViewModel() {
         var result: String? = null
 
         if (text != null) {
-            result = if (text.contains("%"))
+            result = if (text.contains("%")) {
                 Expression(text.replace("%", "/100*")).calculate().toString()
-            else
+            } else {
                 Expression(text).calculate().toString()
+            }
         }
 
         return result.toString()

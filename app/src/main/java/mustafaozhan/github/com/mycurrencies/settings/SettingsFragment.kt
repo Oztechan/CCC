@@ -58,9 +58,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     viewModel.currencyList[position].isActive = 0
 
                     if (viewModel.currencyList[position].name == viewModel.mainData.baseCurrency.toString()
-                            &&
-                            viewModel.currencyList.filter { it.isActive == 1 }.size > 2)
+                            && viewModel.currencyList.filter { it.isActive == 1 }.size > 2) {
                         viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                    }
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
@@ -85,10 +85,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
         mConstraintLayoutSettings.setOnClickListener {
-            if (mSpinnerSettings.isActivated)
+            if (mSpinnerSettings.isActivated) {
                 mSpinnerSettings.collapse()
-            else
+            } else {
                 mSpinnerSettings.expand()
+            }
         }
 
         btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
@@ -101,11 +102,13 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private fun updateUi(update: Boolean = false, byName: Boolean = false, value: Int = 0, name: String = "") {
 
         doAsync {
-            if (update)
+            if (update) {
                 if (byName) {
                     viewModel.updateCurrencyStateByName(name, value)
-                } else
+                } else {
                     viewModel.updateAllCurrencyState(value)
+                }
+            }
 
             viewModel.initData()
 
@@ -138,7 +141,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                         mSpinnerSettings.setSelectedIndex(viewModel.mainData.lastUsed, viewModel.mainData.baseCurrency.toString())
                         imgBaseSettings.setBackgroundByName(viewModel.mainData.baseCurrency.toString())
                     }
-                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null else if (mSpinnerSettings.text.toString() == "LAST USED") viewModel.mainData.baseCurrency.toString() else mSpinnerSettings.text.toString())
+                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null
+                    else if (mSpinnerSettings.text.toString() == "LAST USED") viewModel.mainData.baseCurrency.toString()
+                    else mSpinnerSettings.text.toString())
+
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {
                     e.printStackTrace()

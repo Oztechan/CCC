@@ -56,8 +56,9 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun updateCurrencyStateByName(name: String, i: Int) {
         currencyDao.updateCurrencyStateByName(name, i)
-        if (i == 1)
+        if (i == 1) {
             updateOfflineRateByName(name)
+        }
     }
 
 
@@ -84,8 +85,9 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     private fun eventDownloadByNameFail(throwable: Throwable) {
-        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname")
+        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
             throwable.printStackTrace()
+        }
     }
 
     private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
