@@ -43,7 +43,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun initViews() {
         context?.let {
-            mRecViewSettings.layoutManager = GridLayoutManager(it, 2)
+            mRecViewSettings.layoutManager = GridLayoutManager(it, 3)
             mRecViewSettings.adapter = settingAdapter
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
