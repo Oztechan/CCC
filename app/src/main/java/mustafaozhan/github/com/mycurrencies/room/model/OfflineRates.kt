@@ -12,7 +12,7 @@ data class OfflineRates(
         @PrimaryKey @ColumnInfo(name = "base") var base: String,
         @ColumnInfo(name = "AED") var AED: Double? = null,
         @ColumnInfo(name = "AFN") var AFN: Double? = null,
-        @ColumnInfo(name = "ALL") var ALL: Double? = null,
+        @ColumnInfo(name = "ALLL") var ALL: Double? = null,
         @ColumnInfo(name = "AMD") var AMD: Double? = null,
         @ColumnInfo(name = "ANG") var ANG: Double? = null,
         @ColumnInfo(name = "AOA") var AOA: Double? = null,

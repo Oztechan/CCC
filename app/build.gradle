@@ -15,6 +15,16 @@ android {
         versionCode 60
         versionName "6.38"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        android {
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = ["room.schemaLocation":
+                                         "$projectDir/schemas".toString()]
+                }
+            }
+
+        }
     }
     buildTypes {
         release {
@@ -74,7 +84,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 
     //Fabric
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true
     }
 

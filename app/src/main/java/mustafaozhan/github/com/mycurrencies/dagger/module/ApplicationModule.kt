@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.dagger.module
 
-import android.arch.persistence.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -33,8 +32,7 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @Singleton
-    internal fun provideAppDatabase(): AppDatabase =
-            Room.databaseBuilder(application, AppDatabase::class.java, "app_db").allowMainThreadQueries().build()
+    internal fun provideAppDatabase(): AppDatabase = AppDatabase.database
 
     @Provides
     @Singleton
