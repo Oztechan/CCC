@@ -31,6 +31,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            applicationIdSuffix '.debug'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "standard"
+
+    productFlavors {
+
+        production {
+            android.sourceSets {
+                develop.res.srcDirs = ['src/production/res']
+                develop.java.srcDirs = ['src/production/java']
+            }
+        }
+
+        develop {
+            android.sourceSets {
+                develop.res.srcDirs = ['src/develop/res']
+                develop.java.srcDirs = ['src/develop/java']
+            }
+        }
     }
     kapt {
         generateStubs = true
