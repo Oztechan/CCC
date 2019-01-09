@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="exchange_rates_endpoint">https://exchangeratesapi.io/api/</string>
+    <string name="exchange_rates_endpoint">https://api.exchangeratesapi.io/</string>
 </resources>

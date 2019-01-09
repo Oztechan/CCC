@@ -88,6 +88,7 @@ class MainFragmentViewModel : BaseViewModel() {
             currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).getRates())
         } catch (e: Exception) {
             e.printStackTrace()//first run without internet
+            mainData.firstRun = true
         }
     }
 
