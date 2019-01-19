@@ -12,8 +12,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 62
-        versionName "6.40"
+        versionCode 63
+        versionName "6.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {
@@ -30,30 +30,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            applicationIdSuffix '.debug'
-            signingConfig signingConfigs.debug
-        }
-    }
-
-    flavorDimensions "standard"
-
-    productFlavors {
-
-        production {
-            android.sourceSets {
-                develop.res.srcDirs = ['src/production/res']
-                develop.java.srcDirs = ['src/production/java']
-            }
-        }
-
-        develop {
-            android.sourceSets {
-                develop.res.srcDirs = ['src/develop/res']
-                develop.java.srcDirs = ['src/develop/java']
-            }
         }
     }
     kapt {

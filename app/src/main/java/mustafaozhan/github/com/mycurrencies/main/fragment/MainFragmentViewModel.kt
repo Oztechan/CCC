@@ -32,6 +32,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     val currenciesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyList: MutableList<Currency> = mutableListOf()
+    var rates: Rates? = null
 
     lateinit var mainData: MainData
 
@@ -65,16 +66,19 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getCurrencies() {
-        subscribeService(dataManager.getAllOnBase(mainData.currentBase),
-                ::rateDownloadSuccess, ::rateDownloadFail)
+
+        if (mainData.currentBase == Currencies.BTC)
+            subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
+                    ::rateDownloadSuccess, ::rateDownloadFail)
+        else
+            subscribeService(dataManager.getAllOnBase(mainData.currentBase),
+                    ::rateDownloadSuccess, ::rateDownloadFail)
 
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.rates
         currenciesLiveData.postValue(currencyResponse.rates)
-
-
+        rates = currencyResponse.rates
         currencyResponse.toOfflineRates().let {
             offlineRatesDao.updateOfflineRates(it)
         }

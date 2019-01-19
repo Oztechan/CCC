@@ -72,7 +72,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 displayZoomControls = false
                 userAgentString = newUserAgent
             }
-            loadUrl("https://github.com/mustafaozhan/CurrencyConverterCalculator")
+            loadUrl("https://github.com/CurrencyConverterCalculator/androidCCC")
             fadeIO(true)
             bringToFront()
             visibility = View.VISIBLE

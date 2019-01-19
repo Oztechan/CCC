@@ -172,6 +172,7 @@ enum class Currencies {
     ZMK,
     ZMW,
     ZWL,
+    CRYPTO_BTC,
     NULL
 
 }

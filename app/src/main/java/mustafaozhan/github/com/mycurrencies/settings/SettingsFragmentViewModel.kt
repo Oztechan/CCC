@@ -65,7 +65,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun updateAllCurrencyState(value: Int) {
         currencyList.forEach {
             it.isActive = value
-            updateOfflineRateByName(it.name)
+//            updateOfflineRateByName(it.name)
         }
         currencyDao.updateAllCurrencyState(value)
     }

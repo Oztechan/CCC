@@ -44,14 +44,28 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     @SuppressLint("SetTextI18n", "CheckResult")
     private fun initData() {
-
+        var firstTime = true
         txtMainToolbar.textChanges()
                 .subscribe {
                     if (viewModel.currencyList.size > 1) {
                         loading.smoothToShow()
-                        viewModel.getCurrencies()
+                        if (firstTime) {
+                            viewModel.getCurrencies()
+                            firstTime = false
+                        }
+                        viewModel.calculate(it.toString())
                         viewModel.input = it.toString()
                         viewModel.output = viewModel.calculate(it.toString())
+
+                        //already downloaded values
+                        viewModel.rates.let {
+                            val tempRate = it
+                            viewModel.currencyList.forEach { currency ->
+                                currency.rate = getResult(currency.name, viewModel.output, tempRate)
+                            }
+                            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+                            loading.smoothToHide()
+                        }
 
                         if (viewModel.output != "NaN" && viewModel.output != "") {
                             txtResult.text = "=    ${viewModel.output}"
@@ -140,6 +154,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         currentBase = currency
                     }
                 }
+                viewModel.getCurrencies()
             }
             imgBase.setBackgroundByName(item.toString())
             txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
