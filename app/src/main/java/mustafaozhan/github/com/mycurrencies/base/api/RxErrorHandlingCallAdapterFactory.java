@@ -1,5 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.base.api;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -38,7 +40,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     }
 
     @Override
-    public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    public CallAdapter<?, ?> get(@NonNull Type returnType, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
         return new RxCallAdapterWrapper<>(retrofit, original.get(returnType, annotations, retrofit));
     }
 
@@ -59,7 +61,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
 
         @SuppressWarnings("unchecked")
         @Override
-        public Observable<R> adapt(final Call<R> call) {
+        public Observable<R> adapt(@NonNull final Call<R> call) {
             return ((Observable) wrapped.adapt(call)).onErrorResumeNext(new Function<Throwable, ObservableSource>() {
                 @Override
                 public Observable apply(final Throwable throwable) {

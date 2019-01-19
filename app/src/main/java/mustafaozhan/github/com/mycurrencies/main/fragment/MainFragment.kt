@@ -54,14 +54,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             firstTime = false
                         }
                         viewModel.calculate(it.toString())
-                        viewModel.input = it.toString()
-                        viewModel.output = viewModel.calculate(it.toString())
 
                         //already downloaded values
-                        viewModel.rates.let {
-                            val tempRate = it
+                        viewModel.rates.let { rates ->
                             viewModel.currencyList.forEach { currency ->
-                                currency.rate = getResult(currency.name, viewModel.output, tempRate)
+                                currency.rate = getResult(currency.name, viewModel.output, rates)
                             }
                             currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                             loading.smoothToHide()
@@ -105,10 +102,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun updateUi() {
         doAsync {
             viewModel.refreshData()
-            uiThread { _ ->
+            uiThread {
                 try {
                     val spinnerList = ArrayList<String>()
-                    viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
+                    viewModel.currencyList.filter { currency -> currency.isActive == 1 }.forEach { c -> spinnerList.add(c.name) }
 
                     if (spinnerList.size < 1) {
                         (activity as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
@@ -118,17 +115,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         mSpinner.setItems(spinnerList)
 
                         if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                            viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
                             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                         } else {
                             mSpinner.setItems(spinnerList)
                             if (viewModel.mainData.baseCurrency == Currencies.NULL) {
-                                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { it.isActive == 1 }[0].name))
+                                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
                             }
-                            viewModel.currencyList.filter {
-                                it.isActive == 1
-                                        && it.name == viewModel.mainData.baseCurrency.toString()
-                            }.forEach {
+                            if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.baseCurrency.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
                             }
                         }

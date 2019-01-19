@@ -35,8 +35,6 @@ class MainFragmentViewModel : BaseViewModel() {
     var rates: Rates? = null
 
     lateinit var mainData: MainData
-
-    var input: String = ""
     var output: String = "0.0"
 
 
@@ -108,18 +106,15 @@ class MainFragmentViewModel : BaseViewModel() {
 
     }
 
-    fun calculate(text: String?): String {
-        var result: String? = null
-
-        if (text != null) {
-            result = if (text.contains("%")) {
+    fun calculate(text: String?) {
+        output = if (text != null) {
+            if (text.contains("%")) {
                 Expression(text.replace("%", "/100*")).calculate().toString()
             } else {
                 Expression(text).calculate().toString()
             }
-        }
-
-        return result.toString()
+        } else
+            "0.0"
     }
 }
 

@@ -112,11 +112,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
             viewModel.initData()
 
-            uiThread { _ ->
+            uiThread {
                 try {
                     val spinnerList = ArrayList<String>()
                     spinnerList.add("LAST USED")
-                    viewModel.currencyList.filter { it.isActive == 1 }.forEach { spinnerList.add(it.name) }
+                    viewModel.currencyList.filter { currency -> currency.isActive == 1 }.forEach { c -> spinnerList.add(c.name) }
 
                     if (spinnerList.toList().size <= 2) {
                         (activity as MainActivity).snacky("Please Select at least 2 currencies")
@@ -125,25 +125,26 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     } else {
                         mSpinnerSettings.setItems(spinnerList)
                         if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                            viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                         } else {
                             mSpinnerSettings.setItems(spinnerList)
                             if (viewModel.mainData.baseCurrency == Currencies.NULL) {
-                                viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                                viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                             }
-                            viewModel.currencyList.filter {
-                                it.isActive == 1
-                                        && it.name == viewModel.mainData.baseCurrency.toString()
-                            }.forEach {
-                                viewModel.setBaseCurrency(it.name)
+                            viewModel.currencyList.filter { currency ->
+                                currency.isActive == 1 && currency.name == viewModel.mainData.baseCurrency.toString()
+                            }.forEach { c ->
+                                viewModel.setBaseCurrency(c.name)
                             }
                         }
                         mSpinnerSettings.setSelectedIndex(viewModel.mainData.lastUsed, viewModel.mainData.baseCurrency.toString())
                         imgBaseSettings.setBackgroundByName(viewModel.mainData.baseCurrency.toString())
                     }
-                    viewModel.setBaseCurrency(if (mSpinnerSettings.text.toString() == "") null
-                    else if (mSpinnerSettings.text.toString() == "LAST USED") viewModel.mainData.baseCurrency.toString()
-                    else mSpinnerSettings.text.toString())
+                    viewModel.setBaseCurrency(when {
+                        mSpinnerSettings.text.toString() == "" -> null
+                        mSpinnerSettings.text.toString() == "LAST USED" -> viewModel.mainData.baseCurrency.toString()
+                        else -> mSpinnerSettings.text.toString()
+                    })
 
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {
