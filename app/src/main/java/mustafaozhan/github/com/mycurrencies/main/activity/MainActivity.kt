@@ -130,14 +130,14 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     }
 
-    fun snacky(text: String, hasAction: Boolean = false, actionText: String = "") {
+    fun snacky(text: String, hasAction: Boolean = false, actionText: String = "", isLong: Boolean = false) {
 
         val mySnacky = Snacky.builder()
                 .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
                 .setText(text)
                 .setIcon(R.mipmap.ic_launcher)
                 .setActivity(this)
-                .setDuration(Snacky.LENGTH_SHORT)
+                .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
 
         if (hasAction) {
             mySnacky.setActionText(actionText.toUpperCase())
