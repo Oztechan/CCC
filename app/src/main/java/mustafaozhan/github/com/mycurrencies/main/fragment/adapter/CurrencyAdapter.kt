@@ -8,6 +8,7 @@ import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import java.text.DecimalFormat
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
@@ -18,9 +19,10 @@ class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
             RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
+
         override fun bind(item: Currency) {
             itemView.txtType.text = item.name
-            itemView.txtAmount.text = (Math.floor(item.rate * 100) / 100).toString()
+            itemView.txtAmount.text = DecimalFormat("0.000").format(item.rate)
             itemView.imgRow.setBackgroundByName(item.name)
         }
     }

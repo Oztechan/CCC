@@ -13,6 +13,7 @@ import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 /**
@@ -109,9 +110,9 @@ class MainFragmentViewModel : BaseViewModel() {
     fun calculate(text: String?) {
         output = if (text != null) {
             if (text.contains("%")) {
-                Expression(text.replace("%", "/100*")).calculate().toString()
+                DecimalFormat("0.000").format(Expression(text.replace("%", "/100*")).calculate())
             } else {
-                Expression(text).calculate().toString()
+                DecimalFormat("0.000").format(Expression(text).calculate())
             }
         } else
             "0.0"

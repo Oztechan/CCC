@@ -17,6 +17,7 @@
         android:layout_marginBottom="4dp"
         android:paddingStart="8sp"
         android:paddingLeft="8sp"
+        android:maxLines="1"
         android:paddingEnd="0sp"
         android:paddingRight="0sp"
         android:textColor="@color/blue_grey_50"

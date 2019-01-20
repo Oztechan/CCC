@@ -34,6 +34,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private val currencyAdapter: CurrencyAdapter by lazy { CurrencyAdapter() }
 
+    private var firstTime = true
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
@@ -44,7 +45,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     @SuppressLint("SetTextI18n", "CheckResult")
     private fun initData() {
-        var firstTime = true
+
         txtMainToolbar.textChanges()
                 .subscribe {
                     if (viewModel.currencyList.size > 1) {
@@ -195,6 +196,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onPause() {
         viewModel.savePreferences()
+        firstTime = true
         super.onPause()
     }
 
