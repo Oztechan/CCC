@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
@@ -59,7 +60,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         //already downloaded values
                         viewModel.rates.let { rates ->
                             viewModel.currencyList.forEach { currency ->
-                                currency.rate = getResult(currency.name, viewModel.output, rates)
+                                try {
+                                    currency.rate = getResult(currency.name, viewModel.output, rates)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Crashlytics.logException(e)
+                                }
                             }
                             currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                             loading.smoothToHide()
@@ -80,10 +86,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.currenciesLiveData.reObserve(this, Observer { rates ->
             rates.let {
                 val tempRate = it
-                if (viewModel.output.contains(','))
-                    viewModel.output = viewModel.output.replace(',', '.')
                 viewModel.currencyList.forEach { currency ->
-                    currency.rate = getResult(currency.name, viewModel.output, tempRate)
+                    try {
+                        currency.rate = getResult(currency.name, viewModel.output, tempRate)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Crashlytics.logException(e)
+                    }
                 }
                 currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                 loading.smoothToHide()
@@ -133,6 +142,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     }
                     currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
                 } catch (e: Exception) {
+                    Crashlytics.logException(e)
                     e.printStackTrace()
                 }
             }
@@ -214,6 +224,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             adView.loadAd(R.string.banner_ad_unit_id_main)
         } catch (e: Exception) {
             e.printStackTrace()
+            Crashlytics.logException(e)
         }
         super.onResume()
     }

@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.R
@@ -61,6 +62,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 newUserAgent = settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
             } catch (e: Exception) {
                 e.printStackTrace()
+                Crashlytics.logException(e)
             }
 
             settings.apply {
@@ -89,6 +91,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                         applicationContext.packageManager.getPackageInfo(MainActivity@ applicationContext.packageName + ":My Currencies", 0)
                     } catch (e: PackageManager.NameNotFoundException) {
                         link = "https://play.google.com/store/apps/details?id="
+                        Crashlytics.logException(e)
                     }
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + applicationContext.packageName)))
                 }

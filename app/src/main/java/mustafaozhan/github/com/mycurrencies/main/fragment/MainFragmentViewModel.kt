@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.base.model.MainData
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
@@ -91,6 +92,7 @@ class MainFragmentViewModel : BaseViewModel() {
         try {
             currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).getRates())
         } catch (e: Exception) {
+            Crashlytics.logException(e)
             e.printStackTrace()//first run without internet
             mainData.firstRun = true
         }
@@ -116,8 +118,6 @@ class MainFragmentViewModel : BaseViewModel() {
             }
         } else
             "0.0"
-        if (output.contains(','))
-            output = output.replace(',', '.')
     }
 }
 

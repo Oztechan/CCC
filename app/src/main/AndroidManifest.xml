@@ -28,6 +28,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="fbacbda6e429dfadcba3d54f47c1588d524b5b24" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
     </application>
 
 </manifest>
