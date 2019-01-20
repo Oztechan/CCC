@@ -116,6 +116,8 @@ class MainFragmentViewModel : BaseViewModel() {
             }
         } else
             "0.0"
+        if (output.contains(','))
+            output = output.replace(',', '.')
     }
 }
 

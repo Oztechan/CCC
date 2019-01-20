@@ -80,6 +80,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.currenciesLiveData.reObserve(this, Observer { rates ->
             rates.let {
                 val tempRate = it
+                if (viewModel.output.contains(','))
+                    viewModel.output = viewModel.output.replace(',', '.')
                 viewModel.currencyList.forEach { currency ->
                     currency.rate = getResult(currency.name, viewModel.output, tempRate)
                 }
