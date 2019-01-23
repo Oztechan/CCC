@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import mustafaozhan.github.com.mycurrencies.annotation.ApplicationContext
-import mustafaozhan.github.com.mycurrencies.application.Application
+import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.room.AppExecutors
 import mustafaozhan.github.com.mycurrencies.room.AppExecutors.Companion.THREAD_COUNT

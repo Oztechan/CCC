@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.base
 
 import android.content.Context
 import android.content.SharedPreferences
-import mustafaozhan.github.com.mycurrencies.application.Application
+import mustafaozhan.github.com.mycurrencies.app.Application
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:42 PM on Arch Linux wit Love <3.

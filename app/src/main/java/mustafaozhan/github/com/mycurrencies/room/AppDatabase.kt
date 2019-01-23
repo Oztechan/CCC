@@ -5,7 +5,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.migration.Migration
-import mustafaozhan.github.com.mycurrencies.application.Application
+import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.extensions.execSQL1To2
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao

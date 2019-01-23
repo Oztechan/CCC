@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.application
+package mustafaozhan.github.com.mycurrencies.app
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication

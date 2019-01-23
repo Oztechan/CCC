@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.base.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
-import mustafaozhan.github.com.mycurrencies.application.Application
+import mustafaozhan.github.com.mycurrencies.app.Application
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
