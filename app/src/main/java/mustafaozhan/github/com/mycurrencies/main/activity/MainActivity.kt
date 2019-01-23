@@ -152,8 +152,8 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         mySnacky.build().show()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         webView.onPause()
     }
 
