@@ -3,6 +3,8 @@
 <!---<p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://www.androidpolice.com/wp-content/uploads/2016/03/nexus2cee_apkm2.gif" width="260px"></a></p>--->
 
 ## Features 
+- +170 Currencies
+- Rates Updated every 10 minutes
 - Clean Interface
 - Conversation
 - Mathematical Calculation
