@@ -35,7 +35,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private val currencyAdapter: CurrencyAdapter by lazy { CurrencyAdapter() }
 
-    private var firstTime = true
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
@@ -51,10 +50,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 .subscribe {
                     if (viewModel.currencyList.size > 1) {
                         loading.smoothToShow()
-                        if (firstTime) {
-                            viewModel.getCurrencies()
-                            firstTime = false
-                        }
+
                         viewModel.calculate(it.toString())
 
                         //already downloaded values
@@ -208,7 +204,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onPause() {
         viewModel.savePreferences()
-        firstTime = true
         super.onPause()
     }
 
@@ -219,6 +214,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 currentBase = baseCurrency
             }
         }
+        viewModel.getCurrencies()
         updateUi()
         try {
             adView.loadAd(R.string.banner_ad_unit_id_main)
