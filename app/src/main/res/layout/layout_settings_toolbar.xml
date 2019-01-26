@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/select_all"
                 android:textColor="@color/blue_grey_100"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/deSelect_all"
                 android:textColor="@color/blue_grey_100"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/btnSelectAll"
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
