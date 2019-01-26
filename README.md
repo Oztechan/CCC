@@ -3,8 +3,8 @@
 <!---<p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://www.androidpolice.com/wp-content/uploads/2016/03/nexus2cee_apkm2.gif" width="260px"></a></p>--->
 
 ## Features 
-- +170 Currencies !
-- Rates Updated every 10 minutes
+- 168 Currencies !!!
+- Rates Updated every 10 minutes !
 - Clean Interface
 - Conversation
 - Mathematical Calculation
@@ -15,10 +15,10 @@
 
 ## Screenshots
 
+<img src="https://i.postimg.cc/1yLhy6jr/cover.png?dl=1"/>
+<img src="https://i.postimg.cc/ZTpknnkt/8.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/c0kG5P7j/2.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/Ykk746qX/3.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/q4vdwpKy/4.png?dl=1" width="218px"/>
 
-<img src="https://s19.postimg.cc/ujw8z5bc3/image.png" width="218px"/> <img src="https://s19.postimg.cc/6swvh1qkj/image.png" width="218px"/> <img src="https://s19.postimg.cc/8xh8i5n2b/image.png" width="218px"/> <img src="https://s19.postimg.cc/3ytq3mbjn/image.png" width="218px"/>
-
-<img src="https://s19.postimg.cc/wogm08koj/image.png" width="218px"/> <img src="https://s19.postimg.cc/rd1pfje1f/image.png" width="218px"/> <img src="https://s19.postimg.cc/5dvasb2c3/image.png" width="218px"/> <img src="https://s19.postimg.cc/87yg5s737/image.png" width="218px"/>
+<img src="https://i.postimg.cc/fM3Q45Bb/5.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/XjkTKP7s/6.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/2kDsZYmq/7.png?dl=1" width="218px"/> <img src="https://i.postimg.cc/ZZcS6WWJ/1.png?dl=1" width="218px"/>
 
 
 ## Dependencies
