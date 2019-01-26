@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base.model
+package mustafaozhan.github.com.mycurrencies.model
 
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 

@@ -154,11 +154,11 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        webView.onPause()
+        webView?.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        webView.onResume()
+        webView?.onResume()
     }
 }

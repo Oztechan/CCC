@@ -19,7 +19,7 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     observe(owner, observer)
 }
 
-fun getResult(name: String, value: String, rate: Rates?): Double {
+fun calculateResultByCurrency(name: String, value: String, rate: Rates?): Double {
     try {
         when (name) {
             Currencies.AED.toString() -> return rate?.AED?.times(value.toDouble())

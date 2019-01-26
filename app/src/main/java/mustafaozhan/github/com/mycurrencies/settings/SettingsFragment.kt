@@ -46,8 +46,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             mRecViewSettings.adapter = settingAdapter
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
-        settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
 
+        settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
             when (viewModel.currencyList[position].isActive) {
                 0 -> {
                     viewModel.currencyList[position].isActive = 1
@@ -55,16 +55,13 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 }
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
-
-                    if (viewModel.currencyList[position].name == viewModel.mainData.currentBase.toString()
-                            && viewModel.currencyList.filter { it.isActive == 1 }.size > 2) {
-                        viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
+                    if (viewModel.currencyList[position].name == viewModel.mainData.currentBase.toString()) {
+                        viewModel.setCurrentBase(viewModel.currencyList.first { it.isActive == 1 }.name)
                     }
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
             }
         }
-
     }
 
 
@@ -72,7 +69,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
         btnDeSelectAll.setOnClickListener {
             updateUi(true, false, 0)
-            viewModel.setBaseCurrency(null)
+            viewModel.setCurrentBase(null)
         }
     }
 
@@ -91,21 +88,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
             uiThread {
                 try {
-                    if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() <= 1) {
+                    if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
                         (activity as MainActivity).snacky("Please Select at least 2 currencies")
-                    } else {
-                        if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
-                        } else {
-                            if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
-                            }
-                            viewModel.currencyList.filter { currency ->
-                                currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString()
-                            }.forEach { c ->
-                                viewModel.setBaseCurrency(c.name)
-                            }
-                        }
+                    } else if (viewModel.mainData.currentBase == Currencies.NULL) {
+                        viewModel.setCurrentBase(viewModel.currencyList.first { currency -> currency.isActive == 1 }.name)
                     }
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {

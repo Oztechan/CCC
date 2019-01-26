@@ -51,13 +51,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     if (viewModel.currencyList.size > 1) {
                         loading.smoothToShow()
 
-                        viewModel.calculate(it.toString())
+                        viewModel.calculateOutput(it.toString())
 
                         //already downloaded values
                         viewModel.rates.let { rates ->
                             viewModel.currencyList.forEach { currency ->
                                 try {
-                                    currency.rate = getResult(currency.name, viewModel.output, rates)
+                                    currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     Crashlytics.logException(e)
@@ -84,7 +84,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 val tempRate = it
                 viewModel.currencyList.forEach { currency ->
                     try {
-                        currency.rate = getResult(currency.name, viewModel.output, tempRate)
+                        currency.rate = calculateResultByCurrency(currency.name, viewModel.output, tempRate)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         Crashlytics.logException(e)
@@ -112,10 +112,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.refreshData()
             uiThread {
                 try {
-                    val spinnerList = ArrayList<String>()
-                    viewModel.currencyList.filter { currency -> currency.isActive == 1 }.forEach { c -> spinnerList.add(c.name) }
+                    val spinnerList = viewModel.currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
 
-                    if (spinnerList.size < 1) {
+                    if (spinnerList.size < 2) {
                         (activity as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
                         imgBase.setBackgroundByName("transparent")
                         mSpinner.setItems("")
@@ -123,12 +122,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         mSpinner.setItems(spinnerList)
 
                         if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
-                            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                            viewModel.currencyList.first { currency -> currency.isActive == 1 }.name.let { firstActive ->
+                                viewModel.mainData.currentBase = Currencies.valueOf(firstActive)
+                                mSpinner.selectedIndex = spinnerList.indexOf(firstActive)
+                            }
                         } else {
-                            mSpinner.setItems(spinnerList)
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
+                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.first { currency -> currency.isActive == 1 }.name))
                             }
                             if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
@@ -150,7 +150,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
             viewModel.mainData.apply {
                 Currencies.valueOf(item.toString()).let { currency ->
-                        currentBase = currency
+                    currentBase = currency
                 }
                 viewModel.getCurrencies()
             }

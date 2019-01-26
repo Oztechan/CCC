@@ -3,12 +3,12 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.base.model.MainData
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
+import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
@@ -109,7 +109,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     }
 
-    fun calculate(text: String?) {
+    fun calculateOutput(text: String?) {
         output = if (text != null) {
             if (text.contains("%")) {
                 DecimalFormat("0.000").format(Expression(text.replace("%", "/100*")).calculate())
