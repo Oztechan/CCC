@@ -56,7 +56,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
 
-                    if (viewModel.currencyList[position].name == viewModel.mainData.baseCurrency.toString()
+                    if (viewModel.currencyList[position].name == viewModel.mainData.currentBase.toString()
                             && viewModel.currencyList.filter { it.isActive == 1 }.size > 2) {
                         viewModel.setBaseCurrency(viewModel.currencyList.filter { it.isActive == 1 }[0].name)
                     }
@@ -91,21 +91,17 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
             uiThread {
                 try {
-                    val spinnerList = ArrayList<String>()
-                    spinnerList.add("LAST USED")
-                    viewModel.currencyList.filter { currency -> currency.isActive == 1 }.forEach { c -> spinnerList.add(c.name) }
-
-                    if (spinnerList.toList().size <= 2) {
+                    if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() <= 1) {
                         (activity as MainActivity).snacky("Please Select at least 2 currencies")
                     } else {
-                        if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+                        if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                             viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                         } else {
-                            if (viewModel.mainData.baseCurrency == Currencies.NULL) {
+                            if (viewModel.mainData.currentBase == Currencies.NULL) {
                                 viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                             }
                             viewModel.currencyList.filter { currency ->
-                                currency.isActive == 1 && currency.name == viewModel.mainData.baseCurrency.toString()
+                                currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString()
                             }.forEach { c ->
                                 viewModel.setBaseCurrency(c.name)
                             }

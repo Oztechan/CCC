@@ -122,16 +122,16 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     } else {
                         mSpinner.setItems(spinnerList)
 
-                        if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
+                        if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
+                            viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
                             mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                         } else {
                             mSpinner.setItems(spinnerList)
-                            if (viewModel.mainData.baseCurrency == Currencies.NULL) {
-                                viewModel.mainData.baseCurrency = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
+                            if (viewModel.mainData.currentBase == Currencies.NULL) {
+                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name))
                             }
-                            if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.baseCurrency.toString() }) {
-                                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.baseCurrency.toString())
+                            if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
+                                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                             }
                         }
                         imgBase.setBackgroundByName(mSpinner.text.toString())
@@ -150,12 +150,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
             viewModel.mainData.apply {
                 Currencies.valueOf(item.toString()).let { currency ->
-                    if (lastUsed) {
                         currentBase = currency
-                        baseCurrency = currency
-                    } else {
-                        currentBase = currency
-                    }
                 }
                 viewModel.getCurrencies()
             }
@@ -210,9 +205,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onResume() {
         viewModel.apply {
             loadPreferences()
-            mainData.apply {
-                currentBase = baseCurrency
-            }
             getCurrencies()
         }
         updateUi()

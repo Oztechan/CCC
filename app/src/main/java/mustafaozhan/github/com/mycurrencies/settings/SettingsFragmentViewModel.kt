@@ -46,9 +46,8 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun setBaseCurrency(newBase: String?) {
         if (newBase == null) {
-            mainData.baseCurrency = Currencies.NULL
+            mainData.currentBase = Currencies.NULL
         } else {
-            mainData.baseCurrency = Currencies.valueOf(newBase.toString())
             mainData.currentBase = Currencies.valueOf(newBase.toString())
         }
         dataManager.persistMainData(mainData)
