@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
-import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.extensions.setSelectedIndex
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
@@ -71,28 +69,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
     private fun setListeners() {
-        mSpinnerSettings.setOnItemSelectedListener { _, _, _, item ->
-            if (item == "LAST USED") {
-                viewModel.setBaseCurrency(viewModel.mainData.currentBase.toString())
-                viewModel.mainData.lastUsed = true
-                imgBaseSettings.setBackgroundByName(viewModel.mainData.currentBase.toString())
-            } else {
-                viewModel.setBaseCurrency(item.toString())
-                viewModel.mainData.lastUsed = true
-                imgBaseSettings.setBackgroundByName(item.toString())
-            }
-
-        }
-
-
-        mConstraintLayoutSettings.setOnClickListener {
-            if (mSpinnerSettings.isActivated) {
-                mSpinnerSettings.collapse()
-            } else {
-                mSpinnerSettings.expand()
-            }
-        }
-
         btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
         btnDeSelectAll.setOnClickListener {
             updateUi(true, false, 0)
@@ -121,14 +97,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
                     if (spinnerList.toList().size <= 2) {
                         (activity as MainActivity).snacky("Please Select at least 2 currencies")
-                        imgBaseSettings.setBackgroundByName("transparent")
-                        mSpinnerSettings.setItems("")
                     } else {
-                        mSpinnerSettings.setItems(spinnerList)
                         if (viewModel.mainData.baseCurrency == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
                             viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                         } else {
-                            mSpinnerSettings.setItems(spinnerList)
                             if (viewModel.mainData.baseCurrency == Currencies.NULL) {
                                 viewModel.setBaseCurrency(viewModel.currencyList.filter { currency -> currency.isActive == 1 }[0].name)
                             }
@@ -138,15 +110,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                                 viewModel.setBaseCurrency(c.name)
                             }
                         }
-                        mSpinnerSettings.setSelectedIndex(viewModel.mainData.lastUsed, viewModel.mainData.baseCurrency.toString())
-                        imgBaseSettings.setBackgroundByName(viewModel.mainData.baseCurrency.toString())
                     }
-                    viewModel.setBaseCurrency(when {
-                        mSpinnerSettings.text.toString() == "" -> null
-                        mSpinnerSettings.text.toString() == "LAST USED" -> viewModel.mainData.baseCurrency.toString()
-                        else -> mSpinnerSettings.text.toString()
-                    })
-
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {
                     Crashlytics.logException(e)

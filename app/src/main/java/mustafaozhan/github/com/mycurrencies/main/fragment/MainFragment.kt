@@ -213,8 +213,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mainData.apply {
                 currentBase = baseCurrency
             }
+            getCurrencies()
         }
-        viewModel.getCurrencies()
         updateUi()
         try {
             adView.loadAd(R.string.banner_ad_unit_id_main)
