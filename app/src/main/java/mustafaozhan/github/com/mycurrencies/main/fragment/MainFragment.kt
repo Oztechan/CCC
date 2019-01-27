@@ -54,17 +54,21 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         viewModel.calculateOutput(it.toString())
 
                         //already downloaded values
-                        viewModel.rates.let { rates ->
-                            viewModel.currencyList.forEach { currency ->
-                                try {
-                                    currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                    Crashlytics.logException(e)
+                        if (viewModel.rates != null) {
+                            viewModel.rates.let { rates ->
+                                viewModel.currencyList.forEach { currency ->
+                                    try {
+                                        currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        Crashlytics.logException(e)
+                                    }
                                 }
+                                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+                                loading.smoothToHide()
                             }
-                            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-                            loading.smoothToHide()
+                        } else {
+                            viewModel.getCurrencies()
                         }
 
                         if (viewModel.output != "NaN" && viewModel.output != "") {

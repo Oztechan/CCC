@@ -66,14 +66,12 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getCurrencies() {
-
         if (mainData.currentBase == Currencies.BTC)
             subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
                     ::rateDownloadSuccess, ::rateDownloadFail)
         else
             subscribeService(dataManager.getAllOnBase(mainData.currentBase),
                     ::rateDownloadSuccess, ::rateDownloadFail)
-
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
