@@ -47,7 +47,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
 
-        settingAdapter.onItemSelectedListener = { currency: Currency, _, _, position ->
+        settingAdapter.onItemClickListener = { currency: Currency, _, _, position ->
             when (viewModel.currencyList[position].isActive) {
                 0 -> {
                     viewModel.currencyList[position].isActive = 1

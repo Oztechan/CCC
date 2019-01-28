@@ -15,16 +15,16 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
 
     private var items: MutableList<T> = mutableListOf()
 
-    var onItemSelectedListener: ((T, view: View, viewParent: View, position: Int) -> Unit) = { t: T, view: View, viewParent: View, position: Int -> }
+    var onItemClickListener: ((T, view: View, viewParent: View, position: Int) -> Unit) = { t: T, view: View, viewParent: View, position: Int -> }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
 
         val item = items[position]
         holder.bind(item)
-        holder.itemView.setOnClickListener { onItemSelectedListener(item, it, it, position) }
+        holder.itemView.setOnClickListener { onItemClickListener(item, it, it, position) }
         getAllChildren(holder.itemView).forEach { view ->
             view.setOnClickListener {
-                onItemSelectedListener(item, it, holder.itemView, position)
+                onItemClickListener(item, it, holder.itemView, position)
             }
         }
 
