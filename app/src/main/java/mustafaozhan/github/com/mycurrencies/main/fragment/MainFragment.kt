@@ -75,11 +75,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     Crashlytics.logException(e)
                 }
             }
-            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-            loading.smoothToHide()
             if (rates == null) {
                 (activity as MainActivity).snacky(getString(R.string.rate_not_avaiable_offline), false, getString(R.string.select), true)
+                currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
+            } else {
+                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
             }
+            loading.smoothToHide()
+
         })
     }
 
