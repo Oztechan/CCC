@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
@@ -66,12 +67,19 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getCurrencies() {
-        if (mainData.currentBase == Currencies.BTC)
-            subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
-                    ::rateDownloadSuccess, ::rateDownloadFail)
-        else
-            subscribeService(dataManager.getAllOnBase(mainData.currentBase),
-                    ::rateDownloadSuccess, ::rateDownloadFail)
+
+        if (rates != null) {
+            rates.let { rates ->
+                currencyList.forEach { currency -> currency.rate = calculateResultByCurrency(currency.name, output, rates) }
+                currenciesLiveData.postValue(rates)
+            }
+        } else {
+            if (mainData.currentBase == Currencies.BTC) {
+                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC), ::rateDownloadSuccess, ::rateDownloadFail)
+            } else {
+                subscribeService(dataManager.getAllOnBase(mainData.currentBase), ::rateDownloadSuccess, ::rateDownloadFail)
+            }
+        }
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
