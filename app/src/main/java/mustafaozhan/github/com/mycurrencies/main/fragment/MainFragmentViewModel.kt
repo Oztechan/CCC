@@ -51,7 +51,7 @@ class MainFragmentViewModel : BaseViewModel() {
             mainData.firstRun = false
         }
 
-        currencyDao.getActiveCurrencies().forEach {
+        currencyDao.getActiveCurrencies()?.forEach {
             currencyList.add(it)
         }
     }
@@ -93,7 +93,7 @@ class MainFragmentViewModel : BaseViewModel() {
     private fun rateDownloadFail(t: Throwable) {
         t.printStackTrace()
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
-            currenciesLiveData.postValue(offlineRates.getRates())
+            currenciesLiveData.postValue(offlineRates?.getRates())
         }
     }
 

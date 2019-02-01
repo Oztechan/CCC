@@ -21,7 +21,7 @@ abstract class CurrencyDao {
     abstract fun getAllCurrencies(): MutableList<Currency>
 
     @Query("SELECT * FROM currency WHERE isActive=1")
-    abstract fun getActiveCurrencies(): MutableList<Currency>
+    abstract fun getActiveCurrencies(): MutableList<Currency>?
 
     @Query("UPDATE currency set isActive=:value")
     abstract fun updateAllCurrencyState(value: Int)

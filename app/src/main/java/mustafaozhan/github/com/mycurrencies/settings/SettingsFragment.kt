@@ -56,7 +56,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 1 -> {
                     viewModel.currencyList[position].isActive = 0
                     if (viewModel.currencyList[position].name == viewModel.mainData.currentBase.toString()) {
-                        viewModel.setCurrentBase(viewModel.currencyList.first { it.isActive == 1 }.name)
+                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull {
+                            it.isActive == 1
+                        }?.name)
                     }
                     updateUi(update = true, byName = true, name = currency.name, value = 0)
                 }
@@ -91,7 +93,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
                         (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency))
                     } else if (viewModel.mainData.currentBase == Currencies.NULL) {
-                        viewModel.setCurrentBase(viewModel.currencyList.first { currency -> currency.isActive == 1 }.name)
+                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
                     }
                     settingAdapter.refreshList(viewModel.currencyList, null, false)
                 } catch (e: Exception) {

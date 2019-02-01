@@ -119,13 +119,15 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         mSpinner.setItems(spinnerList)
 
                         if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.currencyList.first { currency -> currency.isActive == 1 }.name.let { firstActive ->
-                                viewModel.mainData.currentBase = Currencies.valueOf(firstActive)
-                                mSpinner.selectedIndex = spinnerList.indexOf(firstActive)
+                            viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name.let { firsActive ->
+                                viewModel.mainData.currentBase = Currencies.valueOf(firsActive
+                                        ?: "NULL")
+                                mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                             }
                         } else {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.first { currency -> currency.isActive == 1 }.name))
+                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name
+                                        ?: "NULL"))
                             }
                             if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
