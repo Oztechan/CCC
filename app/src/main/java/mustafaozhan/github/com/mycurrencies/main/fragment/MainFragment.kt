@@ -9,7 +9,6 @@ import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.item_currency.view.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
@@ -17,7 +16,6 @@ import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.*
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -94,14 +92,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mRecViewCurrency.layoutManager = LinearLayoutManager(it)
             mRecViewCurrency.adapter = currencyAdapter
         }
-        currencyAdapter.onItemClickListener = { currency: Currency, _: View, itemView: View, _: Int ->
-            txtMainToolbar.text = itemView.txtAmount.text.toString()
-            mSpinner.selectedIndex = viewModel.currencyList.indexOf(currency)
-            viewModel.mainData.currentBase = Currencies.valueOf(currency.name)
-            viewModel.calculateOutput(itemView.txtAmount.text.toString())
-            viewModel.getCurrencies()
-            updateUi()
-        }
+//        currencyAdapter.onItemClickListener = { currency: Currency, _: View, itemView: View, _: Int ->
+//            txtMainToolbar.text = itemView.txtAmount.text.toString()
+//            mSpinner.selectedIndex = viewModel.currencyList.indexOf(currency)
+//            viewModel.mainData.currentBase = Currencies.valueOf(currency.name)
+//            viewModel.calculateOutput(itemView.txtAmount.text.toString())
+//            viewModel.getCurrencies()
+//            updateUi()
+//        }
     }
 
     private fun updateUi() {
