@@ -69,18 +69,18 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
 
         viewModel.currenciesLiveData.reObserve(this, Observer { rates ->
-            rates.let {
-                val tempRate = it
-                viewModel.currencyList.forEach { currency ->
-                    try {
-                        currency.rate = calculateResultByCurrency(currency.name, viewModel.output, tempRate)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Crashlytics.logException(e)
-                    }
+            viewModel.currencyList.forEach { currency ->
+                try {
+                    currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Crashlytics.logException(e)
                 }
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-                loading.smoothToHide()
+            }
+            currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+            loading.smoothToHide()
+            if (rates == null) {
+                (activity as MainActivity).snacky("This currency was not downloaded with internet connection. Offline access is not available.", false, "Select", true)
             }
         })
     }

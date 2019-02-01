@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
@@ -86,21 +85,15 @@ class MainFragmentViewModel : BaseViewModel() {
         currenciesLiveData.postValue(currencyResponse.rates)
         rates = currencyResponse.rates
         currencyResponse.toOfflineRates().let {
-            offlineRatesDao.updateOfflineRates(it)
+            offlineRatesDao.insertOfflineRates(it)
         }
 
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        if (t.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
-            t.printStackTrace()
-        }
-        try {
-            currenciesLiveData.postValue(offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).getRates())
-        } catch (e: Exception) {
-            Crashlytics.logException(e)
-            e.printStackTrace()//first run without internet
-            mainData.firstRun = true
+        t.printStackTrace()
+        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
+            currenciesLiveData.postValue(offlineRates.getRates())
         }
     }
 

@@ -90,6 +90,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates().let { offlineRatesDao.updateOfflineRates(it) }
+        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 }

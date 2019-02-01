@@ -1,6 +1,9 @@
 package mustafaozhan.github.com.mycurrencies.room.dao
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
+import android.arch.persistence.room.Query
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
 
 /**
@@ -11,9 +14,6 @@ abstract class OfflineRatesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertOfflineRates(offlineRates: OfflineRates)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun updateOfflineRates(offlineRates: OfflineRates)
 
     @Query("SELECT * FROM offline_rates WHERE base=:base")
     abstract fun getOfflineRatesOnBase(base: String): OfflineRates
