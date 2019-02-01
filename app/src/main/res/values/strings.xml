@@ -44,4 +44,26 @@
     <string name="base_currency">Base Currency</string>
     <string name="currency_icon">Currency Icon</string>
 
+    <!--Snacky Text-->
+    <string name="rate_not_avaiable_offline">This currency was not downloaded with internet connection so offline rates for this currency is not available.</string>
+    <string name="choose_at_least_two_currency">Please Select at least 2 currency from Settings</string>
+    <string name="select">Select</string>
+    <string name="cancel">@android:string/cancel</string>
+    <string name="click_back_again_to_exit">Please click BACK again to exit</string>
+
+    <!--Support-->
+    <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
+    <string name="support_us">Support us !</string>
+
+    <!--Rate-->
+    <string name="rate_and_support">Please, rate and commend to the app at Google Play Store</string>
+    <string name="rate">RATE</string>
+
+    <!--Mail-->
+    <string name="mail_developer">mr.mustafa.ozhan@gmail.com\</string>
+    <string name="mail_feedback_subject">Feedback for My Currencies</string>
+    <string name="mail_extra_text">Dear Developer,</string>
+    <string name="mail_intent_title">Send Feedback:</string>
+
+
 </resources>

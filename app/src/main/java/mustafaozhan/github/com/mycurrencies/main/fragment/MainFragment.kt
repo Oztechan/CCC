@@ -63,7 +63,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         }
 
                         if (viewModel.currencyList.size < 2) {
-                            (activity as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+                            (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency), true, getString(R.string.select))
                         }
                     }
                 }
@@ -80,7 +80,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
             loading.smoothToHide()
             if (rates == null) {
-                (activity as MainActivity).snacky("This currency was not downloaded with internet connection. Offline access is not available.", false, "Select", true)
+                (activity as MainActivity).snacky(getString(R.string.rate_not_avaiable_offline), false, getString(R.string.select), true)
             }
         })
     }
@@ -112,7 +112,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     val spinnerList = viewModel.currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
 
                     if (spinnerList.size < 2) {
-                        (activity as MainActivity).snacky("Please Select at least 2 currency from Settings", true, "Select")
+                        (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency), true, getString(R.string.select))
                         imgBase.setBackgroundByName("transparent")
                         mSpinner.setItems("")
                     } else {

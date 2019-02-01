@@ -89,7 +89,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread {
                 try {
                     if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
-                        (activity as MainActivity).snacky("Please Select at least 2 currencies")
+                        (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency))
                     } else if (viewModel.mainData.currentBase == Currencies.NULL) {
                         viewModel.setCurrentBase(viewModel.currencyList.first { currency -> currency.isActive == 1 }.name)
                     }

@@ -74,7 +74,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 displayZoomControls = false
                 userAgentString = newUserAgent
             }
-            loadUrl("https://github.com/CurrencyConverterCalculator/androidCCC")
+            loadUrl(getString(R.string.github_url))
             fadeIO(true)
             bringToFront()
             visibility = View.VISIBLE
@@ -83,29 +83,29 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     private fun showRateDialog() {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
-                .setTitle("Support us !")
-                .setMessage("Please, rate and commend to the app at Google Play Store")
-                .setPositiveButton("RATE") { _, _ ->
+                .setTitle(getString(R.string.support_us))
+                .setMessage(R.string.rate_and_support)
+                .setPositiveButton(getString(R.string.rate)) { _, _ ->
                     var link = "market://details?id="
                     try {
-                        applicationContext.packageManager.getPackageInfo(MainActivity@ applicationContext.packageName + ":My Currencies", 0)
+                        applicationContext.packageManager.getPackageInfo(applicationContext.packageName + ":My Currencies", 0)
                     } catch (e: PackageManager.NameNotFoundException) {
                         link = "https://play.google.com/store/apps/details?id="
                         Crashlytics.logException(e)
                     }
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + applicationContext.packageName)))
                 }
-                .setNegativeButton("CANCEL", null)
+                .setNegativeButton(getString(R.string.cancel), null)
         builder.show()
     }
 
     private fun sendFeedBack() {
         Intent(Intent.ACTION_SEND).apply {
             type = "text/email"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("mr.mustafa.ozhan@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "Feedback for My Currencies")
-            putExtra(Intent.EXTRA_TEXT, "Dear Developer," + "")
-            startActivity(Intent.createChooser(this, "Send Feedback:"))
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
+            startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
         }
     }
 
@@ -123,7 +123,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     return
                 }
                 doubleBackToExitPressedOnce = true
-                snacky("Please click BACK again to exit")
+                snacky(getString(R.string.click_back_again_to_exit))
                 Handler().postDelayed({
                     doubleBackToExitPressedOnce = false
                 }, 2000)
