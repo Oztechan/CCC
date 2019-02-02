@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -91,7 +90,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread {
                 try {
                     if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
-                        (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency))
+                        snacky(getString(R.string.choose_currencies), getString(R.string.ok))
                     } else if (viewModel.mainData.currentBase == Currencies.NULL) {
                         viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
                     }

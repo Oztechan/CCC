@@ -1,10 +1,13 @@
 package mustafaozhan.github.com.mycurrencies.base
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
 
 
@@ -73,5 +76,22 @@ abstract class BaseActivity : AppCompatActivity() {
     fun clearBackStack() {
         if (supportFragmentManager.backStackEntryCount > 0)
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    fun snacky(text: String, actionText: String = "", action: () -> Unit = {}) {
+        Snacky.builder()
+                .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
+                .setText(text)
+                .setIcon(R.mipmap.ic_launcher)
+                .setActivity(this)
+                .setDuration(Snacky.LENGTH_SHORT)
+                .setActionText(actionText.toUpperCase())
+                .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
+                .setActionTextTypefaceStyle(Typeface.BOLD)
+                .setActionClickListener {
+                    action()
+                }
+                .build()
+                .show()
     }
 }

@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.*
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -61,7 +61,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         }
 
                         if (viewModel.currencyList.size < 2) {
-                            (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency), true, getString(R.string.select))
+                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                            }
                         }
                     }
                 }
@@ -76,7 +78,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
             if (rates == null) {
-                (activity as MainActivity).snacky(getString(R.string.rate_not_avaiable_offline), false, getString(R.string.select), true)
+                if (viewModel.currencyList.size > 1) {
+                    snacky(getString(R.string.rate_not_avaiable_offline), getString(R.string.ok))
+                }
                 currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
             } else {
                 currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
@@ -95,14 +99,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mRecViewCurrency.layoutManager = LinearLayoutManager(it)
             mRecViewCurrency.adapter = currencyAdapter
         }
-//        currencyAdapter.onItemClickListener = { currency: Currency, _: View, itemView: View, _: Int ->
-//            txtMainToolbar.text = itemView.txtAmount.text.toString()
-//            mSpinner.selectedIndex = viewModel.currencyList.indexOf(currency)
-//            viewModel.mainData.currentBase = Currencies.valueOf(currency.name)
-//            viewModel.calculateOutput(itemView.txtAmount.text.toString())
-//            viewModel.getCurrencies()
-//            updateUi()
-//        }
     }
 
     private fun updateUi() {
@@ -113,7 +109,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     val spinnerList = viewModel.currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
 
                     if (spinnerList.size < 2) {
-                        (activity as MainActivity).snacky(getString(R.string.choose_at_least_two_currency), true, getString(R.string.select))
+                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                        }
                         imgBase.setBackgroundByName("transparent")
                         mSpinner.setItems("")
                     } else {

@@ -5,15 +5,12 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Handler
-import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.crashlytics.android.Crashlytics
-import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_main.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
@@ -131,25 +128,6 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
             else -> super.onBackPressed()
         }
 
-    }
-
-    fun snacky(text: String, hasAction: Boolean = false, actionText: String = "", isLong: Boolean = false) {
-
-        val mySnacky = Snacky.builder()
-                .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-                .setText(text)
-                .setIcon(R.mipmap.ic_launcher)
-                .setActivity(this)
-                .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
-
-        if (hasAction) {
-            mySnacky.setActionText(actionText.toUpperCase())
-                    .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
-                    .setActionTextTypefaceStyle(Typeface.BOLD)
-                    .setActionClickListener { replaceFragment(SettingsFragment.newInstance(), true) }
-
-        }
-        mySnacky.build().show()
     }
 
     override fun onDestroy() {

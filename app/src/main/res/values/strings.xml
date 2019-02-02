@@ -46,10 +46,12 @@
 
     <!--Snacky Text-->
     <string name="rate_not_avaiable_offline">This currency was not downloaded with internet connection so offline rates for this currency is not available.</string>
-    <string name="choose_at_least_two_currency">Please Select at least 2 currency from Settings</string>
+    <string name="choose_at_least_two_currency">Please Select at least 2 currencies from Settings</string>
+    <string name="choose_currencies">Please Select at least 2 currencies</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
+    <string name="ok">OK</string>
 
     <!--Support-->
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
