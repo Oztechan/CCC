@@ -48,13 +48,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
         txtMainToolbar.textChanges()
                 .subscribe {
-                    if (viewModel.currencyList.size > 1) {
+                    if (viewModel.currencyList.isNotEmpty()) {
                         loading.smoothToShow()
 
                         viewModel.calculateOutput(it.toString())
-
                         viewModel.getCurrencies()
-                        if (viewModel.output != "NaN" && viewModel.output != "") {
+
+                        if (viewModel.output.isNotEmpty()) {
                             txtResult.text = "=    ${viewModel.output}"
                         } else {
                             txtResult.text = ""
@@ -148,15 +148,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.mainData.apply {
-                Currencies.valueOf(item.toString()).let { currency ->
-                    currentBase = currency
-                }
-                viewModel.getCurrencies()
-            }
+            viewModel.rates = null
+            viewModel.mainData.currentBase = Currencies.valueOf(item.toString())
+            viewModel.getCurrencies()
             imgBase.setBackgroundByName(item.toString())
             txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
-            viewModel.rates = null
         }
 
         mConstraintLayout.setOnClickListener {
@@ -204,10 +200,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.apply {
-            loadPreferences()
-            getCurrencies()
-        }
+        viewModel.loadPreferences()
+        viewModel.getCurrencies()
+
         updateUi()
         try {
             adView.loadAd(R.string.banner_ad_unit_id_main)

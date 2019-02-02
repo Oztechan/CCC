@@ -117,6 +117,9 @@ class MainFragmentViewModel : BaseViewModel() {
             }
         } else
             "0.0"
+
+        if (output == "NaN")
+            output = ""
     }
 }
 
