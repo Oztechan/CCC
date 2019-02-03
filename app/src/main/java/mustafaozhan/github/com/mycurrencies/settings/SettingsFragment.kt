@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -43,34 +45,38 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         context?.let {
             mRecViewSettings.layoutManager = GridLayoutManager(it, 3)
             mRecViewSettings.adapter = settingAdapter
-            settingAdapter.refreshList(viewModel.currencyList, null, false)
         }
 
-        settingAdapter.onItemClickListener = { currency: Currency, _, _, position ->
-            when (viewModel.currencyList[position].isActive) {
-                0 -> {
-                    viewModel.currencyList[position].isActive = 1
-                    updateUi(update = true, byName = true, name = currency.name, value = 1)
-                }
-                1 -> {
-                    viewModel.currencyList[position].isActive = 0
-                    if (viewModel.currencyList[position].name == viewModel.mainData.currentBase.toString()) {
-                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull {
-                            it.isActive == 1
-                        }?.name)
-                    }
-                    updateUi(update = true, byName = true, name = currency.name, value = 0)
-                }
-            }
-        }
+        viewModel.currencyListLiveData.reObserve(this, Observer { currency ->
+            currency?.let { settingAdapter.refreshList(it, null, false) }
+        })
     }
 
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
+
         btnDeSelectAll.setOnClickListener {
             updateUi(true, false, 0)
             viewModel.setCurrentBase(null)
+        }
+
+        settingAdapter.onItemClickListener = { currency: Currency, _, _, position ->
+            viewModel.currencyListLiveData.value?.let { currencyList ->
+                when (currencyList[position].isActive) {
+                    0 -> {
+                        currencyList[position].isActive = 1
+                        updateUi(update = true, byName = true, name = currency.name, value = 1)
+                    }
+                    1 -> {
+                        if (currencyList[position].name == viewModel.mainData.currentBase.toString()) {
+                            viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                        }
+                        currencyList[position].isActive = 0
+                        updateUi(update = true, byName = true, name = currency.name, value = 0)
+                    }
+                }
+            }
         }
     }
 
@@ -88,21 +94,17 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             viewModel.initData()
 
             uiThread {
-                try {
-                    if (viewModel.currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    if (currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
                         snacky(getString(R.string.choose_currencies), getString(R.string.ok))
                     } else if (viewModel.mainData.currentBase == Currencies.NULL) {
-                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
+                        viewModel.setCurrentBase(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
                     }
-                    settingAdapter.refreshList(viewModel.currencyList, null, false)
-                } catch (e: Exception) {
-                    Crashlytics.logException(e)
-                    e.printStackTrace()
+                    settingAdapter.refreshList(currencyList, null, false)
                 }
             }
         }
     }
-
 
     override fun onPause() {
         viewModel.savePreferences()

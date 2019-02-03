@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
+import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
@@ -26,21 +27,17 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var offlineRatesDao: OfflineRatesDao
 
-    var currencyList: MutableList<Currency> = mutableListOf()
+    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 
     lateinit var mainData: MainData
 
     fun initData() {
-        currencyList.clear()
+        currencyListLiveData.value?.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-
-        currencyDao.getAllCurrencies().forEach {
-            currencyList.add(it)
-        }
-
+        currencyListLiveData.postValue(currencyDao.getAllCurrencies())
     }
 
 
@@ -62,7 +59,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
 
     fun updateAllCurrencyState(value: Int) {
-        currencyList.forEach {
+        currencyListLiveData.value?.forEach {
             it.isActive = value
 //            updateOfflineRateByName(it.name)
         }
