@@ -6,7 +6,6 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
@@ -48,45 +47,43 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
         txtMainToolbar.textChanges()
                 .subscribe {
-                    if (viewModel.currencyList.isNotEmpty()) {
-                        loading.smoothToShow()
+                    viewModel.currencyListLiveData.value?.let { currencyList ->
+                        if (currencyList.isNotEmpty()) {
+                            loading.smoothToShow()
 
-                        viewModel.calculateOutput(it.toString())
-                        viewModel.getCurrencies()
+                            viewModel.calculateOutput(it.toString())
+                            viewModel.getCurrencies()
 
-                        if (viewModel.output.isNotEmpty()) {
-                            txtResult.text = "=    ${viewModel.output}"
-                        } else {
-                            txtResult.text = ""
-                        }
+                            if (viewModel.output.isNotEmpty()) {
+                                txtResult.text = "=    ${viewModel.output}"
+                            } else {
+                                txtResult.text = ""
+                            }
 
-                        if (viewModel.currencyList.size < 2) {
-                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                            if (currencyList.size < 2) {
+                                snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                                    getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                                }
                             }
                         }
                     }
                 }
 
-        viewModel.currenciesLiveData.reObserve(this, Observer { rates ->
-            viewModel.currencyList.forEach { currency ->
-                try {
+        viewModel.ratesLiveData.reObserve(this, Observer { rates ->
+            viewModel.currencyListLiveData.value?.let { currencyList ->
+                currencyList.forEach { currency ->
                     currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Crashlytics.logException(e)
                 }
-            }
-            if (rates == null) {
-                if (viewModel.currencyList.size > 1) {
-                    snacky(getString(R.string.rate_not_avaiable_offline), getString(R.string.ok))
+                if (rates == null) {
+                    if (currencyList.size > 1) {
+                        snacky(getString(R.string.rate_not_avaiable_offline), getString(R.string.ok))
+                    }
+                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
+                } else {
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
                 }
-                currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
-            } else {
-                currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
+                loading.smoothToHide()
             }
-            loading.smoothToHide()
-
         })
     }
 
@@ -105,8 +102,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         doAsync {
             viewModel.refreshData()
             uiThread {
-                try {
-                    val spinnerList = viewModel.currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    val spinnerList = currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
 
                     if (spinnerList.size < 2) {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
@@ -117,27 +114,24 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     } else {
                         mSpinner.setItems(spinnerList)
 
-                        if (viewModel.mainData.currentBase == Currencies.NULL && viewModel.currencyList.isNotEmpty()) {
-                            viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name.let { firsActive ->
+                        if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
+                            currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name.let { firsActive ->
                                 viewModel.mainData.currentBase = Currencies.valueOf(firsActive
                                         ?: "NULL")
                                 mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                             }
                         } else {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.mainData.currentBase = (Currencies.valueOf(viewModel.currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name
+                                viewModel.mainData.currentBase = (Currencies.valueOf(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name
                                         ?: "NULL"))
                             }
-                            if (viewModel.currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
+                            if (currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                             }
                         }
                         imgBase.setBackgroundByName(mSpinner.text.toString())
                     }
-                    currencyAdapter.refreshList(viewModel.currencyList, viewModel.mainData.currentBase, true)
-                } catch (e: Exception) {
-                    Crashlytics.logException(e)
-                    e.printStackTrace()
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
                 }
             }
 
@@ -200,14 +194,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onResume() {
         viewModel.loadPreferences()
         viewModel.getCurrencies()
-
         updateUi()
-        try {
-            adView.loadAd(R.string.banner_ad_unit_id_main)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Crashlytics.logException(e)
-        }
+        adView.loadAd(R.string.banner_ad_unit_id_main)
         super.onResume()
     }
 }

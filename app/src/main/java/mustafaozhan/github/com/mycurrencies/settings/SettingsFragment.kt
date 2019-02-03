@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
-import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.layout_settings_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
@@ -114,12 +113,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onResume() {
         viewModel.loadPreferences()
         updateUi()
-        try {
-            adView.loadAd(R.string.banner_ad_unit_id_settings)
-        } catch (e: Exception) {
-            Crashlytics.logException(e)
-            e.printStackTrace()
-        }
+        adView.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()
     }
 }

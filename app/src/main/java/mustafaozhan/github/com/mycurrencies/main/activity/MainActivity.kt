@@ -4,7 +4,6 @@ package mustafaozhan.github.com.mycurrencies.main.activity
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Handler
 import android.view.Menu
@@ -83,14 +82,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 .setTitle(getString(R.string.support_us))
                 .setMessage(R.string.rate_and_support)
                 .setPositiveButton(getString(R.string.rate)) { _, _ ->
-                    var link = "market://details?id="
-                    try {
-                        applicationContext.packageManager.getPackageInfo(applicationContext.packageName + ":My Currencies", 0)
-                    } catch (e: PackageManager.NameNotFoundException) {
-                        link = "https://play.google.com/store/apps/details?id="
-                        Crashlytics.logException(e)
-                    }
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link + applicationContext.packageName)))
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
         builder.show()
