@@ -114,14 +114,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
                         if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
                             currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name.let { firsActive ->
-                                viewModel.mainData.currentBase = Currencies.valueOf(firsActive
-                                        ?: "NULL")
+                                viewModel.updateCurrentBase(firsActive)
                                 mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                             }
                         } else {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.mainData.currentBase = (Currencies.valueOf(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name
-                                        ?: "NULL"))
+                                viewModel.updateCurrentBase(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
                             }
                             if (currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
@@ -138,9 +136,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.rates = null
-            viewModel.mainData.currentBase = Currencies.valueOf(item.toString())
-            viewModel.getCurrencies()
+            viewModel.apply {
+                rates = null
+                updateCurrentBase(item.toString())
+                getCurrencies()
+            }
             imgBase.setBackgroundByName(item.toString())
         }
 
@@ -181,7 +181,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             }
         }
     }
-
 
     override fun onPause() {
         viewModel.savePreferences()

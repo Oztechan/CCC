@@ -35,10 +35,8 @@ class MainFragmentViewModel : BaseViewModel() {
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     var rates: Rates? = null
-
     lateinit var mainData: MainData
     var output: String = "0.0"
-
 
     fun refreshData() {
         currencyListLiveData.value?.clear()
@@ -50,7 +48,6 @@ class MainFragmentViewModel : BaseViewModel() {
                         ::offlineRateAllSuccess, ::offlineRateAllFail)
             mainData.firstRun = false
         }
-
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
@@ -112,6 +109,11 @@ class MainFragmentViewModel : BaseViewModel() {
                         .calculate())
         if (output == "NaN")
             output = ""
+    }
+
+    fun updateCurrentBase(currency: String?) {
+        mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
+        savePreferences()
     }
 }
 
