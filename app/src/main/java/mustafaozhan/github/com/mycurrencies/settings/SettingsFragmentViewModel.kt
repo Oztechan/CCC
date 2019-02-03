@@ -3,8 +3,6 @@ package mustafaozhan.github.com.mycurrencies.settings
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
@@ -52,9 +50,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun updateCurrencyStateByName(name: String, i: Int) {
         currencyDao.updateCurrencyStateByName(name, i)
-        if (i == 1) {
-            updateOfflineRateByName(name)
-        }
     }
 
 
@@ -65,25 +60,9 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun loadPreferences() {
         mainData = dataManager.loadMainData()
-
     }
 
     fun savePreferences() {
         dataManager.persistMainData(mainData)
-    }
-
-    private fun updateOfflineRateByName(name: String) {
-        subscribeService(dataManager.getAllOnBase(Currencies.valueOf(name)),
-                ::offlineRateByNameSuccess, ::eventDownloadByNameFail)
-    }
-
-    private fun eventDownloadByNameFail(throwable: Throwable) {
-        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
-            throwable.printStackTrace()
-        }
-    }
-
-    private fun offlineRateByNameSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 }

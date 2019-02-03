@@ -52,6 +52,7 @@
     <string name="cancel">@android:string/cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
     <string name="change">Change</string>
+    <string name="ok">@android:string/ok</string>
 
     <!--Support-->
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
@@ -67,6 +68,5 @@
     <string name="mail_extra_text">Dear Developer,</string>
     <string name="mail_intent_title">Send Feedback:</string>
     <string name="app_market_link">https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies</string>
-
 
 </resources>

@@ -42,10 +42,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun initViews() {
         context?.let {
-            mRecViewSettings.layoutManager = GridLayoutManager(it, 3)
-            mRecViewSettings.setHasFixedSize(true)
-            mRecViewSettings.id
-            mRecViewSettings.adapter = settingAdapter
+            mRecViewSettings.apply {
+                layoutManager = GridLayoutManager(it, 3)
+                setHasFixedSize(true)
+                adapter = settingAdapter
+            }
         }
 
         viewModel.currencyListLiveData.reObserve(this, Observer { currency ->
@@ -96,7 +97,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     when {
-                        currencyList.filter { it.isActive == 1 }.count() < 2 -> snacky(getString(R.string.choose_currencies))
+                        currencyList.filter { it.isActive == 1 }.count() < 2 -> snacky(getString(R.string.choose_currencies), getString(R.string.ok))
                         viewModel.mainData.currentBase == Currencies.NULL -> viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                     }
                     settingAdapter.refreshList(currencyList, null, false)
