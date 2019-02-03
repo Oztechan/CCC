@@ -22,7 +22,6 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
             itemView.textView.text = item.name
             itemView.checkBox.isChecked = item.isActive == 1
             itemView.icon.setBackgroundByName(item.name)
-
         }
     }
 }

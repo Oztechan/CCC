@@ -43,6 +43,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private fun initViews() {
         context?.let {
             mRecViewSettings.layoutManager = GridLayoutManager(it, 3)
+            mRecViewSettings.setHasFixedSize(true)
+            mRecViewSettings.id
             mRecViewSettings.adapter = settingAdapter
         }
 
