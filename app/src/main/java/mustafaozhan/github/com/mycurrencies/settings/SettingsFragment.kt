@@ -53,10 +53,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
 
     private fun setListeners() {
-        btnSelectAll.setOnClickListener { updateUi(true, false, 1) }
+        btnSelectAll.setOnClickListener { updateUi(true, 1) }
 
         btnDeSelectAll.setOnClickListener {
-            updateUi(true, false, 0)
+            updateUi(true, 0)
             viewModel.setCurrentBase(null)
         }
 
@@ -65,39 +65,37 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 when (currencyList[position].isActive) {
                     0 -> {
                         currencyList[position].isActive = 1
-                        updateUi(update = true, byName = true, name = currency.name, value = 1)
+                        updateUi(true, 1, currency.name)
                     }
                     1 -> {
                         if (currencyList[position].name == viewModel.mainData.currentBase.toString()) {
                             viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                         }
                         currencyList[position].isActive = 0
-                        updateUi(update = true, byName = true, name = currency.name, value = 0)
+                        updateUi(true, 0, currency.name)
                     }
                 }
             }
         }
     }
 
-    private fun updateUi(update: Boolean = false, byName: Boolean = false, value: Int = 0, name: String = "") {
+    private fun updateUi(update: Boolean = false, value: Int = 0, name: String = "") {
 
         doAsync {
             if (update) {
-                if (byName) {
+                if (name.isNotEmpty()) {
                     viewModel.updateCurrencyStateByName(name, value)
                 } else {
                     viewModel.updateAllCurrencyState(value)
                 }
+            } else {
+                viewModel.initData()
             }
-
-            viewModel.initData()
-
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
-                    if (currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
-                        snacky(getString(R.string.choose_currencies))
-                    } else if (viewModel.mainData.currentBase == Currencies.NULL) {
-                        viewModel.setCurrentBase(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
+                    when {
+                        currencyList.filter { it.isActive == 1 }.count() < 2 -> snacky(getString(R.string.choose_currencies))
+                        viewModel.mainData.currentBase == Currencies.NULL -> viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                     }
                     settingAdapter.refreshList(currencyList, null, false)
                 }

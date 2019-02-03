@@ -69,9 +69,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { currency ->
-                    currency.rate = calculateResultByCurrency(currency.name, viewModel.output, rates)
-                }
+                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) { mSpinner.expand() }
@@ -101,7 +99,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.refreshData()
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
-                    val spinnerList = currencyList.filter { currency -> currency.isActive == 1 }.map { it.name }
+                    val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
 
                     if (spinnerList.size < 2) {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
@@ -113,15 +111,15 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         mSpinner.setItems(spinnerList)
 
                         if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                            currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name.let { firsActive ->
+                            currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
                                 viewModel.updateCurrentBase(firsActive)
                                 mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                             }
                         } else {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.updateCurrentBase(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
+                                viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                             }
-                            if (currencyList.any { currency -> currency.isActive == 1 && currency.name == viewModel.mainData.currentBase.toString() }) {
+                            if (currencyList.any { it.isActive == 1 && it.name == viewModel.mainData.currentBase.toString() }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                             }
                         }
@@ -130,7 +128,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
                 }
             }
-
         }
     }
 

@@ -59,10 +59,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
 
     fun updateAllCurrencyState(value: Int) {
-        currencyListLiveData.value?.forEach {
-            it.isActive = value
-//            updateOfflineRateByName(it.name)
-        }
+        currencyListLiveData.value?.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
 
