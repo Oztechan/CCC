@@ -84,7 +84,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 .setText(text)
                 .setIcon(R.mipmap.ic_launcher)
                 .setActivity(this)
-                .setDuration(Snacky.LENGTH_SHORT)
+                .setDuration(Snacky.LENGTH_LONG)
                 .setActionText(actionText.toUpperCase())
                 .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
                 .setActionTextTypefaceStyle(Typeface.BOLD)

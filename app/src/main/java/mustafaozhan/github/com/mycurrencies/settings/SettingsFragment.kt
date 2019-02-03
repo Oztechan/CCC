@@ -95,7 +95,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.filter { currency -> currency.isActive == 1 }.count() < 2) {
-                        snacky(getString(R.string.choose_currencies), getString(R.string.ok))
+                        snacky(getString(R.string.choose_currencies))
                     } else if (viewModel.mainData.currentBase == Currencies.NULL) {
                         viewModel.setCurrentBase(currencyList.firstOrNull { currency -> currency.isActive == 1 }?.name)
                     }

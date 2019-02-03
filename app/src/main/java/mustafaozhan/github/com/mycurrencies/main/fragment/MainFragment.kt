@@ -48,22 +48,20 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         txtMainToolbar.textChanges()
                 .subscribe {
                     viewModel.currencyListLiveData.value?.let { currencyList ->
-                        if (currencyList.isNotEmpty()) {
+                        if (currencyList.size > 1) {
                             loading.smoothToShow()
 
                             viewModel.calculateOutput(it.toString())
                             viewModel.getCurrencies()
 
-                            if (viewModel.output.isNotEmpty()) {
-                                txtResult.text = "=    ${viewModel.output}"
-                            } else {
-                                txtResult.text = ""
+                            txtResult.text = when {
+                                viewModel.output.isEmpty() -> ""
+                                else -> "=    ${viewModel.output}"
                             }
 
-                            if (currencyList.size < 2) {
-                                snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                                    getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                                }
+                        } else {
+                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
                             }
                         }
                     }
@@ -76,7 +74,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
                 if (rates == null) {
                     if (currencyList.size > 1) {
-                        snacky(getString(R.string.rate_not_avaiable_offline), getString(R.string.ok))
+                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) { mSpinner.expand() }
                     }
                     currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
                 } else {
@@ -144,7 +142,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.mainData.currentBase = Currencies.valueOf(item.toString())
             viewModel.getCurrencies()
             imgBase.setBackgroundByName(item.toString())
-            txtMainToolbar.text = txtMainToolbar.text//invoking rx in case of different currency selected
         }
 
         mConstraintLayout.setOnClickListener {

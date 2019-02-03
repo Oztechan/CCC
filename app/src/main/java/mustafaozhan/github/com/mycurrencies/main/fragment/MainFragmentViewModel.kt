@@ -106,16 +106,10 @@ class MainFragmentViewModel : BaseViewModel() {
 
     }
 
-    fun calculateOutput(text: String?) {
-        output = if (text != null) {
-            if (text.contains("%")) {
-                DecimalFormat("0.000").format(Expression(text.replace("%", "/100*")).calculate())
-            } else {
-                DecimalFormat("0.000").format(Expression(text).calculate())
-            }
-        } else
-            "0.0"
-
+    fun calculateOutput(text: String) {
+        output = DecimalFormat("0.000")
+                .format(Expression(text.replace("%", "/100*"))
+                        .calculate())
         if (output == "NaN")
             output = ""
     }
