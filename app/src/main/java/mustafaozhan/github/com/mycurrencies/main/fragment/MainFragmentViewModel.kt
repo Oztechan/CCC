@@ -1,6 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
+import java.text.DecimalFormat
+import javax.inject.Inject
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
@@ -14,8 +16,6 @@ import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
-import java.text.DecimalFormat
-import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -45,33 +45,37 @@ class MainFragmentViewModel : BaseViewModel() {
             currencyDao.insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1)
                 subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
-                        ::offlineRateAllSuccess, ::offlineRateAllFail)
+                    ::offlineRateAllSuccess, ::offlineRateAllFail)
             mainData.firstRun = false
         }
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
-
     fun loadPreferences() {
         mainData = dataManager.loadMainData()
     }
 
-    fun savePreferences() {
+    fun updatePreferences(currency: String = "") {
+        if (currency.isNotEmpty())
+            mainData.currentBase = Currencies.valueOf(currency)
         dataManager.persistMainData(mainData)
     }
 
     fun getCurrencies() {
-
         if (rates != null) {
             rates.let { rates ->
-                currencyListLiveData.value?.forEach { currency -> currency.rate = calculateResultByCurrency(currency.name, output, rates) }
+                currencyListLiveData.value?.forEach { it.rate = calculateResultByCurrency(it.name, output, rates) }
                 ratesLiveData.postValue(rates)
             }
         } else {
             if (mainData.currentBase == Currencies.BTC) {
-                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC), ::rateDownloadSuccess, ::rateDownloadFail)
+                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
             } else {
-                subscribeService(dataManager.getAllOnBase(mainData.currentBase), ::rateDownloadSuccess, ::rateDownloadFail)
+                subscribeService(dataManager.getAllOnBase(mainData.currentBase),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
             }
         }
     }
@@ -82,7 +86,6 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.toOfflineRates().let {
             offlineRatesDao.insertOfflineRates(it)
         }
-
     }
 
     private fun rateDownloadFail(t: Throwable) {
@@ -93,30 +96,18 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllFail(throwable: Throwable) {
-        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
-            throwable.printStackTrace()
-        }
+        throwable.printStackTrace()
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
-
     }
 
     fun calculateOutput(text: String) {
         output = DecimalFormat("0.000")
-                .format(Expression(text.replace("%", "/100*"))
-                        .calculate())
+            .format(Expression(text.replace("%", "/100*"))
+                .calculate())
         if (output == "NaN")
             output = ""
     }
-
-    fun updateCurrentBase(currency: String?) {
-        mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
-        savePreferences()
-    }
 }
-
-
-
-

@@ -1,23 +1,27 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.extensions.*
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
+import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.addText
+import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
+import mustafaozhan.github.com.mycurrencies.extensions.reObserve
+import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
+import com.jakewharton.rxbinding2.widget.textChanges
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -38,41 +42,44 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initViews()
-        setListeners()
-        initData()
+        setKeyboard()
+        initRx()
+        initLiveData()
     }
 
-    @SuppressLint("SetTextI18n", "CheckResult")
-    private fun initData() {
-
+    @SuppressLint("CheckResult")
+    private fun initRx() {
         txtMainToolbar.textChanges()
-                .subscribe {
-                    viewModel.currencyListLiveData.value?.let { currencyList ->
-                        if (currencyList.size > 1) {
-                            loading.smoothToShow()
+            .subscribe { input ->
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    if (currencyList.size > 1) {
+                        loading.smoothToShow()
 
-                            viewModel.calculateOutput(it.toString())
-                            viewModel.getCurrencies()
+                        viewModel.calculateOutput(input.toString())
+                        viewModel.getCurrencies()
 
-                            txtResult.text = when {
-                                viewModel.output.isEmpty() -> ""
-                                else -> "=    ${viewModel.output}"
-                            }
-
-                        } else {
-                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                            }
+                        txtResult.text = when {
+                            viewModel.output.isEmpty() -> ""
+                            else -> "=    ${viewModel.output}"
+                        }
+                    } else {
+                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
                         }
                     }
                 }
+            }
+    }
 
+    private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
-                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) { mSpinner.expand() }
+                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
+                            mSpinner.expand()
+                        }
                     }
                     currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
                 } else {
@@ -88,9 +95,27 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             bringToFront()
             smoothToHide()
         }
-        context?.let {
-            mRecViewCurrency.layoutManager = LinearLayoutManager(it)
+        context?.let { context ->
+            mRecViewCurrency.layoutManager = LinearLayoutManager(context)
             mRecViewCurrency.adapter = currencyAdapter
+        }
+        mSpinner.setOnItemSelectedListener { _, _, _, item ->
+            viewModel.apply {
+                rates = null
+                updatePreferences(item.toString())
+                getCurrencies()
+            }
+            imgBase.setBackgroundByName(item.toString())
+        }
+
+        mConstraintLayout.setOnClickListener {
+            mSpinner.apply {
+                if (isActivated) {
+                    collapse()
+                } else {
+                    expand()
+                }
+            }
         }
     }
 
@@ -111,15 +136,17 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         mSpinner.setItems(spinnerList)
 
                         if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                            currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
-                                viewModel.updateCurrentBase(firsActive)
+                            currencyList.first { it.isActive == 1 }.name.let { firsActive ->
+                                viewModel.updatePreferences(firsActive)
                                 mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                             }
                         } else {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                                viewModel.updatePreferences(currencyList.first { it.isActive == 1 }.name)
                             }
-                            if (currencyList.any { it.isActive == 1 && it.name == viewModel.mainData.currentBase.toString() }) {
+                            if (currencyList.any {
+                                    it.isActive == 1 && it.name == viewModel.mainData.currentBase.toString()
+                                }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                             }
                         }
@@ -131,26 +158,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    private fun setListeners() {
-        mSpinner.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.apply {
-                rates = null
-                updateCurrentBase(item.toString())
-                getCurrencies()
-            }
-            imgBase.setBackgroundByName(item.toString())
-        }
-
-        mConstraintLayout.setOnClickListener {
-            mSpinner.apply {
-                if (isActivated) {
-                    collapse()
-                } else {
-                    expand()
-                }
-            }
-        }
-
+    private fun setKeyboard() {
         btnSeven.setOnClickListener { txtMainToolbar.addText("7") }
         btnEight.setOnClickListener { txtMainToolbar.addText("8") }
         btnNine.setOnClickListener { txtMainToolbar.addText("9") }
@@ -173,14 +181,16 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             txtResult.text = ""
         }
         btnDelete.setOnClickListener {
-            if (txtMainToolbar.text.toString() != "") {
-                txtMainToolbar.text = txtMainToolbar.text.toString().substring(0, txtMainToolbar.text.toString().length - 1)
+            txtMainToolbar.apply {
+                if (text.toString() != "") {
+                    text = text.toString().substring(0, text.toString().length - 1)
+                }
             }
         }
     }
 
     override fun onPause() {
-        viewModel.savePreferences()
+        viewModel.updatePreferences()
         super.onPause()
     }
 
