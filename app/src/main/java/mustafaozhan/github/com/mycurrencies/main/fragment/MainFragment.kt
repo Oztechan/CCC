@@ -1,27 +1,21 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.layout_keyboard_content.*
 import kotlinx.android.synthetic.main.layout_main_toolbar.*
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.extensions.*
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import mustafaozhan.github.com.mycurrencies.extensions.loadAd
-import mustafaozhan.github.com.mycurrencies.extensions.addText
-import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
-import mustafaozhan.github.com.mycurrencies.extensions.reObserve
-import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
-import com.jakewharton.rxbinding2.widget.textChanges
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -43,32 +37,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initToolbar()
         initViews()
         setKeyboard()
-        initRx()
         initLiveData()
-    }
-
-    @SuppressLint("CheckResult")
-    private fun initRx() {
-        txtMainToolbar.textChanges()
-            .subscribe { input ->
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    if (currencyList.size > 1) {
-                        loading.smoothToShow()
-
-                        viewModel.calculateOutput(input.toString())
-                        viewModel.getCurrencies()
-
-                        txtResult.text = when {
-                            viewModel.output.isEmpty() -> ""
-                            else -> "=    ${viewModel.output}"
-                        }
-                    } else {
-                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                        }
-                    }
-                }
-            }
     }
 
     private fun initLiveData() {
@@ -91,6 +60,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun initViews() {
+        subscribeTextChanges(txtMainToolbar.textChanges(), ::onNext)
         loading.apply {
             bringToFront()
             smoothToHide()
@@ -114,6 +84,26 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     collapse()
                 } else {
                     expand()
+                }
+            }
+        }
+    }
+
+    private fun onNext(txt: CharSequence) {
+        viewModel.currencyListLiveData.value?.let { currencyList ->
+            if (currencyList.size > 1) {
+                loading.smoothToShow()
+
+                viewModel.calculateOutput(txt.toString())
+                viewModel.getCurrencies()
+
+                txtResult.text = when {
+                    viewModel.output.isEmpty() -> ""
+                    else -> "=    ${viewModel.output}"
+                }
+            } else {
+                snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                    getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
                 }
             }
         }
