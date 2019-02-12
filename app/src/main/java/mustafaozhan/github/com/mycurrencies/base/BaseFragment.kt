@@ -7,12 +7,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.layout_main_toolbar.*
-import kotlinx.android.synthetic.main.layout_settings_toolbar.*
+import kotlinx.android.synthetic.main.layout_main_toolbar.fragment_main_toolbar
+import kotlinx.android.synthetic.main.layout_settings_toolbar.fragment_settings_toolbar
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:38 PM on Arch Linux wit Love <3.
@@ -20,8 +17,6 @@ import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 abstract class BaseFragment : Fragment() {
 
     val fragmentTag: String = this.javaClass.simpleName
-
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     @LayoutRes
     protected abstract fun getLayoutResId(): Int
@@ -47,15 +42,9 @@ abstract class BaseFragment : Fragment() {
 
     protected fun getBaseActivity(): BaseActivity = activity as BaseActivity
 
-    protected fun snacky(text: String, actionText: String = "", action: () -> Unit = {}) =
-        getBaseActivity().snacky(text, actionText, action)
-
-    protected open fun <T> subscribeTextChanges(serviceObservable: Observable<T>, onNext: (T) -> Unit) {
-        compositeDisposable.add(serviceObservable.applySchedulers().subscribe(onNext))
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.clear()
-    }
+    protected fun snacky(
+        text: String,
+        actionText: String = "",
+        action: () -> Unit = {}
+    ) = getBaseActivity().snacky(text, actionText, action)
 }

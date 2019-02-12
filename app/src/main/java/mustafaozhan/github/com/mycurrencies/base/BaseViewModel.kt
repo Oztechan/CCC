@@ -30,10 +30,20 @@ abstract class BaseViewModel : ViewModel() {
     protected fun <T> subscribeService(
         serviceObservable: Observable<T>,
         onNext: (T) -> Unit,
+        onError: (Throwable) -> Unit,
+        onComplete: () -> Unit
+    ) = compositeDisposable.add(serviceObservable
+        .applySchedulers()
+        .subscribe(onNext, onError, onComplete)
+    )
+
+    protected fun <T> subscribeService(
+        serviceObservable: Observable<T>,
+        onNext: (T) -> Unit,
         onError: (Throwable) -> Unit
-    ) {
-        compositeDisposable.add(serviceObservable.applySchedulers().subscribe(onNext, onError))
-    }
+    ) = compositeDisposable.add(
+        serviceObservable.applySchedulers().subscribe(onNext, onError)
+    )
 
     override fun onCleared() {
         super.onCleared()
