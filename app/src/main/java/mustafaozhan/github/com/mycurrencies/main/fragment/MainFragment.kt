@@ -1,18 +1,45 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.layout_keyboard_content.*
-import kotlinx.android.synthetic.main.layout_main_toolbar.*
+import kotlinx.android.synthetic.main.fragment_main.adView
+import kotlinx.android.synthetic.main.fragment_main.imgBase
+import kotlinx.android.synthetic.main.fragment_main.loading
+import kotlinx.android.synthetic.main.fragment_main.mConstraintLayout
+import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
+import kotlinx.android.synthetic.main.fragment_main.mSpinner
+import kotlinx.android.synthetic.main.fragment_main.txtResult
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnAc
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnDelete
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnDivide
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnDot
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnDoubleZero
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnEight
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnFive
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnFour
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnMinus
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnMultiply
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnNine
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnOne
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnPercent
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnPlus
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnSeven
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnSix
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnThree
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnTwo
+import kotlinx.android.synthetic.main.layout_keyboard_content.btnZero
+import kotlinx.android.synthetic.main.layout_main_toolbar.txtMainToolbar
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.extensions.*
+import mustafaozhan.github.com.mycurrencies.extensions.addText
+import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
+import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.reObserve
+import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -22,6 +49,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
+@Suppress("TooManyFunctions")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -39,40 +67,45 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initToolbar()
         initViews()
         setListeners()
+        setKeyboard()
         initData()
+        initLiveData()
     }
 
-    @SuppressLint("SetTextI18n", "CheckResult")
+    @SuppressLint("CheckResult")
     private fun initData() {
-
         txtMainToolbar.textChanges()
-                .subscribe {
-                    viewModel.currencyListLiveData.value?.let { currencyList ->
-                        if (currencyList.size > 1) {
-                            loading.smoothToShow()
+            .subscribe { txt ->
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    if (currencyList.size > 1) {
+                        loading.smoothToShow()
 
-                            viewModel.calculateOutput(it.toString())
-                            viewModel.getCurrencies()
+                        viewModel.calculateOutput(txt.toString())
+                        viewModel.getCurrencies()
 
-                            txtResult.text = when {
-                                viewModel.output.isEmpty() -> ""
-                                else -> "=    ${viewModel.output}"
-                            }
-
-                        } else {
-                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                            }
+                        txtResult.text = when {
+                            viewModel.output.isEmpty() -> ""
+                            else -> "=    ${viewModel.output}"
+                        }
+                    } else {
+                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
                         }
                     }
                 }
+            }
+    }
 
+    private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
-                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) { mSpinner.expand() }
+                        snacky(getString(R.string.rate_not_available_offline),
+                            getString(R.string.change)) {
+                            mSpinner.expand()
+                        }
                     }
                     currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
                 } else {
@@ -88,8 +121,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             bringToFront()
             smoothToHide()
         }
-        context?.let {
-            mRecViewCurrency.layoutManager = LinearLayoutManager(it)
+        context?.let { ctx ->
+            mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
         }
     }
@@ -119,7 +152,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             if (viewModel.mainData.currentBase == Currencies.NULL) {
                                 viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                             }
-                            if (currencyList.any { it.isActive == 1 && it.name == viewModel.mainData.currentBase.toString() }) {
+                            if (currencyList.any { currency ->
+                                    currency.isActive == 1 &&
+                                        currency.name == viewModel.mainData.currentBase.toString()
+                                }) {
                                 mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                             }
                         }
@@ -150,7 +186,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
         }
+    }
 
+    private fun setKeyboard() {
         btnSeven.setOnClickListener { txtMainToolbar.addText("7") }
         btnEight.setOnClickListener { txtMainToolbar.addText("8") }
         btnNine.setOnClickListener { txtMainToolbar.addText("9") }
@@ -174,7 +212,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
         btnDelete.setOnClickListener {
             if (txtMainToolbar.text.toString() != "") {
-                txtMainToolbar.text = txtMainToolbar.text.toString().substring(0, txtMainToolbar.text.toString().length - 1)
+                txtMainToolbar.text = txtMainToolbar.text.toString()
+                    .substring(0, txtMainToolbar.text.toString().length - 1)
             }
         }
     }

@@ -20,6 +20,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
+@Suppress("TooManyFunctions")
 class MainFragmentViewModel : BaseViewModel() {
 
     override fun inject() {
@@ -45,12 +46,11 @@ class MainFragmentViewModel : BaseViewModel() {
             currencyDao.insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1)
                 subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
-                        ::offlineRateAllSuccess, ::offlineRateAllFail)
+                    ::offlineRateAllSuccess, ::offlineRateAllFail)
             mainData.firstRun = false
         }
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
-
 
     fun loadPreferences() {
         mainData = dataManager.loadMainData()
@@ -64,14 +64,20 @@ class MainFragmentViewModel : BaseViewModel() {
 
         if (rates != null) {
             rates.let { rates ->
-                currencyListLiveData.value?.forEach { currency -> currency.rate = calculateResultByCurrency(currency.name, output, rates) }
+                currencyListLiveData.value?.forEach { currency ->
+                    currency.rate = calculateResultByCurrency(currency.name, output, rates)
+                }
                 ratesLiveData.postValue(rates)
             }
         } else {
             if (mainData.currentBase == Currencies.BTC) {
-                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC), ::rateDownloadSuccess, ::rateDownloadFail)
+                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
             } else {
-                subscribeService(dataManager.getAllOnBase(mainData.currentBase), ::rateDownloadSuccess, ::rateDownloadFail)
+                subscribeService(dataManager.getAllOnBase(mainData.currentBase),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
             }
         }
     }
@@ -82,7 +88,6 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.toOfflineRates().let {
             offlineRatesDao.insertOfflineRates(it)
         }
-
     }
 
     private fun rateDownloadFail(t: Throwable) {
@@ -93,20 +98,20 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllFail(throwable: Throwable) {
-        if (throwable.message != "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
+        if (throwable.message !=
+            "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
             throwable.printStackTrace()
         }
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
         currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
-
     }
 
     fun calculateOutput(text: String) {
         output = DecimalFormat("0.000")
-                .format(Expression(text.replace("%", "/100*"))
-                        .calculate())
+            .format(Expression(text.replace("%", "/100*"))
+                .calculate())
         if (output == "NaN")
             output = ""
     }
@@ -116,7 +121,3 @@ class MainFragmentViewModel : BaseViewModel() {
         savePreferences()
     }
 }
-
-
-
-
