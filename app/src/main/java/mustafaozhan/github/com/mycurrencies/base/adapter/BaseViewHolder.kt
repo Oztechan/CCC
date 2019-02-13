@@ -14,7 +14,6 @@ abstract class BaseViewHolder<out T>(itemView: View) : RecyclerView.ViewHolder(i
     val context: Context = itemView.context
 
     fun getString(resId: Int, vararg formatArgs: Any? = emptyArray()): String {
-        return context.getString(resId, *formatArgs)
+        return context.getString(resId, formatArgs)
     }
-
 }

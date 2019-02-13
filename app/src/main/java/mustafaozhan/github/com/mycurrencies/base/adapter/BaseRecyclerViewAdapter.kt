@@ -15,7 +15,18 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
 
     private var items: MutableList<T> = mutableListOf()
 
-    var onItemClickListener: ((T, view: View, viewParent: View, position: Int) -> Unit) = { t: T, view: View, viewParent: View, position: Int -> }
+    var onItemClickListener: ((
+        T,
+        view: View,
+        viewParent: View,
+        position: Int
+    )
+    -> Unit
+    ) = { t: T,
+          view: View,
+          viewParent: View,
+          position: Int ->
+    }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
 
@@ -27,7 +38,6 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
                 onItemClickListener(item, it, holder.itemView, position)
             }
         }
-
     }
 
     private fun getAllChildren(v: View): ArrayList<View> {
@@ -56,14 +66,17 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
     fun isEmpty(): Boolean = items.isEmpty()
 
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
-            LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
+        LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
     fun refreshList(list: MutableList<T>, currentBase: Currencies?, mainFragment: Boolean) {
 
         items = if (mainFragment && list.checkItemsAre<Currency>())
-            list.filter {
-                it as Currency
-                it.name != currentBase.toString() && it.isActive == 1 && it.rate.toString() != "NaN" && it.rate.toString() != "0.0"
+            list.filter { listItem ->
+                listItem as Currency
+                listItem.name != currentBase.toString() &&
+                    listItem.isActive == 1 &&
+                    listItem.rate.toString() != "NaN" &&
+                    listItem.rate.toString() != "0.0"
             }.toMutableList()
         else
             list
@@ -71,9 +84,8 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
         notifyDataSetChanged()
     }
 
-
     private inline fun <reified T : Any> MutableList<*>.checkItemsAre() =
-            all { it is T }
+        all { it is T }
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
 }

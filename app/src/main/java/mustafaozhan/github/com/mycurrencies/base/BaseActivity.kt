@@ -10,10 +10,10 @@ import android.support.v7.app.AppCompatActivity
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
 
-
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
  */
+@Suppress("TooManyFunctions")
 abstract class BaseActivity : AppCompatActivity() {
 
     @LayoutRes
@@ -59,7 +59,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+        ft.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_left,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
         ft.addToBackStack(null)
         ft.commit()
@@ -80,18 +85,18 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun snacky(text: String, actionText: String = "", action: () -> Unit = {}) {
         Snacky.builder()
-                .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-                .setText(text)
-                .setIcon(R.mipmap.ic_launcher)
-                .setActivity(this)
-                .setDuration(Snacky.LENGTH_LONG)
-                .setActionText(actionText.toUpperCase())
-                .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
-                .setActionTextTypefaceStyle(Typeface.BOLD)
-                .setActionClickListener {
-                    action()
-                }
-                .build()
-                .show()
+            .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
+            .setText(text)
+            .setIcon(R.mipmap.ic_launcher)
+            .setActivity(this)
+            .setDuration(Snacky.LENGTH_LONG)
+            .setActionText(actionText.toUpperCase())
+            .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
+            .setActionTextTypefaceStyle(Typeface.BOLD)
+            .setActionClickListener {
+                action()
+            }
+            .build()
+            .show()
     }
 }

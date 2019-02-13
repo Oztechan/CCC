@@ -18,14 +18,15 @@ constructor() : BaseApiHelper() {
 
     companion object {
         const val TOKEN = ""
+        const val TIME_OUT: Long = 500
     }
 
     val exchangeRatesApiServices: ExchangeRatesApiServices by lazy { initExchangeRatesApiServices() }
 
     private fun initExchangeRatesApiServices(): ExchangeRatesApiServices {
         val clientBuilder = OkHttpClient.Builder()
-                .readTimeout(500, TimeUnit.MILLISECONDS)
-                .connectTimeout(500, TimeUnit.MILLISECONDS)
+            .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
         clientBuilder.addInterceptor {
             it.proceed(createInterceptorRequest(it))
         }

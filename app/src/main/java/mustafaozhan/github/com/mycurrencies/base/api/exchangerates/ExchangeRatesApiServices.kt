@@ -12,5 +12,5 @@ import retrofit2.http.Path
 interface ExchangeRatesApiServices {
     @GET("{base}")
     fun getAllOnBase(@Path("base") base: Currencies):
-            Observable<CurrencyResponse>
+        Observable<CurrencyResponse>
 }

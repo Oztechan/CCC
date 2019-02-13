@@ -16,17 +16,16 @@ abstract class BaseApiHelper {
     protected val gson: Gson
         get() = GsonBuilder().create()
 
-
     protected fun getString(resId: Int): String {
         return Application.instance.getString(resId)
     }
 
     protected fun initRxRetrofit(endpoint: String, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(endpoint)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(httpClient)
-                .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create(Schedulers.io()))
-                .build()
+            .baseUrl(endpoint)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(httpClient)
+            .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create(Schedulers.io()))
+            .build()
     }
 }

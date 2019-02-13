@@ -387,6 +387,8 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
     return try {
         javaClass.getMethod(getterName).invoke(this) as? T
     } catch (e: NoSuchMethodException) {
+        e.printStackTrace()
+        Crashlytics.logException(e)
         null
     }
 }
