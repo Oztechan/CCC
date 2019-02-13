@@ -18,15 +18,18 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     observe(owner, observer)
 }
 
-fun calculateResultByCurrency(name: String, value: String, rate: Rates?): Double {
-    return try {
-        rate?.getThroughReflection<Double>(name)?.times(value.toDouble()) ?: 0.0
-    } catch (e: NumberFormatException) {
-        e.printStackTrace()
-        Crashlytics.logException(e)
+fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
+    if (value.isNotEmpty()) {
+        try {
+            rate?.getThroughReflection<Double>(name)?.times(value.toDouble()) ?: 0.0
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+            Crashlytics.logException(e)
+            0.0
+        }
+    } else {
         0.0
     }
-}
 
 fun CurrencyDao.insertInitialCurrencies() {
     Rates::class.java.declaredFields.forEach {

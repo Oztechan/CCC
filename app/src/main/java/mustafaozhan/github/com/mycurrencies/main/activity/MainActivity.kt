@@ -9,8 +9,7 @@ import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.crashlytics.android.Crashlytics
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.webView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
@@ -18,7 +17,12 @@ import mustafaozhan.github.com.mycurrencies.extensions.fadeIO
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 
+@Suppress("TooManyFunctions")
 class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
+
+    companion object {
+        const val BACK_DELAY: Long = 2000
+    }
 
     private var doubleBackToExitPressedOnce = false
 
@@ -31,12 +35,13 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
         when {
-            supportFragmentManager.findFragmentById(containerId) is MainFragment -> menuInflater.inflate(R.menu.fragment_main_menu, menu)
-            supportFragmentManager.findFragmentById(containerId) is SettingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
+            supportFragmentManager.findFragmentById(containerId) is MainFragment ->
+                menuInflater.inflate(R.menu.fragment_main_menu, menu)
+            supportFragmentManager.findFragmentById(containerId) is SettingsFragment ->
+                menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -51,15 +56,9 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun showGithub() {
         webView.apply {
-            var newUserAgent: String? = settings.userAgentString
-            try {
-                val ua = settings.userAgentString
-                val androidOSString = settings.userAgentString.substring(ua.indexOf("("), ua.indexOf(")") + 1)
-                newUserAgent = settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Crashlytics.logException(e)
-            }
+            val ua = settings.userAgentString
+            val androidOSString = settings.userAgentString.substring(ua.indexOf("("), ua.indexOf(")") + 1)
+            val newUserAgent = settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
 
             settings.apply {
                 loadWithOverviewMode = true
@@ -79,12 +78,12 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     private fun showRateDialog() {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
-                .setTitle(getString(R.string.support_us))
-                .setMessage(R.string.rate_and_support)
-                .setPositiveButton(getString(R.string.rate)) { _, _ ->
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
-                }
-                .setNegativeButton(getString(R.string.cancel), null)
+            .setTitle(getString(R.string.support_us))
+            .setMessage(R.string.rate_and_support)
+            .setPositiveButton(getString(R.string.rate)) { _, _ ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
         builder.show()
     }
 
@@ -115,11 +114,10 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 snacky(getString(R.string.click_back_again_to_exit))
                 Handler().postDelayed({
                     doubleBackToExitPressedOnce = false
-                }, 2000)
+                }, BACK_DELAY)
             }
             else -> super.onBackPressed()
         }
-
     }
 
     override fun onDestroy() {

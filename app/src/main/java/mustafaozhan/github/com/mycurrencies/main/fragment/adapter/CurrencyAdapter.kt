@@ -2,7 +2,9 @@ package mustafaozhan.github.com.mycurrencies.main.fragment.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_currency.view.*
+import kotlinx.android.synthetic.main.item_currency.view.imgRow
+import kotlinx.android.synthetic.main.item_currency.view.txtAmount
+import kotlinx.android.synthetic.main.item_currency.view.txtType
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
@@ -16,7 +18,7 @@ import java.text.DecimalFormat
 class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
-            RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
+        RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
 

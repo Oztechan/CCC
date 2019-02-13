@@ -12,17 +12,17 @@ import io.reactivex.schedulers.Schedulers
  */
 
 fun <T> Observable<T>.applySchedulers(): Observable<T> =
-        observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
 
 fun <T> Flowable<T>.applySchedulers(): Flowable<T> =
-        observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
 
 fun <T> Single<T>.applySchedulers(): Single<T> =
-        observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+    observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
 
 fun Completable.applySchedulers(): Completable =
-        observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+    observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+        .subscribeOn(io.reactivex.schedulers.Schedulers.io())

@@ -114,6 +114,8 @@ class MainFragmentViewModel : BaseViewModel() {
                 .calculate())
         if (output == "NaN")
             output = ""
+        if (output.contains(","))
+            output.replace(",", ".")
     }
 
     fun updateCurrentBase(currency: String?) {

@@ -200,4 +200,4 @@ fun AdView.loadAd(adId: Int) {
 }
 
 fun WebView.fadeIO(isIn: Boolean) =
-        startAnimation(AnimationUtils.loadAnimation(context, if (isIn) R.anim.fade_in else R.anim.fade_out))
+    startAnimation(AnimationUtils.loadAnimation(context, if (isIn) R.anim.fade_in else R.anim.fade_out))
