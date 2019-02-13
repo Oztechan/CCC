@@ -37,6 +37,22 @@ fun CurrencyDao.insertInitialCurrencies() {
     }
 }
 
+fun Rates.findBase() =
+    this::class.java.fields.firstOrNull {
+        this.getThroughReflection<Double>(it.name) == 1.0
+    }?.name ?: "NULL"
+
+inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
+    val getterName = "get" + propertyName.capitalize()
+    return try {
+        javaClass.getMethod(getterName).invoke(this) as? T
+    } catch (e: NoSuchMethodException) {
+        e.printStackTrace()
+        Crashlytics.logException(e)
+        null
+    }
+}
+
 fun CurrencyResponse.toOfflineRates() = OfflineRates(rates?.findBase().toString(),
     rates?.AED,
     rates?.AFN,
@@ -379,19 +395,3 @@ fun OfflineRates.getRates(): Rates? = Rates(
     ZMW,
     ZWL
 )
-
-fun Rates.findBase() =
-    this::class.java.fields.firstOrNull {
-        this.getThroughReflection<Double>(it.name) == 1.0
-    }?.name ?: "NULL"
-
-inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
-    val getterName = "get" + propertyName.capitalize()
-    return try {
-        javaClass.getMethod(getterName).invoke(this) as? T
-    } catch (e: NoSuchMethodException) {
-        e.printStackTrace()
-        Crashlytics.logException(e)
-        null
-    }
-}

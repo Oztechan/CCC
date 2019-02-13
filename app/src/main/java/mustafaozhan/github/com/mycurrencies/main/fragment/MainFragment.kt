@@ -56,7 +56,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         fun newInstance(): MainFragment = MainFragment()
     }
 
-    override fun getViewModelClass(): Class<MainFragmentViewModel> = MainFragmentViewModel::class.java
+    override fun getViewModelClass(): Class<MainFragmentViewModel> =
+        MainFragmentViewModel::class.java
 
     override fun getLayoutResId(): Int = R.layout.fragment_main
 
@@ -84,12 +85,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         viewModel.getCurrencies()
 
                         txtResult.text = when {
-                            viewModel.output.isEmpty() -> ""
-                            else -> "=    ${viewModel.output}"
+                            viewModel.getOutPut().isEmpty() -> ""
+                            else -> "=    ${viewModel.getOutPut()}"
                         }
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                            getBaseActivity().replaceFragment(
+                                SettingsFragment.newInstance(),
+                                true)
                         }
                     }
                 }
@@ -99,7 +102,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
+                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.getOutPut(), rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline),

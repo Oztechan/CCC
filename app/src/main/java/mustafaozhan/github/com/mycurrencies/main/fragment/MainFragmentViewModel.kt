@@ -37,7 +37,7 @@ class MainFragmentViewModel : BaseViewModel() {
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     var rates: Rates? = null
     lateinit var mainData: MainData
-    var output: String = "0.0"
+    private var output: String = "0.0"
 
     fun refreshData() {
         currencyListLiveData.value?.clear()
@@ -65,7 +65,7 @@ class MainFragmentViewModel : BaseViewModel() {
         if (rates != null) {
             rates.let { rates ->
                 currencyListLiveData.value?.forEach { currency ->
-                    currency.rate = calculateResultByCurrency(currency.name, output, rates)
+                    currency.rate = calculateResultByCurrency(currency.name, getOutPut(), rates)
                 }
                 ratesLiveData.postValue(rates)
             }
@@ -110,12 +110,17 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun calculateOutput(text: String) {
         output = DecimalFormat("0.000")
-            .format(Expression(text.replace("%", "/100*"))
-                .calculate())
-        if (output == "NaN")
-            output = ""
-        if (output.contains(","))
-            output.replace(",", ".")
+            .format(
+                Expression(text.replace(
+                    "%",
+                    "/100*")
+                ).calculate())
+    }
+
+    fun getOutPut() = when {
+        output == "NaN" -> ""
+        output.contains(",") -> output.replace(",", ".")
+        else -> output
     }
 
     fun updateCurrentBase(currency: String?) {
