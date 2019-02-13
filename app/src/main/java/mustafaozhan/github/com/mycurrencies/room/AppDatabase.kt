@@ -25,11 +25,10 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
         val database = Room.databaseBuilder(Application.instance.applicationContext, AppDatabase::class.java, "app_db")
-                .addMigrations(FROM_1_TO_2).allowMainThreadQueries().build()
+            .addMigrations(FROM_1_TO_2).allowMainThreadQueries().build()
     }
 
     abstract fun currencyDao(): CurrencyDao
 
     abstract fun offlineRatesDao(): OfflineRatesDao
-
 }

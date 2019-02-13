@@ -17,5 +17,4 @@ abstract class OfflineRatesDao {
 
     @Query("SELECT * FROM offline_rates WHERE base=:base")
     abstract fun getOfflineRatesOnBase(base: String): OfflineRates?
-
 }

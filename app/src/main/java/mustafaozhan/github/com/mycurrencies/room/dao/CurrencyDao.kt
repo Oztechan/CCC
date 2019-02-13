@@ -25,6 +25,4 @@ abstract class CurrencyDao {
 
     @Query("UPDATE currency set isActive=:value")
     abstract fun updateAllCurrencyState(value: Int)
-
-
 }

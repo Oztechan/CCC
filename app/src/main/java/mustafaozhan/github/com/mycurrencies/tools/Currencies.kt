@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
+@Suppress("LargeClass")
 enum class Currencies {
     AED,
     AFN,
@@ -174,5 +175,4 @@ enum class Currencies {
     ZWL,
     CRYPTO_BTC,
     NULL
-
 }

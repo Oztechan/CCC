@@ -5,8 +5,10 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
-import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.layout_settings_toolbar.*
+import kotlinx.android.synthetic.main.fragment_settings.adView
+import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings
+import kotlinx.android.synthetic.main.layout_settings_toolbar.btnDeSelectAll
+import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd

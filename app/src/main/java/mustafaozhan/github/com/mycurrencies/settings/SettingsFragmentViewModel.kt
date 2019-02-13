@@ -38,7 +38,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getAllCurrencies())
     }
 
-
     fun setCurrentBase(newBase: String?) {
         if (newBase == null) {
             mainData.currentBase = Currencies.NULL
@@ -51,7 +50,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun updateCurrencyStateByName(name: String, i: Int) {
         currencyDao.updateCurrencyStateByName(name, i)
     }
-
 
     fun updateAllCurrencyState(value: Int) {
         currencyListLiveData.value?.forEach { it.isActive = value }

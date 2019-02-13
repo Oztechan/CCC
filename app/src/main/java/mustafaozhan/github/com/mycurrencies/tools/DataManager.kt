@@ -18,12 +18,11 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     lateinit var exchangeRatesApiHelper: ExchangeRatesApiHelper
 
     fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
-            exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
+        exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 
     fun persistMainData(mainData: MainData) {
         generalSharedPreferences.persistMainData(mainData)
     }
-
 }

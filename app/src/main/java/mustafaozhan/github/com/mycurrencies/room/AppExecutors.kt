@@ -19,8 +19,6 @@ class AppExecutors(val diskIO: Executor, val networkIO: Executor, val mainThread
 //    val diskIO: Executor = DiskIOThreadExecutor()
 //    val networkIO: Executor = Executors.newFixedThreadPool(THREAD_COUNT)
 //    val mainThread: Executor = MainThreadExecutor()
-
-
 }
 
 class MainThreadExecutor : Executor {

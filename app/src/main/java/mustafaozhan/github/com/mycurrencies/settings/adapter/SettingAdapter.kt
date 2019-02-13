@@ -2,7 +2,9 @@ package mustafaozhan.github.com.mycurrencies.settings.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_setting.view.*
+import kotlinx.android.synthetic.main.item_setting.view.checkBox
+import kotlinx.android.synthetic.main.item_setting.view.icon
+import kotlinx.android.synthetic.main.item_setting.view.textView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
@@ -15,7 +17,7 @@ import mustafaozhan.github.com.mycurrencies.room.model.Currency
 class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
-            RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
+        RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {
