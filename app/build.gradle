@@ -13,8 +13,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 79
-        versionName "6.73"
+        versionCode 81
+        versionName "6.76"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {

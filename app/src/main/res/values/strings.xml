@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Currency Converter &amp; Calculator</string>
+    <string name="app_name">Currency Converter Calculator</string>
 
     <!--Network-->
     <string name="network_error_connection">Problem with the Internet connection.</string>

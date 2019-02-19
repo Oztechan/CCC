@@ -16,7 +16,7 @@ import mustafaozhan.github.com.mycurrencies.R
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(
         resources.getIdentifier(
-            name.toLowerCase(),
+            name.toLowerCase().replace("try", "tryy"),
             "drawable",
             context.packageName
         )
