@@ -5,6 +5,7 @@ import android.arch.persistence.db.SupportSQLiteDatabase
 /**
  * Created by Mustafa Ozhan on 2018-10-28.
  */
+@Suppress("LongMethod")
 fun SupportSQLiteDatabase.execSQL1To2() {
     execSQL("ALTER TABLE offline_rates ADD COLUMN AED REAL  DEFAULT 0.0")
     execSQL("ALTER TABLE offline_rates ADD COLUMN AFN REAL  DEFAULT 0.0")

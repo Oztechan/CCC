@@ -85,8 +85,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         viewModel.getCurrencies()
 
                         txtResult.text = when {
-                            viewModel.getOutPut().isEmpty() -> ""
-                            else -> "=    ${viewModel.getOutPut()}"
+                            viewModel.output.isEmpty() -> ""
+                            else -> "=    ${viewModel.output}"
                         }
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
@@ -102,7 +102,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.getOutPut(), rates) }
+                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline),

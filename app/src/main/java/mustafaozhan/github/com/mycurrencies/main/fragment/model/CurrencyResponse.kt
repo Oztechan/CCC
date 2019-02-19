@@ -11,6 +11,7 @@ data class CurrencyResponse(
     @SerializedName("rates") var rates: Rates? = null
 )
 
+@Suppress("ConstructorParameterNaming")
 data class Rates(
     @SerializedName("AED") var AED: Double? = null,
     @SerializedName("AFN") var AFN: Double? = null,

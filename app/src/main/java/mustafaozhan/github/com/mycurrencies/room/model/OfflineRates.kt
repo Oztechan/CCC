@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
+@Suppress("ConstructorParameterNaming")
 @Entity(tableName = "offline_rates")
 data class OfflineRates(
     @PrimaryKey @ColumnInfo(name = "base") var base: String,
