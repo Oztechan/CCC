@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -12,8 +13,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 78
-        versionName "6.72"
+        versionCode 79
+        versionName "6.73"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {
@@ -67,33 +68,37 @@ dependencies {
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
-    //material Spinner
+    // Material Spinner
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
-    //Loading View
+    // Loading View
     implementation 'com.wang.avi:library:2.1.3'
 
-    //Room
+    // Room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
 
-    //Admob
+    // Admob
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
 
-    //Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+
+    // Fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
 
-    //anko
+    // Anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
 
-    //multidex
+    // Multidex
     implementation 'com.android.support:multidex:1.0.3'
 
-    //Snacky
+    // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
+
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }
