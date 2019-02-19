@@ -21,7 +21,9 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
 fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
     if (value.isNotEmpty()) {
         try {
-            rate?.getThroughReflection<Double>(name)?.times(value.toDouble()) ?: 0.0
+            rate?.getThroughReflection<Double>(name)
+                ?.times(value.replace(",", ".").toDouble())
+                ?: 0.0
         } catch (e: NumberFormatException) {
             e.printStackTrace()
             Crashlytics.logException(e)
