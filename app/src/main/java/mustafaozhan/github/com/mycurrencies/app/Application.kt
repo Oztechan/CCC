@@ -2,10 +2,7 @@ package mustafaozhan.github.com.mycurrencies.app
 
 import android.content.Context
 import android.support.multidex.MultiDexApplication
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
-import io.fabric.sdk.android.Fabric
-import mustafaozhan.github.com.mycurrencies.BuildConfig
+import com.google.firebase.analytics.FirebaseAnalytics
 import mustafaozhan.github.com.mycurrencies.dagger.component.ApplicationComponent
 import mustafaozhan.github.com.mycurrencies.dagger.component.DaggerApplicationComponent
 import mustafaozhan.github.com.mycurrencies.dagger.module.ApplicationModule
@@ -24,10 +21,7 @@ class Application : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
-        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
-        Fabric.with(this, Crashlytics.Builder().core(core).build())
-
+        FirebaseAnalytics.getInstance(this)
         instance = this
     }
 
