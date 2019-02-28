@@ -4,7 +4,7 @@
     android:id="@+id/constraintRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/selector_light">
 
     <ImageView
         android:id="@+id/icon"
