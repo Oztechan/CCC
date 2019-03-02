@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -19,13 +18,13 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     companion object {
+        const val COLUMN = 3
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
@@ -43,9 +42,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     private fun initViews() {
-        context?.let {
+        context?.let { ctx ->
             mRecViewSettings.apply {
-                layoutManager = GridLayoutManager(it, 3)
+                layoutManager = GridLayoutManager(ctx, COLUMN)
                 setHasFixedSize(true)
                 adapter = settingAdapter
             }
@@ -55,7 +54,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             currency?.let { settingAdapter.refreshList(it, null, false) }
         })
     }
-
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener { updateUi(true, 1) }
@@ -99,8 +97,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     when {
-                        currencyList.filter { it.isActive == 1 }.count() < 2 -> snacky(getString(R.string.choose_currencies), getString(R.string.ok))
-                        viewModel.mainData.currentBase == Currencies.NULL -> viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                        currencyList.filter { it.isActive == 1 }.count() < 2 ->
+                            snacky(getString(R.string.choose_currencies), getString(R.string.ok))
+                        viewModel.mainData.currentBase == Currencies.NULL ->
+                            viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
                     }
                     settingAdapter.refreshList(currencyList, null, false)
                 }

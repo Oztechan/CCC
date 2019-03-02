@@ -17,7 +17,6 @@ class ExchangeRatesApiHelper @Inject
 constructor() : BaseApiHelper() {
 
     companion object {
-        const val TOKEN = ""
         const val TIME_OUT: Long = 500
     }
 
@@ -38,7 +37,6 @@ constructor() : BaseApiHelper() {
     private fun createInterceptorRequest(chain: Interceptor.Chain): Request {
         val original = chain.request()
         val builder = original.newBuilder()
-//                .header("", TOKEN)
         return builder.build()
     }
 }

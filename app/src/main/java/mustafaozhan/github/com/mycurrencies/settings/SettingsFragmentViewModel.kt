@@ -5,7 +5,6 @@ import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import javax.inject.Inject
@@ -21,9 +20,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     @Inject
     lateinit var currencyDao: CurrencyDao
-
-    @Inject
-    lateinit var offlineRatesDao: OfflineRatesDao
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 

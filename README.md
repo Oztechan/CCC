@@ -25,25 +25,25 @@
 ## Dependencies
 ```
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //noinspection GradleCompatible
     implementation "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
 
-    // Rx java
+    // Rx
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // Http client
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
@@ -52,34 +52,37 @@ dependencies {
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
-    //material Spinner
+    // Material Spinner
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
-    //Loading View
+    // Loading View
     implementation 'com.wang.avi:library:2.1.3'
 
-    //Room
-    implementation "android.arch.persistence.room:runtime:1.1.1"
+    // Room
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
 
-    //Admob
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    // Admob
+    implementation 'com.google.android.gms:play-services-ads:17.1.3'
 
-    //Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
-        transitive = true
-    }
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
 
-    //anko
+    // Crashlytics
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+
+    // Anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
 
-    //multidex
+    // Multidex
     implementation 'com.android.support:multidex:1.0.3'
 
-    //Snacky
+    // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
+
+    implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }
 ```
 
