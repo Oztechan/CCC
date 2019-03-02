@@ -58,9 +58,10 @@
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
     <string name="support_us">Support us !</string>
 
-    <!--Rate-->
-    <string name="rate_and_support">Please, rate and commend to the app at Google Play Store</string>
+    <!--Dialog-->
+    <string name="rate_and_support">Please rate and comment to the app at Google Play Store :)</string>
     <string name="rate">RATE</string>
+    <string name="update">Update</string>
 
     <!--Mail-->
     <string name="mail_developer">mr.mustafa.ozhan@gmail.com\</string>
