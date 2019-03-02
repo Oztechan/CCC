@@ -15,12 +15,13 @@
 
 ## Screenshots
 
-<img src="https://i.postimg.cc/1yLhy6jr/cover.png?dl=1"/>
-
 <img src="https://i.postimg.cc/ZTpknnkt/8.png?dl=1" width="218px"/><img src="https://i.postimg.cc/c0kG5P7j/2.png?dl=1" width="218px"/><img src="https://i.postimg.cc/Ykk746qX/3.png?dl=1" width="218px"/><img src="https://i.postimg.cc/q4vdwpKy/4.png?dl=1" width="218px"/>
 
 <img src="https://i.postimg.cc/fM3Q45Bb/5.png?dl=1" width="218px"/><img src="https://i.postimg.cc/XjkTKP7s/6.png?dl=1" width="218px"/><img src="https://i.postimg.cc/2kDsZYmq/7.png?dl=1" width="218px"/><img src="https://i.postimg.cc/ZZcS6WWJ/1.png?dl=1" width="218px"/>
 
+## Included Currencies
+
+<img src="https://i.postimg.cc/1yLhy6jr/cover.png?dl=1"/>
 
 ## Dependencies
 ```
