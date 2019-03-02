@@ -70,4 +70,8 @@
     <string name="mail_intent_title">Send Feedback:</string>
     <string name="app_market_link">https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies</string>
 
+    <!--Update Dialog-->
+    <string name="remote_config_title">App Update</string>
+    <string name="remote_config_description">Looks like you have an older\nversion of the app.\nPlease update to get latest\nfeatures and best experience.</string>
+
 </resources>

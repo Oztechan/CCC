@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base
 
+import android.app.AlertDialog
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.annotation.IdRes
@@ -98,5 +99,27 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             .build()
             .show()
+    }
+
+    protected fun showDialog(
+        title: String,
+        description: String,
+        positiveButton: String,
+        cancelable: Boolean = true,
+        function: () -> Unit = {}
+    ) {
+        val builder = AlertDialog
+            .Builder(this, R.style.AlertDialogCustom)
+            .setTitle(title)
+            .setMessage(description)
+            .setPositiveButton(positiveButton) { _, _ ->
+                function()
+            }
+            .setCancelable(cancelable)
+
+        if (cancelable)
+            builder.setNegativeButton(getString(R.string.cancel), null)
+
+        builder.show()
     }
 }
