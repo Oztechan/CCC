@@ -110,6 +110,7 @@ abstract class BaseActivity : AppCompatActivity() {
     ) {
         val builder = AlertDialog
             .Builder(this, R.style.AlertDialogCustom)
+            .setIcon(R.mipmap.ic_launcher)
             .setTitle(title)
             .setMessage(description)
             .setPositiveButton(positiveButton) { _, _ ->

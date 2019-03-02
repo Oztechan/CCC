@@ -17,7 +17,6 @@
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cyan_700</item>
-        <item name="android:alertDialogIcon">@mipmap/ic_launcher</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
