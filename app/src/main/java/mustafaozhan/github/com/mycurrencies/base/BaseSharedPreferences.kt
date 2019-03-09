@@ -11,7 +11,7 @@ abstract class BaseSharedPreferences {
 
     protected abstract val preferencesName: String
 
-    protected fun getStringEntry(key: String, defaultValue: String = ""): String? {
+    protected fun getStringEntry(key: String, defaultValue: String = ""): String {
         return getSharedPreferences().getString(key, defaultValue)
     }
 
