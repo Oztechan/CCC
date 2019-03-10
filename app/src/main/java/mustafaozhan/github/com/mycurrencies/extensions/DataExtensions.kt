@@ -9,6 +9,7 @@ import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -34,15 +35,22 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
     }
 
 fun CurrencyDao.insertInitialCurrencies() {
-    Rates::class.java.declaredFields.forEach {
-        this.insertCurrency(Currency(it.name))
+    Rates::class.java.declaredFields.filter { field ->
+        enumContains<Currencies>(field.name)
+    }.forEach { existField ->
+        this.insertCurrency(Currency(existField.name))
     }
+}
+
+inline fun <reified T : Enum<T>> enumContains(name: String): Boolean {
+    return enumValues<T>().any { it.name == name }
 }
 
 fun Rates.findBase() =
     this::class.java.fields.firstOrNull {
         this.getThroughReflection<Double>(it.name) == 1.0
-    }?.name ?: "NULL"
+    }?.name
+        ?: "NULL"
 
 inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
     val getterName = "get" + propertyName.capitalize()
