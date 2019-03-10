@@ -18,7 +18,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mConstraintLayout"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/fit"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,10 +27,10 @@
 
         <ImageView
             android:id="@+id/imgBase"
-            android:layout_width="32sp"
-            android:layout_height="32sp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_width="@dimen/currencyIconSize"
+            android:layout_height="@dimen/currencyIconSize"
+            android:layout_marginStart="@dimen/marginEight"
+            android:layout_marginLeft="@dimen/marginEight"
             android:contentDescription="@string/base_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="@dimen/marginThree"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgBase"
             app:layout_constraintTop_toTopOf="parent"
@@ -55,10 +55,10 @@
             android:id="@+id/txtResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/marginEight"
+            android:layout_marginLeft="@dimen/marginEight"
+            android:layout_marginTop="@dimen/marginEight"
+            android:layout_marginBottom="@dimen/marginEight"
             android:maxLines="1"
             android:textAppearance="@style/BaseTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
@@ -69,11 +69,10 @@
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading"
         style="@style/AVLoadingIndicatorView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/loadingViewSize"
+        android:layout_height="@dimen/loadingViewSize"
         app:indicatorColor="@color/blue_grey_100"
         app:indicatorName="BallPulseIndicator"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
@@ -81,10 +80,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewCurrency"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/fit"
+        android:layout_height="@dimen/fit"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mConstraintLayout" />
@@ -99,11 +97,10 @@
     <include
         android:id="@+id/content"
         layout="@layout/layout_keyboard_content"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/fit"
+        android:layout_height="@dimen/fit"
         app:layout_constraintBottom_toTopOf="@+id/bannerLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
