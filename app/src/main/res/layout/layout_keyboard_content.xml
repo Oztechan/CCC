@@ -17,9 +17,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/seven"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnEight"
@@ -29,9 +27,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/eight"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnNine"
@@ -41,9 +37,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/nine"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnMultiply"
@@ -53,9 +47,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/multiply"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
 
     </TableRow>
@@ -74,9 +66,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/four"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnFive"
@@ -86,9 +76,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/five"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnSix"
@@ -98,9 +86,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/six"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnDivide"
@@ -110,9 +96,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/divide"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
     </TableRow>
 
     <TableRow
@@ -129,9 +113,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/one"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnTwo"
@@ -141,9 +123,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/two"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnThree"
@@ -153,9 +133,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/three"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnMinus"
@@ -165,9 +143,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/minus"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
     </TableRow>
 
@@ -185,9 +161,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/dot"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnZero"
@@ -197,9 +171,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/zero"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnPercent"
@@ -209,9 +181,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/percent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnPlus"
@@ -221,9 +191,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/plus"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
     </TableRow>
 
     <TableRow
@@ -240,9 +208,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/triple_zero"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnAc"
@@ -252,9 +218,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/ac"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
 
         <Button
             android:id="@+id/btnDelete"
@@ -264,9 +228,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_dark"
             android:text="@string/delete"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/blue_grey_100"
-            android:textSize="20sp" />
+            android:textAppearance="@style/BaseTextStyle" />
     </TableRow>
 
 

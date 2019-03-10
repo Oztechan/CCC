@@ -11,12 +11,27 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-        <item name="android:fontFamily">@font/news_cycle_regular</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/cyan_700</item>
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BaseTextStyle">
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textSize">@dimen/textSizeLarge</item>
+    </style>
+
+    <style name="ItemTextStyle" parent="BaseTextStyle">
+        <item name="android:textSize">@dimen/textSizeNormal</item>
+    </style>
+
+    <style name="TextStyleSmall" parent="BaseTextStyle">
+        <item name="android:textSize">@dimen/textSizeSmall</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
