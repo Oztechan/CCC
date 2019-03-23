@@ -130,39 +130,42 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
+    @Suppress("ComplexMethod")
     private fun updateUi() {
         doAsync {
             viewModel.refreshData()
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
-                    val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
-
-                    if (spinnerList.size < 2) {
-                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                        }
-                        imgBase.setBackgroundByName("transparent")
-                        mSpinner.setItems("")
-                    } else {
-                        mSpinner.setItems(spinnerList)
-
-                        if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                            currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
-                                viewModel.updateCurrentBase(firsActive)
-                                mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
+                    val spinnerList: List<String>? = currencyList.filter { it.isActive == 1 }.map { it.name }
+                    spinnerList?.let {
+                        if (spinnerList.size < 2) {
+                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
                             }
+                            imgBase.setBackgroundByName("transparent")
+                            mSpinner.setItems("")
                         } else {
-                            if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                            mSpinner.setItems(spinnerList)
+                            if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
+                                currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
+                                    viewModel.updateCurrentBase(firsActive)
+                                    mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
+                                }
+                            } else {
+                                if (viewModel.mainData.currentBase == Currencies.NULL) {
+                                    viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                                }
+                                if (currencyList.any { c ->
+                                        c.isActive == 1 &&
+                                            c.name == viewModel.mainData.currentBase.toString()
+                                    }
+                                ) {
+                                    mSpinner.selectedIndex =
+                                        spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                                }
                             }
-                            if (currencyList.any { currency ->
-                                    currency.isActive == 1 &&
-                                        currency.name == viewModel.mainData.currentBase.toString()
-                                }) {
-                                mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
-                            }
+                            imgBase.setBackgroundByName(mSpinner.text.toString())
                         }
-                        imgBase.setBackgroundByName(mSpinner.text.toString())
                     }
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
                 }
