@@ -5,6 +5,7 @@ import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
@@ -110,8 +111,8 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun calculateOutput(text: String) {
         val calculation = Expression(
-            text.replace("%", "/100*")
-                .replace(",", ".")
+            text.replaceCommas()
+                .replace("%", "/100*")
         ).calculate()
 
         output = if (calculation.isNaN()) {

@@ -1,5 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -10,6 +13,10 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:51 PM on Arch Linux wit Love <3.
  */
+fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
+    removeObserver(observer)
+    observe(owner, observer)
+}
 
 fun <T> Observable<T>.applySchedulers(): Observable<T> =
     observeOn(AndroidSchedulers.mainThread())

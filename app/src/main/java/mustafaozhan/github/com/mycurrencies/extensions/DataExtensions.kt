@@ -1,8 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
 import android.util.Log
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
@@ -15,19 +12,14 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
-fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
-    removeObserver(observer)
-    observe(owner, observer)
-}
-
 fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
     if (value.isNotEmpty()) {
         try {
             rate?.getThroughReflection<Double>(name)
-                ?.times(value.replace(",", ".").toDouble())
+                ?.times(value.replaceCommas().toDouble())
                 ?: 0.0
         } catch (e: NumberFormatException) {
-            val numericValue = replaceNonstandardDigits(value.replace(",", "."))
+            val numericValue = replaceNonstandardDigits(value.replaceCommas())
 
             Crashlytics.logException(e)
             Crashlytics.log(Log.ERROR,
@@ -36,12 +28,16 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
             )
 
             rate?.getThroughReflection<Double>(name)
-                ?.times(numericValue.replace(",", ".").toDouble())
+                ?.times(numericValue.replaceCommas().toDouble())
                 ?: 0.0
         }
     } else {
         0.0
     }
+
+fun String.replaceCommas(): String =
+    this.replace(",", ".")
+        .replace("٫", ".")
 
 private fun replaceNonstandardDigits(input: String): String {
     val builder = StringBuilder()
