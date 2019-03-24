@@ -13,8 +13,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 90
-        versionName "6.90"
+        versionCode 91
+        versionName "6.91"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {
@@ -84,7 +84,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-config:16.4.0'
+    implementation 'com.google.firebase:firebase-config:16.4.1'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {

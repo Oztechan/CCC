@@ -109,19 +109,17 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun calculateOutput(text: String) {
-        val calculation =
-            Expression(text
-                .replace("%", "/100*")
+        val calculation = Expression(
+            text.replace("%", "/100*")
                 .replace(",", ".")
-            ).calculate()
+        ).calculate()
 
-        output =
-            if (calculation.isNaN()) {
-                ""
-            } else {
-                DecimalFormat("0.000")
-                    .format(calculation)
-            }
+        output = if (calculation.isNaN()) {
+            ""
+        } else {
+            DecimalFormat("0.000")
+                .format(calculation)
+        }
     }
 
     fun updateCurrentBase(currency: String?) {

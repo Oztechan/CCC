@@ -5,22 +5,29 @@ import android.view.animation.AnimationUtils
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
+import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
+import java.io.FileNotFoundException
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 fun ImageView.setBackgroundByName(name: String) =
-    setImageResource(
-        resources.getIdentifier(
-            name.toLowerCase().replace("try", "tryy"),
-            "drawable",
-            context.packageName
+    try {
+        setImageResource(
+            resources.getIdentifier(
+                name.toLowerCase().replace("try", "tryy"),
+                "drawable",
+                context.packageName
+            )
         )
-    )
+    } catch (e: FileNotFoundException) {
+        setImageResource(R.drawable.transparent)
+        Crashlytics.logException(e)
+    }
 
 @SuppressLint("SetTextI18n")
 fun TextView.addText(str: String) {

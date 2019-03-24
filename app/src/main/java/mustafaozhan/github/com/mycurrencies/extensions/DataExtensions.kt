@@ -26,13 +26,39 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
                 ?.times(value.replace(",", ".").toDouble())
                 ?: 0.0
         } catch (e: NumberFormatException) {
+            val numericValue = replaceNonstandardDigits(value)
+
             e.printStackTrace()
             Crashlytics.logException(e)
-            0.0
+            Crashlytics.log(numericValue)
+
+            rate?.getThroughReflection<Double>(name)
+                ?.times(numericValue.replace(",", ".").toDouble())
+                ?: 0.0
         }
     } else {
         0.0
     }
+
+private fun replaceNonstandardDigits(input: String): String {
+    val builder = StringBuilder()
+    for (i in 0 until input.length) {
+        val ch = input[i]
+        if (isNonstandardDigit(ch)) {
+            val numericValue = Character.getNumericValue(ch)
+            if (numericValue >= 0) {
+                builder.append(numericValue)
+            }
+        } else {
+            builder.append(ch)
+        }
+    }
+    return builder.toString()
+}
+
+private fun isNonstandardDigit(ch: Char): Boolean {
+    return Character.isDigit(ch) && ch !in '0'..'9'
+}
 
 fun CurrencyDao.insertInitialCurrencies() {
     Rates::class.java.declaredFields.filter { field ->
