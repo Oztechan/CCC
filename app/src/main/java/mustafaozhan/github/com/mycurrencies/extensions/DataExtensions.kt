@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.extensions
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.util.Log
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
@@ -28,9 +29,11 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
         } catch (e: NumberFormatException) {
             val numericValue = replaceNonstandardDigits(value.replace(",", "."))
 
-            e.printStackTrace()
             Crashlytics.logException(e)
-            Crashlytics.log(numericValue)
+            Crashlytics.log(Log.ERROR,
+                "NumberFormatException $value to $numericValue",
+                "If no crash making numeric is done successfully"
+            )
 
             rate?.getThroughReflection<Double>(name)
                 ?.times(numericValue.replace(",", ".").toDouble())
