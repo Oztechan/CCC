@@ -26,7 +26,7 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
                 ?.times(value.replace(",", ".").toDouble())
                 ?: 0.0
         } catch (e: NumberFormatException) {
-            val numericValue = replaceNonstandardDigits(value)
+            val numericValue = replaceNonstandardDigits(value.replace(",", "."))
 
             e.printStackTrace()
             Crashlytics.logException(e)
