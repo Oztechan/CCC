@@ -10,6 +10,7 @@
 
     <!--Margin Sizes-->
     <dimen name="marginZero">0dp</dimen>
+    <dimen name="marginOne">1dp</dimen>
     <dimen name="marginTwo">2dp</dimen>
     <dimen name="marginThree">3dp</dimen>
     <dimen name="marginFour">4dp</dimen>

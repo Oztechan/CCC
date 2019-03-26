@@ -10,41 +10,54 @@
         android:id="@+id/icon"
         android:layout_width="@dimen/currencyIconSize"
         android:layout_height="@dimen/currencyIconSize"
-        android:layout_marginStart="@dimen/marginFour"
-        android:layout_marginLeft="@dimen/marginFour"
+        android:layout_marginStart="@dimen/marginTwo"
+        android:layout_marginLeft="@dimen/marginTwo"
         android:layout_marginTop="@dimen/marginFour"
         android:layout_marginBottom="@dimen/marginFour"
         android:contentDescription="@string/currency_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtType"
         android:layout_width="@dimen/fit"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/marginEight"
-        android:layout_marginLeft="@dimen/marginEight"
+        android:layout_marginStart="@dimen/marginTwo"
+        android:layout_marginLeft="@dimen/marginTwo"
         android:layout_marginTop="@dimen/marginFour"
         android:layout_marginBottom="@dimen/marginFour"
         android:textAppearance="@style/ItemTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/checkBox"
         app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginOne"
+        android:layout_marginLeft="@dimen/marginOne"
+        android:layout_marginTop="@dimen/marginFour"
+        android:layout_marginBottom="@dimen/marginFour"
+        android:textAppearance="@style/TextStyleSmall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtType"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginFour"
-        android:layout_marginEnd="@dimen/marginFour"
-        android:layout_marginRight="@dimen/marginFour"
+        android:layout_marginEnd="@dimen/marginZero"
+        android:layout_marginRight="@dimen/marginZero"
         android:layout_marginBottom="@dimen/marginFour"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>

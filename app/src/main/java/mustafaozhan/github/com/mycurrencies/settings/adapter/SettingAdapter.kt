@@ -4,7 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import kotlinx.android.synthetic.main.item_setting.view.icon
-import kotlinx.android.synthetic.main.item_setting.view.textView
+import kotlinx.android.synthetic.main.item_setting.view.txtSymbol
+import kotlinx.android.synthetic.main.item_setting.view.txtType
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
@@ -21,7 +22,10 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {
-            itemView.textView.text = item.name
+            itemView.txtType.text = item.name
+            getString(context.resources.getIdentifier(item.name, "string", context.packageName)).apply {
+                itemView.txtSymbol.text = substring(lastIndexOf('-') + 1)
+            }
             itemView.checkBox.isChecked = item.isActive == 1
             itemView.icon.setBackgroundByName(item.name)
         }
