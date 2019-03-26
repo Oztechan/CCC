@@ -21,17 +21,22 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    var originalList = mutableListOf<Currency>()
+
+    val filteredListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 
     lateinit var mainData: MainData
 
     fun initData() {
-        currencyListLiveData.value?.clear()
+        originalList.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-        currencyListLiveData.postValue(currencyDao.getAllCurrencies())
+        currencyDao.getAllCurrencies().let { list ->
+            originalList = list
+            filteredListLiveData.postValue(list)
+        }
     }
 
     fun setCurrentBase(newBase: String?) {
@@ -48,7 +53,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun updateAllCurrencyState(value: Int) {
-        currencyListLiveData.value?.forEach { it.isActive = value }
+        originalList.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
 
@@ -58,5 +63,13 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun savePreferences() {
         dataManager.persistMainData(mainData)
+    }
+
+    fun search(query: String) {
+        val wanted = originalList.filter { currency ->
+            currency.description.contains(query, true)
+        }?.toMutableList()
+
+        filteredListLiveData.postValue(wanted)
     }
 }

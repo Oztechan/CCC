@@ -20,8 +20,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
         view: View,
         viewParent: View,
         position: Int
-    )
-    -> Unit
+    ) -> Unit
     ) = { t: T,
           view: View,
           viewParent: View,
@@ -68,9 +67,9 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
         LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
-    fun refreshList(list: MutableList<T>, currentBase: Currencies?, mainFragment: Boolean) {
+    fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
 
-        items = if (mainFragment && list.checkItemsAre<Currency>())
+        items = if (currentBase != null && list.checkItemsAre<Currency>()) {
             list.filter { listItem ->
                 listItem as Currency
                 listItem.name != currentBase.toString() &&
@@ -78,9 +77,9 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
                     listItem.rate.toString() != "NaN" &&
                     listItem.rate.toString() != "0.0"
             }.toMutableList()
-        else
+        } else {
             list
-
+        }
         notifyDataSetChanged()
     }
 

@@ -24,8 +24,12 @@ abstract class AppDatabase : RoomDatabase() {
                 database.execSQL1To2()
             }
         }
+        private val FROM_2_TO_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+        }
         val database = Room.databaseBuilder(Application.instance.applicationContext, AppDatabase::class.java, "app_db")
-            .addMigrations(FROM_1_TO_2).allowMainThreadQueries().build()
+            .addMigrations(FROM_1_TO_2).addMigrations(FROM_2_TO_3).allowMainThreadQueries().build()
     }
 
     abstract fun currencyDao(): CurrencyDao

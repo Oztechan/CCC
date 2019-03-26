@@ -1,11 +1,11 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.imgBase
 import kotlinx.android.synthetic.main.fragment_main.loading
@@ -74,7 +74,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initLiveData()
     }
 
-    @SuppressLint("CheckResult")
     private fun initData() {
         txtMainToolbar.textChanges()
             .subscribe { txt ->
@@ -97,7 +96,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         }
                     }
                 }
-            }
+            }.addTo(compositeDisposable)
     }
 
     private fun initLiveData() {
@@ -111,9 +110,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             mSpinner.expand()
                         }
                     }
-                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase, true)
+                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 } else {
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
                 loading.smoothToHide()
             }
@@ -171,7 +170,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             imgBase.setBackgroundByName(mSpinner.text.toString())
                         }
                     }
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase, true)
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
             }
         }
