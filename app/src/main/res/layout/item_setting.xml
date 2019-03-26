@@ -41,7 +41,7 @@
         android:layout_marginLeft="@dimen/marginFour"
         android:layout_marginTop="@dimen/marginFour"
         android:layout_marginBottom="@dimen/marginFour"
-        android:textAppearance="@style/TextStyleExtraSmall"
+        android:textAppearance="@style/TextStyleSmall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtType"
         app:layout_constraintTop_toTopOf="parent"/>

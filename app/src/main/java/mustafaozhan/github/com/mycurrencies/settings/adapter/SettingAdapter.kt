@@ -23,9 +23,11 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {
             itemView.txtType.text = item.name
-            getString(context.resources.getIdentifier(item.name, "string", context.packageName)).apply {
-                itemView.txtSymbol.text = substring(lastIndexOf('-') + 1)
-            }
+            itemView.txtSymbol.text = getString(
+                context.resources.getIdentifier(
+                    item.name, "string", context.packageName
+                )
+            )
             itemView.checkBox.isChecked = item.isActive == 1
             itemView.icon.setBackgroundByName(item.name)
         }

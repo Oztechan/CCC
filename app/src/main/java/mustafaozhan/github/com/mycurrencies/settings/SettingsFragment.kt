@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_settings.adView
 import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings
@@ -24,7 +24,6 @@ import org.jetbrains.anko.uiThread
 class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     companion object {
-        const val COLUMN = 3
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
@@ -44,7 +43,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private fun initViews() {
         context?.let { ctx ->
             mRecViewSettings.apply {
-                layoutManager = GridLayoutManager(ctx, COLUMN)
+                layoutManager = LinearLayoutManager(ctx)
                 setHasFixedSize(true)
                 adapter = settingAdapter
             }

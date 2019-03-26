@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Text Sizes-->
-    <dimen name="textSizeExtraSmall">13sp</dimen>
     <dimen name="textSizeSmall">15sp</dimen>
     <dimen name="textSizeNormal">16sp</dimen>
     <dimen name="textSizeLarge">18sp</dimen>
