@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
+import mustafaozhan.github.com.mycurrencies.extensions.getStringByName
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
@@ -89,17 +91,14 @@ abstract class BaseActivity : AppCompatActivity() {
             .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
             .setText(
                 if (showCurrency) {
-                    getString(resources.getIdentifier(text, "string", packageName))
+                    getStringByName(text)
                 } else {
                     text
                 }
             )
             .setIcon(
                 if (showCurrency) {
-                    resources.getIdentifier(
-                        text.toLowerCase().replace("try", "tryy"),
-                        "drawable",
-                        packageName)
+                    getImageResourceByName(text)
                 } else {
                     R.mipmap.ic_launcher
                 }

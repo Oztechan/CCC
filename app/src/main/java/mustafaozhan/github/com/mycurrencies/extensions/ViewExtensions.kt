@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.animation.AnimationUtils
 import android.webkit.WebView
 import android.widget.ImageView
@@ -16,18 +17,25 @@ import java.io.FileNotFoundException
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 fun ImageView.setBackgroundByName(name: String) =
+    setImageResource(context.getImageResourceByName(name))
+
+fun Context.getImageResourceByName(name: String): Int =
     try {
-        setImageResource(
-            resources.getIdentifier(
-                name.toLowerCase().replace("try", "tryy"),
-                "drawable",
-                context.packageName
-            )
+        resources.getIdentifier(
+            name.toLowerCase().replace("try", "tryy"),
+            "drawable",
+            packageName
         )
     } catch (e: FileNotFoundException) {
-        setImageResource(R.drawable.transparent)
         Crashlytics.logException(e)
+        R.drawable.transparent
     }
+
+fun Context.getStringByName(name: String): String = getString(
+    resources.getIdentifier(
+        name, "string", packageName
+    )
+)
 
 @SuppressLint("SetTextI18n")
 fun TextView.addText(str: String) {
