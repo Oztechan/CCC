@@ -34,6 +34,10 @@
         <item name="android:textSize">@dimen/textSizeSmall</item>
     </style>
 
+    <style name="TextStyleExtraSmall" parent="BaseTextStyle">
+        <item name="android:textSize">@dimen/textSizeExtraSmall</item>
+    </style>
+
     <style name="AppTheme.Fullscreen.SplashTheme">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
