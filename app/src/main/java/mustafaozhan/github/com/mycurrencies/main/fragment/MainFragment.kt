@@ -41,6 +41,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
@@ -127,6 +128,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         context?.let { ctx ->
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
+        }
+        currencyAdapter.onItemClickListener = { currency: Currency, _: View, _: View, _: Int ->
+            snacky(currency.name, showCurrency = true)
         }
     }
 

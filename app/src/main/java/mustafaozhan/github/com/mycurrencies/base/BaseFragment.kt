@@ -45,6 +45,7 @@ abstract class BaseFragment : Fragment() {
     protected fun snacky(
         text: String,
         actionText: String = "",
+        showCurrency: Boolean = false,
         action: () -> Unit = {}
-    ) = getBaseActivity().snacky(text, actionText, action)
+    ) = getBaseActivity().snacky(text, actionText, showCurrency, action)
 }

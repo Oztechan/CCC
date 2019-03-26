@@ -84,11 +84,26 @@ abstract class BaseActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun snacky(text: String, actionText: String = "", action: () -> Unit = {}) {
+    fun snacky(text: String, actionText: String = "", showCurrency: Boolean = false, action: () -> Unit = {}) {
         Snacky.builder()
             .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-            .setText(text)
-            .setIcon(R.mipmap.ic_launcher)
+            .setText(
+                if (showCurrency) {
+                    getString(resources.getIdentifier(text, "string", packageName))
+                } else {
+                    text
+                }
+            )
+            .setIcon(
+                if (showCurrency) {
+                    resources.getIdentifier(
+                        text.toLowerCase().replace("try", "tryy"),
+                        "drawable",
+                        packageName)
+                } else {
+                    R.mipmap.ic_launcher
+                }
+            )
             .setActivity(this)
             .setDuration(Snacky.LENGTH_LONG)
             .setActionText(actionText.toUpperCase())
