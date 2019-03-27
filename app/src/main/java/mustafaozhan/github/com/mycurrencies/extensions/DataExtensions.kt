@@ -2,12 +2,14 @@ package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.util.Log
 import com.crashlytics.android.Crashlytics
+import com.google.gson.Gson
+import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import mustafaozhan.github.com.mycurrencies.room.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
-import mustafaozhan.github.com.mycurrencies.tools.Currencies
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -60,15 +62,11 @@ private fun isNonstandardDigit(ch: Char): Boolean {
 }
 
 fun CurrencyDao.insertInitialCurrencies() {
-    Rates::class.java.declaredFields.filter { field ->
-        enumContains<Currencies>(field.name)
-    }.forEach { existField ->
-        this.insertCurrency(Currency(existField.name))
+    Gson().fromJson(Application.instance.assets.open("currencies.json").bufferedReader().use {
+        it.readText()
+    }, CurrencyJson::class.java).currencies.forEach { currency ->
+        this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))
     }
-}
-
-inline fun <reified T : Enum<T>> enumContains(name: String): Boolean {
-    return enumValues<T>().any { it.name == name }
 }
 
 fun Rates.findBase() =

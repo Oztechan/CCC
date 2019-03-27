@@ -129,7 +129,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mRecViewCurrency.adapter = currencyAdapter
         }
         currencyAdapter.onItemClickListener = { currency: Currency, _: View, _: View, _: Int ->
-            snacky(currency.name, showCurrency = true)
+            snacky(currency.getVariablesOneLine(), setIcon = currency.name)
         }
     }
 

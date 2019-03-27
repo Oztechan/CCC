@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
-import mustafaozhan.github.com.mycurrencies.extensions.getStringByName
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
@@ -86,19 +85,13 @@ abstract class BaseActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun snacky(text: String, actionText: String = "", showCurrency: Boolean = false, action: () -> Unit = {}) {
+    fun snacky(text: String, actionText: String = "", setIcon: String? = null, action: () -> Unit = {}) {
         Snacky.builder()
             .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-            .setText(
-                if (showCurrency) {
-                    getStringByName(text)
-                } else {
-                    text
-                }
-            )
+            .setText(text)
             .setIcon(
-                if (showCurrency) {
-                    getImageResourceByName(text)
+                if (setIcon != null) {
+                    getImageResourceByName(setIcon)
                 } else {
                     R.mipmap.ic_launcher
                 }

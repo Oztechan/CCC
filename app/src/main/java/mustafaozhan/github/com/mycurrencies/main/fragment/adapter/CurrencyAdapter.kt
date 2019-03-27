@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.item_currency.view.txtType
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
-import mustafaozhan.github.com.mycurrencies.extensions.getStringByName
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import java.text.DecimalFormat
@@ -26,9 +25,7 @@ class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
 
         override fun bind(item: Currency) {
             itemView.txtType.text = item.name
-            context.getStringByName(item.name).apply {
-                itemView.txtSymbol.text = substring(lastIndexOf('-') + 1)
-            }
+            itemView.txtSymbol.text = item.symbol
             itemView.txtAmount.text = DecimalFormat("0.000").format(item.rate)
             itemView.imgRow.setBackgroundByName(item.name)
         }

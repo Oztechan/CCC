@@ -67,8 +67,10 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun search(query: String) {
         val wanted = originalList.filter { currency ->
-            currency.description.contains(query, true)
-        }?.toMutableList()
+            currency.name.contains(query, true) ||
+                currency.longName.contains(query, true) ||
+                currency.symbol.contains(query, true)
+        }.toMutableList()
 
         filteredListLiveData.postValue(wanted)
     }
