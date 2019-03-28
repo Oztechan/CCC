@@ -70,11 +70,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         initViews()
         setListeners()
         setKeyboard()
-        initData()
+        setRx()
         initLiveData()
     }
 
-    private fun initData() {
+    private fun setRx() {
         txtMainToolbar.textChanges()
             .subscribe { txt ->
                 viewModel.currencyListLiveData.value?.let { currencyList ->
@@ -136,6 +136,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     @Suppress("ComplexMethod")
     private fun updateUi() {
         doAsync {
+            loading.smoothToShow()
             viewModel.refreshData()
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
@@ -172,6 +173,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     }
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
+                loading.smoothToHide()
             }
         }
     }

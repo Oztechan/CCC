@@ -41,7 +41,7 @@ androidExtensions {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //noinspection GradleCompatible
     implementation "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
     testImplementation 'junit:junit:4.12'

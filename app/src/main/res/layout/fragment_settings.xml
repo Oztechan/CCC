@@ -22,6 +22,8 @@
         android:id="@+id/eTxtSearch"
         style="@style/BaseEditTextTheme"
         android:layout_width="0dp"
+        android:inputType="text"
+        android:textAppearance="@style/ItemTextStyle"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
