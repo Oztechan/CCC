@@ -29,9 +29,9 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     fun initData() {
         originalList.clear()
-        if (mainData.firstRun) {
+        if (mainData.initialRun) {
             currencyDao.insertInitialCurrencies()
-            mainData.firstRun = false
+            mainData.initialRun = false
         }
         currencyDao.getAllCurrencies().let { list ->
             originalList = list

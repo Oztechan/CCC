@@ -43,12 +43,12 @@ class MainFragmentViewModel : BaseViewModel() {
     fun refreshData() {
         currencyListLiveData.value?.clear()
 
-        if (mainData.firstRun) {
+        if (mainData.initialRun) {
             currencyDao.insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1)
                 subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
                     ::offlineRateAllSuccess, ::offlineRateAllFail)
-            mainData.firstRun = false
+            mainData.initialRun = false
         }
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
