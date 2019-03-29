@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
+import java.io.File
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
@@ -129,5 +130,34 @@ abstract class BaseActivity : AppCompatActivity() {
             builder.setNegativeButton(getString(R.string.cancel), null)
 
         builder.show()
+    }
+
+    fun clearApplicationData() {
+        val cacheDirectory = cacheDir
+        val applicationDirectory = File(cacheDirectory.parent)
+        if (applicationDirectory.exists()) {
+            val fileNames = applicationDirectory.list()
+            for (fileName in fileNames) {
+                if (fileName != "lib") {
+                    deleteFile(File(applicationDirectory, fileName))
+                }
+            }
+        }
+    }
+
+    protected fun deleteFile(file: File?): Boolean {
+        var deletedAll = true
+        if (file != null) {
+            if (file.isDirectory) {
+                val children = file.list()
+                for (i in children.indices) {
+                    deletedAll = deleteFile(File(file, children[i])) && deletedAll
+                }
+            } else {
+                deletedAll = file.delete()
+            }
+        }
+
+        return deletedAll
     }
 }

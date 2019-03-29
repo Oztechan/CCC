@@ -16,6 +16,7 @@ constructor() : BaseSharedPreferences() {
     companion object {
         const val GENERAL_SHARED_PREFS = "GENERAL_SHARED_PREFS"
         const val MAIN_DATA = "MAIN_DATA"
+        const val CLEAR_APP_DATA = "CLEAR_APP_DATA_1"
     }
 
     override val preferencesName: String
@@ -30,4 +31,7 @@ constructor() : BaseSharedPreferences() {
         return Gson().fromJson(mainDataJson, MainData::class.java)
             ?: MainData(true, Currencies.EUR)
     }
+
+    fun persisClearAppData(clearAppData: Boolean) = setBooleanEntry(CLEAR_APP_DATA, clearAppData)
+    fun loadClearAppData() = getBooleanEntry(CLEAR_APP_DATA, true)
 }

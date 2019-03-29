@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
@@ -107,6 +108,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         }
     }
 
+    @Suppress("ComplexMethod")
     private fun checkAppUpdate() {
 
         val defaultMap = HashMap<String, Any>()
@@ -125,14 +127,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         )
 
         firebaseRemoteConfig.setDefaults(defaultMap)
-
-        firebaseRemoteConfig
-            .fetch(
-                if (BuildConfig.DEBUG)
-                    0
-                else
-                    TimeUnit.HOURS.toSeconds(CHECK_DURATION)
-            )
+        firebaseRemoteConfig.fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(CHECK_DURATION))
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     firebaseRemoteConfig.activateFetched()
@@ -143,17 +138,21 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                         else
                             firebaseRemoteConfig.getString(REMOTE_CONFIG)
 
-                    Gson().fromJson(
-                        remoteConfigStr,
-                        RemoteConfig::class.java
-                    ).apply {
-                        val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
+                    try {
+                        Gson().fromJson(
+                            remoteConfigStr,
+                            RemoteConfig::class.java
+                        ).apply {
+                            val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
 
-                        if (latestVersion > BuildConfig.VERSION_CODE) {
-                            showDialog(title, description, getString(R.string.update), isCancelable) {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                            if (latestVersion > BuildConfig.VERSION_CODE) {
+                                showDialog(title, description, getString(R.string.update), isCancelable) {
+                                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                                }
                             }
                         }
+                    } catch (e: Exception) {
+                        Crashlytics.logException(e)
                     }
                 }
             }

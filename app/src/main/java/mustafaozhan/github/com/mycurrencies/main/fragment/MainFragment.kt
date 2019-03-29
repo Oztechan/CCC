@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
@@ -67,11 +68,20 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        checkAppData()
         initViews()
         setListeners()
         setKeyboard()
         setRx()
         initLiveData()
+    }
+
+    private fun checkAppData() {
+        if (viewModel.loadClearAppData()) {
+            snacky(getString(R.string.clear_app_data))
+            clearAppData()
+            viewModel.persistClearAppData(true)
+        }
     }
 
     private fun setRx() {
@@ -139,9 +149,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             loading.smoothToShow()
             viewModel.refreshData()
             uiThread {
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    val spinnerList: List<String>? = currencyList.filter { it.isActive == 1 }.map { it.name }
-                    spinnerList?.let {
+                try {
+                    viewModel.currencyListLiveData.value?.let { currencyList ->
+                        val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
                         if (spinnerList.size < 2) {
                             snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
                                 getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
@@ -170,10 +180,15 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             }
                             imgBase.setBackgroundByName(mSpinner.text.toString())
                         }
+                        currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                        loading.smoothToHide()
                     }
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                } catch (e: Exception) {
+                    clearAppData()
+                    snacky(getString(R.string.clear_app_data))
+                    Crashlytics.logException(e)
+                    loading.smoothToHide()
                 }
-                loading.smoothToHide()
             }
         }
     }

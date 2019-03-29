@@ -127,4 +127,8 @@ class MainFragmentViewModel : BaseViewModel() {
         mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
         savePreferences()
     }
+
+    fun loadClearAppData(): Boolean = dataManager.loadClearAppData()
+
+    fun persistClearAppData(clearAppData: Boolean) = dataManager.persistClearAppData(clearAppData)
 }
