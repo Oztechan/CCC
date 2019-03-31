@@ -110,6 +110,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 } else {
                     viewModel.updateAllCurrencyState(value)
                 }
+            } else {
+                viewModel.initData()
             }
 
             uiThread {

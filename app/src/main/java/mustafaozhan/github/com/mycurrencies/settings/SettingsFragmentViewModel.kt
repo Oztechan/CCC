@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
@@ -25,6 +26,18 @@ class SettingsFragmentViewModel : BaseViewModel() {
     val filteredListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 
     lateinit var mainData: MainData
+
+    fun initData() {
+        originalList.clear()
+        if (mainData.initialRunning) {
+            currencyDao.insertInitialCurrencies()
+            mainData.initialRunning = false
+        }
+        currencyDao.getAllCurrencies().let { list ->
+            originalList = list
+            filteredListLiveData.postValue(list)
+        }
+    }
 
     fun setCurrentBase(newBase: String?) {
         if (newBase == null) {
