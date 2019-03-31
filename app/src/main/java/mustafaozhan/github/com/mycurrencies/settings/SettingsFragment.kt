@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_settings.adView
 import kotlinx.android.synthetic.main.fragment_settings.eTxtSearch
 import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings

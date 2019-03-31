@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.imgBase
 import kotlinx.android.synthetic.main.fragment_main.loading
@@ -78,6 +79,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         if (viewModel.mainData.initialRunning) {
             snacky(getString(R.string.init_app_data))
             clearAppData()
+            viewModel.loadPreferences()
             viewModel.refreshData()
         }
     }
@@ -202,12 +204,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
 
         mConstraintLayout.setOnClickListener {
-            mSpinner.apply {
-                if (isActivated) {
-                    collapse()
-                } else {
-                    expand()
-                }
+            if (mSpinner.isActivated) {
+                mSpinner.collapse()
+            } else {
+                mSpinner.expand()
             }
         }
     }

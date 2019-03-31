@@ -54,7 +54,7 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
-    fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies()
+    private fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies()
 
     fun loadPreferences() {
         mainData = dataManager.loadMainData()
