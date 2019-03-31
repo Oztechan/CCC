@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.imgBase
 import kotlinx.android.synthetic.main.fragment_main.loading
@@ -78,9 +77,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun checkAppData() {
         if (viewModel.loadClearAppData()) {
-            snacky(getString(R.string.clear_app_data))
+            snacky(getString(R.string.init_app_data))
             clearAppData()
             viewModel.persistClearAppData(true)
+            viewModel.insertInitialCurrencies()
         }
     }
 
@@ -185,7 +185,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     }
                 } catch (e: Exception) {
                     clearAppData()
-                    snacky(getString(R.string.clear_app_data))
+                    snacky(getString(R.string.init_app_data))
                     Crashlytics.logException(e)
                     loading.smoothToHide()
                 }

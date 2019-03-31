@@ -53,7 +53,7 @@
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
     <string name="change">Change</string>
     <string name="ok">@android:string/ok</string>
-    <string name="clear_app_data">App data cleaning…</string>
+    <string name="init_app_data">App data initializing…</string>
 
     <!--Support-->
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>

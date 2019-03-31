@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-@Database(entities = [(Currency::class), (OfflineRates::class)], version = 3, exportSchema = false)
+@Database(entities = [(Currency::class), (OfflineRates::class)], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
@@ -20,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
             .databaseBuilder(
                 Application.instance.applicationContext,
                 AppDatabase::class.java,
-                "app_database"
+                "application_database"
             ).allowMainThreadQueries().build()
     }
 

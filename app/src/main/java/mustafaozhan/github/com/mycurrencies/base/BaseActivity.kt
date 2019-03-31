@@ -145,7 +145,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun deleteFile(file: File?): Boolean {
+    private fun deleteFile(file: File?): Boolean {
         var deletedAll = true
         if (file != null) {
             if (file.isDirectory) {
