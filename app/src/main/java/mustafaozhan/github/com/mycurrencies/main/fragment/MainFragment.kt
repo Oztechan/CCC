@@ -67,7 +67,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        checkAppData()
         initViews()
         setListeners()
         setKeyboard()
@@ -76,11 +75,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun checkAppData() {
-        if (viewModel.loadClearAppData()) {
+        if (viewModel.mainData.initialRunning) {
             snacky(getString(R.string.init_app_data))
             clearAppData()
-            viewModel.persistClearAppData(true)
-            viewModel.insertInitialCurrencies()
+            viewModel.refreshData()
         }
     }
 
@@ -251,6 +249,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.loadPreferences()
+        checkAppData()
         viewModel.getCurrencies()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_main)

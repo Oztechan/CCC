@@ -22,13 +22,6 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 
-    fun persistMainData(mainData: MainData) {
+    fun persistMainData(mainData: MainData) =
         generalSharedPreferences.persistMainData(mainData)
-    }
-
-    fun loadClearAppData() =
-        generalSharedPreferences.loadClearAppData()
-
-    fun persistClearAppData(clearAppData: Boolean) =
-        generalSharedPreferences.persisClearAppData(clearAppData)
 }

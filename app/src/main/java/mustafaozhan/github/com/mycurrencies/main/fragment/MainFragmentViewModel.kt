@@ -43,13 +43,13 @@ class MainFragmentViewModel : BaseViewModel() {
     fun refreshData() {
         currencyListLiveData.value?.clear()
 
-        if (mainData.initialRun) {
+        if (mainData.initialRunning) {
             insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1) {
                 subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
                     ::offlineRateAllSuccess, ::offlineRateAllFail)
             }
-            mainData.initialRun = false
+            mainData.initialRunning = false
         }
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
@@ -130,10 +130,4 @@ class MainFragmentViewModel : BaseViewModel() {
         mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
         savePreferences()
     }
-
-    fun loadClearAppData(): Boolean =
-        dataManager.loadClearAppData()
-
-    fun persistClearAppData(clearAppData: Boolean) =
-        dataManager.persistClearAppData(clearAppData)
 }
