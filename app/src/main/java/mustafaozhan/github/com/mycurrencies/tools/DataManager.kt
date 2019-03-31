@@ -24,4 +24,8 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
 
     fun persistMainData(mainData: MainData) =
         generalSharedPreferences.persistMainData(mainData)
+
+    fun loadResetData() = generalSharedPreferences.loadResetData()
+
+    fun persistResetData(resetData: Boolean) = generalSharedPreferences.persistResetData(resetData)
 }

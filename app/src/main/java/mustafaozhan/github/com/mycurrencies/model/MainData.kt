@@ -6,6 +6,6 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 data class MainData(
-    var initialRunning: Boolean,
+    var firstRun: Boolean,
     var currentBase: Currencies
 )

@@ -43,18 +43,25 @@ class MainFragmentViewModel : BaseViewModel() {
     fun refreshData() {
         currencyListLiveData.value?.clear()
 
-        if (mainData.initialRunning) {
+        if (mainData.firstRun) {
             insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1) {
                 subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
                     ::offlineRateAllSuccess, ::offlineRateAllFail)
             }
-            mainData.initialRunning = false
+            mainData.firstRun = false
         }
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
-    private fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies()
+    fun insertInitialCurrencies() {
+        currencyDao.insertInitialCurrencies()
+        for (i in 0 until Currencies.values().size - 1) {
+            subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
+                ::offlineRateAllSuccess, ::offlineRateAllFail)
+        }
+        persistResetData(false)
+    }
 
     fun loadPreferences() {
         mainData = dataManager.loadMainData()
@@ -130,4 +137,8 @@ class MainFragmentViewModel : BaseViewModel() {
         mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
         savePreferences()
     }
+
+    fun loadResetData() = dataManager.loadResetData()
+
+    fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
 }
