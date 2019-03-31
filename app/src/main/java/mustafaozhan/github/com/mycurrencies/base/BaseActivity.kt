@@ -133,6 +133,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun clearApplicationData() {
+        snacky(getString(R.string.init_app_data))
         val cacheDirectory = cacheDir
         val applicationDirectory = File(cacheDirectory.parent)
         if (applicationDirectory.exists()) {

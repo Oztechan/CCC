@@ -3,9 +3,11 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.imgBase
 import kotlinx.android.synthetic.main.fragment_main.loading
@@ -72,13 +74,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         setKeyboard()
         setRx()
         initLiveData()
+        checkAppData()
     }
 
     private fun checkAppData() {
         if (viewModel.loadResetData()) {
-            snacky(getString(R.string.init_app_data))
             clearAppData()
-            viewModel.loadPreferences()
             viewModel.insertInitialCurrencies()
         }
     }
@@ -142,53 +143,57 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    @Suppress("ComplexMethod")
     private fun updateUi() {
         doAsync {
             loading.smoothToShow()
             viewModel.refreshData()
             uiThread {
                 try {
-                    viewModel.currencyListLiveData.value?.let { currencyList ->
-                        val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
-                        if (spinnerList.size < 2) {
-                            snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                                getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
-                            }
-                            imgBase.setBackgroundByName("transparent")
-                            mSpinner.setItems("")
-                        } else {
-                            mSpinner.setItems(spinnerList)
-                            if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                                currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
-                                    viewModel.updateCurrentBase(firsActive)
-                                    mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
-                                }
-                            } else {
-                                if (viewModel.mainData.currentBase == Currencies.NULL) {
-                                    viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-                                }
-                                if (currencyList.any { c ->
-                                        c.isActive == 1 &&
-                                            c.name == viewModel.mainData.currentBase.toString()
-                                    }
-                                ) {
-                                    mSpinner.selectedIndex =
-                                        spinnerList.indexOf(viewModel.mainData.currentBase.toString())
-                                }
-                            }
-                            imgBase.setBackgroundByName(mSpinner.text.toString())
-                        }
-                        currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-                        loading.smoothToHide()
-                    }
-                } catch (e: Exception) {
+                    updateBar()
+                } catch (e: NullPointerException) {
                     clearAppData()
-                    snacky(getString(R.string.init_app_data))
                     Crashlytics.logException(e)
-                    loading.smoothToHide()
+                    Crashlytics.log(Log.ERROR, "Updating UI", "If there is no error Updating UI successful")
+                    updateBar()
                 }
+                loading.smoothToHide()
             }
+        }
+    }
+
+    @Suppress("NestedBlockDepth")
+    private fun updateBar() {
+        viewModel.currencyListLiveData.value?.let { currencyList ->
+            val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
+            if (spinnerList.size < 2) {
+                snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                    getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                }
+                imgBase.setBackgroundByName("transparent")
+                mSpinner.setItems("")
+            } else {
+                mSpinner.setItems(spinnerList)
+                if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
+                    currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
+                        viewModel.updateCurrentBase(firsActive)
+                        mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
+                    }
+                } else {
+                    if (viewModel.mainData.currentBase == Currencies.NULL) {
+                        viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                    }
+                    if (currencyList.any { c ->
+                            c.isActive == 1 &&
+                                c.name == viewModel.mainData.currentBase.toString()
+                        }
+                    ) {
+                        mSpinner.selectedIndex =
+                            spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                    }
+                }
+                imgBase.setBackgroundByName(mSpinner.text.toString())
+            }
+            currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
         }
     }
 
@@ -248,7 +253,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.loadPreferences()
-        checkAppData()
         viewModel.getCurrencies()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_main)
