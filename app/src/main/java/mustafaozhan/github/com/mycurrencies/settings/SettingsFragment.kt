@@ -10,6 +10,7 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_settings.adView
 import kotlinx.android.synthetic.main.fragment_settings.eTxtSearch
+import kotlinx.android.synthetic.main.fragment_settings.loading
 import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btnDeSelectAll
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
@@ -51,11 +52,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         eTxtSearch
             .textChanges()
             .subscribe {
+                loading.smoothToShow()
                 viewModel.search(it.toString())
             }.addTo(compositeDisposable)
     }
 
     private fun initViews() {
+        loading.apply {
+            bringToFront()
+            smoothToHide()
+        }
         updateUi(false)
         context?.let { ctx ->
             eTxtSearch.background.mutate().setColorFilter(
@@ -68,7 +74,10 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             }
         }
         viewModel.filteredListLiveData.reObserve(this, Observer { mutableList ->
-            mutableList?.let { settingAdapter.refreshList(it) }
+            mutableList?.let { list ->
+                settingAdapter.refreshList(list)
+                loading.smoothToHide()
+            }
         })
     }
 

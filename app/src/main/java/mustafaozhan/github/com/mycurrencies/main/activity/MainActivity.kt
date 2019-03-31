@@ -13,6 +13,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import kotlinx.android.synthetic.main.activity_main.webView
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
@@ -151,7 +152,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                                 }
                             }
                         }
-                    } catch (e: Exception) {
+                    } catch (e: JsonSyntaxException) {
                         Crashlytics.logException(e)
                     }
                 }
