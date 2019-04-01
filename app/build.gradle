@@ -5,6 +5,20 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
+def getGitVersionCode = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--first-parent', '--count', 'origin/master'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        return -1
+    }
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -13,8 +27,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 110
-        versionName "6.110"
+        versionCode getGitVersionCode()
+        versionName "1.${getGitVersionCode}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {
@@ -31,9 +45,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    kapt {
-        generateStubs = true
     }
 }
 androidExtensions {
