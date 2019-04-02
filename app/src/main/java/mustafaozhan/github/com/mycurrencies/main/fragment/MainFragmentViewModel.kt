@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
+import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
@@ -140,5 +141,9 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun loadResetData() = dataManager.loadResetData()
 
-    fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
+    private fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
+
+    fun getClickedItemRate(name: String): String {
+        return "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
+    }
 }
