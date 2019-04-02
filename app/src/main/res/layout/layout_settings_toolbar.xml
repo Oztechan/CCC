@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_settings_toolbar"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark">
 
-    <TextView
-        android:id="@+id/txtSettingsToolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/blue_grey_100" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_settings_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnSelectAll"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/select_all"
-        android:textAppearance="@style/TextStyleSmall" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnDeSelectAll"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/deSelect_all"
-        android:textAppearance="@style/TextStyleSmall" />
-</android.support.v7.widget.Toolbar>
+            <TextView
+                android:id="@+id/txtSettingsToolbar"
+                android:layout_width="@dimen/fit"
+                android:layout_height="wrap_content"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/blue_grey_100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnDeSelectAll"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnSelectAll"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_all"
+                android:textAppearance="@style/TextStyleSmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnDeSelectAll"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/deSelect_all"
+                android:textAppearance="@style/TextStyleSmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnSelectAll"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
+</FrameLayout>

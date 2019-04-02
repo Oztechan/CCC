@@ -55,8 +55,6 @@
             android:id="@+id/txtResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginEight"
-            android:layout_marginLeft="@dimen/marginEight"
             android:layout_marginTop="@dimen/marginEight"
             android:layout_marginBottom="@dimen/marginEight"
             android:maxLines="1"

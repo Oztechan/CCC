@@ -96,7 +96,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
                         txtResult.text = when {
                             viewModel.output.isEmpty() -> ""
-                            else -> "=    ${viewModel.output}"
+                            else -> "=  ${viewModel.output}"
                         }
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
