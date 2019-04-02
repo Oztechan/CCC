@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -19,26 +18,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <TextView
+            android:id="@+id/txtMainToolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/txtMainToolbar"
-                android:layout_width="@dimen/fit"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/marginZero"
-                android:layout_marginTop="@dimen/marginZero"
-                android:layout_marginRight="@dimen/marginZero"
-                android:layout_marginBottom="@dimen/marginZero"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textAppearance="@style/BaseTextStyle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="LabelFor" />
-        </android.support.constraint.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textAppearance="@style/BaseTextStyle" />
     </android.support.v7.widget.Toolbar>
 </android.support.constraint.ConstraintLayout>

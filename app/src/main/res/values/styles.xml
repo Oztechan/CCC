@@ -20,7 +20,7 @@
     </style>
 
     <style name="BaseEditTextTheme">
-        <item name="android:textSize">@dimen/textSizeNormal</item>
+        <item name="android:textSize">@dimen/textSizeLarge</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorAccent</item>

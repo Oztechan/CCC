@@ -28,7 +28,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode getGitVersionCode()
-        versionName "1.${getGitVersionCode}"
+        versionName "1.${getGitVersionCode()}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         android {
