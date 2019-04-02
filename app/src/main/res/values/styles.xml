@@ -20,12 +20,12 @@
     </style>
 
     <style name="BaseEditTextTheme">
+        <item name="android:textSize">@dimen/textSizeNormal</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/blue_grey_400</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <style name="BaseTextStyle">
