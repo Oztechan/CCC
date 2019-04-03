@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 
@@ -31,12 +33,13 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
 
         val item = items[position]
         holder.bind(item)
-        holder.itemView.setOnClickListener { onItemClickListener(item, it, it, position) }
+        holder.itemView.setOnClickListener { onItemClickListener(item, it, holder.itemView, position) }
         getAllChildren(holder.itemView).forEach { view ->
             view.setOnClickListener {
                 onItemClickListener(item, it, holder.itemView, position)
             }
         }
+        setAnimation(holder.itemView)
     }
 
     private fun getAllChildren(v: View): ArrayList<View> {
@@ -87,4 +90,7 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
         all { it is T }
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
+
+    private fun setAnimation(viewToAnimate: View) =
+        viewToAnimate.startAnimation(AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.fade_in))
 }

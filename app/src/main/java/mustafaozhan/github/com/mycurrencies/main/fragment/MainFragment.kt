@@ -10,7 +10,6 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.imgBase
-import kotlinx.android.synthetic.main.fragment_main.loading
 import kotlinx.android.synthetic.main.fragment_main.mConstraintLayout
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
 import kotlinx.android.synthetic.main.fragment_main.mSpinner
@@ -89,8 +88,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             .subscribe { txt ->
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
-                        loading.smoothToShow()
-
                         viewModel.calculateOutput(txt.toString())
                         viewModel.getCurrencies()
 
@@ -124,28 +121,24 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 } else {
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
-                loading.smoothToHide()
             }
         })
     }
 
     private fun initViews() {
-        loading.apply {
-            bringToFront()
-            smoothToHide()
-        }
         context?.let { ctx ->
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
         }
         currencyAdapter.onItemClickListener = { currency: Currency, _: View, _: View, _: Int ->
-            snacky("${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}", setIcon = currency.name)
+            snacky(
+                "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
+                setIcon = currency.name)
         }
     }
 
     private fun updateUi() {
         doAsync {
-            loading.smoothToShow()
             viewModel.refreshData()
             uiThread {
                 try {
@@ -156,7 +149,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     Crashlytics.log(Log.ERROR, "Updating UI", "If there is no error Updating UI successful")
                     updateBar()
                 }
-                loading.smoothToHide()
             }
         }
     }

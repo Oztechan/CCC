@@ -10,8 +10,8 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_settings.adView
 import kotlinx.android.synthetic.main.fragment_settings.eTxtSearch
-import kotlinx.android.synthetic.main.fragment_settings.loading
 import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings
+import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btnDeSelectAll
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
@@ -51,21 +51,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         viewModel.search("")
         eTxtSearch
             .textChanges()
-            .subscribe {
-                loading.smoothToShow()
-                viewModel.search(it.toString())
-            }.addTo(compositeDisposable)
+            .subscribe { viewModel.search(it.toString()) }
+            .addTo(compositeDisposable)
     }
 
     private fun initViews() {
-        loading.apply {
-            bringToFront()
-            smoothToHide()
-        }
-        updateUi(false)
+        updateUi()
         context?.let { ctx ->
             eTxtSearch.background.mutate().setColorFilter(
-                ContextCompat.getColor(ctx, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP
+                ContextCompat.getColor(ctx, R.color.colorAccent),
+                PorterDuff.Mode.SRC_ATOP
             )
             mRecViewSettings.apply {
                 layoutManager = LinearLayoutManager(ctx)
@@ -74,10 +69,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             }
         }
         viewModel.filteredListLiveData.reObserve(this, Observer { mutableList ->
-            mutableList?.let { list ->
-                settingAdapter.refreshList(list)
-                loading.smoothToHide()
-            }
+            mutableList?.let { settingAdapter.refreshList(it) }
         })
     }
 
@@ -93,33 +85,31 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             viewModel.setCurrentBase(null)
         }
 
-        settingAdapter.onItemClickListener = { currency: Currency, _, _, _ ->
+        settingAdapter.onItemClickListener = { currency: Currency, _, itemView, _ ->
 
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
-                    updateUi(true, 1, currency.name)
+                    itemView.checkBox.isChecked = true
+                    viewModel.updateCurrencyStateByName(currency.name, 1)
                 }
                 1 -> {
                     if (currency.name == viewModel.mainData.currentBase.toString()) {
                         viewModel.setCurrentBase(viewModel.originalList.firstOrNull { it.isActive == 1 }?.name)
                     }
                     currency.isActive = 0
-                    updateUi(true, 0, currency.name)
+                    itemView.checkBox.isChecked = false
+                    viewModel.updateCurrencyStateByName(currency.name, 0)
                 }
             }
         }
     }
 
-    private fun updateUi(update: Boolean = false, value: Int = 0, name: String = "") {
+    private fun updateUi(update: Boolean = false, value: Int = 0) {
 
         doAsync {
             if (update) {
-                if (name.isNotEmpty()) {
-                    viewModel.updateCurrencyStateByName(name, value)
-                } else {
-                    viewModel.updateAllCurrencyState(value)
-                }
+                viewModel.updateAllCurrencyState(value)
             } else {
                 viewModel.initData()
             }

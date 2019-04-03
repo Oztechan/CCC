@@ -31,17 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loading"
-        style="@style/AVLoadingIndicatorView"
-        android:layout_width="@dimen/loadingViewSize"
-        android:layout_height="@dimen/loadingViewSize"
-        app:indicatorColor="@color/blue_grey_100"
-        app:indicatorName="BallPulseIndicator"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtSearch" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewSettings"
         android:layout_width="@dimen/fit"

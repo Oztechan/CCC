@@ -42,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun addFragment(containerViewId: Int, fragment: BaseFragment) {
+    private fun addFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
         ft.add(containerViewId, fragment, fragment.fragmentTag)
         ft.commit()
@@ -60,7 +60,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    protected fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
+    private fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
         ft.setCustomAnimations(
             R.anim.enter_from_right,
@@ -73,7 +73,7 @@ abstract class BaseActivity : AppCompatActivity() {
         ft.commit()
     }
 
-    protected fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
+    private fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
         if (supportFragmentManager.backStackEntryCount != 0)
             ft.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
@@ -116,20 +116,23 @@ abstract class BaseActivity : AppCompatActivity() {
         cancelable: Boolean = true,
         function: () -> Unit = {}
     ) {
-        val builder = AlertDialog
-            .Builder(this, R.style.AlertDialogCustom)
-            .setIcon(R.mipmap.ic_launcher)
-            .setTitle(title)
-            .setMessage(description)
-            .setPositiveButton(positiveButton) { _, _ ->
-                function()
+        if (!isFinishing) {
+            val builder = AlertDialog
+                .Builder(this, R.style.AlertDialogCustom)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle(title)
+                .setMessage(description)
+                .setPositiveButton(positiveButton) { _, _ ->
+                    function()
+                }
+                .setCancelable(cancelable)
+
+            if (cancelable) {
+                builder.setNegativeButton(getString(R.string.cancel), null)
             }
-            .setCancelable(cancelable)
 
-        if (cancelable)
-            builder.setNegativeButton(getString(R.string.cancel), null)
-
-        builder.show()
+            builder.show()
+        }
     }
 
     fun clearApplicationData() {
