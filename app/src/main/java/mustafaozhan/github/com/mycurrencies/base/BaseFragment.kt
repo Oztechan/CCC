@@ -46,8 +46,9 @@ abstract class BaseFragment : Fragment() {
         text: String,
         actionText: String = "",
         setIcon: String? = null,
+        isLong: Boolean = true,
         action: () -> Unit = {}
-    ) = getBaseActivity().snacky(text, actionText, setIcon, action)
+    ) = getBaseActivity().snacky(text, actionText, setIcon, isLong, action)
 
     protected fun clearAppData() = getBaseActivity().clearApplicationData()
 }

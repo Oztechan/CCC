@@ -86,7 +86,13 @@ abstract class BaseActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun snacky(text: String, actionText: String = "", setIcon: String? = null, action: () -> Unit = {}) {
+    fun snacky(
+        text: String,
+        actionText: String = "",
+        setIcon: String? = null,
+        isLong: Boolean = true,
+        action: () -> Unit = {}
+    ) {
         Snacky.builder()
             .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
             .setText(text)
@@ -98,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
             )
             .setActivity(this)
-            .setDuration(Snacky.LENGTH_LONG)
+            .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
             .setActionText(actionText.toUpperCase())
             .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
             .setActionTextTypefaceStyle(Typeface.BOLD)

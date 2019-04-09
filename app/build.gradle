@@ -93,7 +93,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-config:16.4.1'
+    implementation 'com.google.firebase:firebase-config:16.5.0'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
