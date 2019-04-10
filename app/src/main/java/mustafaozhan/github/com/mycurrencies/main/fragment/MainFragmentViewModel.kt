@@ -40,6 +40,7 @@ class MainFragmentViewModel : BaseViewModel() {
     var rates: Rates? = null
     lateinit var mainData: MainData
     var output: String = "0.0"
+    var isOflineAvaiable = false
 
     fun refreshData() {
         currencyListLiveData.value?.clear()
@@ -72,26 +73,42 @@ class MainFragmentViewModel : BaseViewModel() {
         dataManager.persistMainData(mainData)
     }
 
+    @Suppress("ComplexMethod")
     fun getCurrencies() {
-
-        if (rates != null) {
-            rates.let { rates ->
-                currencyListLiveData.value?.forEach { currency ->
-                    currency.rate = calculateResultByCurrency(currency.name, output, rates)
+        when {
+            rates != null -> {
+                rates.let { rates ->
+                    currencyListLiveData.value?.forEach { currency ->
+                        currency.rate = calculateResultByCurrency(currency.name, output, rates)
+                    }
+                    ratesLiveData.postValue(rates)
                 }
-                ratesLiveData.postValue(rates)
             }
-        } else {
-            if (mainData.currentBase == Currencies.BTC) {
-                subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFail)
-            } else {
-                subscribeService(dataManager.getAllOnBase(mainData.currentBase),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFail)
+            // todo remove it when backend problem solved
+            isOflineAvaiable -> {
+                offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { rates ->
+                    currencyListLiveData.value?.forEach { currency ->
+                        currency.rate = calculateResultByCurrency(currency.name, output, rates.getRates())
+                    }
+                    ratesLiveData.postValue(rates.getRates())
+                }
+            }
+            else -> {
+                if (mainData.currentBase == Currencies.BTC) {
+                    subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
+                        ::rateDownloadSuccess,
+                        ::rateDownloadFail)
+                } else {
+                    subscribeService(dataManager.getAllOnBase(mainData.currentBase),
+                        ::rateDownloadSuccess,
+                        ::rateDownloadFail)
+                }
             }
         }
+    }
+
+    fun isAvailableOffline() {
+        isOflineAvaiable = offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()) != null
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
