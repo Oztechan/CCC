@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.tools
 
 import io.reactivex.Observable
+import mustafaozhan.github.com.mycurrencies.base.api.backend.BackendApiHelper
 import mustafaozhan.github.com.mycurrencies.base.api.exchangerates.ExchangeRatesApiHelper
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -17,8 +18,14 @@ constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
     @Inject
     lateinit var exchangeRatesApiHelper: ExchangeRatesApiHelper
 
-    fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
+    @Inject
+    lateinit var backendApiHelper: BackendApiHelper
+
+    fun exchangesRatesGetAllOnBase(base: Currencies): Observable<CurrencyResponse> =
         exchangeRatesApiHelper.exchangeRatesApiServices.getAllOnBase(base)
+
+    fun backendGetAllOnBase(base: Currencies): Observable<CurrencyResponse> =
+        backendApiHelper.backendApiServices.getAllOnBase(base)
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 

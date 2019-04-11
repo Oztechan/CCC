@@ -48,7 +48,7 @@ class MainFragmentViewModel : BaseViewModel() {
         if (mainData.firstRun) {
             insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1) {
-                subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
+                subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.values()[i]),
                     ::offlineRateAllSuccess, ::offlineRateAllFail)
             }
             mainData.firstRun = false
@@ -59,7 +59,7 @@ class MainFragmentViewModel : BaseViewModel() {
     fun insertInitialCurrencies() {
         currencyDao.insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
-            subscribeService(dataManager.getAllOnBase(Currencies.values()[i]),
+            subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.values()[i]),
                 ::offlineRateAllSuccess, ::offlineRateAllFail)
         }
         persistResetData(false)
@@ -95,11 +95,11 @@ class MainFragmentViewModel : BaseViewModel() {
             }
             else -> {
                 if (mainData.currentBase == Currencies.BTC) {
-                    subscribeService(dataManager.getAllOnBase(Currencies.CRYPTO_BTC),
+                    subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
                         ::rateDownloadSuccess,
                         ::rateDownloadFail)
                 } else {
-                    subscribeService(dataManager.getAllOnBase(mainData.currentBase),
+                    subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
                         ::rateDownloadSuccess,
                         ::rateDownloadFail)
                 }
