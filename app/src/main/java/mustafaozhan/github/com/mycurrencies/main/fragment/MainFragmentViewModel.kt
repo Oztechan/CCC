@@ -40,7 +40,6 @@ class MainFragmentViewModel : BaseViewModel() {
     var rates: Rates? = null
     lateinit var mainData: MainData
     var output: String = "0.0"
-    var isOflineAvaiable = false
 
     fun refreshData() {
         currencyListLiveData.value?.clear()
@@ -48,7 +47,7 @@ class MainFragmentViewModel : BaseViewModel() {
         if (mainData.firstRun) {
             insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1) {
-                subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.values()[i]),
+                subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
                     ::offlineRateAllSuccess, ::offlineRateAllFail)
             }
             mainData.firstRun = false
@@ -59,7 +58,7 @@ class MainFragmentViewModel : BaseViewModel() {
     fun insertInitialCurrencies() {
         currencyDao.insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
-            subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.values()[i]),
+            subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
                 ::offlineRateAllSuccess, ::offlineRateAllFail)
         }
         persistResetData(false)
@@ -83,15 +82,22 @@ class MainFragmentViewModel : BaseViewModel() {
                 ratesLiveData.postValue(rates)
             }
         } else {
-            if (mainData.currentBase == Currencies.BTC) {
-                subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFail)
-            } else {
-                subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFail)
-            }
+            subscribeService(dataManager.backendGetAllOnBase(mainData.currentBase),
+                ::rateDownloadSuccess,
+                ::backendRateDownloadFail)
+        }
+    }
+
+    private fun backendRateDownloadFail(t: Throwable) {
+        t.printStackTrace()
+        if (mainData.currentBase == Currencies.BTC) {
+            subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
+                ::rateDownloadSuccess,
+                ::rateDownloadFail)
+        } else {
+            subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
+                ::rateDownloadSuccess,
+                ::rateDownloadFail)
         }
     }
 
@@ -108,17 +114,6 @@ class MainFragmentViewModel : BaseViewModel() {
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
             ratesLiveData.postValue(offlineRates?.getRates())
         }
-    }
-
-    private fun offlineRateAllFail(throwable: Throwable) {
-        if (throwable.message !=
-            "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
-            throwable.printStackTrace()
-        }
-    }
-
-    private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 
     fun calculateOutput(text: String) {
@@ -146,5 +141,16 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun getClickedItemRate(name: String): String {
         return "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
+    }
+
+    private fun offlineRateAllFail(throwable: Throwable) {
+        if (throwable.message !=
+            "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
+            throwable.printStackTrace()
+        }
+    }
+
+    private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
+        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 }
