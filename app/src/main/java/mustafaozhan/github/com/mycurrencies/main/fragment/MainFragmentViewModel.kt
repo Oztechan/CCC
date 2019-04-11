@@ -75,40 +75,24 @@ class MainFragmentViewModel : BaseViewModel() {
 
     @Suppress("ComplexMethod")
     fun getCurrencies() {
-        when {
-            rates != null -> {
-                rates.let { rates ->
-                    currencyListLiveData.value?.forEach { currency ->
-                        currency.rate = calculateResultByCurrency(currency.name, output, rates)
-                    }
-                    ratesLiveData.postValue(rates)
+        if (rates != null) {
+            rates.let { rates ->
+                currencyListLiveData.value?.forEach { currency ->
+                    currency.rate = calculateResultByCurrency(currency.name, output, rates)
                 }
+                ratesLiveData.postValue(rates)
             }
-            // todo remove it when backend problem solved
-            isOflineAvaiable -> {
-                offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { rates ->
-                    currencyListLiveData.value?.forEach { currency ->
-                        currency.rate = calculateResultByCurrency(currency.name, output, rates.getRates())
-                    }
-                    ratesLiveData.postValue(rates.getRates())
-                }
-            }
-            else -> {
-                if (mainData.currentBase == Currencies.BTC) {
-                    subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
-                        ::rateDownloadSuccess,
-                        ::rateDownloadFail)
-                } else {
-                    subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
-                        ::rateDownloadSuccess,
-                        ::rateDownloadFail)
-                }
+        } else {
+            if (mainData.currentBase == Currencies.BTC) {
+                subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
+            } else {
+                subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail)
             }
         }
-    }
-
-    fun isAvailableOffline() {
-        isOflineAvaiable = offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()) != null
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {

@@ -246,7 +246,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.loadPreferences()
-        viewModel.isAvailableOffline()
         viewModel.getCurrencies()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_main)
