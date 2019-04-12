@@ -16,16 +16,12 @@ import javax.inject.Singleton
 class ExchangeRatesApiHelper @Inject
 constructor() : BaseApiHelper() {
 
-    companion object {
-        const val TIME_OUT: Long = 750
-    }
-
     val exchangeRatesApiServices: ExchangeRatesApiServices by lazy { initExchangeRatesApiServices() }
 
     private fun initExchangeRatesApiServices(): ExchangeRatesApiServices {
         val clientBuilder = OkHttpClient.Builder()
-            .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
-            .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
+            .connectTimeout(1, TimeUnit.SECONDS)
         clientBuilder.addInterceptor {
             it.proceed(createInterceptorRequest(it))
         }
