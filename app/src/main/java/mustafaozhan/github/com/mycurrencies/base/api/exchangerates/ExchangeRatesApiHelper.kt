@@ -17,7 +17,7 @@ class ExchangeRatesApiHelper @Inject
 constructor() : BaseApiHelper() {
 
     companion object {
-        const val TIME_OUT: Long = 500
+        const val TIME_OUT: Long = 750
     }
 
     val exchangeRatesApiServices: ExchangeRatesApiServices by lazy { initExchangeRatesApiServices() }

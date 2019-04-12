@@ -17,7 +17,7 @@ class BackendApiHelper @Inject
 constructor() : BaseApiHelper() {
 
     companion object {
-        const val TIME_OUT: Long = 500
+        const val TIME_OUT: Long = 750
     }
 
     val backendApiServices: BackendApiServices by lazy { initBackendApiServices() }
