@@ -117,9 +117,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             mSpinner.expand()
                         }
                     }
-                    currencyAdapter.refreshList(mutableListOf(), true, viewModel.mainData.currentBase, true)
+                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 } else {
-                    currencyAdapter.refreshList(currencyList, true, viewModel.mainData.currentBase, true)
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
             }
         })
@@ -186,7 +186,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
                 imgBase.setBackgroundByName(mSpinner.text.toString())
             }
-            currencyAdapter.refreshList(currencyList, true, viewModel.mainData.currentBase, true)
+            currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
         }
     }
 
