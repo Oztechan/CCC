@@ -9,11 +9,11 @@ import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
-import kotlinx.android.synthetic.main.fragment_main.imgBase
-import kotlinx.android.synthetic.main.fragment_main.mConstraintLayout
+import kotlinx.android.synthetic.main.fragment_main.layoutBar
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
-import kotlinx.android.synthetic.main.fragment_main.mSpinner
-import kotlinx.android.synthetic.main.fragment_main.txtResult
+import kotlinx.android.synthetic.main.layout_bar.imgBase
+import kotlinx.android.synthetic.main.layout_bar.mSpinner
+import kotlinx.android.synthetic.main.layout_bar.txtResult
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnAc
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnDelete
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnDivide
@@ -117,9 +117,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             mSpinner.expand()
                         }
                     }
-                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    currencyAdapter.refreshList(mutableListOf(), true, viewModel.mainData.currentBase, true)
                 } else {
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                    currencyAdapter.refreshList(currencyList, true, viewModel.mainData.currentBase, true)
                 }
             }
         })
@@ -186,7 +186,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
                 imgBase.setBackgroundByName(mSpinner.text.toString())
             }
-            currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+            currencyAdapter.refreshList(currencyList, true, viewModel.mainData.currentBase, true)
         }
     }
 
@@ -200,7 +200,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             imgBase.setBackgroundByName(item.toString())
         }
 
-        mConstraintLayout.setOnClickListener {
+        layoutBar.setOnClickListener {
             if (mSpinner.isActivated) {
                 mSpinner.collapse()
             } else {

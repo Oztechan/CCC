@@ -69,7 +69,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             }
         }
         viewModel.filteredListLiveData.reObserve(this, Observer { mutableList ->
-            mutableList?.let { settingAdapter.refreshList(it) }
+            mutableList?.let { settingAdapter.refreshList(it, false) }
         })
     }
 
@@ -121,7 +121,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     viewModel.mainData.currentBase == Currencies.NULL ->
                         viewModel.setCurrentBase(viewModel.originalList.firstOrNull { it.isActive == 1 }?.name)
                 }
-                viewModel.filteredListLiveData.value?.let { settingAdapter.refreshList(it) }
+                viewModel.filteredListLiveData.value?.let { settingAdapter.refreshList(it, false, notify = true) }
             }
         }
     }
