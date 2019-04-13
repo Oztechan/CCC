@@ -92,5 +92,5 @@ abstract class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter<BaseViewHolder<
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
 
     private fun setAnimation(viewToAnimate: View) =
-        viewToAnimate.startAnimation(AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.fade_in))
+        viewToAnimate.startAnimation(AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.fall_down))
 }

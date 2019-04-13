@@ -6,12 +6,11 @@ import kotlinx.android.synthetic.main.item_currency.view.imgRow
 import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.item_currency.view.txtSymbol
 import kotlinx.android.synthetic.main.item_currency.view.txtType
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
+import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import java.text.DecimalFormat
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
@@ -19,14 +18,14 @@ import java.text.DecimalFormat
 class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
-        RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
+        RatesViewHolder(getViewHolderView(parent, mustafaozhan.github.com.mycurrencies.R.layout.item_currency))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
 
         override fun bind(item: Currency) {
             itemView.txtType.text = item.name
             itemView.txtSymbol.text = item.symbol
-            itemView.txtAmount.text = DecimalFormat("0.000").format(item.rate)
+            itemView.txtAmount.text = item.rate.getFormatted()
             itemView.imgRow.setBackgroundByName(item.name)
         }
     }

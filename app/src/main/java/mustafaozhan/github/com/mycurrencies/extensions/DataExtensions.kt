@@ -10,6 +10,8 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -40,6 +42,13 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
 fun String.replaceCommas(): String =
     this.replace(",", ".")
         .replace("٫", ".")
+        .replace(" ", "")
+
+fun Double.getFormatted(): String {
+    val symbols = DecimalFormatSymbols.getInstance()
+    symbols.groupingSeparator = ' '
+    return DecimalFormat("###,###.###", symbols).format(this)
+}
 
 private fun replaceNonstandardDigits(input: String): String {
     val builder = StringBuilder()

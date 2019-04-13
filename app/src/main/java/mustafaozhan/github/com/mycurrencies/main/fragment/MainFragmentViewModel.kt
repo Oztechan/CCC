@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
+import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
@@ -16,7 +17,6 @@ import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 /**
@@ -125,8 +125,7 @@ class MainFragmentViewModel : BaseViewModel() {
         output = if (calculation.isNaN()) {
             ""
         } else {
-            DecimalFormat("0.000")
-                .format(calculation)
+            calculation.getFormatted()
         }
     }
 
