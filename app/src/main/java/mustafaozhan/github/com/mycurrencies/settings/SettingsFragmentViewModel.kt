@@ -40,11 +40,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun setCurrentBase(newBase: String?) {
-        if (newBase == null) {
-            mainData.currentBase = Currencies.NULL
-        } else {
-            mainData.currentBase = Currencies.valueOf(newBase.toString())
-        }
+        mainData.currentBase = Currencies.valueOf(newBase ?: "NULL")
         dataManager.persistMainData(mainData)
     }
 

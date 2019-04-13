@@ -11,6 +11,7 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.layoutBar
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
+import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.layout_bar.imgBase
 import kotlinx.android.synthetic.main.layout_bar.mSpinner
 import kotlinx.android.synthetic.main.layout_bar.txtResult
@@ -42,7 +43,6 @@ import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
@@ -130,17 +130,29 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
         }
-        currencyAdapter.onItemClickListener = { currency: Currency, _: View, _: View, _: Int ->
+        currencyAdapter.onItemClickListener = { currency, itemView: View, position: Int ->
+            txtMainToolbar.text = itemView.txtAmount.text.toString().replace(" ", "")
+            viewModel.rates = null
+            viewModel.updateCurrentBase(currency.name)
+            viewModel.getCurrencies()
+            viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
+            mSpinner.selectedIndex = position
+            updateUi()
+        }
+        currencyAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
                 isLong = false)
+
+            true
         }
     }
 
     private fun updateUi() {
         doAsync {
             viewModel.refreshData()
+            viewModel.getCurrencies()
             uiThread {
                 try {
                     updateBar()

@@ -69,7 +69,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             }
         }
         viewModel.filteredListLiveData.reObserve(this, Observer { mutableList ->
-            mutableList?.let { settingAdapter.refreshList(it, animate = true) }
+            mutableList?.let { settingAdapter.refreshList(it) }
         })
     }
 
@@ -85,7 +85,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             viewModel.setCurrentBase(null)
         }
 
-        settingAdapter.onItemClickListener = { currency: Currency, _, itemView, _ ->
+        settingAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
 
             when (currency.isActive) {
                 0 -> {

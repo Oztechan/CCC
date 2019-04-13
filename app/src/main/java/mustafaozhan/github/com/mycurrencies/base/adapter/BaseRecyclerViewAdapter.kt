@@ -22,17 +22,8 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
         autoNotify(old, new) { o, n -> compareFun(o, n) }
     }
 
-    var onItemClickListener: ((
-        T,
-        view: View,
-        viewParent: View,
-        position: Int
-    ) -> Unit
-    ) = { t: T,
-          view: View,
-          viewParent: View,
-          position: Int ->
-    }
+    var onItemClickListener: ((T, View, Int) -> Unit) = { item, viewParent, position -> }
+    var onItemLongClickListener: (T, View) -> Boolean = { item, viewParent -> true }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         val item = items[position]
@@ -43,39 +34,14 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
         ))
 
         holder.bind(item)
-        holder.itemView.setOnClickListener { onItemClickListener(item, it, holder.itemView, position) }
-        getAllChildren(holder.itemView).forEach { view ->
-            view.setOnClickListener {
-                onItemClickListener(item, it, holder.itemView, position)
-            }
-        }
-    }
-
-    private fun getAllChildren(v: View): ArrayList<View> {
-
-        if (v !is ViewGroup) {
-            val viewArrayList = ArrayList<View>()
-            viewArrayList.add(v)
-            return viewArrayList
-        }
-
-        val result = ArrayList<View>()
-
-        for (i in 0 until v.childCount) {
-            val child = v.getChildAt(i)
-            val viewArrayList = ArrayList<View>()
-            viewArrayList.add(v)
-            viewArrayList.addAll(getAllChildren(child))
-            result.addAll(viewArrayList.filter { view -> view.isClickable }.toList())
-        }
-
-        return result
+        holder.itemView.setOnClickListener { onItemClickListener(item, holder.itemView, position) }
+        holder.itemView.setOnLongClickListener { onItemLongClickListener(item, holder.itemView) }
     }
 
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
         LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
-    fun refreshList(list: MutableList<T>, currentBase: Currencies? = null, animate: Boolean = false) {
+    fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
         items = if (currentBase != null && list.checkItemsAre<Currency>()) {
             list.filter { listItem ->
                 listItem as Currency
