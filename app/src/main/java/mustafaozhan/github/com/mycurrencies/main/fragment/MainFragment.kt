@@ -51,7 +51,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "SetTextI18n")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -91,10 +91,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         viewModel.calculateOutput(txt.toString())
                         viewModel.getCurrencies()
 
-                        txtResult.text = when {
-                            viewModel.output.isEmpty() -> ""
-                            else -> "=  ${viewModel.output}"
-                        }
+                        txtResult.text = viewModel.getOutputText()
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
                             getBaseActivity().replaceFragment(
@@ -134,6 +131,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
+            txtResult.text = viewModel.getOutputText()
             viewModel.currencyListLiveData.value?.let { mSpinner.selectedIndex = it.indexOf(currency) }
             imgBase.setBackgroundByName(currency.name)
         }
@@ -206,6 +204,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 updateCurrentBase(item.toString())
                 getCurrencies()
             }
+            txtResult.text = viewModel.getOutputText()
             imgBase.setBackgroundByName(item.toString())
         }
 
