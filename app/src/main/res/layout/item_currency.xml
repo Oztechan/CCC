@@ -7,13 +7,11 @@
 
     <TextView
         android:id="@+id/txtAmount"
-        android:layout_width="@dimen/fit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginFour"
         android:layout_marginLeft="@dimen/marginFour"
         android:layout_marginTop="@dimen/marginFour"
-        android:layout_marginEnd="@dimen/marginEight"
-        android:layout_marginRight="@dimen/marginEight"
         android:layout_marginBottom="@dimen/marginFour"
         android:maxLines="1"
         android:paddingStart="@dimen/marginFour"
@@ -22,18 +20,17 @@
         android:paddingRight="@dimen/marginZero"
         android:textAppearance="@style/ItemTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtSymbol"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtSymbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/marginFour"
+        android:layout_marginLeft="@dimen/marginFour"
         android:layout_marginTop="@dimen/marginFour"
-        android:layout_marginEnd="@dimen/marginFour"
-        android:layout_marginRight="@dimen/marginFour"
         android:layout_marginBottom="@dimen/marginFour"
         android:paddingStart="@dimen/marginZero"
         android:paddingLeft="@dimen/marginZero"
@@ -41,8 +38,8 @@
         android:paddingRight="@dimen/marginFour"
         android:textAppearance="@style/TextStyleSmall"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtType"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/txtAmount"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtType"
@@ -59,7 +56,7 @@
         android:textAppearance="@style/ItemTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgRow"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgRow"
@@ -72,7 +69,7 @@
         android:contentDescription="@string/currency_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
