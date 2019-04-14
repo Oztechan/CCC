@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import kotlinx.android.synthetic.main.item_setting.view.icon
 import kotlinx.android.synthetic.main.item_setting.view.textView
@@ -18,6 +19,14 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
         RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
+
+    override fun onBindViewHolder(holder: BaseViewHolder<Currency>, position: Int) {
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(
+            holder.itemView.context,
+            R.anim.fall_down
+        ))
+        super.onBindViewHolder(holder, position)
+    }
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {

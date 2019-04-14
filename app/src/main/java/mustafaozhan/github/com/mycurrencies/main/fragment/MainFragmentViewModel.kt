@@ -132,6 +132,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun updateCurrentBase(currency: String?) {
+        rates = null
         mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
         savePreferences()
     }

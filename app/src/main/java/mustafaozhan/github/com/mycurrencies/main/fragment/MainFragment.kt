@@ -131,12 +131,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
         currencyAdapter.onItemClickListener = { currency, itemView: View, position: Int ->
             txtMainToolbar.text = itemView.txtAmount.text.toString().replace(" ", "")
-            viewModel.rates = null
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
-            mSpinner.selectedIndex = position
-            updateUi()
+            viewModel.currencyListLiveData.value?.let { mSpinner.selectedIndex = it.indexOf(currency) }
+            imgBase.setBackgroundByName(currency.name)
         }
         currencyAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
@@ -204,7 +203,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
             viewModel.apply {
-                rates = null
                 updateCurrentBase(item.toString())
                 getCurrencies()
             }
@@ -256,6 +254,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
+        viewModel.rates = null
         viewModel.getCurrencies()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_main)
