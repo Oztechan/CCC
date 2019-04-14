@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -21,21 +20,17 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    var originalList = mutableListOf<Currency>()
-
-    val filteredListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-
+    val currencyList: MutableList<Currency> = mutableListOf()
     lateinit var mainData: MainData
 
     fun initData() {
-        originalList.clear()
+        currencyList.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
         currencyDao.getAllCurrencies().let { list ->
-            originalList = list
-            filteredListLiveData.postValue(list)
+            currencyList.addAll(list)
         }
     }
 
@@ -44,12 +39,10 @@ class SettingsFragmentViewModel : BaseViewModel() {
         dataManager.persistMainData(mainData)
     }
 
-    fun updateCurrencyStateByName(name: String, i: Int) {
-        currencyDao.updateCurrencyStateByName(name, i)
-    }
+    fun updateCurrencyStateByName(name: String, i: Int) = currencyDao.updateCurrencyStateByName(name, i)
 
     fun updateAllCurrencyState(value: Int) {
-        originalList.forEach { it.isActive = value }
+        currencyList.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
 
@@ -57,17 +50,5 @@ class SettingsFragmentViewModel : BaseViewModel() {
         mainData = dataManager.loadMainData()
     }
 
-    fun savePreferences() {
-        dataManager.persistMainData(mainData)
-    }
-
-    fun search(query: String) {
-        val wanted = originalList.filter { currency ->
-            currency.name.contains(query, true) ||
-                currency.longName.contains(query, true) ||
-                currency.symbol.contains(query, true)
-        }.toMutableList()
-
-        filteredListLiveData.postValue(wanted)
-    }
+    fun savePreferences() = dataManager.persistMainData(mainData)
 }

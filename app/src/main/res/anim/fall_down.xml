@@ -1,5 +1,5 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="100">
+    android:duration="150">
 
     <translate
         android:fromYDelta="-20%"
@@ -13,8 +13,8 @@
         android:toAlpha="1.0" />
 
     <scale
-        android:fromXScale="115%"
-        android:fromYScale="125%"
+        android:fromXScale="120%"
+        android:fromYScale="150%"
         android:interpolator="@android:anim/decelerate_interpolator"
         android:pivotX="50%"
         android:pivotY="50%"

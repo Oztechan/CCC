@@ -57,7 +57,7 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
 
     override fun getItemCount() = items.size
 
-    fun isEmpty(): Boolean = items.isEmpty()
+    private fun isEmpty(): Boolean = items.isEmpty()
 
     private inline fun <reified T : Any> MutableList<*>.checkItemsAre() =
         all { it is T }

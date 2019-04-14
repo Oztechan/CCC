@@ -1,9 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-import android.arch.lifecycle.Observer
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -17,7 +14,6 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
-import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -43,50 +39,44 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initViews()
-        initData()
+        initRx()
         setListeners()
     }
 
-    private fun initData() {
-        viewModel.search("")
+    private fun initRx() {
         eTxtSearch
             .textChanges()
-            .subscribe { viewModel.search(it.toString()) }
-            .addTo(compositeDisposable)
+            .subscribe { txt ->
+                viewModel.currencyList.filter { currency ->
+                    currency.name.contains(txt.toString(), true) ||
+                        currency.longName.contains(txt.toString(), true) ||
+                        currency.symbol.contains(txt.toString(), true)
+                }.toMutableList().let { settingAdapter.refreshList(it) }
+            }.addTo(compositeDisposable)
     }
 
     private fun initViews() {
-        updateUi()
         context?.let { ctx ->
-            eTxtSearch.background.mutate().setColorFilter(
-                ContextCompat.getColor(ctx, R.color.colorAccent),
-                PorterDuff.Mode.SRC_ATOP
-            )
             mRecViewSettings.apply {
                 layoutManager = LinearLayoutManager(ctx)
                 setHasFixedSize(true)
                 adapter = settingAdapter
             }
         }
-        viewModel.filteredListLiveData.reObserve(this, Observer { mutableList ->
-            mutableList?.let { settingAdapter.refreshList(it) }
-        })
     }
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener {
+            updateUi(1)
             eTxtSearch.setText("")
-            updateUi(true, 1)
         }
-
         btnDeSelectAll.setOnClickListener {
+            updateUi(0)
             eTxtSearch.setText("")
-            updateUi(true, 0)
             viewModel.setCurrentBase(null)
         }
 
         settingAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
-
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
@@ -95,7 +85,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 }
                 1 -> {
                     if (currency.name == viewModel.mainData.currentBase.toString()) {
-                        viewModel.setCurrentBase(viewModel.originalList.firstOrNull { it.isActive == 1 }?.name)
+                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { it.isActive == 1 }?.name)
                     }
                     currency.isActive = 0
                     itemView.checkBox.isChecked = false
@@ -105,23 +95,19 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         }
     }
 
-    private fun updateUi(update: Boolean = false, value: Int = 0) {
-
+    private fun updateUi(value: Int? = null) {
         doAsync {
-            if (update) {
-                viewModel.updateAllCurrencyState(value)
-            } else {
-                viewModel.initData()
-            }
-
+            value?.let { viewModel.updateAllCurrencyState(it) }
             uiThread {
                 when {
-                    viewModel.originalList.filter { it.isActive == 1 }.count() < 2 ->
+                    viewModel.currencyList.filter { it.isActive == 1 }.count() < 2 -> {
                         snacky(getString(R.string.choose_currencies), getString(R.string.ok))
-                    viewModel.mainData.currentBase == Currencies.NULL ->
-                        viewModel.setCurrentBase(viewModel.originalList.firstOrNull { it.isActive == 1 }?.name)
+                    }
+                    viewModel.mainData.currentBase == Currencies.NULL -> {
+                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { it.isActive == 1 }?.name)
+                    }
                 }
-                viewModel.filteredListLiveData.value?.let { settingAdapter.refreshList(it) }
+                viewModel.currencyList.let { settingAdapter.refreshList(it) }
             }
         }
     }
@@ -133,6 +119,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.loadPreferences()
+        viewModel.initData()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()

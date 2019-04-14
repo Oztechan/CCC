@@ -4,6 +4,11 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 
 interface AutoUpdatableAdapter {
+    companion object {
+        val updateAllItemsFunction: (old: Any?, new: Any?) -> Boolean = { old, new ->
+            false
+        }
+    }
     fun <T> RecyclerView.Adapter<*>.autoNotify(
         oldList: MutableList<T>,
         newList: MutableList<T>,
