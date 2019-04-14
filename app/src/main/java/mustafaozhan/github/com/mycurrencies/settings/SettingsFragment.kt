@@ -84,11 +84,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                     viewModel.updateCurrencyStateByName(currency.name, 1)
                 }
                 1 -> {
+                    currency.isActive = 0
+                    itemView.checkBox.isChecked = false
                     if (currency.name == viewModel.mainData.currentBase.toString()) {
                         viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { it.isActive == 1 }?.name)
                     }
-                    currency.isActive = 0
-                    itemView.checkBox.isChecked = false
                     viewModel.updateCurrencyStateByName(currency.name, 0)
                 }
             }
@@ -118,7 +118,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.loadPreferences()
         viewModel.initData()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_settings)

@@ -112,8 +112,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
                 if (rates == null) {
                     if (currencyList.size > 1) {
-                        snacky(getString(R.string.rate_not_available_offline),
-                            getString(R.string.change)) {
+                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
                             mSpinner.expand()
                         }
                     }
@@ -257,7 +256,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.loadPreferences()
         viewModel.getCurrencies()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_main)

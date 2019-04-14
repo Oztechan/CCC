@@ -24,6 +24,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
     lateinit var mainData: MainData
 
     fun initData() {
+        loadPreferences()
         currencyList.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
@@ -46,7 +47,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyDao.updateAllCurrencyState(value)
     }
 
-    fun loadPreferences() {
+    private fun loadPreferences() {
         mainData = dataManager.loadMainData()
     }
 

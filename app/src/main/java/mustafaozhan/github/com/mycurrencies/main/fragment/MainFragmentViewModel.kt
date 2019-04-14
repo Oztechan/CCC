@@ -42,8 +42,8 @@ class MainFragmentViewModel : BaseViewModel() {
     var output: String = "0.0"
 
     fun refreshData() {
+        loadPreferences()
         currencyListLiveData.value?.clear()
-
         if (mainData.firstRun) {
             insertInitialCurrencies()
             for (i in 0 until Currencies.values().size - 1) {
@@ -52,10 +52,12 @@ class MainFragmentViewModel : BaseViewModel() {
             }
             mainData.firstRun = false
         }
+
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
     fun insertInitialCurrencies() {
+        loadPreferences()
         currencyDao.insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
             subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
@@ -64,7 +66,7 @@ class MainFragmentViewModel : BaseViewModel() {
         persistResetData(false)
     }
 
-    fun loadPreferences() {
+    private fun loadPreferences() {
         mainData = dataManager.loadMainData()
     }
 
@@ -72,8 +74,8 @@ class MainFragmentViewModel : BaseViewModel() {
         dataManager.persistMainData(mainData)
     }
 
-    @Suppress("ComplexMethod")
     fun getCurrencies() {
+        loadPreferences()
         if (rates != null) {
             rates.let { rates ->
                 currencyListLiveData.value?.forEach { currency ->
