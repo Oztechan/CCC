@@ -94,7 +94,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         txtResult.text = viewModel.getOutputText()
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity().replaceFragment(
+                            getBaseActivity()?.replaceFragment(
                                 SettingsFragment.newInstance(),
                                 true)
                         }
@@ -168,7 +168,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
             if (spinnerList.size < 2) {
                 snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                    getBaseActivity().replaceFragment(SettingsFragment.newInstance(), true)
+                    getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
                 }
                 imgBase.setBackgroundByName("transparent")
                 mSpinner.setItems("")

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.layout_main_toolbar.fragment_main_toolbar
 import kotlinx.android.synthetic.main.layout_settings_toolbar.fragment_settings_toolbar
 import mustafaozhan.github.com.mycurrencies.R
+import java.io.File
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:38 PM on Arch Linux wit Love <3.
@@ -35,12 +36,12 @@ abstract class BaseFragment : Fragment() {
 
     protected fun initToolbar() {
         when (getLayoutResId()) {
-            R.layout.fragment_main -> getBaseActivity().setSupportActionBar(fragment_main_toolbar)
-            R.layout.fragment_settings -> getBaseActivity().setSupportActionBar(fragment_settings_toolbar)
+            R.layout.fragment_main -> getBaseActivity()?.setSupportActionBar(fragment_main_toolbar)
+            R.layout.fragment_settings -> getBaseActivity()?.setSupportActionBar(fragment_settings_toolbar)
         }
     }
 
-    protected fun getBaseActivity(): BaseActivity = activity as BaseActivity
+    protected fun getBaseActivity(): BaseActivity? = activity as? BaseActivity
 
     protected fun snacky(
         text: String,
@@ -48,7 +49,34 @@ abstract class BaseFragment : Fragment() {
         setIcon: String? = null,
         isLong: Boolean = true,
         action: () -> Unit = {}
-    ) = getBaseActivity().snacky(text, actionText, setIcon, isLong, action)
+    ) = getBaseActivity()?.snacky(text, actionText, setIcon, isLong, action)
 
-    protected fun clearAppData() = getBaseActivity().clearApplicationData()
+    protected fun clearAppData() {
+        snacky(getString(R.string.init_app_data))
+        val cacheDirectory = context?.cacheDir
+        val applicationDirectory = File(cacheDirectory?.parent)
+        if (applicationDirectory.exists()) {
+            val fileNames = applicationDirectory.list()
+            for (fileName in fileNames) {
+                if (fileName != "lib") {
+                    deleteFile(File(applicationDirectory, fileName))
+                }
+            }
+        }
+    }
+
+    private fun deleteFile(file: File?): Boolean {
+        var deletedAll = true
+        if (file != null) {
+            if (file.isDirectory) {
+                val children = file.list()
+                for (i in children.indices) {
+                    deletedAll = deleteFile(File(file, children[i])) && deletedAll
+                }
+            } else {
+                deletedAll = file.delete()
+            }
+        }
+        return deletedAll
+    }
 }
