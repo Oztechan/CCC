@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.Flowable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.layoutBar
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
@@ -47,11 +49,13 @@ import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.io.File
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions", "SetTextI18n")
+@Suppress("TooManyFunctions", "SetTextI18n", "LargeClass")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -77,10 +81,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun checkAppData() {
-        if (viewModel.loadResetData()) {
-            clearAppData()
-            viewModel.insertInitialCurrencies()
-        }
+        compositeDisposable.add(
+            Flowable.interval(0, 1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.computation())
+                .onBackpressureLatest()
+                .doOnComplete(this::clearAppData)
+                .subscribe())
     }
 
     private fun setRx() {
@@ -126,7 +132,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
         }
-        currencyAdapter.onItemClickListener = { currency, itemView: View, position: Int ->
+        currencyAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txtMainToolbar.text = itemView.txtAmount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
@@ -152,11 +158,21 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             uiThread {
                 try {
                     updateBar()
-                } catch (e: NullPointerException) {
-                    clearAppData()
-                    Crashlytics.logException(e)
-                    Crashlytics.log(Log.ERROR, "Updating UI", "If there is no error Updating UI successful")
-                    updateBar()
+                } catch (e: Exception) {
+                    compositeDisposable.add(
+                        Flowable.interval(0, 1, TimeUnit.SECONDS)
+                            .subscribeOn(Schedulers.computation())
+                            .onBackpressureLatest()
+                            .doOnComplete {
+                                clearAppData()
+                                Crashlytics.logException(e)
+                                Crashlytics.log(
+                                    Log.ERROR,
+                                    getString(R.string.error_tag_updating_ui),
+                                    getString(R.string.error_message_updating_ui)
+                                )
+                                updateBar()
+                            }.subscribe())
                 }
             }
         }
@@ -245,6 +261,35 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     .substring(0, txtMainToolbar.text.toString().length - 1)
             }
         }
+    }
+
+    private fun clearAppData() {
+        snacky(getString(R.string.init_app_data))
+        val cacheDirectory = context?.cacheDir
+        val applicationDirectory = File(cacheDirectory?.parent)
+        if (applicationDirectory.exists()) {
+            val fileNames = applicationDirectory.list()
+            for (fileName in fileNames) {
+                if (fileName != "lib") {
+                    deleteFile(File(applicationDirectory, fileName))
+                }
+            }
+        }
+    }
+
+    private fun deleteFile(file: File?): Boolean {
+        var deletedAll = true
+        if (file != null) {
+            if (file.isDirectory) {
+                val children = file.list()
+                for (i in children.indices) {
+                    deletedAll = deleteFile(File(file, children[i])) && deletedAll
+                }
+            } else {
+                deletedAll = file.delete()
+            }
+        }
+        return deletedAll
     }
 
     override fun onPause() {
