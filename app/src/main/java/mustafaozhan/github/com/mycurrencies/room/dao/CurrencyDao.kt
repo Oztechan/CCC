@@ -27,5 +27,5 @@ abstract class CurrencyDao {
     abstract fun updateAllCurrencyState(value: Int)
 
     @Query("SELECT * FROM currency WHERE name=:name")
-    abstract fun getCurrencyByName(name: String): Currency
+    abstract fun getCurrencyByName(name: String): Currency?
 }

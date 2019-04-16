@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.layout_bar.imgBase
 import kotlinx.android.synthetic.main.layout_bar.mSpinner
 import kotlinx.android.synthetic.main.layout_bar.txtResult
+import kotlinx.android.synthetic.main.layout_bar.txtResultSymbol
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnAc
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnDelete
 import kotlinx.android.synthetic.main.layout_keyboard_content.btnDivide
@@ -92,8 +93,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     if (currencyList.size > 1) {
                         viewModel.calculateOutput(txt.toString())
                         viewModel.getCurrencies()
-
-                        txtResult.text = viewModel.getOutputText()
+                        getOutputText()
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
                             getBaseActivity()?.replaceFragment(
@@ -133,7 +133,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
-            txtResult.text = viewModel.getOutputText()
+            getOutputText()
             viewModel.currencyListLiveData.value?.let { mSpinner.selectedIndex = it.indexOf(currency) }
             imgBase.setBackgroundByName(currency.name)
         }
@@ -144,6 +144,19 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 isLong = false)
 
             true
+        }
+    }
+
+    private fun getOutputText() {
+        txtResultSymbol.text = viewModel.getCurrencyByName(
+            viewModel.mainData.currentBase.toString()
+        )?.symbol ?: ""
+        when {
+            viewModel.output.isEmpty() -> {
+                txtResult.text = ""
+                txtResultSymbol.text = ""
+            }
+            else -> txtResult.text = "=  ${viewModel.output} "
         }
     }
 
@@ -210,7 +223,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 updateCurrentBase(item.toString())
                 getCurrencies()
             }
-            txtResult.text = viewModel.getOutputText()
+            getOutputText()
             imgBase.setBackgroundByName(item.toString())
         }
 
@@ -244,6 +257,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         btnAc.setOnClickListener {
             txtMainToolbar.text = ""
             txtResult.text = ""
+            txtResultSymbol.text = ""
         }
         btnDelete.setOnClickListener {
             if (txtMainToolbar.text.toString() != "") {

@@ -153,14 +153,5 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 
-    private fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
-
-    fun getOutputText() =
-        when {
-            output.isEmpty() -> ""
-            else -> "=  $output " +
-                getCurrencyByName(
-                    mainData.currentBase.toString()
-                ).symbol
-        }
+    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 }
