@@ -56,7 +56,7 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
-    fun insertInitialCurrencies() {
+    private fun insertInitialCurrencies() {
         loadPreferences()
         currencyDao.insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
@@ -156,7 +156,7 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
     }
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
+    private fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
     fun getOutputText() =
         when {

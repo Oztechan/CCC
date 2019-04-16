@@ -275,6 +275,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
         }
+        viewModel.refreshData()
     }
 
     private fun deleteFile(file: File?): Boolean {
