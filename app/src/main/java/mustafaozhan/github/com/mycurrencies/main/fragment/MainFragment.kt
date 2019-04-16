@@ -8,8 +8,8 @@ import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.layoutBar
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
@@ -83,7 +83,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun checkAppData() {
         compositeDisposable.add(
             Flowable.timer(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .onBackpressureLatest()
                 .doOnNext {
                     if (viewModel.loadResetData()) {
@@ -165,7 +165,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 } catch (e: Exception) {
                     compositeDisposable.add(
                         Flowable.timer(1, TimeUnit.SECONDS)
-                            .subscribeOn(Schedulers.computation())
+                            .subscribeOn(AndroidSchedulers.mainThread())
                             .onBackpressureLatest()
                             .doOnComplete {
                                 clearAppData()
