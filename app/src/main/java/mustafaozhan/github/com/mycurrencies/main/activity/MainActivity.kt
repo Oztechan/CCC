@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.main.activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,18 +7,15 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import kotlinx.android.synthetic.main.activity_main.webView
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
-import mustafaozhan.github.com.mycurrencies.extensions.fadeIO
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
@@ -71,32 +67,9 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
             ) {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
             }
-            R.id.onGithub -> showGithub()
+            R.id.onGithub -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun showGithub() {
-        webView.apply {
-            val ua = settings.userAgentString
-            val androidOSString = settings.userAgentString.substring(ua.indexOf("("), ua.indexOf(")") + 1)
-            val newUserAgent = settings.userAgentString.replace(androidOSString, "(X11; Linux x86_64)")
-
-            settings.apply {
-                loadWithOverviewMode = true
-                javaScriptEnabled = true
-                useWideViewPort = true
-                setSupportZoom(true)
-                builtInZoomControls = true
-                displayZoomControls = false
-                userAgentString = newUserAgent
-            }
-            loadUrl(getString(R.string.github_url))
-            fadeIO(true)
-            bringToFront()
-            visibility = View.VISIBLE
-        }
     }
 
     private fun sendFeedBack() {
@@ -160,35 +133,18 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     }
 
     override fun onBackPressed() {
-        when {
-            webView.visibility == View.VISIBLE -> {
-                webView.apply {
-                    fadeIO(false)
-                    visibility = View.GONE
-                }
+        if (supportFragmentManager.findFragmentById(containerId) is MainFragment) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
             }
-            supportFragmentManager.findFragmentById(containerId) is MainFragment -> {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed()
-                    return
-                }
-                doubleBackToExitPressedOnce = true
-                snacky(getString(R.string.click_back_again_to_exit))
-                Handler().postDelayed({
-                    doubleBackToExitPressedOnce = false
-                }, BACK_DELAY)
-            }
-            else -> super.onBackPressed()
+            doubleBackToExitPressedOnce = true
+            snacky(getString(R.string.click_back_again_to_exit))
+            Handler().postDelayed({
+                doubleBackToExitPressedOnce = false
+            }, BACK_DELAY)
+        } else {
+            super.onBackPressed()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        webView?.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        webView?.onResume()
     }
 }
