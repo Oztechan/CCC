@@ -82,10 +82,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun checkAppData() {
         compositeDisposable.add(
-            Flowable.interval(0, 1, TimeUnit.SECONDS)
+            Flowable.timer(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.computation())
                 .onBackpressureLatest()
-                .doOnComplete(this::clearAppData)
+                .doOnNext {
+                    if (viewModel.loadResetData()) {
+                        clearAppData()
+                    }
+                }
                 .subscribe())
     }
 
@@ -160,7 +164,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     updateBar()
                 } catch (e: Exception) {
                     compositeDisposable.add(
-                        Flowable.interval(0, 1, TimeUnit.SECONDS)
+                        Flowable.timer(1, TimeUnit.SECONDS)
                             .subscribeOn(Schedulers.computation())
                             .onBackpressureLatest()
                             .doOnComplete {

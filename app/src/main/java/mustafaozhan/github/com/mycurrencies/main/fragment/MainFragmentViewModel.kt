@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
@@ -146,10 +147,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllFail(throwable: Throwable) {
-        if (throwable.message !=
-            "Unable to resolve host \"exchangeratesapi.io\": No address associated with hostname") {
-            throwable.printStackTrace()
-        }
+        Crashlytics.logException(throwable)
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
