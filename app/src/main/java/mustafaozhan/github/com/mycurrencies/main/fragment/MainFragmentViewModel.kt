@@ -57,14 +57,13 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
-    private fun insertInitialCurrencies() {
+    fun insertInitialCurrencies() {
         loadPreferences()
         currencyDao.insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
             subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
                 ::offlineRateAllSuccess, ::offlineRateAllFail)
         }
-        persistResetData(false)
     }
 
     private fun loadPreferences() {
@@ -140,7 +139,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun loadResetData() = dataManager.loadResetData()
 
-    private fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
+    fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
 
     fun getClickedItemRate(name: String): String {
         return "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
