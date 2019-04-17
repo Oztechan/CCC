@@ -184,8 +184,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     Crashlytics.logException(e)
                     Crashlytics.log(
                         Log.ERROR,
-                        "Updating UI",
-                        "If there is no error Updating UI successful"
+                        context?.getString(R.string.error_tag_updating_ui),
+                        context?.getString(R.string.error_message_updating_ui)
                     )
                     updateBar()
                 }
@@ -193,37 +193,40 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    @Suppress("NestedBlockDepth")
+    @Suppress("NestedBlockDepth", "ComplexMethod")
     private fun updateBar() {
         viewModel.currencyListLiveData.value?.let { currencyList ->
-            val spinnerList = currencyList.filter { it.isActive == 1 }.map { it.name }
-            if (spinnerList.size < 2) {
-                snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                    getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
-                }
-                imgBase.setBackgroundByName("transparent")
-                mSpinner.setItems("")
-            } else {
-                mSpinner.setItems(spinnerList)
-                if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                    currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
-                        viewModel.updateCurrentBase(firsActive)
-                        mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
+            (currencyList.filter { it.isActive == 1 }.map { it.name } as List<String>?)?.let { spinnerList ->
+                if (spinnerList.size < 2) {
+                    snacky(
+                        context?.getString(R.string.choose_at_least_two_currency),
+                        context?.getString(R.string.select)) {
+                        getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
                     }
+                    imgBase.setBackgroundByName("transparent")
+                    mSpinner.setItems("")
                 } else {
-                    if (viewModel.mainData.currentBase == Currencies.NULL) {
-                        viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-                    }
-                    if (currencyList.any { c ->
-                            c.isActive == 1 &&
-                                c.name == viewModel.mainData.currentBase.toString()
+                    mSpinner.setItems(spinnerList)
+                    if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
+                        currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
+                            viewModel.updateCurrentBase(firsActive)
+                            mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
                         }
-                    ) {
-                        mSpinner.selectedIndex =
-                            spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                    } else {
+                        if (viewModel.mainData.currentBase == Currencies.NULL) {
+                            viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                        }
+                        if (currencyList.any { c ->
+                                c.isActive == 1 &&
+                                    c.name == viewModel.mainData.currentBase.toString()
+                            }
+                        ) {
+                            mSpinner.selectedIndex =
+                                spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                        }
                     }
+                    imgBase.setBackgroundByName(mSpinner.text.toString())
                 }
-                imgBase.setBackgroundByName(mSpinner.text.toString())
             }
             currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
         }

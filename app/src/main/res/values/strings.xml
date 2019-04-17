@@ -77,4 +77,7 @@
     <string name="remote_config_title">App Update</string>
     <string name="remote_config_description">Looks like you have an older\nversion of the app.\nPlease update to get latest\nfeatures and best experience.</string>
 
+    <!--Log-->
+    <string name="error_tag_updating_ui">Updating UI</string>
+    <string name="error_message_updating_ui">If there is no error Updating UI successful</string>
 </resources>

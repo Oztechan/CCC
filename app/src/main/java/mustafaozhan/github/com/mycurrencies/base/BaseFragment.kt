@@ -43,12 +43,12 @@ abstract class BaseFragment : Fragment() {
     protected fun getBaseActivity(): BaseActivity? = activity as? BaseActivity
 
     protected fun snacky(
-        text: String,
-        actionText: String = "",
+        text: String?,
+        actionText: String? = "",
         setIcon: String? = null,
         isLong: Boolean = true,
         action: () -> Unit = {}
-    ) = getBaseActivity()?.snacky(text, actionText, setIcon, isLong, action)
+    ) = getBaseActivity()?.snacky(text ?: "", actionText ?: "", setIcon, isLong, action)
 
     protected fun clearApplicationData() = getBaseActivity()?.clearApplicationData()
 }
