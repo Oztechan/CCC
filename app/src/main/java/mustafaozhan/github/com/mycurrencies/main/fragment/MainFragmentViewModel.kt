@@ -60,10 +60,6 @@ class MainFragmentViewModel : BaseViewModel() {
     fun insertInitialCurrencies() {
         loadPreferences()
         currencyDao.insertInitialCurrencies()
-        for (i in 0 until Currencies.values().size - 1) {
-            subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
-                ::offlineRateAllSuccess, ::offlineRateAllFail)
-        }
     }
 
     private fun loadPreferences() {

@@ -79,9 +79,14 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun checkAppData() {
         if (viewModel.loadResetData()) {
-            if (clearApplicationData() == true) {
-                viewModel.insertInitialCurrencies()
-                viewModel.persistResetData(false)
+            doAsync {
+                val delete = clearApplicationData()
+                uiThread {
+                    viewModel.insertInitialCurrencies()
+                    if (delete == true) {
+                        viewModel.persistResetData(false)
+                    }
+                }
             }
         }
     }
