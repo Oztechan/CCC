@@ -134,7 +134,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
             getOutputText()
-            viewModel.currencyListLiveData.value?.let { mSpinner.selectedIndex = it.indexOf(currency) }
+            viewModel.currencyListLiveData.value?.let {
+                if (it.indexOf(currency) < mSpinner.getItems<String>().size) {
+                    mSpinner.selectedIndex = it.indexOf(currency)
+                } else {
+                    mSpinner.expand()
+                }
+            }
             imgBase.setBackgroundByName(currency.name)
         }
         currencyAdapter.onItemLongClickListener = { currency, _ ->
@@ -172,8 +178,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     Crashlytics.logException(e)
                     Crashlytics.log(
                         Log.ERROR,
-                        getString(R.string.error_tag_updating_ui),
-                        getString(R.string.error_message_updating_ui)
+                        "Updating UI",
+                        "If there is no error Updating UI successful"
                     )
                     updateBar()
                 }
