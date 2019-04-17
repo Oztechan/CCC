@@ -13,8 +13,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.model.MainData
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
@@ -31,10 +30,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     @Inject
-    lateinit var currencyDao: CurrencyDao
-
-    @Inject
-    lateinit var offlineRatesDao: OfflineRatesDao
+    lateinit var appDatabase: AppDatabase
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
@@ -54,12 +50,12 @@ class MainFragmentViewModel : BaseViewModel() {
             mainData.firstRun = false
         }
 
-        currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
+        currencyListLiveData.postValue(appDatabase.currencyDao().getActiveCurrencies())
     }
 
     fun insertInitialCurrencies() {
         loadPreferences()
-        currencyDao.insertInitialCurrencies()
+        appDatabase.currencyDao().insertInitialCurrencies()
         for (i in 0 until Currencies.values().size - 1) {
             subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
                 ::offlineRateAllSuccess, ::offlineRateAllFail)
@@ -107,13 +103,13 @@ class MainFragmentViewModel : BaseViewModel() {
         ratesLiveData.postValue(currencyResponse.rates)
         rates = currencyResponse.rates
         currencyResponse.toOfflineRates().let {
-            offlineRatesDao.insertOfflineRates(it)
+            appDatabase.offlineRatesDao().insertOfflineRates(it)
         }
     }
 
     private fun rateDownloadFail(t: Throwable) {
         t.printStackTrace()
-        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
+        appDatabase.offlineRatesDao().getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
             ratesLiveData.postValue(offlineRates?.getRates())
         }
     }
@@ -150,8 +146,8 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
+        currencyResponse.toOfflineRates().let { appDatabase.offlineRatesDao().insertOfflineRates(it) }
     }
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
+    fun getCurrencyByName(name: String) = appDatabase.currencyDao().getCurrencyByName(name)
 }

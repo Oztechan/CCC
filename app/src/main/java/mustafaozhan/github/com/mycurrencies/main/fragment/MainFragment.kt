@@ -79,9 +79,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun checkAppData() {
         if (viewModel.loadResetData()) {
-            if (clearApplicationData() == true) {
-                viewModel.insertInitialCurrencies()
-                viewModel.persistResetData(false)
+            doAsync {
+                viewModel.appDatabase.clearAllTables()
+                uiThread {
+                    viewModel.insertInitialCurrencies()
+                    viewModel.persistResetData(false)
+                }
             }
         }
     }
