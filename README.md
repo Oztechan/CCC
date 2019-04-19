@@ -1,6 +1,6 @@
 <p align="center">A currency application for most of the currencies of world.You can quickly convert and make mathematichal operations between currencies</p>
 <p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300px"></a></p>
-<!---<p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://www.androidpolice.com/wp-content/uploads/2016/03/nexus2cee_apkm2.gif" width="260px"></a></p>--->
+<p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Features 
 - 168 Currencies !!!
@@ -96,8 +96,3 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/CurrencyConverterCalculator/androidCCC/badge.svg?style=beer-square)](https://beerpay.io/CurrencyConverterCalculator/androidCCC)  [![Beerpay](https://beerpay.io/CurrencyConverterCalculator/androidCCC/make-wish.svg?style=flat-square)](https://beerpay.io/CurrencyConverterCalculator/androidCCC?focus=wish)
