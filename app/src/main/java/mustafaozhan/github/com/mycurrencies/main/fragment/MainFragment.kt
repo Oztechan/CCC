@@ -140,9 +140,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txtAmount.text.toString().replace(" ", ""))
             getOutputText()
-            viewModel.currencyListLiveData.value?.let {
-                if (it.indexOf(currency) < mSpinner.getItems<String>().size) {
-                    mSpinner.selectedIndex = it.indexOf(currency)
+            viewModel.currencyListLiveData.value?.let { currencyList ->
+                if (currencyList.indexOf(currency) < mSpinner.getItems<String>().size) {
+                    mSpinner.selectedIndex = currencyList.indexOf(currency)
                 } else {
                     mSpinner.expand()
                 }

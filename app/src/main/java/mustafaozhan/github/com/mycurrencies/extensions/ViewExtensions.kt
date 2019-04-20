@@ -40,7 +40,7 @@ fun TextView.addText(str: String) =
     if (text.toString().length < MAX_DIGIT)
         text = text.toString() + str
     else
-        (context as MainActivity).snacky(context.getString(R.string.max_input), isLong = false)
+        (context.applicationContext as MainActivity).snacky(context.getString(R.string.max_input), isLong = false)
 
 fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))
