@@ -80,4 +80,9 @@
     <!--Log-->
     <string name="error_tag_updating_ui">Updating UI</string>
     <string name="error_message_updating_ui">If there is no error Updating UI successful</string>
+
+    <!--Rewarded Ads-->
+    <string name="remove_ads">Remove Ads</string>
+    <string name="remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
+    <string name="watch">Watch</string>
 </resources>

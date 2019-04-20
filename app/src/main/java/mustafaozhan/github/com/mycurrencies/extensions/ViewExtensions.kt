@@ -2,8 +2,6 @@ package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.animation.AnimationUtils
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import com.crashlytics.android.Crashlytics
@@ -40,13 +38,10 @@ fun TextView.addText(str: String) =
     if (text.toString().length < MAX_DIGIT)
         text = text.toString() + str
     else
-        (context.applicationContext as MainActivity).snacky(context.getString(R.string.max_input), isLong = false)
+        (context as MainActivity).snacky(context.getString(R.string.max_input), isLong = false)
 
 fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))
     val adRequest = AdRequest.Builder().build()
     loadAd(adRequest)
 }
-
-fun WebView.fadeIO(isIn: Boolean) =
-    startAnimation(AnimationUtils.loadAnimation(context, if (isIn) R.anim.fade_in else R.anim.fade_out))

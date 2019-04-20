@@ -6,6 +6,8 @@ import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
+import org.joda.time.Duration
+import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
@@ -52,4 +54,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun savePreferences() = dataManager.persistMainData(mainData)
+
+    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_DAYS)
 }

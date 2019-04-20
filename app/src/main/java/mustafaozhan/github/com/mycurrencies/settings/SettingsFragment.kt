@@ -120,7 +120,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onResume() {
         viewModel.initData()
         updateUi()
-        adView.loadAd(R.string.banner_ad_unit_id_settings)
+        checkAd()
         super.onResume()
+    }
+
+    private fun checkAd() {
+        if (viewModel.isRewardExpired()) {
+            adView.loadAd(R.string.banner_ad_unit_id_settings)
+        } else {
+            adView.isEnabled = false
+            adView.visibility = View.GONE
+        }
     }
 }

@@ -28,7 +28,7 @@ constructor() : BaseSharedPreferences() {
 
     fun loadMainData() =
         Gson().fromJson(getStringEntry(MAIN_DATA), MainData::class.java)
-            ?: MainData(true, Currencies.EUR)
+            ?: MainData(true, Currencies.EUR, null)
 
     fun loadResetData() = getBooleanEntry(RESET_DATA, true)
 
