@@ -1,6 +1,6 @@
 <p align="center">A currency application for most of the currencies of world.You can quickly convert and make mathematichal operations between currencies</p>
 <p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300px"></a></p>
-<!---<p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://www.androidpolice.com/wp-content/uploads/2016/03/nexus2cee_apkm2.gif" width="260px"></a></p>--->
+<p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Features 
 - 168 Currencies !!!
@@ -15,9 +15,9 @@
 
 ## Screenshots
 
-<img src="https://i.postimg.cc/ZTpknnkt/8.png?dl=1" width="218px"/><img src="https://i.postimg.cc/c0kG5P7j/2.png?dl=1" width="218px"/><img src="https://i.postimg.cc/Ykk746qX/3.png?dl=1" width="218px"/><img src="https://i.postimg.cc/q4vdwpKy/4.png?dl=1" width="218px"/>
+<img src="https://i.postimg.cc/ZTpknnkt/8.png?dl=1" width="216px"/><img src="https://i.postimg.cc/c0kG5P7j/2.png?dl=1" width="216px"/><img src="https://i.postimg.cc/Ykk746qX/3.png?dl=1" width="216px"/><img src="https://i.postimg.cc/q4vdwpKy/4.png?dl=1" width="216px"/>
 
-<img src="https://i.postimg.cc/fM3Q45Bb/5.png?dl=1" width="218px"/><img src="https://i.postimg.cc/XjkTKP7s/6.png?dl=1" width="218px"/><img src="https://i.postimg.cc/2kDsZYmq/7.png?dl=1" width="218px"/><img src="https://i.postimg.cc/ZZcS6WWJ/1.png?dl=1" width="218px"/>
+<img src="https://i.postimg.cc/fM3Q45Bb/5.png?dl=1" width="216px"/><img src="https://i.postimg.cc/XjkTKP7s/6.png?dl=1" width="216px"/><img src="https://i.postimg.cc/2kDsZYmq/7.png?dl=1" width="216px"/><img src="https://i.postimg.cc/ZZcS6WWJ/1.png?dl=1" width="216px"/>
 
 ## Included Currencies
 
