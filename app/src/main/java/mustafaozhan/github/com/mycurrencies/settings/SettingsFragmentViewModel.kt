@@ -2,12 +2,8 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import org.joda.time.Duration
-import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
@@ -23,7 +19,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
     lateinit var currencyDao: CurrencyDao
 
     val currencyList: MutableList<Currency> = mutableListOf()
-    lateinit var mainData: MainData
 
     fun initData() {
         loadPreferences()
@@ -37,11 +32,6 @@ class SettingsFragmentViewModel : BaseViewModel() {
         }
     }
 
-    fun setCurrentBase(newBase: String?) {
-        mainData.currentBase = Currencies.valueOf(newBase ?: "NULL")
-        dataManager.persistMainData(mainData)
-    }
-
     fun updateCurrencyStateByName(name: String, i: Int) = currencyDao.updateCurrencyStateByName(name, i)
 
     fun updateAllCurrencyState(value: Int) {
@@ -49,12 +39,4 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyDao.updateAllCurrencyState(value)
     }
 
-    private fun loadPreferences() {
-        mainData = dataManager.loadMainData()
-    }
-
-    fun savePreferences() = dataManager.persistMainData(mainData)
-
-    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
-        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_DAYS)
 }

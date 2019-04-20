@@ -12,13 +12,10 @@ import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
-import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
 
@@ -41,7 +38,6 @@ class MainFragmentViewModel : BaseViewModel() {
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     var rates: Rates? = null
-    lateinit var mainData: MainData
     var output: String = "0.0"
 
     fun refreshData() {
@@ -62,14 +58,6 @@ class MainFragmentViewModel : BaseViewModel() {
     fun insertInitialCurrencies() {
         loadPreferences()
         currencyDao.insertInitialCurrencies()
-    }
-
-    private fun loadPreferences() {
-        mainData = dataManager.loadMainData()
-    }
-
-    fun savePreferences() {
-        dataManager.persistMainData(mainData)
     }
 
     fun getCurrencies() {
@@ -131,8 +119,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun updateCurrentBase(currency: String?) {
         rates = null
-        mainData.currentBase = Currencies.valueOf(currency ?: "NULL")
-        savePreferences()
+        setCurrentBase(currency)
     }
 
     fun loadResetData() = dataManager.loadResetData()
@@ -152,7 +139,4 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
-
-    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
-        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_DAYS)
 }

@@ -6,9 +6,12 @@ import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.dagger.component.ViewModelComponent
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
+import mustafaozhan.github.com.mycurrencies.model.MainData
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
+import org.joda.time.Duration
+import org.joda.time.Instant
 import javax.inject.Inject
-
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:40 PM on Arch Linux wit Love <3.
@@ -21,6 +24,7 @@ abstract class BaseViewModel : ViewModel() {
 
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    lateinit var mainData: MainData
 
     @Inject
     lateinit var dataManager: DataManager
@@ -52,5 +56,19 @@ abstract class BaseViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
+    }
+
+    fun setCurrentBase(newBase: String?) {
+        mainData.currentBase = Currencies.valueOf(newBase ?: "NULL")
+        dataManager.persistMainData(mainData)
+    }
+
+    fun savePreferences() = dataManager.persistMainData(mainData)
+
+    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_DAYS)
+
+    protected fun loadPreferences() {
+        mainData = dataManager.loadMainData()
     }
 }
