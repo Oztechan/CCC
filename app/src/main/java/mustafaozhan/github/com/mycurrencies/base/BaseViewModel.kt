@@ -19,7 +19,7 @@ import javax.inject.Inject
 abstract class BaseViewModel : ViewModel() {
 
     companion object {
-        const val NUMBER_OF_DAYS = 3
+        const val NUMBER_OF_DAYS = 1
     }
 
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
@@ -34,16 +34,6 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected abstract fun inject()
-
-    protected fun <T> subscribeService(
-        serviceObservable: Observable<T>,
-        onNext: (T) -> Unit,
-        onError: (Throwable) -> Unit,
-        onComplete: () -> Unit
-    ) = compositeDisposable.add(serviceObservable
-        .applySchedulers()
-        .subscribe(onNext, onError, onComplete)
-    )
 
     protected fun <T> subscribeService(
         serviceObservable: Observable<T>,

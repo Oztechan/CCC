@@ -83,6 +83,6 @@
 
     <!--Rewarded Ads-->
     <string name="remove_ads">Remove Ads</string>
-    <string name="remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
+    <string name="remove_ads_text">Would you like to watch a video to stop ads for 1 day?</string>
     <string name="watch">Watch</string>
 </resources>
