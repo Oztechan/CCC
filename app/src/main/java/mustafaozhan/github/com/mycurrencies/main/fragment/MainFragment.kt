@@ -291,16 +291,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.rates = null
         viewModel.getCurrencies()
         updateUi()
-        checkAd()
+        adView.loadAd(R.string.banner_ad_unit_id_main)
         super.onResume()
-    }
-
-    private fun checkAd() {
-        if (viewModel.isRewardExpired()) {
-            adView.loadAd(R.string.banner_ad_unit_id_main)
-        } else {
-            adView.isEnabled = false
-            adView.visibility = View.GONE
-        }
     }
 }

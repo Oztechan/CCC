@@ -73,40 +73,9 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
             }
             R.id.onGithub -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
-//            R.id.removeAds -> showDialog(
-//                getString(R.string.remove_ads),
-//                getString(R.string.remove_ads_text),
-//                getString(R.string.watch)
-//            ) {
-//                showRewardedAd()
-//            }
         }
         return super.onOptionsItemSelected(item)
     }
-
-//    private fun loadRewardedAd() {
-//        rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
-//        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-//            override fun onRewardedAdLoaded() {}
-//            override fun onRewardedAdFailedToLoad(errorCode: Int) {}
-//        })
-//    }
-//
-//    private fun showRewardedAd() {
-//        if (rewardedAd.isLoaded) {
-//            rewardedAd.show(this, object : RewardedAdCallback() {
-//                override fun onRewardedAdOpened() {}
-//                override fun onRewardedAdClosed() {}
-//                override fun onRewardedAdFailedToShow(errorCode: Int) {}
-//                override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-//                    viewModel.updateAdFreeActivation()
-//                    val intent = intent
-//                    finish()
-//                    startActivity(intent)
-//                }
-//            })
-//        }
-//    }
 
     private fun sendFeedBack() {
         Intent(Intent.ACTION_SEND).apply {
