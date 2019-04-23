@@ -21,7 +21,6 @@ import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import java.util.concurrent.TimeUnit
 
-
 @Suppress("TooManyFunctions")
 class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
@@ -33,8 +32,6 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
-//    private lateinit var rewardedAd: RewardedAd
-
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
@@ -45,9 +42,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        loadRewardedAd()
-        checkAppUpdate()
+        checkUpdate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -88,7 +83,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     }
 
     @Suppress("ComplexMethod")
-    private fun checkAppUpdate() {
+    private fun checkUpdate() {
 
         val defaultMap = HashMap<String, Any>()
         defaultMap[REMOTE_CONFIG] = RemoteConfig(

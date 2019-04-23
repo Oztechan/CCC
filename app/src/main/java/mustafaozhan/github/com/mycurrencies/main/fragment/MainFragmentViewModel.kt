@@ -77,7 +77,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun backendRateDownloadFail(t: Throwable) {
-        t.printStackTrace()
+        Crashlytics.logException(t)
         if (mainData.currentBase == Currencies.BTC) {
             subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
                 ::rateDownloadSuccess,
@@ -98,7 +98,7 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        t.printStackTrace()
+        Crashlytics.logException(t)
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
             ratesLiveData.postValue(offlineRates?.getRates())
         }

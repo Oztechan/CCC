@@ -112,8 +112,5 @@ dependencies {
     // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
 
-    // Joda Time
-    implementation 'net.danlew:android.joda:2.10.1.2'
-
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }
