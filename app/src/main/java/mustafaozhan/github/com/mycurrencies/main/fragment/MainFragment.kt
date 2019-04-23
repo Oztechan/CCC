@@ -3,9 +3,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
-import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
@@ -44,6 +42,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
@@ -74,22 +73,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         setKeyboard()
         setRx()
         initLiveData()
-        checkAppData()
-    }
-
-    private fun checkAppData() {
-        if (viewModel.loadResetData()) {
-            doAsync {
-                val delete = clearApplicationData()
-                uiThread {
-                    if (delete == true) {
-                        viewModel.persistResetData(false)
-                    }
-                    viewModel.insertInitialCurrencies()
-                    updateUi()
-                }
-            }
-        }
     }
 
     private fun setRx() {
@@ -177,18 +160,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             viewModel.refreshData()
             viewModel.getCurrencies()
             uiThread {
-                try {
-                    updateBar()
-                } catch (e: Exception) {
-                    clearApplicationData()
-                    Crashlytics.logException(e)
-                    Crashlytics.log(
-                        Log.ERROR,
-                        context?.getString(R.string.error_tag_updating_ui),
-                        context?.getString(R.string.error_message_updating_ui)
-                    )
-                    updateBar()
-                }
+                updateBar()
             }
         }
     }
@@ -288,10 +260,27 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.rates = null
-        viewModel.getCurrencies()
-        updateUi()
-        adView.loadAd(R.string.banner_ad_unit_id_main)
         super.onResume()
+        initData()
+        adView.loadAd(R.string.banner_ad_unit_id_main)
+    }
+
+    private fun initData() {
+        viewModel.apply {
+            rates = null
+            getCurrencies()
+            if (loadResetData() && !mainData.firstRun) {
+                doAsync {
+                    AppDatabase.database.clearAllTables()
+                    uiThread {
+                        persistResetData(false)
+                        insertInitialCurrencies()
+                        updateUi()
+                    }
+                }
+            } else {
+                updateUi()
+            }
+        }
     }
 }
