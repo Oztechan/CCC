@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -38,9 +40,18 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        initLiveData()
         initViews()
         initRx()
         setListeners()
+    }
+
+    private fun initLiveData() {
+        viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+            currencyList?.let {
+                settingAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+            }
+        })
     }
 
     private fun initRx() {
