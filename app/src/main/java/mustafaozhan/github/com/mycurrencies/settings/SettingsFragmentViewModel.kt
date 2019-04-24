@@ -4,6 +4,7 @@ import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import javax.inject.Inject
 
 /**
@@ -37,6 +38,12 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun updateAllCurrencyState(value: Int) {
         currencyList.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
+    }
+
+    fun verifyCurrentBase() {
+        if (mainData.currentBase == Currencies.NULL) {
+            setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+        }
     }
 
 }

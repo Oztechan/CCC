@@ -44,7 +44,6 @@ import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
-import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -165,38 +164,21 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    @Suppress("NestedBlockDepth", "ComplexMethod")
     private fun updateBar() {
         viewModel.currencyListLiveData.value?.let { currencyList ->
-            (currencyList.filter { it.isActive == 1 }.map { it.name } as List<String>?)?.let { spinnerList ->
+            currencyList.filter { it.isActive == 1 }.map { it.name }.let { spinnerList ->
                 if (spinnerList.size < 2) {
                     snacky(
                         context?.getString(R.string.choose_at_least_two_currency),
                         context?.getString(R.string.select)) {
                         getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
                     }
-                    imgBase.setBackgroundByName("transparent")
                     mSpinner.setItems("")
+                    imgBase.setBackgroundByName("transparent")
                 } else {
                     mSpinner.setItems(spinnerList)
-                    if (viewModel.mainData.currentBase == Currencies.NULL && currencyList.isNotEmpty()) {
-                        currencyList.firstOrNull { it.isActive == 1 }?.name.let { firsActive ->
-                            viewModel.updateCurrentBase(firsActive)
-                            mSpinner.selectedIndex = spinnerList.indexOf(firsActive)
-                        }
-                    } else {
-                        if (viewModel.mainData.currentBase == Currencies.NULL) {
-                            viewModel.updateCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-                        }
-                        if (currencyList.any { c ->
-                                c.isActive == 1 &&
-                                    c.name == viewModel.mainData.currentBase.toString()
-                            }
-                        ) {
-                            mSpinner.selectedIndex =
-                                spinnerList.indexOf(viewModel.mainData.currentBase.toString())
-                        }
-                    }
+                    viewModel.verifyCurrentBase()
+                    mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
                     imgBase.setBackgroundByName(mSpinner.text.toString())
                 }
             }

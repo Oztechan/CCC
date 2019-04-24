@@ -79,17 +79,15 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         settingAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
             when (currency.isActive) {
                 0 -> {
+                    viewModel.updateCurrencyStateByName(currency.name, 1)
                     currency.isActive = 1
                     itemView.checkBox.isChecked = true
-                    viewModel.updateCurrencyStateByName(currency.name, 1)
                 }
                 1 -> {
+                    viewModel.updateCurrencyStateByName(currency.name, 0)
                     currency.isActive = 0
                     itemView.checkBox.isChecked = false
-                    if (currency.name == viewModel.mainData.currentBase.toString()) {
-                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { it.isActive == 1 }?.name)
-                    }
-                    viewModel.updateCurrencyStateByName(currency.name, 0)
+                    viewModel.verifyCurrentBase()
                 }
             }
         }
