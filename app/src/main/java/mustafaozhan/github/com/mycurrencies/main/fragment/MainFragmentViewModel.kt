@@ -140,9 +140,10 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
-    fun verifyCurrentBase() {
-        if (mainData.currentBase == Currencies.NULL) {
+    fun verifyCurrentBase(spinnerList: List<String>): Currencies {
+        if (mainData.currentBase == Currencies.NULL || spinnerList.indexOf(mainData.currentBase.toString()) == -1) {
             updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name)
         }
+        return mainData.currentBase
     }
 }

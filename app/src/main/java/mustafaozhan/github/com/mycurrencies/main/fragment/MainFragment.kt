@@ -177,8 +177,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     imgBase.setBackgroundByName("transparent")
                 } else {
                     mSpinner.setItems(spinnerList)
-                    viewModel.verifyCurrentBase()
-                    mSpinner.selectedIndex = spinnerList.indexOf(viewModel.mainData.currentBase.toString())
+                    mSpinner.selectedIndex = spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString())
                     imgBase.setBackgroundByName(mSpinner.text.toString())
                 }
             }

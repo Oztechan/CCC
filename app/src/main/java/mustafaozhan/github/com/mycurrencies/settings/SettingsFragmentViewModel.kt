@@ -41,7 +41,8 @@ class SettingsFragmentViewModel : BaseViewModel() {
     }
 
     fun verifyCurrentBase() {
-        if (mainData.currentBase == Currencies.NULL) {
+        if (mainData.currentBase == Currencies.NULL ||
+            currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
             setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
         }
     }
