@@ -33,18 +33,15 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
         LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
     fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
-        items.clear()
-        items.addAll(
-            if (currentBase != null && list.checkItemsAre<Currency>()) {
-                list.filter { listItem ->
-                    listItem as Currency
-                    listItem.name != currentBase.toString() &&
-                        listItem.isActive == 1 &&
-                        listItem.rate.toString() != "NaN" &&
-                        listItem.rate.toString() != "0.0"
-                }.toMutableList()
-            } else list
-        )
+        items = if (currentBase != null && list.checkItemsAre<Currency>()) {
+            list.filter { listItem ->
+                listItem as Currency
+                listItem.name != currentBase.toString() &&
+                    listItem.isActive == 1 &&
+                    listItem.rate.toString() != "NaN" &&
+                    listItem.rate.toString() != "0.0"
+            }.toMutableList()
+        } else list
     }
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>

@@ -109,6 +109,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
         })
+        viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+            currencyList?.let {
+                currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+            }
+        })
     }
 
     private fun initViews() {

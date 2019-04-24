@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
+import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -19,32 +20,31 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    val currencyList: MutableList<Currency> = mutableListOf()
+    var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 
     fun initData() {
         loadPreferences()
-        currencyList.clear()
+        currencyListLiveData.value?.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-        currencyDao.getAllCurrencies().let { list ->
-            currencyList.addAll(list)
-        }
+        currencyListLiveData.postValue(currencyDao.getAllCurrencies())
     }
 
     fun updateCurrencyStateByName(name: String, i: Int) = currencyDao.updateCurrencyStateByName(name, i)
 
     fun updateAllCurrencyState(value: Int) {
-        currencyList.forEach { it.isActive = value }
+        currencyListLiveData.value?.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
 
     fun verifyCurrentBase() {
-        if (mainData.currentBase == Currencies.NULL ||
-            currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
-            setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+        currencyListLiveData.value?.let { currencyList ->
+            if (mainData.currentBase == Currencies.NULL ||
+                currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
+                setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+            }
         }
     }
-
 }

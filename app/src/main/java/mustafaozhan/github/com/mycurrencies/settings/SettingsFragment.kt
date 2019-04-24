@@ -47,11 +47,13 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         eTxtSearch
             .textChanges()
             .subscribe { txt ->
-                viewModel.currencyList.filter { currency ->
-                    currency.name.contains(txt.toString(), true) ||
-                        currency.longName.contains(txt.toString(), true) ||
-                        currency.symbol.contains(txt.toString(), true)
-                }.toMutableList().let { settingAdapter.refreshList(it) }
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    currencyList.filter { currency ->
+                        currency.name.contains(txt.toString(), true) ||
+                            currency.longName.contains(txt.toString(), true) ||
+                            currency.symbol.contains(txt.toString(), true)
+                    }.toMutableList().let { settingAdapter.refreshList(it) }
+                }
             }.addTo(compositeDisposable)
     }
 
@@ -97,15 +99,17 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         doAsync {
             value?.let { viewModel.updateAllCurrencyState(it) }
             uiThread {
-                when {
-                    viewModel.currencyList.filter { it.isActive == 1 }.count() < 2 -> {
-                        snacky(getString(R.string.choose_currencies), getString(R.string.ok))
+                viewModel.currencyListLiveData.value?.let { currencyList ->
+                    when {
+                        currencyList.filter { it.isActive == 1 }.count() < 2 -> {
+                            snacky(getString(R.string.choose_currencies), getString(R.string.ok))
+                        }
+                        viewModel.mainData.currentBase == Currencies.NULL -> {
+                            viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
+                        }
                     }
-                    viewModel.mainData.currentBase == Currencies.NULL -> {
-                        viewModel.setCurrentBase(viewModel.currencyList.firstOrNull { it.isActive == 1 }?.name)
-                    }
+                    currencyList.let { settingAdapter.refreshList(it) }
                 }
-                viewModel.currencyList.let { settingAdapter.refreshList(it) }
             }
         }
     }
