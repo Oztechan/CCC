@@ -30,9 +30,11 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
         override fun bind(item: Currency) {
-            itemView.textView.text = item.getVariablesOneLine()
-            itemView.checkBox.isChecked = item.isActive == 1
-            itemView.icon.setBackgroundByName(item.name)
+            itemView.apply {
+                textView.text = item.getVariablesOneLine()
+                checkBox.isChecked = item.isActive == 1
+                icon.setBackgroundByName(item.name)
+            }
         }
     }
 }

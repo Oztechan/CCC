@@ -23,10 +23,12 @@ class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
 
         override fun bind(item: Currency) {
-            itemView.txtType.text = item.name
-            itemView.txtSymbol.text = item.symbol
-            itemView.txtAmount.text = item.rate.getFormatted()
-            itemView.imgRow.setBackgroundByName(item.name)
+            itemView.apply {
+                txtType.text = item.name
+                txtSymbol.text = item.symbol
+                txtAmount.text = item.rate.getFormatted()
+                imgRow.setBackgroundByName(item.name)
+            }
         }
     }
 }
