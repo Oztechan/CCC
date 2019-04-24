@@ -224,23 +224,23 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun setKeyboard() {
-        btnSeven.setOnClickListener { txtMainToolbar.addText("7") }
-        btnEight.setOnClickListener { txtMainToolbar.addText("8") }
-        btnNine.setOnClickListener { txtMainToolbar.addText("9") }
-        btnDivide.setOnClickListener { txtMainToolbar.addText("/") }
-        btnFour.setOnClickListener { txtMainToolbar.addText("4") }
-        btnFive.setOnClickListener { txtMainToolbar.addText("5") }
-        btnSix.setOnClickListener { txtMainToolbar.addText("6") }
-        btnMultiply.setOnClickListener { txtMainToolbar.addText("*") }
-        btnOne.setOnClickListener { txtMainToolbar.addText("1") }
-        btnTwo.setOnClickListener { txtMainToolbar.addText("2") }
-        btnThree.setOnClickListener { txtMainToolbar.addText("3") }
-        btnMinus.setOnClickListener { txtMainToolbar.addText("-") }
-        btnDot.setOnClickListener { txtMainToolbar.addText(".") }
-        btnZero.setOnClickListener { txtMainToolbar.addText("0") }
-        btnPercent.setOnClickListener { txtMainToolbar.addText("%") }
-        btnPlus.setOnClickListener { txtMainToolbar.addText("+") }
-        btnDoubleZero.setOnClickListener { txtMainToolbar.addText("000") }
+        btnSeven.setOnClickListener { keyboardPressed("7") }
+        btnEight.setOnClickListener { keyboardPressed("8") }
+        btnNine.setOnClickListener { keyboardPressed("9") }
+        btnDivide.setOnClickListener { keyboardPressed("/") }
+        btnFour.setOnClickListener { keyboardPressed("4") }
+        btnFive.setOnClickListener { keyboardPressed("5") }
+        btnSix.setOnClickListener { keyboardPressed("6") }
+        btnMultiply.setOnClickListener { keyboardPressed("*") }
+        btnOne.setOnClickListener { keyboardPressed("1") }
+        btnTwo.setOnClickListener { keyboardPressed("2") }
+        btnThree.setOnClickListener { keyboardPressed("3") }
+        btnMinus.setOnClickListener { keyboardPressed("-") }
+        btnDot.setOnClickListener { keyboardPressed(".") }
+        btnZero.setOnClickListener { keyboardPressed("0") }
+        btnPercent.setOnClickListener { keyboardPressed("%") }
+        btnPlus.setOnClickListener { keyboardPressed("+") }
+        btnDoubleZero.setOnClickListener { keyboardPressed("000") }
         btnAc.setOnClickListener {
             txtMainToolbar.text = ""
             txtResult.text = ""
@@ -251,6 +251,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 txtMainToolbar.text = txtMainToolbar.text.toString()
                     .substring(0, txtMainToolbar.text.toString().length - 1)
             }
+        }
+    }
+
+    private fun keyboardPressed(txt: String) {
+        if (!txtMainToolbar.addText(txt)) {
+            snacky(getString(R.string.max_input), isLong = false)
         }
     }
 

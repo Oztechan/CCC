@@ -9,7 +9,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import java.io.FileNotFoundException
 
 /**
@@ -35,10 +34,12 @@ fun Context.getImageResourceByName(name: String): Int =
 
 @SuppressLint("SetTextI18n")
 fun TextView.addText(str: String) =
-    if (text.toString().length < MAX_DIGIT)
+    if (text.toString().length < MAX_DIGIT) {
         text = text.toString() + str
-    else
-        (context as MainActivity).snacky(context.getString(R.string.max_input), isLong = false)
+        true
+    } else {
+        false
+    }
 
 fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))
