@@ -80,11 +80,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener {
-            updateUi(1)
+            updateUi(true, 1)
             eTxtSearch.setText("")
         }
         btnDeSelectAll.setOnClickListener {
-            updateUi(0)
+            updateUi(true, 0)
             eTxtSearch.setText("")
             viewModel.setCurrentBase(null)
         }
@@ -92,23 +92,31 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
         settingAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
             when (currency.isActive) {
                 0 -> {
-                    viewModel.updateCurrencyStateByName(currency.name, 1)
                     currency.isActive = 1
                     itemView.checkBox.isChecked = true
+                    updateUi(true, 1, currency.name)
                 }
                 1 -> {
-                    viewModel.updateCurrencyStateByName(currency.name, 0)
                     currency.isActive = 0
                     itemView.checkBox.isChecked = false
                     viewModel.verifyCurrentBase()
+                    updateUi(true, 0, currency.name)
                 }
             }
         }
     }
 
-    private fun updateUi(value: Int? = null) {
+    private fun updateUi(update: Boolean = false, value: Int = 0, name: String = "") {
         doAsync {
-            value?.let { viewModel.updateAllCurrencyState(it) }
+            if (update) {
+                if (name.isNotEmpty()) {
+                    viewModel.updateCurrencyStateByName(name, value)
+                } else {
+                    viewModel.updateAllCurrencyState(value)
+                }
+            }
+            viewModel.refreshData()
+
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     when {
