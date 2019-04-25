@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-import android.arch.lifecycle.MutableLiveData
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -20,40 +19,34 @@ class SettingsFragmentViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyDao: CurrencyDao
 
-    var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    var currencyList: MutableList<Currency> = mutableListOf()
 
     fun refreshData() {
         loadPreferences()
-        currencyListLiveData.value?.clear()
+        currencyList.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-        currencyListLiveData.postValue(currencyDao.getAllCurrencies())
+        currencyList.addAll(currencyDao.getAllCurrencies())
     }
 
-    fun updateCurrencyState(txt: String?, value: Int) {
-        txt?.let { name ->
-            currencyListLiveData.value?.find { it.name == name }?.isActive = value
-            currencyDao.updateCurrencyStateByName(name, value)
-        } ?: updateAllCurrencyState(value)
+    fun updateCurrency(currency: Currency) = currencyDao.updateCurrency(currency)
 
+    fun updateCurrencyState(value: Int) {
+        currencyList.forEach { currency ->
+            currency.isActive = value
+            currencyDao.updateCurrency(currency)
+        }
         if (value == 0) {
             verifyCurrentBase()
         }
     }
 
-    private fun updateAllCurrencyState(value: Int) {
-        currencyListLiveData.value?.forEach { it.isActive = value }
-        currencyDao.updateAllCurrencyState(value)
-    }
-
-    private fun verifyCurrentBase() {
-        currencyListLiveData.value?.let { currencyList ->
-            if (mainData.currentBase == Currencies.NULL ||
-                currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
-                setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-            }
+    fun verifyCurrentBase() = currencyList.let { currencyList ->
+        if (mainData.currentBase == Currencies.NULL ||
+            currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
+            setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
         }
     }
 }

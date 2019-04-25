@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.settings
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -15,11 +14,8 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
-import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -39,31 +35,21 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        initLiveData()
         initViews()
         initRx()
         setListeners()
-    }
-
-    private fun initLiveData() {
-        viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
-            currencyList?.let {
-                settingAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-            }
-        })
     }
 
     private fun initRx() {
         eTxtSearch
             .textChanges()
             .subscribe { txt ->
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    currencyList.filter { currency ->
-                        currency.name.contains(txt.toString(), true) ||
-                            currency.longName.contains(txt.toString(), true) ||
-                            currency.symbol.contains(txt.toString(), true)
-                    }.toMutableList().let { settingAdapter.refreshList(it) }
-                }
+                viewModel.currencyList.filter { currency ->
+                    currency.name.contains(txt.toString(), true) ||
+                        currency.longName.contains(txt.toString(), true) ||
+                        currency.symbol.contains(txt.toString(), true)
+                }.toMutableList()
+                    .let { settingAdapter.refreshList(it) }
             }.addTo(compositeDisposable)
     }
 
@@ -79,11 +65,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener {
-            updateUi(1)
+            viewModel.updateCurrencyState(1)
             eTxtSearch.setText("")
         }
         btnDeSelectAll.setOnClickListener {
-            updateUi(0)
+            viewModel.updateCurrencyState(0)
             eTxtSearch.setText("")
             viewModel.setCurrentBase(null)
         }
@@ -92,30 +78,14 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
+                    viewModel.updateCurrency(currency)
                     itemView.checkBox.isChecked = true
-                    updateUi(1, currency.name)
                 }
                 1 -> {
                     currency.isActive = 0
+                    viewModel.updateCurrency(currency)
                     itemView.checkBox.isChecked = false
-                    updateUi(0, currency.name)
-                }
-            }
-        }
-    }
-
-    private fun updateUi(value: Int? = null, name: String? = null) {
-        doAsync {
-            value?.let { state ->
-                viewModel.updateCurrencyState(name, state)
-            } ?: viewModel.refreshData()
-
-            uiThread {
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    if (currencyList.filter { it.isActive == 1 }.count() < 2) {
-                        snacky(getString(R.string.choose_currencies), getString(R.string.ok))
-                    }
-                    currencyList.let { settingAdapter.refreshList(it) }
+                    viewModel.verifyCurrentBase()
                 }
             }
         }
@@ -127,7 +97,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     override fun onResume() {
-        updateUi()
+        viewModel.refreshData()
+        eTxtSearch.setText("")
         adView.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()
     }
