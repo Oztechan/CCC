@@ -22,7 +22,7 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
 
-    fun initData() {
+    fun refreshData() {
         loadPreferences()
         currencyListLiveData.value?.clear()
         if (mainData.firstRun) {
@@ -32,7 +32,13 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getAllCurrencies())
     }
 
-    fun updateCurrencyStateByName(name: String, i: Int) = currencyDao.updateCurrencyStateByName(name, i)
+    fun updateCurrencyStateByName(name: String, i: Int) {
+        currencyDao.updateCurrencyStateByName(name, i)
+        currencyListLiveData.apply {
+            value?.first { it.name == name }?.isActive = i
+            postValue(currencyListLiveData.value)
+        }
+    }
 
     fun updateAllCurrencyState(value: Int) {
         currencyListLiveData.value?.forEach { it.isActive = value }

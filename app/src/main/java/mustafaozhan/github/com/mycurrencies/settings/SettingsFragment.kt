@@ -131,7 +131,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.initData()
+        viewModel.refreshData()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()
