@@ -18,7 +18,6 @@ import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
-import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -80,11 +79,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun setListeners() {
         btnSelectAll.setOnClickListener {
-            updateUi(true, 1)
+            updateUi(1)
             eTxtSearch.setText("")
         }
         btnDeSelectAll.setOnClickListener {
-            updateUi(true, 0)
+            updateUi(0)
             eTxtSearch.setText("")
             viewModel.setCurrentBase(null)
         }
@@ -94,38 +93,27 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 0 -> {
                     currency.isActive = 1
                     itemView.checkBox.isChecked = true
-                    updateUi(true, 1, currency.name)
+                    updateUi(1, currency.name)
                 }
                 1 -> {
                     currency.isActive = 0
                     itemView.checkBox.isChecked = false
-                    viewModel.verifyCurrentBase()
-                    updateUi(true, 0, currency.name)
+                    updateUi(0, currency.name)
                 }
             }
         }
     }
 
-    private fun updateUi(update: Boolean = false, value: Int = 0, name: String = "") {
+    private fun updateUi(value: Int? = null, name: String? = null) {
         doAsync {
-            if (update) {
-                if (name.isNotEmpty()) {
-                    viewModel.updateCurrencyStateByName(name, value)
-                } else {
-                    viewModel.updateAllCurrencyState(value)
-                }
-            } else {
-                viewModel.refreshData()
-            }
+            value?.let { state ->
+                viewModel.updateCurrencyState(name, state)
+            } ?: viewModel.refreshData()
+
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
-                    when {
-                        currencyList.filter { it.isActive == 1 }.count() < 2 -> {
-                            snacky(getString(R.string.choose_currencies), getString(R.string.ok))
-                        }
-                        viewModel.mainData.currentBase == Currencies.NULL -> {
-                            viewModel.setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-                        }
+                    if (currencyList.filter { it.isActive == 1 }.count() < 2) {
+                        snacky(getString(R.string.choose_currencies), getString(R.string.ok))
                     }
                     currencyList.let { settingAdapter.refreshList(it) }
                 }
@@ -139,7 +127,6 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     override fun onResume() {
-        viewModel.refreshData()
         updateUi()
         adView.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()

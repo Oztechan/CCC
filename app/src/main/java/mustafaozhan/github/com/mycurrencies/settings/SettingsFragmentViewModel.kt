@@ -32,15 +32,23 @@ class SettingsFragmentViewModel : BaseViewModel() {
         currencyListLiveData.postValue(currencyDao.getAllCurrencies())
     }
 
-    fun updateCurrencyStateByName(name: String, i: Int) =
-        currencyDao.updateCurrencyStateByName(name, i)
+    fun updateCurrencyState(txt: String?, value: Int) {
+        txt?.let { name ->
+            currencyListLiveData.value?.find { it.name == name }?.isActive = value
+            currencyDao.updateCurrencyStateByName(name, value)
+        } ?: updateAllCurrencyState(value)
 
-    fun updateAllCurrencyState(value: Int) {
+        if (value == 0) {
+            verifyCurrentBase()
+        }
+    }
+
+    private fun updateAllCurrencyState(value: Int) {
         currencyListLiveData.value?.forEach { it.isActive = value }
         currencyDao.updateAllCurrencyState(value)
     }
 
-    fun verifyCurrentBase() {
+    private fun verifyCurrentBase() {
         currencyListLiveData.value?.let { currencyList ->
             if (mainData.currentBase == Currencies.NULL ||
                 currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
