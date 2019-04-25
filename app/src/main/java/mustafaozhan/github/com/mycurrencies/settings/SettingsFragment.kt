@@ -78,14 +78,13 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
-                    viewModel.updateCurrency(currency)
+                    viewModel.updateCurrencyState(1, currency.name)
                     itemView.checkBox.isChecked = true
                 }
                 1 -> {
                     currency.isActive = 0
-                    viewModel.updateCurrency(currency)
+                    viewModel.updateCurrencyState(0, currency.name)
                     itemView.checkBox.isChecked = false
-                    viewModel.verifyCurrentBase()
                 }
             }
         }

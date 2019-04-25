@@ -44,9 +44,10 @@ class ApplicationModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideAppExecutors(): AppExecutors {
-        return AppExecutors(DiskIOThreadExecutor(),
+    fun provideAppExecutors() =
+        AppExecutors(
+            DiskIOThreadExecutor(),
             Executors.newFixedThreadPool(THREAD_COUNT),
-            MainThreadExecutor())
-    }
+            MainThreadExecutor()
+        )
 }
