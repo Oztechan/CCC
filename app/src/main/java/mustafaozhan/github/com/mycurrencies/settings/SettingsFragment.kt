@@ -81,11 +81,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private fun setListeners() {
         btnSelectAll.setOnClickListener {
             updateUi(true, 1)
-            eTxtSearch.setText("")
+//            eTxtSearch.setText("")
         }
         btnDeSelectAll.setOnClickListener {
             updateUi(true, 0)
-            eTxtSearch.setText("")
+//            eTxtSearch.setText("")
             viewModel.setCurrentBase(null)
         }
 
@@ -114,9 +114,9 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
                 } else {
                     viewModel.updateAllCurrencyState(value)
                 }
+            } else {
+                viewModel.refreshData()
             }
-            viewModel.refreshData()
-
             uiThread {
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     when {
