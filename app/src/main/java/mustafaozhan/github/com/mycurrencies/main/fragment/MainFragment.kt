@@ -10,6 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.layoutBar
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
+import kotlinx.android.synthetic.main.fragment_main.rotateLoading
 import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.layout_bar.imgBase
 import kotlinx.android.synthetic.main.layout_bar.mSpinner
@@ -51,7 +52,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LargeClass")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -78,6 +79,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun setRx() {
         txtMainToolbar.textChanges()
             .subscribe { txt ->
+                rotateLoading.start()
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
                         viewModel.calculateOutput(txt.toString())
@@ -106,16 +108,19 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 } else {
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
+                rotateLoading.stop()
             }
         })
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                rotateLoading.stop()
             }
         })
     }
 
     private fun initViews() {
+        rotateLoading.bringToFront()
         context?.let { ctx ->
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
@@ -185,6 +190,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
             currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+            rotateLoading.stop()
         }
     }
 
@@ -197,7 +203,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             getOutputText()
             imgBase.setBackgroundByName(item.toString())
         }
-
         layoutBar.setOnClickListener {
             if (mSpinner.isActivated) {
                 mSpinner.collapse()
@@ -256,6 +261,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun initData() {
+        rotateLoading.start()
         viewModel.apply {
             rates = null
             refreshData()

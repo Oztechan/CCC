@@ -112,5 +112,8 @@ dependencies {
     // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
 
+    // RotateLoading
+    implementation 'com.victor:lib:1.0.4'
+
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }

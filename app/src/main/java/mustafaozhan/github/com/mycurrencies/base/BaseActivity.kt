@@ -95,13 +95,7 @@ abstract class BaseActivity : AppCompatActivity() {
         Snacky.builder()
             .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
             .setText(text)
-            .setIcon(
-                if (setIcon != null) {
-                    getImageResourceByName(setIcon)
-                } else {
-                    R.mipmap.ic_launcher
-                }
-            )
+            .setIcon(setIcon?.let { getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
             .setActivity(this)
             .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
             .setActionText(actionText.toUpperCase())
