@@ -15,9 +15,9 @@
 
 ## Screenshots
 
-<img src="https://i.postimg.cc/ZTpknnkt/8.png?dl=1" width="216px"/><img src="https://i.postimg.cc/c0kG5P7j/2.png?dl=1" width="216px"/><img src="https://i.postimg.cc/Ykk746qX/3.png?dl=1" width="216px"/><img src="https://i.postimg.cc/q4vdwpKy/4.png?dl=1" width="216px"/>
+<img src="https://i.postimg.cc/7wQ3PPVM/1.png?dl=1" width="216px"/><img src="https://i.postimg.cc/sfgWybGN/2.png?dl=1" width="216px"/><img src="https://i.postimg.cc/4s3vTHzx/3.png?dl=1" width="216px"/><img src="https://i.postimg.cc/HTcQrGvG/4.png?dl=1" width="216px"/>
 
-<img src="https://i.postimg.cc/fM3Q45Bb/5.png?dl=1" width="216px"/><img src="https://i.postimg.cc/XjkTKP7s/6.png?dl=1" width="216px"/><img src="https://i.postimg.cc/2kDsZYmq/7.png?dl=1" width="216px"/><img src="https://i.postimg.cc/ZZcS6WWJ/1.png?dl=1" width="216px"/>
+<img src="https://i.postimg.cc/HpbXtwCB/5.png?dl=1" width="216px"/><img src="https://i.postimg.cc/ZbZ3sWbZ/6.png?dl=1" width="216px"/><img src="https://i.postimg.cc/VzxXM72J/7.png?dl=1" width="216px"/><img src="https://i.postimg.cc/cxm3pdC3/8.png?dl=1" width="216px"/>
 
 ## Included Currencies
 
@@ -27,7 +27,7 @@
 ```
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     //noinspection GradleCompatible
     implementation "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
     testImplementation 'junit:junit:4.12'
@@ -41,6 +41,7 @@ dependencies {
     implementation "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
 
     // Rx
+    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
@@ -58,19 +59,21 @@ dependencies {
     // Material Spinner
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
-    // Loading View
-    implementation 'com.wang.avi:library:2.1.3'
-
     // Room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:17.1.3'
+    implementation 'com.google.android.gms:play-services-ads:17.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-config:16.3.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-config:16.5.0'
+
+    // Fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+        transitive = true
+    }
 
     // Crashlytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
@@ -83,6 +86,9 @@ dependencies {
 
     // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
+
+    // Loading View
+    implementation 'com.wang.avi:library:2.1.3'
 
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }
