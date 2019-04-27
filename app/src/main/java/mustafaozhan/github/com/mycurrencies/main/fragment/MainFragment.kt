@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -50,7 +51,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions", "SetTextI18n", "LargeClass")
+@Suppress("TooManyFunctions")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -84,9 +85,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                         getOutputText()
                     } else {
                         snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity()?.replaceFragment(
-                                SettingsFragment.newInstance(),
-                                true)
+                            getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
                         }
                     }
                 }
@@ -141,11 +140,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
                 isLong = false)
-
             true
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getOutputText() {
         txtResultSymbol.text = viewModel.getCurrencyByName(
             viewModel.mainData.currentBase.toString()
@@ -260,7 +259,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initData() {
         viewModel.apply {
             rates = null
-            getCurrencies()
+            refreshData()
             if (loadResetData() && !mainData.firstRun) {
                 doAsync {
                     AppDatabase.database.clearAllTables()
