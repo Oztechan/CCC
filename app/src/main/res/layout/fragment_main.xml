@@ -25,17 +25,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/rotateLoading"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="@dimen/loadingViewSize"
+        android:layout_height="@dimen/loadingViewSize"
+        app:indicatorColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutBar"
-        app:loading_color="@color/colorAccent"
-        app:loading_speed="10"
-        app:loading_width="5dp" />
+        app:indicatorName="BallPulseIndicator" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewCurrency"

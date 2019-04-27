@@ -20,5 +20,5 @@
     <dimen name="currencyIconSize">32dp</dimen>
 
     <!--LoadingView Size-->
-    <dimen name="loadingViewSize">150dp</dimen>
+    <dimen name="loadingViewSize">100dp</dimen>
 </resources>

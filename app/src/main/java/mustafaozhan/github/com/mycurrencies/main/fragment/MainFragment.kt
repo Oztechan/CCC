@@ -9,8 +9,8 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_main.adView
 import kotlinx.android.synthetic.main.fragment_main.layoutBar
+import kotlinx.android.synthetic.main.fragment_main.loading
 import kotlinx.android.synthetic.main.fragment_main.mRecViewCurrency
-import kotlinx.android.synthetic.main.fragment_main.rotateLoading
 import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.layout_bar.imgBase
 import kotlinx.android.synthetic.main.layout_bar.mSpinner
@@ -79,7 +79,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun setRx() {
         txtMainToolbar.textChanges()
             .subscribe { txt ->
-                rotateLoading.start()
+                loading.smoothToShow()
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
                         viewModel.calculateOutput(txt.toString())
@@ -108,19 +108,19 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 } else {
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
-                rotateLoading.stop()
+                loading.smoothToHide()
             }
         })
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-                rotateLoading.stop()
+                loading.smoothToHide()
             }
         })
     }
 
     private fun initViews() {
-        rotateLoading.bringToFront()
+        loading.bringToFront()
         context?.let { ctx ->
             mRecViewCurrency.layoutManager = LinearLayoutManager(ctx)
             mRecViewCurrency.adapter = currencyAdapter
@@ -190,7 +190,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                 }
             }
             currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-            rotateLoading.stop()
+            loading.smoothToHide()
         }
     }
 
@@ -261,7 +261,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     }
 
     private fun initData() {
-        rotateLoading.start()
+        loading.smoothToShow()
         viewModel.apply {
             rates = null
             refreshData()
