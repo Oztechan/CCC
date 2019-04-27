@@ -47,7 +47,10 @@ class SettingsFragmentViewModel : BaseViewModel() {
 
     private fun verifyCurrentBase() = currencyList.let { currencyList ->
         if (mainData.currentBase == Currencies.NULL ||
-            currencyList.filter { it.name == mainData.currentBase.toString() }.toList().first().isActive == 0) {
+            currencyList
+                .filter { it.name == mainData.currentBase.toString() }
+                .toList().firstOrNull()?.isActive == 0
+        ) {
             setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
         }
     }
