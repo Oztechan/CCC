@@ -160,7 +160,6 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     private fun updateUi() {
         doAsync {
-            viewModel.refreshData()
             viewModel.getCurrencies()
             uiThread {
                 updateBar()
@@ -265,7 +264,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     AppDatabase.database.clearAllTables()
                     uiThread {
                         persistResetData(false)
-                        insertInitialCurrencies()
+                        refreshData()
                         updateUi()
                     }
                 }
