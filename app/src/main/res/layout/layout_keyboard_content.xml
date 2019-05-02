@@ -11,43 +11,31 @@
 
         <Button
             android:id="@+id/btnSeven"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/seven"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/seven" />
 
         <Button
             android:id="@+id/btnEight"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/eight"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/eight" />
 
         <Button
             android:id="@+id/btnNine"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/nine"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/nine" />
 
         <Button
             android:id="@+id/btnMultiply"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/multiply"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/multiply" />
 
 
     </TableRow>
@@ -60,43 +48,31 @@
 
         <Button
             android:id="@+id/btnFour"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/four"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/four" />
 
         <Button
             android:id="@+id/btnFive"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/five"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/five" />
 
         <Button
             android:id="@+id/btnSix"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/six"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/six" />
 
         <Button
             android:id="@+id/btnDivide"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/divide"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/divide" />
     </TableRow>
 
     <TableRow
@@ -107,43 +83,31 @@
 
         <Button
             android:id="@+id/btnOne"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/one"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/one" />
 
         <Button
             android:id="@+id/btnTwo"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/two"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/two" />
 
         <Button
             android:id="@+id/btnThree"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/three"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/three" />
 
         <Button
             android:id="@+id/btnMinus"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/minus"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/minus" />
 
     </TableRow>
 
@@ -155,43 +119,31 @@
 
         <Button
             android:id="@+id/btnDot"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/dot"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/dot" />
 
         <Button
             android:id="@+id/btnZero"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/zero"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/zero" />
 
         <Button
             android:id="@+id/btnPercent"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/percent"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/percent" />
 
         <Button
             android:id="@+id/btnPlus"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/plus"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/plus" />
     </TableRow>
 
     <TableRow
@@ -202,34 +154,24 @@
 
         <Button
             android:id="@+id/btnDoubleZero"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/triple_zero"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/triple_zero" />
 
         <Button
             android:id="@+id/btnAc"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/ac"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/ac" />
 
         <Button
             android:id="@+id/btnDelete"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_dark"
-            android:text="@string/delete"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:text="@string/delete" />
     </TableRow>
-
 
 </TableLayout>

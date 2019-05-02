@@ -43,6 +43,15 @@
         <item name="android:textSize">@dimen/textSizeSmall</item>
     </style>
 
+    <style name="KeyboardTextStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textSize">@dimen/textSizeExtraLarge</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/selector_dark</item>
+    </style>
+
     <style name="AppTheme.Fullscreen.SplashTheme">
         <item name="android:windowBackground">@drawable/background_splash</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
