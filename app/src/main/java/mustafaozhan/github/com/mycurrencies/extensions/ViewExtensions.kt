@@ -15,7 +15,7 @@ import java.io.FileNotFoundException
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 
-const val MAX_DIGIT = 18
+const val MAX_DIGIT = 16
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
