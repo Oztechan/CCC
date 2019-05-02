@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
@@ -72,6 +73,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     private fun backendRateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
+        Crashlytics.log(Log.WARN, "backendRateDownloadFail", t.message)
         if (mainData.currentBase == Currencies.BTC) {
             subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
                 ::rateDownloadSuccess,
@@ -93,6 +95,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
+        Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
             ratesLiveData.postValue(offlineRates?.getRates())
         }
@@ -126,6 +129,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     private fun offlineRateAllFail(throwable: Throwable) {
         Crashlytics.logException(throwable)
+        Crashlytics.log(Log.WARN, "offlineRateAllFail", throwable.message)
     }
 
     private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
