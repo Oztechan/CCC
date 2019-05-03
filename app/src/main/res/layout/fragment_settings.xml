@@ -16,7 +16,7 @@
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/eTxtSearch"
@@ -29,7 +29,7 @@
         android:textAppearance="@style/ItemTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewSettings"
@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxtSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/eTxtSearch"/>
 
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -52,6 +52,6 @@
         ads:adUnitId="@string/banner_ad_unit_id_settings"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        ads:layout_constraintStart_toStartOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -26,10 +26,14 @@
         android:layout_marginStart="@dimen/marginEight"
         android:layout_marginLeft="@dimen/marginEight"
         android:layout_marginTop="@dimen/marginTwo"
+        android:layout_marginEnd="@dimen/marginFour"
+        android:layout_marginRight="@dimen/marginFour"
         android:layout_marginBottom="@dimen/marginTwo"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="@style/TextStyleSmall"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"/>
 

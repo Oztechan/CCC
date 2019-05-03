@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <include
         android:id="@+id/layoutBar"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading"
@@ -31,10 +31,10 @@
         android:layout_width="@dimen/loadingViewSize"
         android:layout_height="@dimen/loadingViewSize"
         app:indicatorColor="@color/colorAccent"
+        app:indicatorName="BallPulseIndicator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBar"
-        app:indicatorName="BallPulseIndicator" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutBar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecViewCurrency"
@@ -44,14 +44,14 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBar" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutBar"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.6"/>
 
     <include
         android:id="@+id/keyboardLayout"
@@ -61,7 +61,7 @@
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guideline"/>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -74,5 +74,5 @@
         ads:adUnitId="@string/banner_ad_unit_id_main"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        ads:layout_constraintStart_toStartOf="parent"/>
 </android.support.constraint.ConstraintLayout>

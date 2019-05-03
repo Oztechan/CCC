@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/transparent" />
+        app:srcCompat="@color/transparent"/>
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/mSpinner"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toEndOf="@+id/imgBase"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_background_color="@color/colorPrimaryDark"
-        app:ms_hide_arrow="true" />
+        app:ms_hide_arrow="true"/>
 
     <TextView
         android:id="@+id/txtResult"
@@ -40,7 +40,7 @@
         android:textAppearance="@style/BaseTextStyle"
         app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
         app:layout_constraintStart_toEndOf="@+id/mSpinner"
-        app:layout_constraintTop_toTopOf="@+id/mSpinner" />
+        app:layout_constraintTop_toTopOf="@+id/mSpinner"/>
 
     <TextView
         android:id="@+id/txtResultSymbol"
@@ -53,5 +53,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
         app:layout_constraintStart_toEndOf="@+id/txtResult"
         app:layout_constraintTop_toTopOf="@+id/mSpinner"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.666"/>
 </android.support.constraint.ConstraintLayout>

@@ -15,6 +15,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:maxLines="1"
-            android:textAppearance="@style/BaseTextStyle" />
+            android:textAppearance="@style/BaseTextStyle"/>
     </android.support.v7.widget.Toolbar>
 </FrameLayout>

@@ -14,28 +14,28 @@
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/seven" />
+            android:text="@string/seven"/>
 
         <Button
             android:id="@+id/btnEight"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/eight" />
+            android:text="@string/eight"/>
 
         <Button
             android:id="@+id/btnNine"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/nine" />
+            android:text="@string/nine"/>
 
         <Button
             android:id="@+id/btnMultiply"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/multiply" />
+            android:text="@string/multiply"/>
 
 
     </TableRow>
@@ -51,28 +51,28 @@
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/four" />
+            android:text="@string/four"/>
 
         <Button
             android:id="@+id/btnFive"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/five" />
+            android:text="@string/five"/>
 
         <Button
             android:id="@+id/btnSix"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/six" />
+            android:text="@string/six"/>
 
         <Button
             android:id="@+id/btnDivide"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/divide" />
+            android:text="@string/divide"/>
     </TableRow>
 
     <TableRow
@@ -86,28 +86,28 @@
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/one" />
+            android:text="@string/one"/>
 
         <Button
             android:id="@+id/btnTwo"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/two" />
+            android:text="@string/two"/>
 
         <Button
             android:id="@+id/btnThree"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/three" />
+            android:text="@string/three"/>
 
         <Button
             android:id="@+id/btnMinus"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/minus" />
+            android:text="@string/minus"/>
 
     </TableRow>
 
@@ -122,28 +122,28 @@
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/dot" />
+            android:text="@string/dot"/>
 
         <Button
             android:id="@+id/btnZero"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/zero" />
+            android:text="@string/zero"/>
 
         <Button
             android:id="@+id/btnPercent"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/percent" />
+            android:text="@string/percent"/>
 
         <Button
             android:id="@+id/btnPlus"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/plus" />
+            android:text="@string/plus"/>
     </TableRow>
 
     <TableRow
@@ -157,21 +157,21 @@
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/triple_zero" />
+            android:text="@string/triple_zero"/>
 
         <Button
             android:id="@+id/btnAc"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/ac" />
+            android:text="@string/ac"/>
 
         <Button
             android:id="@+id/btnDelete"
             style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/delete" />
+            android:text="@string/delete"/>
     </TableRow>
 
 </TableLayout>
