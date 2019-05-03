@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 
 /**

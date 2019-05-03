@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.main.fragment
 
-import android.arch.lifecycle.MutableLiveData
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency

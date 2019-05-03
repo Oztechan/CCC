@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable

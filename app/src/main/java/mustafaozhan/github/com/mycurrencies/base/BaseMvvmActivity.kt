@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:39 PM on Arch Linux wit Love <3.

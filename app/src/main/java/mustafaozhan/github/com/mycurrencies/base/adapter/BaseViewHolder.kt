@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.base.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.

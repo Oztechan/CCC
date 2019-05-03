@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 
 /**

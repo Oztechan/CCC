@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

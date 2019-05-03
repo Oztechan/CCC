@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.app.Application

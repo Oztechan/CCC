@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/fragment_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,5 +16,5 @@
             android:gravity="center"
             android:maxLines="1"
             android:textAppearance="@style/BaseTextStyle"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 </FrameLayout>
