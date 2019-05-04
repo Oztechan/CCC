@@ -60,14 +60,30 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         when (item?.itemId) {
             R.id.settings -> replaceFragment(SettingsFragment.newInstance(), true)
             R.id.feedback -> sendFeedBack()
-            R.id.support -> showDialog(
-                getString(R.string.support_us),
-                getString(R.string.rate_and_support),
-                getString(R.string.rate)
-            ) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
+            R.id.support -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(R.string.app_market_link))
+                )
+                intent.resolveActivity(packageManager)?.let {
+                    showDialog(
+                        getString(R.string.support_us),
+                        getString(R.string.rate_and_support),
+                        getString(R.string.rate)
+                    ) {
+                        startActivity(intent)
+                    }
+                }
             }
-            R.id.onGithub -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
+            R.id.onGithub -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(R.string.github_url))
+                )
+                intent.resolveActivity(packageManager)?.let {
+                    startActivity(intent)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
