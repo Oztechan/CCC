@@ -28,13 +28,13 @@
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    //noinspection GradleCompatible
-    implementation "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
@@ -45,7 +45,7 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
     // Http client
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
@@ -60,8 +60,8 @@ dependencies {
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
     // Room
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'androidx.room:room-runtime:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
 
     // Admob
     implementation 'com.google.android.gms:play-services-ads:17.2.0'
@@ -82,7 +82,7 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
 
     // Multidex
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     // Snacky
     implementation 'com.github.matecode:Snacky:1.0.3'
