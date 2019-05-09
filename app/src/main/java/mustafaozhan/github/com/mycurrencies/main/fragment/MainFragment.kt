@@ -52,7 +52,7 @@ import org.jetbrains.anko.uiThread
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions", "LargeClass")
+@Suppress("TooManyFunctions")
 class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
@@ -98,21 +98,22 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
-                if (rates == null) {
+                rates?.let {
+                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                } ?: run {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
                             mSpinner.expand()
                         }
                     }
                     currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
-                } else {
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 }
-                loading.smoothToHide()
             }
+            loading.smoothToHide()
         })
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
+                updateBar(currencyList.map { it.name })
                 currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 loading.smoothToHide()
             }
@@ -163,36 +164,20 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    private fun updateUi() {
-        doAsync {
-            viewModel.getCurrencies()
-            uiThread {
-                updateBar()
+    private fun updateBar(spinnerList: List<String>) =
+        if (spinnerList.size < 2) {
+            snacky(
+                context?.getString(R.string.choose_at_least_two_currency),
+                context?.getString(R.string.select)) {
+                getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
             }
+            mSpinner.setItems("")
+            imgBase.setBackgroundByName("transparent")
+        } else {
+            mSpinner.setItems(spinnerList)
+            mSpinner.selectedIndex = spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString())
+            imgBase.setBackgroundByName(mSpinner.text.toString())
         }
-    }
-
-    private fun updateBar() {
-        viewModel.currencyListLiveData.value?.let { currencyList ->
-            currencyList.filter { it.isActive == 1 }.map { it.name }.let { spinnerList ->
-                if (spinnerList.size < 2) {
-                    snacky(
-                        context?.getString(R.string.choose_at_least_two_currency),
-                        context?.getString(R.string.select)) {
-                        getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
-                    }
-                    mSpinner.setItems("")
-                    imgBase.setBackgroundByName("transparent")
-                } else {
-                    mSpinner.setItems(spinnerList)
-                    mSpinner.selectedIndex = spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString())
-                    imgBase.setBackgroundByName(mSpinner.text.toString())
-                }
-            }
-            currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-            loading.smoothToHide()
-        }
-    }
 
     private fun setListeners() {
         mSpinner.setOnItemSelectedListener { _, _, _, item ->
@@ -271,11 +256,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     uiThread {
                         persistResetData(false)
                         refreshData()
-                        updateUi()
+                        viewModel.getCurrencies()
                     }
                 }
             } else {
-                updateUi()
+                viewModel.getCurrencies()
             }
         }
     }
