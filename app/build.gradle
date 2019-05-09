@@ -96,12 +96,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:16.5.0'
 
     // Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
         transitive = true
     }
 
     // Crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     // Anko
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
