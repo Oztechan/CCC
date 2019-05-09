@@ -118,18 +118,8 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
 
-    fun getClickedItemRate(name: String): String {
-        return "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
-    }
-
-    private fun offlineRateAllFail(throwable: Throwable) {
-        Crashlytics.logException(throwable)
-        Crashlytics.log(Log.WARN, "offlineRateAllFail", throwable.message)
-    }
-
-    private fun offlineRateAllSuccess(currencyResponse: CurrencyResponse) {
-        currencyResponse.toOfflineRates().let { offlineRatesDao.insertOfflineRates(it) }
-    }
+    fun getClickedItemRate(name: String): String =
+        "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
