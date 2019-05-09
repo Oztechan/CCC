@@ -46,13 +46,8 @@ class MainFragmentViewModel : BaseViewModel() {
         currencyListLiveData.value?.clear()
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
-            for (i in 0 until Currencies.values().size - 1) {
-                subscribeService(dataManager.backendGetAllOnBase(Currencies.values()[i]),
-                    ::offlineRateAllSuccess, ::offlineRateAllFail)
-            }
             mainData.firstRun = false
         }
-
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
     }
 
