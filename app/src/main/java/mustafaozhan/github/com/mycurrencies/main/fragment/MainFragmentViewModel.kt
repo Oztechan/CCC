@@ -60,24 +60,32 @@ class MainFragmentViewModel : BaseViewModel() {
                 ratesLiveData.postValue(rates)
             }
         } else {
-            subscribeService(dataManager.backendGetAllOnBase(mainData.currentBase),
+            subscribeService(
+                dataManager.backendGetAllOnBase(
+                    if (mainData.currentBase == Currencies.BTC)
+                        Currencies.CRYPTO_BTC
+                    else
+                        mainData.currentBase
+                ),
                 ::rateDownloadSuccess,
-                ::backendRateDownloadFail)
+                ::backendRateDownloadFail
+            )
         }
     }
 
     private fun backendRateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "backendRateDownloadFail", t.message)
-        if (mainData.currentBase == Currencies.BTC) {
-            subscribeService(dataManager.exchangesRatesGetAllOnBase(Currencies.CRYPTO_BTC),
-                ::rateDownloadSuccess,
-                ::rateDownloadFail)
-        } else {
-            subscribeService(dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
-                ::rateDownloadSuccess,
-                ::rateDownloadFail)
-        }
+        subscribeService(
+            dataManager.exchangesRatesGetAllOnBase(
+                if (mainData.currentBase == Currencies.BTC)
+                    Currencies.CRYPTO_BTC
+                else
+                    mainData.currentBase
+            ),
+            ::rateDownloadSuccess,
+            ::rateDownloadFail
+        )
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {

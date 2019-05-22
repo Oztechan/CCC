@@ -256,11 +256,11 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                     uiThread {
                         persistResetData(false)
                         refreshData()
-                        viewModel.getCurrencies()
+                        getCurrencies()
                     }
                 }
             } else {
-                viewModel.getCurrencies()
+                getCurrencies()
             }
         }
     }
