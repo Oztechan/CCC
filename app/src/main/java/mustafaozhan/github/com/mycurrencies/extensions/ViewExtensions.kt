@@ -15,8 +15,6 @@ import java.io.FileNotFoundException
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 
-const val MAX_DIGIT = 15
-
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
 
@@ -33,13 +31,9 @@ fun Context.getImageResourceByName(name: String): Int =
     }
 
 @SuppressLint("SetTextI18n")
-fun TextView.addText(str: String) =
-    if (text.toString().length < MAX_DIGIT) {
-        text = text.toString() + str
-        true
-    } else {
-        false
-    }
+fun TextView.addText(str: String) {
+    text = text.toString() + str
+}
 
 fun AdView.loadAd(adId: Int) {
     MobileAds.initialize(context, resources.getString(adId))

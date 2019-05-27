@@ -57,6 +57,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
 
     companion object {
         fun newInstance(): MainFragment = MainFragment()
+        const val MAX_DIGIT = 12
     }
 
     override fun getViewModelClass(): Class<MainFragmentViewModel> =
@@ -228,11 +229,12 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         }
     }
 
-    private fun keyboardPressed(txt: String) {
-        if (!txtMainToolbar.addText(txt)) {
+    private fun keyboardPressed(txt: String) =
+        if (viewModel.output.length < MAX_DIGIT) {
+            txtMainToolbar.addText(txt)
+        } else {
             snacky(getString(R.string.max_input), isLong = false)
         }
-    }
 
     override fun onPause() {
         viewModel.savePreferences()
