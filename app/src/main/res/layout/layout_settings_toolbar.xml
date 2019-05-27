@@ -19,7 +19,7 @@
                 android:layout_width="@dimen/fit"
                 android:layout_height="wrap_content"
                 android:text="@string/settings"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/BaseTextStyle"
                 android:textColor="@color/blue_grey_100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnDeSelectAll"
