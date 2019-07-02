@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.item_currency.view.imgRow
 import kotlinx.android.synthetic.main.item_currency.view.txtAmount
 import kotlinx.android.synthetic.main.item_currency.view.txtSymbol
 import kotlinx.android.synthetic.main.item_currency.view.txtType
+import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
@@ -18,7 +19,7 @@ import mustafaozhan.github.com.mycurrencies.room.model.Currency
 class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
-        RatesViewHolder(getViewHolderView(parent, mustafaozhan.github.com.mycurrencies.R.layout.item_currency))
+        RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
 
     class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
 

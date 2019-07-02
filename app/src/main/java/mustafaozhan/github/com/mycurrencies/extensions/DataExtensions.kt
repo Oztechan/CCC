@@ -10,6 +10,7 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
+import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -78,7 +79,17 @@ fun CurrencyDao.insertInitialCurrencies() {
     }
 }
 
-//fun Rates.findBase() =
+fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
+    this?.filterNot {
+        it.name == Currencies.BYR.toString() ||
+            it.name == Currencies.LVL.toString() ||
+            it.name == Currencies.LTL.toString() ||
+            it.name == Currencies.ZMK.toString() ||
+            it.name == Currencies.CRYPTO_BTC.toString()
+    }?.toMutableList()
+
+
+//  fun Rates.findBase() =
 //    this::class.java.fields.firstOrNull {
 //        this.getThroughReflection<Double>(it.name) == 1.0
 //    }?.name
@@ -95,6 +106,7 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
     }
 }
 
+@Suppress("LongMethod")
 fun CurrencyResponse.toOfflineRates() = OfflineRates(
     rates?.findBase().toString(),
     rates?.AED,
@@ -265,9 +277,9 @@ fun CurrencyResponse.toOfflineRates() = OfflineRates(
     rates?.ZMK,
     rates?.ZMW,
     rates?.ZWL
-
 )
 
+@Suppress("LongMethod")
 fun OfflineRates.getRates(): Rates? = Rates(
     AED,
     AFN,
@@ -439,6 +451,7 @@ fun OfflineRates.getRates(): Rates? = Rates(
     ZWL
 )
 
+@Suppress("ComplexMethod", "LongMethod")
 fun Rates.findBase(): String {
     return when {
         AED == 1.0 || AED == null -> "AED"

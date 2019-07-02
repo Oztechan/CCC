@@ -9,6 +9,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
 import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
@@ -48,7 +49,7 @@ class MainFragmentViewModel : BaseViewModel() {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-        currencyListLiveData.postValue(currencyDao.getActiveCurrencies())
+        currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
     fun getCurrencies() {
@@ -61,32 +62,22 @@ class MainFragmentViewModel : BaseViewModel() {
             }
         } else {
             subscribeService(
-                dataManager.backendGetAllOnBase(
-                    if (mainData.currentBase == Currencies.BTC)
-                        Currencies.CRYPTO_BTC
-                    else
-                        mainData.currentBase
-                ),
+                dataManager.backendGetAllOnBase(mainData.currentBase),
                 ::rateDownloadSuccess,
-                ::backendRateDownloadFail
+                ::rateDownloadFail
             )
         }
     }
 
-    private fun backendRateDownloadFail(t: Throwable) {
-        Crashlytics.logException(t)
-        Crashlytics.log(Log.WARN, "backendRateDownloadFail", t.message)
-        subscribeService(
-            dataManager.exchangesRatesGetAllOnBase(
-                if (mainData.currentBase == Currencies.BTC)
-                    Currencies.CRYPTO_BTC
-                else
-                    mainData.currentBase
-            ),
-            ::rateDownloadSuccess,
-            ::rateDownloadFail
-        )
-    }
+//    private fun backendRateDownloadFail(t: Throwable) {
+//        Crashlytics.logException(t)
+//        Crashlytics.log(Log.WARN, "backendRateDownloadFail", t.message)
+//        subscribeService(
+//            dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
+//            ::rateDownloadSuccess,
+//            ::rateDownloadFail
+//        )
+//    }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         ratesLiveData.postValue(currencyResponse.rates)

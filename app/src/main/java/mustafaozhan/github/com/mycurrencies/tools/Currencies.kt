@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-@Suppress("LargeClass")
+@Suppress("LargeClass", "unused")
 enum class Currencies {
     AED,
     AFN,

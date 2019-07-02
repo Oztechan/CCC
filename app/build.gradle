@@ -58,8 +58,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
@@ -85,15 +85,15 @@ dependencies {
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
     // Room
-    implementation 'androidx.room:room-runtime:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:17.2.0'
+    implementation 'com.google.android.gms:play-services-ads:18.0.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-config:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-config:18.0.0'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
@@ -101,10 +101,10 @@ dependencies {
     }
 
     // Crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Anko
-    implementation 'org.jetbrains.anko:anko-commons:0.10.5'
+    implementation 'org.jetbrains.anko:anko-commons:0.10.8'
 
     // Multidex
     implementation 'androidx.multidex:multidex:2.0.1'

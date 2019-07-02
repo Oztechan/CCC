@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.settings
 
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
@@ -28,7 +29,9 @@ class SettingsFragmentViewModel : BaseViewModel() {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
-        currencyList.addAll(currencyDao.getAllCurrencies())
+        currencyDao.getAllCurrencies().removeUnUsedCurrencies()?.let {
+            currencyList.addAll(it)
+        }
     }
 
     fun updateCurrencyState(value: Int, txt: String? = null) {
