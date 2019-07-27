@@ -3,6 +3,9 @@
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Features 
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e850dbe69bf4a3dac93479bb4c72094)](https://app.codacy.com/app/mr.mustafa.ozhan/androidCCC?utm_source=github.com&utm_medium=referral&utm_content=CurrencyConverterCalculator/androidCCC&utm_campaign=Badge_Grade_Dashboard)
+
 -  168 Currencies !!!
 -  Rates Updated every 10 minutes !
 -  Clean Interface
