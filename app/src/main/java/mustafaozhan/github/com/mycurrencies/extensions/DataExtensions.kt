@@ -11,8 +11,6 @@ import mustafaozhan.github.com.mycurrencies.room.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -39,17 +37,6 @@ fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
     } else {
         0.0
     }
-
-fun String.replaceCommas(): String =
-    this.replace(",", ".")
-        .replace("٫", ".")
-        .replace(" ", "")
-
-fun Double.getFormatted(): String {
-    val symbols = DecimalFormatSymbols.getInstance()
-    symbols.groupingSeparator = ' '
-    return DecimalFormat("###,###.###", symbols).format(this)
-}
 
 private fun replaceNonstandardDigits(input: String): String {
     val builder = StringBuilder()
@@ -87,13 +74,6 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
             it.name == Currencies.ZMK.toString() ||
             it.name == Currencies.CRYPTO_BTC.toString()
     }?.toMutableList()
-
-
-//  fun Rates.findBase() =
-//    this::class.java.fields.firstOrNull {
-//        this.getThroughReflection<Double>(it.name) == 1.0
-//    }?.name
-//        ?: "NULL"
 
 inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
     val getterName = "get" + propertyName.capitalize()

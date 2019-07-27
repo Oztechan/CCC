@@ -18,8 +18,8 @@ class Application : MultiDexApplication() {
     companion object {
         lateinit var instance: Application
 
-        fun get(context: Context): Application {
-            return context.applicationContext as Application
+        fun get(context: Context): Application? {
+            return context.applicationContext as? Application
         }
     }
 

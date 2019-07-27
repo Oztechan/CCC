@@ -124,10 +124,11 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     firebaseRemoteConfig.activate()
 
                     val remoteConfigStr =
-                        if (TextUtils.isEmpty(firebaseRemoteConfig.getString(REMOTE_CONFIG)))
-                            defaultMap[REMOTE_CONFIG] as String
-                        else
+                        if (TextUtils.isEmpty(firebaseRemoteConfig.getString(REMOTE_CONFIG))) {
+                            defaultMap[REMOTE_CONFIG] as? String
+                        } else {
                             firebaseRemoteConfig.getString(REMOTE_CONFIG)
+                        }
 
                     try {
                         Gson().fromJson(

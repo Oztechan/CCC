@@ -35,11 +35,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     open fun getDefaultFragment(): BaseFragment? = null
 
-    protected fun setHomeAsUpEnabled(enabled: Boolean) {
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(enabled)
-        }
-    }
+    protected fun setHomeAsUpEnabled(enabled: Boolean) =
+        supportActionBar?.setDisplayHomeAsUpEnabled(enabled)
 
     private fun addFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
