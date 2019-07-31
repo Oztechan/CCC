@@ -3,15 +3,16 @@
 <p align="center"><a href="https://www.codacy.com/app/mr.mustafa.ozhan/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/d78f175ae38c431698ecb3d5f3476571"/></a>   <a href="https://codebeat.co/projects/github-com-currencyconvertercalculator-androidccc-master"><img alt="codebeat badge" src="https://codebeat.co/badges/c041a1f4-1229-4527-ad95-b89154beaaf4" /></a>   <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
-## Features 
-  - 168 Currencies !!!
-  - Rates Updated every 10 minutes !
-  - Clean Interface
-  - Conversation
-  - Mathematical Calculation
-  - Offline Support
-  - Fast
-  - Filterable Currencies
+## Features
+
+- 168 Currencies !!!
+- Rates Updated every 10 minutes !
+- Clean Interface
+- Conversation
+- Mathematical Calculation
+- Offline Support
+- Fast
+- Filterable Currencies
 
 ## Screenshots
 
