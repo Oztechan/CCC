@@ -35,11 +35,12 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
         items = if (currentBase != null && list.checkItemsAre<Currency>()) {
             list.filter { listItem ->
-                listItem as Currency
-                listItem.name != currentBase.toString() &&
-                    listItem.isActive == 1 &&
-                    listItem.rate.toString() != "NaN" &&
-                    listItem.rate.toString() != "0.0"
+                (listItem as? Currency)?.let {
+                    it.name != currentBase.toString() &&
+                        it.isActive == 1 &&
+                        it.rate.toString() != "NaN" &&
+                        it.rate.toString() != "0.0"
+                } ?: false
             }.toMutableList()
         } else list
     }
