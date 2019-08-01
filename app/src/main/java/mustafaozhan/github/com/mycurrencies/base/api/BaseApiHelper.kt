@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 abstract class BaseApiHelper {
 
-    protected val gson: Gson
+    private val gson: Gson
         get() = GsonBuilder().create()
 
     protected fun getString(resId: Int): String {
