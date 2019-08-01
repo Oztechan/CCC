@@ -10,11 +10,11 @@ import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.room.model.Rates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject

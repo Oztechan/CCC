@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import mustafaozhan.github.com.mycurrencies.room.model.Rates
+import mustafaozhan.github.com.mycurrencies.model.Rates
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.

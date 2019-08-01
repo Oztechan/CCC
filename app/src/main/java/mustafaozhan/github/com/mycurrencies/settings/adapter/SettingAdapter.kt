@@ -10,7 +10,7 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.

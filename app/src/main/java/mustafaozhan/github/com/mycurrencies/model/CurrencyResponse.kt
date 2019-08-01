@@ -1,7 +1,6 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment.model
+package mustafaozhan.github.com.mycurrencies.model
 
 import com.google.gson.annotations.SerializedName
-import mustafaozhan.github.com.mycurrencies.room.model.Rates
 
 /**
  * Created by Mustafa Ozhan on 2018-07-13.

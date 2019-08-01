@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 import io.reactivex.Observable
 import mustafaozhan.github.com.mycurrencies.base.api.backend.BackendApiHelper
 import mustafaozhan.github.com.mycurrencies.base.api.exchangerates.ExchangeRatesApiHelper
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject
 import javax.inject.Singleton

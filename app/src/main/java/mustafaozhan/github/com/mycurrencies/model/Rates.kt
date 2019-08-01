@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.room.model
+package mustafaozhan.github.com.mycurrencies.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

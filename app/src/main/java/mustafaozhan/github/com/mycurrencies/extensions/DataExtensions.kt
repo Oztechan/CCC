@@ -4,10 +4,10 @@ import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import mustafaozhan.github.com.mycurrencies.app.Application
+import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.CurrencyJson
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.room.model.CurrencyJson
-import mustafaozhan.github.com.mycurrencies.room.model.Rates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 
 /**
