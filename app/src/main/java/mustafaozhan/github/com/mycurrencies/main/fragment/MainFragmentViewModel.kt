@@ -6,17 +6,15 @@ import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
-import mustafaozhan.github.com.mycurrencies.extensions.getRates
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
-import mustafaozhan.github.com.mycurrencies.extensions.toOfflineRates
 import mustafaozhan.github.com.mycurrencies.main.fragment.model.CurrencyResponse
-import mustafaozhan.github.com.mycurrencies.main.fragment.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
+import mustafaozhan.github.com.mycurrencies.room.model.Rates
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
@@ -80,9 +78,10 @@ class MainFragmentViewModel : BaseViewModel() {
 //    }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
-        ratesLiveData.postValue(currencyResponse.rates)
         rates = currencyResponse.rates
-        currencyResponse.toOfflineRates().let {
+        rates?.base = currencyResponse.base
+        rates?.let {
+            ratesLiveData.postValue(it)
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -91,7 +90,7 @@ class MainFragmentViewModel : BaseViewModel() {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
-            ratesLiveData.postValue(offlineRates?.getRates())
+            ratesLiveData.postValue(offlineRates)
         }
     }
 

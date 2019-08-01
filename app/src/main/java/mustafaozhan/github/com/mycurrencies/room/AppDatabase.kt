@@ -7,12 +7,12 @@ import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.room.model.Currency
-import mustafaozhan.github.com.mycurrencies.room.model.OfflineRates
+import mustafaozhan.github.com.mycurrencies.room.model.Rates
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-@Database(entities = [(Currency::class), (OfflineRates::class)], version = 1, exportSchema = false)
+@Database(entities = [(Currency::class), (Rates::class)], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
