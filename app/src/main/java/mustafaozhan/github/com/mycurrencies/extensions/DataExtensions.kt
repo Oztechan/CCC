@@ -16,25 +16,35 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
 fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
     if (value.isNotEmpty()) {
         try {
-            rate?.getThroughReflection<Double>(name)
-                ?.times(value.replaceCommas().toDouble())
-                ?: 0.0
+            rate.calculateResult(name, value)
         } catch (e: NumberFormatException) {
             val numericValue = replaceNonstandardDigits(value.replaceCommas())
-
             Crashlytics.logException(e)
             Crashlytics.log(Log.ERROR,
                 "NumberFormatException $value to $numericValue",
                 "If no crash making numeric is done successfully"
             )
-
-            rate?.getThroughReflection<Double>(name)
-                ?.times(numericValue.replaceCommas().toDouble())
-                ?: 0.0
+            rate.calculateResult(name, numericValue)
         }
     } else {
         0.0
     }
+
+private fun Rates?.calculateResult(name: String, value: String) =
+    this?.getThroughReflection<Double>(name)
+        ?.times(value.replaceCommas().toDouble())
+        ?: 0.0
+
+inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
+    val getterName = "get" + propertyName.capitalize()
+    return try {
+        javaClass.getMethod(getterName).invoke(this) as? T
+    } catch (e: NoSuchMethodException) {
+        e.printStackTrace()
+        Crashlytics.logException(e)
+        null
+    }
+}
 
 private fun replaceNonstandardDigits(input: String): String {
     val builder = StringBuilder()
@@ -72,14 +82,3 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
             it.name == Currencies.ZMK.toString() ||
             it.name == Currencies.CRYPTO_BTC.toString()
     }?.toMutableList()
-
-inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
-    val getterName = "get" + propertyName.capitalize()
-    return try {
-        javaClass.getMethod(getterName).invoke(this) as? T
-    } catch (e: NoSuchMethodException) {
-        e.printStackTrace()
-        Crashlytics.logException(e)
-        null
-    }
-}

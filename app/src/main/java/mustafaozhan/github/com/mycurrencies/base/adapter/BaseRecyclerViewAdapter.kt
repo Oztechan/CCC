@@ -12,8 +12,9 @@ import kotlin.properties.Delegates
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Boolean = { o, n -> o == n })
-    : RecyclerView.Adapter<BaseViewHolder<T>>(), AutoUpdatableAdapter {
+abstract class BaseRecyclerViewAdapter<T>(
+    private val compareFun: (T, T) -> Boolean = { o, n -> o == n }
+) : RecyclerView.Adapter<BaseViewHolder<T>>(), AutoUpdatableAdapter {
 
     private var items: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> compareFun(o, n) }
@@ -33,7 +34,7 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
         LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
     fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
-        items = if (currentBase != null && list.checkItemsAre<Currency>()) {
+        items = currentBase?.let {
             list.filter { listItem ->
                 (listItem as? Currency)?.let {
                     it.name != currentBase.toString() &&
@@ -42,7 +43,7 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
                         it.rate.toString() != "0.0"
                 } ?: false
             }.toMutableList()
-        } else list
+        } ?: run { list }
     }
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
@@ -50,9 +51,6 @@ abstract class BaseRecyclerViewAdapter<T>(private val compareFun: (T, T) -> Bool
     override fun getItemCount() = items.size
 
     private fun isEmpty(): Boolean = items.isEmpty()
-
-    private inline fun <reified T : Any> MutableList<*>.checkItemsAre() =
-        all { it is T }
 
     override fun onViewDetachedFromWindow(holder: BaseViewHolder<T>) {
         super.onViewDetachedFromWindow(holder)

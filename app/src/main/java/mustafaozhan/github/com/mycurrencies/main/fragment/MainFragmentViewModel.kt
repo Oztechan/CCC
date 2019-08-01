@@ -51,14 +51,12 @@ class MainFragmentViewModel : BaseViewModel() {
     }
 
     fun getCurrencies() {
-        if (rates != null) {
-            rates.let { rates ->
-                currencyListLiveData.value?.forEach { currency ->
-                    currency.rate = calculateResultByCurrency(currency.name, output, rates)
-                }
-                ratesLiveData.postValue(rates)
+        rates?.let { rates ->
+            currencyListLiveData.value?.forEach { currency ->
+                currency.rate = calculateResultByCurrency(currency.name, output, rates)
             }
-        } else {
+            ratesLiveData.postValue(rates)
+        } ?: run {
             subscribeService(
                 dataManager.backendGetAllOnBase(mainData.currentBase),
                 ::rateDownloadSuccess,
@@ -66,16 +64,6 @@ class MainFragmentViewModel : BaseViewModel() {
             )
         }
     }
-
-//    private fun backendRateDownloadFail(t: Throwable) {
-//        Crashlytics.logException(t)
-//        Crashlytics.log(Log.WARN, "backendRateDownloadFail", t.message)
-//        subscribeService(
-//            dataManager.exchangesRatesGetAllOnBase(mainData.currentBase),
-//            ::rateDownloadSuccess,
-//            ::rateDownloadFail
-//        )
-//    }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         rates = currencyResponse.rates
