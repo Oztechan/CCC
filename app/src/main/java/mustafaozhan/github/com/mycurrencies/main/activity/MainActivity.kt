@@ -31,8 +31,6 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         const val REMOTE_CONFIG = "remote_config"
     }
 
-    private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
-
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
@@ -109,45 +107,45 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
             getString(R.string.app_market_link)
         )
 
-        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        firebaseRemoteConfig.setConfigSettingsAsync(
-            FirebaseRemoteConfigSettings
-                .Builder()
-                .setMinimumFetchIntervalInSeconds(CHECK_INTERVAL)
-                .build()
-        )
+        FirebaseRemoteConfig.getInstance().apply {
+            setConfigSettingsAsync(
+                FirebaseRemoteConfigSettings
+                    .Builder()
+                    .setMinimumFetchIntervalInSeconds(CHECK_INTERVAL)
+                    .build()
+            )
+            setDefaults(defaultMap)
+            fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(CHECK_DURATION))
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        activate()
 
-        firebaseRemoteConfig.setDefaults(defaultMap)
-        firebaseRemoteConfig.fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(CHECK_DURATION))
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    firebaseRemoteConfig.activate()
+                        val remoteConfigStr =
+                            if (TextUtils.isEmpty(getString(REMOTE_CONFIG))) {
+                                defaultMap[REMOTE_CONFIG] as? String
+                            } else {
+                                getString(REMOTE_CONFIG)
+                            }
 
-                    val remoteConfigStr =
-                        if (TextUtils.isEmpty(firebaseRemoteConfig.getString(REMOTE_CONFIG))) {
-                            defaultMap[REMOTE_CONFIG] as? String
-                        } else {
-                            firebaseRemoteConfig.getString(REMOTE_CONFIG)
-                        }
+                        try {
+                            Gson().fromJson(
+                                remoteConfigStr,
+                                RemoteConfig::class.java
+                            ).apply {
+                                val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
 
-                    try {
-                        Gson().fromJson(
-                            remoteConfigStr,
-                            RemoteConfig::class.java
-                        ).apply {
-                            val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
-
-                            if (latestVersion > BuildConfig.VERSION_CODE) {
-                                showDialog(title, description, getString(R.string.update), isCancelable) {
-                                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                                if (latestVersion > BuildConfig.VERSION_CODE) {
+                                    showDialog(title, description, getString(R.string.update), isCancelable) {
+                                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                                    }
                                 }
                             }
+                        } catch (e: JsonSyntaxException) {
+                            Crashlytics.logException(e)
                         }
-                    } catch (e: JsonSyntaxException) {
-                        Crashlytics.logException(e)
                     }
                 }
-            }
+        }
     }
 
     override fun onBackPressed() {
