@@ -5,14 +5,14 @@
 
 ## Features
 
--  168 Currencies !!!
--  Rates Updated every 10 minutes !
--  Clean Interface
--  Conversation
--  Mathematical Calculation
--  Offline Support
--  Fast
--  Filterable Currencies
+ -  168 Currencies !
+ -  Rates Updated every 10 minutes !
+ -  Clean Interface
+ -  Conversation
+ -  Mathematical Calculation
+ -  Offline Support
+ -  Fast
+ -  Filterable Currencies
 
 ## Screenshots
 
