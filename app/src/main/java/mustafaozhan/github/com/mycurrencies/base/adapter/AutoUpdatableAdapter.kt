@@ -14,7 +14,7 @@ interface AutoUpdatableAdapter {
             compare(oldList[oldItemPosition], newList[newItemPosition])
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = false
-//            oldList[oldItemPosition] === newList[newItemPosition]
+        // oldList[oldItemPosition] === newList[newItemPosition]
 
         override fun getOldListSize() = oldList.size
 

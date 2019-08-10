@@ -11,7 +11,7 @@ abstract class BaseSharedPreferences {
 
     protected abstract val preferencesName: String
 
-    protected fun getStringEntry(key: String, defaultValue: String = ""): String {
+    protected fun getStringEntry(key: String, defaultValue: String = ""): String? {
         return getSharedPreferences().getString(key, defaultValue)
     }
 
@@ -29,17 +29,13 @@ abstract class BaseSharedPreferences {
         return getSharedPreferences().getBoolean(key, defaultValue)
     }
 
-    protected fun deleteEntry(key: String) {
-        getPreferencesEditor().remove(key).commit()
-    }
-
-    protected fun getPreferencesEditor(): SharedPreferences.Editor {
+    private fun getPreferencesEditor(): SharedPreferences.Editor {
 
         val prefs = Application.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
         return prefs.edit()
     }
 
-    protected fun getSharedPreferences(): SharedPreferences {
+    private fun getSharedPreferences(): SharedPreferences {
         return Application.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
     }
 }

@@ -4,12 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
+import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
+import mustafaozhan.github.com.mycurrencies.extensions.replaceNonstandardDigits
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -115,4 +116,21 @@ class MainFragmentViewModel : BaseViewModel() {
         }
         return mainData.currentBase
     }
+
+    fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
+        if (value.isNotEmpty()) {
+            try {
+                rate.calculateResult(name, value)
+            } catch (e: NumberFormatException) {
+                val numericValue = value.replaceCommas().replaceNonstandardDigits()
+                Crashlytics.logException(e)
+                Crashlytics.log(Log.ERROR,
+                    "NumberFormatException $value to $numericValue",
+                    "If no crash making numeric is done successfully"
+                )
+                rate.calculateResult(name, numericValue)
+            }
+        } else {
+            0.0
+        }
 }

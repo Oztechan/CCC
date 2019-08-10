@@ -39,7 +39,6 @@ import kotlinx.android.synthetic.main.layout_main_toolbar.txtMainToolbar
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.addText
-import mustafaozhan.github.com.mycurrencies.extensions.calculateResultByCurrency
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
@@ -98,7 +97,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     private fun initLiveData() {
         viewModel.ratesLiveData.reObserve(this, Observer { rates ->
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { it.rate = calculateResultByCurrency(it.name, viewModel.output, rates) }
+                currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
                 rates?.let {
                     currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 } ?: run {

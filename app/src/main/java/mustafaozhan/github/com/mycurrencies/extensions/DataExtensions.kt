@@ -1,8 +1,13 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-import android.util.Log
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyJson
@@ -13,24 +18,17 @@ import mustafaozhan.github.com.mycurrencies.tools.Currencies
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
-fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
-    if (value.isNotEmpty()) {
-        try {
-            rate.calculateResult(name, value)
-        } catch (e: NumberFormatException) {
-            val numericValue = replaceNonstandardDigits(value.replaceCommas())
-            Crashlytics.logException(e)
-            Crashlytics.log(Log.ERROR,
-                "NumberFormatException $value to $numericValue",
-                "If no crash making numeric is done successfully"
-            )
-            rate.calculateResult(name, numericValue)
-        }
-    } else {
-        0.0
-    }
 
-private fun Rates?.calculateResult(name: String, value: String) =
+fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
+    removeObserver(observer)
+    observe(owner, observer)
+}
+
+fun <T> Observable<T>.applySchedulers(): Observable<T> =
+    observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+
+fun Rates?.calculateResult(name: String, value: String) =
     this?.getThroughReflection<Double>(name)
         ?.times(value.replaceCommas().toDouble())
         ?: 0.0
@@ -46,10 +44,10 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
     }
 }
 
-private fun replaceNonstandardDigits(input: String): String {
+fun String.replaceNonstandardDigits(): String {
     val builder = StringBuilder()
-    for (i in 0 until input.length) {
-        val ch = input[i]
+    for (i in 0 until this.length) {
+        val ch = this[i]
         if (isNonstandardDigit(ch)) {
             val numericValue = Character.getNumericValue(ch)
             if (numericValue >= 0) {

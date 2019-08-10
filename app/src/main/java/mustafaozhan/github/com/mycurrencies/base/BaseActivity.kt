@@ -71,15 +71,17 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
         val ft = supportFragmentManager.beginTransaction()
-        if (supportFragmentManager.backStackEntryCount != 0)
+        if (supportFragmentManager.backStackEntryCount != 0) {
             ft.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
+        }
         ft.replace(containerViewId, fragment, fragment.fragmentTag)
         ft.commit()
     }
 
     fun clearBackStack() {
-        if (supportFragmentManager.backStackEntryCount > 0)
+        if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
     }
 
     fun snacky(
@@ -98,9 +100,7 @@ abstract class BaseActivity : AppCompatActivity() {
             .setActionText(actionText.toUpperCase())
             .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
             .setActionTextTypefaceStyle(Typeface.BOLD)
-            .setActionClickListener {
-                action()
-            }
+            .setActionClickListener { action() }
             .build()
             .show()
     }
@@ -118,9 +118,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 .setIcon(R.mipmap.ic_launcher)
                 .setTitle(title)
                 .setMessage(description)
-                .setPositiveButton(positiveButton) { _, _ ->
-                    function()
-                }
+                .setPositiveButton(positiveButton) { _, _ -> function() }
                 .setCancelable(cancelable)
 
             if (cancelable) {

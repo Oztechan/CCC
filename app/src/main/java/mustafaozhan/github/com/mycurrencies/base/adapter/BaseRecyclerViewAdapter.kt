@@ -25,9 +25,11 @@ abstract class BaseRecyclerViewAdapter<T>(
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         val item = items[position]
-        holder.bind(item)
-        holder.itemView.setOnClickListener { onItemClickListener(item, holder.itemView, position) }
-        holder.itemView.setOnLongClickListener { onItemLongClickListener(item, holder.itemView) }
+        holder.apply {
+            bind(item)
+            itemView.setOnClickListener { onItemClickListener(item, itemView, position) }
+            itemView.setOnLongClickListener { onItemLongClickListener(item, itemView) }
+        }
     }
 
     protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
