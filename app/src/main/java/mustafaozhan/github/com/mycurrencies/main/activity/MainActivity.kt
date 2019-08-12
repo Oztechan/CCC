@@ -105,17 +105,17 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     private fun loadRewardedAd() {
         rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onRewardedAdLoaded() {}
-            override fun onRewardedAdFailedToLoad(errorCode: Int) {}
+            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
         })
     }
 
     private fun showRewardedAd() {
         if (rewardedAd.isLoaded) {
             rewardedAd.show(this, object : RewardedAdCallback() {
-                override fun onRewardedAdOpened() {}
-                override fun onRewardedAdClosed() {}
-                override fun onRewardedAdFailedToShow(errorCode: Int) {}
+                override fun onRewardedAdOpened() = Unit
+                override fun onRewardedAdClosed() = Unit
+                override fun onRewardedAdFailedToShow(errorCode: Int) = Unit
                 override fun onUserEarnedReward(@NonNull reward: RewardItem) {
                     viewModel.updateAdFreeActivation()
                     val intent = intent
