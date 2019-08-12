@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_settings_toolbar.btnDeSelectAll
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
-import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 
@@ -98,7 +98,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onResume() {
         viewModel.refreshData()
         eTxtSearch.setText("")
-        adView.loadAd(R.string.banner_ad_unit_id_settings)
+        adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
         super.onResume()
     }
 }

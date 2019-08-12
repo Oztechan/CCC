@@ -7,7 +7,13 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.NonNull
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
@@ -31,6 +37,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         const val REMOTE_CONFIG = "remote_config"
     }
 
+    private lateinit var rewardedAd: RewardedAd
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
@@ -41,6 +48,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadRewardedAd()
         checkUpdate()
     }
 
@@ -83,8 +91,39 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     startActivity(intent)
                 }
             }
+            R.id.removeAds -> showDialog(
+                getString(R.string.remove_ads),
+                getString(R.string.remove_ads_text),
+                getString(R.string.watch)
+            ) {
+                showRewardedAd()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun loadRewardedAd() {
+        rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+        })
+    }
+
+    private fun showRewardedAd() {
+        if (rewardedAd.isLoaded) {
+            rewardedAd.show(this, object : RewardedAdCallback() {
+                override fun onRewardedAdOpened() = Unit
+                override fun onRewardedAdClosed() = loadRewardedAd()
+                override fun onRewardedAdFailedToShow(errorCode: Int) = loadRewardedAd()
+                override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                    viewModel.updateAdFreeActivation()
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
+                }
+            })
+        }
     }
 
     private fun sendFeedBack() {
