@@ -15,6 +15,11 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 7/10/18 at 9:40 PM on Arch Linux wit Love <3.
  */
 abstract class BaseViewModel : ViewModel() {
+
+    companion object {
+        const val NUMBER_OF_HOURS = 3
+    }
+
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
     lateinit var mainData: MainData

@@ -243,7 +243,16 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onResume() {
         super.onResume()
         initData()
-        adView.loadAd(R.string.banner_ad_unit_id_main)
+        checkAd()
+    }
+
+    private fun checkAd() {
+        if (viewModel.isRewardExpired()) {
+            adView.loadAd(R.string.banner_ad_unit_id_main)
+        } else {
+            adView.isEnabled = false
+            adView.visibility = View.GONE
+        }
     }
 
     private fun initData() {
