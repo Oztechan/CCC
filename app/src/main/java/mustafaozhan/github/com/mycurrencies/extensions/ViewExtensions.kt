@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.crashlytics.android.Crashlytics
@@ -35,8 +36,13 @@ fun TextView.addText(str: String) {
     text = text.toString() + str
 }
 
-fun AdView.loadAd(adId: Int) {
-    MobileAds.initialize(context, resources.getString(adId))
-    val adRequest = AdRequest.Builder().build()
-    loadAd(adRequest)
+fun AdView.checkAd(id: Int, isExpired: Boolean) {
+    if (isExpired) {
+        MobileAds.initialize(context, resources.getString(id))
+        val adRequest = AdRequest.Builder().build()
+        loadAd(adRequest)
+    } else {
+        isEnabled = false
+        visibility = View.GONE
+    }
 }

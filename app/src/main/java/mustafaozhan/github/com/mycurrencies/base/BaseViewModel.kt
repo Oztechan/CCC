@@ -19,7 +19,7 @@ import javax.inject.Inject
 abstract class BaseViewModel : ViewModel() {
 
     companion object {
-        const val NUMBER_OF_HOURS = 3
+        const val NUMBER_OF_HOURS = 48
     }
 
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
@@ -60,6 +60,7 @@ abstract class BaseViewModel : ViewModel() {
         mainData = dataManager.loadMainData()
     }
 
-    open fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
-        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_HOURS)
+    open fun isRewardExpired() = mainData.adFreeActivatedDate?.let {
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardSeconds > NUMBER_OF_HOURS
+    } ?: true
 }
