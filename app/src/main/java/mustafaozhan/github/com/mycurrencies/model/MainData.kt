@@ -9,5 +9,6 @@ import org.joda.time.Instant
 data class MainData(
     var firstRun: Boolean,
     var currentBase: Currencies,
-    var adFreeActivatedDate: Instant?
+    var adFreeActivatedDate: Instant?,
+    var sliderShown: Boolean? = false
 )

@@ -63,4 +63,12 @@ abstract class BaseViewModel : ViewModel() {
     open fun isRewardExpired() = mainData.adFreeActivatedDate?.let {
         Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
     } ?: true
+
+    open fun isSliderShown() = dataManager.loadMainData().sliderShown
+
+    open fun setSliderShown() {
+        loadPreferences()
+        mainData.sliderShown = true
+        savePreferences()
+    }
 }
