@@ -20,7 +20,7 @@
     </style>
 
     <style name="BaseEditTextTheme">
-        <item name="android:textSize">@dimen/textSizeLarge</item>
+        <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorAccent</item>
@@ -32,22 +32,22 @@
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/blue_grey_100</item>
-        <item name="android:textSize">@dimen/textSizeLarge</item>
+        <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
     <style name="ItemTextStyle" parent="BaseTextStyle">
-        <item name="android:textSize">@dimen/textSizeNormal</item>
+        <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <style name="TextStyleSmall" parent="BaseTextStyle">
-        <item name="android:textSize">@dimen/textSizeSmall</item>
+        <item name="android:textSize">@dimen/text_size_s</item>
     </style>
 
     <style name="KeyboardTextStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/blue_grey_100</item>
-        <item name="android:textSize">@dimen/textSizeExtraLarge</item>
+        <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/selector_dark</item>
     </style>

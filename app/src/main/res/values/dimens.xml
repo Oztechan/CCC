@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Text Sizes-->
-    <dimen name="textSizeSmall">15sp</dimen>
-    <dimen name="textSizeNormal">17sp</dimen>
-    <dimen name="textSizeLarge">19sp</dimen>
-    <dimen name="textSizeExtraLarge">22sp</dimen>
+    <dimen name="text_size_s">15sp</dimen>
+    <dimen name="text_size">17sp</dimen>
+    <dimen name="text_size_l">19sp</dimen>
+    <dimen name="text_size_xl">22sp</dimen>
+    <dimen name="text_size_xxl">36sp</dimen>
 
     <!--Match Parent-->
     <dimen name="fit">0dp</dimen>
 
     <!--Margin Sizes-->
-    <dimen name="marginZero">0dp</dimen>
-    <dimen name="marginOne">1dp</dimen>
-    <dimen name="marginTwo">2dp</dimen>
-    <dimen name="marginThree">3dp</dimen>
-    <dimen name="marginFour">4dp</dimen>
-    <dimen name="marginEight">8dp</dimen>
+    <dimen name="margin_zero">0dp</dimen>
+    <dimen name="margin_one">1dp</dimen>
+    <dimen name="margin_two">2dp</dimen>
+    <dimen name="margin_three">3dp</dimen>
+    <dimen name="margin_four">4dp</dimen>
+    <dimen name="margin_eight">8dp</dimen>
+    <dimen name="margin_thirty_six">36dp</dimen>
+    <dimen name="seventy_two">72dp</dimen>
 
     <!--Currency Icon Size-->
-    <dimen name="currencyIconSize">32dp</dimen>
+    <dimen name="currency_icon_size">32dp</dimen>
 
     <!--LoadingView Size-->
-    <dimen name="loadingViewSize">100dp</dimen>
+    <dimen name="loading_view_size">100dp</dimen>
+
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
 </resources>
