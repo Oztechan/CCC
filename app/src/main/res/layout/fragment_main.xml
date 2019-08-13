@@ -28,8 +28,8 @@
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading"
         style="@style/AVLoadingIndicatorView"
-        android:layout_width="@dimen/loadingViewSize"
-        android:layout_height="@dimen/loadingViewSize"
+        android:layout_width="@dimen/loading_view_size"
+        android:layout_height="@dimen/loading_view_size"
         app:indicatorColor="@color/colorAccent"
         app:indicatorName="BallPulseIndicator"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -1,18 +1,18 @@
 <p align="center">A currency application for most of the currencies of world.You can quickly convert and make mathematichal operations between currencies</p>
 <p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300px"></a></p>
-<p align="center"><a href="https://www.codacy.com/app/mr.mustafa.ozhan/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/d78f175ae38c431698ecb3d5f3476571"/></a>   <a href="https://codebeat.co/projects/github-com-currencyconvertercalculator-iosccc-master"><img alt="codebeat badge" src="https://codebeat.co/badges/97d43435-ae31-4261-8719-e251341a5d7c" /></a>   <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
+<p align="center"><a href="https://www.codacy.com/app/mr.mustafa.ozhan/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/185d6056f27a41db900c8a30e94e3564"/></a>   <a href="https://codebeat.co/projects/github-com-currencyconvertercalculator-iosccc-master"><img alt="codebeat badge" src="https://codebeat.co/badges/97d43435-ae31-4261-8719-e251341a5d7c" /></a>   <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Features
 
--  168 Currencies !
--  Rates Updated every 10 minutes !
--  Clean Interface
--  Conversation
--  Mathematical Calculation
--  Offline Support
--  Fast
--  Filterable Currencies
+-   168 Currencies !
+-   Rates Updated every 10 minutes !
+-   Clean Interface
+-   Conversation
+-   Mathematical Calculation
+-   Offline Support
+-   Fast
+-   Filterable Currencies
 
 ## Screenshots
 
@@ -34,8 +34,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
@@ -61,15 +61,15 @@ dependencies {
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
     // Room
-    implementation 'androidx.room:room-runtime:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:17.2.0'
+    implementation 'com.google.android.gms:play-services-ads:18.1.1'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-config:16.5.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-config:18.0.0'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
@@ -77,10 +77,10 @@ dependencies {
     }
 
     // Crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Anko
-    implementation 'org.jetbrains.anko:anko-commons:0.10.5'
+    implementation 'org.jetbrains.anko:anko-commons:0.10.8'
 
     // Multidex
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -90,6 +90,9 @@ dependencies {
 
     // Loading View
     implementation 'com.wang.avi:library:2.1.3'
+
+    // Joda Time
+    implementation 'net.danlew:android.joda:2.10.1.2'
 
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }

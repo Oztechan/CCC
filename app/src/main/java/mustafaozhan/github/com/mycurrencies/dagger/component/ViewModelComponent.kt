@@ -6,6 +6,8 @@ import mustafaozhan.github.com.mycurrencies.dagger.module.ViewModelModule
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivityViewModel
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragmentViewModel
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragmentViewModel
+import mustafaozhan.github.com.mycurrencies.slider.SliderActivityViewModel
+import mustafaozhan.github.com.mycurrencies.splash.SplashActivityViewModel
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:48 PM on Arch Linux wit Love <3.
@@ -16,4 +18,6 @@ interface ViewModelComponent {
     fun inject(mainActivityViewModel: MainActivityViewModel)
     fun inject(mainFragmentViewModel: MainFragmentViewModel)
     fun inject(settingsFragmentViewModel: SettingsFragmentViewModel)
+    fun inject(sliderActivityViewModel: SliderActivityViewModel)
+    fun inject(splashActivityViewModel: SplashActivityViewModel)
 }

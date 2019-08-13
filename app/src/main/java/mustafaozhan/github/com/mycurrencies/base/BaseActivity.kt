@@ -19,7 +19,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
 abstract class BaseActivity : AppCompatActivity() {
 
     @LayoutRes
-    protected abstract fun getLayoutResId(): Int
+    protected abstract fun getLayoutResId(): Int?
 
     @IdRes
     open var containerId: Int = R.id.content
@@ -27,9 +27,11 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(getLayoutResId())
-        getDefaultFragment()?.let {
-            replaceFragment(it, false)
+        getLayoutResId()?.let {
+            setContentView(it)
+            getDefaultFragment()?.let { defaultFragment ->
+                replaceFragment(defaultFragment, false)
+            }
         }
     }
 
