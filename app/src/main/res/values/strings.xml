@@ -92,11 +92,13 @@
     <string name="next">NEXT</string>
     <string name="got_it">GOT IT</string>
     <string name="slide_intro_title">Currency Converter Calculator</string>
-    <string name="slide_intro_text_1">A traditional GitHub user interface, like how you are used to ! \n \n</string>
-    <string name="slide_intro_text_2">Mobile friendly pages \n \nDesktop pages have bigger text \n \nFaster load time</string>
+    <string name="slide_intro_text_2">Simple user interface\n\nFast responses\n\nAccurate rates\n\nEasy to use</string>
+    <string name="slide_filter_title">Filter your list !</string>
+    <string name="slide_filter_text_1">By default CCC has selected all currencies</string>
+    <string name="slide_filter_text_2"> If you want to filter them\n\nClick Top Right Menu > Settings\n Than select the currencies you are interested in</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
-    <string name="slide_bug_report_text_2"> You can let us know several ways!\n\n- Click Top Right Menu > Report Issue\n Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n- Click Top Right Menu > Feedback\n Than you can write email to us\n\n</string>
+    <string name="slide_bug_report_text_2"> You can let us know!\n\n- Click Top Right Menu > Feedback\n Than you can write email to us\n\n- Click Top Right Menu > Report Issue\n Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads for 48 hours</string>
     <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 48 hours!</string>
