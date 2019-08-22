@@ -1,14 +1,9 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
-import androidx.annotation.StringRes
-
-import java.io.IOException
-
 import mustafaozhan.github.com.mycurrencies.R
-import okhttp3.ResponseBody
-import retrofit2.Converter
 import retrofit2.Response
 import retrofit2.Retrofit
+import java.io.IOException
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:45 PM on Arch Linux wit Love <3.
