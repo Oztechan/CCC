@@ -85,7 +85,7 @@
 
     <!--Rewarded Ads-->
     <string name="remove_ads">Remove Ads</string>
-    <string name="remove_ads_text">Would you like to watch a video to stop ads for 48 hours ?</string>
+    <string name="remove_ads_text">Would you like to watch a video to stop ads for 24 hours ?</string>
     <string name="watch">Watch</string>
 
     <!--Intro Sliders-->
@@ -100,6 +100,6 @@
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
     <string name="slide_bug_report_text_2"> You can let us know! Click Top Right Menu\n\n - Feedback > Than you can write email to us\n\n- On GitHub > Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
-    <string name="slide_disable_ads_text_1">If you want to disable Ads for 48 hours</string>
-    <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 48 hours!</string>
+    <string name="slide_disable_ads_text_1">If you want to disable Ads for 24 hours</string>
+    <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 24 hours!</string>
 </resources>

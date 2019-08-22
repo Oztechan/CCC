@@ -19,7 +19,7 @@ import javax.inject.Inject
 abstract class BaseViewModel : ViewModel() {
 
     companion object {
-        const val NUMBER_OF_HOURS = 48
+        const val NUMBER_OF_HOURS = 24
     }
 
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
