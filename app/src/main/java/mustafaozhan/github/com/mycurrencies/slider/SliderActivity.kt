@@ -22,7 +22,7 @@ import mustafaozhan.github.com.mycurrencies.slider.adapter.ViewPagerAdapter
 class SliderActivity : BaseMvvmActivity<SliderActivityViewModel>() {
 
     companion object {
-        const val SLIDE_SIZE = 4
+        const val SLIDE_SIZE = 3
         const val TEXT_SIZE = 36f
     }
 
