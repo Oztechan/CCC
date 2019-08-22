@@ -81,13 +81,6 @@
     <string name="error_tag_updating_ui">Updating UI</string>
     <string name="error_message_updating_ui">If there is no error Updating UI successful</string>
 
-    <!--Rewarded Ad dialog-->
-
-    <!--Rewarded Ads-->
-    <string name="remove_ads">Remove Ads</string>
-    <string name="remove_ads_text">Would you like to watch a video to stop ads for 24 hours ?</string>
-    <string name="watch">Watch</string>
-
     <!--Intro Sliders-->
     <string name="next">NEXT</string>
     <string name="got_it">GOT IT</string>
