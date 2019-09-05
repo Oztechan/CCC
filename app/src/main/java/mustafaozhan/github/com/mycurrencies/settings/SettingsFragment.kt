@@ -66,11 +66,11 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     private fun setListeners() {
         btn_select_all.setOnClickListener {
             viewModel.updateCurrencyState(1)
-            edit_text_search.setText("")
+            edit_text_search?.setText("")
         }
         btn_de_select_all.setOnClickListener {
             viewModel.updateCurrencyState(0)
-            edit_text_search.setText("")
+            edit_text_search?.setText("")
             viewModel.setCurrentBase(null)
         }
 
@@ -97,7 +97,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.refreshData()
-        edit_text_search.setText("")
+        edit_text_search?.setText("")
         ad_view.loadAd(R.string.banner_ad_unit_id_settings)
         super.onResume()
     }
