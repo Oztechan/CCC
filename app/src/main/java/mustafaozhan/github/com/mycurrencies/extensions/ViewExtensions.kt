@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 
@@ -39,4 +40,13 @@ fun AdView.loadAd(id: Int) {
     MobileAds.initialize(context, resources.getString(id))
     val adRequest = AdRequest.Builder().build()
     loadAd(adRequest)
+}
+
+fun MaterialSpinner.tryToSelect(indexOf: Int) {
+    selectedIndex = try {
+        indexOf
+    } catch (exception: IllegalArgumentException) {
+        Crashlytics.logException(exception)
+        0
+    }
 }

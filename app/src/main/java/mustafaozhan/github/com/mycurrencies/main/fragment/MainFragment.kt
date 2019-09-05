@@ -42,6 +42,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.loadAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
 import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
@@ -134,7 +135,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             getOutputText()
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 if (currencyList.indexOf(currency) < spinner_base.getItems<String>().size) {
-                    spinner_base.selectedIndex = currencyList.indexOf(currency)
+                    spinner_base.tryToSelect(currencyList.indexOf(currency))
                 } else {
                     spinner_base.expand()
                 }
@@ -175,7 +176,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
             iv_base.setBackgroundByName("transparent")
         } else {
             spinner_base.setItems(spinnerList)
-            spinner_base.selectedIndex = spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString())
+            spinner_base.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
             iv_base.setBackgroundByName(spinner_base.text.toString())
         }
 
