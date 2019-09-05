@@ -24,13 +24,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode getGitVersionCode()
         versionName "1.${getGitVersionCode()}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -93,10 +93,10 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.1.0'
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-config:19.0.0'
 
     // Fabric
