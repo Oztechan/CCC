@@ -55,8 +55,8 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.settings -> replaceFragment(SettingsFragment.newInstance(), true)
             R.id.feedback -> sendFeedBack()
             R.id.support -> {

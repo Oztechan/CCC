@@ -65,11 +65,11 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.1.0'
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-config:18.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-config:19.0.0'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
@@ -90,9 +90,6 @@ dependencies {
 
     // Loading View
     implementation 'com.wang.avi:library:2.1.3'
-
-    // Joda Time
-    implementation 'net.danlew:android.joda:2.10.1.2'
 
     implementation files('libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar')
 }

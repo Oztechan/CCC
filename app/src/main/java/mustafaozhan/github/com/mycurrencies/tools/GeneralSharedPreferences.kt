@@ -31,8 +31,7 @@ constructor() : BaseSharedPreferences() {
             ?: MainData(
                 true,
                 Currencies.EUR,
-                null,
-                false
+                null
             )
 
     fun loadResetData() = getBooleanEntry(RESET_DATA, true)

@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.model
 
 import mustafaozhan.github.com.mycurrencies.tools.Currencies
-import org.joda.time.Instant
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -9,6 +8,5 @@ import org.joda.time.Instant
 data class MainData(
     var firstRun: Boolean,
     var currentBase: Currencies,
-    var adFreeActivatedDate: Instant?,
     var sliderShown: Boolean? = false
 )
