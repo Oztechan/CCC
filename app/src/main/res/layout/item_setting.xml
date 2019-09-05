@@ -7,7 +7,7 @@
     android:background="@drawable/selector_light">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/img_icon"
         android:layout_width="@dimen/currency_icon_size"
         android:layout_height="@dimen/currency_icon_size"
         android:layout_marginStart="@dimen/margin_four"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txt_setting_item"
         android:layout_width="@dimen/fit"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_eight"
@@ -34,7 +34,7 @@
         android:textAppearance="@style/TextStyleSmall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/checkBox"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toEndOf="@+id/img_icon"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <CheckBox

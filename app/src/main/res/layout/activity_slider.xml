@@ -43,6 +43,7 @@
         android:background="@null"
         android:text="@string/next"
         android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
         tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

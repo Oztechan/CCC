@@ -6,7 +6,7 @@
     android:background="@color/colorPrimaryDark">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragment_settings_toolbar"
+        android:id="@+id/toolbar_fragment_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,19 +15,19 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/txtSettingsToolbar"
+                android:id="@+id/txt_settings_toolbar"
                 android:layout_width="@dimen/fit"
                 android:layout_height="wrap_content"
                 android:text="@string/settings"
                 android:textAppearance="@style/BaseTextStyle"
                 android:textColor="@color/blue_grey_100"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnDeSelectAll"
+                app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <Button
-                android:id="@+id/btnSelectAll"
+                android:id="@+id/btn_select_all"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,14 +38,14 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <Button
-                android:id="@+id/btnDeSelectAll"
+                android:id="@+id/btn_de_select_all"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/deSelect_all"
                 android:textAppearance="@style/TextStyleSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnSelectAll"
+                app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
                 app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

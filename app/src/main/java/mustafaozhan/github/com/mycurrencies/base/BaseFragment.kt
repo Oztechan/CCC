@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.layout_main_toolbar.fragment_main_toolbar
-import kotlinx.android.synthetic.main.layout_settings_toolbar.fragment_settings_toolbar
+import kotlinx.android.synthetic.main.layout_main_toolbar.toolbar_fragment_main
+import kotlinx.android.synthetic.main.layout_settings_toolbar.toolbar_fragment_settings
 import mustafaozhan.github.com.mycurrencies.R
 
 /**
@@ -35,8 +35,8 @@ abstract class BaseFragment : Fragment() {
 
     protected fun initToolbar() {
         when (getLayoutResId()) {
-            R.layout.fragment_main -> getBaseActivity()?.setSupportActionBar(fragment_main_toolbar)
-            R.layout.fragment_settings -> getBaseActivity()?.setSupportActionBar(fragment_settings_toolbar)
+            R.layout.fragment_main -> getBaseActivity()?.setSupportActionBar(toolbar_fragment_main)
+            R.layout.fragment_settings -> getBaseActivity()?.setSupportActionBar(toolbar_fragment_settings)
         }
     }
 

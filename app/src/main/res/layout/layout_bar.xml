@@ -5,7 +5,7 @@
     android:background="@color/colorPrimaryDark">
 
     <ImageView
-        android:id="@+id/imgBase"
+        android:id="@+id/iv_base"
         android:layout_width="@dimen/currency_icon_size"
         android:layout_height="@dimen/currency_icon_size"
         android:layout_marginStart="@dimen/margin_eight"
@@ -17,7 +17,7 @@
         app:srcCompat="@color/transparent"/>
 
     <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/mSpinner"
+        android:id="@+id/spinner_base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -25,33 +25,33 @@
         android:layout_marginBottom="@dimen/margin_three"
         android:textAppearance="@style/TextStyleSmall"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgBase"
+        app:layout_constraintStart_toEndOf="@+id/iv_base"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_background_color="@color/colorPrimaryDark"
         app:ms_hide_arrow="true"/>
 
     <TextView
-        android:id="@+id/txtResult"
+        android:id="@+id/txt_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_eight"
         android:layout_marginBottom="@dimen/margin_eight"
         android:maxLines="1"
         android:textAppearance="@style/BaseTextStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
-        app:layout_constraintStart_toEndOf="@+id/mSpinner"
-        app:layout_constraintTop_toTopOf="@+id/mSpinner"/>
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
+        app:layout_constraintStart_toEndOf="@+id/spinner_base"
+        app:layout_constraintTop_toTopOf="@+id/spinner_base" />
 
     <TextView
-        android:id="@+id/txtResultSymbol"
+        android:id="@+id/txt_symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_eight"
         android:layout_marginBottom="@dimen/margin_eight"
         android:maxLines="1"
         android:textAppearance="@style/BaseTextStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/mSpinner"
-        app:layout_constraintStart_toEndOf="@+id/txtResult"
-        app:layout_constraintTop_toTopOf="@+id/mSpinner"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
+        app:layout_constraintStart_toEndOf="@+id/txt_result"
+        app:layout_constraintTop_toTopOf="@+id/spinner_base"
         app:layout_constraintVertical_bias="0.666"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

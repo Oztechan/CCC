@@ -2,10 +2,10 @@ package mustafaozhan.github.com.mycurrencies.main.fragment.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_currency.view.imgRow
-import kotlinx.android.synthetic.main.item_currency.view.txtAmount
-import kotlinx.android.synthetic.main.item_currency.view.txtSymbol
-import kotlinx.android.synthetic.main.item_currency.view.txtType
+import kotlinx.android.synthetic.main.item_currency.view.img_item
+import kotlinx.android.synthetic.main.item_currency.view.txt_amount
+import kotlinx.android.synthetic.main.item_currency.view.txt_symbol
+import kotlinx.android.synthetic.main.item_currency.view.txt_type
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
@@ -25,10 +25,10 @@ class CurrencyAdapter : BaseRecyclerViewAdapter<Currency>() {
 
         override fun bind(item: Currency) {
             itemView.apply {
-                txtType.text = item.name
-                txtSymbol.text = item.symbol
-                txtAmount.text = item.rate.getFormatted()
-                imgRow.setBackgroundByName(item.name)
+                txt_type.text = item.name
+                txt_symbol.text = item.symbol
+                txt_amount.text = item.rate.getFormatted()
+                img_item.setBackgroundByName(item.name)
             }
         }
     }

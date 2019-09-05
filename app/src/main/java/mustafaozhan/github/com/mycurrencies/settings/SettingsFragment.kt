@@ -5,12 +5,12 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_settings.adView
-import kotlinx.android.synthetic.main.fragment_settings.eTxtSearch
-import kotlinx.android.synthetic.main.fragment_settings.mRecViewSettings
+import kotlinx.android.synthetic.main.fragment_settings.ad_view
+import kotlinx.android.synthetic.main.fragment_settings.edit_text_search
+import kotlinx.android.synthetic.main.fragment_settings.recycler_view_settings
 import kotlinx.android.synthetic.main.item_setting.view.checkBox
-import kotlinx.android.synthetic.main.layout_settings_toolbar.btnDeSelectAll
-import kotlinx.android.synthetic.main.layout_settings_toolbar.btnSelectAll
+import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_de_select_all
+import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_select_all
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
@@ -41,7 +41,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     private fun initRx() {
-        eTxtSearch
+        edit_text_search
             .textChanges()
             .subscribe { txt ->
                 viewModel.currencyList.filter { currency ->
@@ -55,7 +55,7 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     private fun initViews() {
         context?.let { ctx ->
-            mRecViewSettings.apply {
+            recycler_view_settings.apply {
                 layoutManager = LinearLayoutManager(ctx)
                 setHasFixedSize(true)
                 adapter = settingAdapter
@@ -64,13 +64,13 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     }
 
     private fun setListeners() {
-        btnSelectAll.setOnClickListener {
+        btn_select_all.setOnClickListener {
             viewModel.updateCurrencyState(1)
-            eTxtSearch.setText("")
+            edit_text_search.setText("")
         }
-        btnDeSelectAll.setOnClickListener {
+        btn_de_select_all.setOnClickListener {
             viewModel.updateCurrencyState(0)
-            eTxtSearch.setText("")
+            edit_text_search.setText("")
             viewModel.setCurrentBase(null)
         }
 
@@ -97,8 +97,8 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.refreshData()
-        eTxtSearch.setText("")
-        adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
+        edit_text_search.setText("")
+        ad_view.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
         super.onResume()
     }
 }
