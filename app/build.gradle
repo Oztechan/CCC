@@ -74,7 +74,7 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxBindingVersion}"
 
     // LiveData
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     // Http client
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
@@ -97,7 +97,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-config:19.0.0'
+    implementation 'com.google.firebase:firebase-config:19.0.1'
 
     // Fabric
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
