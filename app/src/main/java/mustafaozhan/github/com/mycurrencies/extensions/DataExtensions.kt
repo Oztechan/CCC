@@ -30,7 +30,7 @@ fun <T> Observable<T>.applySchedulers(): Observable<T> =
 
 fun Rates?.calculateResult(name: String, value: String) =
     this?.getThroughReflection<Double>(name)
-        ?.times(value.replaceCommas().toDouble())
+        ?.times(value.replaceUnsupportedCharacters().toDouble())
         ?: 0.0
 
 inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {

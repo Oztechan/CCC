@@ -9,8 +9,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.replaceCommas
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonstandardDigits
+import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -85,7 +85,7 @@ class MainFragmentViewModel : BaseViewModel() {
 
     fun calculateOutput(text: String) {
         val calculation = Expression(
-            text.replaceCommas()
+            text.replaceUnsupportedCharacters()
                 .replace("%", "/100*")
         ).calculate()
 
@@ -122,7 +122,7 @@ class MainFragmentViewModel : BaseViewModel() {
             try {
                 rate.calculateResult(name, value)
             } catch (e: NumberFormatException) {
-                val numericValue = value.replaceCommas().replaceNonstandardDigits()
+                val numericValue = value.replaceUnsupportedCharacters().replaceNonstandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
                     "NumberFormatException $value to $numericValue",
