@@ -1,19 +1,15 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
 import android.annotation.SuppressLint
-import java.io.IOException
-import java.lang.reflect.Type
-
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.Scheduler
-import io.reactivex.functions.Function
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.HttpException
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import java.io.IOException
+import java.lang.reflect.Type
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:46 PM on Arch Linux wit Love <3.

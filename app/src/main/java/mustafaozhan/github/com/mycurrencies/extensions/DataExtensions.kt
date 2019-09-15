@@ -46,8 +46,7 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
 
 fun String.replaceNonstandardDigits(): String {
     val builder = StringBuilder()
-    for (i in 0 until this.length) {
-        val ch = this[i]
+    this.forEach { ch ->
         if (isNonstandardDigit(ch)) {
             val numericValue = Character.getNumericValue(ch)
             if (numericValue >= 0) {
