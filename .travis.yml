@@ -22,3 +22,5 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-x86-android-26
     - sys-img-armeabi-v7a-android-17
+before_install:
+  - openssl aes-256-cbc -K $encrypted_f05b9ae1f211_key -iv $encrypted_f05b9ae1f211_iv -in google-services.json.enc -out google-services.json -d
