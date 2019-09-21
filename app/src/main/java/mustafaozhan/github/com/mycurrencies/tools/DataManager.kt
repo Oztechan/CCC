@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 
 import io.reactivex.Observable
 import mustafaozhan.github.com.mycurrencies.base.api.backend.BackendApiHelper
+import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject

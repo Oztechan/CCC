@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.tools
 
 import com.google.gson.Gson
 import mustafaozhan.github.com.mycurrencies.base.BaseSharedPreferences
+import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject
 import javax.inject.Singleton

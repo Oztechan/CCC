@@ -6,8 +6,8 @@ import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.app.Application
 import mustafaozhan.github.com.mycurrencies.dagger.component.ViewModelComponent
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
+import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
-import mustafaozhan.github.com.mycurrencies.tools.Currencies
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
 import javax.inject.Inject
 

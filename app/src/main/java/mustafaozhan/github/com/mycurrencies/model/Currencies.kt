@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.tools
+package mustafaozhan.github.com.mycurrencies.model
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
