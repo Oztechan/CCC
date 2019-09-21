@@ -44,25 +44,6 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
     }
 }
 
-fun String.replaceNonstandardDigits(): String {
-    val builder = StringBuilder()
-    this.forEach { ch ->
-        if (isNonstandardDigit(ch)) {
-            val numericValue = Character.getNumericValue(ch)
-            if (numericValue >= 0) {
-                builder.append(numericValue)
-            }
-        } else {
-            builder.append(ch)
-        }
-    }
-    return builder.toString()
-}
-
-private fun isNonstandardDigit(ch: Char): Boolean {
-    return Character.isDigit(ch) && ch !in '0'..'9'
-}
-
 fun CurrencyDao.insertInitialCurrencies() {
     Gson().fromJson(Application.instance.assets.open("currencies.json").bufferedReader().use {
         it.readText()

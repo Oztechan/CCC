@@ -9,7 +9,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.replaceNonstandardDigits
+import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -122,7 +122,7 @@ class MainFragmentViewModel : BaseViewModel() {
             try {
                 rate.calculateResult(name, value)
             } catch (e: NumberFormatException) {
-                val numericValue = value.replaceUnsupportedCharacters().replaceNonstandardDigits()
+                val numericValue = value.replaceUnsupportedCharacters().replaceNonStandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
                     "NumberFormatException $value to $numericValue",
