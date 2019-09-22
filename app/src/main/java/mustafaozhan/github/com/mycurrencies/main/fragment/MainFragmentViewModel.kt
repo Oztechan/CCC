@@ -44,10 +44,12 @@ class MainFragmentViewModel : BaseViewModel() {
     fun refreshData() {
         loadPreferences()
         currencyListLiveData.value?.clear()
+
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
+
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
@@ -114,6 +116,7 @@ class MainFragmentViewModel : BaseViewModel() {
         if (mainData.currentBase == Currencies.NULL || spinnerList.indexOf(mainData.currentBase.toString()) == -1) {
             updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name)
         }
+
         return mainData.currentBase
     }
 

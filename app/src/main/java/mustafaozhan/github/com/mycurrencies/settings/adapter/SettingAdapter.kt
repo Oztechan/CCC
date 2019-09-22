@@ -21,10 +21,12 @@ class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
         RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
 
     override fun onBindViewHolder(holder: BaseViewHolder<Currency>, position: Int) {
-        holder.itemView.startAnimation(AnimationUtils.loadAnimation(
-            holder.itemView.context,
-            R.anim.fall_down
-        ))
+        holder.itemView.startAnimation(
+            AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.fall_down
+            )
+        )
         super.onBindViewHolder(holder, position)
     }
 

@@ -26,9 +26,11 @@ class Application : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
         if (!BuildConfig.DEBUG) {
             FirebaseAnalytics.getInstance(this)
         }
+
         val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
         Fabric.with(this, Crashlytics.Builder().core(core).build())
     }

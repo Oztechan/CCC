@@ -8,6 +8,7 @@ fun String.replaceNonStandardDigits(): String {
     this.forEach { ch ->
         if (isNonstandardDigit(ch)) {
             val numericValue = Character.getNumericValue(ch)
+
             if (numericValue >= 0) {
                 builder.append(numericValue)
             }

@@ -25,10 +25,12 @@ class SettingsFragmentViewModel : BaseViewModel() {
     fun refreshData() {
         loadPreferences()
         currencyList.clear()
+
         if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             mainData.firstRun = false
         }
+
         currencyDao.getAllCurrencies().removeUnUsedCurrencies()?.let {
             currencyList.addAll(it)
         }

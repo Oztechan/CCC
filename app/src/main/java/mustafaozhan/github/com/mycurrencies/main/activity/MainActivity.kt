@@ -46,12 +46,14 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
+
         when {
             supportFragmentManager.findFragmentById(containerId) is MainFragment ->
                 menuInflater.inflate(R.menu.fragment_main_menu, menu)
             supportFragmentManager.findFragmentById(containerId) is SettingsFragment ->
                 menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -84,6 +86,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 }
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -154,6 +157,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 super.onBackPressed()
                 return
             }
+
             doubleBackToExitPressedOnce = true
             snacky(getString(R.string.click_back_again_to_exit))
             Handler().postDelayed({

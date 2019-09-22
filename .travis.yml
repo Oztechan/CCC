@@ -9,12 +9,8 @@ android:
     - extra-android-m2repository
     - sys-img-x86-android-26
     - sys-img-armeabi-v7a-android-17
-before_install:
-  - openssl aes-256-cbc -K $encrypted_f05b9ae1f211_key -iv $encrypted_f05b9ae1f211_iv
-    -in google-services.json.enc -out google-services.json -d
 notifications:
   slack:
     secure: rxd/gz/oBiR2Cgz57W/0PnmvTLYT6gJ5PP3kbNxMGHwBgTCtbQ6r2vIgCBL2gQUwjGNsao4NVuXUlC16sl8MER2eu+jSwCm/nLhFAkxr/H7CwWfQ4Gkrd9ZA2DFi4Igo2KxYuDHZVquoB1lvMJE9KvaV05SXWWMpe67WgKnWo//LWpaehEav8LQCGs9fs3/4AkhTp92yTBRa3pgoPcN0XmeHPH13PERQ2K9BL+mfD/IFsxqOjghC7k9tVPm1E9n+PYD3gqniBcKMIjv+yJrWjssp02md41CfAb89M1gc7sMLc7c0EMb0Oti9pRSPfUKU0+NyUVZ5g/8HuVuzuMo+UD8IqPWYE3EQX+HEbNnfKBDL0ggJto2PwiB1SYIo9f9H0L0Mjg1xu9Mh0Ztn3LD7XgcbU/EmaloiY2l7vygKGU55JhjmFA7lvIe5MWG94KTvFv0pVr8i/8aVb5npBfpp8QJ9QDTjVZpW8UQdUYxqUk2QUztLDTHI5ApQt92S99VAGW3ylR83YNh/1L7vcDBwg1RVTE1ywZV0MxopaApXmhbtH2WdEDIETL/oiiq9YWc/3WSHymyf7eG7BxHV9gvZRRJ+z9+L9fxANlrrf19hzB/PBqG+80usGJFSkr5EjEkf2NyPrNvjUXgP5QEtrttokRmmzik22nCmmpaFBvRVkNc=
-dd:
-  - openssl aes-256-cbc -K $encrypted_f05b9ae1f211_key -iv $encrypted_f05b9ae1f211_iv
-    -in google-services.json.enc -out google-services.json -d
+script:
+  - ./gradlew clean build -Pbuild=debug

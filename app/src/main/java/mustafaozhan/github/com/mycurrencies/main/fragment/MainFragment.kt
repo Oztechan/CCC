@@ -107,6 +107,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
                             spinner_base.expand()
                         }
                     }
+
                     currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
             }
@@ -156,6 +157,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         txt_symbol.text = viewModel.getCurrencyByName(
             viewModel.mainData.currentBase.toString()
         )?.symbol ?: ""
+
         when {
             viewModel.output.isEmpty() -> {
                 txt_result.text = ""
@@ -252,6 +254,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
         viewModel.apply {
             rates = null
             refreshData()
+
             if (loadResetData() && !mainData.firstRun) {
                 doAsync {
                     AppDatabase.database.clearAllTables()

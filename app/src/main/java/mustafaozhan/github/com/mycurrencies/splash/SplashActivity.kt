@@ -14,6 +14,7 @@ class SplashActivity : BaseMvvmActivity<SplashActivityViewModel>() {
     override fun getLayoutResId(): Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         startActivity(
             Intent(
                 this,
@@ -24,6 +25,7 @@ class SplashActivity : BaseMvvmActivity<SplashActivityViewModel>() {
                 }
             )
         )
+
         finish()
     }
 }

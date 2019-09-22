@@ -63,6 +63,7 @@ class SliderActivity : BaseMvvmActivity<SliderActivityViewModel>() {
             // checking for last page
             // if last page home screen will be launched
             val current = getItem(+1)
+
             if (current < SLIDE_SIZE) {
                 // move to next screen
                 view_pager.currentItem = current
