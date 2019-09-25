@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="exchange_rates_endpoint">api endpoint</string>
-    <string name="backend_endpoint">backend endpoint</string>
+    <string name="exchange_rates_endpoint">https://exchangeratesendpoint/</string>
+    <string name="backend_endpoint">http://backendendpoint/</string>
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>
