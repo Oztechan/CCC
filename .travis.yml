@@ -32,7 +32,7 @@ install:
   - echo y | sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
   - echo y | sdkmanager --channel=4 "emulator" >/dev/null # Use canary channel to get emulator 29.x for x86_64 image support
   - echo y | sdkmanager "extras;android;m2repository" >/dev/null
-  - echo y | sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
+  - echo y | sdkmanager "system-images;android-25;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
   - emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
   - android-wait-for-emulator
