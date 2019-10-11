@@ -9,6 +9,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
+import org.joda.time.Duration
+import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
@@ -65,4 +67,7 @@ abstract class BaseViewModel : ViewModel() {
         mainData.sliderShown = true
         savePreferences()
     }
+
+    open fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_HOURS)
 }

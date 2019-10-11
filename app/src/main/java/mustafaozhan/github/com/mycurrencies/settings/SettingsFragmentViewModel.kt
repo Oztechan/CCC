@@ -6,8 +6,6 @@ import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import org.joda.time.Duration
-import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
@@ -61,7 +59,4 @@ class SettingsFragmentViewModel : BaseViewModel() {
             setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
         }
     }
-
-    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
-        Duration(mainData.adFreeActivatedDate, Instant.now()).standardDays <= NUMBER_OF_HOURS)
 }
