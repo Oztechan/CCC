@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
@@ -18,6 +19,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
@@ -35,9 +39,14 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         const val CHECK_DURATION: Long = 6
         const val CHECK_INTERVAL: Long = 4200
         const val REMOTE_CONFIG = "remote_config"
+        const val AD_INITIAL_DELAY: Long = 50
+        const val AD_PERIOD: Long = 250
     }
 
     private lateinit var rewardedAd: RewardedAd
+    private lateinit var adObservableInterval: Disposable
+    private lateinit var mInterstitialAd: InterstitialAd
+    private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
@@ -50,6 +59,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         super.onCreate(savedInstanceState)
         loadRewardedAd()
         checkUpdate()
+        prepareAd()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -139,6 +149,27 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         }
     }
 
+    private fun prepareAd() {
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+    }
+
+    private fun ad() {
+        adVisibility = true
+        adObservableInterval = Observable.interval(AD_INITIAL_DELAY, AD_PERIOD, TimeUnit.SECONDS)
+            .debounce(0, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                if (mInterstitialAd.isLoaded && adVisibility && viewModel.isRewardExpired()) {
+                    mInterstitialAd.show()
+                } else {
+                    prepareAd()
+                }
+            }.doOnError(::logException)
+            .subscribe()
+    }
+
     @Suppress("ComplexMethod")
     private fun checkUpdate() {
 
@@ -188,6 +219,17 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     }
                 }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ad()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adObservableInterval.dispose()
+        adVisibility = false
     }
 
     override fun onBackPressed() {
