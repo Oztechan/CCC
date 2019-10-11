@@ -15,7 +15,7 @@ def getGitVersionCode = { ->
         return Integer.parseInt(stdout.toString().trim())
     }
     catch (ignored) {
-        return -1
+        return 1
     }
 }
 
