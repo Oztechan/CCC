@@ -39,7 +39,7 @@ import kotlinx.android.synthetic.main.layout_main_toolbar.txt_main_toolbar
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
 import mustafaozhan.github.com.mycurrencies.extensions.addText
-import mustafaozhan.github.com.mycurrencies.extensions.loadAd
+import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
@@ -246,7 +246,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
     override fun onResume() {
         super.onResume()
         initData()
-        ad_view.loadAd(R.string.banner_ad_unit_id_main)
+        ad_view.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
     }
 
     private fun initData() {

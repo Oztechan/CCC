@@ -12,7 +12,8 @@ class ViewPagerAdapter(var context: Context) : PagerAdapter() {
     private var layouts = intArrayOf(
         R.layout.slide_intro,
         R.layout.slide_filter,
-        R.layout.slide_bug_report
+        R.layout.slide_bug_report,
+        R.layout.slide_disable_ads
     )
 
     override fun instantiateItem(container: ViewGroup, position: Int): View {

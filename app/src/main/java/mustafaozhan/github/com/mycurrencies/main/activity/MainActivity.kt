@@ -7,11 +7,21 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.NonNull
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseFragment
@@ -29,8 +39,14 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         const val CHECK_DURATION: Long = 6
         const val CHECK_INTERVAL: Long = 4200
         const val REMOTE_CONFIG = "remote_config"
+        const val AD_INITIAL_DELAY: Long = 50
+        const val AD_PERIOD: Long = 250
     }
 
+    private lateinit var rewardedAd: RewardedAd
+    private lateinit var adObservableInterval: Disposable
+    private lateinit var mInterstitialAd: InterstitialAd
+    private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
@@ -41,7 +57,9 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadRewardedAd()
         checkUpdate()
+        prepareAd()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,6 +94,13 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     }
                 }
             }
+            R.id.removeAds -> showDialog(
+                getString(R.string.remove_ads),
+                getString(R.string.remove_ads_text),
+                getString(R.string.watch)
+            ) {
+                showRewardedAd()
+            }
             R.id.onGithub -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
@@ -90,6 +115,30 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun loadRewardedAd() {
+        rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+        })
+    }
+
+    private fun showRewardedAd() {
+        if (rewardedAd.isLoaded) {
+            rewardedAd.show(this, object : RewardedAdCallback() {
+                override fun onRewardedAdOpened() = Unit
+                override fun onRewardedAdClosed() = loadRewardedAd()
+                override fun onRewardedAdFailedToShow(errorCode: Int) = loadRewardedAd()
+                override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                    viewModel.updateAdFreeActivation()
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
+                }
+            })
+        }
+    }
+
     private fun sendFeedBack() {
         Intent(Intent.ACTION_SEND).apply {
             type = "text/email"
@@ -98,6 +147,27 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
             putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
             startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
         }
+    }
+
+    private fun prepareAd() {
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+    }
+
+    private fun ad() {
+        adVisibility = true
+        adObservableInterval = Observable.interval(AD_INITIAL_DELAY, AD_PERIOD, TimeUnit.SECONDS)
+            .debounce(0, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                if (mInterstitialAd.isLoaded && adVisibility && viewModel.isRewardExpired()) {
+                    mInterstitialAd.show()
+                } else {
+                    prepareAd()
+                }
+            }.doOnError(::logException)
+            .subscribe()
     }
 
     @Suppress("ComplexMethod")
@@ -149,6 +219,17 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                     }
                 }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ad()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adObservableInterval.dispose()
+        adVisibility = false
     }
 
     override fun onBackPressed() {

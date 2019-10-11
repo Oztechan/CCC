@@ -9,12 +9,18 @@ import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
+import org.joda.time.Duration
+import org.joda.time.Instant
 import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:40 PM on Arch Linux wit Love <3.
  */
 abstract class BaseViewModel : ViewModel() {
+
+    companion object {
+        const val NUMBER_OF_HOURS = 24
+    }
 
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -61,4 +67,8 @@ abstract class BaseViewModel : ViewModel() {
         mainData.sliderShown = true
         savePreferences()
     }
+
+    open fun isRewardExpired() = mainData.adFreeActivatedDate?.let {
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardHours > NUMBER_OF_HOURS
+    } ?: true
 }

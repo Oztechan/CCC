@@ -32,6 +32,7 @@ constructor() : BaseSharedPreferences() {
             ?: MainData(
                 true,
                 Currencies.EUR,
+                null,
                 null
             )
 
