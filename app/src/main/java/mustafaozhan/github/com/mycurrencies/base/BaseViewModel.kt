@@ -68,7 +68,7 @@ abstract class BaseViewModel : ViewModel() {
         savePreferences()
     }
 
-    open fun isRewardExpired() = mainData.adFreeActivatedDate?.let {
-        Duration(mainData.adFreeActivatedDate, Instant.now()).standardHours > NUMBER_OF_HOURS
+    open fun isRewardExpired() = dataManager.loadMainData().adFreeActivatedDate?.let {
+        Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
     } ?: true
 }
