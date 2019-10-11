@@ -17,6 +17,8 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import org.joda.time.Duration
+import org.joda.time.Instant
 import org.mariuszgromada.math.mxparser.Expression
 import javax.inject.Inject
 
@@ -136,4 +138,7 @@ class MainFragmentViewModel : BaseViewModel() {
         } else {
             0.0
         }
+
+    fun isRewardExpired() = !(mainData.adFreeActivatedDate != null &&
+        Duration(mainData.adFreeActivatedDate, Instant.now()).standardHours <= NUMBER_OF_HOURS)
 }

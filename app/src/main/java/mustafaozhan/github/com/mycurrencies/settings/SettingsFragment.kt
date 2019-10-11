@@ -98,7 +98,16 @@ class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
     override fun onResume() {
         viewModel.refreshData()
         edit_text_search?.setText("")
-        ad_view.loadAd(R.string.banner_ad_unit_id_settings)
+        checkAd()
         super.onResume()
+    }
+
+    private fun checkAd() {
+        if (viewModel.isRewardExpired()) {
+            ad_view.loadAd(R.string.banner_ad_unit_id_settings)
+        } else {
+            ad_view.isEnabled = false
+            ad_view.visibility = View.GONE
+        }
     }
 }

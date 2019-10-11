@@ -16,6 +16,10 @@ import javax.inject.Inject
  */
 abstract class BaseViewModel : ViewModel() {
 
+    companion object {
+        const val NUMBER_OF_HOURS = 3
+    }
+
     protected val viewModelComponent: ViewModelComponent by lazy { Application.instance.component.viewModelComponent() }
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
     lateinit var mainData: MainData

@@ -96,4 +96,10 @@
     <!-- Test Ad ID-->
     <string name="banner_ad_unit_id_main">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_settings">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="rewarded_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+
+    <!--Rewarded Ad-->
+    <string name="remove_ads">Remove Ads</string>
+    <string name="remove_ads_text">Would you like to watch a video to stop ads for 48 hours ?</string>
+    <string name="watch">Watch</string>
 </resources>
