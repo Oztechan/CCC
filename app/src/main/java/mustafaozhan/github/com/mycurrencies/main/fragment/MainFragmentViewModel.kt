@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.main.fragment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
+import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
@@ -26,10 +27,6 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 class MainFragmentViewModel : BaseViewModel() {
 
-    override fun inject() {
-        viewModelComponent.inject(this)
-    }
-
     @Inject
     lateinit var currencyDao: CurrencyDao
 
@@ -40,6 +37,10 @@ class MainFragmentViewModel : BaseViewModel() {
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     var rates: Rates? = null
     var output: String = "0.0"
+
+    override fun onLoaded(): Completable {
+        return Completable.complete()
+    }
 
     fun refreshData() {
         loadPreferences()
