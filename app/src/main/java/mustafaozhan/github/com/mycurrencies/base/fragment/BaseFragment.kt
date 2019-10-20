@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base
+package mustafaozhan.github.com.mycurrencies.base.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.layout_main_toolbar.toolbar_fragment_main
 import kotlinx.android.synthetic.main.layout_settings_toolbar.toolbar_fragment_settings
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:38 PM on Arch Linux wit Love <3.
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
 
     val fragmentTag: String = this.javaClass.simpleName
 
@@ -40,7 +42,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    protected fun getBaseActivity(): BaseActivity? = activity as? BaseActivity
+    protected fun getBaseActivity() = activity as? BaseActivity<*>
 
     protected fun snacky(
         text: String?,

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base
+package mustafaozhan.github.com.mycurrencies.base.activity
 
 import android.app.AlertDialog
 import android.graphics.Typeface
@@ -7,16 +7,17 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
+import java.util.Locale
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
  */
-@Suppress("TooManyFunctions")
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
 
     @LayoutRes
     protected abstract fun getLayoutResId(): Int?
@@ -29,65 +30,33 @@ abstract class BaseActivity : AppCompatActivity() {
 
         getLayoutResId()?.let {
             setContentView(it)
-            getDefaultFragment()?.let { defaultFragment ->
-                replaceFragment(defaultFragment, false)
-            }
+            replaceFragment(getDefaultFragment(), false)
         }
     }
 
-    open fun getDefaultFragment(): BaseFragment? = null
+    protected abstract fun getDefaultFragment(): Fragment?
 
     protected fun setHomeAsUpEnabled(enabled: Boolean) =
         supportActionBar?.setDisplayHomeAsUpEnabled(enabled)
 
-    private fun addFragment(containerViewId: Int, fragment: BaseFragment) {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.add(containerViewId, fragment, fragment.fragmentTag)
-        ft.commit()
-    }
+    fun replaceFragment(fragment: Fragment?, withBackStack: Boolean) =
+        fragment?.let {
+            supportFragmentManager.beginTransaction().apply {
 
-    protected fun addFragment(fragment: BaseFragment) {
-        addFragment(containerId, fragment)
-    }
+                if (supportFragmentManager.fragments.size > 0) {
+                    setCustomAnimations(
+                        R.anim.enter_from_right,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                }
 
-    fun replaceFragment(fragment: BaseFragment, withBackStack: Boolean) {
-        if (withBackStack) {
-            replaceFragmentWithBackStack(containerId, fragment)
-        } else {
-            replaceFragment(containerId, fragment)
-        }
-    }
-
-    private fun replaceFragmentWithBackStack(containerViewId: Int, fragment: BaseFragment) {
-        supportFragmentManager.beginTransaction().apply {
-            setCustomAnimations(
-                R.anim.enter_from_right,
-                R.anim.exit_to_left,
-                R.anim.enter_from_left,
-                R.anim.exit_to_right
-            )
-            replace(containerViewId, fragment, fragment.fragmentTag)
-            addToBackStack(null)
-            commit()
-        }
-    }
-
-    private fun replaceFragment(containerViewId: Int, fragment: BaseFragment) {
-        supportFragmentManager.beginTransaction().apply {
-            if (supportFragmentManager.backStackEntryCount != 0) {
-                setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
+                replace(containerId, it, it.tag)
+                if (withBackStack) addToBackStack(it.tag)
+                commit()
             }
-
-            replace(containerViewId, fragment, fragment.fragmentTag)
-            commit()
         }
-    }
-
-    fun clearBackStack() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
-    }
 
     fun snacky(
         text: String,
@@ -102,7 +71,7 @@ abstract class BaseActivity : AppCompatActivity() {
             .setIcon(setIcon?.let { getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
             .setActivity(this)
             .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
-            .setActionText(actionText.toUpperCase())
+            .setActionText(actionText.toUpperCase(Locale.getDefault()))
             .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
             .setActionTextTypefaceStyle(Typeface.BOLD)
             .setActionClickListener { action() }

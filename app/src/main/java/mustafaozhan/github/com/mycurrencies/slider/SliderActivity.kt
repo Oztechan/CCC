@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_slider.btn_next
 import kotlinx.android.synthetic.main.activity_slider.layout_dots
@@ -25,6 +26,8 @@ class SliderActivity : BaseMvvmActivity<SliderActivityViewModel>() {
         const val SLIDE_SIZE = 4
         const val TEXT_SIZE = 36f
     }
+
+    override fun getDefaultFragment(): Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

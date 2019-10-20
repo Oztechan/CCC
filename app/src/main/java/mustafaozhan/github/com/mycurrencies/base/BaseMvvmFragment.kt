@@ -2,11 +2,12 @@ package mustafaozhan.github.com.mycurrencies.base
 
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:41 PM on Arch Linux wit Love <3.
  */
-abstract class BaseMvvmFragment<VM : BaseViewModel> : BaseFragment() {
+abstract class BaseMvvmFragment<VM : BaseViewModel> : BaseFragment<VM>() {
 
     protected val compositeDisposable = CompositeDisposable()
 

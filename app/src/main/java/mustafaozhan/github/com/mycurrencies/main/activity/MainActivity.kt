@@ -24,8 +24,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseFragment
 import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
@@ -49,7 +49,7 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
-    override fun getDefaultFragment(): BaseFragment = MainFragment.newInstance()
+    override fun getDefaultFragment(): BaseFragment<*> = MainFragment.newInstance()
 
     override fun getViewModelClass(): Class<MainActivityViewModel> = MainActivityViewModel::class.java
 
