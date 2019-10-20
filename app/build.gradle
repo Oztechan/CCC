@@ -91,18 +91,18 @@ dependencies {
     implementation 'com.jaredrummler:material-spinner:1.2.1'
 
     // Room
-    implementation 'androidx.room:room-runtime:2.1.0'
-    kapt 'androidx.room:room-compiler:2.1.0'
+    implementation 'androidx.room:room-runtime:2.2.0'
+    kapt 'androidx.room:room-compiler:2.2.0'
 
     // Admob
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-config:19.0.2'
+    implementation 'com.google.firebase:firebase-config:19.0.3'
 
     // Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.10.0@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true
     }
 
