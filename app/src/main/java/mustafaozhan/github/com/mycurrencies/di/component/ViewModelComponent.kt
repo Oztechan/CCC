@@ -1,8 +1,8 @@
-package mustafaozhan.github.com.mycurrencies.dagger.component
+package mustafaozhan.github.com.mycurrencies.di.component
 
 import dagger.Subcomponent
 import mustafaozhan.github.com.mycurrencies.annotation.PerViewModel
-import mustafaozhan.github.com.mycurrencies.dagger.module.ViewModelModule
+import mustafaozhan.github.com.mycurrencies.di.module.ViewModelModule
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivityViewModel
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragmentViewModel
 import mustafaozhan.github.com.mycurrencies.settings.SettingsFragmentViewModel

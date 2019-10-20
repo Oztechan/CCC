@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.app.Application
-import mustafaozhan.github.com.mycurrencies.dagger.component.ViewModelComponent
+import mustafaozhan.github.com.mycurrencies.di.component.ViewModelComponent
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData

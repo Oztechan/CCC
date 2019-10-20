@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.dagger.module
+package mustafaozhan.github.com.mycurrencies.di.module
 
 import android.content.Context
 import dagger.Module

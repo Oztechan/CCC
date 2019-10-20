@@ -7,9 +7,9 @@ import com.crashlytics.android.core.CrashlyticsCore
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric
 import mustafaozhan.github.com.mycurrencies.BuildConfig
-import mustafaozhan.github.com.mycurrencies.dagger.component.ApplicationComponent
-import mustafaozhan.github.com.mycurrencies.dagger.component.DaggerApplicationComponent
-import mustafaozhan.github.com.mycurrencies.dagger.module.ApplicationModule
+import mustafaozhan.github.com.mycurrencies.di.component.ApplicationComponent
+import mustafaozhan.github.com.mycurrencies.di.component.DaggerApplicationComponent
+import mustafaozhan.github.com.mycurrencies.di.module.ApplicationModule
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:43 PM on Arch Linux wit Love <3.

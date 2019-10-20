@@ -1,9 +1,9 @@
-package mustafaozhan.github.com.mycurrencies.dagger.component
+package mustafaozhan.github.com.mycurrencies.di.component
 
 import android.content.Context
 import dagger.Component
 import mustafaozhan.github.com.mycurrencies.annotation.ApplicationContext
-import mustafaozhan.github.com.mycurrencies.dagger.module.ApplicationModule
+import mustafaozhan.github.com.mycurrencies.di.module.ApplicationModule
 import javax.inject.Singleton
 
 /**
