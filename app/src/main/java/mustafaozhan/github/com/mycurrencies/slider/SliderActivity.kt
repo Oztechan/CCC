@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_slider.view_pager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
-import mustafaozhan.github.com.mycurrencies.slider.adapter.ViewPagerAdapter
 
 class SliderActivity : BaseActivity<SliderActivityViewModel>() {
 
@@ -44,7 +43,7 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
 
     private fun setListeners() {
         view_pager?.apply {
-            adapter = ViewPagerAdapter(applicationContext)
+            adapter = SliderPagerAdapter(applicationContext)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {

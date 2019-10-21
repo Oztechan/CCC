@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment
+package mustafaozhan.github.com.mycurrencies.main.fragment.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -43,9 +43,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
-import mustafaozhan.github.com.mycurrencies.main.fragment.adapter.CurrencyAdapter
+import mustafaozhan.github.com.mycurrencies.main.fragment.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
-import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -62,7 +61,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_main
 
-    private val currencyAdapter: CurrencyAdapter by lazy { CurrencyAdapter() }
+    private val mainFragmentAdapter: MainFragmentAdapter by lazy { MainFragmentAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,7 +96,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
                 rates?.let {
-                    currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                    mainFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 } ?: run {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
@@ -105,7 +104,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
                         }
                     }
 
-                    currencyAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    mainFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
             }
             loading_view.smoothToHide()
@@ -113,7 +112,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
-                currencyAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                mainFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 loading_view.smoothToHide()
             }
         })
@@ -123,9 +122,9 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
         loading_view.bringToFront()
         context?.let { ctx ->
             recycler_view_main.layoutManager = LinearLayoutManager(ctx)
-            recycler_view_main.adapter = currencyAdapter
+            recycler_view_main.adapter = mainFragmentAdapter
         }
-        currencyAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
+        mainFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txt_main_toolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
@@ -140,7 +139,7 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
             }
             iv_base.setBackgroundByName(currency.name)
         }
-        currencyAdapter.onItemLongClickListener = { currency, _ ->
+        mainFragmentAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,

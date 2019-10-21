@@ -26,9 +26,9 @@ import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
-import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
+import mustafaozhan.github.com.mycurrencies.main.fragment.main.MainFragment
+import mustafaozhan.github.com.mycurrencies.main.fragment.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
-import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")

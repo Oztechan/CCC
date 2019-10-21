@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.slider.adapter
+package mustafaozhan.github.com.mycurrencies.slider
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import mustafaozhan.github.com.mycurrencies.R
 
-class ViewPagerAdapter(var context: Context) : PagerAdapter() {
+class SliderPagerAdapter(var context: Context) : PagerAdapter() {
 
     private var layouts = intArrayOf(
         R.layout.slide_intro,

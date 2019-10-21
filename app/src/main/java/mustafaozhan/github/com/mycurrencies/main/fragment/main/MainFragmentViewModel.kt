@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment
+package mustafaozhan.github.com.mycurrencies.main.fragment.main
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

@@ -2,8 +2,8 @@ package mustafaozhan.github.com.mycurrencies.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
-import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
+import mustafaozhan.github.com.mycurrencies.main.fragment.main.MainFragment
+import mustafaozhan.github.com.mycurrencies.main.fragment.settings.SettingsFragment
 
 @Suppress("unused")
 @Module

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.settings
+package mustafaozhan.github.com.mycurrencies.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,6 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -28,7 +27,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_settings
 
-    private val settingAdapter: SettingAdapter by lazy { SettingAdapter() }
+    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +46,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
                         currency.longName.contains(txt.toString(), true) ||
                         currency.symbol.contains(txt.toString(), true)
                 }.toMutableList()
-                    .let { settingAdapter.refreshList(it) }
+                    .let { settingsAdapter.refreshList(it) }
             }.addTo(compositeDisposable)
     }
 
@@ -56,7 +55,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
             recycler_view_settings.apply {
                 layoutManager = LinearLayoutManager(ctx)
                 setHasFixedSize(true)
-                adapter = settingAdapter
+                adapter = settingsAdapter
             }
         }
     }
@@ -72,7 +71,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
             viewModel.setCurrentBase(null)
         }
 
-        settingAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
+        settingsAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1

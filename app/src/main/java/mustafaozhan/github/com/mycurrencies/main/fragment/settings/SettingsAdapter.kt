@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.settings.adapter
+package mustafaozhan.github.com.mycurrencies.main.fragment.settings
 
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
-class SettingAdapter : BaseRecyclerViewAdapter<Currency>() {
+class SettingsAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
         RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))

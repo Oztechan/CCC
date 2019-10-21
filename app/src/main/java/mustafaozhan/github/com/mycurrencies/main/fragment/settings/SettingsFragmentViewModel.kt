@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.settings
+package mustafaozhan.github.com.mycurrencies.main.fragment.settings
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
