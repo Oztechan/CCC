@@ -18,20 +18,18 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.tools.DataManager
 import org.mariuszgromada.math.mxparser.Expression
-import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class MainFragmentViewModel : BaseViewModel() {
-
-    @Inject
-    lateinit var currencyDao: CurrencyDao
-
-    @Inject
-    lateinit var offlineRatesDao: OfflineRatesDao
+class MainFragmentViewModel(
+    dataManager: DataManager,
+    val currencyDao: CurrencyDao,
+    val offlineRatesDao: OfflineRatesDao
+) : BaseViewModel(dataManager) {
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()

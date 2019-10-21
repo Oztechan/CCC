@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.activity_slider.layout_dots
 import kotlinx.android.synthetic.main.activity_slider.progress_bar
 import kotlinx.android.synthetic.main.activity_slider.view_pager
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
+import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.slider.adapter.ViewPagerAdapter
 
-class SliderActivity : BaseMvvmActivity<SliderActivityViewModel>() {
+class SliderActivity : BaseActivity<SliderActivityViewModel>() {
 
     companion object {
         const val SLIDE_SIZE = 4
@@ -117,6 +117,4 @@ class SliderActivity : BaseMvvmActivity<SliderActivityViewModel>() {
     }
 
     override fun getLayoutResId() = R.layout.activity_slider
-
-    override fun getViewModelClass(): Class<SliderActivityViewModel> = SliderActivityViewModel::class.java
 }

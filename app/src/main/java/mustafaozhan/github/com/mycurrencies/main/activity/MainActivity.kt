@@ -24,7 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseMvvmActivity
+import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.main.fragment.MainFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
@@ -32,7 +32,7 @@ import mustafaozhan.github.com.mycurrencies.settings.SettingsFragment
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
-class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
+class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     companion object {
         const val BACK_DELAY: Long = 2000
@@ -50,8 +50,6 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
     private var doubleBackToExitPressedOnce = false
 
     override fun getDefaultFragment(): BaseFragment<*> = MainFragment.newInstance()
-
-    override fun getViewModelClass(): Class<MainActivityViewModel> = MainActivityViewModel::class.java
 
     override fun getLayoutResId(): Int = R.layout.activity_main
 
@@ -166,7 +164,8 @@ class MainActivity : BaseMvvmActivity<MainActivityViewModel>() {
                 } else {
                     prepareAd()
                 }
-            }.doOnError(::logException)
+            }
+//            .doOnError(::logException)
             .subscribe()
     }
 

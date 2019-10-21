@@ -10,12 +10,11 @@ import mustafaozhan.github.com.mycurrencies.model.MainData
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
 import org.joda.time.Duration
 import org.joda.time.Instant
-import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:40 PM on Arch Linux wit Love <3.
  */
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel(val dataManager: DataManager) : ViewModel() {
 
     companion object {
         const val NUMBER_OF_HOURS = 24
@@ -23,9 +22,6 @@ abstract class BaseViewModel : ViewModel() {
 
     private val compositeDisposable by lazy { CompositeDisposable() }
     lateinit var mainData: MainData
-
-    @Inject
-    lateinit var dataManager: DataManager
 
     protected fun <T> subscribeService(
         serviceObservable: Observable<T>,

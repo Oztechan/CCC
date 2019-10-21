@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_de_select_all
 import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_select_all
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
@@ -20,13 +20,11 @@ import mustafaozhan.github.com.mycurrencies.settings.adapter.SettingAdapter
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseMvvmFragment<SettingsFragmentViewModel>() {
+class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
-
-    override fun getViewModelClass(): Class<SettingsFragmentViewModel> = SettingsFragmentViewModel::class.java
 
     override fun getLayoutResId(): Int = R.layout.fragment_settings
 

@@ -12,6 +12,7 @@ import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
 import mustafaozhan.github.com.mycurrencies.BuildConfig
+import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
 import javax.inject.Inject
 
 /**
@@ -30,6 +31,12 @@ class Application : MultiDexApplication(), HasActivityInjector, HasSupportFragme
 
     override fun onCreate() {
         super.onCreate()
+
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+            .inject(this)
+
         instance = this
 
         if (!BuildConfig.DEBUG) {

@@ -37,7 +37,7 @@ import kotlinx.android.synthetic.main.layout_keyboard_content.btn_two
 import kotlinx.android.synthetic.main.layout_keyboard_content.btn_zero
 import kotlinx.android.synthetic.main.layout_main_toolbar.txt_main_toolbar
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseMvvmFragment
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
@@ -53,15 +53,12 @@ import org.jetbrains.anko.uiThread
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class MainFragment : BaseMvvmFragment<MainFragmentViewModel>() {
+class MainFragment : BaseFragment<MainFragmentViewModel>() {
 
     companion object {
         fun newInstance(): MainFragment = MainFragment()
         const val MAX_DIGIT = 12
     }
-
-    override fun getViewModelClass(): Class<MainFragmentViewModel> =
-        MainFragmentViewModel::class.java
 
     override fun getLayoutResId(): Int = R.layout.fragment_main
 
