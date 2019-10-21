@@ -13,9 +13,9 @@ import mustafaozhan.github.com.mycurrencies.tools.DataManager
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsFragmentViewModel(
-    dataManager: DataManager,
-    val currencyDao: CurrencyDao
-) : BaseViewModel(dataManager) {
+    override val dataManager: DataManager,
+    private val currencyDao: CurrencyDao
+) : BaseViewModel() {
 
     var currencyList: MutableList<Currency> = mutableListOf()
 

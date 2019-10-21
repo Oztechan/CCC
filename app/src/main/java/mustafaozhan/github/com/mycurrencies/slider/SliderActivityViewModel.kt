@@ -4,7 +4,9 @@ import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.tools.DataManager
 
-class SliderActivityViewModel(dataManager: DataManager) : BaseViewModel(dataManager) {
+class SliderActivityViewModel(
+    override val dataManager: DataManager
+) : BaseViewModel() {
     override fun onLoaded(): Completable {
         return Completable.complete()
     }

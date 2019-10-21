@@ -8,7 +8,9 @@ import org.joda.time.Instant
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:50 PM on Arch Linux wit Love <3.
  */
-class MainActivityViewModel(dataManager: DataManager) : BaseViewModel(dataManager) {
+class MainActivityViewModel(
+    override var dataManager: DataManager
+) : BaseViewModel() {
 
     override fun onLoaded(): Completable {
         return Completable.complete()

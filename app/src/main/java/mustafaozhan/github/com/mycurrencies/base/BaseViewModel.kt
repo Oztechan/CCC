@@ -14,12 +14,13 @@ import org.joda.time.Instant
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:40 PM on Arch Linux wit Love <3.
  */
-abstract class BaseViewModel(val dataManager: DataManager) : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     companion object {
         const val NUMBER_OF_HOURS = 24
     }
 
+    abstract val dataManager: DataManager
     private val compositeDisposable by lazy { CompositeDisposable() }
     lateinit var mainData: MainData
 

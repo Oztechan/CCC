@@ -26,10 +26,10 @@ import org.mariuszgromada.math.mxparser.Expression
  */
 @Suppress("TooManyFunctions")
 class MainFragmentViewModel(
-    dataManager: DataManager,
-    val currencyDao: CurrencyDao,
-    val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(dataManager) {
+    override val dataManager: DataManager,
+    private val currencyDao: CurrencyDao,
+    private val offlineRatesDao: OfflineRatesDao
+) : BaseViewModel() {
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
