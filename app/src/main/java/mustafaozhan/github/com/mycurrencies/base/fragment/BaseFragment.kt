@@ -10,9 +10,6 @@ import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.layout_main_toolbar.toolbar_fragment_main
-import kotlinx.android.synthetic.main.layout_settings_toolbar.toolbar_fragment_settings
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import javax.inject.Inject
@@ -49,13 +46,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-    }
-
-    protected fun initToolbar() {
-        when (getLayoutResId()) {
-            R.layout.fragment_main -> getBaseActivity()?.setSupportActionBar(toolbar_fragment_main)
-            R.layout.fragment_settings -> getBaseActivity()?.setSupportActionBar(toolbar_fragment_settings)
-        }
     }
 
     protected fun getBaseActivity() = activity as? BaseActivity<*>

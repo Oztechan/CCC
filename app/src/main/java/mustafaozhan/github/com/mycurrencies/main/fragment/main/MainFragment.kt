@@ -49,6 +49,10 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
         initLiveData()
     }
 
+    private fun initToolbar() {
+        getBaseActivity()?.setSupportActionBar(binding.appBarLayout.toolbarFragmentMain)
+    }
+
     private fun setRx() {
         binding.appBarLayout.txtMainToolbar.textChanges()
             .subscribe { txt ->

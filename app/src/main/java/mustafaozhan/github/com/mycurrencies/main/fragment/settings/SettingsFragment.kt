@@ -35,6 +35,10 @@ class SettingsFragment : BaseViewBindingFragment<SettingsFragmentViewModel, Frag
         setListeners()
     }
 
+    private fun initToolbar() {
+        getBaseActivity()?.setSupportActionBar(binding.appBarLayout.toolbarFragmentSettings)
+    }
+
     private fun initRx() {
         binding.editTextSearch
             .textChanges()
