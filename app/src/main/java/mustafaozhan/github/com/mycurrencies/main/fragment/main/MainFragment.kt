@@ -129,86 +129,80 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
     }
 
     @SuppressLint("SetTextI18n")
-    private fun getOutputText() {
-        binding.layoutBar.txtSymbol.text = viewModel.getCurrencyByName(
+    private fun getOutputText() = with(binding.layoutBar) {
+        txtSymbol.text = viewModel.getCurrencyByName(
             viewModel.mainData.currentBase.toString()
         )?.symbol ?: ""
 
-        when {
-            viewModel.output.isEmpty() -> {
-                binding.layoutBar.txtResult.text = ""
-                binding.layoutBar.txtSymbol.text = ""
-            }
-            else -> binding.layoutBar.txtResult.text = "=  ${viewModel.output} "
+        if (viewModel.output.isEmpty()) {
+            txtResult.text = ""
+            txtSymbol.text = ""
+        } else {
+            txtResult.text = "=  ${viewModel.output} "
         }
     }
 
-    private fun updateBar(spinnerList: List<String>) =
-        with(binding.layoutBar) {
-            if (spinnerList.size < 2) {
-                snacky(
-                    context?.getString(R.string.choose_at_least_two_currency),
-                    context?.getString(R.string.select)) {
-                    getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
-                }
-                spinnerBase.setItems("")
-                ivBase.setBackgroundByName("transparent")
+    private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
+        if (spinnerList.size < 2) {
+            snacky(
+                context?.getString(R.string.choose_at_least_two_currency),
+                context?.getString(R.string.select)) {
+                getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+            }
+            spinnerBase.setItems("")
+            ivBase.setBackgroundByName("transparent")
+        } else {
+            spinnerBase.setItems(spinnerList)
+            spinnerBase.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
+            ivBase.setBackgroundByName(spinnerBase.text.toString())
+        }
+    }
+
+    private fun setListeners() = with(binding.layoutBar) {
+        spinnerBase.setOnItemSelectedListener { _, _, _, item ->
+            viewModel.apply {
+                updateCurrentBase(item.toString())
+                getCurrencies()
+            }
+            getOutputText()
+            ivBase.setBackgroundByName(item.toString())
+        }
+        layoutBar.setOnClickListener {
+            if (spinnerBase.isActivated) {
+                spinnerBase.collapse()
             } else {
-                spinnerBase.setItems(spinnerList)
-                spinnerBase.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
-                ivBase.setBackgroundByName(spinnerBase.text.toString())
-            }
-        }
-
-    private fun setListeners() {
-        with(binding.layoutBar) {
-            spinnerBase.setOnItemSelectedListener { _, _, _, item ->
-                viewModel.apply {
-                    updateCurrentBase(item.toString())
-                    getCurrencies()
-                }
-                getOutputText()
-                ivBase.setBackgroundByName(item.toString())
-            }
-            layoutBar.setOnClickListener {
-                if (spinnerBase.isActivated) {
-                    spinnerBase.collapse()
-                } else {
-                    spinnerBase.expand()
-                }
+                spinnerBase.expand()
             }
         }
     }
 
-    private fun setKeyboard() {
-        with(binding.layoutKeyboard) {
-            btnSeven.setOnClickListener { keyboardPressed("7") }
-            btnEight.setOnClickListener { keyboardPressed("8") }
-            btnNine.setOnClickListener { keyboardPressed("9") }
-            btnDivide.setOnClickListener { keyboardPressed("/") }
-            btnFour.setOnClickListener { keyboardPressed("4") }
-            btnFive.setOnClickListener { keyboardPressed("5") }
-            btnSix.setOnClickListener { keyboardPressed("6") }
-            btnMultiply.setOnClickListener { keyboardPressed("*") }
-            btnOne.setOnClickListener { keyboardPressed("1") }
-            btnTwo.setOnClickListener { keyboardPressed("2") }
-            btnThree.setOnClickListener { keyboardPressed("3") }
-            btnMinus.setOnClickListener { keyboardPressed("-") }
-            btnDot.setOnClickListener { keyboardPressed(".") }
-            btnZero.setOnClickListener { keyboardPressed("0") }
-            btnPercent.setOnClickListener { keyboardPressed("%") }
-            btnPlus.setOnClickListener { keyboardPressed("+") }
-            btnZero.setOnClickListener { keyboardPressed("000") }
-            btnAc.setOnClickListener {
-                binding.appBarLayout.txtMainToolbar.text = ""
-                binding.layoutBar.txtResult.text = ""
-                binding.layoutBar.txtSymbol.text = ""
-            }
-            btnDelete.setOnClickListener {
-                if (binding.appBarLayout.txtMainToolbar.text.toString() != "") {
-                    binding.appBarLayout.txtMainToolbar.text = binding.appBarLayout.txtMainToolbar.text.toString()
-                        .substring(0, binding.appBarLayout.txtMainToolbar.text.toString().length - 1)
-                }
+    private fun setKeyboard() = with(binding.layoutKeyboard) {
+        btnSeven.setOnClickListener { keyboardPressed("7") }
+        btnEight.setOnClickListener { keyboardPressed("8") }
+        btnNine.setOnClickListener { keyboardPressed("9") }
+        btnDivide.setOnClickListener { keyboardPressed("/") }
+        btnFour.setOnClickListener { keyboardPressed("4") }
+        btnFive.setOnClickListener { keyboardPressed("5") }
+        btnSix.setOnClickListener { keyboardPressed("6") }
+        btnMultiply.setOnClickListener { keyboardPressed("*") }
+        btnOne.setOnClickListener { keyboardPressed("1") }
+        btnTwo.setOnClickListener { keyboardPressed("2") }
+        btnThree.setOnClickListener { keyboardPressed("3") }
+        btnMinus.setOnClickListener { keyboardPressed("-") }
+        btnDot.setOnClickListener { keyboardPressed(".") }
+        btnZero.setOnClickListener { keyboardPressed("0") }
+        btnPercent.setOnClickListener { keyboardPressed("%") }
+        btnPlus.setOnClickListener { keyboardPressed("+") }
+        btnZero.setOnClickListener { keyboardPressed("000") }
+        btnAc.setOnClickListener {
+            binding.appBarLayout.txtMainToolbar.text = ""
+            binding.layoutBar.txtResult.text = ""
+            binding.layoutBar.txtSymbol.text = ""
+        }
+        btnDelete.setOnClickListener {
+            if (binding.appBarLayout.txtMainToolbar.text.toString() != "") {
+                binding.appBarLayout.txtMainToolbar.text = binding.appBarLayout.txtMainToolbar.text.toString()
+                    .substring(0, binding.appBarLayout.txtMainToolbar.text.toString().length - 1)
             }
         }
     }
