@@ -21,6 +21,10 @@ def getGitVersionCode = { ->
 
 android {
     compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
