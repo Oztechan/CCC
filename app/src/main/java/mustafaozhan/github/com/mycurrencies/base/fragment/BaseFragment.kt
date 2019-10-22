@@ -39,10 +39,12 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutResId(), container, false)
-    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(getLayoutResId(), container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

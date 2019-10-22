@@ -5,21 +5,19 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_settings.ad_view
-import kotlinx.android.synthetic.main.fragment_settings.edit_text_search
-import kotlinx.android.synthetic.main.fragment_settings.recycler_view_settings
-import kotlinx.android.synthetic.main.item_setting.view.checkBox
-import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_de_select_all
-import kotlinx.android.synthetic.main.layout_settings_toolbar.btn_select_all
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
+import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
+class SettingsFragment : BaseViewBindingFragment<SettingsFragmentViewModel, FragmentSettingsBinding>() {
+    override fun bind() {
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
+    }
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
@@ -38,7 +36,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
     }
 
     private fun initRx() {
-        edit_text_search
+        binding.editTextSearch
             .textChanges()
             .subscribe { txt ->
                 viewModel.currencyList.filter { currency ->
@@ -52,7 +50,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
 
     private fun initViews() {
         context?.let { ctx ->
-            recycler_view_settings.apply {
+            binding.recyclerViewSettings.apply {
                 layoutManager = LinearLayoutManager(ctx)
                 setHasFixedSize(true)
                 adapter = settingsAdapter
@@ -61,13 +59,13 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
     }
 
     private fun setListeners() {
-        btn_select_all.setOnClickListener {
+        binding.appBarLayout.btnSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(1)
-            edit_text_search?.setText("")
+            binding.editTextSearch?.setText("")
         }
-        btn_de_select_all.setOnClickListener {
+        binding.appBarLayout.btnDeSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(0)
-            edit_text_search?.setText("")
+            binding.editTextSearch?.setText("")
             viewModel.setCurrentBase(null)
         }
 
@@ -76,12 +74,12 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
                 0 -> {
                     currency.isActive = 1
                     viewModel.updateCurrencyState(1, currency.name)
-                    itemView.checkBox.isChecked = true
+                    settingsAdapter.notifyDataSetChanged()
                 }
                 1 -> {
                     currency.isActive = 0
                     viewModel.updateCurrencyState(0, currency.name)
-                    itemView.checkBox.isChecked = false
+                    settingsAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -94,8 +92,8 @@ class SettingsFragment : BaseFragment<SettingsFragmentViewModel>() {
 
     override fun onResume() {
         viewModel.refreshData()
-        edit_text_search?.setText("")
-        ad_view.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
+        binding.editTextSearch?.setText("")
+        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
         super.onResume()
     }
 }

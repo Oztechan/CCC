@@ -7,37 +7,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.fragment_main.ad_view
-import kotlinx.android.synthetic.main.fragment_main.layout_bar
-import kotlinx.android.synthetic.main.fragment_main.loading_view
-import kotlinx.android.synthetic.main.fragment_main.recycler_view_main
 import kotlinx.android.synthetic.main.item_currency.view.txt_amount
-import kotlinx.android.synthetic.main.layout_bar.iv_base
-import kotlinx.android.synthetic.main.layout_bar.spinner_base
-import kotlinx.android.synthetic.main.layout_bar.txt_result
-import kotlinx.android.synthetic.main.layout_bar.txt_symbol
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_ac
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_delete
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_divide
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_dot
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_eight
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_five
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_four
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_minus
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_multiply
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_nine
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_one
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_percent
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_plus
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_seven
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_six
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_three
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_triple_zero
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_two
-import kotlinx.android.synthetic.main.layout_keyboard_content.btn_zero
-import kotlinx.android.synthetic.main.layout_main_toolbar.txt_main_toolbar
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
+import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
+import mustafaozhan.github.com.mycurrencies.databinding.FragmentMainBinding
 import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
@@ -52,7 +25,10 @@ import org.jetbrains.anko.uiThread
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class MainFragment : BaseFragment<MainFragmentViewModel>() {
+class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMainBinding>() {
+    override fun bind() {
+        binding = FragmentMainBinding.inflate(layoutInflater)
+    }
 
     companion object {
         fun newInstance(): MainFragment = MainFragment()
@@ -74,9 +50,9 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
     }
 
     private fun setRx() {
-        txt_main_toolbar.textChanges()
+        binding.appBarLayout.txtMainToolbar.textChanges()
             .subscribe { txt ->
-                loading_view.smoothToShow()
+                binding.loadingView.smoothToShow()
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
                         viewModel.calculateOutput(txt.toString())
@@ -100,44 +76,44 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
                 } ?: run {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
-                            spinner_base.expand()
+                            binding.layoutBar.spinnerBase.expand()
                         }
                     }
 
                     mainFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
             }
-            loading_view.smoothToHide()
+            binding.loadingView.smoothToHide()
         })
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
                 mainFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-                loading_view.smoothToHide()
+                binding.loadingView.smoothToHide()
             }
         })
     }
 
     private fun initViews() {
-        loading_view.bringToFront()
+        binding.loadingView.bringToFront()
         context?.let { ctx ->
-            recycler_view_main.layoutManager = LinearLayoutManager(ctx)
-            recycler_view_main.adapter = mainFragmentAdapter
+            binding.recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
+            binding.recyclerViewMain.adapter = mainFragmentAdapter
         }
         mainFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            txt_main_toolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
+            binding.appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
             getOutputText()
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                if (currencyList.indexOf(currency) < spinner_base.getItems<String>().size) {
-                    spinner_base.tryToSelect(currencyList.indexOf(currency))
+                if (currencyList.indexOf(currency) < binding.layoutBar.spinnerBase.getItems<String>().size) {
+                    binding.layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
                 } else {
-                    spinner_base.expand()
+                    binding.layoutBar.spinnerBase.expand()
                 }
             }
-            iv_base.setBackgroundByName(currency.name)
+            binding.layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         mainFragmentAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
@@ -150,86 +126,92 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
 
     @SuppressLint("SetTextI18n")
     private fun getOutputText() {
-        txt_symbol.text = viewModel.getCurrencyByName(
+        binding.layoutBar.txtSymbol.text = viewModel.getCurrencyByName(
             viewModel.mainData.currentBase.toString()
         )?.symbol ?: ""
 
         when {
             viewModel.output.isEmpty() -> {
-                txt_result.text = ""
-                txt_symbol.text = ""
+                binding.layoutBar.txtResult.text = ""
+                binding.layoutBar.txtSymbol.text = ""
             }
-            else -> txt_result.text = "=  ${viewModel.output} "
+            else -> binding.layoutBar.txtResult.text = "=  ${viewModel.output} "
         }
     }
 
     private fun updateBar(spinnerList: List<String>) =
-        if (spinnerList.size < 2) {
-            snacky(
-                context?.getString(R.string.choose_at_least_two_currency),
-                context?.getString(R.string.select)) {
-                getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+        with(binding.layoutBar) {
+            if (spinnerList.size < 2) {
+                snacky(
+                    context?.getString(R.string.choose_at_least_two_currency),
+                    context?.getString(R.string.select)) {
+                    getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+                }
+                spinnerBase.setItems("")
+                ivBase.setBackgroundByName("transparent")
+            } else {
+                spinnerBase.setItems(spinnerList)
+                spinnerBase.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
+                ivBase.setBackgroundByName(spinnerBase.text.toString())
             }
-            spinner_base.setItems("")
-            iv_base.setBackgroundByName("transparent")
-        } else {
-            spinner_base.setItems(spinnerList)
-            spinner_base.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
-            iv_base.setBackgroundByName(spinner_base.text.toString())
         }
 
     private fun setListeners() {
-        spinner_base.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.apply {
-                updateCurrentBase(item.toString())
-                getCurrencies()
+        with(binding.layoutBar) {
+            spinnerBase.setOnItemSelectedListener { _, _, _, item ->
+                viewModel.apply {
+                    updateCurrentBase(item.toString())
+                    getCurrencies()
+                }
+                getOutputText()
+                ivBase.setBackgroundByName(item.toString())
             }
-            getOutputText()
-            iv_base.setBackgroundByName(item.toString())
-        }
-        layout_bar.setOnClickListener {
-            if (spinner_base.isActivated) {
-                spinner_base.collapse()
-            } else {
-                spinner_base.expand()
+            layoutBar.setOnClickListener {
+                if (spinnerBase.isActivated) {
+                    spinnerBase.collapse()
+                } else {
+                    spinnerBase.expand()
+                }
             }
         }
     }
 
     private fun setKeyboard() {
-        btn_seven.setOnClickListener { keyboardPressed("7") }
-        btn_eight.setOnClickListener { keyboardPressed("8") }
-        btn_nine.setOnClickListener { keyboardPressed("9") }
-        btn_divide.setOnClickListener { keyboardPressed("/") }
-        btn_four.setOnClickListener { keyboardPressed("4") }
-        btn_five.setOnClickListener { keyboardPressed("5") }
-        btn_six.setOnClickListener { keyboardPressed("6") }
-        btn_multiply.setOnClickListener { keyboardPressed("*") }
-        btn_one.setOnClickListener { keyboardPressed("1") }
-        btn_two.setOnClickListener { keyboardPressed("2") }
-        btn_three.setOnClickListener { keyboardPressed("3") }
-        btn_minus.setOnClickListener { keyboardPressed("-") }
-        btn_dot.setOnClickListener { keyboardPressed(".") }
-        btn_zero.setOnClickListener { keyboardPressed("0") }
-        btn_percent.setOnClickListener { keyboardPressed("%") }
-        btn_plus.setOnClickListener { keyboardPressed("+") }
-        btn_triple_zero.setOnClickListener { keyboardPressed("000") }
-        btn_ac.setOnClickListener {
-            txt_main_toolbar.text = ""
-            txt_result.text = ""
-            txt_symbol.text = ""
-        }
-        btn_delete.setOnClickListener {
-            if (txt_main_toolbar.text.toString() != "") {
-                txt_main_toolbar.text = txt_main_toolbar.text.toString()
-                    .substring(0, txt_main_toolbar.text.toString().length - 1)
+        with(binding.layoutKeyboard) {
+            btnSeven.setOnClickListener { keyboardPressed("7") }
+            btnEight.setOnClickListener { keyboardPressed("8") }
+            btnNine.setOnClickListener { keyboardPressed("9") }
+            btnDivide.setOnClickListener { keyboardPressed("/") }
+            btnFour.setOnClickListener { keyboardPressed("4") }
+            btnFive.setOnClickListener { keyboardPressed("5") }
+            btnSix.setOnClickListener { keyboardPressed("6") }
+            btnMultiply.setOnClickListener { keyboardPressed("*") }
+            btnOne.setOnClickListener { keyboardPressed("1") }
+            btnTwo.setOnClickListener { keyboardPressed("2") }
+            btnThree.setOnClickListener { keyboardPressed("3") }
+            btnMinus.setOnClickListener { keyboardPressed("-") }
+            btnDot.setOnClickListener { keyboardPressed(".") }
+            btnZero.setOnClickListener { keyboardPressed("0") }
+            btnPercent.setOnClickListener { keyboardPressed("%") }
+            btnPlus.setOnClickListener { keyboardPressed("+") }
+            btnZero.setOnClickListener { keyboardPressed("000") }
+            btnAc.setOnClickListener {
+                binding.appBarLayout.txtMainToolbar.text = ""
+                binding.layoutBar.txtResult.text = ""
+                binding.layoutBar.txtSymbol.text = ""
+            }
+            btnDelete.setOnClickListener {
+                if (binding.appBarLayout.txtMainToolbar.text.toString() != "") {
+                    binding.appBarLayout.txtMainToolbar.text = binding.appBarLayout.txtMainToolbar.text.toString()
+                        .substring(0, binding.appBarLayout.txtMainToolbar.text.toString().length - 1)
+                }
             }
         }
     }
 
     private fun keyboardPressed(txt: String) =
         if (viewModel.output.length < MAX_DIGIT) {
-            txt_main_toolbar.addText(txt)
+            binding.appBarLayout.txtMainToolbar.addText(txt)
         } else {
             snacky(getString(R.string.max_input), isLong = false)
         }
@@ -242,11 +224,11 @@ class MainFragment : BaseFragment<MainFragmentViewModel>() {
     override fun onResume() {
         super.onResume()
         initData()
-        ad_view.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
+        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
     }
 
     private fun initData() {
-        loading_view.smoothToShow()
+        binding.loadingView.smoothToShow()
         viewModel.apply {
             rates = null
             refreshData()

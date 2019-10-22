@@ -11,15 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.activity_slider.btn_next
-import kotlinx.android.synthetic.main.activity_slider.layout_dots
-import kotlinx.android.synthetic.main.activity_slider.progress_bar
-import kotlinx.android.synthetic.main.activity_slider.view_pager
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
+import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
+import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
 
-class SliderActivity : BaseActivity<SliderActivityViewModel>() {
+class SliderActivity : BaseViewBindingActivity<SliderActivityViewModel, ActivitySliderBinding>() {
+    override fun bind() {
+        binding = ActivitySliderBinding.inflate(layoutInflater)
+    }
 
     companion object {
         const val SLIDE_SIZE = 4
@@ -42,14 +42,15 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
     }
 
     private fun setListeners() {
-        view_pager?.apply {
+
+        binding.viewPager.apply {
             adapter = SliderPagerAdapter(applicationContext)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
                     addBottomDots(position)
 
-                    btn_next.text = if (position == SLIDE_SIZE - 1) {
+                    binding.btnNext.text = if (position == SLIDE_SIZE - 1) {
                         getString(R.string.got_it)
                     } else {
                         getString(R.string.next)
@@ -61,14 +62,14 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
             })
         }
 
-        btn_next.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             // checking for last page
             // if last page home screen will be launched
             val current = getItem(+1)
 
             if (current < SLIDE_SIZE) {
                 // move to next screen
-                view_pager.currentItem = current
+                binding.viewPager.currentItem = current
             } else {
                 launchMainActivity()
             }
@@ -76,7 +77,7 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
     }
 
     private fun addBottomDots(currentPage: Int) {
-        layout_dots.removeAllViews()
+        binding.layoutDots.removeAllViews()
         val dots = arrayListOf<TextView>().apply {
             repeat(SLIDE_SIZE) {
                 add(TextView(applicationContext))
@@ -88,7 +89,7 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
             dots[i].text = HtmlCompat.fromHtml("&#8226;", HtmlCompat.FROM_HTML_MODE_LEGACY)
             dots[i].textSize = TEXT_SIZE
             dots[i].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
-            layout_dots.addView(dots[i])
+            binding.layoutDots.addView(dots[i])
         }
 
         if (dots.size > 0) {
@@ -97,11 +98,11 @@ class SliderActivity : BaseActivity<SliderActivityViewModel>() {
     }
 
     private fun getItem(i: Int): Int {
-        return view_pager.currentItem + i
+        return binding.viewPager.currentItem + i
     }
 
     private fun launchMainActivity() {
-        progress_bar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         viewModel.setSliderShown()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
