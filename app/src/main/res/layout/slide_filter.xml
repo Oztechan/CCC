@@ -31,6 +31,7 @@
         android:paddingRight="@dimen/margin_thirty_six"
         android:text="@string/slide_filter_text_1"
         android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/white" />
 
@@ -42,6 +43,7 @@
         android:paddingRight="@dimen/margin_thirty_six"
         android:text="@string/slide_filter_text_2"
         android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/white" />
 </LinearLayout>

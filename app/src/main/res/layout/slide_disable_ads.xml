@@ -31,6 +31,7 @@
         android:paddingRight="@dimen/margin_thirty_six"
         android:text="@string/slide_disable_ads_text_1"
         android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/white" />
 
@@ -41,6 +42,7 @@
         android:paddingLeft="@dimen/margin_thirty_six"
         android:paddingRight="@dimen/margin_thirty_six"
         android:text="@string/slide_disable_ads_text_2"
+        android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/white" />
