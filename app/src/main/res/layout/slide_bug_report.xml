@@ -43,6 +43,7 @@
         android:paddingRight="@dimen/margin_thirty_six"
         android:text="@string/slide_bug_report_text_2"
         android:textAlignment="center"
+        android:layout_gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/white" />
 </LinearLayout>
