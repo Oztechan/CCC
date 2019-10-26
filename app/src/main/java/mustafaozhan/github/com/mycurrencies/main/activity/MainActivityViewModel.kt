@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.main.activity
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.repository.old.DataManager
+import mustafaozhan.github.com.mycurrencies.data.DataManager
 import org.joda.time.Instant
 
 /**

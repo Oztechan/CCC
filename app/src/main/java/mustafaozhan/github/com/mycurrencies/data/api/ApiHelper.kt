@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base.api.backend
+package mustafaozhan.github.com.mycurrencies.data.api
 
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper

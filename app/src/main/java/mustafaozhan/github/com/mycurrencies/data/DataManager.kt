@@ -1,7 +1,8 @@
-package mustafaozhan.github.com.mycurrencies.repository.old
+package mustafaozhan.github.com.mycurrencies.data
 
 import io.reactivex.Observable
-import mustafaozhan.github.com.mycurrencies.base.api.backend.ApiHelper
+import mustafaozhan.github.com.mycurrencies.data.api.ApiHelper
+import mustafaozhan.github.com.mycurrencies.data.preferences.GeneralSharedPreferences
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData

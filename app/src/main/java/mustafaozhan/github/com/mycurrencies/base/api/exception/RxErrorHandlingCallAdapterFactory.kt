@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base.api
+package mustafaozhan.github.com.mycurrencies.base.api.exception
 
 import android.annotation.SuppressLint
 import io.reactivex.Observable

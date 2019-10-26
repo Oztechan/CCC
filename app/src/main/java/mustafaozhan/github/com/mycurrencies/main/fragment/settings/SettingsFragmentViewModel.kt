@@ -2,11 +2,11 @@ package mustafaozhan.github.com.mycurrencies.main.fragment.settings
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.data.DataManager
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.repository.old.DataManager
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 
 /**

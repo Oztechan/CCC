@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.base.api
+package mustafaozhan.github.com.mycurrencies.base.api.exception
 
 import mustafaozhan.github.com.mycurrencies.R
 import retrofit2.Response

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.data.DataManager
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
@@ -16,7 +17,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.repository.old.DataManager
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import org.mariuszgromada.math.mxparser.Expression
