@@ -1,11 +1,12 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.main
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.data.DataManager
+import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
@@ -26,7 +27,8 @@ import org.mariuszgromada.math.mxparser.Expression
  */
 @Suppress("TooManyFunctions")
 class MainFragmentViewModel(
-    override val dataManager: DataManager,
+    override val preferencesRepository: PreferencesRepository,
+    private val backendRepository: BackendRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseViewModel() {
@@ -60,7 +62,7 @@ class MainFragmentViewModel(
             ratesLiveData.postValue(rates)
         } ?: run {
             subscribeService(
-                dataManager.backendGetAllOnBase(mainData.currentBase),
+                backendRepository.getAllOnBase(mainData.currentBase),
                 ::rateDownloadSuccess,
                 ::rateDownloadFail
             )
@@ -102,9 +104,9 @@ class MainFragmentViewModel(
         setCurrentBase(currency)
     }
 
-    fun loadResetData() = dataManager.loadResetData()
+    fun loadResetData() = preferencesRepository.loadResetData()
 
-    fun persistResetData(resetData: Boolean) = dataManager.persistResetData(resetData)
+    fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
 
     fun getClickedItemRate(name: String): String =
         "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"

@@ -1,8 +1,8 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment.settings
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.data.DataManager
+import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
@@ -13,7 +13,7 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsFragmentViewModel(
-    override val dataManager: DataManager,
+    override val preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
 ) : BaseViewModel() {
 

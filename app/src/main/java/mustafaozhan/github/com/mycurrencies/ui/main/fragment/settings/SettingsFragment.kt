@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment.settings
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View

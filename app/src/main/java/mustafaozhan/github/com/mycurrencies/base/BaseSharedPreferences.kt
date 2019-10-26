@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.base
 
 import android.content.Context
 import android.content.SharedPreferences
-import mustafaozhan.github.com.mycurrencies.app.Application
+import mustafaozhan.github.com.mycurrencies.CCCApplication
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:42 PM on Arch Linux wit Love <3.
@@ -31,11 +31,11 @@ abstract class BaseSharedPreferences {
 
     private fun getPreferencesEditor(): SharedPreferences.Editor {
 
-        val prefs = Application.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+        val prefs = CCCApplication.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
         return prefs.edit()
     }
 
     private fun getSharedPreferences(): SharedPreferences {
-        return Application.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+        return CCCApplication.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
     }
 }

@@ -1,11 +1,11 @@
-package mustafaozhan.github.com.mycurrencies.splash
+package mustafaozhan.github.com.mycurrencies.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
-import mustafaozhan.github.com.mycurrencies.slider.SliderActivity
+import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
+import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.

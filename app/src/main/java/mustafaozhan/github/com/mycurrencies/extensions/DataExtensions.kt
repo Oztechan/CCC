@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import mustafaozhan.github.com.mycurrencies.app.Application
+import mustafaozhan.github.com.mycurrencies.CCCApplication
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyJson
@@ -45,7 +45,7 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
 }
 
 fun CurrencyDao.insertInitialCurrencies() {
-    Gson().fromJson(Application.instance.assets.open("currencies.json").bufferedReader().use {
+    Gson().fromJson(CCCApplication.instance.assets.open("currencies.json").bufferedReader().use {
         it.readText()
     }, CurrencyJson::class.java).currencies.forEach { currency ->
         this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))

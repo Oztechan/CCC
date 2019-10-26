@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.slider
+package mustafaozhan.github.com.mycurrencies.ui.slider
 
 import android.content.Intent
 import android.graphics.Color
@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.main.activity.MainActivity
+import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
 class SliderActivity : BaseViewBindingActivity<SliderActivityViewModel, ActivitySliderBinding>() {
     override fun bind() {

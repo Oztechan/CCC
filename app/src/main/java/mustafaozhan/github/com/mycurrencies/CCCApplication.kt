@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.app
+package mustafaozhan.github.com.mycurrencies
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
@@ -11,16 +11,15 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
-import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
 import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:43 PM on Arch Linux wit Love <3.
  */
-class Application : MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
+class CCCApplication : MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
     companion object {
-        lateinit var instance: Application
+        lateinit var instance: CCCApplication
     }
 
     @Inject

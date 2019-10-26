@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import mustafaozhan.github.com.mycurrencies.data.DataManager
+import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -20,7 +20,7 @@ abstract class BaseViewModel : ViewModel() {
         const val NUMBER_OF_HOURS = 24
     }
 
-    abstract val dataManager: DataManager
+    abstract val preferencesRepository: PreferencesRepository
     private val compositeDisposable by lazy { CompositeDisposable() }
     lateinit var mainData: MainData
 
@@ -42,16 +42,16 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun setCurrentBase(newBase: String?) {
         mainData.currentBase = Currencies.valueOf(newBase ?: "NULL")
-        dataManager.persistMainData(mainData)
+        preferencesRepository.persistMainData(mainData)
     }
 
-    open fun savePreferences() = dataManager.persistMainData(mainData)
+    open fun savePreferences() = preferencesRepository.persistMainData(mainData)
 
     protected fun loadPreferences() {
-        mainData = dataManager.loadMainData()
+        mainData = preferencesRepository.loadMainData()
     }
 
-    open fun isSliderShown() = dataManager.loadMainData().sliderShown
+    open fun isSliderShown() = preferencesRepository.loadMainData().sliderShown
 
     open fun setSliderShown() {
         loadPreferences()
@@ -59,7 +59,7 @@ abstract class BaseViewModel : ViewModel() {
         savePreferences()
     }
 
-    open fun isRewardExpired() = dataManager.loadMainData().adFreeActivatedDate?.let {
+    open fun isRewardExpired() = preferencesRepository.loadMainData().adFreeActivatedDate?.let {
         Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
     } ?: true
 }

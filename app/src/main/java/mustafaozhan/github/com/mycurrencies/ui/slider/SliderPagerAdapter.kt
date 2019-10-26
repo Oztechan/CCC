@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.slider
+package mustafaozhan.github.com.mycurrencies.ui.slider
 
 import android.content.Context
 import android.view.LayoutInflater

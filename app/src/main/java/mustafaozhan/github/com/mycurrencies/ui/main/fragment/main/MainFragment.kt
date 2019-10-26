@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.main.fragment.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,8 +16,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
-import mustafaozhan.github.com.mycurrencies.main.fragment.settings.SettingsFragment
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 

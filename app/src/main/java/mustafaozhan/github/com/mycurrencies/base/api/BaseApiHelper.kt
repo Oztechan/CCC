@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.base.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
-import mustafaozhan.github.com.mycurrencies.app.Application
+import mustafaozhan.github.com.mycurrencies.CCCApplication
 import mustafaozhan.github.com.mycurrencies.base.api.exception.RxErrorHandlingCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,7 +18,7 @@ abstract class BaseApiHelper {
         get() = GsonBuilder().create()
 
     protected fun getString(resId: Int): String {
-        return Application.instance.getString(resId)
+        return CCCApplication.instance.getString(resId)
     }
 
     protected fun initRxRetrofit(endpoint: String, httpClient: OkHttpClient): Retrofit {
