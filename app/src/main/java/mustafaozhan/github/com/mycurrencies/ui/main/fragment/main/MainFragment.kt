@@ -132,7 +132,7 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
     private fun getOutputText() = with(binding.layoutBar) {
         txtSymbol.text = viewModel.getCurrencyByName(
             viewModel.mainData.currentBase.toString()
-        )?.symbol ?: ""
+        )?.symbol
 
         if (viewModel.output.isEmpty()) {
             txtResult.text = ""
@@ -193,7 +193,8 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
         btnZero.setOnClickListener { keyboardPressed("0") }
         btnPercent.setOnClickListener { keyboardPressed("%") }
         btnPlus.setOnClickListener { keyboardPressed("+") }
-        btnZero.setOnClickListener { keyboardPressed("000") }
+        btnTripleZero.setOnClickListener { keyboardPressed("000") }
+        btnZero.setOnClickListener { keyboardPressed("0") }
         btnAc.setOnClickListener {
             binding.appBarLayout.txtMainToolbar.text = ""
             binding.layoutBar.txtResult.text = ""
