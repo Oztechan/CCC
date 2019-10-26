@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".app.Application"
+        android:name=".CCCApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".splash.SplashActivity"
+            android:name="mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme">
             <intent-filter>
@@ -28,11 +28,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.activity.MainActivity"
+            android:name="mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".slider.SliderActivity"
+            android:name="mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

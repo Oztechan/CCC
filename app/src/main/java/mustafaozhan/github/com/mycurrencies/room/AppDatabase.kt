@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.room
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import mustafaozhan.github.com.mycurrencies.app.Application
+import mustafaozhan.github.com.mycurrencies.CCCApplication
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -18,7 +18,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         val database = Room
             .databaseBuilder(
-                Application.instance.applicationContext,
+                CCCApplication.instance.applicationContext,
                 AppDatabase::class.java,
                 "application_database"
             ).allowMainThreadQueries().build()

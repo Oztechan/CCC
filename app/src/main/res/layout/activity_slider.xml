@@ -39,11 +39,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@null"
         android:text="@string/next"
         android:textColor="@android:color/white"
-        android:layout_alignParentRight="true"
         tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

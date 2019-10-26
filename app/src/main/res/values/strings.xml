@@ -1,14 +1,10 @@
 <resources>
-    <string name="app_name">Currency Converter Calculator</string>
+    <string name="app_name">CC&amp;C</string>
 
     <!--Network-->
     <string name="network_error_connection">Problem with the Internet connection.</string>
     <string name="network_error_server">Server is temporarily not available.</string>
     <string name="network_error_unexpected">An unexpected error occurred.</string>
-
-    <!--MainFragment-->
-    <string name="main_fragment_toolbar_title">Main Fragment</string>
-    <string name="base_icon">Base Icon</string>
 
     <!--Keyboard-->
     <string name="seven">7</string>
@@ -43,7 +39,6 @@
     <string name="select_all">Select All</string>
     <string name="deSelect_all">Deselect All</string>
     <string name="base_currency">Base Currency</string>
-    <string name="currency_icon">Currency Icon</string>
 
     <!--Snacky Text-->
     <string name="rate_not_available_offline">This currency is not available offline, please change your base currency.</string>
