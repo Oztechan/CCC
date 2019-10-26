@@ -70,20 +70,18 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         setIcon: String? = null,
         isLong: Boolean = true,
         action: () -> Unit = {}
-    ) {
-        Snacky.builder()
-            .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-            .setText(text)
-            .setIcon(setIcon?.let { getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
-            .setActivity(this)
-            .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
-            .setActionText(actionText.toUpperCase(Locale.getDefault()))
-            .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
-            .setActionTextTypefaceStyle(Typeface.BOLD)
-            .setActionClickListener { action() }
-            .build()
-            .show()
-    }
+    ) = Snacky.builder()
+        .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
+        .setText(text)
+        .setIcon(setIcon?.let { getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
+        .setActivity(this)
+        .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
+        .setActionText(actionText.toUpperCase(Locale.getDefault()))
+        .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
+        .setActionTextTypefaceStyle(Typeface.BOLD)
+        .setActionClickListener { action() }
+        .build()
+        .show()
 
     protected fun showDialog(
         title: String,

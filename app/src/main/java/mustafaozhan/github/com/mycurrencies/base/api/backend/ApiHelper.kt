@@ -13,12 +13,12 @@ import javax.inject.Singleton
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Singleton
-class BackendApiHelper @Inject
+class ApiHelper @Inject
 constructor() : BaseApiHelper() {
 
-    val backendApiServices: BackendApiServices by lazy { initBackendApiServices() }
+    val apiService: ApiService by lazy { initBackendApiServices() }
 
-    private fun initBackendApiServices(): BackendApiServices {
+    private fun initBackendApiServices(): ApiService {
         val clientBuilder = OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1L, TimeUnit.SECONDS)
@@ -28,7 +28,7 @@ constructor() : BaseApiHelper() {
         }
         val endpoint = getString(R.string.backend_endpoint)
         val retrofit = initRxRetrofit(endpoint, clientBuilder.build())
-        return retrofit.create(BackendApiServices::class.java)
+        return retrofit.create(ApiService::class.java)
     }
 
     private fun createInterceptorRequest(chain: Interceptor.Chain): Request {

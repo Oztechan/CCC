@@ -1,7 +1,7 @@
-package mustafaozhan.github.com.mycurrencies.tools
+package mustafaozhan.github.com.mycurrencies.repository.old
 
 import io.reactivex.Observable
-import mustafaozhan.github.com.mycurrencies.base.api.backend.BackendApiHelper
+import mustafaozhan.github.com.mycurrencies.base.api.backend.ApiHelper
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -16,10 +16,10 @@ class DataManager @Inject
 constructor(private val generalSharedPreferences: GeneralSharedPreferences) {
 
     @Inject
-    lateinit var backendApiHelper: BackendApiHelper
+    lateinit var apiHelper: ApiHelper
 
     fun backendGetAllOnBase(base: Currencies): Observable<CurrencyResponse> =
-        backendApiHelper.backendApiServices.getAllOnBase(base)
+        apiHelper.apiService.getAllOnBase(base)
 
     fun loadMainData() = generalSharedPreferences.loadMainData()
 

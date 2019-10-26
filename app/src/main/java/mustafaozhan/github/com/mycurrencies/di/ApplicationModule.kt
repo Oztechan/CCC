@@ -13,19 +13,21 @@ import javax.inject.Singleton
 class ApplicationModule {
     @Provides
     @Singleton
-    internal fun provideAppDatabase(): AppDatabase = AppDatabase.database
+    internal fun providesAppDatabase(): AppDatabase = AppDatabase.database
 
     @Provides
     @Singleton
-    internal fun currencyDao(database: AppDatabase) = database.currencyDao()
+    internal fun providesCurrencyDao(database: AppDatabase) =
+        database.currencyDao()
 
     @Provides
     @Singleton
-    internal fun offlineRatesDao(database: AppDatabase) = database.offlineRatesDao()
+    internal fun providesOfflineRatesDao(database: AppDatabase) =
+        database.offlineRatesDao()
 
     @Singleton
     @Provides
-    fun provideAppExecutors() =
+    internal fun providesAppExecutors() =
         AppExecutors(
             DiskIOThreadExecutor(),
             Executors.newFixedThreadPool(AppExecutors.THREAD_COUNT),

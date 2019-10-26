@@ -7,7 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
-import mustafaozhan.github.com.mycurrencies.tools.DataManager
+import mustafaozhan.github.com.mycurrencies.repository.old.DataManager
 import org.joda.time.Duration
 import org.joda.time.Instant
 

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.tools
+package mustafaozhan.github.com.mycurrencies.repository.data
 
 import com.google.gson.Gson
 import mustafaozhan.github.com.mycurrencies.base.BaseSharedPreferences
@@ -7,11 +7,8 @@ import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Mustafa Ozhan on 7/10/18 at 9:50 PM on Arch Linux wit Love <3.
- */
 @Singleton
-class GeneralSharedPreferences @Inject
+class DataRepository @Inject
 constructor() : BaseSharedPreferences() {
 
     companion object {

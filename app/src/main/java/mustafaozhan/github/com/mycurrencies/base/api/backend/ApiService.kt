@@ -9,7 +9,7 @@ import retrofit2.http.Query
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-interface BackendApiServices {
+interface ApiService {
     @GET("byBase")
     fun getAllOnBase(@Query("base") base: Currencies):
         Observable<CurrencyResponse>
