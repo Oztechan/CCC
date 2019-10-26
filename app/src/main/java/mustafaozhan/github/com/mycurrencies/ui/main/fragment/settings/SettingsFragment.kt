@@ -65,11 +65,11 @@ class SettingsFragment : BaseViewBindingFragment<SettingsFragmentViewModel, Frag
     private fun setListeners() {
         binding.appBarLayout.btnSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(1)
-            binding.editTextSearch?.setText("")
+            binding.editTextSearch.setText("")
         }
         binding.appBarLayout.btnDeSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(0)
-            binding.editTextSearch?.setText("")
+            binding.editTextSearch.setText("")
             viewModel.setCurrentBase(null)
         }
 
@@ -96,7 +96,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsFragmentViewModel, Frag
 
     override fun onResume() {
         viewModel.refreshData()
-        binding.editTextSearch?.setText("")
+        binding.editTextSearch.setText("")
         binding.adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
         super.onResume()
     }

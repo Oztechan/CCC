@@ -7,7 +7,7 @@ import mustafaozhan.github.com.mycurrencies.CCCApplication
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:42 PM on Arch Linux wit Love <3.
  */
-abstract class BaseSharedPreferences {
+abstract class BasePreferences {
 
     protected abstract val preferencesName: String
 

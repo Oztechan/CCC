@@ -33,7 +33,7 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-
+        viewModel.onLoaded()
         getLayoutResId()?.let {
             setContentView(it)
             replaceFragment(getDefaultFragment(), false)

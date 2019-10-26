@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.data.api
+package mustafaozhan.github.com.mycurrencies.data.backend
 
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
@@ -13,12 +13,12 @@ import javax.inject.Singleton
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Singleton
-class ApiHelper @Inject
+class BackendHelper @Inject
 constructor() : BaseApiHelper() {
 
-    val apiService: ApiService by lazy { initBackendApiServices() }
+    val backendService: BackendService by lazy { initBackendApiServices() }
 
-    private fun initBackendApiServices(): ApiService {
+    private fun initBackendApiServices(): BackendService {
         val clientBuilder = OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1L, TimeUnit.SECONDS)
@@ -28,7 +28,7 @@ constructor() : BaseApiHelper() {
         }
         val endpoint = getString(R.string.backend_endpoint)
         val retrofit = initRxRetrofit(endpoint, clientBuilder.build())
-        return retrofit.create(ApiService::class.java)
+        return retrofit.create(BackendService::class.java)
     }
 
     private fun createInterceptorRequest(chain: Interceptor.Chain): Request {

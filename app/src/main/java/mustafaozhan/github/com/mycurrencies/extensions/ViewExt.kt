@@ -12,6 +12,7 @@ import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
+import java.util.Locale
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
@@ -23,7 +24,7 @@ fun ImageView.setBackgroundByName(name: String) =
 fun Context.getImageResourceByName(name: String): Int =
     try {
         resources.getIdentifier(
-            name.toLowerCase().replace("try", "tryy"),
+            name.toLowerCase(Locale.getDefault()).replace("try", "tryy"),
             "drawable",
             packageName
         )

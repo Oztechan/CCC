@@ -45,6 +45,7 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.onLoaded()
         setHasOptionsMenu(true)
     }
 

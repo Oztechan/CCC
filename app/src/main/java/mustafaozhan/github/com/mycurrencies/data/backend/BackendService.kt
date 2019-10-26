@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.data.api
+package mustafaozhan.github.com.mycurrencies.data.backend
 
 import io.reactivex.Observable
 import mustafaozhan.github.com.mycurrencies.model.Currencies
@@ -9,7 +9,7 @@ import retrofit2.http.Query
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-interface ApiService {
+interface BackendService {
     @GET("byBase")
     fun getAllOnBase(@Query("base") base: Currencies):
         Observable<CurrencyResponse>
