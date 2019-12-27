@@ -44,7 +44,6 @@ dependencies {
     MaterialSpinner()
     Room()
     Admob()
-    FirebaseCore()
     FirebaseConfig()
     Crashlytics()
     Anko()
