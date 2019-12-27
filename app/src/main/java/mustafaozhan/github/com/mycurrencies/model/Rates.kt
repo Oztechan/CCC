@@ -317,6 +317,8 @@ data class Rates(
     var uZS: Double? = null,
     @SerializedName("VEF", alternate = ["vef"]) @ColumnInfo(name = "VEF")
     var vEF: Double? = null,
+    @SerializedName("VES", alternate = ["ves"]) @ColumnInfo(name = "VES")
+    var vES: Double? = null,
     @SerializedName("VND", alternate = ["vnd"]) @ColumnInfo(name = "VND")
     var vND: Double? = null,
     @SerializedName("VUV", alternate = ["vuv"]) @ColumnInfo(name = "VUV")

@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.model
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-@Suppress("LargeClass", "unused")
+@Suppress("LargeClass")
 enum class Currencies {
     AED,
     AFN,
@@ -158,6 +158,7 @@ enum class Currencies {
     UYU,
     UZS,
     VEF,
+    VES,
     VND,
     VUV,
     WST,

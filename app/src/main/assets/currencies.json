@@ -766,6 +766,11 @@
       "symbol": "Bs."
     },
     {
+      "name": "VEF",
+      "longName": "Venezuelan bol\u00edvar soberano",
+      "symbol": "Bs."
+    },
+    {
       "name": "VND",
       "longName": "Vietnamese \u0111\u1ed3ng",
       "symbol": "\u20ab"
