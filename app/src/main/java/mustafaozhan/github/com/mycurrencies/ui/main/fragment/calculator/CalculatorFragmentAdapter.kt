@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class MainFragmentAdapter : BaseRecyclerViewAdapter<Currency>() {
+class CalculatorFragmentAdapter : BaseRecyclerViewAdapter<Currency>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
         RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))

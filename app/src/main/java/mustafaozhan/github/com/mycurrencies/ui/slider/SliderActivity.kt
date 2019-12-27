@@ -16,7 +16,7 @@ import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivit
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
-class SliderActivity : BaseViewBindingActivity<SliderActivityViewModel, ActivitySliderBinding>() {
+class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {
     override fun bind() {
         binding = ActivitySliderBinding.inflate(layoutInflater)
     }

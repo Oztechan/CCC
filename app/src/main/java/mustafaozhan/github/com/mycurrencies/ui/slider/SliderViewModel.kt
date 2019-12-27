@@ -1,10 +1,10 @@
-package mustafaozhan.github.com.mycurrencies.ui.splash
+package mustafaozhan.github.com.mycurrencies.ui.slider
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 
-class SplashActivityViewModel(
+class SliderViewModel(
     override val preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
     override fun onLoaded(): Completable {

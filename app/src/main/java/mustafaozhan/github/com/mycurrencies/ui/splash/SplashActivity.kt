@@ -10,7 +10,7 @@ import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
-class SplashActivity : BaseActivity<SplashActivityViewModel>() {
+class SplashActivity : BaseActivity<SplashViewModel>() {
     override fun getDefaultFragment(): Fragment? = null
     override fun getLayoutResId(): Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {

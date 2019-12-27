@@ -14,7 +14,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseViewBindingFragment<SettingsFragmentViewModel, FragmentSettingsBinding>() {
+class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSettingsBinding>() {
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }

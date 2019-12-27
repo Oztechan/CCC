@@ -27,12 +27,12 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.main.MainFragment
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
-class MainActivity : BaseActivity<MainActivityViewModel>() {
+class MainActivity : BaseActivity<MainViewModel>() {
 
     companion object {
         const val BACK_DELAY: Long = 2000
@@ -49,7 +49,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
-    override fun getDefaultFragment(): BaseFragment<*> = MainFragment.newInstance()
+    override fun getDefaultFragment(): BaseFragment<*> = CalculatorFragment.newInstance()
 
     override fun getLayoutResId(): Int = R.layout.activity_main
 
@@ -64,7 +64,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         menu?.clear()
 
         when {
-            supportFragmentManager.findFragmentById(containerId) is MainFragment ->
+            supportFragmentManager.findFragmentById(containerId) is CalculatorFragment ->
                 menuInflater.inflate(R.menu.fragment_main_menu, menu)
             supportFragmentManager.findFragmentById(containerId) is SettingsFragment ->
                 menuInflater.inflate(R.menu.fragment_settings_menu, menu)
@@ -232,7 +232,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentById(containerId) is MainFragment) {
+        if (supportFragmentManager.findFragmentById(containerId) is CalculatorFragment) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
                 return

@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragmentViewModel(
+class SettingsViewModel(
     override val preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
 ) : BaseViewModel() {

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +26,7 @@ import org.mariuszgromada.math.mxparser.Expression
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class MainFragmentViewModel(
+class CalculatorViewModel(
     override val preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
     private val currencyDao: CurrencyDao,

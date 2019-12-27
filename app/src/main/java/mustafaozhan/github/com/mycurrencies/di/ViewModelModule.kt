@@ -6,26 +6,26 @@ import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
-import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivityViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.main.MainFragmentViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragmentViewModel
-import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivityViewModel
-import mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivityViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsViewModel
+import mustafaozhan.github.com.mycurrencies.ui.slider.SliderViewModel
+import mustafaozhan.github.com.mycurrencies.ui.splash.SplashViewModel
 
 @Suppress("unused")
 @Module
 class ViewModelModule {
     @Provides
     fun provideMainActivityViewModel(preferencesRepository: PreferencesRepository) =
-        MainActivityViewModel(preferencesRepository)
+        MainViewModel(preferencesRepository)
 
     @Provides
     fun provideSliderActivityViewModel(preferencesRepository: PreferencesRepository) =
-        SliderActivityViewModel(preferencesRepository)
+        SliderViewModel(preferencesRepository)
 
     @Provides
     fun provideSplashActivityViewModel(preferencesRepository: PreferencesRepository) =
-        SplashActivityViewModel(preferencesRepository)
+        SplashViewModel(preferencesRepository)
 
     @Provides
     fun provideMainFragmentViewModel(
@@ -33,7 +33,7 @@ class ViewModelModule {
         backendRepository: BackendRepository,
         currencyDao: CurrencyDao,
         offlineRatesDao: OfflineRatesDao
-    ) = MainFragmentViewModel(
+    ) = CalculatorViewModel(
         preferencesRepository,
         backendRepository,
         currencyDao,
@@ -43,5 +43,5 @@ class ViewModelModule {
     fun provideSettingsFragmentViewModel(
         preferencesRepository: PreferencesRepository,
         currencyDao: CurrencyDao
-    ) = SettingsFragmentViewModel(preferencesRepository, currencyDao)
+    ) = SettingsViewModel(preferencesRepository, currencyDao)
 }

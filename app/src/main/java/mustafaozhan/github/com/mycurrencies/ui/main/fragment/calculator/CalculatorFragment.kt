@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,7 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.item_currency.view.txt_amount
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentMainBinding
+import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
@@ -25,19 +25,19 @@ import org.jetbrains.anko.uiThread
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMainBinding>() {
+class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, FragmentCalculatorBinding>() {
     override fun bind() {
-        binding = FragmentMainBinding.inflate(layoutInflater)
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
 
     companion object {
-        fun newInstance(): MainFragment = MainFragment()
+        fun newInstance(): CalculatorFragment = CalculatorFragment()
         const val MAX_DIGIT = 12
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_main
+    override fun getLayoutResId(): Int = R.layout.fragment_calculator
 
-    private val mainFragmentAdapter: MainFragmentAdapter by lazy { MainFragmentAdapter() }
+    private val calculatorFragmentAdapter: CalculatorFragmentAdapter by lazy { CalculatorFragmentAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,7 +76,7 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
                 rates?.let {
-                    mainFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                    calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 } ?: run {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
@@ -84,7 +84,7 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
                         }
                     }
 
-                    mainFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
             }
             binding.loadingView.smoothToHide()
@@ -92,7 +92,7 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
-                mainFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 binding.loadingView.smoothToHide()
             }
         })
@@ -102,9 +102,9 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
         binding.loadingView.bringToFront()
         context?.let { ctx ->
             binding.recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
-            binding.recyclerViewMain.adapter = mainFragmentAdapter
+            binding.recyclerViewMain.adapter = calculatorFragmentAdapter
         }
-        mainFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
+        calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             binding.appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
@@ -119,7 +119,7 @@ class MainFragment : BaseViewBindingFragment<MainFragmentViewModel, FragmentMain
             }
             binding.layoutBar.ivBase.setBackgroundByName(currency.name)
         }
-        mainFragmentAdapter.onItemLongClickListener = { currency, _ ->
+        calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
