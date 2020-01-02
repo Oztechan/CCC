@@ -89,11 +89,6 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         }
     }
 
-    override fun onPause() {
-        viewModel.savePreferences()
-        super.onPause()
-    }
-
     override fun onResume() {
         viewModel.refreshData()
         binding.editTextSearch.setText("")

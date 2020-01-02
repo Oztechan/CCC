@@ -76,7 +76,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
                 rates?.let {
-                    calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                    calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
                 } ?: run {
                     if (currencyList.size > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
@@ -84,7 +84,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                         }
                     }
 
-                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
                 }
             }
             binding.loadingView.smoothToHide()
@@ -92,7 +92,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
-                calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+                calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
                 binding.loadingView.smoothToHide()
             }
         })
@@ -131,7 +131,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     @SuppressLint("SetTextI18n")
     private fun getOutputText() = with(binding.layoutBar) {
         txtSymbol.text = viewModel.getCurrencyByName(
-            viewModel.mainData.currentBase.toString()
+            viewModel.getMainData().currentBase.toString()
         )?.symbol
 
         if (viewModel.output.isEmpty()) {
@@ -215,11 +215,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             snacky(getString(R.string.max_input), isLong = false)
         }
 
-    override fun onPause() {
-        viewModel.savePreferences()
-        super.onPause()
-    }
-
     override fun onResume() {
         super.onResume()
         initData()
@@ -232,9 +227,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             rates = null
             refreshData()
 
-            if (loadResetData() && !mainData.firstRun) {
+            if (loadResetData() && !getMainData().firstRun) {
                 doAsync {
                     AppDatabase.database.clearAllTables()
+                    viewModel.resetFirstRun()
                     uiThread {
                         persistResetData(false)
                         refreshData()

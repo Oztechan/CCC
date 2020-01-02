@@ -7,7 +7,6 @@ import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.applySchedulers
 import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.MainData
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -22,7 +21,6 @@ abstract class BaseViewModel : ViewModel() {
 
     abstract val preferencesRepository: PreferencesRepository
     private val compositeDisposable by lazy { CompositeDisposable() }
-    lateinit var mainData: MainData
 
     protected fun <T> subscribeService(
         serviceObservable: Observable<T>,
@@ -41,23 +39,16 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     open fun setCurrentBase(newBase: String?) {
-        mainData.currentBase = Currencies.valueOf(newBase ?: "NULL")
-        preferencesRepository.persistMainData(mainData)
-    }
-
-    open fun savePreferences() = preferencesRepository.persistMainData(mainData)
-
-    protected fun loadPreferences() {
-        mainData = preferencesRepository.loadMainData()
+        preferencesRepository.updateMainData(currentBase = Currencies.valueOf(newBase ?: "NULL"))
     }
 
     open fun isSliderShown() = preferencesRepository.loadMainData().sliderShown
 
     open fun setSliderShown() {
-        loadPreferences()
-        mainData.sliderShown = true
-        savePreferences()
+        preferencesRepository.updateMainData(sliderShown = true)
     }
+
+    open fun getMainData() = preferencesRepository.loadMainData()
 
     open fun isRewardExpired() = preferencesRepository.loadMainData().adFreeActivatedDate?.let {
         Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS

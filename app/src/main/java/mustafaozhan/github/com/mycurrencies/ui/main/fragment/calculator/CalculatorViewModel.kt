@@ -43,12 +43,11 @@ class CalculatorViewModel(
     }
 
     fun refreshData() {
-        loadPreferences()
         currencyListLiveData.value?.clear()
 
-        if (mainData.firstRun) {
+        if (getMainData().firstRun) {
             currencyDao.insertInitialCurrencies()
-            mainData.firstRun = false
+            preferencesRepository.updateMainData(firstRun = false)
         }
 
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
@@ -62,7 +61,7 @@ class CalculatorViewModel(
             ratesLiveData.postValue(rates)
         } ?: run {
             subscribeService(
-                backendRepository.getAllOnBase(mainData.currentBase),
+                backendRepository.getAllOnBase(getMainData().currentBase),
                 ::rateDownloadSuccess,
                 ::rateDownloadFail
             )
@@ -81,7 +80,7 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
-        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString()).let { offlineRates ->
+        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString()).let { offlineRates ->
             ratesLiveData.postValue(offlineRates)
         }
     }
@@ -109,16 +108,17 @@ class CalculatorViewModel(
     fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
 
     fun getClickedItemRate(name: String): String =
-        "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
+        "1 ${getMainData().currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
-        if (mainData.currentBase == Currencies.NULL || spinnerList.indexOf(mainData.currentBase.toString()) == -1) {
+        if (getMainData().currentBase == Currencies.NULL ||
+            spinnerList.indexOf(getMainData().currentBase.toString()) == -1) {
             updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name)
         }
 
-        return mainData.currentBase
+        return getMainData().currentBase
     }
 
     fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
@@ -137,4 +137,8 @@ class CalculatorViewModel(
         } else {
             0.0
         }
+
+    fun resetFirstRun() {
+        preferencesRepository.updateMainData(firstRun = true)
+    }
 }

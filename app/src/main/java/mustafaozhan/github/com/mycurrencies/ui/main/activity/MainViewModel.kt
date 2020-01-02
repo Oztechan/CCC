@@ -17,8 +17,6 @@ class MainViewModel(
     }
 
     fun updateAdFreeActivation() {
-        val mainData = preferencesRepository.loadMainData()
-        mainData.adFreeActivatedDate = Instant.now()
-        preferencesRepository.persistMainData(mainData)
+        preferencesRepository.updateMainData(adFreeActivatedDate = Instant.now())
     }
 }

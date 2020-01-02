@@ -24,12 +24,11 @@ class SettingsViewModel(
     }
 
     fun refreshData() {
-        loadPreferences()
         currencyList.clear()
 
-        if (mainData.firstRun) {
+        if (getMainData().firstRun) {
             currencyDao.insertInitialCurrencies()
-            mainData.firstRun = false
+            preferencesRepository.updateMainData(firstRun = false)
         }
 
         currencyDao.getAllCurrencies().removeUnUsedCurrencies()?.let {
@@ -52,9 +51,9 @@ class SettingsViewModel(
     }
 
     private fun verifyCurrentBase() = currencyList.let { currencyList ->
-        if (mainData.currentBase == Currencies.NULL ||
+        if (getMainData().currentBase == Currencies.NULL ||
             currencyList
-                .filter { it.name == mainData.currentBase.toString() }
+                .filter { it.name == getMainData().currentBase.toString() }
                 .toList().firstOrNull()?.isActive == 0
         ) {
             setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
