@@ -13,7 +13,7 @@ constructor(private val sharedPreferencesHelper: PreferencesHelper) {
 
     fun loadMainData() = sharedPreferencesHelper.loadMainData()
 
-    fun persistMainData(mainData: MainData) =
+    private fun persistMainData(mainData: MainData) =
         sharedPreferencesHelper.persistMainData(mainData)
 
     fun updateMainData(
