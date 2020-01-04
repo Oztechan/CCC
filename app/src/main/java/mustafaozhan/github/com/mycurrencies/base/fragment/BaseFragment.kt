@@ -63,4 +63,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         isLong: Boolean = true,
         action: () -> Unit = {}
     ) = getBaseActivity()?.snacky(text ?: "", actionText ?: "", setIcon, isLong, action)
+
+    protected fun logException(t: Throwable) = getBaseActivity()?.logException(t)
 }

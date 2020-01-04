@@ -55,7 +55,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun setRx() {
         binding.appBarLayout.txtMainToolbar.textChanges()
-            .subscribe { txt ->
+            .subscribe({ txt ->
                 binding.loadingView.smoothToShow()
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
@@ -68,7 +68,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                         }
                     }
                 }
-            }.addTo(compositeDisposable)
+            }, {
+                logException(it)
+            })
+            .addTo(compositeDisposable)
     }
 
     private fun initLiveData() {

@@ -43,14 +43,17 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     private fun initRx() {
         binding.editTextSearch
             .textChanges()
-            .subscribe { txt ->
+            .subscribe({ txt ->
                 viewModel.currencyList.filter { currency ->
                     currency.name.contains(txt.toString(), true) ||
                         currency.longName.contains(txt.toString(), true) ||
                         currency.symbol.contains(txt.toString(), true)
                 }.toMutableList()
                     .let { settingsAdapter.refreshList(it) }
-            }.addTo(compositeDisposable)
+            }, {
+                logException(it)
+            })
+            .addTo(compositeDisposable)
     }
 
     private fun initViews() {

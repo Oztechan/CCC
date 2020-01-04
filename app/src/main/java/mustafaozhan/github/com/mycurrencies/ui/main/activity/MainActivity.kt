@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -142,15 +141,14 @@ class MainActivity : BaseActivity<MainViewModel>() {
         adObservableInterval = Observable.interval(AD_INITIAL_DELAY, AD_PERIOD, TimeUnit.SECONDS)
             .debounce(0, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext {
+            .subscribe({
                 if (interstitialTextAd.isLoaded && adVisibility && viewModel.isRewardExpired()) {
                     interstitialTextAd.show()
                 } else {
                     prepareAd()
                 }
-            }
-//            .doOnError(::logException)
-            .subscribe()
+            }, { logException(it) }
+            )
     }
 
     @Suppress("ComplexMethod")
@@ -197,7 +195,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                                 }
                             }
                         } catch (e: JsonSyntaxException) {
-                            Crashlytics.logException(e)
+                            logException(e)
                         }
                     }
                 }
