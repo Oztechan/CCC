@@ -53,7 +53,6 @@ dependencies {
     Snacky()
     LoadingView()
     JodaTime()
-    Lint()
     MXParser()
 }
 ```

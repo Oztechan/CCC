@@ -3,7 +3,6 @@ package mustafaozhan.github.com.mycurrencies.ui.main.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -14,9 +13,11 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : BaseActivity<MainViewModel>() {
 
     companion object {
-        const val BACK_DELAY: Long = 2000
+        const val BACK_DELAY: Long = 2
         const val CHECK_DURATION: Long = 6
         const val CHECK_INTERVAL: Long = 4200
         const val REMOTE_CONFIG = "remote_config"
@@ -223,9 +224,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
             doubleBackToExitPressedOnce = true
             snacky(getString(R.string.click_back_again_to_exit))
-            Handler().postDelayed({
-                doubleBackToExitPressedOnce = false
-            }, BACK_DELAY)
+
+            Completable.complete()
+                .delay(BACK_DELAY, TimeUnit.SECONDS)
+                .subscribe { doubleBackToExitPressedOnce = false }
+                .addTo(compositeDisposable)
         } else {
             super.onBackPressed()
         }

@@ -49,6 +49,11 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        compositeDisposable.dispose()
+        super.onDestroy()
+    }
     protected fun getBaseActivity() = activity as? BaseActivity<*>
 
     protected fun snacky(
