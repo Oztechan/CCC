@@ -91,7 +91,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 getString(R.string.remove_ads_text),
                 getString(R.string.watch)
             ) {
-                showRewardedAd()
+                showVideoAd()
             }
             R.id.onGithub -> {
                 val intent = Intent(
@@ -107,14 +107,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showRewardedAd() {
-        viewModel.updateAdFreeActivation()
-
+    private fun showVideoAd() {
         if (interstitialVideoAd.isLoaded) {
+            viewModel.updateAdFreeActivation()
             interstitialVideoAd.show()
-        } else {
-            prepareAd()
         }
+
+        prepareAd()
     }
 
     private fun sendFeedBack() {
