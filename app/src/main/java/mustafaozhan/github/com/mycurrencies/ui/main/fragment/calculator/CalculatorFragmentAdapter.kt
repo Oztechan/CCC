@@ -10,6 +10,7 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
+import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
@@ -27,7 +28,7 @@ class CalculatorFragmentAdapter : BaseRecyclerViewAdapter<Currency>() {
             itemView.apply {
                 txt_type.text = item.name
                 txt_symbol.text = item.symbol
-                txt_amount.text = item.rate.getFormatted()
+                txt_amount.text = item.rate.getFormatted().replaceNonStandardDigits()
                 img_item.setBackgroundByName(item.name)
             }
         }
