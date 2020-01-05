@@ -14,6 +14,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
+import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
@@ -141,7 +142,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             txtResult.text = ""
             txtSymbol.text = ""
         } else {
-            txtResult.text = "=  ${viewModel.output} "
+            txtResult.text = "=  ${viewModel.output.replaceNonStandardDigits()} "
         }
     }
 
