@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.activity
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -24,6 +25,7 @@ import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
+import mustafaozhan.github.com.mycurrencies.util.LocalizationUtil
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -230,5 +232,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocalizationUtil.updateBaseContextLocale(base))
     }
 }
