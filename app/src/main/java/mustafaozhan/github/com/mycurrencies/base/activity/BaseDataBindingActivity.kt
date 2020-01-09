@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.base.activity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 
 abstract class BaseDataBindingActivity<TViewModel : BaseViewModel, TDataBinding : ViewDataBinding> :
     BaseActivity<TViewModel>() {

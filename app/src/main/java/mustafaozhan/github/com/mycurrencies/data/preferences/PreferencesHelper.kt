@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import com.google.gson.Gson
-import mustafaozhan.github.com.mycurrencies.base.BasePreferences
+import mustafaozhan.github.com.mycurrencies.base.preferences.BasePreferences
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject

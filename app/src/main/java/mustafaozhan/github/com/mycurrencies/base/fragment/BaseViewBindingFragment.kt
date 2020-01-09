@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 
 abstract class BaseViewBindingFragment<TViewModel : BaseViewModel, TViewBinding : ViewBinding> :
     BaseFragment<TViewModel>() {

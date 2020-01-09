@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies
+package mustafaozhan.github.com.mycurrencies.app
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
+import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
 import javax.inject.Inject
 

@@ -13,7 +13,7 @@ import dagger.android.AndroidInjection
 import de.mateware.snacky.Snacky
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
 import java.util.Locale
 import javax.inject.Inject

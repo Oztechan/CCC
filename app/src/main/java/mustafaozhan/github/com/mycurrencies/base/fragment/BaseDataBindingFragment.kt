@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 
 abstract class BaseDataBindingFragment<TViewModel : BaseViewModel, TDataBinding : ViewDataBinding> :
     BaseFragment<TViewModel>() {

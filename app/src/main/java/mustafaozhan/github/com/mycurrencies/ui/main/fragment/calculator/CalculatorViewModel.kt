@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
@@ -27,11 +27,11 @@ import org.mariuszgromada.math.mxparser.Expression
  */
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    override val preferencesRepository: PreferencesRepository,
+    preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel() {
+) : BaseDataViewModel(preferencesRepository) {
 
     val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()

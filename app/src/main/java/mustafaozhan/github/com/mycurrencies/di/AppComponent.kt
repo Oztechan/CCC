@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
-import mustafaozhan.github.com.mycurrencies.CCCApplication
+import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import javax.inject.Singleton
 
 @SuppressWarnings("unchecked")
