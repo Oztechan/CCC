@@ -54,6 +54,7 @@
     <!--Toasty Text-->
     <string name="max_input">Maximum number of input exceeded.</string>
     <string name="database_success">No internet connection! Using saved offline rate.</string>
+    <string name="database_success_with_date">No internet connection! Using the last saved rates. Last update: %s</string>
 
     <!--Support-->
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>

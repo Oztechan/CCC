@@ -20,6 +20,8 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import org.mariuszgromada.math.mxparser.Expression
 
 /**
@@ -32,6 +34,10 @@ class CalculatorViewModel(
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseDataViewModel(preferencesRepository) {
+
+    companion object {
+        private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
+    }
 
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
@@ -72,6 +78,7 @@ class CalculatorViewModel(
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
+        rates?.date = DateTimeFormat.forPattern(DATE_FORMAT).print(DateTime.now())
         rates?.let {
             calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(it))
             offlineRatesDao.insertOfflineRates(it)

@@ -82,7 +82,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 is CalculatorViewState.BackEndSuccess -> onSearchSuccess(calculatorViewState.rates)
                 is CalculatorViewState.DataBaseSuccess -> {
                     onSearchSuccess(calculatorViewState.rates)
-                    toasty(getString(R.string.database_success))
+                    calculatorViewState.rates.date?.let {
+                        toasty(getString(R.string.database_success_with_date, it))
+                    } ?: run {
+                        toasty(getString(R.string.database_success))
+                    }
                 }
                 CalculatorViewState.Error -> {
                     if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
