@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.crashlytics.android.Crashlytics
 import dagger.android.AndroidInjection
 import de.mateware.snacky.Snacky
+import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
@@ -68,7 +69,7 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
             }
         }
 
-    fun snacky(
+    open fun snacky(
         text: String,
         actionText: String = "",
         setIcon: String? = null,
@@ -85,6 +86,20 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         .setActionTextTypefaceStyle(Typeface.BOLD)
         .setActionClickListener { action() }
         .build()
+        .show()
+
+    open fun toasty(
+        text: String,
+        isLong: Boolean = true,
+        tintColor: Int? = null
+    ) = Toasty
+        .custom(this,
+            text,
+            R.drawable.ic_info_outline_black_24dp,
+            tintColor ?: R.color.blue_grey_700,
+            if (isLong) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT,
+            true,
+            true)
         .show()
 
     protected fun showDialog(

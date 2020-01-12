@@ -216,7 +216,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         if (viewModel.output.length < MAX_DIGIT) {
             binding.appBarLayout.txtMainToolbar.addText(txt)
         } else {
-            snacky(getString(R.string.max_input), isLong = false)
+            toasty(getString(R.string.max_input))
         }
 
     override fun onResume() {

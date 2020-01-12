@@ -80,6 +80,7 @@ dependencies {
     Anko()
     MultiDex()
     Snacky()
+    Toasty()
     LoadingView()
     JodaTime()
     MXParser()
