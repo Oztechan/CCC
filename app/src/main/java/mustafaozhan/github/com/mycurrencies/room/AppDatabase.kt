@@ -6,6 +6,8 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
+import mustafaozhan.github.com.mycurrencies.extensions.execSQL1To2
+import mustafaozhan.github.com.mycurrencies.extensions.execSQL2To3
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -14,25 +16,26 @@ import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-@Database(entities = [(Currency::class), (Rates::class)], version = 2, exportSchema = false)
+@Suppress("MagicNumber")
+@Database(entities = [(Currency::class), (Rates::class)], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private val FROM_1_TO_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.apply {
-                    execSQL("INSERT INTO currency (name,longName,symbol,rate,isActive)" +
-                        " VALUES ('VES','Venezuelan bolívar soberano','Bs.',0.0,0)")
-                    execSQL("ALTER TABLE offline_rates ADD COLUMN VES REAL DEFAULT 0.0")
-                }
-            }
+            override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
         }
+        private val FROM_2_TO_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
+        }
+
         val database = Room
             .databaseBuilder(
                 CCCApplication.instance.applicationContext,
                 AppDatabase::class.java,
                 "application_database"
-            ).addMigrations(FROM_1_TO_2)
+            )
+            .addMigrations(FROM_1_TO_2)
+            .addMigrations(FROM_2_TO_3)
             .allowMainThreadQueries().build()
     }
 
