@@ -44,13 +44,16 @@
     <string name="rate_not_available_offline">This currency is not available offline, please change your base currency.</string>
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies from Settings</string>
     <string name="choose_currencies">Please Select at least 2 currencies</string>
-    <string name="max_input">Maximum number of input exceeded.</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
     <string name="change">Change</string>
     <string name="ok">@android:string/ok</string>
     <string name="init_app_data">App data initializing…</string>
+
+    <!--Toasty Text-->
+    <string name="max_input">Maximum number of input exceeded.</string>
+    <string name="database_success">No internet connection! Using saved offline rate.</string>
 
     <!--Support-->
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>

@@ -67,7 +67,7 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
 
     protected fun toasty(
         text: String,
-        isLong: Boolean = true,
+        isLong: Boolean = false,
         tintColor: Int? = null
     ) = getBaseActivity()?.toasty(text, isLong, tintColor)
 

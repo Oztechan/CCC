@@ -33,8 +33,8 @@ class CalculatorViewModel(
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseDataViewModel(preferencesRepository) {
 
-    val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
     var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
     var rates: Rates? = null
     var output: String = "0.0"
 
@@ -54,11 +54,12 @@ class CalculatorViewModel(
     }
 
     fun getCurrencies() {
+        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, output, rates)
             }
-            ratesLiveData.postValue(rates)
+            calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(rates))
         } ?: run {
             subscribeService(
                 backendRepository.getAllOnBase(getMainData().currentBase),
@@ -72,7 +73,7 @@ class CalculatorViewModel(
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
         rates?.let {
-            ratesLiveData.postValue(it)
+            calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(it))
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -80,8 +81,10 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
-        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString()).let { offlineRates ->
-            ratesLiveData.postValue(offlineRates)
+        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString())?.let { offlineRates ->
+            calculatorViewStateLiveData.postValue(CalculatorViewState.DataBaseSuccess(offlineRates))
+        } ?: run {
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
         }
     }
 

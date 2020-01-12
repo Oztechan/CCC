@@ -17,6 +17,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
@@ -57,7 +58,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun setRx() {
         binding.appBarLayout.txtMainToolbar.textChanges()
             .subscribe({ txt ->
-                binding.loadingView.smoothToShow()
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
                         viewModel.calculateOutput(txt.toString())
@@ -76,23 +76,27 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun initLiveData() {
-        viewModel.ratesLiveData.reObserve(this, Observer { rates ->
-            viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
-                rates?.let {
-                    calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
-                } ?: run {
-                    if (currencyList.size > 1) {
+        viewModel.calculatorViewStateLiveData.reObserve(this, Observer { calculatorViewState ->
+            when (calculatorViewState) {
+                CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
+                is CalculatorViewState.BackEndSuccess -> onSearchSuccess(calculatorViewState.rates)
+                is CalculatorViewState.DataBaseSuccess -> {
+                    onSearchSuccess(calculatorViewState.rates)
+                    toasty(getString(R.string.database_success))
+                }
+                CalculatorViewState.Error -> {
+                    if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
                             binding.layoutBar.spinnerBase.expand()
                         }
                     }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
+                    binding.loadingView.smoothToHide()
                 }
             }
-            binding.loadingView.smoothToHide()
         })
+
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
@@ -102,26 +106,34 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         })
     }
 
-    private fun initViews() {
-        binding.loadingView.bringToFront()
+    private fun onSearchSuccess(rates: Rates) {
+        viewModel.currencyListLiveData.value?.let { currencyList ->
+            currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
+            calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
+        }
+        binding.loadingView.smoothToHide()
+    }
+
+    private fun initViews() = with(binding) {
+        loadingView.bringToFront()
         context?.let { ctx ->
-            binding.recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
-            binding.recyclerViewMain.adapter = calculatorFragmentAdapter
+            recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
+            recyclerViewMain.adapter = calculatorFragmentAdapter
         }
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            binding.appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
+            appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
             getOutputText()
             viewModel.currencyListLiveData.value?.let { currencyList ->
-                if (currencyList.indexOf(currency) < binding.layoutBar.spinnerBase.getItems<String>().size) {
-                    binding.layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
+                if (currencyList.indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size) {
+                    layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
                 } else {
-                    binding.layoutBar.spinnerBase.expand()
+                    layoutBar.spinnerBase.expand()
                 }
             }
-            binding.layoutBar.ivBase.setBackgroundByName(currency.name)
+            layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
