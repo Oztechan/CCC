@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.base.activity
 import android.app.AlertDialog
 import android.graphics.Typeface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,7 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
     open var containerId: Int = R.id.content
 
     protected val compositeDisposable by lazy { CompositeDisposable() }
+    private var toasty: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -92,15 +94,18 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         text: String,
         isLong: Boolean = true,
         tintColor: Int? = null
-    ) = Toasty
-        .custom(this,
-            text,
-            R.drawable.ic_info_outline_black_24dp,
-            tintColor ?: R.color.blue_grey_700,
-            if (isLong) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT,
-            true,
-            true)
-        .show()
+    ) {
+        toasty?.cancel()
+        toasty = Toasty
+            .custom(this,
+                text,
+                R.drawable.ic_info_outline_black_24dp,
+                tintColor ?: R.color.blue_grey_700,
+                if (isLong) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT,
+                true,
+                true)
+        toasty?.show()
+    }
 
     protected fun showDialog(
         title: String,
