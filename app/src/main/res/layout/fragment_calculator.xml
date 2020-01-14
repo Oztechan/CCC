@@ -5,16 +5,25 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
-    <include
-        android:id="@+id/app_bar_layout"
-        layout="@layout/layout_main_toolbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_fragment_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
+        android:background="@color/colorPrimaryDark"
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txt_main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="3"
+            android:textAppearance="@style/BaseTextStyle" />
+    </androidx.appcompat.widget.Toolbar>
 
     <include
         android:id="@+id/layout_bar"
@@ -23,7 +32,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loading_view"

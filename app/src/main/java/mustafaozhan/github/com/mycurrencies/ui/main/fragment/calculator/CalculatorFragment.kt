@@ -52,11 +52,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.appBarLayout.toolbarFragmentMain)
+        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
     }
 
     private fun setRx() {
-        binding.appBarLayout.txtMainToolbar.textChanges()
+        binding.txtMainToolbar.textChanges()
             .subscribe({ txt ->
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
@@ -125,7 +125,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             recyclerViewMain.adapter = calculatorFragmentAdapter
         }
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
+            txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
@@ -216,21 +216,21 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         btnTripleZero.setOnClickListener { keyboardPressed("000") }
         btnZero.setOnClickListener { keyboardPressed("0") }
         btnAc.setOnClickListener {
-            binding.appBarLayout.txtMainToolbar.text = ""
+            binding.txtMainToolbar.text = ""
             binding.layoutBar.txtResult.text = ""
             binding.layoutBar.txtSymbol.text = ""
         }
         btnDelete.setOnClickListener {
-            if (binding.appBarLayout.txtMainToolbar.text.toString() != "") {
-                binding.appBarLayout.txtMainToolbar.text = binding.appBarLayout.txtMainToolbar.text.toString()
-                    .substring(0, binding.appBarLayout.txtMainToolbar.text.toString().length - 1)
+            if (binding.txtMainToolbar.text.toString() != "") {
+                binding.txtMainToolbar.text = binding.txtMainToolbar.text.toString()
+                    .substring(0, binding.txtMainToolbar.text.toString().length - 1)
             }
         }
     }
 
     private fun keyboardPressed(txt: String) =
         if (viewModel.output.length < MAX_DIGIT) {
-            binding.appBarLayout.txtMainToolbar.addText(txt)
+            binding.txtMainToolbar.addText(txt)
         } else {
             toasty(getString(R.string.max_input))
         }
