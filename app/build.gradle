@@ -74,7 +74,10 @@ dependencies {
 
     kapt(annotations.values())
 
-    testImplementation(jUnit)
+    testImplementation(
+            jUnit,
+            MockK
+    )
 
     implementation(files(mxParser))
 
