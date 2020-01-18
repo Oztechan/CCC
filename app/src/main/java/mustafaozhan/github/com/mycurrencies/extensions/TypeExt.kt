@@ -34,3 +34,12 @@ fun Double.getFormatted(): String {
     symbols.groupingSeparator = ' '
     return DecimalFormat("###,###.###", symbols).format(this)
 }
+
+fun String.dropDecimal(): String {
+    val temp = replace(" ", "")
+    return if (temp.contains(".")) {
+        temp.substring(0, temp.indexOf("."))
+    } else {
+        this
+    }
+}

@@ -6,13 +6,13 @@ sealed class CalculatorViewState {
 
     object Loading : CalculatorViewState()
 
-    data class BackEndSuccess(val rates: Rates) : CalculatorViewState()
+    data class Success(val rates: Rates) : CalculatorViewState()
 
-    data class DataBaseSuccess(val rates: Rates) : CalculatorViewState()
+    data class OfflineSuccess(val rates: Rates) : CalculatorViewState()
 
     object Error : CalculatorViewState()
 
-    object MaximumNumberOfInput : CalculatorViewState()
+    object MaximumInput : CalculatorViewState()
 
-    object NotEnoughCurrencySelected : CalculatorViewState()
+    object FewCurrency : CalculatorViewState()
 }

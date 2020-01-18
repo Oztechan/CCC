@@ -37,6 +37,8 @@ class CalculatorViewModel(
 
     companion object {
         private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
+        private const val MINIMUM_ACTIVE_CURRENCY = 2
+        private const val MAXIMUM_INPUT = 15
     }
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
@@ -65,7 +67,7 @@ class CalculatorViewModel(
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(rates))
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
         } ?: run {
             subscribeService(
                 backendRepository.getAllOnBase(getMainData().currentBase),
@@ -80,7 +82,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = DateTimeFormat.forPattern(DATE_FORMAT).print(DateTime.now())
         rates?.let {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(it))
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -89,24 +91,31 @@ class CalculatorViewModel(
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
         offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(CalculatorViewState.DataBaseSuccess(offlineRates))
+            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
         } ?: run {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
         }
     }
 
     fun calculateOutput(input: String) {
-        val calculation = Expression(
+        val output = Expression(
             input.replaceUnsupportedCharacters()
                 .replace("%", "/100*")
-        ).calculate()
+        ).calculate().let {
+            if (it.isNaN()) "" else it.getFormatted()
+        }
 
-        outputLiveData.postValue(if (calculation.isNaN()) {
-            ""
+        if (output.length > MAXIMUM_INPUT) {
+            calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput)
         } else {
-            calculation.getFormatted()
-        })
-        getCurrencies()
+            outputLiveData.postValue(output)
+
+            if (currencyListLiveData.value?.size ?: 0 < MINIMUM_ACTIVE_CURRENCY) {
+                calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency)
+            } else {
+                getCurrencies()
+            }
+        }
     }
 
     fun updateCurrentBase(currency: String?) {
