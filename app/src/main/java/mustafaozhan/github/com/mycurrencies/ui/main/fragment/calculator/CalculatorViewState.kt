@@ -11,4 +11,6 @@ sealed class CalculatorViewState {
     data class DataBaseSuccess(val rates: Rates) : CalculatorViewState()
 
     object Error : CalculatorViewState()
+
+    object MaximumNumberOfInput : CalculatorViewState()
 }

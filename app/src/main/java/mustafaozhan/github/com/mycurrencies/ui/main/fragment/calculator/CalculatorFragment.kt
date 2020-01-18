@@ -56,11 +56,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun setRx() {
-        binding.txtMainToolbar.textChanges()
-            .subscribe({ txt ->
+        binding.txtInput.textChanges()
+            .subscribe({ input ->
                 viewModel.currencyListLiveData.value?.let { currencyList ->
                     if (currencyList.size > 1) {
-                        viewModel.calculateOutput(txt.toString())
+                        viewModel.calculateOutput(input.toString())
                         viewModel.getCurrencies()
                         getOutputText()
                     } else {
@@ -98,6 +98,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
                     binding.loadingView.smoothToHide()
                 }
+                CalculatorViewState.MaximumNumberOfInput -> toasty(getString(R.string.max_input))
             }
         })
 
@@ -125,7 +126,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             recyclerViewMain.adapter = calculatorFragmentAdapter
         }
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
+            txtInput.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
             viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
@@ -155,10 +156,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         )?.symbol
 
         if (viewModel.output.isEmpty()) {
-            txtResult.text = ""
+            txtOutput.text = ""
             txtSymbol.text = ""
         } else {
-            txtResult.text = "=  ${viewModel.output.replaceNonStandardDigits()} "
+            txtOutput.text = "=  ${viewModel.output.replaceNonStandardDigits()} "
         }
     }
 
@@ -216,23 +217,23 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         btnTripleZero.setOnClickListener { keyboardPressed("000") }
         btnZero.setOnClickListener { keyboardPressed("0") }
         btnAc.setOnClickListener {
-            binding.txtMainToolbar.text = ""
-            binding.layoutBar.txtResult.text = ""
+            binding.txtInput.text = ""
+            binding.layoutBar.txtOutput.text = ""
             binding.layoutBar.txtSymbol.text = ""
         }
         btnDelete.setOnClickListener {
-            if (binding.txtMainToolbar.text.toString() != "") {
-                binding.txtMainToolbar.text = binding.txtMainToolbar.text.toString()
-                    .substring(0, binding.txtMainToolbar.text.toString().length - 1)
+            if (binding.txtInput.text.toString() != "") {
+                binding.txtInput.text = binding.txtInput.text.toString()
+                    .substring(0, binding.txtInput.text.toString().length - 1)
             }
         }
     }
 
     private fun keyboardPressed(txt: String) =
         if (viewModel.output.length < MAX_DIGIT) {
-            binding.txtMainToolbar.addText(txt)
+            binding.txtInput.addText(txt)
         } else {
-            toasty(getString(R.string.max_input))
+            viewModel.calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumNumberOfInput)
         }
 
     override fun onResume() {
