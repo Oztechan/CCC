@@ -39,7 +39,7 @@ class CalculatorViewModel(
         private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
     }
 
-    var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
     var rates: Rates? = null
     var output: String = "0.0"
@@ -63,7 +63,7 @@ class CalculatorViewModel(
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
-                currency.rate = calculateResultByCurrency(currency.name, output, rates)
+                currency.rate = calculateResultByCurrency(currency.name, rates)
             }
             calculatorViewStateLiveData.postValue(CalculatorViewState.BackEndSuccess(rates))
         } ?: run {
@@ -131,15 +131,15 @@ class CalculatorViewModel(
         return getMainData().currentBase
     }
 
-    fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
-        if (value.isNotEmpty()) {
+    fun calculateResultByCurrency(name: String, rate: Rates?) =
+        if (output.isNotEmpty()) {
             try {
-                rate.calculateResult(name, value)
+                rate.calculateResult(name, output)
             } catch (e: NumberFormatException) {
-                val numericValue = value.replaceUnsupportedCharacters().replaceNonStandardDigits()
+                val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
-                    "NumberFormatException $value to $numericValue",
+                    "NumberFormatException $output to $numericValue",
                     "If no crash making numeric is done successfully"
                 )
                 rate.calculateResult(name, numericValue)

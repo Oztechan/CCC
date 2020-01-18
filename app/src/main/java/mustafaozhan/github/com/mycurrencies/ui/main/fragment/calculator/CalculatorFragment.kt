@@ -113,7 +113,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun onSearchSuccess(rates: Rates) {
         viewModel.currencyListLiveData.value?.let { currencyList ->
-            currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
+            currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, rates) }
             calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
         }
         binding.loadingView.smoothToHide()
