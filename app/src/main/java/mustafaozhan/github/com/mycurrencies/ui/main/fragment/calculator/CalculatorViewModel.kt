@@ -41,8 +41,8 @@ class CalculatorViewModel(
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
+    val outputLiveData: MutableLiveData<String> = MutableLiveData("0.0")
     var rates: Rates? = null
-    var output: String = "0.0"
 
     override fun onLoaded(): Completable {
         return Completable.complete()
@@ -95,22 +95,24 @@ class CalculatorViewModel(
         }
     }
 
-    fun calculateOutput(text: String) {
+    fun calculateOutput(input: String) {
         val calculation = Expression(
-            text.replaceUnsupportedCharacters()
+            input.replaceUnsupportedCharacters()
                 .replace("%", "/100*")
         ).calculate()
 
-        output = if (calculation.isNaN()) {
+        outputLiveData.postValue(if (calculation.isNaN()) {
             ""
         } else {
             calculation.getFormatted()
-        }
+        })
+        getCurrencies()
     }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
         setCurrentBase(currency)
+        getCurrencies()
     }
 
     fun loadResetData() = preferencesRepository.loadResetData()
@@ -132,14 +134,15 @@ class CalculatorViewModel(
     }
 
     fun calculateResultByCurrency(name: String, rate: Rates?) =
-        if (output.isNotEmpty()) {
+        if (outputLiveData.value.toString().isNotEmpty()) {
             try {
-                rate.calculateResult(name, output)
+                rate.calculateResult(name, outputLiveData.value.toString())
             } catch (e: NumberFormatException) {
-                val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
+                val numericValue =
+                    outputLiveData.value.toString().replaceUnsupportedCharacters().replaceNonStandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
-                    "NumberFormatException $output to $numericValue",
+                    "NumberFormatException ${outputLiveData.value.toString()} to $numericValue",
                     "If no crash making numeric is done successfully"
                 )
                 rate.calculateResult(name, numericValue)

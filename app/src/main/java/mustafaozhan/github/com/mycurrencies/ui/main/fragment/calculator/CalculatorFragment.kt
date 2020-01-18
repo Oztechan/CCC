@@ -47,32 +47,13 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         initViews()
         setListeners()
         setKeyboard()
+        initViewState()
         setRx()
         initLiveData()
     }
 
-    private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-    }
-
-    private fun setRx() {
-        binding.txtInput.textChanges()
-            .subscribe({ input ->
-                if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
-                    viewModel.calculateOutput(input.toString())
-                    viewModel.getCurrencies()
-                    getOutputText()
-                } else {
-                    viewModel.calculatorViewStateLiveData.postValue(CalculatorViewState.NotEnoughCurrencySelected)
-                }
-            }, {
-                logException(it)
-            })
-            .addTo(compositeDisposable)
-    }
-
-    private fun initLiveData() {
-        viewModel.calculatorViewStateLiveData.reObserve(this, Observer { calculatorViewState ->
+    private fun initViewState() = viewModel.calculatorViewStateLiveData
+        .reObserve(this, Observer { calculatorViewState ->
             when (calculatorViewState) {
                 CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
                 is CalculatorViewState.BackEndSuccess -> onSearchSuccess(calculatorViewState.rates)
@@ -95,18 +76,54 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.MaximumNumberOfInput -> toasty(getString(R.string.max_input))
-                CalculatorViewState.NotEnoughCurrencySelected ->
+                CalculatorViewState.NotEnoughCurrencySelected -> {
                     snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
                         getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
                     }
+                }
             }
         })
 
+    private fun initToolbar() {
+        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
+    }
+
+    private fun setRx() {
+        binding.txtInput.textChanges()
+            .subscribe({ input ->
+                if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
+                    viewModel.calculateOutput(input.toString())
+                } else {
+                    viewModel.calculatorViewStateLiveData.postValue(CalculatorViewState.NotEnoughCurrencySelected)
+                }
+            }, {
+                logException(it)
+            })
+            .addTo(compositeDisposable)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initLiveData() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
                 calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
                 binding.loadingView.smoothToHide()
+            }
+        })
+
+        viewModel.outputLiveData.reObserve(this, Observer { output ->
+            with(binding.layoutBar) {
+                txtSymbol.text = viewModel.getCurrencyByName(
+                    viewModel.getMainData().currentBase.toString()
+                )?.symbol
+
+                if (output.toString().isEmpty()) {
+                    txtOutput.text = ""
+                    txtSymbol.text = ""
+                } else {
+                    txtOutput.text = "=  ${output.toString().replaceNonStandardDigits()} "
+                }
             }
         })
     }
@@ -128,9 +145,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txtInput.text = itemView.txt_amount.text.toString().replace(" ", "")
             viewModel.updateCurrentBase(currency.name)
-            viewModel.getCurrencies()
             viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
-            getOutputText()
             viewModel.currencyListLiveData.value?.let { currencyList ->
                 if (currencyList.indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size) {
                     layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
@@ -146,20 +161,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 setIcon = currency.name,
                 isLong = false)
             true
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun getOutputText() = with(binding.layoutBar) {
-        txtSymbol.text = viewModel.getCurrencyByName(
-            viewModel.getMainData().currentBase.toString()
-        )?.symbol
-
-        if (viewModel.output.isEmpty()) {
-            txtOutput.text = ""
-            txtSymbol.text = ""
-        } else {
-            txtOutput.text = "=  ${viewModel.output.replaceNonStandardDigits()} "
         }
     }
 
@@ -181,11 +182,8 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun setListeners() = with(binding.layoutBar) {
         spinnerBase.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.apply {
-                updateCurrentBase(item.toString())
-                getCurrencies()
-            }
-            getOutputText()
+            viewModel.updateCurrentBase(item.toString())
+            viewModel.calculateOutput(binding.txtInput.text.toString())
             ivBase.setBackgroundByName(item.toString())
         }
         layoutBar.setOnClickListener {
@@ -230,7 +228,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun keyboardPressed(txt: String) =
-        if (viewModel.output.length < MAX_DIGIT) {
+        if (viewModel.outputLiveData.value.toString().length < MAX_DIGIT) {
             binding.txtInput.addText(txt)
         } else {
             viewModel.calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumNumberOfInput)
