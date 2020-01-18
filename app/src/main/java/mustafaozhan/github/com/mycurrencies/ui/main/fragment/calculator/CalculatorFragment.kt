@@ -58,16 +58,12 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun setRx() {
         binding.txtInput.textChanges()
             .subscribe({ input ->
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    if (currencyList.size > 1) {
-                        viewModel.calculateOutput(input.toString())
-                        viewModel.getCurrencies()
-                        getOutputText()
-                    } else {
-                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
-                        }
-                    }
+                if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
+                    viewModel.calculateOutput(input.toString())
+                    viewModel.getCurrencies()
+                    getOutputText()
+                } else {
+                    viewModel.calculatorViewStateLiveData.postValue(CalculatorViewState.NotEnoughCurrencySelected)
                 }
             }, {
                 logException(it)
@@ -99,6 +95,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.MaximumNumberOfInput -> toasty(getString(R.string.max_input))
+                CalculatorViewState.NotEnoughCurrencySelected ->
+                    snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                        getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+                    }
             }
         })
 

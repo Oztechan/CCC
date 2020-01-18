@@ -13,4 +13,6 @@ sealed class CalculatorViewState {
     object Error : CalculatorViewState()
 
     object MaximumNumberOfInput : CalculatorViewState()
+
+    object NotEnoughCurrencySelected : CalculatorViewState()
 }
