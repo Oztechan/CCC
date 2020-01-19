@@ -3,7 +3,6 @@ package mustafaozhan.github.com.mycurrencies.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -41,10 +40,6 @@ class CalculatorViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        preferencesRepository = mockk()
-        backendRepository = mockk()
-        currencyDao = mockk()
-        offlineRatesDao = mockk()
         viewModel = CalculatorViewModel(preferencesRepository, backendRepository, currencyDao, offlineRatesDao)
     }
 
