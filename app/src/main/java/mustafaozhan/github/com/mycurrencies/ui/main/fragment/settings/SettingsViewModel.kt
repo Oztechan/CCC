@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import io.reactivex.Completable
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
@@ -13,9 +13,9 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsViewModel(
-    override val preferencesRepository: PreferencesRepository,
+    preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel() {
+) : BaseDataViewModel(preferencesRepository) {
 
     var currencyList: MutableList<Currency> = mutableListOf()
 

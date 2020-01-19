@@ -33,7 +33,7 @@
         app:ms_hide_arrow="true"/>
 
     <TextView
-        android:id="@+id/txt_result"
+        android:id="@+id/txt_output"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_eight"
@@ -53,7 +53,7 @@
         android:maxLines="1"
         android:textAppearance="@style/BaseTextStyle"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
-        app:layout_constraintStart_toEndOf="@+id/txt_result"
+        app:layout_constraintStart_toEndOf="@+id/txt_output"
         app:layout_constraintTop_toTopOf="@+id/spinner_base"
         app:layout_constraintVertical_bias="0.666"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

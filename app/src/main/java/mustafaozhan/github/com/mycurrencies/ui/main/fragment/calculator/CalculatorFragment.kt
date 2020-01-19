@@ -13,10 +13,12 @@ import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragmen
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extensions.addText
 import mustafaozhan.github.com.mycurrencies.extensions.checkAd
+import mustafaozhan.github.com.mycurrencies.extensions.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
@@ -33,7 +35,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     companion object {
         fun newInstance(): CalculatorFragment = CalculatorFragment()
-        const val MAX_DIGIT = 12
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_calculator
@@ -46,53 +47,62 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         initViews()
         setListeners()
         setKeyboard()
+        initViewState()
         setRx()
         initLiveData()
     }
 
-    private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.appBarLayout.toolbarFragmentMain)
-    }
-
-    private fun setRx() {
-        binding.appBarLayout.txtMainToolbar.textChanges()
-            .subscribe({ txt ->
-                binding.loadingView.smoothToShow()
-                viewModel.currencyListLiveData.value?.let { currencyList ->
-                    if (currencyList.size > 1) {
-                        viewModel.calculateOutput(txt.toString())
-                        viewModel.getCurrencies()
-                        getOutputText()
-                    } else {
-                        snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                            getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
-                        }
+    private fun initViewState() = viewModel.calculatorViewStateLiveData
+        .reObserve(this, Observer { calculatorViewState ->
+            when (calculatorViewState) {
+                CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
+                is CalculatorViewState.Success -> onSearchSuccess(calculatorViewState.rates)
+                is CalculatorViewState.OfflineSuccess -> {
+                    onSearchSuccess(calculatorViewState.rates)
+                    calculatorViewState.rates.date?.let {
+                        toasty(getString(R.string.database_success_with_date, it))
+                    } ?: run {
+                        toasty(getString(R.string.database_success))
                     }
                 }
-            }, {
-                logException(it)
-            })
-            .addTo(compositeDisposable)
-    }
-
-    private fun initLiveData() {
-        viewModel.ratesLiveData.reObserve(this, Observer { rates ->
-            viewModel.currencyListLiveData.value?.let { currencyList ->
-                currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, viewModel.output, rates) }
-                rates?.let {
-                    calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
-                } ?: run {
-                    if (currencyList.size > 1) {
+                CalculatorViewState.Error -> {
+                    if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
                         snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
                             binding.layoutBar.spinnerBase.expand()
                         }
                     }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
+                    binding.loadingView.smoothToHide()
+                }
+                is CalculatorViewState.MaximumInput -> {
+                    toasty(getString(R.string.max_input))
+                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
+                }
+                CalculatorViewState.FewCurrency -> {
+                    snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                        getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+                    }
                 }
             }
-            binding.loadingView.smoothToHide()
         })
+
+    private fun initToolbar() {
+        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
+    }
+
+    private fun setRx() {
+        binding.txtInput.textChanges()
+            .subscribe({ input ->
+                viewModel.calculateOutput(input.toString())
+            }, { throwable ->
+                logException(throwable)
+            })
+            .addTo(compositeDisposable)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initLiveData() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
@@ -100,28 +110,49 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 binding.loadingView.smoothToHide()
             }
         })
-    }
 
-    private fun initViews() {
-        binding.loadingView.bringToFront()
-        context?.let { ctx ->
-            binding.recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
-            binding.recyclerViewMain.adapter = calculatorFragmentAdapter
-        }
-        calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            binding.appBarLayout.txtMainToolbar.text = itemView.txt_amount.text.toString().replace(" ", "")
-            viewModel.updateCurrentBase(currency.name)
-            viewModel.getCurrencies()
-            viewModel.calculateOutput(itemView.txt_amount.text.toString().replace(" ", ""))
-            getOutputText()
-            viewModel.currencyListLiveData.value?.let { currencyList ->
-                if (currencyList.indexOf(currency) < binding.layoutBar.spinnerBase.getItems<String>().size) {
-                    binding.layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
+        viewModel.outputLiveData.reObserve(this, Observer { output ->
+            with(binding.layoutBar) {
+                txtSymbol.text = viewModel.getCurrencyByName(
+                    viewModel.getMainData().currentBase.toString()
+                )?.symbol
+
+                if (output.toString().isEmpty()) {
+                    txtOutput.text = ""
+                    txtSymbol.text = ""
                 } else {
-                    binding.layoutBar.spinnerBase.expand()
+                    txtOutput.text = "=  ${output.toString().replaceNonStandardDigits()} "
                 }
             }
-            binding.layoutBar.ivBase.setBackgroundByName(currency.name)
+        })
+    }
+
+    private fun onSearchSuccess(rates: Rates) {
+        viewModel.currencyListLiveData.value?.let { currencyList ->
+            currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, rates) }
+            calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
+        }
+        binding.loadingView.smoothToHide()
+    }
+
+    private fun initViews() = with(binding) {
+        loadingView.bringToFront()
+        context?.let { ctx ->
+            recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
+            recyclerViewMain.adapter = calculatorFragmentAdapter
+        }
+        calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
+            txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
+            viewModel.updateCurrentBase(currency.name)
+            viewModel.calculateOutput(itemView.txt_amount.text.toString().dropDecimal())
+            viewModel.currencyListLiveData.value?.let { currencyList ->
+                if (currencyList.indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size) {
+                    layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
+                } else {
+                    layoutBar.spinnerBase.expand()
+                }
+            }
+            layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
             snacky(
@@ -129,20 +160,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 setIcon = currency.name,
                 isLong = false)
             true
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun getOutputText() = with(binding.layoutBar) {
-        txtSymbol.text = viewModel.getCurrencyByName(
-            viewModel.getMainData().currentBase.toString()
-        )?.symbol
-
-        if (viewModel.output.isEmpty()) {
-            txtResult.text = ""
-            txtSymbol.text = ""
-        } else {
-            txtResult.text = "=  ${viewModel.output.replaceNonStandardDigits()} "
         }
     }
 
@@ -164,11 +181,8 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun setListeners() = with(binding.layoutBar) {
         spinnerBase.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.apply {
-                updateCurrentBase(item.toString())
-                getCurrencies()
-            }
-            getOutputText()
+            viewModel.updateCurrentBase(item.toString())
+            viewModel.calculateOutput(binding.txtInput.text.toString())
             ivBase.setBackgroundByName(item.toString())
         }
         layoutBar.setOnClickListener {
@@ -180,44 +194,37 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         }
     }
 
-    private fun setKeyboard() = with(binding.layoutKeyboard) {
-        btnSeven.setOnClickListener { keyboardPressed("7") }
-        btnEight.setOnClickListener { keyboardPressed("8") }
-        btnNine.setOnClickListener { keyboardPressed("9") }
-        btnDivide.setOnClickListener { keyboardPressed("/") }
-        btnFour.setOnClickListener { keyboardPressed("4") }
-        btnFive.setOnClickListener { keyboardPressed("5") }
-        btnSix.setOnClickListener { keyboardPressed("6") }
-        btnMultiply.setOnClickListener { keyboardPressed("*") }
-        btnOne.setOnClickListener { keyboardPressed("1") }
-        btnTwo.setOnClickListener { keyboardPressed("2") }
-        btnThree.setOnClickListener { keyboardPressed("3") }
-        btnMinus.setOnClickListener { keyboardPressed("-") }
-        btnDot.setOnClickListener { keyboardPressed(".") }
-        btnZero.setOnClickListener { keyboardPressed("0") }
-        btnPercent.setOnClickListener { keyboardPressed("%") }
-        btnPlus.setOnClickListener { keyboardPressed("+") }
-        btnTripleZero.setOnClickListener { keyboardPressed("000") }
-        btnZero.setOnClickListener { keyboardPressed("0") }
-        btnAc.setOnClickListener {
-            binding.appBarLayout.txtMainToolbar.text = ""
-            binding.layoutBar.txtResult.text = ""
+    private fun setKeyboard() = with(binding) {
+        layoutKeyboard.btnSeven.setOnClickListener { txtInput.addText("7") }
+        layoutKeyboard.btnEight.setOnClickListener { txtInput.addText("8") }
+        layoutKeyboard.btnNine.setOnClickListener { txtInput.addText("9") }
+        layoutKeyboard.btnDivide.setOnClickListener { txtInput.addText("/") }
+        layoutKeyboard.btnFour.setOnClickListener { txtInput.addText("4") }
+        layoutKeyboard.btnFive.setOnClickListener { txtInput.addText("5") }
+        layoutKeyboard.btnSix.setOnClickListener { txtInput.addText("6") }
+        layoutKeyboard.btnMultiply.setOnClickListener { txtInput.addText("*") }
+        layoutKeyboard.btnOne.setOnClickListener { txtInput.addText("1") }
+        layoutKeyboard.btnTwo.setOnClickListener { txtInput.addText("2") }
+        layoutKeyboard.btnThree.setOnClickListener { txtInput.addText("3") }
+        layoutKeyboard.btnMinus.setOnClickListener { txtInput.addText("-") }
+        layoutKeyboard.btnDot.setOnClickListener { txtInput.addText(".") }
+        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
+        layoutKeyboard.btnPercent.setOnClickListener { txtInput.addText("%") }
+        layoutKeyboard.btnPlus.setOnClickListener { txtInput.addText("+") }
+        layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
+        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
+        layoutKeyboard.btnAc.setOnClickListener {
+            binding.txtInput.text = ""
+            binding.layoutBar.txtOutput.text = ""
             binding.layoutBar.txtSymbol.text = ""
         }
-        btnDelete.setOnClickListener {
-            if (binding.appBarLayout.txtMainToolbar.text.toString() != "") {
-                binding.appBarLayout.txtMainToolbar.text = binding.appBarLayout.txtMainToolbar.text.toString()
-                    .substring(0, binding.appBarLayout.txtMainToolbar.text.toString().length - 1)
+        layoutKeyboard.btnDelete.setOnClickListener {
+            if (binding.txtInput.text.toString() != "") {
+                binding.txtInput.text = binding.txtInput.text.toString()
+                    .substring(0, binding.txtInput.text.toString().length - 1)
             }
         }
     }
-
-    private fun keyboardPressed(txt: String) =
-        if (viewModel.output.length < MAX_DIGIT) {
-            binding.appBarLayout.txtMainToolbar.addText(txt)
-        } else {
-            snacky(getString(R.string.max_input), isLong = false)
-        }
 
     override fun onResume() {
         super.onResume()

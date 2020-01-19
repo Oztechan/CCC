@@ -10,8 +10,8 @@ import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 import javax.inject.Inject
 
 /**
@@ -54,6 +54,7 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         compositeDisposable.dispose()
         super.onDestroy()
     }
+
     protected fun getBaseActivity() = activity as? BaseActivity<*>
 
     protected fun snacky(
@@ -63,6 +64,12 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         isLong: Boolean = true,
         action: () -> Unit = {}
     ) = getBaseActivity()?.snacky(text ?: "", actionText ?: "", setIcon, isLong, action)
+
+    protected fun toasty(
+        text: String,
+        isLong: Boolean = false,
+        tintColor: Int? = null
+    ) = getBaseActivity()?.toasty(text, isLong, tintColor)
 
     protected fun logException(t: Throwable) = getBaseActivity()?.logException(t)
 }

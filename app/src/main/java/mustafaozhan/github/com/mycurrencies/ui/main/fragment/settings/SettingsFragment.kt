@@ -37,7 +37,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     }
 
     private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.appBarLayout.toolbarFragmentSettings)
+        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
     }
 
     private fun initRx() {
@@ -67,11 +67,11 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     }
 
     private fun setListeners() {
-        binding.appBarLayout.btnSelectAll.setOnClickListener {
+        binding.btnSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(1)
             binding.editTextSearch.setText("")
         }
-        binding.appBarLayout.btnDeSelectAll.setOnClickListener {
+        binding.btnDeSelectAll.setOnClickListener {
             viewModel.updateCurrencyState(0)
             binding.editTextSearch.setText("")
             viewModel.setCurrentBase(null)

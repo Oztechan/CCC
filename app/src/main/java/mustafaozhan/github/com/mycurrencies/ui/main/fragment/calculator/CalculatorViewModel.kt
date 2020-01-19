@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
-import mustafaozhan.github.com.mycurrencies.base.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
@@ -20,6 +20,8 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import org.mariuszgromada.math.mxparser.Expression
 
 /**
@@ -27,16 +29,22 @@ import org.mariuszgromada.math.mxparser.Expression
  */
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    override val preferencesRepository: PreferencesRepository,
+    preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel() {
+) : BaseDataViewModel(preferencesRepository) {
 
-    val ratesLiveData: MutableLiveData<Rates> = MutableLiveData()
-    var currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    companion object {
+        private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
+        private const val MINIMUM_ACTIVE_CURRENCY = 2
+        private const val MAXIMUM_INPUT = 15
+    }
+
+    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
+    val outputLiveData: MutableLiveData<String> = MutableLiveData("0.0")
     var rates: Rates? = null
-    var output: String = "0.0"
 
     override fun onLoaded(): Completable {
         return Completable.complete()
@@ -54,11 +62,12 @@ class CalculatorViewModel(
     }
 
     fun getCurrencies() {
+        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
-                currency.rate = calculateResultByCurrency(currency.name, output, rates)
+                currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            ratesLiveData.postValue(rates)
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
         } ?: run {
             subscribeService(
                 backendRepository.getAllOnBase(getMainData().currentBase),
@@ -71,8 +80,9 @@ class CalculatorViewModel(
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
+        rates?.date = DateTimeFormat.forPattern(DATE_FORMAT).print(DateTime.now())
         rates?.let {
-            ratesLiveData.postValue(it)
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -80,27 +90,38 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
-        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString()).let { offlineRates ->
-            ratesLiveData.postValue(offlineRates)
+        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString())?.let { offlineRates ->
+            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
+        } ?: run {
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
         }
     }
 
-    fun calculateOutput(text: String) {
-        val calculation = Expression(
-            text.replaceUnsupportedCharacters()
+    fun calculateOutput(input: String) {
+        val output = Expression(
+            input.replaceUnsupportedCharacters()
                 .replace("%", "/100*")
-        ).calculate()
+        ).calculate().let {
+            if (it.isNaN()) "" else it.getFormatted()
+        }
 
-        output = if (calculation.isNaN()) {
-            ""
+        if (output.length > MAXIMUM_INPUT) {
+            calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input))
         } else {
-            calculation.getFormatted()
+            outputLiveData.postValue(output)
+
+            if (currencyListLiveData.value?.size ?: 0 < MINIMUM_ACTIVE_CURRENCY) {
+                calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency)
+            } else {
+                getCurrencies()
+            }
         }
     }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
         setCurrentBase(currency)
+        getCurrencies()
     }
 
     fun loadResetData() = preferencesRepository.loadResetData()
@@ -121,15 +142,16 @@ class CalculatorViewModel(
         return getMainData().currentBase
     }
 
-    fun calculateResultByCurrency(name: String, value: String, rate: Rates?) =
-        if (value.isNotEmpty()) {
+    fun calculateResultByCurrency(name: String, rate: Rates?) =
+        if (outputLiveData.value.toString().isNotEmpty()) {
             try {
-                rate.calculateResult(name, value)
+                rate.calculateResult(name, outputLiveData.value.toString())
             } catch (e: NumberFormatException) {
-                val numericValue = value.replaceUnsupportedCharacters().replaceNonStandardDigits()
+                val numericValue =
+                    outputLiveData.value.toString().replaceUnsupportedCharacters().replaceNonStandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
-                    "NumberFormatException $value to $numericValue",
+                    "NumberFormatException ${outputLiveData.value.toString()} to $numericValue",
                     "If no crash making numeric is done successfully"
                 )
                 rate.calculateResult(name, numericValue)

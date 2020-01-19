@@ -1,8 +1,8 @@
-package mustafaozhan.github.com.mycurrencies.base
+package mustafaozhan.github.com.mycurrencies.base.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import mustafaozhan.github.com.mycurrencies.CCCApplication
+import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:42 PM on Arch Linux wit Love <3.
