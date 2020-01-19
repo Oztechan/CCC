@@ -106,7 +106,7 @@ class CalculatorViewModel(
         }
 
         if (output.length > MAXIMUM_INPUT) {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput)
+            calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input))
         } else {
             outputLiveData.postValue(output)
 

@@ -75,9 +75,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                CalculatorViewState.MaximumInput -> {
+                is CalculatorViewState.MaximumInput -> {
                     toasty(getString(R.string.max_input))
-                    binding.txtInput.apply { text = text.toString().dropLast(1) }
+                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
                 }
                 CalculatorViewState.FewCurrency -> {
                     snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {

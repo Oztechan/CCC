@@ -12,7 +12,7 @@ sealed class CalculatorViewState {
 
     object Error : CalculatorViewState()
 
-    object MaximumInput : CalculatorViewState()
+    data class MaximumInput(var input: String) : CalculatorViewState()
 
     object FewCurrency : CalculatorViewState()
 }
