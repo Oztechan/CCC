@@ -75,8 +75,9 @@ dependencies {
     kapt(annotations.values())
 
     testImplementation(
-            jUnit,
-            MockK
+            JUnit,
+            MockK,
+            ArcXTesting
     )
 
     implementation(files(mxParser))

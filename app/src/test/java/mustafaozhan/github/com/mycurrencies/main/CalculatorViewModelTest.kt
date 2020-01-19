@@ -1,17 +1,32 @@
 package mustafaozhan.github.com.mycurrencies.main
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
-import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewState
+import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@RunWith(JUnit4::class)
 class CalculatorViewModelTest {
 
-    lateinit var subject: CalculatorViewModel
+    private lateinit var viewModel: CalculatorViewModel
+
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
+
     @MockK
     lateinit var preferencesRepository: PreferencesRepository
     @MockK
@@ -24,6 +39,24 @@ class CalculatorViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        subject = CalculatorViewModel(preferencesRepository, backendRepository, currencyDao, offlineRatesDao)
+        viewModel = CalculatorViewModel(preferencesRepository, backendRepository, currencyDao, offlineRatesDao)
+    }
+
+    @Test
+    fun `is live data emitting`() {
+        val output = "123.45"
+        val currencyList: MutableList<Currency> = mutableListOf()
+
+        val date = "12:34:56 01.01.2020"
+        val rates = Rates("EUR", date)
+        val calculatorViewState = CalculatorViewState.Success(rates)
+
+        viewModel.outputLiveData.postValue(output)
+        viewModel.currencyListLiveData.postValue(currencyList)
+        viewModel.calculatorViewStateLiveData.postValue(calculatorViewState)
+
+        assertEquals(viewModel.outputLiveData.value, output)
+        assertEquals(viewModel.currencyListLiveData.value, currencyList)
+        assertEquals(viewModel.calculatorViewStateLiveData.value, calculatorViewState)
     }
 }
