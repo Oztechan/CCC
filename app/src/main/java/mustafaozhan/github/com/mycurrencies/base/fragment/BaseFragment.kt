@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.MenuRes
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +18,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:38 PM on Arch Linux wit Love <3.
  */
+@Suppress("TooManyFunctions")
 abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
 
     @Inject
@@ -55,8 +57,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         super.onDestroy()
     }
 
-    protected fun getBaseActivity() = activity as? BaseActivity<*>
-
     protected fun snacky(
         text: String?,
         actionText: String? = "",
@@ -71,5 +71,15 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         tintColor: Int? = null
     ) = getBaseActivity()?.toasty(text, isLong, tintColor)
 
+    @Suppress("SameParameterValue")
+    protected fun replaceFragment(
+        fragment: Fragment,
+        withBackStack: Boolean
+    ) = getBaseActivity()?.replaceFragment(fragment, withBackStack)
+
+    protected fun setSupportActionBar(toolbar: Toolbar) = getBaseActivity()?.setSupportActionBar(toolbar)
+
     protected fun logException(t: Throwable) = getBaseActivity()?.logException(t)
+
+    private fun getBaseActivity() = activity as? BaseActivity<*>
 }

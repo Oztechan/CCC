@@ -43,7 +43,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initToolbar()
+        setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         setListeners()
         setKeyboard()
@@ -81,15 +81,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 }
                 CalculatorViewState.FewCurrency -> {
                     snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                        getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+                        replaceFragment(SettingsFragment.newInstance(), true)
                     }
                 }
             }
         })
-
-    private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-    }
 
     private fun setRx() {
         binding.txtInput.textChanges()
@@ -168,7 +164,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             snacky(
                 context?.getString(R.string.choose_at_least_two_currency),
                 context?.getString(R.string.select)) {
-                getBaseActivity()?.replaceFragment(SettingsFragment.newInstance(), true)
+                replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")
             ivBase.setBackgroundByName("transparent")

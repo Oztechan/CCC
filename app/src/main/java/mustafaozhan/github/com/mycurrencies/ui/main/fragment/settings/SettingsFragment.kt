@@ -30,14 +30,10 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initToolbar()
+        setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
         initRx()
         setListeners()
-    }
-
-    private fun initToolbar() {
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
     }
 
     private fun initRx() {
