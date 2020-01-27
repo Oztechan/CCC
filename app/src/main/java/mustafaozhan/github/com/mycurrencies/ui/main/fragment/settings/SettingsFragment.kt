@@ -16,15 +16,16 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSettingsBinding>() {
-    override fun bind() {
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
-    }
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_settings
+
+    override fun bind() {
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
+    }
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
@@ -39,11 +40,12 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     private fun initRx() {
         binding.editTextSearch
             .textChanges()
+            .map { it.toString() }
             .subscribe({ txt ->
                 viewModel.currencyList.filter { currency ->
-                    currency.name.contains(txt.toString(), true) ||
-                        currency.longName.contains(txt.toString(), true) ||
-                        currency.symbol.contains(txt.toString(), true)
+                    currency.name.contains(txt, true) ||
+                        currency.longName.contains(txt, true) ||
+                        currency.symbol.contains(txt, true)
                 }.toMutableList()
                     .let { settingsAdapter.refreshList(it) }
             }, {

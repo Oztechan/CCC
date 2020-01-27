@@ -51,6 +51,8 @@ class CalculatorViewModel(
     }
 
     fun refreshData() {
+        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
+        rates = null
         currencyListLiveData.value?.clear()
 
         if (getMainData().firstRun) {

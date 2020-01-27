@@ -29,15 +29,16 @@ import org.jetbrains.anko.uiThread
  */
 @Suppress("TooManyFunctions")
 class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, FragmentCalculatorBinding>() {
-    override fun bind() {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
-    }
 
     companion object {
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
     override fun getLayoutResId(): Int = R.layout.fragment_calculator
+
+    override fun bind() {
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+    }
 
     private val calculatorFragmentAdapter: CalculatorFragmentAdapter by lazy { CalculatorFragmentAdapter() }
 
@@ -50,6 +51,23 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         initViewState()
         setRx()
         initLiveData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initData()
+        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
+    }
+
+    private fun setRx() {
+        binding.txtInput.textChanges()
+            .map { it.toString() }
+            .subscribe({ input ->
+                viewModel.calculateOutput(input)
+            }, { throwable ->
+                logException(throwable)
+            })
+            .addTo(compositeDisposable)
     }
 
     private fun initViewState() = viewModel.calculatorViewStateLiveData
@@ -86,16 +104,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 }
             }
         })
-
-    private fun setRx() {
-        binding.txtInput.textChanges()
-            .subscribe({ input ->
-                viewModel.calculateOutput(input.toString())
-            }, { throwable ->
-                logException(throwable)
-            })
-            .addTo(compositeDisposable)
-    }
 
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
@@ -222,31 +230,21 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        initData()
-        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
-    }
+    private fun initData() = viewModel.apply {
+        refreshData()
 
-    private fun initData() {
-        binding.loadingView.smoothToShow()
-        viewModel.apply {
-            rates = null
-            refreshData()
-
-            if (loadResetData() && !getMainData().firstRun) {
-                doAsync {
-                    AppDatabase.database.clearAllTables()
-                    viewModel.resetFirstRun()
-                    uiThread {
-                        persistResetData(false)
-                        refreshData()
-                        getCurrencies()
-                    }
+        if (loadResetData() && !getMainData().firstRun) {
+            doAsync {
+                AppDatabase.database.clearAllTables()
+                resetFirstRun()
+                uiThread {
+                    persistResetData(false)
+                    refreshData()
+                    getCurrencies()
                 }
-            } else {
-                getCurrencies()
             }
+        } else {
+            getCurrencies()
         }
     }
 }
