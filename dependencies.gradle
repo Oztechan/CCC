@@ -20,6 +20,7 @@ def OK_HTTP_VERSION = "3.12.1"
 def G_SON_VERSION = "2.8.5"
 def MATERIAL_SPINNER_VERSION = "1.2.1"
 def ROOM_VERSION = "2.2.0"
+def COROUTINES_VERSION = "1.3.0"
 def ADMOB_VERSION = "18.2.0"
 def FIREBASE_CONFIG_VERSION = "19.0.3"
 def CRASHLYTICS_VERSION = "2.10.1"
@@ -69,6 +70,7 @@ ext.DataBinding = dependencyGroup {
 }
 ext.LifeCycle = dependencyGroup {
     implementation "androidx.lifecycle:lifecycle-extensions:$LIFE_CYCLE_VERSION"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFE_CYCLE_VERSION"
 }
 ext.OkHttp = dependencyGroup {
     implementation "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
@@ -90,6 +92,9 @@ ext.MultiDex = dependencyGroup {
 ext.Room = dependencyGroup {
     implementation "androidx.room:room-runtime:$ROOM_VERSION"
     kapt "androidx.room:room-compiler:$ROOM_VERSION"
+}
+ext.Coroutines = dependencyGroup {
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
 }
 ext.Admob = dependencyGroup {
     implementation "com.google.android.gms:play-services-ads:$ADMOB_VERSION"

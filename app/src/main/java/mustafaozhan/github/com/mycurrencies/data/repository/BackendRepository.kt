@@ -1,15 +1,15 @@
 package mustafaozhan.github.com.mycurrencies.data.repository
 
-import io.reactivex.Observable
+import mustafaozhan.github.com.mycurrencies.base.api.BaseApiRepository
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendHelper
 import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class BackendRepository @Inject
-constructor(private val backendHelper: BackendHelper) {
-    fun getAllOnBase(base: Currencies): Observable<CurrencyResponse> =
+constructor(private val backendHelper: BackendHelper) : BaseApiRepository() {
+    suspend fun getAllOnBase(base: Currencies) = apiRequest {
         backendHelper.backendService.getAllOnBase(base)
+    }
 }

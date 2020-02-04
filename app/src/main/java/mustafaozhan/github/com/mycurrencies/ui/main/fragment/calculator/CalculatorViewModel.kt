@@ -2,8 +2,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
+import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
@@ -69,11 +71,13 @@ class CalculatorViewModel(
             }
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
         } ?: run {
-            subscribeService(
-                backendRepository.getAllOnBase(getMainData().currentBase),
-                ::rateDownloadSuccess,
-                ::rateDownloadFail
-            )
+            viewModelScope.launch {
+                subscribeService(
+                    backendRepository.getAllOnBase(getMainData().currentBase),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFail
+                )
+            }
         }
     }
 

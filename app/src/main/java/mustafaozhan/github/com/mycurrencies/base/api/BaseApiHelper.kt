@@ -1,9 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
 import com.google.gson.Gson
-import io.reactivex.schedulers.Schedulers
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
-import mustafaozhan.github.com.mycurrencies.base.api.exception.RxErrorHandlingCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,7 +22,6 @@ abstract class BaseApiHelper {
             .baseUrl(endpoint)
             .addConverterFactory(GsonConverterFactory.create(gSon))
             .client(httpClient)
-            .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create(Schedulers.io()))
             .build()
     }
 }

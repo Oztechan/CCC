@@ -72,6 +72,7 @@ dependencies {
     Retrofit()
     MaterialSpinner()
     Room()
+    Coroutines()
     Admob()
     FirebaseConfig()
     Crashlytics()
