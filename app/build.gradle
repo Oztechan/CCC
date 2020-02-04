@@ -69,6 +69,7 @@ dependencies {
     DataBinding()
     OkHttp()
     GSon()
+    Moshi()
     Retrofit()
     MaterialSpinner()
     Room()

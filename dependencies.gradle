@@ -18,6 +18,7 @@ def FIREBASE_CORE_VERSION = "17.2.0"
 def RETROFIT_VERSION = "2.4.0"
 def OK_HTTP_VERSION = "3.12.1"
 def G_SON_VERSION = "2.8.5"
+def MOSHI_VERSION = "1.9.2"
 def MATERIAL_SPINNER_VERSION = "1.2.1"
 def ROOM_VERSION = "2.2.0"
 def COROUTINES_VERSION = "1.3.0"
@@ -78,10 +79,15 @@ ext.OkHttp = dependencyGroup {
 ext.GSon = dependencyGroup {
     implementation "com.google.code.gson:gson:$G_SON_VERSION"
 }
+ext.Moshi = dependencyGroup {
+    implementation "com.squareup.moshi:moshi:$MOSHI_VERSION"
+    implementation "com.squareup.moshi:moshi-adapters:$MOSHI_VERSION"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
+}
 ext.Retrofit = dependencyGroup {
     implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
 }
 ext.MaterialSpinner = dependencyGroup {
     implementation "com.jaredrummler:material-spinner:$MATERIAL_SPINNER_VERSION"

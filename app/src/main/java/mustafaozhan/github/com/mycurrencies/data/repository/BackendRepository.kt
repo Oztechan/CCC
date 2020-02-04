@@ -8,9 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class BackendRepository @Inject
 constructor(private val backendHelper: BackendHelper) {
-    suspend fun getAllOnBase(base: Currencies) = backendHelper.apply {
-        apiRequest {
-            backendService.getAllOnBase(base)
-        }
+    suspend fun getAllOnBase(base: Currencies) = backendHelper.apiRequest {
+        backendHelper.backendService.getAllOnBase(base)
     }
 }
