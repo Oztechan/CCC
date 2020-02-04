@@ -1,9 +1,12 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
@@ -22,6 +25,12 @@ abstract class BaseApiHelper {
             .baseUrl(endpoint)
             .addConverterFactory(GsonConverterFactory.create(gSon))
             .client(httpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
+
+    suspend fun <T> apiRequest(suspendBlock: suspend () -> T) =
+        withContext(Dispatchers.IO) {
+            suspendBlock.invoke()
+        }
 }
