@@ -17,7 +17,6 @@ def FABRIC_VERSION = "2.10.1@aar"
 def FIREBASE_CORE_VERSION = "17.2.0"
 def RETROFIT_VERSION = "2.4.0"
 def OK_HTTP_VERSION = "3.12.1"
-def G_SON_VERSION = "2.8.5"
 def MOSHI_VERSION = "1.9.2"
 def MATERIAL_SPINNER_VERSION = "1.2.1"
 def ROOM_VERSION = "2.2.0"
@@ -76,12 +75,8 @@ ext.LifeCycle = dependencyGroup {
 ext.OkHttp = dependencyGroup {
     implementation "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
 }
-ext.GSon = dependencyGroup {
-    implementation "com.google.code.gson:gson:$G_SON_VERSION"
-}
 ext.Moshi = dependencyGroup {
     implementation "com.squareup.moshi:moshi:$MOSHI_VERSION"
-    implementation "com.squareup.moshi:moshi-adapters:$MOSHI_VERSION"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
 }
 ext.Retrofit = dependencyGroup {

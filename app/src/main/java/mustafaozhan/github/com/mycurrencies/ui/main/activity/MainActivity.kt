@@ -11,8 +11,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
+import com.squareup.moshi.Moshi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -184,19 +183,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
                             }
 
                         try {
-                            Gson().fromJson(
-                                remoteConfigStr,
-                                RemoteConfig::class.java
-                            ).apply {
-                                val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
+                            Moshi.Builder().build().adapter(RemoteConfig::class.java)
+                                .fromJson(remoteConfigStr.toString())?.apply {
+                                    val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
 
-                                if (latestVersion > BuildConfig.VERSION_CODE) {
-                                    showDialog(title, description, getString(R.string.update), isCancelable) {
-                                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                                    if (latestVersion > BuildConfig.VERSION_CODE) {
+                                        showDialog(title, description, getString(R.string.update), isCancelable) {
+                                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                                        }
                                     }
                                 }
-                            }
-                        } catch (e: JsonSyntaxException) {
+                        } catch (e: Exception) {
                             logException(e)
                         }
                     }

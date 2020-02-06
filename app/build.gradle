@@ -68,7 +68,6 @@ dependencies {
     LifeCycle()
     DataBinding()
     OkHttp()
-    GSon()
     Moshi()
     Retrofit()
     MaterialSpinner()
