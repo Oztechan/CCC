@@ -47,7 +47,7 @@ dependencies {
     Admob()
     FirebaseConfig()
     Crashlytics()
-    Fabric()
+    Timber()
     FirebaseCore()
     Anko()
     MultiDex()
