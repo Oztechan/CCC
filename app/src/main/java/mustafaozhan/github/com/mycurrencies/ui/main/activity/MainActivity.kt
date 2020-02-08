@@ -11,6 +11,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -193,7 +194,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                                         }
                                     }
                                 }
-                        } catch (e: Exception) {
+                        } catch (e: JsonDataException) {
                             logException(e)
                         }
                     }
