@@ -9,6 +9,7 @@ import com.squareup.moshi.JsonClass
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 @Entity(tableName = "currency")
+@JsonClass(generateAdapter = true)
 data class Currency(
     @PrimaryKey @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "longName") var longName: String,
@@ -21,5 +22,5 @@ data class Currency(
 
 @JsonClass(generateAdapter = true)
 data class CurrencyJson(
-    var currencies: ArrayList<Currency>
+    var currencies: List<Currency>
 )

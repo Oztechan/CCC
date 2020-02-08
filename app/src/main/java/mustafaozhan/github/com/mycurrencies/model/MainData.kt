@@ -8,8 +8,8 @@ import org.joda.time.Instant
  */
 @JsonClass(generateAdapter = true)
 data class MainData(
-    var firstRun: Boolean,
-    var currentBase: Currencies,
-    var adFreeActivatedDate: Instant?,
+    var firstRun: Boolean = true,
+    var currentBase: Currencies = Currencies.EUR,
+    var adFreeActivatedDate: Instant? = null,
     var sliderShown: Boolean? = false
 )

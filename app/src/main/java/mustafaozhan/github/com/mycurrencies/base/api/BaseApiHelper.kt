@@ -14,7 +14,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  */
 abstract class BaseApiHelper {
 
-    abstract val moshi: Moshi
+    protected abstract val moshi: Moshi
 
     protected fun getString(resId: Int): String {
         return CCCApplication.instance.getString(resId)

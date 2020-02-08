@@ -2,7 +2,6 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.base.preferences.BasePreferences
-import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,21 +22,20 @@ constructor() : BasePreferences() {
     override val preferencesName: String
         get() = GENERAL_SHARED_PREFS
 
+    override val moshi: Moshi
+        get() = Moshi.Builder().build()
+
     fun persistMainData(mainData: MainData) = setStringEntry(
         MAIN_DATA,
-        Moshi.Builder().build().adapter(MainData::class.java).toJson(mainData)
+        moshi.adapter(MainData::class.java).toJson(mainData)
     )
 
-    fun loadMainData() = Moshi.Builder()
-        .build()
+    fun loadMainData() = moshi
         .adapter(MainData::class.java)
-        .fromJson(getStringEntry(MAIN_DATA).toString())
-        ?: MainData(
-            true,
-            Currencies.EUR,
-            null,
-            null
-        )
+        .fromJson(getStringEntry(
+            MAIN_DATA,
+            moshi.adapter(MainData::class.java).toJson(MainData())
+        )) ?: MainData()
 
     fun loadResetData() = getBooleanEntry(RESET_DATA, true)
 

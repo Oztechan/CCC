@@ -1,41 +1,36 @@
 package mustafaozhan.github.com.mycurrencies.base.preferences
 
 import android.content.Context
-import android.content.SharedPreferences
+import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:42 PM on Arch Linux wit Love <3.
  */
+@Suppress("SameParameterValue")
 abstract class BasePreferences {
 
     protected abstract val preferencesName: String
+    protected abstract val moshi: Moshi
 
-    protected fun getStringEntry(key: String, defaultValue: String = ""): String? {
-        return getSharedPreferences().getString(key, defaultValue)
-    }
+    private val preferences
+        get() = CCCApplication.instance
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
 
-    protected fun setStringEntry(key: String, value: String) {
-        val prefsEditor = getPreferencesEditor()
-        prefsEditor.putString(key, value)
-        prefsEditor.commit()
-    }
+    private val editor
+        get() = preferences.edit()
 
-    protected fun setBooleanEntry(key: String, value: Boolean) {
-        getPreferencesEditor().putBoolean(key, value).commit()
-    }
+    protected fun getStringEntry(key: String, defaultValue: String) = preferences
+        .getString(key, defaultValue) ?: defaultValue
 
-    protected fun getBooleanEntry(key: String, defaultValue: Boolean = false): Boolean {
-        return getSharedPreferences().getBoolean(key, defaultValue)
-    }
+    protected fun setStringEntry(key: String, value: String) = editor
+        .putString(key, value)
+        .commit()
 
-    private fun getPreferencesEditor(): SharedPreferences.Editor {
+    protected fun setBooleanEntry(key: String, value: Boolean) = editor
+        .putBoolean(key, value)
+        .commit()
 
-        val prefs = CCCApplication.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
-        return prefs.edit()
-    }
-
-    private fun getSharedPreferences(): SharedPreferences {
-        return CCCApplication.instance.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
-    }
+    protected fun getBooleanEntry(key: String, defaultValue: Boolean = false) = preferences
+        .getBoolean(key, defaultValue)
 }
