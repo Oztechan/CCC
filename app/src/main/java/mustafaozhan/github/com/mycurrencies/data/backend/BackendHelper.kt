@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
 import okhttp3.Interceptor
@@ -18,14 +17,8 @@ import javax.inject.Singleton
 class BackendHelper @Inject
 constructor() : BaseApiHelper() {
 
-    companion object {
-        const val SIMPLE_YYYY_MM_DD = "yyyy-MM-dd'T'HH:mm:ss"
-    }
-
-    override val gSon: Gson
-        get() = GsonBuilder()
-            .setDateFormat(SIMPLE_YYYY_MM_DD)
-            .create()
+    override val moshi: Moshi
+        get() = Moshi.Builder().build()
 
     val backendService: BackendService by lazy { initBackendApiServices() }
 

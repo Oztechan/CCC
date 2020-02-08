@@ -1,12 +1,14 @@
 package mustafaozhan.github.com.mycurrencies.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 
+@JsonClass(generateAdapter = true)
 data class RemoteConfig(
-    @SerializedName("title") val title: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("update_url") val updateUrl: String,
-    @SerializedName("force_version") val forceVersion: Int = BuildConfig.VERSION_CODE,
-    @SerializedName("latest_version") val latestVersion: Int = BuildConfig.VERSION_CODE
+    @Json(name = "title") val title: String,
+    @Json(name = "description") val description: String,
+    @Json(name = "update_url") val updateUrl: String,
+    @Json(name = "force_version") val forceVersion: Int = BuildConfig.VERSION_CODE,
+    @Json(name = "latest_version") val latestVersion: Int = BuildConfig.VERSION_CODE
 )

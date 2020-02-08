@@ -1,19 +1,20 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
-import com.google.gson.Gson
-import io.reactivex.schedulers.Schedulers
+import com.squareup.moshi.Moshi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
-import mustafaozhan.github.com.mycurrencies.base.api.exception.RxErrorHandlingCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:44 PM on Arch Linux wit Love <3.
  */
 abstract class BaseApiHelper {
 
-    abstract val gSon: Gson
+    abstract val moshi: Moshi
 
     protected fun getString(resId: Int): String {
         return CCCApplication.instance.getString(resId)
@@ -22,9 +23,14 @@ abstract class BaseApiHelper {
     protected fun initRxRetrofit(endpoint: String, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(endpoint)
-            .addConverterFactory(GsonConverterFactory.create(gSon))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(httpClient)
-            .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create(Schedulers.io()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
+
+    suspend fun <T> apiRequest(suspendBlock: suspend () -> T) =
+        withContext(Dispatchers.IO) {
+            suspendBlock.invoke()
+        }
 }

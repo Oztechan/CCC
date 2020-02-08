@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -45,9 +45,15 @@ inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? 
 }
 
 fun CurrencyDao.insertInitialCurrencies() {
-    Gson().fromJson(CCCApplication.instance.assets.open("currencies.json").bufferedReader().use {
-        it.readText()
-    }, CurrencyJson::class.java).currencies.forEach { currency ->
+    Moshi.Builder()
+        .build()
+        .adapter(CurrencyJson::class.java)
+        .fromJson(
+            CCCApplication.instance.assets.open("currencies.json").bufferedReader()
+                .use {
+                    it.readText()
+                }
+        )?.currencies?.forEach { currency ->
         this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))
     }
 }

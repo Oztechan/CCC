@@ -1,12 +1,14 @@
 package mustafaozhan.github.com.mycurrencies.model
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Created by Mustafa Ozhan on 2018-07-13.
  */
+@JsonClass(generateAdapter = true)
 data class CurrencyResponse(
-    @SerializedName("base") var base: String,
-    @SerializedName("date") var date: String? = null,
-    @SerializedName("rates") var rates: Rates
+    @Json(name = "base") var base: String,
+    @Json(name = "date") var date: String? = null,
+    @Json(name = "rates") var rates: Rates
 )
