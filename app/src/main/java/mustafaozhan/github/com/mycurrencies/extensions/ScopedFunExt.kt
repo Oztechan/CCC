@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package mustafaozhan.github.com.mycurrencies.extensions
 
 fun <T> T.whether(
@@ -33,3 +31,7 @@ fun <T> T.whetherThisNot(
 } else {
     null
 }
+
+fun <T1, T2> T1.mapTo(
+    method: T1.(condition: T1) -> T2
+) = method(this)

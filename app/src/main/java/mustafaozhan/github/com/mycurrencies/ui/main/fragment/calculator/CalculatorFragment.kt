@@ -18,6 +18,9 @@ import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
+import mustafaozhan.github.com.mycurrencies.extensions.whether
+import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
+import mustafaozhan.github.com.mycurrencies.extensions.whetherThisNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
@@ -84,11 +87,15 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     }
                 }
                 CalculatorViewState.Error -> {
-                    if (viewModel.currencyListLiveData.value?.size ?: 0 > 1) {
-                        snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
-                            binding.layoutBar.spinnerBase.expand()
+                    viewModel.currencyListLiveData
+                        .value
+                        ?.size
+                        ?.whether { it > 1 }
+                        ?.let {
+                            snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
+                                binding.layoutBar.spinnerBase.expand()
+                            }
                         }
-                    }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
                     binding.loadingView.smoothToHide()
@@ -121,12 +128,13 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     viewModel.getMainData().currentBase.toString()
                 )?.symbol
 
-                if (output.toString().isEmpty()) {
-                    txtOutput.text = ""
-                    txtSymbol.text = ""
-                } else {
-                    txtOutput.text = "=  ${output.toString().replaceNonStandardDigits()} "
-                }
+                output.toString()
+                    .whetherThisNot { isEmpty() }
+                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
+                    ?: run {
+                        txtOutput.text = ""
+                        txtSymbol.text = ""
+                    }
             }
         })
     }
@@ -149,13 +157,13 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
             viewModel.updateCurrentBase(currency.name)
             viewModel.calculateOutput(itemView.txt_amount.text.toString().dropDecimal())
-            viewModel.currencyListLiveData.value?.let { currencyList ->
-                if (currencyList.indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size) {
-                    layoutBar.spinnerBase.tryToSelect(currencyList.indexOf(currency))
-                } else {
-                    layoutBar.spinnerBase.expand()
-                }
-            }
+
+            viewModel.currencyListLiveData
+                .value
+                ?.whetherThis { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
+                ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
+                ?: run { layoutBar.spinnerBase.expand() }
+
             layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
@@ -190,10 +198,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             ivBase.setBackgroundByName(item.toString())
         }
         layoutBar.setOnClickListener {
-            if (spinnerBase.isActivated) {
-                spinnerBase.collapse()
-            } else {
-                spinnerBase.expand()
+            with(spinnerBase) {
+                whetherThis { isActivated }
+                    ?.apply { collapse() }
+                    ?: run { expand() }
             }
         }
     }
@@ -223,10 +231,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             binding.layoutBar.txtSymbol.text = ""
         }
         layoutKeyboard.btnDelete.setOnClickListener {
-            if (binding.txtInput.text.toString() != "") {
-                binding.txtInput.text = binding.txtInput.text.toString()
-                    .substring(0, binding.txtInput.text.toString().length - 1)
-            }
+            binding.txtInput
+                .text
+                .toString()
+                .whetherThisNot { isEmpty() }
+                ?.apply { binding.txtInput.text = substring(0, length - 1) }
         }
     }
 

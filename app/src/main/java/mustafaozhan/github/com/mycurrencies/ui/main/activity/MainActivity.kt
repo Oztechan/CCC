@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.ads.AdRequest
@@ -22,6 +21,8 @@ import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
+import mustafaozhan.github.com.mycurrencies.extensions.whether
+import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
@@ -110,10 +111,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun showVideoAd() {
-        if (interstitialVideoAd.isLoaded) {
-            viewModel.updateAdFreeActivation()
-            interstitialVideoAd.show()
-        }
+        interstitialVideoAd
+            .whetherThis { isLoaded }
+            ?.apply {
+                viewModel.updateAdFreeActivation()
+                show()
+            }
 
         prepareAd()
     }
@@ -144,11 +147,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
             .debounce(0, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (interstitialTextAd.isLoaded && adVisibility && viewModel.isRewardExpired()) {
-                    interstitialTextAd.show()
-                } else {
-                    prepareAd()
-                }
+                interstitialTextAd
+                    .whetherThis { isLoaded }
+                    .whether { adVisibility }
+                    .whether { viewModel.isRewardExpired() }
+                    ?.apply { show() }
+                    ?: run { prepareAd() }
             }, { logException(it) }
             )
     }
@@ -176,22 +180,23 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     if (task.isSuccessful) {
                         activate()
 
-                        val remoteConfigStr =
-                            if (TextUtils.isEmpty(getString(REMOTE_CONFIG))) {
-                                defaultMap[REMOTE_CONFIG] as? String
-                            } else {
-                                getString(REMOTE_CONFIG)
-                            }
+                        val remoteConfigStr = getString(REMOTE_CONFIG)
+                            .whetherThis { isEmpty() }
+                            ?.let { defaultMap[REMOTE_CONFIG] as? String }
+                            ?: run { getString(REMOTE_CONFIG) }
 
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(remoteConfigStr.toString())?.apply {
-                                    val isCancelable = forceVersion <= BuildConfig.VERSION_CODE
-
-                                    if (latestVersion > BuildConfig.VERSION_CODE) {
-                                        showDialog(title, description, getString(R.string.update), isCancelable) {
-                                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
-                                        }
+                                .fromJson(remoteConfigStr)
+                                ?.whetherThis { latestVersion > BuildConfig.VERSION_CODE }
+                                ?.apply {
+                                    showDialog(
+                                        title,
+                                        description,
+                                        getString(R.string.update),
+                                        forceVersion <= BuildConfig.VERSION_CODE
+                                    ) {
+                                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
                                     }
                                 }
                         } catch (e: JsonDataException) {

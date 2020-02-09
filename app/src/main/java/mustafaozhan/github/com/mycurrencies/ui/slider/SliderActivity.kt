@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
+import mustafaozhan.github.com.mycurrencies.extensions.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
 class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {
@@ -63,16 +64,10 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
         }
 
         binding.btnNext.setOnClickListener {
-            // checking for last page
-            // if last page home screen will be launched
-            val current = getItem(+1)
-
-            if (current < SLIDE_SIZE) {
-                // move to next screen
-                binding.viewPager.currentItem = current
-            } else {
-                launchMainActivity()
-            }
+            getItem(+1)
+                .whether { it < SLIDE_SIZE }
+                ?.let { binding.viewPager.currentItem = it }
+                ?: run { launchMainActivity() }
         }
     }
 
