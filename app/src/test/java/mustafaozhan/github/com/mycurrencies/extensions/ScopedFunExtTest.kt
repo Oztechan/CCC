@@ -4,71 +4,117 @@ import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@Suppress("MayBeConst")
 class ScopedFunExtTest {
 
-    inner class TestClass {
+    companion object {
+        private const val UN_EXPECTED = "Unexpected"
+        private const val EXPECTED = "Expected"
+        private val SOME_STRING: String? = "Some String"
+    }
+
+    inner class TestSubject {
         var trueCondition = true
         var falseCondition = false
     }
 
-    private var subject: TestClass? = TestClass()
+    private var subject: TestSubject? = TestSubject()
 
     @Test
     fun whether() {
         subject
             ?.whether { it.trueCondition }
-            ?.let { assertTrue("Should enter", true) }
-            ?: run { Assert.fail("Shouldn't enter") }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             ?.whether { it.falseCondition }
-            ?.let { Assert.fail("Shouldn't enter") }
+            ?.let { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
     fun `whether not`() {
         subject
             ?.whetherNot { it.falseCondition }
-            ?.let { assertTrue("Should enter", true) }
-            ?: run { Assert.fail("Shouldn't enter") }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             ?.whetherNot { it.trueCondition }
-            ?.let { Assert.fail("Shouldn't enter") }
+            ?.let { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
     fun `whether this`() {
         subject
             ?.whetherThis { trueCondition }
-            ?.apply { assertTrue("Should enter", true) }
-            ?: run { Assert.fail("Shouldn't enter") }
+            ?.apply { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             ?.whetherThis { falseCondition }
-            ?.apply { Assert.fail("Shouldn't enter") }
+            ?.apply { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
     fun `whether this not`() {
         subject
             ?.whetherThisNot { falseCondition }
-            ?.apply { assertTrue("Should enter", true) }
-            ?: run { Assert.fail("Shouldn't enter") }
+            ?.apply { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             .whetherThisNot { true }
-            ?.apply { Assert.fail("Shouldn't enter") }
+            ?.apply { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
-    fun `chain combination`() {
+    fun `chain combination`() = subject
+        ?.whetherThis { it.trueCondition }
+        ?.whetherThisNot { falseCondition }
+        ?.whetherNot { it.trueCondition } // exit chain
+        ?.whether { true }
+        ?.let { Assert.fail(UN_EXPECTED) }
+        ?: run { assertTrue(EXPECTED, true) }
+
+    @Test
+    fun `is null passed through scope`() {
+        subject = null
         subject
             ?.whetherThis { it.trueCondition }
             ?.whetherThisNot { falseCondition }
-            ?.whetherNot { it.trueCondition } // exit chain
-            ?.whether { true }
-            ?.let { Assert.fail("Shouldn't enter") }
-            ?: run { assertTrue("Should enter", true) }
+            .whether { true }
+            .let {
+                if (it == null) {
+                    assertTrue(EXPECTED, true)
+                } else {
+                    Assert.fail(UN_EXPECTED)
+                }
+            }
     }
+
+    @Test
+    fun mapTo() {
+        subject
+            ?.mapTo { trueCondition }
+            ?.whether { it }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        subject
+            ?.mapTo { falseCondition }
+            ?.whether { it }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `extraordinary mapTo`() = subject
+        .mapTo { SOME_STRING }
+        ?.let { assertTrue(EXPECTED, true) }
+        ?: run { Assert.fail(UN_EXPECTED) }
+            .mapTo { subject?.trueCondition }
+            ?.whether { it }
+            ?.let { assertTrue(EXPECTED, true) }
+        ?: run { Assert.fail(UN_EXPECTED) }
 }

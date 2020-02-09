@@ -61,7 +61,7 @@ class CalculatorViewModel(
         rates = null
         currencyListLiveData.value?.clear()
 
-        if (getMainData().firstRun) {
+        if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
@@ -79,7 +79,7 @@ class CalculatorViewModel(
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
-                    backendRepository.getAllOnBase(getMainData().currentBase),
+                    backendRepository.getAllOnBase(mainData.currentBase),
                     ::rateDownloadSuccess,
                     ::rateDownloadFail
                 )
@@ -100,11 +100,20 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
-        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString())?.let { offlineRates ->
+
+        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
             calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
         } ?: run {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
         }
+
+        calculatorViewStateLiveData.postValue(
+            offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
+                CalculatorViewState.OfflineSuccess(offlineRates)
+            } ?: run {
+                CalculatorViewState.Error
+            }
+        )
     }
 
     fun calculateOutput(input: String) {
@@ -134,17 +143,17 @@ class CalculatorViewModel(
     fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
 
     fun getClickedItemRate(name: String): String =
-        "1 ${getMainData().currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
+        "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
-        getMainData().currentBase
+        mainData.currentBase
             .whether { it == Currencies.NULL }
             .whether { spinnerList.indexOf(it.toString()) == -1 }
             ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
 
-        return getMainData().currentBase
+        return mainData.currentBase
     }
 
     fun calculateResultByCurrency(

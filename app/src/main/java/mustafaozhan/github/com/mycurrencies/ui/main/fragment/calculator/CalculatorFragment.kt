@@ -97,7 +97,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                             }
                         }
 
-                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.getMainData().currentBase)
+                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
                 is CalculatorViewState.MaximumInput -> {
@@ -117,7 +117,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
                 updateBar(currencyList.map { it.name })
-                calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
+                calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 binding.loadingView.smoothToHide()
             }
         })
@@ -125,7 +125,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         viewModel.outputLiveData.reObserve(this, Observer { output ->
             with(binding.layoutBar) {
                 txtSymbol.text = viewModel.getCurrencyByName(
-                    viewModel.getMainData().currentBase.toString()
+                    viewModel.mainData.currentBase.toString()
                 )?.symbol
 
                 output.toString()
@@ -142,7 +142,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun onSearchSuccess(rates: Rates) {
         viewModel.currencyListLiveData.value?.let { currencyList ->
             currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, rates) }
-            calculatorFragmentAdapter.refreshList(currencyList, viewModel.getMainData().currentBase)
+            calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
         }
         binding.loadingView.smoothToHide()
     }
@@ -242,7 +242,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun initData() = viewModel.apply {
         refreshData()
 
-        if (loadResetData() && !getMainData().firstRun) {
+        if (loadResetData() && !mainData.firstRun) {
             doAsync {
                 AppDatabase.database.clearAllTables()
                 resetFirstRun()

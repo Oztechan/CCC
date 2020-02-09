@@ -28,7 +28,7 @@ class SettingsViewModel(
     fun refreshData() {
         currencyList.clear()
 
-        if (getMainData().firstRun) {
+        if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
@@ -52,7 +52,7 @@ class SettingsViewModel(
         currencyDao.updateAllCurrencyState(value)
     }
 
-    private fun verifyCurrentBase() = getMainData().currentBase
+    private fun verifyCurrentBase() = mainData.currentBase
         .whether { it == Currencies.NULL }
         .whetherThis { currencyList.filter { it.name == toString() }.toList().firstOrNull()?.isActive == 0 }
         ?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
