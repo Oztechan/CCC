@@ -1,13 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
 import com.squareup.moshi.Moshi
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -18,15 +12,6 @@ import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
-
-fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
-    removeObserver(observer)
-    observe(owner, observer)
-}
-
-fun <T> Observable<T>.applySchedulers(): Observable<T> =
-    observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.io())
 
 fun Rates?.calculateResult(name: String, value: String) =
     this?.getThroughReflection<Double>(name)
