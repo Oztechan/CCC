@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.extensions
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class StandardTypeExtTest {
+class TypeExtTest {
 
     @Test
     fun `replace unsupported characters`() {

@@ -1,35 +1,45 @@
-@file:Suppress("unused")
-
 package mustafaozhan.github.com.mycurrencies.extensions
 
-fun <T : Any?> T?.whether(
-    method: (condition: T) -> Boolean
-) = if (this != null && method(this)) {
-    this
-} else {
-    null
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+
+fun String.replaceNonStandardDigits(): String {
+    val builder = StringBuilder()
+    this.forEach { ch ->
+        if (isNonstandardDigit(ch)) {
+            val numericValue = Character.getNumericValue(ch)
+
+            if (numericValue >= 0) {
+                builder.append(numericValue)
+            }
+        } else {
+            builder.append(ch)
+        }
+    }
+    return builder.toString()
 }
 
-fun <T : Any?> T?.whetherNot(
-    method: (condition: T) -> Boolean
-) = if (this != null && !method(this)) {
-    this
-} else {
-    null
+private fun isNonstandardDigit(ch: Char): Boolean {
+    return Character.isDigit(ch) && ch !in '0'..'9'
 }
 
-fun <T> T.whetherThis(
-    method: T.(condition: T) -> Boolean
-) = if (this != null && method(this)) {
-    this
-} else {
-    null
+fun String.replaceUnsupportedCharacters(): String =
+    this.replace(",", ".")
+        .replace("٫", ".")
+        .replace(" ", "")
+        .replace("−", "-")
+
+fun Double.getFormatted(): String {
+    val symbols = DecimalFormatSymbols.getInstance()
+    symbols.groupingSeparator = ' '
+    return DecimalFormat("###,###.###", symbols).format(this)
 }
 
-fun <T> T.whetherThisNot(
-    method: T.(condition: T) -> Boolean
-) = if (this != null && !method(this)) {
-    this
-} else {
-    null
+fun String.dropDecimal(): String {
+    val temp = replace(" ", "")
+    return if (temp.contains(".")) {
+        temp.substring(0, temp.indexOf("."))
+    } else {
+        this
+    }
 }
