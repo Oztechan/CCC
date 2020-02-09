@@ -32,6 +32,6 @@ fun <T> T.whetherThisNot(
     null
 }
 
-fun <T1, T2> T1.mapTo(
-    method: T1.(condition: T1) -> T2
-) = method(this)
+fun <T, R> T.mapTo(
+    transform: T.(T) -> R
+): R = transform(this)

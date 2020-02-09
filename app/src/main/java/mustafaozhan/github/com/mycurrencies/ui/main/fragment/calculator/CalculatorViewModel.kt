@@ -119,7 +119,7 @@ class CalculatorViewModel(
     fun calculateOutput(input: String) {
         Expression(input.replaceUnsupportedCharacters().toPercent())
             .calculate()
-            .mapTo { if (isNaN()) "" else getFormatted() }
+            .mapTo { if (it.isNaN()) "" else it.getFormatted() }
             .whetherThisNot { length <= MAXIMUM_INPUT }
             ?.let { output ->
                 outputLiveData.postValue(output)
