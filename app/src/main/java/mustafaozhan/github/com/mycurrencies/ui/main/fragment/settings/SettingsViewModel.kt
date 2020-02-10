@@ -6,7 +6,6 @@ import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepositor
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.whether
-import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -54,6 +53,6 @@ class SettingsViewModel(
 
     private fun verifyCurrentBase() = mainData.currentBase
         .whether { it == Currencies.NULL }
-        .whetherThis { currencyList.filter { it.name == toString() }.toList().firstOrNull()?.isActive == 0 }
+        ?.whether { base -> currencyList.filter { it.name == base.toString() }.toList().firstOrNull()?.isActive == 0 }
         ?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
 }

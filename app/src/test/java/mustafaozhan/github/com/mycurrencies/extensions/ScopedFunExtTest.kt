@@ -33,7 +33,7 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `whether not`() {
+    fun whetherNot() {
         subject
             ?.whetherNot { it.falseCondition }
             ?.let { assertTrue(EXPECTED, true) }
@@ -45,7 +45,7 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `whether this`() {
+    fun whetherThis() {
         subject
             ?.whetherThis { trueCondition }
             ?.apply { assertTrue(EXPECTED, true) }
@@ -57,7 +57,7 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `whether this not`() {
+    fun whetherThisNot() {
         subject
             ?.whetherThisNot { falseCondition }
             ?.apply { assertTrue(EXPECTED, true) }

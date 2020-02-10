@@ -101,12 +101,6 @@ class CalculatorViewModel(
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
 
-        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
-        } ?: run {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
-        }
-
         calculatorViewStateLiveData.postValue(
             offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
                 CalculatorViewState.OfflineSuccess(offlineRates)
@@ -149,8 +143,7 @@ class CalculatorViewModel(
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
-            .whether { it == Currencies.NULL }
-            .whether { spinnerList.indexOf(it.toString()) == -1 }
+            .whether { it == Currencies.NULL || spinnerList.indexOf(it.toString()) == -1 }
             ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
 
         return mainData.currentBase
