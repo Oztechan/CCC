@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mariuszgromada.math.mxparser.Expression
 
 class TypeExtTest {
 
@@ -45,5 +46,13 @@ class TypeExtTest {
     @Test
     fun `drop decimal point from string`() {
         assertEquals("1234.567".dropDecimal(), "1234")
+    }
+
+    @Test
+    fun `to percent`() {
+        assertEquals(
+            Expression("10+200%5+5-5*3".toPercent()).calculate().toString(),
+            "10.0"
+        )
     }
 }

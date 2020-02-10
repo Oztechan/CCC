@@ -19,6 +19,7 @@ import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extensions.toPercent
 import mustafaozhan.github.com.mycurrencies.extensions.whether
+import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
 import mustafaozhan.github.com.mycurrencies.extensions.whetherThisNot
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -110,21 +111,19 @@ class CalculatorViewModel(
         )
     }
 
-    fun calculateOutput(input: String) {
-        Expression(input.replaceUnsupportedCharacters().toPercent())
-            .calculate()
-            .mapTo { if (it.isNaN()) "" else it.getFormatted() }
-            .whetherThisNot { length <= MAXIMUM_INPUT }
-            ?.let { output ->
-                outputLiveData.postValue(output)
-                currencyListLiveData.value
-                    ?.size
-                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
-                    ?: run { getCurrencies() }
-            }
-            ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
-    }
+    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+        .calculate()
+        .mapTo { if (it.isNaN()) "" else it.getFormatted() }
+        .whetherThis { length <= MAXIMUM_INPUT }
+        ?.let { output ->
+            outputLiveData.postValue(output)
+            currencyListLiveData.value
+                ?.size
+                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                ?: run { getCurrencies() }
+        }
+        ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
