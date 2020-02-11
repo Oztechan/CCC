@@ -59,7 +59,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     override fun onResume() {
         super.onResume()
         initData()
-        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired())
+        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired)
     }
 
     private fun setRx() {

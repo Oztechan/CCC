@@ -64,7 +64,7 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
         }
 
         binding.btnNext.setOnClickListener {
-            getItem(+1)
+            getNextItem()
                 .whether { it < SLIDE_SIZE }
                 ?.let { binding.viewPager.currentItem = it }
                 ?: run { launchMainActivity() }
@@ -92,9 +92,7 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
         }
     }
 
-    private fun getItem(i: Int): Int {
-        return binding.viewPager.currentItem + i
-    }
+    private fun getNextItem() = binding.viewPager.currentItem.inc()
 
     private fun launchMainActivity() {
         binding.progressBar.visibility = View.VISIBLE

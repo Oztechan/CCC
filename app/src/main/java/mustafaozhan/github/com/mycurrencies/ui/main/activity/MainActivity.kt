@@ -60,11 +60,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
 
-        when {
-            supportFragmentManager.findFragmentById(containerId) is CalculatorFragment ->
-                menuInflater.inflate(R.menu.fragment_main_menu, menu)
-            supportFragmentManager.findFragmentById(containerId) is SettingsFragment ->
-                menuInflater.inflate(R.menu.fragment_settings_menu, menu)
+        when (supportFragmentManager.findFragmentById(containerId)) {
+            is CalculatorFragment -> menuInflater.inflate(R.menu.fragment_main_menu, menu)
+            is SettingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -149,8 +147,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
             .subscribe({
                 interstitialTextAd
                     .whetherThis { isLoaded }
-                    .whether { adVisibility }
-                    .whether { viewModel.isRewardExpired() }
+                    ?.whether { adVisibility }
+                    ?.whether { viewModel.isRewardExpired }
                     ?.apply { show() }
                     ?: run { prepareAd() }
             }, { logException(it) }
@@ -187,8 +185,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(remoteConfigStr)
-                                ?.whetherThis { latestVersion > BuildConfig.VERSION_CODE }
+                                .fromJsonValue(remoteConfigStr)
+                                ?.whetherThis { latestVersion < BuildConfig.VERSION_CODE }
                                 ?.apply {
                                     showDialog(
                                         title,

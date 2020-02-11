@@ -10,21 +10,18 @@ abstract class BaseDataViewModel(
     protected var preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
 
-    open val mainData: MainData
-        get() = preferencesRepository.loadMainData()
-
     companion object {
         const val NUMBER_OF_HOURS = 24
     }
 
-    open fun setCurrentBase(newBase: String?) = preferencesRepository
+    internal val mainData: MainData
+        get() = preferencesRepository.loadMainData()
+
+    internal val isRewardExpired: Boolean
+        get() = preferencesRepository.loadMainData().adFreeActivatedDate?.let {
+            Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
+        } ?: true
+
+    internal fun setCurrentBase(newBase: String?) = preferencesRepository
         .updateMainData(currentBase = Currencies.valueOf(newBase ?: "NULL"))
-
-    open fun isSliderShown() = preferencesRepository.loadMainData().sliderShown == true
-
-    open fun setSliderShown() = preferencesRepository.updateMainData(sliderShown = true)
-
-    open fun isRewardExpired() = preferencesRepository.loadMainData().adFreeActivatedDate?.let {
-        Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
-    } ?: true
 }
