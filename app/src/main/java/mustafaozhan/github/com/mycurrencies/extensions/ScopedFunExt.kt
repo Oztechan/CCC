@@ -8,7 +8,7 @@ fun <T> T.whether(
     null
 }
 
-fun <T> T.whetherNot(
+fun <T> T.unless(
     method: (condition: T) -> Boolean
 ) = if (this != null && !method(this)) {
     this
@@ -24,7 +24,7 @@ fun <T> T.whetherThis(
     null
 }
 
-fun <T> T.whetherThisNot(
+fun <T> T.unlessThis(
     method: T.(condition: T) -> Boolean
 ) = if (this != null && !method(this)) {
     this

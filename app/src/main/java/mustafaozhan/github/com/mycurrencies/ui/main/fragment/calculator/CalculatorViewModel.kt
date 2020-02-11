@@ -18,9 +18,9 @@ import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extensions.toPercent
+import mustafaozhan.github.com.mycurrencies.extensions.unlessThis
 import mustafaozhan.github.com.mycurrencies.extensions.whether
 import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
-import mustafaozhan.github.com.mycurrencies.extensions.whetherThisNot
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
@@ -153,7 +153,7 @@ class CalculatorViewModel(
         rate: Rates?
     ) = outputLiveData.value
         .toString()
-        .whetherThisNot { isEmpty() }
+        .unlessThis { isEmpty() }
         ?.let { output ->
             try {
                 rate.calculateResult(name, output)

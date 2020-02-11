@@ -18,9 +18,9 @@ import mustafaozhan.github.com.mycurrencies.extensions.reObserve
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
+import mustafaozhan.github.com.mycurrencies.extensions.unlessThis
 import mustafaozhan.github.com.mycurrencies.extensions.whether
 import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
-import mustafaozhan.github.com.mycurrencies.extensions.whetherThisNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
@@ -129,7 +129,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 )?.symbol
 
                 output.toString()
-                    .whetherThisNot { isEmpty() }
+                    .unlessThis { isEmpty() }
                     ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
                     ?: run {
                         txtOutput.text = ""
@@ -234,7 +234,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             binding.txtInput
                 .text
                 .toString()
-                .whetherThisNot { isEmpty() }
+                .unlessThis { isEmpty() }
                 ?.apply { binding.txtInput.text = substring(0, length - 1) }
         }
     }

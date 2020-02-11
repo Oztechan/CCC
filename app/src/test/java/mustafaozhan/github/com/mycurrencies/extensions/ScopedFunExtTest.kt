@@ -33,14 +33,14 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `whether not`() {
+    fun unless() {
         subject
-            ?.whetherNot { it.falseCondition }
+            ?.unless { it.falseCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
-            ?.whetherNot { it.trueCondition }
+            ?.unless { it.trueCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
     }
 
@@ -57,22 +57,22 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `whether this not`() {
+    fun `unless this`() {
         subject
-            ?.whetherThisNot { falseCondition }
+            ?.unlessThis { falseCondition }
             ?.apply { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
-            .whetherThisNot { true }
+            .unlessThis { true }
             ?.apply { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
-    fun `chain combination`() = subject
+    fun `is chain breaks`() = subject
         ?.whetherThis { it.trueCondition }
-        ?.whetherThisNot { falseCondition }
-        ?.whetherNot { it.trueCondition } // exit chain
+        ?.unlessThis { falseCondition }
+        ?.unless { it.trueCondition } // exit chain
         ?.whether { true }
         ?.let { Assert.fail(UN_EXPECTED) }
         ?: run { assertTrue(EXPECTED, true) }
@@ -81,8 +81,8 @@ class ScopedFunExtTest {
     fun `is null passed through scope`() {
         subject = null
         subject
-            ?.whetherThis { it.trueCondition }
-            ?.whetherThisNot { falseCondition }
+            ?.whether { it.trueCondition }
+            ?.unlessThis { falseCondition }
             .whether { true }
             .let {
                 if (it == null) {
@@ -91,6 +91,12 @@ class ScopedFunExtTest {
                     Assert.fail(UN_EXPECTED)
                 }
             }
+        subject = null
+        subject
+            ?.whether { it.trueCondition }
+            ?.unlessThis { falseCondition }
+            .whether { true }
+            ?.let { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
