@@ -22,3 +22,17 @@ fun <T, R> T.mapTo(
     transform: T.(map: T) -> R?
 ): R? =
     transform(this)
+
+@Suppress("UNCHECKED_CAST")
+fun <T, R> T?.castTo(
+    cast: T.() -> Class<R>
+): R? =
+    if (this != null) {
+        if (cast(this).isInstance(this)) {
+            this as? R
+        } else {
+            null
+        }
+    } else {
+        null
+    }

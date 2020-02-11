@@ -52,7 +52,7 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `map to`() {
+    fun mapTo() {
         subject
             ?.mapTo { it.trueCondition }
             ?.whether { it }
@@ -78,7 +78,7 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `extraordinary map to`() = subject
+    fun `extraordinary mapTo`() = subject
         .mapTo { SOME_STRING }
         ?.mapTo { it -> it.length }
         ?.let { assertEquals(11, it) }
@@ -120,5 +120,19 @@ class ScopedFunExtTest {
             ?.mapTo { it }
             .whether { true }
             ?.let { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun castTo() {
+        open class A
+        class B : A()
+
+        B().castTo { A::class.java }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        A().castTo { B::class.java }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 }
