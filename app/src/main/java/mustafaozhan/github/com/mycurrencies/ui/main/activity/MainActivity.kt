@@ -22,7 +22,6 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.extensions.whether
-import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
@@ -110,7 +109,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun showVideoAd() {
         interstitialVideoAd
-            .whetherThis { isLoaded }
+            .whether { isLoaded }
             ?.apply {
                 viewModel.updateAdFreeActivation()
                 show()
@@ -146,7 +145,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 interstitialTextAd
-                    .whetherThis { isLoaded }
+                    .whether { isLoaded }
                     ?.whether { adVisibility }
                     ?.whether { viewModel.isRewardExpired }
                     ?.apply { show() }
@@ -179,14 +178,14 @@ class MainActivity : BaseActivity<MainViewModel>() {
                         activate()
 
                         val remoteConfigStr = getString(REMOTE_CONFIG)
-                            .whetherThis { isEmpty() }
+                            .whether { isEmpty() }
                             ?.let { defaultMap[REMOTE_CONFIG] as? String }
                             ?: run { getString(REMOTE_CONFIG) }
 
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
                                 .fromJsonValue(remoteConfigStr)
-                                ?.whetherThis { latestVersion < BuildConfig.VERSION_CODE }
+                                ?.whether { latestVersion < BuildConfig.VERSION_CODE }
                                 ?.apply {
                                     showDialog(
                                         title,

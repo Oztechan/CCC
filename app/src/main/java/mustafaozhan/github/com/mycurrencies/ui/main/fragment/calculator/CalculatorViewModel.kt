@@ -18,9 +18,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extensions.toPercent
-import mustafaozhan.github.com.mycurrencies.extensions.unlessThis
+import mustafaozhan.github.com.mycurrencies.extensions.unless
 import mustafaozhan.github.com.mycurrencies.extensions.whether
-import mustafaozhan.github.com.mycurrencies.extensions.whetherThis
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
@@ -111,19 +110,22 @@ class CalculatorViewModel(
         )
     }
 
-    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
-        .calculate()
-        .mapTo { if (it.isNaN()) "" else it.getFormatted() }
-        .whetherThis { length <= MAXIMUM_INPUT }
-        ?.let { output ->
-            outputLiveData.postValue(output)
-            currencyListLiveData.value
-                ?.size
-                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
-                ?: run { getCurrencies() }
-        }
-        ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
+    fun calculateOutput(input: String) {
+
+        Expression(input.replaceUnsupportedCharacters().toPercent())
+            .calculate()
+            .mapTo { if (isNaN()) "" else getFormatted() }
+            ?.whether { length <= MAXIMUM_INPUT }
+            ?.let { output ->
+                outputLiveData.postValue(output)
+                currencyListLiveData.value
+                    ?.size
+                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                    ?: run { getCurrencies() }
+            }
+            ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
+    }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
@@ -153,7 +155,7 @@ class CalculatorViewModel(
         rate: Rates?
     ) = outputLiveData.value
         .toString()
-        .unlessThis { isEmpty() }
+        .unless { isEmpty() }
         ?.let { output ->
             try {
                 rate.calculateResult(name, output)

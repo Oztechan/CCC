@@ -31,6 +31,6 @@ fun Double.getFormatted(): String {
 }
 
 fun String.dropDecimal() = replace(" ", "")
-    .whetherThis { contains(".") }
+    .whether { contains(".") }
     ?.substring(0, indexOf("."))
     ?: run { this }

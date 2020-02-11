@@ -1,6 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -24,83 +25,45 @@ class ScopedFunExtTest {
     fun whether() {
         subject
             ?.whether { it.trueCondition }
+            ?.whether { trueCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             ?.whether { it.falseCondition }
+            ?.whether { false }
             ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
     fun unless() {
         subject
             ?.unless { it.falseCondition }
+            ?.unless { falseCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
             ?.unless { it.trueCondition }
+            ?.unless { trueCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
-    }
-
-    @Test
-    fun `whether this`() {
-        subject
-            ?.whetherThis { trueCondition }
-            ?.apply { assertTrue(EXPECTED, true) }
-            ?: run { Assert.fail(UN_EXPECTED) }
-
-        subject
-            ?.whetherThis { falseCondition }
-            ?.apply { Assert.fail(UN_EXPECTED) }
-    }
-
-    @Test
-    fun `unless this`() {
-        subject
-            ?.unlessThis { falseCondition }
-            ?.apply { assertTrue(EXPECTED, true) }
-            ?: run { Assert.fail(UN_EXPECTED) }
-
-        subject
-            .unlessThis { true }
-            ?.apply { Assert.fail(UN_EXPECTED) }
-    }
-
-    @Test
-    fun `is chain breaks`() = subject
-        ?.whetherThis { it.trueCondition }
-        ?.unlessThis { falseCondition }
-        ?.unless { it.trueCondition } // exit chain
-        ?.whether { true }
-        ?.let { Assert.fail(UN_EXPECTED) }
-        ?: run { assertTrue(EXPECTED, true) }
-
-    @Test
-    fun `is null passed through scope`() {
-        subject = null
-        subject
-            ?.whether { it.trueCondition }
-            ?.unlessThis { falseCondition }
-            .whether { true }
-            .let {
-                if (it == null) {
-                    assertTrue(EXPECTED, true)
-                } else {
-                    Assert.fail(UN_EXPECTED)
-                }
-            }
-        subject = null
-        subject
-            ?.whether { it.trueCondition }
-            ?.unlessThis { falseCondition }
-            .whether { true }
-            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
     fun `map to`() {
+        subject
+            ?.mapTo { it.trueCondition }
+            ?.whether { it }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        subject
+            ?.mapTo { it.falseCondition }
+            ?.whether { it }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
         subject
             ?.mapTo { trueCondition }
             ?.whether { it }
@@ -115,12 +78,47 @@ class ScopedFunExtTest {
     }
 
     @Test
-    fun `extraordinary mapTo`() = subject
+    fun `extraordinary map to`() = subject
         .mapTo { SOME_STRING }
-        ?.let { assertTrue(EXPECTED, true) }
+        ?.mapTo { it -> it.length }
+        ?.let { assertEquals(11, it) }
         ?: run { Assert.fail(UN_EXPECTED) }
             .mapTo { subject?.trueCondition }
             ?.whether { it }
-            ?.let { assertTrue(EXPECTED, true) }
-        ?: run { Assert.fail(UN_EXPECTED) }
+            ?.mapTo { !it }
+            ?.let { Assert.fail(UN_EXPECTED) }
+        ?: run { assertTrue(EXPECTED, true) }
+
+    @Test
+    fun `is chain breaks`() = subject
+        ?.whether { it.trueCondition }
+        ?.unless { falseCondition }
+        ?.unless { it.trueCondition } // exit chain
+        ?.whether { true }
+        ?.let { Assert.fail(UN_EXPECTED) }
+        ?: run { assertTrue(EXPECTED, true) }
+
+    @Test
+    fun `is null passed through scope`() {
+        subject = null
+        subject
+            ?.whether { it.trueCondition }
+            ?.unless { falseCondition }
+            ?.mapTo { it }
+            .whether { true }
+            .let {
+                if (it == null) {
+                    assertTrue(EXPECTED, true)
+                } else {
+                    Assert.fail(UN_EXPECTED)
+                }
+            }
+        subject = null
+        subject
+            ?.whether { it.trueCondition }
+            ?.unless { falseCondition }
+            ?.mapTo { it }
+            .whether { true }
+            ?.let { Assert.fail(UN_EXPECTED) }
+    }
 }
