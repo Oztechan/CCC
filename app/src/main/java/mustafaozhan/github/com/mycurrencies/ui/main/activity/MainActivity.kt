@@ -22,10 +22,11 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.helper.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
-import mustafaozhan.github.com.mycurrencies.util.LocalizationUtil
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -237,6 +238,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocalizationUtil.updateBaseContextLocale(base))
+        super.attachBaseContext(updateBaseContextLocale(base))
     }
 }
