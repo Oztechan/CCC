@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-@Suppress("MayBeConst")
+@Suppress("MayBeConst", "TooManyFunctions")
 class ScopeFunctionTest {
 
     companion object {
@@ -125,6 +125,7 @@ class ScopeFunctionTest {
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
     }
+
     @Test
     fun `either mix true`() {
         subject
