@@ -13,20 +13,9 @@ fun <T> T.whether(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
-        if (method.all { it(this) }) {
-            this
-        } else {
-            null
-        }
-    } else {
-        null
-    }
-
-fun <T> T.either(
-    vararg method: T.(condition: T) -> Boolean
-) =
-    if (this != null) {
-        if (method.any { it(this) }) {
+        var temp = true
+        method.forEach { temp = temp && it(this) }
+        if (temp) {
             this
         } else {
             null
@@ -48,7 +37,24 @@ fun <T> T.whetherNot(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
-        if (!method.all { it(this) }) {
+        var temp = true
+        method.forEach { temp = temp && it(this) }
+        if (!temp) {
+            this
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+
+fun <T> T.either(
+    vararg method: T.(condition: T) -> Boolean
+) =
+    if (this != null) {
+        var temp = false
+        method.forEach { temp = temp || it(this) }
+        if (temp) {
             this
         } else {
             null
@@ -61,7 +67,9 @@ fun <T> T.eitherNot(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
-        if (method.any { !it(this) }) {
+        var temp = false
+        method.forEach { temp = temp || it(this) }
+        if (!temp) {
             this
         } else {
             null

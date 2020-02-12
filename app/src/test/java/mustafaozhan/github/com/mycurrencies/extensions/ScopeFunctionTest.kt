@@ -6,7 +6,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @Suppress("MayBeConst")
-class ScopedFunExtTest {
+class ScopeFunctionTest {
 
     companion object {
         private const val UN_EXPECTED = "Unexpected"
@@ -22,40 +22,99 @@ class ScopedFunExtTest {
     private var subject: TestSubject? = TestSubject()
 
     @Test
-    fun whether() {
+    fun `whether true`() {
         subject
             ?.whether { it.trueCondition }
             ?.whether { trueCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
+        // vararg
+        subject
+            ?.whether({ it.trueCondition }, { trueCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun `whether  false`() {
         subject
             ?.whether { it.falseCondition }
             ?.whether { falseCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
+
+        // vararg
+        subject
+            ?.whether({ it.falseCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
-    fun whetherNot() {
+    fun `whether mix`() {
+        subject
+            ?.whether { it.trueCondition }
+            ?.whether { falseCondition }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        // vararg
+        subject
+            ?.whether({ it.trueCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `whetherNot false`() {
         subject
             ?.whetherNot { it.falseCondition }
             ?.whetherNot { falseCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
+        // vararg
+        subject
+            ?.whetherNot({ it.falseCondition }, { falseCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun `whetherNot true`() {
         subject
             ?.whetherNot { it.trueCondition }
             ?.whetherNot { trueCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
+
+        // vararg
+        subject
+            ?.whetherNot({ it.trueCondition }, { trueCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
-    fun either() {
+    fun `whetherNot mix`() {
+        subject
+            ?.whetherNot { it.falseCondition }
+            ?.whetherNot { trueCondition }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        // vararg
+        subject
+            ?.whetherNot({ it.falseCondition }, { trueCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun `either mix mix`() {
         subject
             ?.either({ it.trueCondition }, { it.falseCondition })
-            ?.either({ true })
             ?.either({ trueCondition }, { falseCondition })
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
@@ -66,18 +125,86 @@ class ScopedFunExtTest {
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
     }
-
     @Test
-    fun eitherNot() {
+    fun `either mix true`() {
         subject
-            ?.eitherNot({ it.trueCondition }, { it.falseCondition })
-            ?.eitherNot({ trueCondition }, { falseCondition })
+            ?.either({ it.trueCondition }, { it.falseCondition })
+            ?.either({ trueCondition }, { trueCondition })
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
+            ?.either({ it.falseCondition }, { it.trueCondition })
+            ?.either({ trueCondition }, { trueCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun `either mix false`() {
+        subject
+            ?.either({ it.trueCondition }, { it.falseCondition })
+            ?.either({ falseCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        subject
+            ?.either({ it.falseCondition }, { it.trueCondition })
+            ?.either({ falseCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `eitherNot mix`() {
+        subject
+            ?.eitherNot({ it.trueCondition }, { it.falseCondition })
+            ?.eitherNot({ trueCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        subject
             ?.eitherNot({ it.falseCondition }, { it.trueCondition })
             ?.eitherNot({ falseCondition }, { trueCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `eitherNot mix true`() {
+        subject
+            ?.eitherNot({ it.trueCondition }, { it.falseCondition })
+            ?.eitherNot({ trueCondition }, { trueCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        subject
+            ?.eitherNot({ it.falseCondition }, { it.trueCondition })
+            ?.eitherNot({ trueCondition }, { trueCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `eitherNot mix false`() {
+        subject
+            ?.eitherNot({ it.trueCondition }, { it.falseCondition })
+            ?.eitherNot({ falseCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        subject
+            ?.eitherNot({ it.falseCondition }, { it.trueCondition })
+            ?.eitherNot({ falseCondition }, { falseCondition })
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `eitherNot false false`() {
+        subject
+            ?.eitherNot({ it.falseCondition }, { it.falseCondition })
+            ?.eitherNot({ falseCondition }, { falseCondition })
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
     }
