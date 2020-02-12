@@ -9,11 +9,63 @@ fun <T> T.whether(
         null
     }
 
-fun <T> T.unless(
+fun <T> T.whether(
+    vararg method: T.(condition: T) -> Boolean
+) =
+    if (this != null) {
+        if (method.all { it(this) }) {
+            this
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+
+fun <T> T.either(
+    vararg method: T.(condition: T) -> Boolean
+) =
+    if (this != null) {
+        if (method.any { it(this) }) {
+            this
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+
+fun <T> T.whetherNot(
     method: T.(condition: T) -> Boolean
 ) =
     if (this != null && !method(this)) {
         this
+    } else {
+        null
+    }
+
+fun <T> T.whetherNot(
+    vararg method: T.(condition: T) -> Boolean
+) =
+    if (this != null) {
+        if (!method.all { it(this) }) {
+            this
+        } else {
+            null
+        }
+    } else {
+        null
+    }
+
+fun <T> T.eitherNot(
+    vararg method: T.(condition: T) -> Boolean
+) =
+    if (this != null) {
+        if (method.any { !it(this) }) {
+            this
+        } else {
+            null
+        }
     } else {
         null
     }

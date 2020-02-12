@@ -10,6 +10,7 @@ import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
+import mustafaozhan.github.com.mycurrencies.extensions.either
 import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
 import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
@@ -18,8 +19,8 @@ import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extensions.toPercent
-import mustafaozhan.github.com.mycurrencies.extensions.unless
 import mustafaozhan.github.com.mycurrencies.extensions.whether
+import mustafaozhan.github.com.mycurrencies.extensions.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
@@ -144,7 +145,10 @@ class CalculatorViewModel(
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
-            .whether { it == Currencies.NULL || spinnerList.indexOf(it.toString()) == -1 }
+            .either(
+                { it == Currencies.NULL },
+                { spinnerList.indexOf(it.toString()) == -1 }
+            )
             ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
 
         return mainData.currentBase
@@ -155,7 +159,7 @@ class CalculatorViewModel(
         rate: Rates?
     ) = outputLiveData.value
         .toString()
-        .unless { isEmpty() }
+        .whetherNot { isEmpty() }
         ?.let { output ->
             try {
                 rate.calculateResult(name, output)

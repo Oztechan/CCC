@@ -7,7 +7,7 @@ fun String.replaceNonStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
         char.whether { Character.isDigit(it) }
-            ?.unless { it in '0'..'9' }
+            ?.whetherNot { it in '0'..'9' }
             ?.mapTo { Character.getNumericValue(it) }
             ?.whether { it >= 0 }
             ?.let { builder.append(it) }

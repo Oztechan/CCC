@@ -31,24 +31,55 @@ class ScopedFunExtTest {
 
         subject
             ?.whether { it.falseCondition }
-            ?.whether { false }
+            ?.whether { falseCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
-    fun unless() {
+    fun whetherNot() {
         subject
-            ?.unless { it.falseCondition }
-            ?.unless { falseCondition }
+            ?.whetherNot { it.falseCondition }
+            ?.whetherNot { falseCondition }
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
         subject
-            ?.unless { it.trueCondition }
-            ?.unless { trueCondition }
+            ?.whetherNot { it.trueCondition }
+            ?.whetherNot { trueCondition }
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun either() {
+        subject
+            ?.either({ it.trueCondition }, { it.falseCondition })
+            ?.either({ true })
+            ?.either({ trueCondition }, { falseCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        subject
+            ?.either({ it.falseCondition }, { it.trueCondition })
+            ?.either({ falseCondition }, { trueCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+    }
+
+    @Test
+    fun eitherNot() {
+        subject
+            ?.eitherNot({ it.trueCondition }, { it.falseCondition })
+            ?.eitherNot({ trueCondition }, { falseCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        subject
+            ?.eitherNot({ it.falseCondition }, { it.trueCondition })
+            ?.eitherNot({ falseCondition }, { trueCondition })
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
@@ -92,8 +123,8 @@ class ScopedFunExtTest {
     @Test
     fun `is chain breaks`() = subject
         ?.whether { it.trueCondition }
-        ?.unless { falseCondition }
-        ?.unless { it.trueCondition } // exit chain
+        ?.whetherNot { falseCondition }
+        ?.whetherNot { it.trueCondition } // exit chain
         ?.whether { true }
         ?.let { Assert.fail(UN_EXPECTED) }
         ?: run { assertTrue(EXPECTED, true) }
@@ -103,7 +134,7 @@ class ScopedFunExtTest {
         subject = null
         subject
             ?.whether { it.trueCondition }
-            ?.unless { falseCondition }
+            ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
             .let {
@@ -116,7 +147,7 @@ class ScopedFunExtTest {
         subject = null
         subject
             ?.whether { it.trueCondition }
-            ?.unless { falseCondition }
+            ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
             ?.let { Assert.fail(UN_EXPECTED) }

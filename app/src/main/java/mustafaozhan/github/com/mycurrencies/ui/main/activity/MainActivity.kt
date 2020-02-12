@@ -145,9 +145,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 interstitialTextAd
-                    .whether { isLoaded }
-                    ?.whether { adVisibility }
-                    ?.whether { viewModel.isRewardExpired }
+                    .whether(
+                        { isLoaded },
+                        { adVisibility },
+                        { viewModel.isRewardExpired }
+                    )
                     ?.apply { show() }
                     ?: run { prepareAd() }
             }, { logException(it) }

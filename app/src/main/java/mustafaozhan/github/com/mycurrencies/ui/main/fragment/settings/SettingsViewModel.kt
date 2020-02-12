@@ -3,9 +3,9 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.extensions.either
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.whether
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -52,7 +52,13 @@ class SettingsViewModel(
     }
 
     private fun verifyCurrentBase() = mainData.currentBase
-        .whether { it == Currencies.NULL }
-        ?.whether { base -> currencyList.filter { it.name == base.toString() }.toList().firstOrNull()?.isActive == 0 }
+        .either(
+            { base -> base == Currencies.NULL },
+            { base ->
+                currencyList
+                    .filter { it.name == base.toString() }
+                    .toList().firstOrNull()?.isActive == 0
+            }
+        )
         ?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
 }
