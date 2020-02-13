@@ -14,6 +14,10 @@ class ScopeFunctionTest {
         private val SOME_STRING: String? = "Some String"
     }
 
+    open class A
+    open class B : A()
+    class C : B()
+
     inner class TestSubject {
         var trueCondition = true
         var falseCondition = false
@@ -249,19 +253,30 @@ class ScopeFunctionTest {
         ?: run { assertTrue(EXPECTED, true) }
 
     @Test
-    fun `is chain breaks`() = subject
-        ?.whether { it.trueCondition }
-        ?.whetherNot { falseCondition }
-        ?.whetherNot { it.trueCondition } // exit chain
-        ?.whether { true }
-        ?.let { Assert.fail(UN_EXPECTED) }
-        ?: run { assertTrue(EXPECTED, true) }
+    fun `is chain breaks`() {
+        subject
+            ?.whether { it.trueCondition }
+            ?.whetherNot { falseCondition }
+            ?.whetherNot { it.trueCondition } // exit chain
+            ?.whether { true }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+
+        subject
+            ?.whether { it.trueCondition }
+            ?.whetherNot { falseCondition }
+            ?.either({ it.falseCondition }, { falseCondition }) // exit chain
+            ?.whether { true }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
 
     @Test
     fun `is null passed through scope`() {
         subject = null
         subject
             ?.whether { it.trueCondition }
+            ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
@@ -275,6 +290,7 @@ class ScopeFunctionTest {
         subject = null
         subject
             ?.whether { it.trueCondition }
+            ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
@@ -283,15 +299,30 @@ class ScopeFunctionTest {
 
     @Test
     fun castTo() {
-        open class A
-        class B : A()
-
-        B().castTo { A::class.java }
+        B().castTo<B, A>()
             ?.let { assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
 
-        A().castTo { B::class.java }
+        A().castTo<A, B>()
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
     }
+
+    @Test
+    fun `multi castTo`() {
+        C().castTo<C, B>()
+            ?.castTo<B, A>()
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
+
+        A().castTo<A, B>()
+            ?.castTo<B, C>()
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
+    }
+
+    @Test
+    fun `extraordinary castTo`() = C().castTo<C, A>()
+        ?.let { assertTrue(EXPECTED, true) }
+        ?: run { Assert.fail(UN_EXPECTED) }
 }

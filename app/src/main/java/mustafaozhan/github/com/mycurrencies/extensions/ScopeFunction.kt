@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-fun <T> T.whether(
+inline fun <reified T> T.whether(
     method: T.(condition: T) -> Boolean
 ) =
     if (this != null && method(this)) {
@@ -9,7 +9,7 @@ fun <T> T.whether(
         null
     }
 
-fun <T> T.whether(
+inline fun <reified T> T.whether(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
@@ -24,7 +24,7 @@ fun <T> T.whether(
         null
     }
 
-fun <T> T.whetherNot(
+inline fun <reified T> T.whetherNot(
     method: T.(condition: T) -> Boolean
 ) =
     if (this != null && !method(this)) {
@@ -33,7 +33,7 @@ fun <T> T.whetherNot(
         null
     }
 
-fun <T> T.whetherNot(
+inline fun <reified T> T.whetherNot(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
@@ -48,7 +48,7 @@ fun <T> T.whetherNot(
         null
     }
 
-fun <T> T.either(
+inline fun <reified T> T.either(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
@@ -63,7 +63,7 @@ fun <T> T.either(
         null
     }
 
-fun <T> T.eitherNot(
+inline fun <reified T> T.eitherNot(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
@@ -78,21 +78,14 @@ fun <T> T.eitherNot(
         null
     }
 
-fun <T, R> T.mapTo(
+inline fun <reified T, reified R> T.mapTo(
     transform: T.(map: T) -> R?
 ): R? =
     transform(this)
 
-@Suppress("UNCHECKED_CAST")
-fun <T, R> T?.castTo(
-    cast: T.() -> Class<R>
-): R? =
+inline fun <reified T, reified R> T.castTo() =
     if (this != null) {
-        if (cast(this).isInstance(this)) {
-            this as? R
-        } else {
-            null
-        }
+        this as? R
     } else {
         null
     }
