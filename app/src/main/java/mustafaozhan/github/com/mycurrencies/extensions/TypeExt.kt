@@ -1,5 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
+import mustafaozhan.github.com.mycurrencies.function.mapTo
+import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.whetherNot
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
