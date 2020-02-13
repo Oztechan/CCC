@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
-import com.crashlytics.android.Crashlytics
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.model.Currencies
@@ -18,16 +17,6 @@ fun Rates?.calculateResult(name: String, value: String) =
         ?.times(value.replaceUnsupportedCharacters().toDouble())
         ?: 0.0
 
-inline fun <reified T : Any> Any.getThroughReflection(propertyName: String): T? {
-    val getterName = "get" + propertyName.capitalize()
-    return try {
-        javaClass.getMethod(getterName).invoke(this) as? T
-    } catch (e: NoSuchMethodException) {
-        e.printStackTrace()
-        Crashlytics.logException(e)
-        null
-    }
-}
 
 fun CurrencyDao.insertInitialCurrencies() {
     Moshi.Builder()

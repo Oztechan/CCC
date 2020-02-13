@@ -1,37 +1,20 @@
-package mustafaozhan.github.com.mycurrencies.extensions
+package mustafaozhan.github.com.mycurrencies.function
 
-import mustafaozhan.github.com.mycurrencies.function.either
-import mustafaozhan.github.com.mycurrencies.function.mapTo
-import mustafaozhan.github.com.mycurrencies.function.whether
-import mustafaozhan.github.com.mycurrencies.function.whetherNot
+import mustafaozhan.github.com.mycurrencies.constant.EXPECTED
+import mustafaozhan.github.com.mycurrencies.constant.UN_EXPECTED
+import mustafaozhan.github.com.mycurrencies.function.model.ScopeTestSubject
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-@Suppress("MayBeConst")
-open class ScopeFunctionTest {
+open class MainScopeTest {
 
-    protected var subject: TestSubject? = TestSubject()
-
-    companion object {
-        const val UN_EXPECTED = "Unexpected"
-        const val EXPECTED = "Expected"
-        val SOME_STRING: String? = "Some String"
-    }
-
-    open class A
-    open class B : A()
-    class C : B()
-
-    class TestSubject {
-        var trueCondition = true
-        var falseCondition = false
-    }
+    protected var subjectScope: ScopeTestSubject? = ScopeTestSubject()
 
     @Test
     fun `is chain breaks`() {
 
-        subject
+        subjectScope
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
             ?.whetherNot { it.trueCondition } // exit chain
@@ -39,7 +22,7 @@ open class ScopeFunctionTest {
             ?.let { Assert.fail(UN_EXPECTED) }
             ?: run { assertTrue(EXPECTED, true) }
 
-        subject
+        subjectScope
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
             ?.either({ it.falseCondition }, { falseCondition }) // exit chain
@@ -50,8 +33,8 @@ open class ScopeFunctionTest {
 
     @Test
     fun `is null passed through scope`() {
-        subject = null
-        subject
+        subjectScope = null
+        subjectScope
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
@@ -64,8 +47,8 @@ open class ScopeFunctionTest {
                     Assert.fail(UN_EXPECTED)
                 }
             }
-        subject = null
-        subject
+        subjectScope = null
+        subjectScope
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
