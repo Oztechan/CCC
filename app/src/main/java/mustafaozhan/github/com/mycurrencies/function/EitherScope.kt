@@ -4,9 +4,7 @@ inline fun <reified T> T.either(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
-        var temp = false
-        method.forEach { temp = temp || it(this) }
-        if (temp) {
+        if (method.any { it(this) }) {
             this
         } else {
             null
@@ -19,9 +17,7 @@ inline fun <reified T> T.eitherNot(
     vararg method: T.(condition: T) -> Boolean
 ) =
     if (this != null) {
-        var temp = false
-        method.forEach { temp = temp || it(this) }
-        if (!temp) {
+        if (!method.any { it(this) }) {
             this
         } else {
             null

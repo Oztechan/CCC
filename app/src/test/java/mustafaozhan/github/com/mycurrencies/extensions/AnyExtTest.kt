@@ -11,7 +11,7 @@ class AnyExtTest {
     class C : B()
 
     @Test
-    private fun castTo() {
+    fun castTo() {
         B().castTo<A>()
             ?.let { Assert.assertTrue(EXPECTED, true) }
             ?: run { Assert.fail(UN_EXPECTED) }
