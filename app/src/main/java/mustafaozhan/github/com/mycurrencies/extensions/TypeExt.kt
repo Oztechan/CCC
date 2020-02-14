@@ -1,33 +1,31 @@
 package mustafaozhan.github.com.mycurrencies.extensions
 
+import mustafaozhan.github.com.mycurrencies.function.mapTo
+import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.whetherNot
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
 fun String.replaceNonStandardDigits(): String {
     val builder = StringBuilder()
-    this.forEach { ch ->
-        if (isNonstandardDigit(ch)) {
-            val numericValue = Character.getNumericValue(ch)
-
-            if (numericValue >= 0) {
-                builder.append(numericValue)
-            }
-        } else {
-            builder.append(ch)
-        }
+    forEach { char ->
+        char.whether { Character.isDigit(it) }
+            ?.whetherNot { it in '0'..'9' }
+            ?.mapTo { Character.getNumericValue(it) }
+            ?.whether { it >= 0 }
+            ?.let { builder.append(it) }
+            ?: run { builder.append(char) }
     }
     return builder.toString()
 }
 
-private fun isNonstandardDigit(ch: Char): Boolean {
-    return Character.isDigit(ch) && ch !in '0'..'9'
-}
-
-fun String.replaceUnsupportedCharacters(): String =
-    this.replace(",", ".")
+fun String.replaceUnsupportedCharacters() =
+    replace(",", ".")
         .replace("٫", ".")
         .replace(" ", "")
         .replace("−", "-")
+
+fun String.toPercent() = replace("%", "/100*")
 
 fun Double.getFormatted(): String {
     val symbols = DecimalFormatSymbols.getInstance()
@@ -35,11 +33,7 @@ fun Double.getFormatted(): String {
     return DecimalFormat("###,###.###", symbols).format(this)
 }
 
-fun String.dropDecimal(): String {
-    val temp = replace(" ", "")
-    return if (temp.contains(".")) {
-        temp.substring(0, temp.indexOf("."))
-    } else {
-        this
-    }
-}
+fun String.dropDecimal() = replace(" ", "")
+    .whether { contains(".") }
+    ?.substring(0, indexOf("."))
+    ?: run { this }

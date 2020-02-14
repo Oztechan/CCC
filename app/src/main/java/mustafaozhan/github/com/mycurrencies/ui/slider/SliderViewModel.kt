@@ -8,7 +8,7 @@ class SliderViewModel(
     preferencesRepository: PreferencesRepository
 ) : BaseDataViewModel(preferencesRepository) {
 
-    override fun onLoaded(): Completable {
-        return Completable.complete()
-    }
+    override fun onLoaded(): Completable = Completable.complete()
+
+    fun setSliderShown() = preferencesRepository.updateMainData(sliderShown = true)
 }

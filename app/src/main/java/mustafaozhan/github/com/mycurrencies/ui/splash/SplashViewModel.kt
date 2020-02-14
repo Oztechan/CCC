@@ -8,7 +8,7 @@ class SplashViewModel(
     preferencesRepository: PreferencesRepository
 ) : BaseDataViewModel(preferencesRepository) {
 
-    override fun onLoaded(): Completable {
-        return Completable.complete()
-    }
+    override fun onLoaded(): Completable = Completable.complete()
+
+    fun isSliderShown() = preferencesRepository.loadMainData().sliderShown == true
 }

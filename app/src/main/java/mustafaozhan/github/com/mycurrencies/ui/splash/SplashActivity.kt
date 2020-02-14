@@ -19,7 +19,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         startActivity(
             Intent(
                 this,
-                if (viewModel.isSliderShown() == true) {
+                if (viewModel.isSliderShown()) {
                     MainActivity::class.java
                 } else {
                     SliderActivity::class.java

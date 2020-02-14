@@ -16,6 +16,11 @@ import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
+import mustafaozhan.github.com.mycurrencies.extensions.toPercent
+import mustafaozhan.github.com.mycurrencies.function.either
+import mustafaozhan.github.com.mycurrencies.function.mapTo
+import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
@@ -57,7 +62,7 @@ class CalculatorViewModel(
         rates = null
         currencyListLiveData.value?.clear()
 
-        if (getMainData().firstRun) {
+        if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
@@ -75,7 +80,7 @@ class CalculatorViewModel(
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
-                    backendRepository.getAllOnBase(getMainData().currentBase),
+                    backendRepository.getAllOnBase(mainData.currentBase),
                     ::rateDownloadSuccess,
                     ::rateDownloadFail
                 )
@@ -96,32 +101,31 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Crashlytics.logException(t)
         Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
-        offlineRatesDao.getOfflineRatesOnBase(getMainData().currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
-        } ?: run {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
-        }
+
+        calculatorViewStateLiveData.postValue(
+            offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
+                CalculatorViewState.OfflineSuccess(offlineRates)
+            } ?: run {
+                CalculatorViewState.Error
+            }
+        )
     }
 
     fun calculateOutput(input: String) {
-        val output = Expression(
-            input.replaceUnsupportedCharacters()
-                .replace("%", "/100*")
-        ).calculate().let {
-            if (it.isNaN()) "" else it.getFormatted()
-        }
 
-        if (output.length > MAXIMUM_INPUT) {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input))
-        } else {
-            outputLiveData.postValue(output)
-
-            if (currencyListLiveData.value?.size ?: 0 < MINIMUM_ACTIVE_CURRENCY) {
-                calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency)
-            } else {
-                getCurrencies()
+        Expression(input.replaceUnsupportedCharacters().toPercent())
+            .calculate()
+            .mapTo { if (isNaN()) "" else getFormatted() }
+            ?.whether { length <= MAXIMUM_INPUT }
+            ?.let { output ->
+                outputLiveData.postValue(output)
+                currencyListLiveData.value
+                    ?.size
+                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                    ?: run { getCurrencies() }
             }
-        }
+            ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
     }
 
     fun updateCurrentBase(currency: String?) {
@@ -135,36 +139,40 @@ class CalculatorViewModel(
     fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
 
     fun getClickedItemRate(name: String): String =
-        "1 ${getMainData().currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
+        "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
-        if (getMainData().currentBase == Currencies.NULL ||
-            spinnerList.indexOf(getMainData().currentBase.toString()) == -1) {
-            updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name)
-        }
+        mainData.currentBase
+            .either(
+                { it == Currencies.NULL },
+                { spinnerList.indexOf(it.toString()) == -1 }
+            )
+            ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
 
-        return getMainData().currentBase
+        return mainData.currentBase
     }
 
-    fun calculateResultByCurrency(name: String, rate: Rates?) =
-        if (outputLiveData.value.toString().isNotEmpty()) {
+    fun calculateResultByCurrency(
+        name: String,
+        rate: Rates?
+    ) = outputLiveData.value
+        .toString()
+        .whetherNot { isEmpty() }
+        ?.let { output ->
             try {
-                rate.calculateResult(name, outputLiveData.value.toString())
+                rate.calculateResult(name, output)
             } catch (e: NumberFormatException) {
-                val numericValue =
-                    outputLiveData.value.toString().replaceUnsupportedCharacters().replaceNonStandardDigits()
+                val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
                 Crashlytics.logException(e)
                 Crashlytics.log(Log.ERROR,
-                    "NumberFormatException ${outputLiveData.value.toString()} to $numericValue",
+                    "NumberFormatException $output to $numericValue",
                     "If no crash making numeric is done successfully"
                 )
                 rate.calculateResult(name, numericValue)
             }
-        } else {
-            0.0
-        }
+        } ?: run { 0.0 }
 
     fun resetFirstRun() {
         preferencesRepository.updateMainData(firstRun = true)

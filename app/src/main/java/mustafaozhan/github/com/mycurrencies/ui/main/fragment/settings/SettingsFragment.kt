@@ -94,7 +94,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     override fun onResume() {
         viewModel.refreshData()
         binding.editTextSearch.setText("")
-        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired())
+        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired)
         super.onResume()
     }
 }

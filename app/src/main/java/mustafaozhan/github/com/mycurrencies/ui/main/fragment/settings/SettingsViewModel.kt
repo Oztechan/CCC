@@ -5,6 +5,7 @@ import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.function.either
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
@@ -26,7 +27,7 @@ class SettingsViewModel(
     fun refreshData() {
         currencyList.clear()
 
-        if (getMainData().firstRun) {
+        if (mainData.firstRun) {
             currencyDao.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
@@ -50,13 +51,14 @@ class SettingsViewModel(
         currencyDao.updateAllCurrencyState(value)
     }
 
-    private fun verifyCurrentBase() = currencyList.let { currencyList ->
-        if (getMainData().currentBase == Currencies.NULL ||
-            currencyList
-                .filter { it.name == getMainData().currentBase.toString() }
-                .toList().firstOrNull()?.isActive == 0
-        ) {
-            setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name)
-        }
-    }
+    private fun verifyCurrentBase() = mainData.currentBase
+        .either(
+            { base -> base == Currencies.NULL },
+            { base ->
+                currencyList
+                    .filter { it.name == base.toString() }
+                    .toList().firstOrNull()?.isActive == 0
+            }
+        )
+        ?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
 }
