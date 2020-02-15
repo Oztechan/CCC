@@ -3,12 +3,33 @@ package mustafaozhan.github.com.mycurrencies.extension
 import mustafaozhan.github.com.mycurrencies.constant.EXPECTED
 import mustafaozhan.github.com.mycurrencies.constant.UN_EXPECTED
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class AnyExtTest {
+
     open class A
     open class B : A()
-    class C : B()
+
+    class C : B() {
+        var someInt = 1
+        var someString = "Some String"
+    }
+
+    @Test
+    fun getThroughReflection() {
+        val c = C()
+
+        assertEquals(
+            c.someString,
+            c.getThroughReflection<String>("someString")
+        )
+
+        assertEquals(
+            c.someInt,
+            c.getThroughReflection<Int>("someInt")
+        )
+    }
 
     @Test
     fun castTo() {
