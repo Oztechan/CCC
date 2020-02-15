@@ -15,3 +15,7 @@ inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
 
 inline fun <reified T> Any.castTo() =
     this as? T
+
+inline infix fun <T> T?.guard(block: () -> Nothing): T {
+    return this ?: block()
+}
