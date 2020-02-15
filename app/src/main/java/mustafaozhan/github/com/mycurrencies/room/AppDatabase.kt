@@ -6,8 +6,8 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
-import mustafaozhan.github.com.mycurrencies.extensions.execSQL1To2
-import mustafaozhan.github.com.mycurrencies.extensions.execSQL2To3
+import mustafaozhan.github.com.mycurrencies.extension.execSQL1To2
+import mustafaozhan.github.com.mycurrencies.extension.execSQL2To3
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.extensions
+package mustafaozhan.github.com.mycurrencies.extension
 
 import mustafaozhan.github.com.mycurrencies.constant.EXPECTED
 import mustafaozhan.github.com.mycurrencies.constant.UN_EXPECTED

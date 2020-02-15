@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.extensions
+package mustafaozhan.github.com.mycurrencies.extension
 
 import mustafaozhan.github.com.mycurrencies.function.mapTo
 import mustafaozhan.github.com.mycurrencies.function.whether

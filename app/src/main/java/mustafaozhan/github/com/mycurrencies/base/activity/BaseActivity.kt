@@ -16,7 +16,7 @@ import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.extensions.getImageResourceByName
+import mustafaozhan.github.com.mycurrencies.extension.getImageResourceByName
 import java.util.Locale
 import javax.inject.Inject
 

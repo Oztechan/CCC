@@ -9,9 +9,9 @@ import kotlinx.android.synthetic.main.item_currency.view.txt_type
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
-import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
-import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
-import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
+import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.extensions.checkAd
+import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**

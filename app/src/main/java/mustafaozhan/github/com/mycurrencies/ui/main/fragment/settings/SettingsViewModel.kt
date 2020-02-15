@@ -3,8 +3,8 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.function.either
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency

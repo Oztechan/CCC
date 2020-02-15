@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.extensions
+package mustafaozhan.github.com.mycurrencies.extension
 
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
@@ -16,7 +16,6 @@ fun Rates?.calculateResult(name: String, value: String) =
     this?.getThroughReflection<Double>(name)
         ?.times(value.replaceUnsupportedCharacters().toDouble())
         ?: 0.0
-
 
 fun CurrencyDao.insertInitialCurrencies() {
     Moshi.Builder()
