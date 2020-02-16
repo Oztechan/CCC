@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.extensions
+package mustafaozhan.github.com.mycurrencies.function.extension
 
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import org.junit.Assert.assertEquals
