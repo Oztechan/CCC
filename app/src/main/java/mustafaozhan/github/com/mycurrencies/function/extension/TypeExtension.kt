@@ -5,6 +5,11 @@ import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
 
 fun String.replaceNonStandardDigits(): String {
     val builder = StringBuilder()
@@ -37,3 +42,7 @@ fun String.dropDecimal() = replace(" ", "")
     .whether { contains(".") }
     ?.substring(0, indexOf("."))
     ?: run { this }
+
+fun Date.toFormattedString(): String =
+    SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
+        .format(this)

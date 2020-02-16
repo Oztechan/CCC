@@ -16,6 +16,7 @@ import mustafaozhan.github.com.mycurrencies.function.extension.insertInitialCurr
 import mustafaozhan.github.com.mycurrencies.function.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.function.extension.replaceUnsupportedCharacters
+import mustafaozhan.github.com.mycurrencies.function.extension.toFormattedString
 import mustafaozhan.github.com.mycurrencies.function.extension.toPercent
 import mustafaozhan.github.com.mycurrencies.function.scope.either
 import mustafaozhan.github.com.mycurrencies.function.scope.mapTo
@@ -27,9 +28,8 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import org.mariuszgromada.math.mxparser.Expression
+import java.util.Date
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -43,7 +43,6 @@ class CalculatorViewModel(
 ) : BaseDataViewModel(preferencesRepository) {
 
     companion object {
-        private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
         private const val MINIMUM_ACTIVE_CURRENCY = 2
         private const val MAXIMUM_INPUT = 15
     }
@@ -91,7 +90,7 @@ class CalculatorViewModel(
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
-        rates?.date = DateTimeFormat.forPattern(DATE_FORMAT).print(DateTime.now())
+        rates?.date = Date().toFormattedString()
         rates?.let {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
             offlineRatesDao.insertOfflineRates(it)
