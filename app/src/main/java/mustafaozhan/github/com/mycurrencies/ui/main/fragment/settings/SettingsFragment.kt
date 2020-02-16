@@ -11,6 +11,7 @@ import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragmen
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import timber.log.Timber
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -49,7 +50,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
                 }.toMutableList()
                     .let { settingsAdapter.refreshList(it) }
             }, {
-                logException(it)
+                Timber.e(it)
             })
             .addTo(compositeDisposable)
     }

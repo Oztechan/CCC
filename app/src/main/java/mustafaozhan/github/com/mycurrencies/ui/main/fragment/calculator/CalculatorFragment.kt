@@ -25,6 +25,7 @@ import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -67,7 +68,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             .subscribe({ input ->
                 viewModel.calculateOutput(input)
             }, { throwable ->
-                logException(throwable)
+                Timber.e(throwable)
             })
             .addTo(compositeDisposable)
     }

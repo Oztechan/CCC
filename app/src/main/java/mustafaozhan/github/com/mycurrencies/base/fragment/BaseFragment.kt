@@ -79,7 +79,5 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
 
     protected fun setSupportActionBar(toolbar: Toolbar) = getBaseActivity()?.setSupportActionBar(toolbar)
 
-    protected fun logException(t: Throwable) = getBaseActivity()?.logException(t)
-
     private fun getBaseActivity() = activity as? BaseActivity<*>
 }

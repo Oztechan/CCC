@@ -1,9 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
@@ -29,6 +27,7 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import org.mariuszgromada.math.mxparser.Expression
+import timber.log.Timber
 import java.util.Date
 
 /**
@@ -98,8 +97,7 @@ class CalculatorViewModel(
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        Crashlytics.logException(t)
-        Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
+        Timber.w(t, "rate download failed")
 
         calculatorViewStateLiveData.postValue(
             offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
@@ -164,11 +162,7 @@ class CalculatorViewModel(
                 rate.calculateResult(name, output)
             } catch (e: NumberFormatException) {
                 val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
-                Crashlytics.logException(e)
-                Crashlytics.log(Log.ERROR,
-                    "NumberFormatException $output to $numericValue",
-                    "If no crash making numeric is done successfully"
-                )
+                Timber.w(e, "NumberFormatException $output to $numericValue")
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }

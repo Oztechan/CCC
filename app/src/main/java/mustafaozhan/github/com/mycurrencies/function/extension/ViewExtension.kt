@@ -5,12 +5,12 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
+import timber.log.Timber
 import java.io.FileNotFoundException
 import java.util.Locale
 
@@ -29,7 +29,7 @@ fun Context.getImageResourceByName(name: String): Int =
             packageName
         )
     } catch (e: FileNotFoundException) {
-        Crashlytics.logException(e)
+        Timber.w(e)
         R.drawable.transparent
     }
 
@@ -52,7 +52,7 @@ fun MaterialSpinner.tryToSelect(indexOf: Int) {
     selectedIndex = try {
         indexOf
     } catch (exception: IllegalArgumentException) {
-        Crashlytics.logException(exception)
+        Timber.w(exception, "try to select failed for index $indexOf")
         0
     }
 }

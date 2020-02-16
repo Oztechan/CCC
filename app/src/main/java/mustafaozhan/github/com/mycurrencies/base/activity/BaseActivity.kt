@@ -9,7 +9,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.crashlytics.android.Crashlytics
 import dagger.android.AndroidInjection
 import de.mateware.snacky.Snacky
 import es.dmoral.toasty.Toasty
@@ -136,6 +135,4 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         compositeDisposable.dispose()
         super.onDestroy()
     }
-
-    fun logException(t: Throwable) = Crashlytics.logException(t)
 }

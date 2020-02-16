@@ -26,6 +26,7 @@ import mustafaozhan.github.com.mycurrencies.helper.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -152,7 +153,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     )
                     ?.apply { show() }
                     ?: run { prepareAd() }
-            }, { logException(it) }
+            }, { Timber.w(it) }
             )
     }
 
@@ -199,7 +200,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                                     }
                                 }
                         } catch (e: JsonDataException) {
-                            logException(e)
+                            Timber.w(e)
                         }
                     }
                 }
