@@ -2,8 +2,8 @@ package mustafaozhan.github.com.mycurrencies.di
 
 import dagger.Module
 import dagger.Provides
-import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
-import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainViewModel

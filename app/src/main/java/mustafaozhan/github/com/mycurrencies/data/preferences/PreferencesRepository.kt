@@ -1,6 +1,5 @@
-package mustafaozhan.github.com.mycurrencies.data.repository
+package mustafaozhan.github.com.mycurrencies.data.preferences
 
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesHelper
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import org.joda.time.Instant

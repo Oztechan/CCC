@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import io.reactivex.Completable
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
-import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
-import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.function.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.function.extension.getThroughReflection
