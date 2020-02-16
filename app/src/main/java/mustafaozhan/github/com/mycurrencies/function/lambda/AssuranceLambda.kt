@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.function.lambda
 
-inline fun <reified T> ifAllSafe(
+inline fun <reified T> assurance(
     vararg elements: T?,
     closureSafe: () -> Unit
 ) =

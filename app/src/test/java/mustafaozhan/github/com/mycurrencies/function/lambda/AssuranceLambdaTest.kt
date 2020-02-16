@@ -4,25 +4,25 @@ import mustafaozhan.github.com.mycurrencies.function.MainFunctionTest
 import org.junit.Assert
 import org.junit.Test
 
-class SafeLambdaTest : MainFunctionTest() {
+class AssuranceLambdaTest : MainFunctionTest() {
 
     @Test
-    fun isAllSafe() {
-        ifAllSafe(
+    fun assurance() {
+        assurance(
             subjectFunction?.falseCondition,
             subjectFunction?.trueCondition
         ) {
-            Assert.assertTrue(Companion.EXPECTED, true)
+            Assert.assertTrue(EXPECTED, true)
         } ?: run {
             Assert.fail(Companion.UN_EXPECTED)
         }
 
-        ifAllSafe(
+        assurance(
             subjectFunction?.falseCondition,
             subjectFunction?.trueCondition,
             subjectFunction?.nullAbleCondition
         ) {
-            Assert.fail(Companion.UN_EXPECTED)
+            Assert.fail(UN_EXPECTED)
         } ?: run {
             Assert.assertTrue(Companion.EXPECTED, true)
         }
