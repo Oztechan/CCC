@@ -13,6 +13,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
+import mustafaozhan.github.com.mycurrencies.log.WatchDogHandler
 import javax.inject.Inject
 
 /**
@@ -42,6 +43,8 @@ class CCCApplication : MultiDexApplication(), HasActivityInjector, HasSupportFra
         if (!BuildConfig.DEBUG) {
             FirebaseAnalytics.getInstance(this)
         }
+
+        Thread.setDefaultUncaughtExceptionHandler(WatchDogHandler())
 
         val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
         Fabric.with(this, Crashlytics.Builder().core(core).build())

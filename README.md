@@ -48,6 +48,7 @@ dependencies {
     FirebaseConfig()
     Crashlytics()
     Timber()
+    ANRWatchDog()
     FirebaseCore()
     Anko()
     MultiDex()
