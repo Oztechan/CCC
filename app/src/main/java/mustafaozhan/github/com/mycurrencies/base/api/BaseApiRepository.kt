@@ -6,7 +6,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mustafaozhan.github.com.mycurrencies.error.ModelMappingException
 import mustafaozhan.github.com.mycurrencies.error.NetworkException
+import mustafaozhan.github.com.mycurrencies.error.RetrofitException
 import mustafaozhan.github.com.mycurrencies.error.UnknownNetworkException
+import retrofit2.HttpException
+import java.io.IOException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 import javax.net.ssl.SSLException
@@ -25,9 +28,14 @@ abstract class BaseApiRepository {
                     is CancellationException -> throw e
                     is UnknownHostException,
                     is TimeoutException,
+                    is IOException,
                     is SSLException -> throw NetworkException(e)
                     is JsonDataException -> throw ModelMappingException(e)
-//                    is HttpException -> throw
+                    is HttpException -> {
+                        val message = e.response().code().toString() + " " + e.response().message()
+                        val url = e.response().raw().request.url.toString()
+                        throw RetrofitException(message, url, e.response(), e)
+                    }
                     else -> throw UnknownNetworkException(e)
                 }
             }
