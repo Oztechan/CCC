@@ -187,7 +187,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJsonValue(remoteConfigStr)
+                                .fromJson(remoteConfigStr)
                                 ?.whether { latestVersion > BuildConfig.VERSION_CODE }
                                 ?.apply {
                                     showDialog(
