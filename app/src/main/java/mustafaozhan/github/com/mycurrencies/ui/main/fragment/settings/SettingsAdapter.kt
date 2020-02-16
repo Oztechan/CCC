@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_setting.view.txt_setting_item
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
-import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**

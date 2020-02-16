@@ -1,12 +1,11 @@
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.function.extension
 
-import mustafaozhan.github.com.mycurrencies.constant.EXPECTED
-import mustafaozhan.github.com.mycurrencies.constant.UN_EXPECTED
+import mustafaozhan.github.com.mycurrencies.function.MainFunctionTest
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class AnyExtTest {
+class AnyExtTest : MainFunctionTest() {
 
     open class A
     open class B : A()

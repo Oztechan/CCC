@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.function
+package mustafaozhan.github.com.mycurrencies.function.scope
 
 inline fun <reified T> T.either(
     vararg method: T.(condition: T) -> Boolean

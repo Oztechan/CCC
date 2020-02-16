@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
 class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {

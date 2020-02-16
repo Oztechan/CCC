@@ -1,40 +1,36 @@
-package mustafaozhan.github.com.mycurrencies.function
+package mustafaozhan.github.com.mycurrencies.function.scope
 
-import mustafaozhan.github.com.mycurrencies.constant.EXPECTED
-import mustafaozhan.github.com.mycurrencies.constant.UN_EXPECTED
-import mustafaozhan.github.com.mycurrencies.function.model.ScopeTestSubject
+import mustafaozhan.github.com.mycurrencies.function.MainFunctionTest
 import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-open class MainScopeTest {
-
-    protected var subjectScope: ScopeTestSubject? = ScopeTestSubject()
+open class MainScopeTest : MainFunctionTest() {
 
     @Test
     fun `is chain breaks`() {
 
-        subjectScope
+        subjectFunction
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
             ?.whetherNot { it.trueCondition } // exit chain
             ?.whether { true }
-            ?.let { Assert.fail(UN_EXPECTED) }
-            ?: run { assertTrue(EXPECTED, true) }
+            ?.let { Assert.fail(Companion.UN_EXPECTED) }
+            ?: run { assertTrue(Companion.EXPECTED, true) }
 
-        subjectScope
+        subjectFunction
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
             ?.either({ it.falseCondition }, { falseCondition }) // exit chain
             ?.whether { true }
-            ?.let { Assert.fail(UN_EXPECTED) }
-            ?: run { assertTrue(EXPECTED, true) }
+            ?.let { Assert.fail(Companion.UN_EXPECTED) }
+            ?: run { assertTrue(Companion.EXPECTED, true) }
     }
 
     @Test
     fun `is null passed through scope`() {
-        subjectScope = null
-        subjectScope
+        subjectFunction = null
+        subjectFunction
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
@@ -42,18 +38,18 @@ open class MainScopeTest {
             .whether { true }
             .let {
                 if (it == null) {
-                    assertTrue(EXPECTED, true)
+                    assertTrue(Companion.EXPECTED, true)
                 } else {
-                    Assert.fail(UN_EXPECTED)
+                    Assert.fail(Companion.UN_EXPECTED)
                 }
             }
-        subjectScope = null
-        subjectScope
+        subjectFunction = null
+        subjectFunction
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
             ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
-            ?.let { Assert.fail(UN_EXPECTED) }
+            ?.let { Assert.fail(Companion.UN_EXPECTED) }
     }
 }

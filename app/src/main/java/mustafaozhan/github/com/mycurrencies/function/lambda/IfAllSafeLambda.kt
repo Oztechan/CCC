@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.function
+package mustafaozhan.github.com.mycurrencies.function.lambda
 
 inline fun <reified T> ifAllSafe(
     vararg elements: T?,

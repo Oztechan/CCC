@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.function.extension
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

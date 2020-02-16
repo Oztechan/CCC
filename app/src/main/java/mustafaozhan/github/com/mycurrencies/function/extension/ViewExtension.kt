@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.function.extension
 
 import android.annotation.SuppressLint
 import android.content.Context
