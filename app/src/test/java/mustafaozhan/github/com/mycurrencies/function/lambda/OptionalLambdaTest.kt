@@ -6,6 +6,9 @@ import org.junit.Test
 
 class OptionalLambdaTest : MainFunctionTest() {
 
+    private var nullString: String? = null
+    private var notNullString: String? = SOME_STRING
+
     @Test
     fun ensure() {
         ensure(
@@ -30,19 +33,41 @@ class OptionalLambdaTest : MainFunctionTest() {
 
     @Test
     fun inCase() {
-        var nullString: String? = null
-        val notNullString: String? = "Not Null"
+        nullString.inCase {
+            nullString = SOME_STRING
+        }.apply {
+            Assert.assertNotNull(nullString)
+            Assert.assertEquals(SOME_STRING, nullString)
+        }
+
+        resetString()
 
         nullString.inCase {
-            nullString = "Not null anymore"
-        }?.apply {
+            nullString = SOME_STRING
+        }.let {
             Assert.assertNotNull(nullString)
+            Assert.assertEquals(SOME_STRING, nullString)
         }
+
+        resetString()
+
+        nullString.inCase {
+            // not initialized
+        }.apply {
+            Assert.assertNull(nullString)
+        }
+
+        resetString()
 
         notNullString.inCase {
             Assert.fail(UN_EXPECTED)
         }.let {
-            Assert.assertNotNull(it)
+            Assert.assertEquals(SOME_STRING, notNullString)
         }
+    }
+
+    private fun resetString() {
+        nullString = null
+        notNullString = SOME_STRING
     }
 }

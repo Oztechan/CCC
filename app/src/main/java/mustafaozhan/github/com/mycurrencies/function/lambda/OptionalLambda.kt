@@ -10,7 +10,6 @@ inline fun <reified T> ensure(
         null
     }
 
-inline fun <reified T> T?.inCase(block: () -> Unit): T? {
+inline fun <reified T> T?.inCase(block: () -> Unit) {
     if (this == null) block()
-    return this
 }
