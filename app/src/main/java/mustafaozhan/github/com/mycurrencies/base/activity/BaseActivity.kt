@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.base.activity
 
-import android.app.AlertDialog
 import android.graphics.Typeface
 import android.os.Bundle
 import androidx.annotation.IdRes
@@ -14,7 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.function.extension.getImageResourceByName
-import mustafaozhan.github.com.mycurrencies.util.ToastyUtil
+import mustafaozhan.github.com.mycurrencies.util.showDialog
 import java.util.Locale
 import javax.inject.Inject
 
@@ -87,12 +86,6 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         .build()
         .show()
 
-    protected fun toasty(
-        text: String,
-        isLong: Boolean = true,
-        tintColor: Int? = null
-    ) = ToastyUtil.showToast(applicationContext, text, isLong, tintColor)
-
     protected fun showDialog(
         title: String,
         description: String,
@@ -101,19 +94,7 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
         function: () -> Unit = {}
     ) {
         if (!isFinishing) {
-            val builder = AlertDialog
-                .Builder(this, R.style.AlertDialogCustom)
-                .setIcon(R.mipmap.ic_launcher)
-                .setTitle(title)
-                .setMessage(description)
-                .setPositiveButton(positiveButton) { _, _ -> function() }
-                .setCancelable(cancelable)
-
-            if (cancelable) {
-                builder.setNegativeButton(getString(R.string.cancel), null)
-            }
-
-            builder.show()
+            showDialog(applicationContext, title, description, positiveButton, cancelable, function)
         }
     }
 
