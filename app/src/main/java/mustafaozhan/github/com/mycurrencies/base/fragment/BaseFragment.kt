@@ -13,6 +13,7 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
+import mustafaozhan.github.com.mycurrencies.util.ToastyUtil
 import javax.inject.Inject
 
 /**
@@ -69,7 +70,7 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         text: String,
         isLong: Boolean = false,
         tintColor: Int? = null
-    ) = getBaseActivity()?.toasty(text, isLong, tintColor)
+    ) = ToastyUtil.showToast(requireContext(), text, isLong, tintColor)
 
     @Suppress("SameParameterValue")
     protected fun replaceFragment(
