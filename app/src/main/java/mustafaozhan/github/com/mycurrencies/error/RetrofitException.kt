@@ -2,10 +2,10 @@ package mustafaozhan.github.com.mycurrencies.error
 
 import retrofit2.Response
 
-@Suppress("UNUSED_PARAMETER")
+@Suppress("UNUSED_PARAMETER", "unused")
 class RetrofitException(
-    message: String?,
-    url: String?,
-    response: Response<*>,
-    cause: Throwable
+    override val message: String?,
+    val url: String?,
+    val response: Response<*>,
+    override val cause: Throwable
 ) : Throwable(cause)
