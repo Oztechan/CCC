@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mariuszgromada.math.mxparser.Expression
 
-class TypeExtTest {
+class TypeExtensionTest {
 
     @Test
     fun `replace unsupported characters`() {

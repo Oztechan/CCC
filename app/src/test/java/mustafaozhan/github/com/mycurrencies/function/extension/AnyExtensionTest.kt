@@ -5,7 +5,7 @@ import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class AnyExtTest : MainFunctionTest() {
+class AnyExtensionTest : MainFunctionTest() {
 
     open class A
     open class B : A()
