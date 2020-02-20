@@ -13,8 +13,6 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.tool.Toasty
-import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import javax.inject.Inject
 
 /**
@@ -58,22 +56,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         compositeDisposable.dispose()
         super.onDestroy()
     }
-
-    protected fun snacky(
-        text: String?,
-        actionText: String? = "",
-        setIcon: String? = null,
-        isLong: Boolean = true,
-        action: () -> Unit = {}
-    ) = getBaseActivity()?.let {
-        showSnacky(it, text ?: "", actionText ?: "", setIcon, isLong, action)
-    }
-
-    protected fun toasty(
-        text: String,
-        isLong: Boolean = false,
-        tintColor: Int? = null
-    ) = Toasty.showToasty(requireContext(), text, isLong, tintColor)
 
     @Suppress("SameParameterValue")
     protected fun replaceFragment(

@@ -22,6 +22,8 @@ import mustafaozhan.github.com.mycurrencies.function.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.mycurrencies.tool.Toasty
+import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -65,11 +67,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun setRx() {
         binding.txtInput.textChanges()
             .map { it.toString() }
-            .subscribe({ input ->
-                viewModel.calculateOutput(input)
-            }, { throwable ->
-                Timber.e(throwable)
-            })
+            .subscribe(
+                { viewModel.calculateOutput(it) },
+                { Timber.e(it) }
+            )
             .addTo(compositeDisposable)
     }
 
@@ -81,9 +82,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 is CalculatorViewState.OfflineSuccess -> {
                     onSearchSuccess(calculatorViewState.rates)
                     calculatorViewState.rates.date?.let {
-                        toasty(getString(R.string.database_success_with_date, it))
+                        Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                     } ?: run {
-                        toasty(getString(R.string.database_success))
+                        Toasty.showToasty(requireContext(), getString(R.string.database_success))
                     }
                 }
                 CalculatorViewState.Error -> {
@@ -92,23 +93,28 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                         ?.size
                         ?.whether { it > 1 }
                         ?.let {
-                            snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
-                                binding.layoutBar.spinnerBase.expand()
-                            }
+                            showSnacky(
+                                requireActivity(),
+                                getString(R.string.rate_not_available_offline),
+                                getString(R.string.change)
+                            ) { binding.layoutBar.spinnerBase.expand() }
                         }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
                 is CalculatorViewState.MaximumInput -> {
-                    toasty(getString(R.string.max_input))
+                    Toasty.showToasty(requireContext(), getString(R.string.max_input))
                     binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.FewCurrency -> {
-                    snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
-                        replaceFragment(SettingsFragment.newInstance(), true)
-                    }
+                    showSnacky(
+                        requireActivity(),
+                        getString(R.string.choose_at_least_two_currency),
+                        getString(R.string.select)
+                    ) { replaceFragment(SettingsFragment.newInstance(), true) }
+
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
@@ -170,19 +176,22 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
-            snacky(
+            showSnacky(
+                requireActivity(),
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
-                isLong = false)
+                isLong = false
+            )
             true
         }
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
         if (spinnerList.size < 2) {
-            snacky(
-                context?.getString(R.string.choose_at_least_two_currency),
-                context?.getString(R.string.select)) {
+            showSnacky(
+                requireActivity(),
+                getString(R.string.choose_at_least_two_currency),
+                getString(R.string.select)) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")

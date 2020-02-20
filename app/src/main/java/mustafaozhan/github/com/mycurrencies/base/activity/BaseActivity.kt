@@ -9,8 +9,6 @@ import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.tool.showDialog
-import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import javax.inject.Inject
 
 /**
@@ -62,33 +60,6 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
                 commit()
             }
         }
-
-    protected fun snacky(
-        text: String,
-        actionText: String = "",
-        setIcon: String? = null,
-        isLong: Boolean = true,
-        action: () -> Unit = {}
-    ) = showSnacky(
-        this,
-        text,
-        actionText,
-        setIcon,
-        isLong,
-        action
-    )
-
-    protected fun showDialog(
-        title: String,
-        description: String,
-        positiveButton: String,
-        cancelable: Boolean = true,
-        function: () -> Unit = {}
-    ) {
-        if (!isFinishing) {
-            showDialog(applicationContext, title, description, positiveButton, cancelable, function)
-        }
-    }
 
     override fun onDestroy() {
         compositeDisposable.clear()

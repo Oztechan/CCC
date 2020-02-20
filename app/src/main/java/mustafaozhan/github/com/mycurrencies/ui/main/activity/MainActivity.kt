@@ -18,6 +18,8 @@ import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
+import mustafaozhan.github.com.mycurrencies.tool.showDialog
+import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
@@ -25,7 +27,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
-class MainActivity : BaseActivity<MainViewModel>() {
+open class MainActivity : BaseActivity<MainViewModel>() {
 
     companion object {
         const val BACK_DELAY: Long = 2
@@ -70,7 +72,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     Uri.parse(getString(R.string.app_market_link))
                 )
                 intent.resolveActivity(packageManager)?.let {
-                    showDialog(
+                    if (!isFinishing) showDialog(
+                        applicationContext,
                         getString(R.string.support_us),
                         getString(R.string.rate_and_support),
                         getString(R.string.rate)
@@ -79,7 +82,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     }
                 }
             }
-            R.id.removeAds -> showDialog(
+            R.id.removeAds -> if (!isFinishing) showDialog(
+                applicationContext,
                 getString(R.string.remove_ads),
                 getString(R.string.remove_ads_text),
                 getString(R.string.watch)
@@ -168,7 +172,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
             doubleBackToExitPressedOnce = true
-            snacky(getString(R.string.click_back_again_to_exit))
+            showSnacky(this, getString(R.string.click_back_again_to_exit))
 
             Completable.complete()
                 .delay(BACK_DELAY, TimeUnit.SECONDS)

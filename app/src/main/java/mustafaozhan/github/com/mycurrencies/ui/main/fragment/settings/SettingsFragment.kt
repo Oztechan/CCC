@@ -38,30 +38,26 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         setListeners()
     }
 
-    private fun initRx() {
-        binding.editTextSearch
-            .textChanges()
-            .map { it.toString() }
-            .subscribe({ txt ->
+    private fun initRx() = binding.editTextSearch
+        .textChanges()
+        .map { it.toString() }
+        .subscribe(
+            { txt ->
                 viewModel.currencyList.filter { currency ->
                     currency.name.contains(txt, true) ||
                         currency.longName.contains(txt, true) ||
                         currency.symbol.contains(txt, true)
                 }.toMutableList()
                     .let { settingsAdapter.refreshList(it) }
-            }, {
-                Timber.e(it)
-            })
-            .addTo(compositeDisposable)
-    }
+            },
+            { Timber.e(it) }
+        ).addTo(compositeDisposable)
 
-    private fun initViews() {
-        context?.let { ctx ->
-            binding.recyclerViewSettings.apply {
-                layoutManager = LinearLayoutManager(ctx)
-                setHasFixedSize(true)
-                adapter = settingsAdapter
-            }
+    private fun initViews() = context?.let { ctx ->
+        binding.recyclerViewSettings.apply {
+            layoutManager = LinearLayoutManager(ctx)
+            setHasFixedSize(true)
+            adapter = settingsAdapter
         }
     }
 

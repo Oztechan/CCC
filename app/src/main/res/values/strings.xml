@@ -35,7 +35,7 @@
     <string name="deSelect_all">Deselect All</string>
     <string name="base_currency">Base Currency</string>
 
-    <!--Snacky Text-->
+    <!--Snacky.kt Text-->
     <string name="rate_not_available_offline">This currency is not available offline, please change your base currency.</string>
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies from Settings</string>
     <string name="choose_currencies">Please Select at least 2 currencies</string>
