@@ -1,14 +1,14 @@
-package mustafaozhan.github.com.mycurrencies.util
+package mustafaozhan.github.com.mycurrencies.tool
 
 import android.content.Context
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
 import mustafaozhan.github.com.mycurrencies.R
 
-object ToastyUtil {
+object Toasty {
     private var toast: Toast? = null
 
-    fun showToast(
+    fun showToasty(
         context: Context,
         text: String,
         isLong: Boolean = true,
