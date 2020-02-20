@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.util
+package mustafaozhan.github.com.mycurrencies.tool
 
 import android.content.Context
 import android.content.Intent

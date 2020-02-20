@@ -1,20 +1,16 @@
 package mustafaozhan.github.com.mycurrencies.base.activity
 
-import android.graphics.Typeface
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
-import de.mateware.snacky.Snacky
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
-import mustafaozhan.github.com.mycurrencies.function.extension.getImageResourceByName
-import mustafaozhan.github.com.mycurrencies.util.showDialog
-import java.util.Locale
+import mustafaozhan.github.com.mycurrencies.tool.showDialog
+import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import javax.inject.Inject
 
 /**
@@ -67,24 +63,20 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
             }
         }
 
-    open fun snacky(
+    protected fun snacky(
         text: String,
         actionText: String = "",
         setIcon: String? = null,
         isLong: Boolean = true,
         action: () -> Unit = {}
-    ) = Snacky.builder()
-        .setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey_800))
-        .setText(text)
-        .setIcon(setIcon?.let { getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
-        .setActivity(this)
-        .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
-        .setActionText(actionText.toUpperCase(Locale.getDefault()))
-        .setActionTextColor(ContextCompat.getColor(this, R.color.cyan_700))
-        .setActionTextTypefaceStyle(Typeface.BOLD)
-        .setActionClickListener { action() }
-        .build()
-        .show()
+    ) = showSnacky(
+        this,
+        text,
+        actionText,
+        setIcon,
+        isLong,
+        action
+    )
 
     protected fun showDialog(
         title: String,

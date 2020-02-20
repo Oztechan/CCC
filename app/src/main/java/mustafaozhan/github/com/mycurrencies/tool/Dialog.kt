@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.util
+package mustafaozhan.github.com.mycurrencies.tool
 
 import android.app.AlertDialog
 import android.content.Context

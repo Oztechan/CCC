@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.base.viewmodel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
-import mustafaozhan.github.com.mycurrencies.util.enumValueOrNull
+import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
 import org.joda.time.Duration
 import org.joda.time.Instant
 
