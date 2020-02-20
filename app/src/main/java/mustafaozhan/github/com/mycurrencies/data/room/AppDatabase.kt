@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.room
+package mustafaozhan.github.com.mycurrencies.data.room
 
 import androidx.room.Database
 import androidx.room.Room
@@ -6,12 +6,12 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.function.extension.execSQL1To2
 import mustafaozhan.github.com.mycurrencies.function.extension.execSQL2To3
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.

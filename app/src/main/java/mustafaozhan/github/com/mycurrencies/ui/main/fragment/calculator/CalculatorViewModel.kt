@@ -7,6 +7,8 @@ import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.function.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.function.extension.getThroughReflection
@@ -24,8 +26,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
 import java.util.Date

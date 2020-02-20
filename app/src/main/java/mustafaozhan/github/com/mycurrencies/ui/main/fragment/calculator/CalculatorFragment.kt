@@ -10,6 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.item_currency.view.txt_amount
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
+import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.addText
 import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
@@ -21,7 +22,6 @@ import mustafaozhan.github.com.mycurrencies.function.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread

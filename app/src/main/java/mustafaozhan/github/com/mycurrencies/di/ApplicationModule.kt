@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.di
 
 import dagger.Module
 import dagger.Provides
-import mustafaozhan.github.com.mycurrencies.room.AppDatabase
+import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import javax.inject.Singleton
 
 @Module

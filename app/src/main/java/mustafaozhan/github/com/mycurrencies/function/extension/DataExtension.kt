@@ -2,11 +2,11 @@ package mustafaozhan.github.com.mycurrencies.function.extension
 
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
