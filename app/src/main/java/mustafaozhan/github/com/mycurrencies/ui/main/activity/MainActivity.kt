@@ -8,24 +8,18 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.JsonEncodingException
-import com.squareup.moshi.Moshi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
-import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
-import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
+import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -35,9 +29,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     companion object {
         const val BACK_DELAY: Long = 2
-        const val CHECK_DURATION: Long = 6
-        const val CHECK_INTERVAL: Long = 4200
-        const val REMOTE_CONFIG = "remote_config"
         const val AD_INITIAL_DELAY: Long = 50
         const val AD_PERIOD: Long = 250
     }
@@ -54,7 +45,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkUpdate()
+        checkRemoteConfig(applicationContext)
         prepareAd()
     }
 
@@ -156,58 +147,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     ?: run { prepareAd() }
             }, { Timber.w(it) }
             )
-    }
-
-    @Suppress("ComplexMethod")
-    private fun checkUpdate() {
-
-        val defaultMap = HashMap<String, Any>()
-        defaultMap[REMOTE_CONFIG] = RemoteConfig(
-            getString(R.string.remote_config_title),
-            getString(R.string.remote_config_description),
-            getString(R.string.app_market_link)
-        )
-
-        FirebaseRemoteConfig.getInstance().apply {
-            setConfigSettingsAsync(
-                FirebaseRemoteConfigSettings
-                    .Builder()
-                    .setMinimumFetchIntervalInSeconds(CHECK_INTERVAL)
-                    .build()
-            )
-            setDefaultsAsync(defaultMap)
-            fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(CHECK_DURATION))
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        activate()
-
-                        val remoteConfigStr = getString(REMOTE_CONFIG)
-                            .whether { isEmpty() }
-                            ?.let { defaultMap[REMOTE_CONFIG] as? String }
-                            ?: run { getString(REMOTE_CONFIG) }
-
-                        try {
-                            Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(remoteConfigStr)
-                                ?.whether { latestVersion > BuildConfig.VERSION_CODE }
-                                ?.apply {
-                                    showDialog(
-                                        title,
-                                        description,
-                                        getString(R.string.update),
-                                        forceVersion <= BuildConfig.VERSION_CODE
-                                    ) {
-                                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
-                                    }
-                                }
-                        } catch (e: JsonDataException) {
-                            Timber.w(e)
-                        } catch (e: JsonEncodingException) {
-                            Timber.e(e)
-                        }
-                    }
-                }
-        }
     }
 
     override fun onResume() {
