@@ -88,13 +88,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     }
                 }
                 CalculatorViewState.Error -> {
-                    viewModel.currencyListLiveData
-                        .value
-                        ?.size
+                    viewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
                             showSnacky(
-                                requireActivity(),
+                                view,
                                 getString(R.string.rate_not_available_offline),
                                 getString(R.string.change)
                             ) { binding.layoutBar.spinnerBase.expand() }
@@ -110,7 +108,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 }
                 CalculatorViewState.FewCurrency -> {
                     showSnacky(
-                        requireActivity(),
+                        view,
                         getString(R.string.choose_at_least_two_currency),
                         getString(R.string.select)
                     ) { replaceFragment(SettingsFragment.newInstance(), true) }
@@ -177,7 +175,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
             showSnacky(
-                requireActivity(),
+                view,
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
                 isLong = false
@@ -189,7 +187,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
         if (spinnerList.size < 2) {
             showSnacky(
-                requireActivity(),
+                view,
                 getString(R.string.choose_at_least_two_currency),
                 getString(R.string.select)) {
                 replaceFragment(SettingsFragment.newInstance(), true)

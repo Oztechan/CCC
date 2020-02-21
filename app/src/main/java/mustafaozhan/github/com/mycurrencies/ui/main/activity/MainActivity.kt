@@ -23,6 +23,7 @@ import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
+import org.jetbrains.anko.contentView
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -172,7 +173,7 @@ open class MainActivity : BaseActivity<MainViewModel>() {
             }
 
             doubleBackToExitPressedOnce = true
-            showSnacky(this, getString(R.string.click_back_again_to_exit))
+            showSnacky(contentView, getString(R.string.click_back_again_to_exit))
 
             Completable.complete()
                 .delay(BACK_DELAY, TimeUnit.SECONDS)
