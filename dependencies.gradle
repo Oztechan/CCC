@@ -33,136 +33,64 @@ def TOASTY_VERSION = "1.4.2"
 def LOADING_VIEW_VERSION = "2.1.3"
 def JODA_TIME_VERSION = "2.10.1.2"
 
-Closure dependencyGroup(Closure closure) {
-    closure.delegate = dependencies
-    return closure
-}
+ext {
+    // Dependencies
+    Kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    AndroidMaterial = "com.google.android.material:material:$ANDROID_MATERIAL_VERSION"
+    RecyclerView = "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
+    ConstraintLayout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
+    Dagger = "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
+    OkHttp = "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
+    Moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
+    MaterialSpinner = "com.jaredrummler:material-spinner:$MATERIAL_SPINNER_VERSION"
+    MultiDex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
+    Room = "androidx.room:room-runtime:$ROOM_VERSION"
+    Coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
+    Admob = "com.google.android.gms:play-services-ads:$ADMOB_VERSION"
+    FirebaseConfig = "com.google.firebase:firebase-config:$FIREBASE_CONFIG_VERSION"
+    Crashlytics = "com.crashlytics.sdk.android:crashlytics:$CRASHLYTICS_VERSION"
+    Timber = "com.jakewharton.timber:timber:$TIMBER_VERSION"
+    ANRWatchDog = "com.github.anrwatchdog:anrwatchdog:$ANR_WATCH_DOG_VERSION"
+    FirebaseCore = "com.google.firebase:firebase-core:$FIREBASE_CORE_VERSION"
+    Anko = "org.jetbrains.anko:anko-commons:$ANKO_VERSION"
+    Snacky = "com.github.matecode:Snacky:$SNACKY_VERSION"
+    Toasty = "com.github.GrenderG:Toasty:$TOASTY_VERSION"
+    LoadingView = "com.wang.avi:library:$LOADING_VIEW_VERSION"
+    JodaTime = "net.danlew:android.joda:$JODA_TIME_VERSION"
+    MXParser = files("libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar")
 
-ext.Kotlin = dependencyGroup {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
+    RxKotlin = [
+            rxKotlin       : "io.reactivex.rxjava2:rxkotlin:$RX_KOTLIN_VERSION",
+            rxKotlinBinding: "com.jakewharton.rxbinding2:rxbinding-kotlin:$RX_KOTLIN_VERSION"
+    ]
 
-ext.AndroidMaterial = dependencyGroup {
-    implementation "com.google.android.material:material:$ANDROID_MATERIAL_VERSION"
-}
+    LifeCycle = [
+            lifeCycleExtensions : "androidx.lifecycle:lifecycle-extensions:$LIFE_CYCLE_VERSION",
+            viewModelExttensions: "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFE_CYCLE_VERSION"
+    ]
 
-ext.RecyclerView = dependencyGroup {
-    implementation "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
-}
+    Retrofit = [
+            retrofit      : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
+            rxjava2       : "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION",
+            moshiConverter: "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION",
+            interceptor   : "com.squareup.okhttp3:logging-interceptor:$NETWORK_INTERCEPTOR_VERSION"
+    ]
 
-ext.ConstraintLayout = dependencyGroup {
-    implementation "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
-}
+    // Apis
+    RxApis = [
+            android: "io.reactivex.rxjava2:rxandroid:${RX_ANDROID_VERSION}",
+            java   : "io.reactivex.rxjava2:rxjava:${RX_JAVA_VERSION}"
+    ]
 
-ext.JUnit = dependencyGroup {
-    testImplementation "junit:junit:$JUNIT_VERSION"
-}
+    // Test Implementations
+    JUnit = "junit:junit:$JUNIT_VERSION"
 
-ext.RxAndroid = dependencyGroup {
-    api "io.reactivex.rxjava2:rxandroid:${RX_ANDROID_VERSION}"
-}
-
-ext.RxJava = dependencyGroup {
-    api "io.reactivex.rxjava2:rxjava:${RX_JAVA_VERSION}"
-}
-
-ext.RxKotlin = dependencyGroup {
-    implementation "io.reactivex.rxjava2:rxkotlin:$RX_KOTLIN_VERSION"
-    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$RX_KOTLIN_VERSION"
-}
-
-ext.Dagger = dependencyGroup {
-    implementation "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
-    kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    kapt "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
-}
-
-ext.DataBinding = dependencyGroup {
-    kapt "com.android.databinding:compiler:$android_plugin_version"
-}
-
-ext.LifeCycle = dependencyGroup {
-    implementation "androidx.lifecycle:lifecycle-extensions:$LIFE_CYCLE_VERSION"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFE_CYCLE_VERSION"
-}
-
-ext.OkHttp = dependencyGroup {
-    implementation "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
-}
-
-ext.Moshi = dependencyGroup {
-    implementation "com.squareup.moshi:moshi:$MOSHI_VERSION"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION"
-}
-
-ext.Retrofit = dependencyGroup {
-    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
-    implementation "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
-    implementation "com.squareup.okhttp3:logging-interceptor:$NETWORK_INTERCEPTOR_VERSION"
-}
-
-ext.MaterialSpinner = dependencyGroup {
-    implementation "com.jaredrummler:material-spinner:$MATERIAL_SPINNER_VERSION"
-}
-
-ext.MultiDex = dependencyGroup {
-    implementation "androidx.multidex:multidex:$MULTIDEX_VERSION"
-}
-
-ext.Room = dependencyGroup {
-    implementation "androidx.room:room-runtime:$ROOM_VERSION"
-    kapt "androidx.room:room-compiler:$ROOM_VERSION"
-}
-
-ext.Coroutines = dependencyGroup {
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
-}
-
-ext.Admob = dependencyGroup {
-    implementation "com.google.android.gms:play-services-ads:$ADMOB_VERSION"
-}
-
-ext.FirebaseConfig = dependencyGroup {
-    implementation "com.google.firebase:firebase-config:$FIREBASE_CONFIG_VERSION"
-}
-
-ext.Crashlytics = dependencyGroup {
-    implementation "com.crashlytics.sdk.android:crashlytics:$CRASHLYTICS_VERSION"
-}
-
-ext.Timber = dependencyGroup {
-    implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
-}
-
-ext.ANRWatchDog = dependencyGroup {
-    implementation "com.github.anrwatchdog:anrwatchdog:$ANR_WATCH_DOG_VERSION"
-}
-
-ext.FirebaseCore = dependencyGroup {
-    implementation "com.google.firebase:firebase-core:$FIREBASE_CORE_VERSION"
-}
-
-ext.Anko = dependencyGroup {
-    implementation "org.jetbrains.anko:anko-commons:$ANKO_VERSION"
-}
-
-ext.Snacky = dependencyGroup {
-    implementation "com.github.matecode:Snacky:$SNACKY_VERSION"
-}
-
-ext.Toasty = dependencyGroup {
-    implementation "com.github.GrenderG:Toasty:$TOASTY_VERSION"
-}
-
-ext.LoadingView = dependencyGroup {
-    implementation "com.wang.avi:library:$LOADING_VIEW_VERSION"
-}
-
-ext.JodaTime = dependencyGroup {
-    implementation "net.danlew:android.joda:$JODA_TIME_VERSION"
-}
-
-ext.MXParser = dependencyGroup {
-    implementation files("libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar")
+    // Annotations
+    Annotations = [
+            daggerCompiler : "com.google.dagger:dagger-compiler:$DAGGER_VERSION",
+            daggerProcessor: "com.google.dagger:dagger-android-processor:$DAGGER_VERSION",
+            dataBinding    : "com.android.databinding:compiler:$android_plugin_version",
+            moshi          : "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION",
+            room           : "androidx.room:room-compiler:$ROOM_VERSION"
+    ]
 }
