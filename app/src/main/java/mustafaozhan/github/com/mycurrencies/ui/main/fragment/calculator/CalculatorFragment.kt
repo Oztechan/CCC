@@ -129,6 +129,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun initLiveData() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             currencyList?.let {
+                binding.txtEmpty.visibility = if (currencyList.isEmpty()) View.VISIBLE else View.GONE
                 updateBar(currencyList.map { it.name })
                 calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
                 binding.loadingView.smoothToHide()
