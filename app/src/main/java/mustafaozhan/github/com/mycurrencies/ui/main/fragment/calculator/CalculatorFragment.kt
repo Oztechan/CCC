@@ -119,6 +119,12 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             }
         })
 
+    private fun clearScreen() = with(binding) {
+        txtInput.text = ""
+        layoutBar.txtOutput.text = ""
+        layoutBar.txtSymbol.text = ""
+    }
+
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
@@ -138,10 +144,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 output.toString()
                     .whetherNot { isEmpty() }
                     ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
-                    ?: run {
-                        txtOutput.text = ""
-                        txtSymbol.text = ""
-                    }
+                    ?: run { clearScreen() }
             }
         })
     }
@@ -192,6 +195,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 getString(R.string.select)) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
+            clearScreen()
             spinnerBase.setItems("")
             ivBase.setBackgroundByName("transparent")
         } else {
@@ -235,11 +239,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         layoutKeyboard.btnPlus.setOnClickListener { txtInput.addText("+") }
         layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
         layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
-        layoutKeyboard.btnAc.setOnClickListener {
-            binding.txtInput.text = ""
-            binding.layoutBar.txtOutput.text = ""
-            binding.layoutBar.txtSymbol.text = ""
-        }
+        layoutKeyboard.btnAc.setOnClickListener { clearScreen() }
         layoutKeyboard.btnDelete.setOnClickListener {
             binding.txtInput
                 .text
