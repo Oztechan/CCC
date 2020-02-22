@@ -83,34 +83,30 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorViewState.rates.date?.let {
                         Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                     } ?: run {
-                        Toasty.showToasty(requireContext(), getString(R.string.database_success))
+                        Toasty.showToasty(requireContext(), R.string.database_success)
                     }
                 }
                 CalculatorViewState.Error -> {
                     viewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
-                            showSnacky(
-                                view,
-                                getString(R.string.rate_not_available_offline),
-                                getString(R.string.change)
-                            ) { binding.layoutBar.spinnerBase.expand() }
+                            showSnacky(view, R.string.rate_not_available_offline, R.string.change) {
+                                binding.layoutBar.spinnerBase.expand()
+                            }
                         }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
                 is CalculatorViewState.MaximumInput -> {
-                    Toasty.showToasty(requireContext(), getString(R.string.max_input))
+                    Toasty.showToasty(requireContext(), R.string.max_input)
                     binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.FewCurrency -> {
-                    showSnacky(
-                        view,
-                        getString(R.string.choose_at_least_two_currency),
-                        getString(R.string.select)
-                    ) { replaceFragment(SettingsFragment.newInstance(), true) }
+                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+                        replaceFragment(SettingsFragment.newInstance(), true)
+                    }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
@@ -186,10 +182,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 spinnerBase.tryToSelect(indexOf(viewModel.verifyCurrentBase(this).toString()))
                 ivBase.setBackgroundByName(spinnerBase.text.toString())
             } ?: run {
-            showSnacky(
-                view,
-                getString(R.string.choose_at_least_two_currency),
-                getString(R.string.select)) {
+            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")

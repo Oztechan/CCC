@@ -73,32 +73,21 @@ open class MainActivity : BaseActivity<MainViewModel>() {
                     Uri.parse(getString(R.string.app_market_link))
                 )
                 intent.resolveActivity(packageManager)?.let {
-                    if (!isFinishing) showDialog(
-                        applicationContext,
-                        getString(R.string.support_us),
-                        getString(R.string.rate_and_support),
-                        getString(R.string.rate)
-                    ) {
+                    showDialog(applicationContext, R.string.support_us, R.string.rate_and_support, R.string.rate) {
                         startActivity(intent)
                     }
                 }
             }
-            R.id.removeAds -> if (!isFinishing) showDialog(
-                applicationContext,
-                getString(R.string.remove_ads),
-                getString(R.string.remove_ads_text),
-                getString(R.string.watch)
-            ) {
-                showVideoAd()
-            }
+            R.id.removeAds ->
+                showDialog(applicationContext, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
+                    showVideoAd()
+                }
             R.id.onGithub -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(getString(R.string.github_url))
                 )
-                intent.resolveActivity(packageManager)?.let {
-                    startActivity(intent)
-                }
+                intent.resolveActivity(packageManager)?.let { startActivity(intent) }
             }
         }
 
@@ -173,7 +162,7 @@ open class MainActivity : BaseActivity<MainViewModel>() {
             }
 
             doubleBackToExitPressedOnce = true
-            showSnacky(contentView, getString(R.string.click_back_again_to_exit))
+            showSnacky(contentView, R.string.click_back_again_to_exit)
 
             Completable.complete()
                 .delay(BACK_DELAY, TimeUnit.SECONDS)
