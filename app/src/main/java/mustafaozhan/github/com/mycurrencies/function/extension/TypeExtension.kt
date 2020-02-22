@@ -38,10 +38,11 @@ fun Double.getFormatted(): String {
     return DecimalFormat("###,###.###", symbols).format(this)
 }
 
-fun String.dropDecimal() = replace(" ", "")
-    .whether { contains(".") }
-    ?.substring(0, indexOf("."))
-    ?: run { this }
+fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
+    nonEmpty.whether { contains(".") }
+        ?.substring(0, nonEmpty.indexOf("."))
+        ?: run { nonEmpty }
+}
 
 fun Date.toFormattedString(): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
