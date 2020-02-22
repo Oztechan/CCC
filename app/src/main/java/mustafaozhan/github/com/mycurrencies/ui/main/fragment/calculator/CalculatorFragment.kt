@@ -52,7 +52,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         setListeners()
-        setKeyboard()
         initViewState()
         setRx()
         initLiveData()
@@ -162,16 +161,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         }
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
-            viewModel.updateCurrentBase(currency.name)
-            viewModel.calculateOutput(itemView.txt_amount.text.toString().dropDecimal())
-
-            viewModel.currencyListLiveData
-                .value
+            updateBase(currency.name)
+            viewModel.currencyListLiveData.value
                 ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
                 ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
                 ?: run { layoutBar.spinnerBase.expand() }
-
-            layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
             showSnacky(
@@ -185,7 +179,13 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
-        if (spinnerList.size < 2) {
+        spinnerList
+            .whether { size >= 2 }
+            ?.apply {
+                spinnerBase.setItems(this)
+                spinnerBase.tryToSelect(indexOf(viewModel.verifyCurrentBase(this).toString()))
+                ivBase.setBackgroundByName(spinnerBase.text.toString())
+            } ?: run {
             showSnacky(
                 view,
                 getString(R.string.choose_at_least_two_currency),
@@ -194,29 +194,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             }
             spinnerBase.setItems("")
             ivBase.setBackgroundByName("transparent")
-        } else {
-            spinnerBase.setItems(spinnerList)
-            spinnerBase.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
-            ivBase.setBackgroundByName(spinnerBase.text.toString())
         }
     }
 
-    private fun setListeners() = with(binding.layoutBar) {
-        spinnerBase.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.updateCurrentBase(item.toString())
-            viewModel.calculateOutput(binding.txtInput.text.toString())
-            ivBase.setBackgroundByName(item.toString())
-        }
-        layoutBar.setOnClickListener {
-            with(spinnerBase) {
-                whether { isActivated }
-                    ?.apply { collapse() }
-                    ?: run { expand() }
-            }
-        }
-    }
-
-    private fun setKeyboard() = with(binding) {
+    private fun setListeners() = with(binding) {
         layoutKeyboard.btnSeven.setOnClickListener { txtInput.addText("7") }
         layoutKeyboard.btnEight.setOnClickListener { txtInput.addText("8") }
         layoutKeyboard.btnNine.setOnClickListener { txtInput.addText("9") }
@@ -236,17 +217,29 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
         layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
         layoutKeyboard.btnAc.setOnClickListener {
-            binding.txtInput.text = ""
-            binding.layoutBar.txtOutput.text = ""
-            binding.layoutBar.txtSymbol.text = ""
+            txtInput.text = ""
+            layoutBar.txtOutput.text = ""
+            layoutBar.txtSymbol.text = ""
         }
         layoutKeyboard.btnDelete.setOnClickListener {
-            binding.txtInput
-                .text
-                .toString()
+            txtInput.text.toString()
                 .whetherNot { isEmpty() }
-                ?.apply { binding.txtInput.text = substring(0, length - 1) }
+                ?.apply { txtInput.text = substring(0, length - 1) }
         }
+        layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
+        layoutBar.layoutBar.setOnClickListener {
+            with(layoutBar.spinnerBase) {
+                whether { isActivated }
+                    ?.apply { collapse() }
+                    ?: run { expand() }
+            }
+        }
+    }
+
+    private fun updateBase(base: String) {
+        viewModel.updateCurrentBase(base)
+        viewModel.calculateOutput(binding.txtInput.text.toString())
+        binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 
     private fun initData() = viewModel.apply {
