@@ -47,6 +47,7 @@ class TypeExtensionTest {
     fun `drop decimal point from string`() {
         assertEquals("1234.567".dropDecimal(), "1234")
         assertEquals("7 972.932".dropDecimal(), "7972")
+        assertEquals("1 2 3434 432.432 .4334".dropDecimal(), "123434432")
     }
 
     @Test

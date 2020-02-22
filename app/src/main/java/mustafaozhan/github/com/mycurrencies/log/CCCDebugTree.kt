@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.log
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.Log
 import mustafaozhan.github.com.mycurrencies.function.extension.toFormattedString
 import timber.log.Timber
@@ -16,6 +15,7 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
 
     companion object {
         private const val MAX_FILE_SIZE = (10 * 1024 * 1024).toLong() // 10 MB
+        private const val TAG = "CCCDebugTree"
     }
 
     private val currentFilePath: String
@@ -28,7 +28,7 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
 
         val directory = File(directoryPath)
         if (!directory.exists() && !directory.mkdirs()) {
-            Log.e("CCCDebugTree", "Failed to create LOG file directory")
+            Log.e(TAG, "Failed to create LOG file directory")
         }
 
         Timber.plant(this)
@@ -36,7 +36,7 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         var realMessage = message
-        if (!TextUtils.isEmpty(message)) {
+        if (message.isNotEmpty()) {
             realMessage = "@" + Thread.currentThread().name + ": " + message
             appendLine(priorityToLevel(priority), tag, message, t)
         }
@@ -55,7 +55,7 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
                 outputStream.printf("Caused by: %s\n", Log.getStackTraceString(throwable))
             }
         } catch (e: Exception) {
-            Log.e("CCCDebugTree", "Failed to write to LOG file", e)
+            Log.e(TAG, "Failed to write to LOG file", e)
         } finally {
             outputStream?.close()
         }
@@ -76,7 +76,7 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
         try {
             copyFile(currentFile, lastFile, true)
         } catch (e: Exception) {
-            Log.e("CCCDebugTree", "Failed to copy log file", e)
+            Log.e(TAG, "Failed to copy log file", e)
         }
     }
 
@@ -91,13 +91,13 @@ class CCCDebugTree(context: Context) : Timber.DebugTree() {
         inStream.close()
         outStream.close()
 
-        Log.d("CCCDebugTree", "Data copied from $src to $dst")
+        Log.d(TAG, "Data copied from $src to $dst")
 
         if (deleteSource) {
             if (src.delete()) {
-                Log.d("CCCDebugTree", "Source file deleted")
+                Log.d(TAG, "Source file deleted")
             } else {
-                Log.e("CCCDebugTree", "Failed to delete source file!")
+                Log.e(TAG, "Failed to delete source file!")
             }
         }
     }
