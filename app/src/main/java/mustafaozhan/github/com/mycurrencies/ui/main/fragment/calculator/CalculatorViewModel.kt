@@ -1,35 +1,34 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.crashlytics.android.Crashlytics
 import io.reactivex.Completable
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
-import mustafaozhan.github.com.mycurrencies.data.repository.BackendRepository
-import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.extensions.calculateResult
-import mustafaozhan.github.com.mycurrencies.extensions.getFormatted
-import mustafaozhan.github.com.mycurrencies.extensions.getThroughReflection
-import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
-import mustafaozhan.github.com.mycurrencies.extensions.replaceUnsupportedCharacters
-import mustafaozhan.github.com.mycurrencies.extensions.toPercent
-import mustafaozhan.github.com.mycurrencies.function.either
-import mustafaozhan.github.com.mycurrencies.function.mapTo
-import mustafaozhan.github.com.mycurrencies.function.whether
-import mustafaozhan.github.com.mycurrencies.function.whetherNot
+import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.function.extension.calculateResult
+import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.function.extension.getThroughReflection
+import mustafaozhan.github.com.mycurrencies.function.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.function.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
+import mustafaozhan.github.com.mycurrencies.function.extension.replaceUnsupportedCharacters
+import mustafaozhan.github.com.mycurrencies.function.extension.toFormattedString
+import mustafaozhan.github.com.mycurrencies.function.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.function.scope.either
+import mustafaozhan.github.com.mycurrencies.function.scope.mapTo
+import mustafaozhan.github.com.mycurrencies.function.scope.whether
+import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.room.dao.OfflineRatesDao
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import org.mariuszgromada.math.mxparser.Expression
+import timber.log.Timber
+import java.util.Date
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -43,7 +42,6 @@ class CalculatorViewModel(
 ) : BaseDataViewModel(preferencesRepository) {
 
     companion object {
-        private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
         private const val MINIMUM_ACTIVE_CURRENCY = 2
         private const val MAXIMUM_INPUT = 15
     }
@@ -91,7 +89,7 @@ class CalculatorViewModel(
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
-        rates?.date = DateTimeFormat.forPattern(DATE_FORMAT).print(DateTime.now())
+        rates?.date = Date().toFormattedString()
         rates?.let {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
             offlineRatesDao.insertOfflineRates(it)
@@ -99,8 +97,7 @@ class CalculatorViewModel(
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        Crashlytics.logException(t)
-        Crashlytics.log(Log.WARN, "rateDownloadFail", t.message)
+        Timber.w(t, "rate download failed")
 
         calculatorViewStateLiveData.postValue(
             offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
@@ -165,11 +162,7 @@ class CalculatorViewModel(
                 rate.calculateResult(name, output)
             } catch (e: NumberFormatException) {
                 val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
-                Crashlytics.logException(e)
-                Crashlytics.log(Log.ERROR,
-                    "NumberFormatException $output to $numericValue",
-                    "If no crash making numeric is done successfully"
-                )
+                Timber.w(e, "NumberFormatException $output to $numericValue")
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }

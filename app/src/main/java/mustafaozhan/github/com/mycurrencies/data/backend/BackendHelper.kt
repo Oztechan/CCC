@@ -1,11 +1,12 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
 import com.squareup.moshi.Moshi
+import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,17 +28,21 @@ constructor() : BaseApiHelper() {
             .connectTimeout(1, TimeUnit.SECONDS)
             .readTimeout(1L, TimeUnit.SECONDS)
             .writeTimeout(1L, TimeUnit.SECONDS)
-        clientBuilder.addInterceptor {
-            it.proceed(createInterceptorRequest(it))
-        }
+            .addInterceptor(getLoggingInterceptor())
+
         val endpoint = getString(R.string.backend_endpoint)
         val retrofit = initRxRetrofit(endpoint, clientBuilder.build())
         return retrofit.create(BackendService::class.java)
     }
 
-    private fun createInterceptorRequest(chain: Interceptor.Chain): Request {
-        val original = chain.request()
-        val builder = original.newBuilder()
-        return builder.build()
+    private fun getLoggingInterceptor(): Interceptor {
+        val level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.BASIC
+        }
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(level)
+        return loggingInterceptor
     }
 }

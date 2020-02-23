@@ -27,35 +27,42 @@
 ## Dependencies
 ```gradle
 dependencies {
-    Kotlin()
-    Dagger()
-    AndroidMaterial()
-    RecyclerView()
-    ConstraintLayout()
-    JUnit()
-    RxAndroid()
-    RxJava()
-    RxKotlin()
-    LifeCycle()
-    DataBinding()
-    OkHttp()
-    Moshi()
-    Retrofit()
-    MaterialSpinner()
-    Room()
-    Coroutines()
-    Admob()
-    FirebaseConfig()
-    Crashlytics()
-    Fabric()
-    FirebaseCore()
-    Anko()
-    MultiDex()
-    Snacky()
-    Toasty()
-    LoadingView()
-    JodaTime()
-    MXParser()
+
+    implementation(
+            Kotlin,
+            AndroidMaterial,
+            RecyclerView,
+            ConstraintLayout,
+            Dagger,
+            OkHttp,
+            Moshi,
+            MaterialSpinner,
+            MultiDex,
+            Room,
+            Coroutines,
+            Admob,
+            FirebaseConfig,
+            Crashlytics,
+            Timber,
+            ANRWatchDog,
+            FirebaseCore,
+            Anko,
+            Snacky,
+            Toasty,
+            LoadingView,
+            JodaTime,
+            RxKotlin.values(),
+            Retrofit.values(),
+            LifeCycle.values()
+    )
+
+    api(RxApis.values())
+
+    kapt(Annotations.values())
+
+    testImplementation(JUnit)
+
+    implementation(files(MXParser))
 }
 ```
 

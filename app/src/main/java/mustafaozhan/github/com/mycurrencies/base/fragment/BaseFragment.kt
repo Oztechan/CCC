@@ -57,20 +57,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
         super.onDestroy()
     }
 
-    protected fun snacky(
-        text: String?,
-        actionText: String? = "",
-        setIcon: String? = null,
-        isLong: Boolean = true,
-        action: () -> Unit = {}
-    ) = getBaseActivity()?.snacky(text ?: "", actionText ?: "", setIcon, isLong, action)
-
-    protected fun toasty(
-        text: String,
-        isLong: Boolean = false,
-        tintColor: Int? = null
-    ) = getBaseActivity()?.toasty(text, isLong, tintColor)
-
     @Suppress("SameParameterValue")
     protected fun replaceFragment(
         fragment: Fragment,
@@ -78,8 +64,6 @@ abstract class BaseFragment<TViewModel : BaseViewModel> : Fragment() {
     ) = getBaseActivity()?.replaceFragment(fragment, withBackStack)
 
     protected fun setSupportActionBar(toolbar: Toolbar) = getBaseActivity()?.setSupportActionBar(toolbar)
-
-    protected fun logException(t: Throwable) = getBaseActivity()?.logException(t)
 
     private fun getBaseActivity() = activity as? BaseActivity<*>
 }

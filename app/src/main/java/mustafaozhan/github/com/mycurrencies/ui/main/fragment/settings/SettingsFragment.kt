@@ -9,8 +9,9 @@ import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.extensions.checkAd
+import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import timber.log.Timber
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -37,30 +38,26 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         setListeners()
     }
 
-    private fun initRx() {
-        binding.editTextSearch
-            .textChanges()
-            .map { it.toString() }
-            .subscribe({ txt ->
+    private fun initRx() = binding.editTextSearch
+        .textChanges()
+        .map { it.toString() }
+        .subscribe(
+            { txt ->
                 viewModel.currencyList.filter { currency ->
                     currency.name.contains(txt, true) ||
                         currency.longName.contains(txt, true) ||
                         currency.symbol.contains(txt, true)
                 }.toMutableList()
                     .let { settingsAdapter.refreshList(it) }
-            }, {
-                logException(it)
-            })
-            .addTo(compositeDisposable)
-    }
+            },
+            { Timber.e(it) }
+        ).addTo(compositeDisposable)
 
-    private fun initViews() {
-        context?.let { ctx ->
-            binding.recyclerViewSettings.apply {
-                layoutManager = LinearLayoutManager(ctx)
-                setHasFixedSize(true)
-                adapter = settingsAdapter
-            }
+    private fun initViews() = context?.let { ctx ->
+        binding.recyclerViewSettings.apply {
+            layoutManager = LinearLayoutManager(ctx)
+            setHasFixedSize(true)
+            adapter = settingsAdapter
         }
     }
 

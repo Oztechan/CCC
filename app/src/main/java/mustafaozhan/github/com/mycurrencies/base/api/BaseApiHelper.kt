@@ -1,8 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -28,9 +26,4 @@ abstract class BaseApiHelper {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
-
-    suspend fun <T> apiRequest(suspendBlock: suspend () -> T) =
-        withContext(Dispatchers.IO) {
-            suspendBlock.invoke()
-        }
 }

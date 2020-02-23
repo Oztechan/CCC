@@ -18,12 +18,6 @@ buildscript {
     }
 }
 
-apply from: 'dependencies.gradle'
-
-allprojects {
-    it.apply from: project.rootProject.file("dependencies.gradle")
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

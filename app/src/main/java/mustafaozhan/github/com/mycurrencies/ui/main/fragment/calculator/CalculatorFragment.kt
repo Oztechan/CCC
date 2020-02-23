@@ -10,21 +10,24 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.item_currency.view.txt_amount
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
+import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extensions.addText
-import mustafaozhan.github.com.mycurrencies.extensions.checkAd
-import mustafaozhan.github.com.mycurrencies.extensions.dropDecimal
-import mustafaozhan.github.com.mycurrencies.extensions.reObserve
-import mustafaozhan.github.com.mycurrencies.extensions.replaceNonStandardDigits
-import mustafaozhan.github.com.mycurrencies.extensions.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.extensions.tryToSelect
-import mustafaozhan.github.com.mycurrencies.function.whether
-import mustafaozhan.github.com.mycurrencies.function.whetherNot
+import mustafaozhan.github.com.mycurrencies.function.extension.addText
+import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
+import mustafaozhan.github.com.mycurrencies.function.extension.dropDecimal
+import mustafaozhan.github.com.mycurrencies.function.extension.reObserve
+import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
+import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.function.extension.tryToSelect
+import mustafaozhan.github.com.mycurrencies.function.scope.whether
+import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.room.AppDatabase
+import mustafaozhan.github.com.mycurrencies.tool.Toasty
+import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import timber.log.Timber
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -49,7 +52,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         setListeners()
-        setKeyboard()
         initViewState()
         setRx()
         initLiveData()
@@ -64,11 +66,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun setRx() {
         binding.txtInput.textChanges()
             .map { it.toString() }
-            .subscribe({ input ->
-                viewModel.calculateOutput(input)
-            }, { throwable ->
-                logException(throwable)
-            })
+            .subscribe(
+                { viewModel.calculateOutput(it) },
+                { Timber.e(it) }
+            )
             .addTo(compositeDisposable)
     }
 
@@ -80,18 +81,16 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 is CalculatorViewState.OfflineSuccess -> {
                     onSearchSuccess(calculatorViewState.rates)
                     calculatorViewState.rates.date?.let {
-                        toasty(getString(R.string.database_success_with_date, it))
+                        Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                     } ?: run {
-                        toasty(getString(R.string.database_success))
+                        Toasty.showToasty(requireContext(), R.string.database_success)
                     }
                 }
                 CalculatorViewState.Error -> {
-                    viewModel.currencyListLiveData
-                        .value
-                        ?.size
+                    viewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
-                            snacky(getString(R.string.rate_not_available_offline), getString(R.string.change)) {
+                            showSnacky(view, R.string.rate_not_available_offline, R.string.change) {
                                 binding.layoutBar.spinnerBase.expand()
                             }
                         }
@@ -100,14 +99,15 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     binding.loadingView.smoothToHide()
                 }
                 is CalculatorViewState.MaximumInput -> {
-                    toasty(getString(R.string.max_input))
+                    Toasty.showToasty(requireContext(), R.string.max_input)
                     binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.FewCurrency -> {
-                    snacky(getString(R.string.choose_at_least_two_currency), getString(R.string.select)) {
+                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                         replaceFragment(SettingsFragment.newInstance(), true)
                     }
+
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
@@ -157,58 +157,40 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         }
         calculatorFragmentAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
-            viewModel.updateCurrentBase(currency.name)
-            viewModel.calculateOutput(itemView.txt_amount.text.toString().dropDecimal())
-
-            viewModel.currencyListLiveData
-                .value
+            updateBase(currency.name)
+            viewModel.currencyListLiveData.value
                 ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
                 ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
                 ?: run { layoutBar.spinnerBase.expand() }
-
-            layoutBar.ivBase.setBackgroundByName(currency.name)
         }
         calculatorFragmentAdapter.onItemLongClickListener = { currency, _ ->
-            snacky(
+            showSnacky(
+                view,
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
                 setIcon = currency.name,
-                isLong = false)
+                isLong = false
+            )
             true
         }
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
-        if (spinnerList.size < 2) {
-            snacky(
-                context?.getString(R.string.choose_at_least_two_currency),
-                context?.getString(R.string.select)) {
+        spinnerList
+            .whether { size >= 2 }
+            ?.apply {
+                spinnerBase.setItems(this)
+                spinnerBase.tryToSelect(indexOf(viewModel.verifyCurrentBase(this).toString()))
+                ivBase.setBackgroundByName(spinnerBase.text.toString())
+            } ?: run {
+            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")
             ivBase.setBackgroundByName("transparent")
-        } else {
-            spinnerBase.setItems(spinnerList)
-            spinnerBase.tryToSelect(spinnerList.indexOf(viewModel.verifyCurrentBase(spinnerList).toString()))
-            ivBase.setBackgroundByName(spinnerBase.text.toString())
         }
     }
 
-    private fun setListeners() = with(binding.layoutBar) {
-        spinnerBase.setOnItemSelectedListener { _, _, _, item ->
-            viewModel.updateCurrentBase(item.toString())
-            viewModel.calculateOutput(binding.txtInput.text.toString())
-            ivBase.setBackgroundByName(item.toString())
-        }
-        layoutBar.setOnClickListener {
-            with(spinnerBase) {
-                whether { isActivated }
-                    ?.apply { collapse() }
-                    ?: run { expand() }
-            }
-        }
-    }
-
-    private fun setKeyboard() = with(binding) {
+    private fun setListeners() = with(binding) {
         layoutKeyboard.btnSeven.setOnClickListener { txtInput.addText("7") }
         layoutKeyboard.btnEight.setOnClickListener { txtInput.addText("8") }
         layoutKeyboard.btnNine.setOnClickListener { txtInput.addText("9") }
@@ -228,17 +210,29 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
         layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
         layoutKeyboard.btnAc.setOnClickListener {
-            binding.txtInput.text = ""
-            binding.layoutBar.txtOutput.text = ""
-            binding.layoutBar.txtSymbol.text = ""
+            txtInput.text = ""
+            layoutBar.txtOutput.text = ""
+            layoutBar.txtSymbol.text = ""
         }
         layoutKeyboard.btnDelete.setOnClickListener {
-            binding.txtInput
-                .text
-                .toString()
+            txtInput.text.toString()
                 .whetherNot { isEmpty() }
-                ?.apply { binding.txtInput.text = substring(0, length - 1) }
+                ?.apply { txtInput.text = substring(0, length - 1) }
         }
+        layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
+        layoutBar.layoutBar.setOnClickListener {
+            with(layoutBar.spinnerBase) {
+                whether { isActivated }
+                    ?.apply { collapse() }
+                    ?: run { expand() }
+            }
+        }
+    }
+
+    private fun updateBase(base: String) {
+        viewModel.updateCurrentBase(base)
+        viewModel.calculateOutput(binding.txtInput.text.toString())
+        binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 
     private fun initData() = viewModel.apply {

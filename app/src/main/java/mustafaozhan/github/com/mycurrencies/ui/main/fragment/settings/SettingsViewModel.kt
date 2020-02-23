@@ -2,13 +2,13 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
-import mustafaozhan.github.com.mycurrencies.data.repository.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.extensions.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.extensions.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.function.either
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.function.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.function.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.function.scope.either
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.room.dao.CurrencyDao
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.

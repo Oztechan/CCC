@@ -18,11 +18,11 @@ env:
     #- API=17 ABI=armeabi-v7a # Fails with "com.android.builder.testing.ConnectedDevice > No tests found."
     #- API=18 ABI=armeabi-v7a # Fails with "com.android.builder.testing.ConnectedDevice > No tests found."
     #- API=19 ABI=armeabi-v7a # Fails: kernel/emulator mismatch, and emulator-29+ doesn't support "-engine classic" to fix
-    # API 20 was Android Wear only
-    - API=21
-    - API=22
-    - API=23
-    - API=24
+    #- API 20 was Android Wear only
+    #- API=21
+    #- API=22
+    #- API=23
+    #- API=24
     - API=25
     #- API=26 ABI=x86_64 # Fails with unrecognized tests? orchestrator change or something?
     #- API=27 # Same failure as below for API28, but less frequently

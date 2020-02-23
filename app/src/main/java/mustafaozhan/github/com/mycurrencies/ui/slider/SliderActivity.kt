@@ -14,7 +14,7 @@ import androidx.viewpager.widget.ViewPager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.function.whether
+import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
 class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {
@@ -25,6 +25,7 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
     companion object {
         const val SLIDE_SIZE = 4
         const val TEXT_SIZE = 36f
+        const val HTML_DOT_CODE = "&#8226;"
     }
 
     override fun getDefaultFragment(): Fragment? = null
@@ -79,12 +80,11 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
             }
         }
 
-        for (i in dots.indices) {
-            dots[i] = TextView(this)
-            dots[i].text = HtmlCompat.fromHtml("&#8226;", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            dots[i].textSize = TEXT_SIZE
-            dots[i].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
-            binding.layoutDots.addView(dots[i])
+        dots.forEach { textView ->
+            textView.text = HtmlCompat.fromHtml(HTML_DOT_CODE, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            textView.textSize = TEXT_SIZE
+            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
+            binding.layoutDots.addView(textView)
         }
 
         if (dots.size > 0) {
@@ -103,7 +103,6 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
 
     private fun changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = Color.TRANSPARENT
         }
