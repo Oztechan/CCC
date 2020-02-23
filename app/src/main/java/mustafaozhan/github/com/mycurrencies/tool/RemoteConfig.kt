@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.tool
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
@@ -21,13 +21,13 @@ const val CHECK_INTERVAL: Long = 4200
 const val REMOTE_CONFIG = "remote_config"
 
 @Suppress("ComplexMethod")
-fun checkRemoteConfig(context: Context) {
+fun checkRemoteConfig(activity: Activity) {
 
     val defaultMap = HashMap<String, Any>()
     defaultMap[REMOTE_CONFIG] = RemoteConfig(
-        context.getString(R.string.remote_config_title),
-        context.getString(R.string.remote_config_description),
-        context.getString(R.string.app_market_link)
+        activity.getString(R.string.remote_config_title),
+        activity.getString(R.string.remote_config_description),
+        activity.getString(R.string.app_market_link)
     )
 
     FirebaseRemoteConfig.getInstance().apply {
@@ -54,13 +54,13 @@ fun checkRemoteConfig(context: Context) {
                             ?.whether { latestVersion > BuildConfig.VERSION_CODE }
                             ?.apply {
                                 showDialog(
-                                    context,
+                                    activity,
                                     title,
                                     description,
-                                    context.getString(R.string.update),
+                                    activity.getString(R.string.update),
                                     forceVersion <= BuildConfig.VERSION_CODE
                                 ) {
-                                    startActivity(context, Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)), null)
+                                    startActivity(activity, Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)), null)
                                 }
                             }
                     } catch (e: JsonDataException) {

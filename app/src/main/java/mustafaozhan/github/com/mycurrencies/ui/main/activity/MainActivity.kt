@@ -48,7 +48,7 @@ open class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkRemoteConfig(applicationContext)
+        checkRemoteConfig(this)
         prepareAd()
     }
 
@@ -73,13 +73,13 @@ open class MainActivity : BaseActivity<MainViewModel>() {
                     Uri.parse(getString(R.string.app_market_link))
                 )
                 intent.resolveActivity(packageManager)?.let {
-                    showDialog(applicationContext, R.string.support_us, R.string.rate_and_support, R.string.rate) {
+                    showDialog(this, R.string.support_us, R.string.rate_and_support, R.string.rate) {
                         startActivity(intent)
                     }
                 }
             }
             R.id.removeAds ->
-                showDialog(applicationContext, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
+                showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
                     showVideoAd()
                 }
             R.id.onGithub -> {

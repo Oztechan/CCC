@@ -29,7 +29,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode getGitVersionCode()
         versionName "1.${getGitVersionCode()}"
@@ -81,7 +81,6 @@ dependencies {
             Toasty,
             LoadingView,
             JodaTime,
-            MXParser,
             RxKotlin.values(),
             Retrofit.values(),
             LifeCycle.values()
@@ -92,4 +91,6 @@ dependencies {
     kapt(Annotations.values())
 
     testImplementation(JUnit)
+
+    implementation(files(MXParser))
 }
