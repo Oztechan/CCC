@@ -51,7 +51,6 @@ dependencies {
             Toasty,
             LoadingView,
             JodaTime,
-            MXParser,
             RxKotlin.values(),
             Retrofit.values(),
             LifeCycle.values()
@@ -62,6 +61,8 @@ dependencies {
     kapt(Annotations.values())
 
     testImplementation(JUnit)
+
+    implementation(files(MXParser))
 }
 ```
 
