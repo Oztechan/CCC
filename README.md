@@ -27,7 +27,6 @@
 ## Dependencies
 ```gradle
 dependencies {
-
     implementation(
             Kotlin,
             AndroidMaterial,
@@ -45,7 +44,6 @@ dependencies {
             Crashlytics,
             Timber,
             ANRWatchDog,
-            FirebaseCore,
             Anko,
             Snacky,
             Toasty,

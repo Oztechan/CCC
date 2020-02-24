@@ -68,7 +68,6 @@ dependencies {
             Crashlytics,
             Timber,
             ANRWatchDog,
-            FirebaseCore,
             Anko,
             Snacky,
             Toasty,
