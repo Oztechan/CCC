@@ -22,6 +22,7 @@ constructor() : BaseApiHelper() {
         get() = Moshi.Builder().build()
 
     val backendService: BackendService by lazy { initBackendApiServices() }
+    val backendServiceLongTimeOut: BackendService by lazy { initBackendApiServicesLongTimeOut() }
 
     private fun initBackendApiServices(): BackendService {
         val clientBuilder = OkHttpClient.Builder()
@@ -30,6 +31,13 @@ constructor() : BaseApiHelper() {
             .writeTimeout(1L, TimeUnit.SECONDS)
             .addInterceptor(getLoggingInterceptor())
 
+        val endpoint = getString(R.string.backend_endpoint)
+        val retrofit = initRxRetrofit(endpoint, clientBuilder.build())
+        return retrofit.create(BackendService::class.java)
+    }
+
+    private fun initBackendApiServicesLongTimeOut(): BackendService {
+        val clientBuilder = OkHttpClient.Builder().addInterceptor(getLoggingInterceptor())
         val endpoint = getString(R.string.backend_endpoint)
         val retrofit = initRxRetrofit(endpoint, clientBuilder.build())
         return retrofit.create(BackendService::class.java)
