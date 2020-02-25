@@ -90,9 +90,12 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     viewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
-                            showSnacky(view, R.string.rate_not_available_offline, R.string.change) {
-                                binding.layoutBar.spinnerBase.expand()
-                            }
+                            showSnacky(
+                                view,
+                                R.string.rate_not_available_offline,
+                                R.string.change,
+                                isIndefinite = true
+                            ) { binding.layoutBar.spinnerBase.expand() }
                         }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
@@ -104,7 +107,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.FewCurrency -> {
-                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
                         replaceFragment(SettingsFragment.newInstance(), true)
                     }
 
@@ -167,8 +170,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
             showSnacky(
                 view,
                 "${viewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
-                setIcon = currency.name,
-                isLong = false
+                setIcon = currency.name
             )
             true
         }
@@ -182,7 +184,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 spinnerBase.tryToSelect(indexOf(viewModel.verifyCurrentBase(this).toString()))
                 ivBase.setBackgroundByName(spinnerBase.text.toString())
             } ?: run {
-            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")

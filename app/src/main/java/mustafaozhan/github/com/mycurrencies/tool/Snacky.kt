@@ -13,7 +13,7 @@ fun showSnacky(
     text: Int? = null,
     actionText: Int? = null,
     setIcon: String? = null,
-    isLong: Boolean = true,
+    isIndefinite: Boolean = false,
     action: () -> Unit = {}
 ) = view?.apply {
     Snacky.builder()
@@ -21,7 +21,7 @@ fun showSnacky(
         .setText(text?.let { context.getString(it) } ?: "")
         .setIcon(setIcon?.let { context.getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
         .setView(this)
-        .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
+        .setDuration(if (isIndefinite) Snacky.LENGTH_INDEFINITE else Snacky.LENGTH_LONG)
         .setActionText(actionText?.let { context.getString(it) } ?: "")
         .setActionTextColor(ContextCompat.getColor(context, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
@@ -36,7 +36,7 @@ fun showSnacky(
     text: String = "",
     actionText: String = "",
     setIcon: String? = null,
-    isLong: Boolean = true,
+    isIndefinite: Boolean = false,
     action: () -> Unit = {}
 ) = view?.apply {
     Snacky.builder()
@@ -44,7 +44,7 @@ fun showSnacky(
         .setText(text)
         .setIcon(setIcon?.let { context.getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
         .setView(this)
-        .setDuration(if (isLong) Snacky.LENGTH_LONG else Snacky.LENGTH_SHORT)
+        .setDuration(if (isIndefinite) Snacky.LENGTH_INDEFINITE else Snacky.LENGTH_LONG)
         .setActionText(actionText)
         .setActionTextColor(ContextCompat.getColor(context, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
