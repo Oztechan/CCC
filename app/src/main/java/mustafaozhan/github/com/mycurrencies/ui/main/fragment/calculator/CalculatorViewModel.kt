@@ -99,20 +99,17 @@ class CalculatorViewModel(
     private fun rateDownloadFail(t: Throwable) {
         Timber.w(t, "rate download failed 1s time out")
 
-        calculatorViewStateLiveData.postValue(
-            offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
-                CalculatorViewState.OfflineSuccess(offlineRates)
-            } ?: run {
-                viewModelScope.launch {
-                    subscribeService(
-                        backendRepository.getAllOnBaseLongTimeOut(mainData.currentBase),
-                        ::rateDownloadSuccess,
-                        ::rateDownloadFailLongTimeOut
-                    )
-                }
-                CalculatorViewState.Error
+        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
+            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
+        } ?: run {
+            viewModelScope.launch {
+                subscribeService(
+                    backendRepository.getAllOnBaseLongTimeOut(mainData.currentBase),
+                    ::rateDownloadSuccess,
+                    ::rateDownloadFailLongTimeOut
+                )
             }
-        )
+        }
     }
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
