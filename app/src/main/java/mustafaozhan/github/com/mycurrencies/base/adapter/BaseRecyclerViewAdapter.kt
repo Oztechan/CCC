@@ -1,9 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.base.adapter
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import mustafaozhan.github.com.mycurrencies.model.Currencies
@@ -16,6 +14,8 @@ import kotlin.properties.Delegates
 abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding>(
     private val compareFun: (T, T) -> Boolean = { o, n -> o == n }
 ) : RecyclerView.Adapter<BaseViewHolder<T, TViewBinding>>(), AutoUpdatableAdapter {
+
+    lateinit var binding: TViewBinding
 
     private var items: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> compareFun(o, n) }
@@ -32,9 +32,6 @@ abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding>(
             itemView.setOnLongClickListener { onItemLongClickListener(item, itemView) }
         }
     }
-
-    protected fun getViewHolderView(parent: ViewGroup, @LayoutRes itemLayoutId: Int): View =
-        LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)
 
     fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
         items = currentBase?.let {

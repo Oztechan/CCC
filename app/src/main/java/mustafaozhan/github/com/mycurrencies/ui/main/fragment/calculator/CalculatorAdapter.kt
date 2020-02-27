@@ -1,8 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
@@ -16,10 +15,15 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  */
 class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemCurrencyBinding> =
-        RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemCurrencyBinding> {
+        binding = ItemCurrencyBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
+        return RatesViewHolder(binding)
+    }
 
-    class RatesViewHolder(itemView: View) : BaseViewHolder<Currency, ItemCurrencyBinding>(itemView) {
+    class RatesViewHolder(binding: ItemCurrencyBinding) : BaseViewHolder<Currency, ItemCurrencyBinding>(binding) {
 
         override fun bind(item: Currency) {
             with(binding) {

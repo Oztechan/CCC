@@ -1,11 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import kotlinx.android.synthetic.main.item_setting.view.checkBox
-import kotlinx.android.synthetic.main.item_setting.view.img_icon
-import kotlinx.android.synthetic.main.item_setting.view.txt_setting_item
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
@@ -18,8 +15,13 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  */
 class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemSettingBinding> =
-        RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemSettingBinding> {
+        binding = ItemSettingBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false)
+        return RatesViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: BaseViewHolder<Currency, ItemSettingBinding>, position: Int) {
         holder.itemView.startAnimation(
@@ -31,12 +33,12 @@ class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() 
         super.onBindViewHolder(holder, position)
     }
 
-    class RatesViewHolder(itemView: View) : BaseViewHolder<Currency, ItemSettingBinding>(itemView) {
+    class RatesViewHolder(binding: ItemSettingBinding) : BaseViewHolder<Currency, ItemSettingBinding>(binding) {
         override fun bind(item: Currency) {
-            itemView.apply {
-                txt_setting_item.text = item.getVariablesOneLine()
+            with(binding) {
+                txtSettingItem.text = item.getVariablesOneLine()
                 checkBox.isChecked = item.isActive == 1
-                img_icon.setBackgroundByName(item.name)
+                imgIcon.setBackgroundByName(item.name)
             }
         }
     }
