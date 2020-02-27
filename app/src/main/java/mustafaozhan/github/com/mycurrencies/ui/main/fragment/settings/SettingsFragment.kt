@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
@@ -82,17 +81,17 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
             viewModel.setCurrentBase(null)
         }
 
-        settingsAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
+        settingsAdapter.onItemClickListener = { currency: Currency, binding, _ ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
                     viewModel.updateCurrencyState(1, currency.name)
-                    itemView.checkBox.isChecked = true
+                    binding.checkBox.isChecked = true
                 }
                 1 -> {
                     currency.isActive = 0
                     viewModel.updateCurrencyState(0, currency.name)
-                    itemView.checkBox.isChecked = false
+                    binding.checkBox.isChecked = false
                 }
             }
         }

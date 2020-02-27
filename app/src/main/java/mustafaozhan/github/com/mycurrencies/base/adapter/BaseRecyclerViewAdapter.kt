@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.base.adapter
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -21,15 +20,15 @@ abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding>(
         autoNotify(old, new) { o, n -> compareFun(o, n) }
     }
 
-    var onItemClickListener: ((T, View, Int) -> Unit) = { item, viewParent, position -> }
-    var onItemLongClickListener: (T, View) -> Boolean = { item, viewParent -> true }
+    var onItemClickListener: ((T, TViewBinding, Int) -> Unit) = { item, binding, position -> }
+    var onItemLongClickListener: (T, TViewBinding) -> Boolean = { item, binding -> true }
 
     override fun onBindViewHolder(holder: BaseViewHolder<T, TViewBinding>, position: Int) {
         val item = items[position]
         holder.apply {
             bind(item)
-            itemView.setOnClickListener { onItemClickListener(item, itemView, position) }
-            itemView.setOnLongClickListener { onItemLongClickListener(item, itemView) }
+            itemView.setOnClickListener { onItemClickListener(item, binding, position) }
+            itemView.setOnLongClickListener { onItemLongClickListener(item, binding) }
         }
     }
 
