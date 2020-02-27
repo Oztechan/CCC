@@ -48,7 +48,7 @@ class CalculatorViewModel(
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
-    val outputLiveData: MutableLiveData<String> = MutableLiveData("0.0")
+    val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
     override fun onLoaded(): Completable {
@@ -164,8 +164,7 @@ class CalculatorViewModel(
         name: String,
         rate: Rates?
     ) = outputLiveData.value
-        .toString()
-        .whetherNot { isEmpty() }
+        ?.whetherNot { isEmpty() }
         ?.let { output ->
             try {
                 rate.calculateResult(name, output)

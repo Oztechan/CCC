@@ -104,6 +104,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 CalculatorViewState.Empty -> {
                     binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
+                    calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
                 CalculatorViewState.FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
@@ -113,9 +114,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                is CalculatorViewState.Success -> onSearchSuccess(calculatorViewState.rates)
+                is CalculatorViewState.Success -> onStateSuccess(calculatorViewState.rates)
                 is CalculatorViewState.OfflineSuccess -> {
-                    onSearchSuccess(calculatorViewState.rates)
+                    onStateSuccess(calculatorViewState.rates)
                     calculatorViewState.rates.date?.let {
                         Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                     } ?: run {
@@ -157,7 +158,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         })
     }
 
-    private fun onSearchSuccess(rates: Rates) {
+    private fun onStateSuccess(rates: Rates) {
         viewModel.currencyListLiveData.value?.let { currencyList ->
             currencyList.forEach { it.rate = viewModel.calculateResultByCurrency(it.name, rates) }
             calculatorFragmentAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
@@ -167,6 +168,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun initViews() = with(binding) {
         loadingView.bringToFront()
+        txtEmpty.visible()
         context?.let { ctx ->
             recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
             recyclerViewMain.adapter = calculatorFragmentAdapter

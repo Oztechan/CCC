@@ -49,8 +49,9 @@
         android:id="@+id/txt_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/ItemTextStyle"
         android:text="@string/type_for_results"
-        android:textColor="@color/colorAccent"
+        android:layout_marginTop="@dimen/margin_eight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
