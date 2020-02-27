@@ -77,15 +77,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         .reObserve(this, Observer { calculatorViewState ->
             when (calculatorViewState) {
                 CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
-                is CalculatorViewState.Success -> onSearchSuccess(calculatorViewState.rates)
-                is CalculatorViewState.OfflineSuccess -> {
-                    onSearchSuccess(calculatorViewState.rates)
-                    calculatorViewState.rates.date?.let {
-                        Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
-                    } ?: run {
-                        Toasty.showToasty(requireContext(), R.string.database_success)
-                    }
-                }
                 CalculatorViewState.Error -> {
                     viewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
@@ -101,17 +92,26 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                is CalculatorViewState.MaximumInput -> {
-                    Toasty.showToasty(requireContext(), R.string.max_input)
-                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
-                    binding.loadingView.smoothToHide()
-                }
                 CalculatorViewState.FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
                         replaceFragment(SettingsFragment.newInstance(), true)
                     }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    binding.loadingView.smoothToHide()
+                }
+                is CalculatorViewState.Success -> onSearchSuccess(calculatorViewState.rates)
+                is CalculatorViewState.OfflineSuccess -> {
+                    onSearchSuccess(calculatorViewState.rates)
+                    calculatorViewState.rates.date?.let {
+                        Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
+                    } ?: run {
+                        Toasty.showToasty(requireContext(), R.string.database_success)
+                    }
+                }
+                is CalculatorViewState.MaximumInput -> {
+                    Toasty.showToasty(requireContext(), R.string.max_input)
+                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
             }
