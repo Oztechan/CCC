@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import kotlin.properties.Delegates
@@ -12,9 +13,9 @@ import kotlin.properties.Delegates
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-abstract class BaseRecyclerViewAdapter<T>(
+abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding>(
     private val compareFun: (T, T) -> Boolean = { o, n -> o == n }
-) : RecyclerView.Adapter<BaseViewHolder<T>>(), AutoUpdatableAdapter {
+) : RecyclerView.Adapter<BaseViewHolder<T, TViewBinding>>(), AutoUpdatableAdapter {
 
     private var items: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> compareFun(o, n) }
@@ -23,7 +24,7 @@ abstract class BaseRecyclerViewAdapter<T>(
     var onItemClickListener: ((T, View, Int) -> Unit) = { item, viewParent, position -> }
     var onItemLongClickListener: (T, View) -> Boolean = { item, viewParent -> true }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<T, TViewBinding>, position: Int) {
         val item = items[position]
         holder.apply {
             bind(item)
@@ -48,13 +49,13 @@ abstract class BaseRecyclerViewAdapter<T>(
         } ?: run { list }
     }
 
-    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T>
+    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T, TViewBinding>
 
     override fun getItemCount() = items.size
 
     private fun isEmpty(): Boolean = items.isEmpty()
 
-    override fun onViewDetachedFromWindow(holder: BaseViewHolder<T>) {
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder<T, TViewBinding>) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.clearAnimation()
     }

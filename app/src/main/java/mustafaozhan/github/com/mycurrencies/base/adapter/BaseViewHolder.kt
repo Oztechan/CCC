@@ -3,11 +3,14 @@ package mustafaozhan.github.com.mycurrencies.base.adapter
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-abstract class BaseViewHolder<out T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder<out T, TViewBinding : ViewBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    lateinit var binding: TViewBinding
 
     abstract fun bind(item: @UnsafeVariance T)
 

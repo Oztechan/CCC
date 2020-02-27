@@ -9,18 +9,19 @@ import kotlinx.android.synthetic.main.item_setting.view.txt_setting_item
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
+import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
-class SettingsAdapter : BaseRecyclerViewAdapter<Currency>() {
+class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemSettingBinding> =
         RatesViewHolder(getViewHolderView(parent, R.layout.item_setting))
 
-    override fun onBindViewHolder(holder: BaseViewHolder<Currency>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<Currency, ItemSettingBinding>, position: Int) {
         holder.itemView.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.itemView.context,
@@ -30,7 +31,7 @@ class SettingsAdapter : BaseRecyclerViewAdapter<Currency>() {
         super.onBindViewHolder(holder, position)
     }
 
-    class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
+    class RatesViewHolder(itemView: View) : BaseViewHolder<Currency, ItemSettingBinding>(itemView) {
         override fun bind(item: Currency) {
             itemView.apply {
                 txt_setting_item.text = item.getVariablesOneLine()
