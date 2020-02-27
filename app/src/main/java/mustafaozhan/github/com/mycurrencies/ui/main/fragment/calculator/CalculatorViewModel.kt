@@ -179,4 +179,6 @@ class CalculatorViewModel(
     fun resetFirstRun() {
         preferencesRepository.updateMainData(firstRun = true)
     }
+
+    fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
 }

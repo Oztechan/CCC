@@ -8,6 +8,8 @@ sealed class CalculatorViewState {
 
     object Error : CalculatorViewState()
 
+    object Empty : CalculatorViewState()
+
     object FewCurrency : CalculatorViewState()
 
     data class Success(val rates: Rates) : CalculatorViewState()

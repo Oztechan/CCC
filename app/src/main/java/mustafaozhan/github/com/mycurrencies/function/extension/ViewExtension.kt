@@ -56,3 +56,12 @@ fun MaterialSpinner.tryToSelect(indexOf: Int) {
         0
     }
 }
+
+fun View?.visible() {
+    this?.bringToFront()
+    this?.visibility = View.VISIBLE
+}
+
+fun View?.gone() {
+    this?.visibility = View.GONE
+}

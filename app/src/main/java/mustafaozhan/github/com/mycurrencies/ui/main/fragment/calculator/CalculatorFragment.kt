@@ -15,10 +15,12 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import mustafaozhan.github.com.mycurrencies.function.extension.addText
 import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.function.extension.dropDecimal
+import mustafaozhan.github.com.mycurrencies.function.extension.gone
 import mustafaozhan.github.com.mycurrencies.function.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.function.extension.tryToSelect
+import mustafaozhan.github.com.mycurrencies.function.extension.visible
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -67,7 +69,14 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         binding.txtInput.textChanges()
             .map { it.toString() }
             .subscribe(
-                { viewModel.calculateOutput(it) },
+                {
+                    if (it.isEmpty()) {
+                        viewModel.postEmptyState()
+                    } else {
+                        viewModel.calculateOutput(it)
+                        binding.txtEmpty.gone()
+                    }
+                },
                 { Timber.e(it) }
             )
             .addTo(compositeDisposable)
@@ -90,6 +99,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                         }
 
                     calculatorFragmentAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
+                    binding.loadingView.smoothToHide()
+                }
+                CalculatorViewState.Empty -> {
+                    binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.FewCurrency -> {
