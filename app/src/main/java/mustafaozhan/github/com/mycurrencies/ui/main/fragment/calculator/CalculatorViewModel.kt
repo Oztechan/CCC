@@ -117,22 +117,18 @@ class CalculatorViewModel(
         calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
     }
 
-    fun calculateOutput(input: String) {
-
-        Expression(input.replaceUnsupportedCharacters().toPercent())
-            .calculate()
-            .mapTo { if (isNaN()) "" else getFormatted() }
-            ?.whether { length <= MAXIMUM_INPUT }
-            ?.let { output ->
-                outputLiveData.postValue(output)
-                currencyListLiveData.value
-                    ?.size
-                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
-                    ?: run { getCurrencies() }
-            }
-            ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
-    }
+    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+        .calculate()
+        .mapTo { if (isNaN()) "" else getFormatted() }
+        ?.whether { length <= MAXIMUM_INPUT }
+        ?.let { output ->
+            outputLiveData.postValue(output)
+            currencyListLiveData.value
+                ?.size
+                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                ?: run { getCurrencies() }
+        } ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
