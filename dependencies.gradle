@@ -4,6 +4,10 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
+def KOTLIN_VERSION = '1.3.61'
+def ANDROID_PLUGIN_VERSION = '3.6.0'
+def GSM_GOOGLE_VERSION = '4.3.3'
+def FABRIC_VERSION = '1.31.2'
 def DAGGER_VERSION = '2.26'
 def RX_ANDROID_VERSION = '2.1.0'
 def RX_JAVA_VERSION = '2.1.0'
@@ -18,10 +22,10 @@ def NETWORK_INTERCEPTOR_VERSION = '4.3.1'
 def OK_HTTP_VERSION = '4.4.0'
 def MOSHI_VERSION = '1.9.2'
 def MATERIAL_SPINNER_VERSION = '1.3.1'
-def ROOM_VERSION = '2.2.3'
+def ROOM_VERSION = '2.2.4'
 def COROUTINES_VERSION = '1.3.0'
 def ADMOB_VERSION = '18.3.0'
-def FIREBASE_CONFIG_VERSION = '19.1.1'
+def FIREBASE_CONFIG_VERSION = '19.1.2'
 def CRASHLYTICS_VERSION = '2.10.1'
 def TIMBER_VERSION = '4.7.1'
 def ANR_WATCH_DOG_VERSION = '1.4.0'
@@ -34,7 +38,7 @@ def JODA_TIME_VERSION = '2.10.3'
 
 ext {
     // Dependencies
-    Kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    Kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
     AndroidMaterial = "com.google.android.material:material:$ANDROID_MATERIAL_VERSION"
     RecyclerView = "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
     ConstraintLayout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
@@ -86,11 +90,18 @@ ext {
     Annotations = [
             daggerCompiler : "com.google.dagger:dagger-compiler:$DAGGER_VERSION",
             daggerProcessor: "com.google.dagger:dagger-android-processor:$DAGGER_VERSION",
-            dataBinding    : "com.android.databinding:compiler:$android_plugin_version",
+            dataBinding    : "com.android.databinding:compiler:$ANDROID_PLUGIN_VERSION",
             moshi          : "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI_VERSION",
             room           : "androidx.room:room-compiler:$ROOM_VERSION"
     ]
 
     // Libs
     MXParser = "libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar"
+
+    classpaths = [
+            androidBuildTools : "com.android.tools.build:gradle:${ANDROID_PLUGIN_VERSION}",
+            kotlinGradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}",
+            gsmGoogle         : "com.google.gms:google-services:$GSM_GOOGLE_VERSION",
+            fabric            : "io.fabric.tools:gradle:$FABRIC_VERSION"
+    ]
 }
