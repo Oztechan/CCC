@@ -37,7 +37,7 @@
 
     <!--Snacky Text-->
     <string name="rate_not_available_offline">No internet connection and this currency is not available offline, please change your base currency or connect to internet.</string>
-    <string name="choose_at_least_two_currency">Please Select at least 2 currencies from Settings</string>
+    <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="choose_currencies">Please Select at least 2 currencies</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
@@ -100,4 +100,11 @@
     <string name="remove_ads">Remove Ads</string>
     <string name="remove_ads_text">Would you like to watch a video to stop ads for 24 hours ?</string>
     <string name="watch">Watch</string>
+
+    <!-- Calculator Screen -->
+    <string name="type_for_results">Type for results</string>
+
+    <!-- Settings Screen -->
+    <string name="no_result"> No result found.</string>
+
 </resources>

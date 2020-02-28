@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.function.lambda
 
-inline fun <reified T> ensure(
+inline fun <reified T, R> ensure(
     vararg elements: T?,
-    closureSafe: () -> Unit
+    closureSafe: () -> R
 ) =
     if (elements.all { it != null }) {
         closureSafe()

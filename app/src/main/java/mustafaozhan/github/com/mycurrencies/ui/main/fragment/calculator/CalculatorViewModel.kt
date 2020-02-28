@@ -42,13 +42,12 @@ class CalculatorViewModel(
 ) : BaseDataViewModel(preferencesRepository) {
 
     companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
         private const val MAXIMUM_INPUT = 15
     }
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
-    val outputLiveData: MutableLiveData<String> = MutableLiveData("0.0")
+    val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
     override fun onLoaded(): Completable {
@@ -117,22 +116,18 @@ class CalculatorViewModel(
         calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
     }
 
-    fun calculateOutput(input: String) {
-
-        Expression(input.replaceUnsupportedCharacters().toPercent())
-            .calculate()
-            .mapTo { if (isNaN()) "" else getFormatted() }
-            ?.whether { length <= MAXIMUM_INPUT }
-            ?.let { output ->
-                outputLiveData.postValue(output)
-                currencyListLiveData.value
-                    ?.size
-                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
-                    ?: run { getCurrencies() }
-            }
-            ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
-    }
+    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+        .calculate()
+        .mapTo { if (isNaN()) "" else getFormatted() }
+        ?.whether { length <= MAXIMUM_INPUT }
+        ?.let { output ->
+            outputLiveData.postValue(output)
+            currencyListLiveData.value
+                ?.size
+                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                ?: run { getCurrencies() }
+        } ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
@@ -152,7 +147,7 @@ class CalculatorViewModel(
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
             .either(
-                { it == Currencies.NULL },
+                { equals(Currencies.NULL) },
                 { spinnerList.indexOf(it.toString()) == -1 }
             )
             ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
@@ -164,8 +159,7 @@ class CalculatorViewModel(
         name: String,
         rate: Rates?
     ) = outputLiveData.value
-        .toString()
-        .whetherNot { isEmpty() }
+        ?.whetherNot { isEmpty() }
         ?.let { output ->
             try {
                 rate.calculateResult(name, output)
@@ -179,4 +173,6 @@ class CalculatorViewModel(
     fun resetFirstRun() {
         preferencesRepository.updateMainData(firstRun = true)
     }
+
+    fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
 }

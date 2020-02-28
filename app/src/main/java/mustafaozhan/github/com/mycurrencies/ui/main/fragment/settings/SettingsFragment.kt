@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
@@ -10,7 +11,11 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
+import mustafaozhan.github.com.mycurrencies.function.extension.gone
+import mustafaozhan.github.com.mycurrencies.function.extension.reObserve
+import mustafaozhan.github.com.mycurrencies.function.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import timber.log.Timber
 
 /**
@@ -34,31 +39,36 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         super.onViewCreated(view, savedInstanceState)
         setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
+        initViewState()
         initRx()
         setListeners()
     }
+
+    private fun initViewState() = viewModel.settingsViewStateLiveData
+        .reObserve(this, Observer { settingsViewState ->
+            binding.txtNoResult.gone()
+            when (settingsViewState) {
+                SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                SettingsViewState.NoResult -> {
+                    settingsAdapter.refreshList(mutableListOf())
+                    binding.txtNoResult.visible()
+                }
+                is SettingsViewState.Success -> settingsAdapter.refreshList(settingsViewState.currencyList)
+            }
+        })
 
     private fun initRx() = binding.editTextSearch
         .textChanges()
         .map { it.toString() }
         .subscribe(
-            { txt ->
-                viewModel.currencyList.filter { currency ->
-                    currency.name.contains(txt, true) ||
-                        currency.longName.contains(txt, true) ||
-                        currency.symbol.contains(txt, true)
-                }.toMutableList()
-                    .let { settingsAdapter.refreshList(it) }
-            },
+            { viewModel.filterList(it) },
             { Timber.e(it) }
         ).addTo(compositeDisposable)
 
-    private fun initViews() = context?.let { ctx ->
-        binding.recyclerViewSettings.apply {
-            layoutManager = LinearLayoutManager(ctx)
-            setHasFixedSize(true)
-            adapter = settingsAdapter
-        }
+    private fun initViews() = binding.recyclerViewSettings.apply {
+        layoutManager = LinearLayoutManager(requireContext())
+        setHasFixedSize(true)
+        adapter = settingsAdapter
     }
 
     private fun setListeners() {

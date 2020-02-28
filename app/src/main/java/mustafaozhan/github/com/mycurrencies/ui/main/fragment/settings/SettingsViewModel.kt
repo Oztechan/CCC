@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -18,7 +19,9 @@ class SettingsViewModel(
     private val currencyDao: CurrencyDao
 ) : BaseDataViewModel(preferencesRepository) {
 
-    var currencyList: MutableList<Currency> = mutableListOf()
+    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
+
+    private var currencyList: MutableList<Currency> = mutableListOf()
 
     override fun onLoaded(): Completable {
         return Completable.complete()
@@ -44,7 +47,24 @@ class SettingsViewModel(
         } ?: updateAllCurrencyState(value)
 
         if (value == 0) verifyCurrentBase()
+
+        if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+            settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
+        }
     }
+
+    fun filterList(txt: String) = currencyList
+        .filter { currency ->
+            currency.name.contains(txt, true) ||
+                currency.longName.contains(txt, true) ||
+                currency.symbol.contains(txt, true)
+        }
+        .toMutableList()
+        .let {
+            settingsViewStateLiveData.postValue(
+                if (it.isEmpty()) SettingsViewState.NoResult else SettingsViewState.Success(it)
+            )
+        }
 
     private fun updateAllCurrencyState(value: Int) {
         currencyList.forEach { it.isActive = value }
@@ -53,7 +73,7 @@ class SettingsViewModel(
 
     private fun verifyCurrentBase() = mainData.currentBase
         .either(
-            { base -> base == Currencies.NULL },
+            { equals(Currencies.NULL) },
             { base ->
                 currencyList
                     .filter { it.name == base.toString() }
