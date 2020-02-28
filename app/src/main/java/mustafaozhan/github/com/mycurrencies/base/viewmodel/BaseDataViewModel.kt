@@ -13,6 +13,7 @@ abstract class BaseDataViewModel(
 
     companion object {
         const val NUMBER_OF_HOURS = 24
+        const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
     internal val mainData: MainData

@@ -42,7 +42,6 @@ class CalculatorViewModel(
 ) : BaseDataViewModel(preferencesRepository) {
 
     companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
         private const val MAXIMUM_INPUT = 15
     }
 

@@ -15,7 +15,7 @@ import mustafaozhan.github.com.mycurrencies.function.extension.gone
 import mustafaozhan.github.com.mycurrencies.function.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.function.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.tool.showSnacky
+import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import timber.log.Timber
 
 /**
@@ -48,7 +48,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         .reObserve(this, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
-                SettingsViewState.FewCurrency -> showSnacky(view, R.string.choose_at_least_two_currency)
+                SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
                 SettingsViewState.NoResult -> {
                     settingsAdapter.refreshList(mutableListOf())
                     binding.txtNoResult.visible()

@@ -47,6 +47,10 @@ class SettingsViewModel(
         } ?: updateAllCurrencyState(value)
 
         if (value == 0) verifyCurrentBase()
+
+        if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+            settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
+        }
     }
 
     fun filterList(txt: String) = currencyList

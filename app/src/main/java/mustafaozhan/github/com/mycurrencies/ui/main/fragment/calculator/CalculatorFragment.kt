@@ -10,6 +10,7 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.item_currency.view.txt_amount
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.addText
@@ -108,7 +109,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                     calculatorAdapter.refreshList(mutableListOf(), viewModel.mainData.currentBase)
                 }
                 CalculatorViewState.FewCurrency -> {
-                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
+                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                         replaceFragment(SettingsFragment.newInstance(), true)
                     }
 
@@ -191,13 +192,13 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
         spinnerList
-            .whether { size >= 2 }
+            .whether { size >= MINIMUM_ACTIVE_CURRENCY }
             ?.apply {
                 spinnerBase.setItems(this)
                 spinnerBase.tryToSelect(indexOf(viewModel.verifyCurrentBase(this).toString()))
                 ivBase.setBackgroundByName(spinnerBase.text.toString())
             } ?: run {
-            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select, isIndefinite = true) {
+            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                 replaceFragment(SettingsFragment.newInstance(), true)
             }
             spinnerBase.setItems("")

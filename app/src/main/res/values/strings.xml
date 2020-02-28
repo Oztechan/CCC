@@ -37,7 +37,7 @@
 
     <!--Snacky Text-->
     <string name="rate_not_available_offline">No internet connection and this currency is not available offline, please change your base currency or connect to internet.</string>
-    <string name="choose_at_least_two_currency">Please Select at least 2 currencies from Settings</string>
+    <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="choose_currencies">Please Select at least 2 currencies</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
