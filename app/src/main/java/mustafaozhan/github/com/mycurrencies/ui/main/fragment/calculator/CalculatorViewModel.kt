@@ -148,7 +148,7 @@ class CalculatorViewModel(
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
             .either(
-                { it == Currencies.NULL },
+                { equals(Currencies.NULL) },
                 { spinnerList.indexOf(it.toString()) == -1 }
             )
             ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }

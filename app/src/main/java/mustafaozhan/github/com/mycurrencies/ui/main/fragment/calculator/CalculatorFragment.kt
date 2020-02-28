@@ -135,11 +135,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
         viewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
-            currencyList?.let {
-                updateBar(currencyList.map { it.name })
-                calculatorAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
-                binding.loadingView.smoothToHide()
-            }
+            updateBar(currencyList.map { it.name })
+            calculatorAdapter.refreshList(currencyList, viewModel.mainData.currentBase)
+            binding.loadingView.smoothToHide()
         })
 
         viewModel.outputLiveData.reObserve(this, Observer { output ->
@@ -170,10 +168,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     private fun initViews() = with(binding) {
         loadingView.bringToFront()
         txtEmpty.visible()
-        context?.let { ctx ->
-            recyclerViewMain.layoutManager = LinearLayoutManager(ctx)
-            recyclerViewMain.adapter = calculatorAdapter
-        }
+        recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewMain.adapter = calculatorAdapter
+
         calculatorAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
             txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
             updateBase(currency.name)
