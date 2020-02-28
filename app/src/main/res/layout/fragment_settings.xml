@@ -73,6 +73,18 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
         tools:ignore="Autofill" />
 
+    <TextView
+        android:id="@+id/txt_no_result"
+        style="@style/ItemTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_eight"
+        android:text="@string/no_result"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_settings"
         android:layout_width="@dimen/fit"

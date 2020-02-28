@@ -58,7 +58,7 @@ class SettingsViewModel(
         .toMutableList()
         .let {
             settingsViewStateLiveData.postValue(
-                if (it.isEmpty()) SettingsViewState.Empty else SettingsViewState.Success(it)
+                if (it.isEmpty()) SettingsViewState.NoResult else SettingsViewState.Success(it)
             )
         }
 

@@ -4,7 +4,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 
 sealed class SettingsViewState {
 
-    object Empty : SettingsViewState()
+    object NoResult : SettingsViewState()
 
     object FewCurrency : SettingsViewState()
 

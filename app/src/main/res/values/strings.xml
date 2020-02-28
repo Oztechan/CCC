@@ -103,4 +103,8 @@
 
     <!-- Calculator Screen -->
     <string name="type_for_results">Type for results</string>
+
+    <!-- Settings Screen -->
+    <string name="no_result"> No result found.</string>
+
 </resources>
