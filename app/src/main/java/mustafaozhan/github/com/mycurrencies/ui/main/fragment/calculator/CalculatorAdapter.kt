@@ -8,6 +8,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
@@ -34,4 +35,12 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
             }
         }
     }
+
+    fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
+        refreshList(list.filter {
+            it.name != currentBase.toString() &&
+                it.isActive == 1 &&
+                it.rate.toString() != "NaN" &&
+                it.rate.toString() != "0.0"
+        }.toMutableList())
 }

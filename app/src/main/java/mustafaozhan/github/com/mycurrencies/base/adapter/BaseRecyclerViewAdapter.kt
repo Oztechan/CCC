@@ -3,8 +3,6 @@ package mustafaozhan.github.com.mycurrencies.base.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.Currency
 import kotlin.properties.Delegates
 
 /**
@@ -14,45 +12,33 @@ abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding>(
     private val compareFun: (T, T) -> Boolean = { o, n -> o == n }
 ) : RecyclerView.Adapter<BaseViewHolder<T, TViewBinding>>(), AutoUpdatableAdapter {
 
+    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T, TViewBinding>
     lateinit var binding: TViewBinding
 
-    private var items: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
+    private var list: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> compareFun(o, n) }
     }
 
-    var onItemClickListener: ((T, TViewBinding, Int) -> Unit) = { item, binding, position -> }
-    var onItemLongClickListener: (T, TViewBinding) -> Boolean = { item, binding -> true }
+    var onItemClickListener: ((T, TViewBinding, Int) -> Unit)? = null
+    var onItemLongClickListener: ((T, TViewBinding) -> Boolean)? = null
 
     override fun onBindViewHolder(holder: BaseViewHolder<T, TViewBinding>, position: Int) {
-        val item = items[position]
+        val item = list[position]
         holder.apply {
             bind(item)
-            itemView.setOnClickListener { onItemClickListener(item, binding, position) }
-            itemView.setOnLongClickListener { onItemLongClickListener(item, binding) }
+
+            onItemClickListener?.let { listener ->
+                itemView.setOnClickListener { listener(item, binding, position) }
+            }
+            onItemLongClickListener?.let { listener ->
+                itemView.setOnLongClickListener { listener(item, binding) }
+            }
         }
     }
 
-    fun refreshList(list: MutableList<T>, currentBase: Currencies? = null) {
-        items = currentBase?.let {
-            list.filter { listItem ->
-                (listItem as? Currency)?.let {
-                    it.name != currentBase.toString() &&
-                        it.isActive == 1 &&
-                        it.rate.toString() != "NaN" &&
-                        it.rate.toString() != "0.0"
-                } ?: false
-            }.toMutableList()
-        } ?: run { list }
+    internal fun refreshList(list: MutableList<T>) {
+        this.list = list
     }
 
-    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<T, TViewBinding>
-
-    override fun getItemCount() = items.size
-
-    private fun isEmpty(): Boolean = items.isEmpty()
-
-    override fun onViewDetachedFromWindow(holder: BaseViewHolder<T, TViewBinding>) {
-        super.onViewDetachedFromWindow(holder)
-        holder.itemView.clearAnimation()
-    }
+    override fun getItemCount() = list.size
 }

@@ -42,4 +42,9 @@ class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() 
             }
         }
     }
+
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder<Currency, ItemSettingBinding>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
 }
