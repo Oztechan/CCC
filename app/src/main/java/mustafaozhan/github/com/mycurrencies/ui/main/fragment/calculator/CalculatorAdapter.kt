@@ -24,9 +24,16 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
         return RatesViewHolder(binding)
     }
 
-    class RatesViewHolder(binding: ItemCurrencyBinding) : BaseViewHolder<Currency, ItemCurrencyBinding>(binding) {
+    fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
+        refreshList(list.filter {
+            it.name != currentBase.toString() &&
+                it.isActive == 1 &&
+                it.rate.toString() != "NaN" &&
+                it.rate.toString() != "0.0"
+        }.toMutableList())
 
-        override fun bind(item: Currency) {
+    inner class RatesViewHolder(binding: ItemCurrencyBinding) : BaseViewHolder<Currency, ItemCurrencyBinding>(binding) {
+        override fun bindItem(item: Currency) {
             with(binding) {
                 txtType.text = item.name
                 txtSymbol.text = item.symbol
@@ -35,12 +42,4 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
             }
         }
     }
-
-    fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
-        refreshList(list.filter {
-            it.name != currentBase.toString() &&
-                it.isActive == 1 &&
-                it.rate.toString() != "NaN" &&
-                it.rate.toString() != "0.0"
-        }.toMutableList())
 }

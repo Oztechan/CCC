@@ -33,18 +33,18 @@ class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() 
         super.onBindViewHolder(holder, position)
     }
 
-    class RatesViewHolder(binding: ItemSettingBinding) : BaseViewHolder<Currency, ItemSettingBinding>(binding) {
-        override fun bind(item: Currency) {
+    override fun onViewDetachedFromWindow(holder: BaseViewHolder<Currency, ItemSettingBinding>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
+
+    inner class RatesViewHolder(binding: ItemSettingBinding) : BaseViewHolder<Currency, ItemSettingBinding>(binding) {
+        override fun bindItem(item: Currency) {
             with(binding) {
                 txtSettingItem.text = item.getVariablesOneLine()
                 checkBox.isChecked = item.isActive == 1
                 imgIcon.setBackgroundByName(item.name)
             }
         }
-    }
-
-    override fun onViewDetachedFromWindow(holder: BaseViewHolder<Currency, ItemSettingBinding>) {
-        super.onViewDetachedFromWindow(holder)
-        holder.itemView.clearAnimation()
     }
 }

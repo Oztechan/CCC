@@ -6,8 +6,8 @@ import androidx.viewbinding.ViewBinding
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-abstract class BaseViewHolder<out T, TViewBinding : ViewBinding>(var binding: TViewBinding) :
+abstract class BaseViewHolder<out T, TViewBinding : ViewBinding>(binding: TViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    abstract fun bind(item: @UnsafeVariance T)
+    abstract fun bindItem(item: @UnsafeVariance T)
 }
