@@ -41,11 +41,12 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_calculator
-
+    override lateinit var binding: FragmentCalculatorBinding
     override fun bind() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
+
+    override fun getLayoutResId(): Int = R.layout.fragment_calculator
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
 

@@ -7,7 +7,7 @@ import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 abstract class BaseViewBindingActivity<TViewModel : BaseViewModel, TViewBinding : ViewBinding> :
     BaseActivity<TViewModel>() {
 
-    lateinit var binding: TViewBinding
+    abstract var binding: TViewBinding
 
     abstract fun bind()
 

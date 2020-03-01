@@ -26,11 +26,12 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_settings
-
+    override lateinit var binding: FragmentSettingsBinding
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
+
+    override fun getLayoutResId(): Int = R.layout.fragment_settings
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
