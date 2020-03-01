@@ -15,18 +15,14 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  */
 class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() {
 
-    override lateinit var binding: ItemSettingBinding
-    override fun bind(parent: ViewGroup) {
-        binding = ItemSettingBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false)
-    }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesViewHolder(getViewHolderBinding(parent))
+    ) = RatesViewHolder(ItemSettingBinding.inflate(
+        LayoutInflater.from(parent.context),
+        parent,
+        false)
+    )
 
     override fun onBindViewHolder(holder: BaseViewHolder<Currency, ItemSettingBinding>, position: Int) {
         holder.itemView.startAnimation(
@@ -43,15 +39,16 @@ class SettingsAdapter : BaseRecyclerViewAdapter<Currency, ItemSettingBinding>() 
         holder.itemView.clearAnimation()
     }
 
-    inner class RatesViewHolder(holderBinding: ItemSettingBinding) :
-        BaseViewHolder<Currency, ItemSettingBinding>(holderBinding) {
+    inner class RatesViewHolder(itemBinding: ItemSettingBinding) :
+        BaseViewHolder<Currency, ItemSettingBinding>(itemBinding) {
 
         override fun bindItem(item: Currency) {
-            with(binding) {
+            with(itemBinding) {
                 txtSettingItem.text = item.getVariablesOneLine()
                 checkBox.isChecked = item.isActive == 1
                 imgIcon.setBackgroundByName(item.name)
             }
+            itemView.setOnClickListener { onItemClickListener(item, itemBinding, adapterPosition) }
         }
     }
 }

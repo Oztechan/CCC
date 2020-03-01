@@ -25,7 +25,6 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
         const val HTML_DOT_CODE = "&#8226;"
     }
 
-    override lateinit var binding: ActivitySliderBinding
     override fun bind() {
         binding = ActivitySliderBinding.inflate(layoutInflater)
     }

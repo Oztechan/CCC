@@ -26,7 +26,6 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
-    override lateinit var binding: FragmentSettingsBinding
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }

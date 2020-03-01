@@ -7,8 +7,8 @@ import androidx.viewbinding.ViewBinding
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 abstract class BaseViewHolder<out T, TViewBinding : ViewBinding>(
-    val holderBinding: TViewBinding
-) : RecyclerView.ViewHolder(holderBinding.root) {
+    protected val itemBinding: TViewBinding
+) : RecyclerView.ViewHolder(itemBinding.root) {
 
     abstract fun bindItem(item: @UnsafeVariance T)
 }

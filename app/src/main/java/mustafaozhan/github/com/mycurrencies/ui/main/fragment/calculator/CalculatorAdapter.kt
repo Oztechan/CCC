@@ -15,19 +15,14 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
-
-    override lateinit var binding: ItemCurrencyBinding
-    override fun bind(parent: ViewGroup) {
-        binding = ItemCurrencyBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false)
-    }
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesViewHolder(getViewHolderBinding(parent))
+    ) = RatesViewHolder(ItemCurrencyBinding.inflate(
+        LayoutInflater.from(parent.context),
+        parent,
+        false)
+    )
 
     fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
         refreshList(list.filter {
@@ -37,16 +32,18 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
                 it.rate.toString() != "0.0"
         }.toMutableList())
 
-    inner class RatesViewHolder(holderBinding: ItemCurrencyBinding) :
-        BaseViewHolder<Currency, ItemCurrencyBinding>(holderBinding) {
+    inner class RatesViewHolder(itemBinding: ItemCurrencyBinding) :
+        BaseViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
 
         override fun bindItem(item: Currency) {
-            with(holderBinding) {
+            with(itemBinding) {
                 txtType.text = item.name
                 txtSymbol.text = item.symbol
                 txtAmount.text = item.rate.getFormatted().replaceNonStandardDigits()
                 imgItem.setBackgroundByName(item.name)
             }
+            itemView.setOnClickListener { onItemClickListener(item, itemBinding, adapterPosition) }
+            itemView.setOnLongClickListener { onItemLongClickListener(item, itemBinding) }
         }
     }
 }

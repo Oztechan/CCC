@@ -41,7 +41,6 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
-    override lateinit var binding: FragmentCalculatorBinding
     override fun bind() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
