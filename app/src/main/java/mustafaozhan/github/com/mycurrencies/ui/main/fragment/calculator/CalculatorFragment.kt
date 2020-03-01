@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.item_currency.view.txt_amount
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
@@ -42,11 +41,11 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_calculator
-
     override fun bind() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
+
+    override fun getLayoutResId(): Int = R.layout.fragment_calculator
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
 
@@ -172,8 +171,8 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
 
-        calculatorAdapter.onItemClickListener = { currency, itemView: View, _: Int ->
-            txtInput.text = itemView.txt_amount.text.toString().dropDecimal()
+        calculatorAdapter.onItemClickListener = { currency, itemBinding, _: Int ->
+            txtInput.text = itemBinding.txtAmount.text.toString().dropDecimal()
             updateBase(currency.name)
             viewModel.currencyListLiveData.value
                 ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }

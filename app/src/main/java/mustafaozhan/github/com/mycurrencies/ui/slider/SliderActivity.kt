@@ -18,14 +18,15 @@ import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 
 class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {
-    override fun bind() {
-        binding = ActivitySliderBinding.inflate(layoutInflater)
-    }
 
     companion object {
         const val SLIDE_SIZE = 4
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
+    }
+
+    override fun bind() {
+        binding = ActivitySliderBinding.inflate(layoutInflater)
     }
 
     override fun getDefaultFragment(): Fragment? = null

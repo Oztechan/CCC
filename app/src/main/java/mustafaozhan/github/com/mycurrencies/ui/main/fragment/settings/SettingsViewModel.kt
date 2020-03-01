@@ -79,6 +79,5 @@ class SettingsViewModel(
                     .filter { it.name == base.toString() }
                     .toList().firstOrNull()?.isActive == 0
             }
-        )
-        ?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
+        )?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
 }

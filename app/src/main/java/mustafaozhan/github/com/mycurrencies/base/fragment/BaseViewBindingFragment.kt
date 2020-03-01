@@ -9,7 +9,7 @@ import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 abstract class BaseViewBindingFragment<TViewModel : BaseViewModel, TViewBinding : ViewBinding> :
     BaseFragment<TViewModel>() {
 
-    lateinit var binding: TViewBinding
+    protected lateinit var binding: TViewBinding
 
     abstract fun bind()
 

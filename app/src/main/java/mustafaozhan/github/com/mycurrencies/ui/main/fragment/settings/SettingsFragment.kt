@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
-import kotlinx.android.synthetic.main.item_setting.view.checkBox
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
@@ -27,11 +26,11 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_settings
-
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
+
+    override fun getLayoutResId(): Int = R.layout.fragment_settings
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
@@ -82,17 +81,17 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
             viewModel.setCurrentBase(null)
         }
 
-        settingsAdapter.onItemClickListener = { currency: Currency, itemView, _ ->
+        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
                     viewModel.updateCurrencyState(1, currency.name)
-                    itemView.checkBox.isChecked = true
+                    itemBinding.checkBox.isChecked = true
                 }
                 1 -> {
                     currency.isActive = 0
                     viewModel.updateCurrencyState(0, currency.name)
-                    itemView.checkBox.isChecked = false
+                    itemBinding.checkBox.isChecked = false
                 }
             }
         }

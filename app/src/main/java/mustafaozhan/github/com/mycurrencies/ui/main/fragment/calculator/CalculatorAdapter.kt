@@ -1,36 +1,49 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_currency.view.img_item
-import kotlinx.android.synthetic.main.item_currency.view.txt_amount
-import kotlinx.android.synthetic.main.item_currency.view.txt_symbol
-import kotlinx.android.synthetic.main.item_currency.view.txt_type
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class CalculatorAdapter : BaseRecyclerViewAdapter<Currency>() {
+class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = RatesViewHolder(ItemCurrencyBinding.inflate(
+        LayoutInflater.from(parent.context),
+        parent,
+        false)
+    )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency> =
-        RatesViewHolder(getViewHolderView(parent, R.layout.item_currency))
+    fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
+        refreshList(list.filter {
+            it.name != currentBase.toString() &&
+                it.isActive == 1 &&
+                it.rate.toString() != "NaN" &&
+                it.rate.toString() != "0.0"
+        }.toMutableList())
 
-    class RatesViewHolder(itemView: View) : BaseViewHolder<Currency>(itemView) {
+    inner class RatesViewHolder(itemBinding: ItemCurrencyBinding) :
+        BaseViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
 
-        override fun bind(item: Currency) {
-            itemView.apply {
-                txt_type.text = item.name
-                txt_symbol.text = item.symbol
-                txt_amount.text = item.rate.getFormatted().replaceNonStandardDigits()
-                img_item.setBackgroundByName(item.name)
+        override fun bindItem(item: Currency) {
+            with(itemBinding) {
+                txtType.text = item.name
+                txtSymbol.text = item.symbol
+                txtAmount.text = item.rate.getFormatted().replaceNonStandardDigits()
+                imgItem.setBackgroundByName(item.name)
             }
+            itemView.setOnClickListener { onItemClickListener(item, itemBinding, adapterPosition) }
+            itemView.setOnLongClickListener { onItemLongClickListener(item, itemBinding) }
         }
     }
 }
