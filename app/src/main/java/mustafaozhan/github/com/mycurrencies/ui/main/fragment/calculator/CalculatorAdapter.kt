@@ -16,13 +16,18 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  */
 class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Currency, ItemCurrencyBinding> {
+    override lateinit var binding: ItemCurrencyBinding
+    override fun bind(parent: ViewGroup) {
         binding = ItemCurrencyBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false)
-        return RatesViewHolder(binding)
     }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = RatesViewHolder(getViewHolderBinding(parent))
 
     fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
         refreshList(list.filter {
@@ -32,9 +37,11 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
                 it.rate.toString() != "0.0"
         }.toMutableList())
 
-    inner class RatesViewHolder(binding: ItemCurrencyBinding) : BaseViewHolder<Currency, ItemCurrencyBinding>(binding) {
+    inner class RatesViewHolder(holderBinding: ItemCurrencyBinding) :
+        BaseViewHolder<Currency, ItemCurrencyBinding>(holderBinding) {
+
         override fun bindItem(item: Currency) {
-            with(binding) {
+            with(holderBinding) {
                 txtType.text = item.name
                 txtSymbol.text = item.symbol
                 txtAmount.text = item.rate.getFormatted().replaceNonStandardDigits()

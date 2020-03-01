@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base.adapter
 
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.Delegates
@@ -10,7 +11,8 @@ import kotlin.properties.Delegates
 abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding> :
     RecyclerView.Adapter<BaseViewHolder<T, TViewBinding>>(), AutoUpdatableAdapter {
 
-    protected lateinit var binding: TViewBinding
+    abstract var binding: TViewBinding
+    abstract fun bind(parent: ViewGroup)
 
     private var list: MutableList<T> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { o, n -> o == n }
@@ -19,16 +21,21 @@ abstract class BaseRecyclerViewAdapter<T, TViewBinding : ViewBinding> :
     internal var onItemClickListener: ((T, TViewBinding, Int) -> Unit)? = null
     internal var onItemLongClickListener: ((T, TViewBinding) -> Boolean)? = null
 
+    protected fun getViewHolderBinding(parent: ViewGroup): TViewBinding {
+        bind(parent)
+        return binding
+    }
+
     override fun onBindViewHolder(holder: BaseViewHolder<T, TViewBinding>, position: Int) {
         val item = list[position]
         holder.apply {
             bindItem(item)
 
             onItemClickListener?.let { listener ->
-                itemView.setOnClickListener { listener(item, binding, position) }
+                itemView.setOnClickListener { listener(item, holderBinding, position) }
             }
             onItemLongClickListener?.let { listener ->
-                itemView.setOnLongClickListener { listener(item, binding) }
+                itemView.setOnLongClickListener { listener(item, holderBinding) }
             }
         }
     }
