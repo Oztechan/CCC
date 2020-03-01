@@ -171,8 +171,8 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
 
-        calculatorAdapter.onItemClickListener = { currency, binding, _: Int ->
-            txtInput.text = binding.txtAmount.text.toString().dropDecimal()
+        calculatorAdapter.onItemClickListener = { currency, itemBinding, _: Int ->
+            txtInput.text = itemBinding.txtAmount.text.toString().dropDecimal()
             updateBase(currency.name)
             viewModel.currencyListLiveData.value
                 ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }

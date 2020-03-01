@@ -81,17 +81,17 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
             viewModel.setCurrentBase(null)
         }
 
-        settingsAdapter.onItemClickListener = { currency: Currency, binding, _ ->
+        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
                     viewModel.updateCurrencyState(1, currency.name)
-                    binding.checkBox.isChecked = true
+                    itemBinding.checkBox.isChecked = true
                 }
                 1 -> {
                     currency.isActive = 0
                     viewModel.updateCurrencyState(0, currency.name)
-                    binding.checkBox.isChecked = false
+                    itemBinding.checkBox.isChecked = false
                 }
             }
         }
