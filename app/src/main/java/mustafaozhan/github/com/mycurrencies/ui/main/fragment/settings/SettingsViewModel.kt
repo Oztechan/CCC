@@ -27,7 +27,7 @@ class SettingsViewModel(
         return Completable.complete()
     }
 
-    fun refreshData() {
+    fun initData() {
         currencyList.clear()
 
         if (mainData.firstRun) {

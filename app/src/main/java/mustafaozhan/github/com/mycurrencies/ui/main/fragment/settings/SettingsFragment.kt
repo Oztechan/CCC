@@ -37,11 +37,11 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSupportActionBar(binding.toolbarFragmentSettings)
+        viewModel.initData()
         initViews()
         initViewState()
         initRx()
         setListeners()
-        viewModel.refreshData()
     }
 
     private fun initViewState() = viewModel.settingsViewStateLiveData
@@ -66,13 +66,13 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         ).addTo(compositeDisposable)
 
     private fun initViews() = with(binding) {
-        editTextSearch.setText("")
-        adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired)
         recyclerViewSettings.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
+        editTextSearch.setText("")
+        adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired)
     }
 
     private fun setListeners() {
