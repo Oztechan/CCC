@@ -51,9 +51,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSupportActionBar(binding.toolbarFragmentMain)
+        initData()
         initViews()
         setListeners()
-        initData()
         initViewState()
         setRx()
         initLiveData()
@@ -255,11 +255,9 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
                 uiThread {
                     persistResetData(false)
                     refreshData()
-                    getCurrencies()
                 }
             }
-        } else {
-            getCurrencies()
         }
+        getCurrencies()
     }
 }
