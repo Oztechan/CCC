@@ -34,7 +34,6 @@ import timber.log.Timber
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, FragmentCalculatorBinding>() {
 
     companion object {
@@ -54,15 +53,10 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
         setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         setListeners()
+        initData()
         initViewState()
         setRx()
         initLiveData()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initData()
-        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired)
     }
 
     private fun setRx() {
@@ -166,6 +160,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
     }
 
     private fun initViews() = with(binding) {
+        binding.adView.checkAd(R.string.banner_ad_unit_id_main, viewModel.isRewardExpired)
         loadingView.bringToFront()
         txtEmpty.visible()
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
@@ -246,7 +241,7 @@ class CalculatorFragment : BaseViewBindingFragment<CalculatorViewModel, Fragment
 
     private fun updateBase(base: String) {
         viewModel.updateCurrentBase(base)
-        viewModel.calculateOutput(binding.txtInput.text.toString())
+        binding.txtInput.text = binding.txtInput.text
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 
