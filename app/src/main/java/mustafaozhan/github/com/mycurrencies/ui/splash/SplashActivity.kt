@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
+import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-20.
  */
-class SplashActivity : BaseActivity<SplashViewModel>() {
+class SplashActivity : BaseActivity() {
+    @Inject
+    lateinit var splashViewModel: SplashViewModel
+
     override fun getDefaultFragment(): Fragment? = null
     override fun getLayoutResId(): Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +23,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         startActivity(
             Intent(
                 this,
-                if (viewModel.isSliderShown()) {
+                if (splashViewModel.isSliderShown()) {
                     MainActivity::class.java
                 } else {
                     SliderActivity::class.java

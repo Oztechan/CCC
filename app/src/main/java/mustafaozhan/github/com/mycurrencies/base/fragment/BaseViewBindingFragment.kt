@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 
-abstract class BaseViewBindingFragment<TViewModel : BaseViewModel, TViewBinding : ViewBinding> :
-    BaseFragment<TViewModel>() {
+abstract class BaseViewBindingFragment<TViewBinding : ViewBinding> : BaseFragment() {
 
     protected lateinit var binding: TViewBinding
 

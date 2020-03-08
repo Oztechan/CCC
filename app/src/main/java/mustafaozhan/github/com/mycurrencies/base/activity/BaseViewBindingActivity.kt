@@ -2,10 +2,8 @@ package mustafaozhan.github.com.mycurrencies.base.activity
 
 import android.os.Bundle
 import androidx.viewbinding.ViewBinding
-import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 
-abstract class BaseViewBindingActivity<TViewModel : BaseViewModel, TViewBinding : ViewBinding> :
-    BaseActivity<TViewModel>() {
+abstract class BaseViewBindingActivity<TViewBinding : ViewBinding> : BaseActivity() {
 
     protected lateinit var binding: TViewBinding
 

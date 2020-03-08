@@ -16,15 +16,19 @@ import mustafaozhan.github.com.mycurrencies.function.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSettingsBinding>() {
+class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
+
+    @Inject
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
@@ -43,7 +47,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         setListeners()
     }
 
-    private fun initViewState() = viewModel.settingsViewStateLiveData
+    private fun initViewState() = settingsViewModel.settingsViewStateLiveData
         .reObserve(this, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
@@ -60,7 +64,7 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
         .textChanges()
         .map { it.toString() }
         .subscribe(
-            { viewModel.filterList(it) },
+            { settingsViewModel.filterList(it) },
             { Timber.e(it) }
         ).addTo(compositeDisposable)
 
@@ -72,25 +76,25 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
 
     private fun setListeners() {
         binding.btnSelectAll.setOnClickListener {
-            viewModel.updateCurrencyState(1)
+            settingsViewModel.updateCurrencyState(1)
             binding.editTextSearch.setText("")
         }
         binding.btnDeSelectAll.setOnClickListener {
-            viewModel.updateCurrencyState(0)
+            settingsViewModel.updateCurrencyState(0)
             binding.editTextSearch.setText("")
-            viewModel.setCurrentBase(null)
+            settingsViewModel.setCurrentBase(null)
         }
 
         settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1
-                    viewModel.updateCurrencyState(1, currency.name)
+                    settingsViewModel.updateCurrencyState(1, currency.name)
                     itemBinding.checkBox.isChecked = true
                 }
                 1 -> {
                     currency.isActive = 0
-                    viewModel.updateCurrencyState(0, currency.name)
+                    settingsViewModel.updateCurrencyState(0, currency.name)
                     itemBinding.checkBox.isChecked = false
                 }
             }
@@ -98,9 +102,9 @@ class SettingsFragment : BaseViewBindingFragment<SettingsViewModel, FragmentSett
     }
 
     override fun onResume() {
-        viewModel.refreshData()
+        settingsViewModel.refreshData()
         binding.editTextSearch.setText("")
-        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, viewModel.isRewardExpired)
+        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
         super.onResume()
     }
 }

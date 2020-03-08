@@ -26,9 +26,10 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFr
 import org.jetbrains.anko.contentView
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
-open class MainActivity : BaseActivity<MainViewModel>() {
+open class MainActivity : BaseActivity() {
 
     companion object {
         const val BACK_DELAY: Long = 2
@@ -36,13 +37,16 @@ open class MainActivity : BaseActivity<MainViewModel>() {
         const val AD_PERIOD: Long = 250
     }
 
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
     private lateinit var adObservableInterval: Disposable
     private lateinit var interstitialTextAd: InterstitialAd
     private lateinit var interstitialVideoAd: InterstitialAd
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
-    override fun getDefaultFragment(): BaseFragment<*> = CalculatorFragment.newInstance()
+    override fun getDefaultFragment(): BaseFragment = CalculatorFragment.newInstance()
 
     override fun getLayoutResId(): Int = R.layout.activity_main
 
@@ -98,7 +102,7 @@ open class MainActivity : BaseActivity<MainViewModel>() {
         interstitialVideoAd
             .whether { isLoaded }
             ?.apply {
-                viewModel.updateAdFreeActivation()
+                mainViewModel.updateAdFreeActivation()
                 show()
             }
 
@@ -135,7 +139,7 @@ open class MainActivity : BaseActivity<MainViewModel>() {
                     .whether(
                         { isLoaded },
                         { adVisibility },
-                        { viewModel.isRewardExpired }
+                        { mainViewModel.isRewardExpired }
                     )
                     ?.apply { show() }
                     ?: run { prepareAd() }

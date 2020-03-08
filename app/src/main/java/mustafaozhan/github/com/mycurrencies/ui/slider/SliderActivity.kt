@@ -16,14 +16,18 @@ import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivit
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
+import javax.inject.Inject
 
-class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBinding>() {
+class SliderActivity : BaseViewBindingActivity<ActivitySliderBinding>() {
 
     companion object {
         const val SLIDE_SIZE = 4
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
     }
+
+    @Inject
+    lateinit var sliderViewModel: SliderViewModel
 
     override fun bind() {
         binding = ActivitySliderBinding.inflate(layoutInflater)
@@ -97,7 +101,7 @@ class SliderActivity : BaseViewBindingActivity<SliderViewModel, ActivitySliderBi
 
     private fun launchMainActivity() {
         binding.progressBar.visibility = View.VISIBLE
-        viewModel.setSliderShown()
+        sliderViewModel.setSliderShown()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
