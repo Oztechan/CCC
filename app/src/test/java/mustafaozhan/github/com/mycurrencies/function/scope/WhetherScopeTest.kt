@@ -10,14 +10,14 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whether { it.trueCondition }
             ?.whether { trueCondition }
-            ?.let { Assert.assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         // vararg
         subjectFunction
             ?.whether({ it.trueCondition }, { trueCondition })
-            ?.let { Assert.assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
@@ -25,14 +25,14 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whether { it.falseCondition }
             ?.whether { falseCondition }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
 
         // vararg
         subjectFunction
             ?.whether({ it.falseCondition }, { falseCondition })
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
     }
 
     @Test
@@ -40,14 +40,14 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whether { it.trueCondition }
             ?.whether { falseCondition }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
 
         // vararg
         subjectFunction
             ?.whether({ it.trueCondition }, { falseCondition })
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
     }
 
     @Test
@@ -55,14 +55,14 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whetherNot { it.falseCondition }
             ?.whetherNot { falseCondition }
-            ?.let { Assert.assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         // vararg
         subjectFunction
             ?.whetherNot({ it.falseCondition }, { falseCondition })
-            ?.let { Assert.assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
@@ -70,14 +70,14 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whetherNot { it.trueCondition }
             ?.whetherNot { trueCondition }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
 
         // vararg
         subjectFunction
             ?.whetherNot({ it.trueCondition }, { trueCondition })
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
     }
 
     @Test
@@ -85,13 +85,13 @@ class WhetherScopeTest : MainScopeTest() {
         subjectFunction
             ?.whetherNot { it.falseCondition }
             ?.whetherNot { trueCondition }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { Assert.assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { Assert.assertTrue(EXPECTED, true) }
 
         // vararg
         subjectFunction
             ?.whetherNot({ it.falseCondition }, { trueCondition })
-            ?.let { Assert.assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 }

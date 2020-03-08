@@ -13,18 +13,22 @@ open class MainScopeTest : MainFunctionTest() {
         subjectFunction
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
+            ?.inCase(true) { assertTrue(EXPECTED, true) }
+            ?.inCaseNot(true) { Assert.fail(UN_EXPECTED) }
             ?.whetherNot { it.trueCondition } // exit chain
             ?.whether { true }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
 
         subjectFunction
             ?.whether { it.trueCondition }
             ?.whetherNot { falseCondition }
+            ?.inCase(true) { assertTrue(EXPECTED, true) }
+            ?.inCaseNot(true) { Assert.fail(UN_EXPECTED) }
             ?.either({ it.falseCondition }, { falseCondition }) // exit chain
             ?.whether { true }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
@@ -33,23 +37,27 @@ open class MainScopeTest : MainFunctionTest() {
         subjectFunction
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
+            ?.inCase(true) { assertTrue(EXPECTED, true) }
+            ?.inCaseNot(true) { Assert.fail(UN_EXPECTED) }
             ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
             .let {
                 if (it == null) {
-                    assertTrue(Companion.EXPECTED, true)
+                    assertTrue(EXPECTED, true)
                 } else {
-                    Assert.fail(Companion.UN_EXPECTED)
+                    Assert.fail(UN_EXPECTED)
                 }
             }
         subjectFunction = null
         subjectFunction
             ?.whether { it.trueCondition }
             ?.either({ it.falseCondition }, { trueCondition })
+            ?.inCase(true) { assertTrue(EXPECTED, true) }
+            ?.inCaseNot(true) { Assert.fail(UN_EXPECTED) }
             ?.whetherNot { falseCondition }
             ?.mapTo { it }
             .whether { true }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { Assert.fail(UN_EXPECTED) }
     }
 }

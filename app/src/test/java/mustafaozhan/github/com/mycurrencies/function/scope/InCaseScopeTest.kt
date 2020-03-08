@@ -14,13 +14,11 @@ class InCaseScopeTest : MainScopeTest() {
 
         subjectFunction
             ?.whether { trueCondition }
-            ?.inCase(true) {
-                Assert.assertTrue(EXPECTED, true)
-            }
-            ?.whether { falseCondition }
-            ?.inCase(true) {
-                Assert.fail(UN_EXPECTED)
-            }
+            ?.inCase(true) { Assert.assertTrue(EXPECTED, true) }
+            ?.inCase(false) { Assert.fail(UN_EXPECTED) }
+            ?.inCase(true) { Assert.assertTrue(EXPECTED, true) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 
     @Test
@@ -32,12 +30,10 @@ class InCaseScopeTest : MainScopeTest() {
 
         subjectFunction
             ?.whether { trueCondition }
-            ?.inCaseNot(false) {
-                Assert.assertTrue(EXPECTED, true)
-            }
-            ?.whether { falseCondition }
-            ?.inCaseNot(false) {
-                Assert.fail(UN_EXPECTED)
-            }
+            ?.inCaseNot(false) { Assert.assertTrue(EXPECTED, true) }
+            ?.inCaseNot(true) { Assert.fail(UN_EXPECTED) }
+            ?.inCaseNot(false) { Assert.assertTrue(EXPECTED, true) }
+            ?.let { Assert.assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
     }
 }

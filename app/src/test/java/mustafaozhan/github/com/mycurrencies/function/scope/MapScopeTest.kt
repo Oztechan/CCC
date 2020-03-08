@@ -12,25 +12,25 @@ class MapScopeTest : MainScopeTest() {
         subjectFunction
             ?.mapTo { it.trueCondition }
             ?.whether { it }
-            ?.let { assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subjectFunction
             ?.mapTo { it.falseCondition }
             ?.whether { it }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
         subjectFunction
             ?.mapTo { trueCondition }
             ?.whether { it }
-            ?.let { assertTrue(Companion.EXPECTED, true) }
-            ?: run { Assert.fail(Companion.UN_EXPECTED) }
+            ?.let { assertTrue(EXPECTED, true) }
+            ?: run { Assert.fail(UN_EXPECTED) }
 
         subjectFunction
             ?.mapTo { falseCondition }
             ?.whether { it }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-            ?: run { assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+            ?: run { assertTrue(EXPECTED, true) }
     }
 
     @Test
@@ -38,10 +38,10 @@ class MapScopeTest : MainScopeTest() {
         .mapTo { SOME_STRING }
         ?.mapTo { it -> it.length }
         ?.let { assertEquals(11, it) }
-        ?: run { Assert.fail(Companion.UN_EXPECTED) }
+        ?: run { Assert.fail(UN_EXPECTED) }
             .mapTo { subjectFunction?.trueCondition }
             ?.whether { it }
             ?.mapTo { !it }
-            ?.let { Assert.fail(Companion.UN_EXPECTED) }
-        ?: run { assertTrue(Companion.EXPECTED, true) }
+            ?.let { Assert.fail(UN_EXPECTED) }
+        ?: run { assertTrue(EXPECTED, true) }
 }
