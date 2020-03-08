@@ -8,6 +8,7 @@ import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.function.extension.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.function.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.function.scope.either
+import mustafaozhan.github.com.mycurrencies.function.scope.inCase
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
@@ -48,9 +49,12 @@ class SettingsViewModel(
 
         if (value == 0) verifyCurrentBase()
 
-        if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-            settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
-        }
+        currencyList
+            .filter { it.isActive == 1 }
+            .size
+            .inCase({ it < MINIMUM_ACTIVE_CURRENCY }) {
+                settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
+            }
     }
 
     fun filterList(txt: String) = currencyList

@@ -20,7 +20,7 @@ inline fun <reified T> T.inCaseNot(
     return this
 }
 
-inline fun <reified T> T.inCaseThis(
+inline fun <reified T> T.inCase(
     vararg condition: T.(T) -> Boolean?,
     method: T.(T) -> Unit
 ): T {
@@ -30,7 +30,7 @@ inline fun <reified T> T.inCaseThis(
     return this
 }
 
-inline fun <reified T> T.inCaseThisNot(
+inline fun <reified T> T.inCaseNot(
     vararg condition: T.(T) -> Boolean?,
     method: T.(T) -> Unit
 ): T {
