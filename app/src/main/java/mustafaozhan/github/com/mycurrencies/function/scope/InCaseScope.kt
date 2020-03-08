@@ -19,3 +19,23 @@ inline fun <reified T> T.inCaseNot(
     }
     return this
 }
+
+inline fun <reified T> T.inCaseThis(
+    vararg condition: T.(T) -> Boolean?,
+    method: T.(T) -> Unit
+): T {
+    if (condition.all { it(this) == true }) {
+        method(this)
+    }
+    return this
+}
+
+inline fun <reified T> T.inCaseThisNot(
+    vararg condition: T.(T) -> Boolean?,
+    method: T.(T) -> Unit
+): T {
+    if (condition.all { it(this) == false }) {
+        method(this)
+    }
+    return this
+}
