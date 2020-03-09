@@ -1,24 +1,19 @@
 package mustafaozhan.github.com.mycurrencies.base.activity
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
 abstract class BaseDataBindingActivity<TDataBinding : ViewDataBinding> : BaseActivity() {
 
+    protected lateinit var binding: TDataBinding
+    abstract fun bind(): TDataBinding
+    abstract fun onBinding(dataBinding: ViewDataBinding)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bind()
+        binding = bind()
+        onBinding(binding)
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
     }
-
-    private fun bind() =
-        getLayoutResId()?.let {
-            DataBindingUtil
-                .setContentView<TDataBinding>(
-                    this,
-                    it
-                ).apply {
-                    //    todo                setVariable(BR.viewModel, viewModel)
-                }
-        }
 }
