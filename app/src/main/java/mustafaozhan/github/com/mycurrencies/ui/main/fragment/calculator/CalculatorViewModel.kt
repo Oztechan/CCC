@@ -2,7 +2,6 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import io.reactivex.Completable
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
@@ -49,10 +48,6 @@ class CalculatorViewModel(
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
-
-    override fun onLoaded(): Completable {
-        return Completable.complete()
-    }
 
     fun refreshData() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)

@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Completable
 import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
@@ -22,10 +21,6 @@ class SettingsViewModel(
     val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
 
     private var currencyList: MutableList<Currency> = mutableListOf()
-
-    override fun onLoaded(): Completable {
-        return Completable.complete()
-    }
 
     fun refreshData() {
         currencyList.clear()
