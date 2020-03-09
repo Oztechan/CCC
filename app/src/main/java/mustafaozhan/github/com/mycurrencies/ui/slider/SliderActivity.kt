@@ -9,10 +9,10 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseViewBindingActivity
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
@@ -27,13 +27,11 @@ class SliderActivity : BaseViewBindingActivity<ActivitySliderBinding>() {
     }
 
     @Inject
-    lateinit var sliderViewModel: SliderViewModel
+    lateinit var preferencesRepository: PreferencesRepository
 
     override fun bind() {
         binding = ActivitySliderBinding.inflate(layoutInflater)
     }
-
-    override fun getDefaultFragment(): Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +99,7 @@ class SliderActivity : BaseViewBindingActivity<ActivitySliderBinding>() {
 
     private fun launchMainActivity() {
         binding.progressBar.visibility = View.VISIBLE
-        sliderViewModel.setSliderShown()
+        preferencesRepository.updateMainData(sliderShown = true)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
@@ -112,6 +110,4 @@ class SliderActivity : BaseViewBindingActivity<ActivitySliderBinding>() {
             window.statusBarColor = Color.TRANSPARENT
         }
     }
-
-    override fun getLayoutResId() = R.layout.activity_slider
 }
