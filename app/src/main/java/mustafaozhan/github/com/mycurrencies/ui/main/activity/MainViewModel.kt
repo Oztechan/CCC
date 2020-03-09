@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.activity
 
-import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import org.joda.time.Instant
 
 /**
@@ -9,7 +9,7 @@ import org.joda.time.Instant
  */
 class MainViewModel(
     preferencesRepository: PreferencesRepository
-) : BaseDataViewModel(preferencesRepository) {
+) : MainDataViewModel(preferencesRepository) {
 
     fun updateAdFreeActivation() {
         preferencesRepository.updateMainData(adFreeActivatedDate = Instant.now())
