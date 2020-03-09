@@ -34,8 +34,6 @@ class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
 
-    override fun getLayoutResId(): Int = R.layout.fragment_settings
-
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -49,8 +49,6 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    override fun getLayoutResId(): Int = R.layout.fragment_calculator
-
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
