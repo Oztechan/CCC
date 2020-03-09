@@ -53,7 +53,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setSupportActionBar(binding.toolbarFragmentMain)
+        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         setListeners()
         initViewState()

@@ -2,7 +2,6 @@ package mustafaozhan.github.com.mycurrencies.base.activity
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
@@ -14,9 +13,6 @@ import mustafaozhan.github.com.mycurrencies.R
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    @LayoutRes
-    protected abstract fun getLayoutResId(): Int?
-
     @IdRes
     open var containerId: Int = R.id.content
 
@@ -25,13 +21,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        getLayoutResId()?.let {
-            setContentView(it)
-            replaceFragment(getDefaultFragment(), false)
-        }
     }
-
-    protected abstract fun getDefaultFragment(): Fragment?
 
     protected fun setHomeAsUpEnabled(enabled: Boolean) =
         supportActionBar?.setDisplayHomeAsUpEnabled(enabled)

@@ -2,7 +2,6 @@ package mustafaozhan.github.com.mycurrencies.base.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
@@ -22,6 +21,7 @@ abstract class BaseFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -39,7 +39,5 @@ abstract class BaseFragment : Fragment() {
         withBackStack: Boolean
     ) = getBaseActivity()?.replaceFragment(fragment, withBackStack)
 
-    protected fun setSupportActionBar(toolbar: Toolbar) = getBaseActivity()?.setSupportActionBar(toolbar)
-
-    private fun getBaseActivity() = activity as? BaseActivity
+    protected fun getBaseActivity() = activity as? BaseActivity
 }

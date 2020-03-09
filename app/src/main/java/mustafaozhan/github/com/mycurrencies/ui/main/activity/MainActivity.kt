@@ -15,7 +15,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.base.activity.BaseActivity
-import mustafaozhan.github.com.mycurrencies.base.fragment.BaseFragment
 import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
@@ -46,12 +45,10 @@ open class MainActivity : BaseActivity() {
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
-    override fun getDefaultFragment(): BaseFragment = CalculatorFragment.newInstance()
-
-    override fun getLayoutResId(): Int = R.layout.activity_main
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        replaceFragment(CalculatorFragment.newInstance(), false)
         checkRemoteConfig(this)
         prepareAd()
     }
