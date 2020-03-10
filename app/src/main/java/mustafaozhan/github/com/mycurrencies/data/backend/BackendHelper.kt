@@ -26,9 +26,9 @@ constructor() : BaseApiHelper() {
 
     private fun initBackendApiServices(): BackendService {
         val clientBuilder = OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.SECONDS)
-            .readTimeout(1L, TimeUnit.SECONDS)
-            .writeTimeout(1L, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.SECONDS)
+            .readTimeout(2L, TimeUnit.SECONDS)
+            .writeTimeout(2L, TimeUnit.SECONDS)
             .addInterceptor(getLoggingInterceptor())
 
         val endpoint = getString(R.string.backend_endpoint)
