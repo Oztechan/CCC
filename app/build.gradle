@@ -81,4 +81,6 @@ dependencies {
     testImplementation(JUnit)
 
     implementation(files(MXParser))
+
+    implementation project(':basemob')
 }

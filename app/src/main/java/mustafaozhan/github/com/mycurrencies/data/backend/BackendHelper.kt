@@ -1,10 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
+import com.github.mustafaozhan.basemob.api.BaseApiHelper
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
-import mustafaozhan.github.com.mycurrencies.base.api.BaseApiHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

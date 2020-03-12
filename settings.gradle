@@ -1,1 +1,2 @@
+include ':basemob'
 include ':app'

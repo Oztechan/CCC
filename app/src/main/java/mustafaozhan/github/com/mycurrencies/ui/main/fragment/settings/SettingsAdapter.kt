@@ -3,9 +3,9 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import com.github.mustafaozhan.basemob.adapter.BaseRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.adapter.BaseRecyclerViewAdapter
-import mustafaozhan.github.com.mycurrencies.base.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
