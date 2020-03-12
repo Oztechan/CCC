@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mustafaozhan.basemob.fragment.BaseViewBindingFragment
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.fragment.BaseViewBindingFragment
 import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.function.extension.addText
