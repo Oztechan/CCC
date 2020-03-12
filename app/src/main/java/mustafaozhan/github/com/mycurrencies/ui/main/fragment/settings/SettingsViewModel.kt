@@ -1,11 +1,11 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import androidx.lifecycle.MutableLiveData
+import com.github.mustafaozhan.scopemob.scope.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.function.extension.insertInitialCurrencies
-import mustafaozhan.github.com.mycurrencies.function.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.function.scope.either
+import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel

@@ -82,5 +82,6 @@ dependencies {
 
     implementation(files(MXParser))
 
+    implementation project(':scopemob')
     implementation project(':basemob')
 }

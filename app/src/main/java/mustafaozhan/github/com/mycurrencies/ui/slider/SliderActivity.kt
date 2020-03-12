@@ -11,10 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.activity.BaseViewBindingActivity
+import com.github.mustafaozhan.scopemob.scope.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
 import javax.inject.Inject
 

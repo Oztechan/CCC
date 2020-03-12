@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.scopemob.scope.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import io.reactivex.Completable
@@ -15,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.function.extension
+package mustafaozhan.github.com.mycurrencies.extension
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 

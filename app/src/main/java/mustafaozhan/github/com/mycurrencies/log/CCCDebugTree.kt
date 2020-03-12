@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.log
 
 import android.content.Context
 import android.util.Log
-import mustafaozhan.github.com.mycurrencies.function.extension.toFormattedString
+import mustafaozhan.github.com.mycurrencies.extension.toFormattedString
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream

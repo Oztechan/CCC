@@ -9,10 +9,10 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.function.extension.checkAd
-import mustafaozhan.github.com.mycurrencies.function.extension.gone
-import mustafaozhan.github.com.mycurrencies.function.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.function.extension.visible
+import mustafaozhan.github.com.mycurrencies.extension.checkAd
+import mustafaozhan.github.com.mycurrencies.extension.gone
+import mustafaozhan.github.com.mycurrencies.extension.reObserve
+import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import timber.log.Timber

@@ -1,8 +1,8 @@
-package mustafaozhan.github.com.mycurrencies.function.extension
+package mustafaozhan.github.com.mycurrencies.extension
 
-import mustafaozhan.github.com.mycurrencies.function.scope.mapTo
-import mustafaozhan.github.com.mycurrencies.function.scope.whether
-import mustafaozhan.github.com.mycurrencies.function.scope.whetherNot
+import com.github.mustafaozhan.scopemob.scope.mapTo
+import com.github.mustafaozhan.scopemob.scope.whether
+import com.github.mustafaozhan.scopemob.scope.whetherNot
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat

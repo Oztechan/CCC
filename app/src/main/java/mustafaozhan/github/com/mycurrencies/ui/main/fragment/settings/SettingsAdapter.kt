@@ -7,7 +7,7 @@ import com.github.mustafaozhan.basemob.adapter.BaseRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
-import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 /**
