@@ -1,5 +1,6 @@
-package mustafaozhan.github.com.mycurrencies.base.viewmodel
+package mustafaozhan.github.com.mycurrencies.ui.main
 
+import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -7,7 +8,7 @@ import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-abstract class BaseDataViewModel(
+abstract class MainDataViewModel(
     protected var preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
 

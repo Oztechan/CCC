@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base.viewmodel
 
 import androidx.lifecycle.ViewModel
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.function.extension.applySchedulers
@@ -20,8 +19,6 @@ abstract class BaseViewModel : ViewModel() {
     ) = compositeDisposable.add(
         serviceObservable.applySchedulers().subscribe(onNext, onError)
     )
-
-    abstract fun onLoaded(): Completable
 
     override fun onCleared() {
         compositeDisposable.clear()

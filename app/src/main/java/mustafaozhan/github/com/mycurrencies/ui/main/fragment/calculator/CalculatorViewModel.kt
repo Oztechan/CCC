@@ -2,9 +2,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import io.reactivex.Completable
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseDataViewModel
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
@@ -26,6 +24,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
 import java.util.Date
@@ -39,7 +38,7 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseDataViewModel(preferencesRepository) {
+) : MainDataViewModel(preferencesRepository) {
 
     companion object {
         private const val MAXIMUM_INPUT = 15
@@ -49,10 +48,6 @@ class CalculatorViewModel(
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
-
-    override fun onLoaded(): Completable {
-        return Completable.complete()
-    }
 
     fun refreshData() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)

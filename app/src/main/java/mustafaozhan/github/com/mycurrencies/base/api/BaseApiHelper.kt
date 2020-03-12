@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.base.api
 
 import com.squareup.moshi.Moshi
-import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -13,10 +12,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 abstract class BaseApiHelper {
 
     protected abstract val moshi: Moshi
-
-    protected fun getString(resId: Int): String {
-        return CCCApplication.instance.getString(resId)
-    }
 
     protected fun initRxRetrofit(endpoint: String, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()

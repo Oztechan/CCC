@@ -2,25 +2,16 @@ package mustafaozhan.github.com.mycurrencies.base.activity
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.base.viewmodel.BaseViewModel
-import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 7/10/18 at 9:37 PM on Arch Linux wit Love <3.
  */
-abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
-
-    @Inject
-    protected lateinit var viewModel: TViewModel
-
-    @LayoutRes
-    protected abstract fun getLayoutResId(): Int?
+abstract class BaseActivity : AppCompatActivity() {
 
     @IdRes
     open var containerId: Int = R.id.content
@@ -30,14 +21,7 @@ abstract class BaseActivity<TViewModel : BaseViewModel> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        viewModel.onLoaded()
-        getLayoutResId()?.let {
-            setContentView(it)
-            replaceFragment(getDefaultFragment(), false)
-        }
     }
-
-    protected abstract fun getDefaultFragment(): Fragment?
 
     protected fun setHomeAsUpEnabled(enabled: Boolean) =
         supportActionBar?.setDisplayHomeAsUpEnabled(enabled)
