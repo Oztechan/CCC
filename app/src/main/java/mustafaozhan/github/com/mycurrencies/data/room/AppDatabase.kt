@@ -8,8 +8,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
-import mustafaozhan.github.com.mycurrencies.function.extension.execSQL1To2
-import mustafaozhan.github.com.mycurrencies.function.extension.execSQL2To3
+import mustafaozhan.github.com.mycurrencies.extension.execSQL1To2
+import mustafaozhan.github.com.mycurrencies.extension.execSQL2To3
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
 

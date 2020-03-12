@@ -1,5 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.function.extension
 
+import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
+import mustafaozhan.github.com.mycurrencies.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
+import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
+import mustafaozhan.github.com.mycurrencies.extension.toPercent
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mariuszgromada.math.mxparser.Expression

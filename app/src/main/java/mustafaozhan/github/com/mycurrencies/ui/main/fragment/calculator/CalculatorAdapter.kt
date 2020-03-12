@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.github.mustafaozhan.basemob.adapter.BaseRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
-import mustafaozhan.github.com.mycurrencies.function.extension.getFormatted
-import mustafaozhan.github.com.mycurrencies.function.extension.replaceNonStandardDigits
-import mustafaozhan.github.com.mycurrencies.function.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
+import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 

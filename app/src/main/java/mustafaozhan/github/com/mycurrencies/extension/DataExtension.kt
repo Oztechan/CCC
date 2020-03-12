@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.function.extension
+package mustafaozhan.github.com.mycurrencies.extension
 
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication

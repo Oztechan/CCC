@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
+import com.github.mustafaozhan.scopemob.scope.whether
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
@@ -11,7 +12,6 @@ import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.function.scope.whether
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import timber.log.Timber
 import java.util.concurrent.TimeUnit

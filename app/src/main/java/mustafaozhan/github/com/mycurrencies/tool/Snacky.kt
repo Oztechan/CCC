@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.function.extension.getImageResourceByName
+import mustafaozhan.github.com.mycurrencies.extension.getImageResourceByName
 
 @Suppress("LongParameterList")
 fun showSnacky(
