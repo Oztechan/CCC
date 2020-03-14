@@ -4,8 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
-apply from: '../dependencies.gradle'
-apply from: '../version.gradle'
+apply from: '../appConf.gradle'
 
 android {
     compileSdkVersion 29
@@ -20,9 +19,8 @@ android {
         applicationId "mustafaozhan.github.com.mycurrencies"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode appVersionCode
-        versionName "1.${appVersionCode}"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode gitVersion
+        versionName "1.${gitVersion}"
 
         android {
             javaCompileOptions {
@@ -48,39 +46,39 @@ android {
 
 dependencies {
     implementation(
-            Kotlin,
-            AndroidMaterial,
-            RecyclerView,
-            ConstraintLayout,
-            Dagger,
-            OkHttp,
-            Moshi,
-            MaterialSpinner,
-            MultiDex,
-            Room,
-            Coroutines,
-            Admob,
-            FirebaseConfig,
-            Crashlytics,
-            Timber,
-            ANRWatchDog,
-            Anko,
-            Snacky,
-            Toasty,
-            LoadingView,
-            JodaTime,
-            RxKotlin.values(),
-            Retrofit.values(),
-            LifeCycle.values()
+            kotlin,
+            androidMaterial,
+            recyclerView,
+            constraintLayout,
+            dagger,
+            okHttp,
+            moshi,
+            materialSpinner,
+            multiDex,
+            room,
+            coroutines,
+            admob,
+            firebaseConfig,
+            androidCrashlytics,
+            timber,
+            anrWatchDog,
+            anko,
+            snacky,
+            toasty,
+            loadingView,
+            jodaTime,
+            rxKotlin.values(),
+            retrofit.values(),
+            lifeCycle.values()
     )
 
-    api(RxApis.values())
+    api(rxApis.values())
 
-    kapt(Annotations.values())
+    kapt(annotations.values())
 
-    testImplementation(JUnit)
+    testImplementation(jUnit)
 
-    implementation(files(MXParser))
+    implementation(files(mxParser))
 
     implementation project(':scopemob')
     implementation project(':basemob')
