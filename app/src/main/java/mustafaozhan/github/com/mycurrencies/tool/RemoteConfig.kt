@@ -10,10 +10,11 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
+import mustafaozhan.github.com.logmob.logError
+import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 const val CHECK_DURATION: Long = 6
@@ -64,9 +65,9 @@ fun checkRemoteConfig(activity: Activity) {
                                 }
                             }
                     } catch (e: JsonDataException) {
-                        Timber.w(e)
+                        logWarning(e)
                     } catch (e: JsonEncodingException) {
-                        Timber.e(e)
+                        logError(e)
                     }
                 }
             }

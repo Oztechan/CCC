@@ -7,6 +7,7 @@ import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
+import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
@@ -26,7 +27,6 @@ import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import org.mariuszgromada.math.mxparser.Expression
-import timber.log.Timber
 import java.util.Date
 
 /**
@@ -91,7 +91,7 @@ class CalculatorViewModel(
     }
 
     private fun rateDownloadFail(t: Throwable) {
-        Timber.w(t, "rate download failed 1s time out")
+        logWarning(t, "rate download failed 1s time out")
 
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
             calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
@@ -107,7 +107,7 @@ class CalculatorViewModel(
     }
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
-        Timber.w(t, "rate download failed on long time out")
+        logWarning(t, "rate download failed on long time out")
         calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
     }
 
@@ -160,7 +160,7 @@ class CalculatorViewModel(
                 rate.calculateResult(name, output)
             } catch (e: NumberFormatException) {
                 val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
-                Timber.w(e, "NumberFormatException $output to $numericValue")
+                logWarning(e, "NumberFormatException $output to $numericValue")
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }

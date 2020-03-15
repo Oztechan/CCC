@@ -10,6 +10,7 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
+import mustafaozhan.github.com.logmob.logError
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
@@ -29,7 +30,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -80,7 +80,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
                         binding.txtEmpty.gone()
                     }
                 },
-                { Timber.e(it) }
+                { logError(it) }
             )
             .addTo(compositeDisposable)
     }

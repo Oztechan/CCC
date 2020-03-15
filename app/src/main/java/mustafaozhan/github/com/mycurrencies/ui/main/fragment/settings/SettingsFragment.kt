@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseViewBindingFragment
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
+import mustafaozhan.github.com.logmob.logError
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -15,7 +16,6 @@ import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -63,7 +63,7 @@ class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
         .map { it.toString() }
         .subscribe(
             { settingsViewModel.filterList(it) },
-            { Timber.e(it) }
+            { logError(it) }
         ).addTo(compositeDisposable)
 
     private fun initViews() = binding.recyclerViewSettings.apply {

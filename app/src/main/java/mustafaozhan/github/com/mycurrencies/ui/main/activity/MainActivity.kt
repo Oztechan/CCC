@@ -15,6 +15,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
+import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
@@ -23,7 +24,6 @@ import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.contentView
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -140,7 +140,7 @@ open class MainActivity : BaseActivity() {
                     )
                     ?.apply { show() }
                     ?: run { prepareAd() }
-            }, { Timber.w(it) }
+            }, { logWarning(it) }
             )
     }
 

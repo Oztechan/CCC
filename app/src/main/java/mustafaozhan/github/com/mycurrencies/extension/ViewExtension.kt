@@ -9,8 +9,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
+import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.R
-import timber.log.Timber
 import java.io.FileNotFoundException
 import java.util.Locale
 
@@ -29,7 +29,7 @@ fun Context.getImageResourceByName(name: String): Int =
             packageName
         )
     } catch (e: FileNotFoundException) {
-        Timber.w(e)
+        logWarning(e)
         R.drawable.transparent
     }
 
@@ -52,7 +52,7 @@ fun MaterialSpinner.tryToSelect(indexOf: Int) {
     selectedIndex = try {
         indexOf
     } catch (exception: IllegalArgumentException) {
-        Timber.w(exception, "try to select failed for index $indexOf")
+        logWarning(exception, "try to select failed for index $indexOf")
         0
     }
 }

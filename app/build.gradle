@@ -59,9 +59,6 @@ dependencies {
             coroutines,
             admob,
             firebaseConfig,
-            androidCrashlytics,
-            timber,
-            anrWatchDog,
             anko,
             snacky,
             toasty,
@@ -82,4 +79,5 @@ dependencies {
 
     implementation project(':scopemob')
     implementation project(':basemob')
+    implementation project(':logmob')
 }

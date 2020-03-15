@@ -1,13 +1,13 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
-import timber.log.Timber
+import mustafaozhan.github.com.logmob.logError
 
 inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
     val getterName = "get" + propertyName.capitalize()
     return try {
         javaClass.getMethod(getterName).invoke(this) as? T
     } catch (e: NoSuchMethodException) {
-        Timber.e(e)
+        logError(e)
         null
     }
 }
