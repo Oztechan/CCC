@@ -1,3 +1,4 @@
-include ':scopemob'
-include ':basemob'
-include ':app'
+include ':app',':scopemob',':basemob'
+
+project(':basemob').projectDir = file('basemob/submob')
+project(':scopemob').projectDir = file('scopemob/submob')

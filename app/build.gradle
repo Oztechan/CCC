@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
-apply from: '../appConf.gradle'
+apply from: '../configuration.gradle'
 
 android {
     compileSdkVersion 29

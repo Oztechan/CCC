@@ -22,7 +22,7 @@ constructor() : BaseApiHelper() {
     override val moshi: Moshi
         get() = Moshi.Builder().build()
 
-    val endPoint: String
+    private val endPoint: String
         get() = CCCApplication.instance.getString(R.string.backend_endpoint)
 
     val backendService: BackendService by lazy { initBackendApiServices() }

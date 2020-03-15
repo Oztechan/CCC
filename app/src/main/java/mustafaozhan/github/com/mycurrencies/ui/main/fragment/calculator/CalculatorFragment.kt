@@ -6,8 +6,8 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseViewBindingFragment
-import com.github.mustafaozhan.scopemob.scope.whether
-import com.github.mustafaozhan.scopemob.scope.whetherNot
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.scopemob.whetherNot
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R

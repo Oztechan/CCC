@@ -2,10 +2,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.scopemob.scope.either
-import com.github.mustafaozhan.scopemob.scope.mapTo
-import com.github.mustafaozhan.scopemob.scope.whether
-import com.github.mustafaozhan.scopemob.scope.whetherNot
+import com.github.mustafaozhan.scopemob.either
+import com.github.mustafaozhan.scopemob.mapTo
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository

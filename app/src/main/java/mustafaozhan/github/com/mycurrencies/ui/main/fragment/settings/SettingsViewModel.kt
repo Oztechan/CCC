@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.scopemob.scope.either
+import com.github.mustafaozhan.scopemob.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies

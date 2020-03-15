@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.scopemob.scope.whether
+import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import io.reactivex.Completable
