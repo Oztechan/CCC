@@ -1,6 +1,6 @@
 <p align="center">A currency application for most of the currencies of world.You can quickly convert and make mathematical operations between currencies</p>
 <p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300px"></a></p>
-<p align="center"><a href="https://www.codacy.com/app/mr.mustafa.ozhan/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/185d6056f27a41db900c8a30e94e3564"/></a>   <img src="https://travis-ci.com/CurrencyConverterCalculator/androidCCC.svg?branch=master">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
+<p align="center"><a href="https://www.codacy.com/gh/CurrencyConverterCalculator/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <img src="https://travis-ci.com/CurrencyConverterCalculator/androidCCC.svg?branch=master">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Features
@@ -28,39 +28,40 @@
 ```gradle
 dependencies {
     implementation(
-            Kotlin,
-            AndroidMaterial,
-            RecyclerView,
-            ConstraintLayout,
-            Dagger,
-            OkHttp,
-            Moshi,
-            MaterialSpinner,
-            MultiDex,
-            Room,
-            Coroutines,
-            Admob,
-            FirebaseConfig,
-            Crashlytics,
-            Timber,
-            ANRWatchDog,
-            Anko,
-            Snacky,
-            Toasty,
-            LoadingView,
-            JodaTime,
-            RxKotlin.values(),
-            Retrofit.values(),
-            LifeCycle.values()
+            kotlin,
+            androidMaterial,
+            recyclerView,
+            constraintLayout,
+            dagger,
+            okHttp,
+            moshi,
+            materialSpinner,
+            multiDex,
+            room,
+            coroutines,
+            admob,
+            firebaseConfig,
+            anko,
+            snacky,
+            toasty,
+            loadingView,
+            jodaTime,
+            rxKotlin.values(),
+            retrofit.values(),
+            lifeCycle.values()
     )
 
-    api(RxApis.values())
+    api(rxApis.values())
 
-    kapt(Annotations.values())
+    kapt(annotations.values())
 
-    testImplementation(JUnit)
+    testImplementation(jUnit)
 
-    implementation(files(MXParser))
+    implementation(files(mxParser))
+
+    implementation project(':scopemob')
+    implementation project(':basemob')
+    implementation project(':logmob')
 }
 ```
 
