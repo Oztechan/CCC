@@ -3,9 +3,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -35,14 +36,17 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
+class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     companion object {
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
-    override fun bind() {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+    override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
+        FragmentCalculatorBinding.inflate(layoutInflater, container, false)
+
+    override fun onBinding(dataBinding: FragmentCalculatorBinding) {
+        binding.viewModel = calculatorViewModel
     }
 
     @Inject
