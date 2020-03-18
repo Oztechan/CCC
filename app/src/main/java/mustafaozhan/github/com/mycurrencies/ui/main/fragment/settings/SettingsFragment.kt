@@ -2,9 +2,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.logmob.logError
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
@@ -21,7 +22,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
@@ -30,11 +31,14 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    override fun bind() {
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
-    }
-
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
+
+    override fun bind(container: ViewGroup?): FragmentSettingsBinding =
+        FragmentSettingsBinding.inflate(layoutInflater, container, false)
+
+    override fun onBinding(dataBinding: FragmentSettingsBinding) {
+        binding.viewModel = settingsViewModel
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

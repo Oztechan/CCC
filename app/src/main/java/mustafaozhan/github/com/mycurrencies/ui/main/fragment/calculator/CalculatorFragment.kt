@@ -42,17 +42,17 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         fun newInstance(): CalculatorFragment = CalculatorFragment()
     }
 
+    @Inject
+    lateinit var calculatorViewModel: CalculatorViewModel
+
+    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
+
     override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
         FragmentCalculatorBinding.inflate(layoutInflater, container, false)
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.viewModel = calculatorViewModel
     }
-
-    @Inject
-    lateinit var calculatorViewModel: CalculatorViewModel
-
-    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
