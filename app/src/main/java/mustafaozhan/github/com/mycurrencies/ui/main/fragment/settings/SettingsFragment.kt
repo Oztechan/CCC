@@ -39,6 +39,7 @@ class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
+        settingsViewModel.initData()
         initViews()
         initViewState()
         initRx()
@@ -66,21 +67,27 @@ class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
             { logError(it) }
         ).addTo(compositeDisposable)
 
-    private fun initViews() = binding.recyclerViewSettings.apply {
-        layoutManager = LinearLayoutManager(requireContext())
-        setHasFixedSize(true)
-        adapter = settingsAdapter
+    private fun initViews() = with(binding) {
+        recyclerViewSettings.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = settingsAdapter
+        }
+        binding.editTextSearch.setText("")
+        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 
     private fun setListeners() {
-        binding.btnSelectAll.setOnClickListener {
-            settingsViewModel.updateCurrencyState(1)
-            binding.editTextSearch.setText("")
-        }
-        binding.btnDeSelectAll.setOnClickListener {
-            settingsViewModel.updateCurrencyState(0)
-            binding.editTextSearch.setText("")
-            settingsViewModel.setCurrentBase(null)
+        with(binding) {
+            btnSelectAll.setOnClickListener {
+                settingsViewModel.updateCurrencyState(1)
+                editTextSearch.setText("")
+            }
+            btnDeSelectAll.setOnClickListener {
+                settingsViewModel.updateCurrencyState(0)
+                editTextSearch.setText("")
+                settingsViewModel.setCurrentBase(null)
+            }
         }
 
         settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
@@ -97,12 +104,5 @@ class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        settingsViewModel.refreshData()
-        binding.editTextSearch.setText("")
-        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
-        super.onResume()
     }
 }

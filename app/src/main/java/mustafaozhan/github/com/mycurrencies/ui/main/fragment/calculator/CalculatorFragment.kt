@@ -54,17 +54,12 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
+        initData()
         initViews()
         setListeners()
         initViewState()
         setRx()
         initLiveData()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initData()
-        binding.adView.checkAd(R.string.banner_ad_unit_id_main, calculatorViewModel.isRewardExpired)
     }
 
     private fun setRx() {
@@ -168,6 +163,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
     }
 
     private fun initViews() = with(binding) {
+        adView.checkAd(R.string.banner_ad_unit_id_main, calculatorViewModel.isRewardExpired)
         loadingView.bringToFront()
         txtEmpty.visible()
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
@@ -248,7 +244,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
 
     private fun updateBase(base: String) {
         calculatorViewModel.updateCurrentBase(base)
-        calculatorViewModel.calculateOutput(binding.txtInput.text.toString())
+        binding.txtInput.text = binding.txtInput.text
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 
