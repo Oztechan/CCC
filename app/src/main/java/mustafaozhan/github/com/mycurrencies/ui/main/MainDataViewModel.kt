@@ -1,6 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main
 
-import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
+import mustafaozhan.github.com.basemob.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData

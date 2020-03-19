@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
-import com.github.mustafaozhan.scopemob.whether
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
@@ -15,6 +14,7 @@ import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
+import mustafaozhan.github.com.scopemob.whether
 import java.util.concurrent.TimeUnit
 
 const val CHECK_DURATION: Long = 6

@@ -1,7 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
-import com.github.mustafaozhan.basemob.preferences.BasePreferences
 import com.squareup.moshi.Moshi
+import mustafaozhan.github.com.basemob.preferences.BasePreferences
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject

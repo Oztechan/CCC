@@ -2,8 +2,8 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.adapter.BaseRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.adapter.BaseViewHolder
+import mustafaozhan.github.com.basemob.adapter.BaseRecyclerViewAdapter
+import mustafaozhan.github.com.basemob.adapter.BaseViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
