@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.function.extension
 
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
@@ -10,6 +11,11 @@ import org.junit.Test
 import org.mariuszgromada.math.mxparser.Expression
 
 class TypeExtensionTest {
+
+    inner class SubjectModel {
+        var someInt = 1
+        var someString = "Some String"
+    }
 
     @Test
     fun `replace unsupported characters`() {
@@ -60,6 +66,21 @@ class TypeExtensionTest {
         assertEquals(
             Expression("10+200%5+5-5*3".toPercent()).calculate().toString(),
             "10.0"
+        )
+    }
+
+    @Test
+    fun getThroughReflection() {
+        val c = SubjectModel()
+
+        assertEquals(
+            c.someString,
+            c.getThroughReflection<String>("someString")
+        )
+
+        assertEquals(
+            c.someInt,
+            c.getThroughReflection<Int>("someInt")
         )
     }
 }

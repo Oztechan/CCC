@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.extension
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import mustafaozhan.github.com.logmob.logError
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -47,3 +48,13 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
 fun Date.toFormattedString(): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
         .format(this)
+
+inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
+    val getterName = "get" + propertyName.capitalize()
+    return try {
+        javaClass.getMethod(getterName).invoke(this) as? T
+    } catch (e: NoSuchMethodException) {
+        logError(e)
+        null
+    }
+}
