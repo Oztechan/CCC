@@ -6,6 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.logmob.logWarning
+import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import io.reactivex.Completable
@@ -13,8 +16,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
-import mustafaozhan.github.com.basemob.activity.BaseActivity
-import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
@@ -22,7 +23,6 @@ import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
-import mustafaozhan.github.com.scopemob.whether
 import org.jetbrains.anko.contentView
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

@@ -1,9 +1,9 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
-import mustafaozhan.github.com.logmob.logError
-import mustafaozhan.github.com.scopemob.mapTo
-import mustafaozhan.github.com.scopemob.whether
-import mustafaozhan.github.com.scopemob.whetherNot
+import com.github.mustafaozhan.logmob.logError
+import com.github.mustafaozhan.scopemob.mapTo
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.scopemob.whetherNot
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat

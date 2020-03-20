@@ -2,8 +2,8 @@ package mustafaozhan.github.com.mycurrencies.tool
 
 import android.app.Activity
 import android.app.AlertDialog
+import com.github.mustafaozhan.scopemob.inCase
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.scopemob.inCase
 
 @Suppress("LongParameterList")
 fun showDialog(

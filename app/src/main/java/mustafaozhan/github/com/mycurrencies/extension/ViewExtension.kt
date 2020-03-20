@@ -5,11 +5,11 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.github.mustafaozhan.logmob.logWarning
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
-import mustafaozhan.github.com.logmob.logWarning
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 import java.util.Locale
