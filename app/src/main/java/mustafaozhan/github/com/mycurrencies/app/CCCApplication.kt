@@ -29,7 +29,7 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
 
         instance = this
 
-        initLogMob(this)
+        initLogMob(this, true)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
