@@ -22,7 +22,11 @@ class SettingsViewModel(
 
     private var currencyList: MutableList<Currency> = mutableListOf()
 
-    fun initData() {
+    init {
+        initData()
+    }
+
+    private fun initData() {
         currencyList.clear()
 
         if (mainData.firstRun) {

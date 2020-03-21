@@ -13,7 +13,6 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.addText
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -28,8 +27,6 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 /**
@@ -57,7 +54,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        initData()
         initViews()
         setListeners()
         initViewState()
@@ -249,23 +245,5 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.updateCurrentBase(base)
         binding.txtInput.text = binding.txtInput.text
         binding.layoutBar.ivBase.setBackgroundByName(base)
-    }
-
-    private fun initData() = calculatorViewModel.apply {
-        refreshData()
-
-        if (loadResetData() && !mainData.firstRun) {
-            doAsync {
-                AppDatabase.database.clearAllTables()
-                resetFirstRun()
-                uiThread {
-                    persistResetData(false)
-                    refreshData()
-                    getCurrencies()
-                }
-            }
-        } else {
-            getCurrencies()
-        }
     }
 }

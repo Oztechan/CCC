@@ -41,7 +41,6 @@ dependencies {
             coroutines,
             admob,
             firebaseConfig,
-            anko,
             snacky,
             toasty,
             loadingView,

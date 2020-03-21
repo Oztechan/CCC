@@ -43,7 +43,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        settingsViewModel.initData()
         initViews()
         initViewState()
         initRx()
@@ -77,7 +76,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
-        binding.editTextSearch.setText("")
         binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 

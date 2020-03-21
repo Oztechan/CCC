@@ -8,8 +8,10 @@ import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
@@ -49,7 +51,28 @@ class CalculatorViewModel(
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
-    fun refreshData() {
+    init {
+        initData()
+    }
+
+    private fun initData() {
+        refreshData()
+
+        if (loadResetData() && !mainData.firstRun) {
+
+            runBlocking {
+                AppDatabase.database.clearAllTables()
+                resetFirstRun()
+            }
+            persistResetData(false)
+            refreshData()
+            getCurrencies()
+        } else {
+            getCurrencies()
+        }
+    }
+
+    private fun refreshData() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates = null
         currencyListLiveData.value?.clear()
