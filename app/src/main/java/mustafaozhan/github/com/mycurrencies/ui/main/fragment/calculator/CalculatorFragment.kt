@@ -57,7 +57,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
-        .reObserve(this, Observer { calculatorViewState ->
+        .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
             when (calculatorViewState) {
                 CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
                 CalculatorViewState.Error -> {
@@ -107,13 +107,13 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
-        calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+        calculatorViewModel.currencyListLiveData.reObserve(viewLifecycleOwner, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
             calculatorAdapter.refreshList(currencyList, calculatorViewModel.mainData.currentBase)
             binding.loadingView.smoothToHide()
         })
 
-        calculatorViewModel.outputLiveData.reObserve(this, Observer { output ->
+        calculatorViewModel.outputLiveData.reObserve(viewLifecycleOwner, Observer { output ->
             with(binding.layoutBar) {
                 txtSymbol.text = calculatorViewModel.getCurrencyByName(
                     calculatorViewModel.mainData.currentBase.toString()
@@ -129,7 +129,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             }
         })
 
-        calculatorViewModel.inputLiveData.reObserve(this, Observer { input ->
+        calculatorViewModel.inputLiveData.reObserve(viewLifecycleOwner, Observer { input ->
             if (input.isEmpty()) {
                 calculatorViewModel.postEmptyState()
                 calculatorViewModel.outputLiveData.postValue("")

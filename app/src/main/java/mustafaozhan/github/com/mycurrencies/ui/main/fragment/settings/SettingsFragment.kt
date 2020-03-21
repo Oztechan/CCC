@@ -42,12 +42,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
         initViewState()
-        initLiveData()
         setListeners()
     }
 
     private fun initViewState() = settingsViewModel.settingsViewStateLiveData
-        .reObserve(this, Observer { settingsViewState ->
+        .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
                 SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
@@ -58,12 +57,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 is SettingsViewState.Success -> settingsAdapter.refreshList(settingsViewState.currencyList)
             }
         })
-
-    private fun initLiveData() {
-        settingsViewModel.searchQuery.reObserve(this, Observer { query ->
-            settingsViewModel.filterList(query)
-        })
-    }
 
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {

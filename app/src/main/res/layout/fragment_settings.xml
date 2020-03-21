@@ -76,7 +76,7 @@
             android:hint="@string/search"
             android:inputType="text"
             android:paddingBottom="@dimen/margin_four"
-            android:text="@{viewModel.searchQuery}"
+            android:text="@={viewModel.searchQuery}"
             android:textAppearance="@style/ItemTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.scopemob.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -18,14 +19,19 @@ class SettingsViewModel(
     private val currencyDao: CurrencyDao
 ) : MainDataViewModel(preferencesRepository) {
 
-    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
-
+    private val _searchQuery = MediatorLiveData<String>()
     private val currencyList: MutableList<Currency> = mutableListOf()
 
-    val searchQuery: MutableLiveData<String> = MutableLiveData("")
+    val searchQuery: MutableLiveData<String> = _searchQuery
+    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
 
     init {
         initData()
+
+        _searchQuery.addSource(searchQuery) {
+            filterList(it)
+        }
+        filterList("")
     }
 
     private fun initData() {
@@ -54,7 +60,7 @@ class SettingsViewModel(
         }
     }
 
-    fun filterList(txt: String) = currencyList
+    private fun filterList(txt: String) = currencyList
         .filter { currency ->
             currency.name.contains(txt, true) ||
                 currency.longName.contains(txt, true) ||
