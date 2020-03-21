@@ -45,12 +45,10 @@ dependencies {
             toasty,
             loadingView,
             jodaTime,
-            rxKotlin.values(),
+            rxAndroid,
             retrofit.values(),
             lifeCycle.values()
     )
-
-    api(rxApis.values())
 
     kapt(annotations.values())
 

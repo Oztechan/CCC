@@ -6,9 +6,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.logmob.logError
-import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -45,7 +42,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
         initViewState()
-        initRx()
+        initLiveData()
         setListeners()
     }
 
@@ -62,13 +59,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             }
         })
 
-    private fun initRx() = binding.editTextSearch
-        .textChanges()
-        .map { it.toString() }
-        .subscribe(
-            { settingsViewModel.filterList(it) },
-            { logError(it) }
-        ).addTo(compositeDisposable)
+    private fun initLiveData() {
+        settingsViewModel.searchQuery.reObserve(this, Observer { query ->
+            settingsViewModel.filterList(query)
+        })
+    }
 
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {

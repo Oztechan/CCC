@@ -7,14 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extension.addText
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.gone
@@ -57,26 +53,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         initViews()
         setListeners()
         initViewState()
-        setRx()
         initLiveData()
-    }
-
-    private fun setRx() {
-        binding.txtInput.textChanges()
-            .map { it.toString() }
-            .subscribe(
-                {
-                    if (it.isEmpty()) {
-                        calculatorViewModel.postEmptyState()
-                        calculatorViewModel.outputLiveData.postValue("")
-                    } else {
-                        calculatorViewModel.calculateOutput(it)
-                        binding.txtEmpty.gone()
-                    }
-                },
-                { logError(it) }
-            )
-            .addTo(compositeDisposable)
     }
 
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
@@ -122,7 +99,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 }
                 is CalculatorViewState.MaximumInput -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
-                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
+                    calculatorViewModel.inputLiveData.postValue(calculatorViewState.input.dropLast(1))
                     binding.loadingView.smoothToHide()
                 }
             }
@@ -151,6 +128,16 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     }
             }
         })
+
+        calculatorViewModel.inputLiveData.reObserve(this, Observer { input ->
+            if (input.isEmpty()) {
+                calculatorViewModel.postEmptyState()
+                calculatorViewModel.outputLiveData.postValue("")
+            } else {
+                calculatorViewModel.calculateOutput(input)
+                binding.txtEmpty.gone()
+            }
+        })
     }
 
     private fun onStateSuccess(rates: Rates) {
@@ -169,7 +156,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         recyclerViewMain.adapter = calculatorAdapter
 
         calculatorAdapter.onItemClickListener = { currency, itemBinding, _: Int ->
-            txtInput.text = itemBinding.txtAmount.text.toString().dropDecimal()
+            calculatorViewModel.inputLiveData.postValue(itemBinding.txtAmount.text.toString().dropDecimal())
             updateBase(currency.name)
             calculatorViewModel.currencyListLiveData.value
                 ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
@@ -203,33 +190,35 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        layoutKeyboard.btnSeven.setOnClickListener { txtInput.addText("7") }
-        layoutKeyboard.btnEight.setOnClickListener { txtInput.addText("8") }
-        layoutKeyboard.btnNine.setOnClickListener { txtInput.addText("9") }
-        layoutKeyboard.btnDivide.setOnClickListener { txtInput.addText("/") }
-        layoutKeyboard.btnFour.setOnClickListener { txtInput.addText("4") }
-        layoutKeyboard.btnFive.setOnClickListener { txtInput.addText("5") }
-        layoutKeyboard.btnSix.setOnClickListener { txtInput.addText("6") }
-        layoutKeyboard.btnMultiply.setOnClickListener { txtInput.addText("*") }
-        layoutKeyboard.btnOne.setOnClickListener { txtInput.addText("1") }
-        layoutKeyboard.btnTwo.setOnClickListener { txtInput.addText("2") }
-        layoutKeyboard.btnThree.setOnClickListener { txtInput.addText("3") }
-        layoutKeyboard.btnMinus.setOnClickListener { txtInput.addText("-") }
-        layoutKeyboard.btnDot.setOnClickListener { txtInput.addText(".") }
-        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
-        layoutKeyboard.btnPercent.setOnClickListener { txtInput.addText("%") }
-        layoutKeyboard.btnPlus.setOnClickListener { txtInput.addText("+") }
-        layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
-        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
+        layoutKeyboard.btnSeven.setOnClickListener { calculatorViewModel.addText("7") }
+        layoutKeyboard.btnEight.setOnClickListener { calculatorViewModel.addText("8") }
+        layoutKeyboard.btnNine.setOnClickListener { calculatorViewModel.addText("9") }
+        layoutKeyboard.btnDivide.setOnClickListener { calculatorViewModel.addText("/") }
+        layoutKeyboard.btnFour.setOnClickListener { calculatorViewModel.addText("4") }
+        layoutKeyboard.btnFive.setOnClickListener { calculatorViewModel.addText("5") }
+        layoutKeyboard.btnSix.setOnClickListener { calculatorViewModel.addText("6") }
+        layoutKeyboard.btnMultiply.setOnClickListener { calculatorViewModel.addText("*") }
+        layoutKeyboard.btnOne.setOnClickListener { calculatorViewModel.addText("1") }
+        layoutKeyboard.btnTwo.setOnClickListener { calculatorViewModel.addText("2") }
+        layoutKeyboard.btnThree.setOnClickListener { calculatorViewModel.addText("3") }
+        layoutKeyboard.btnMinus.setOnClickListener { calculatorViewModel.addText("-") }
+        layoutKeyboard.btnDot.setOnClickListener { calculatorViewModel.addText(".") }
+        layoutKeyboard.btnZero.setOnClickListener { calculatorViewModel.addText("0") }
+        layoutKeyboard.btnPercent.setOnClickListener { calculatorViewModel.addText("%") }
+        layoutKeyboard.btnPlus.setOnClickListener { calculatorViewModel.addText("+") }
+        layoutKeyboard.btnTripleZero.setOnClickListener { calculatorViewModel.addText("000") }
+        layoutKeyboard.btnZero.setOnClickListener { calculatorViewModel.addText("0") }
         layoutKeyboard.btnAc.setOnClickListener {
-            txtInput.text = ""
+            calculatorViewModel.inputLiveData.postValue("")
             layoutBar.txtOutput.text = ""
             layoutBar.txtSymbol.text = ""
         }
         layoutKeyboard.btnDelete.setOnClickListener {
-            txtInput.text.toString()
-                .whetherNot { isEmpty() }
-                ?.apply { txtInput.text = substring(0, length - 1) }
+            calculatorViewModel.inputLiveData.value
+                ?.whetherNot { isEmpty() }
+                ?.apply {
+                    calculatorViewModel.inputLiveData.postValue(substring(0, length - 1))
+                }
         }
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
         layoutBar.layoutBar.setOnClickListener {
@@ -243,7 +232,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     private fun updateBase(base: String) {
         calculatorViewModel.updateCurrentBase(base)
-        binding.txtInput.text = binding.txtInput.text
+        calculatorViewModel.inputLiveData.postValue(calculatorViewModel.inputLiveData.value)
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 }

@@ -49,6 +49,7 @@ class CalculatorViewModel(
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
+    val inputLiveData: MutableLiveData<String> = MutableLiveData("")
     var rates: Rates? = null
 
     init {
@@ -58,13 +59,13 @@ class CalculatorViewModel(
     private fun initData() {
         refreshData()
 
-        if (loadResetData() && !mainData.firstRun) {
+        if (preferencesRepository.loadResetData() && !mainData.firstRun) {
 
             runBlocking {
                 AppDatabase.database.clearAllTables()
-                resetFirstRun()
+                preferencesRepository.updateMainData(firstRun = true)
             }
-            persistResetData(false)
+            preferencesRepository.persistResetData(false)
             refreshData()
             getCurrencies()
         } else {
@@ -85,7 +86,7 @@ class CalculatorViewModel(
         currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
-    fun getCurrencies() {
+    private fun getCurrencies() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
@@ -153,10 +154,6 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun loadResetData() = preferencesRepository.loadResetData()
-
-    fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
-
     fun getClickedItemRate(name: String): String =
         "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
@@ -188,9 +185,9 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    fun resetFirstRun() {
-        preferencesRepository.updateMainData(firstRun = true)
-    }
-
     fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
+
+    fun addText(text: String) {
+        inputLiveData.postValue(inputLiveData.value.toString() + text)
+    }
 }

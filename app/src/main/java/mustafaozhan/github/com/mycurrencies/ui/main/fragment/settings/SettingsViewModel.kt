@@ -20,7 +20,9 @@ class SettingsViewModel(
 
     val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
 
-    private var currencyList: MutableList<Currency> = mutableListOf()
+    private val currencyList: MutableList<Currency> = mutableListOf()
+
+    val searchQuery: MutableLiveData<String> = MutableLiveData("")
 
     init {
         initData()
