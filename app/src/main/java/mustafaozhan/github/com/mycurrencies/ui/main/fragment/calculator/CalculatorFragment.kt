@@ -27,7 +27,6 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import javax.inject.Inject
@@ -106,7 +105,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
                 }
                 CalculatorViewState.FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
-                        replaceFragment(SettingsFragment.newInstance(), true)
+                        navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                     }
 
                     calculatorAdapter.refreshList(mutableListOf(), calculatorViewModel.mainData.currentBase)
@@ -196,7 +195,7 @@ class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() 
                 ivBase.setBackgroundByName(spinnerBase.text.toString())
             } ?: run {
             showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
-                replaceFragment(SettingsFragment.newInstance(), true)
+                navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
             }
             spinnerBase.setItems("")
             ivBase.setBackgroundByName("transparent")

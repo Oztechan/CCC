@@ -32,6 +32,7 @@ def SNACKY_VERSION = '1.0.3'
 def TOASTY_VERSION = '1.4.2'
 def LOADING_VIEW_VERSION = '2.1.3'
 def JODA_TIME_VERSION = '2.10.3'
+def NAVIGATION_VERSION = '2.2.1'
 
 def getGitVersion = { ->
     try {
@@ -70,6 +71,7 @@ ext {
     toasty = "com.github.GrenderG:Toasty:$TOASTY_VERSION"
     loadingView = "com.wang.avi:library:$LOADING_VIEW_VERSION"
     jodaTime = "net.danlew:android.joda:$JODA_TIME_VERSION"
+    navigation = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
 
     rxKotlin = [
             rxKotlin       : "io.reactivex.rxjava2:rxkotlin:$RX_KOTLIN_VERSION",
@@ -114,6 +116,7 @@ ext {
             androidBuildTools : "com.android.tools.build:gradle:${ANDROID_PLUGIN_VERSION}",
             kotlinGradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}",
             gsmGoogle         : "com.google.gms:google-services:$GSM_GOOGLE_VERSION",
-            fabric            : "io.fabric.tools:gradle:$FABRIC_VERSION"
+            fabric            : "io.fabric.tools:gradle:$FABRIC_VERSION",
+            navigation: "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     ]
 }

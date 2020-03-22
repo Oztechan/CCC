@@ -21,8 +21,7 @@ import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragmentDirections
 import org.jetbrains.anko.contentView
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -48,7 +47,6 @@ open class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        replaceFragment(CalculatorFragment.newInstance(), false)
         checkRemoteConfig(this)
         prepareAd()
     }
@@ -56,9 +54,9 @@ open class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
 
-        when (supportFragmentManager.findFragmentById(containerId)) {
-            is CalculatorFragment -> menuInflater.inflate(R.menu.fragment_main_menu, menu)
-            is SettingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
+        when (navigationController.currentDestination?.id) {
+            R.id.calculatorFragment -> menuInflater.inflate(R.menu.fragment_calculator_menu, menu)
+            R.id.settingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -66,7 +64,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> replaceFragment(SettingsFragment.newInstance(), true)
+            R.id.settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
             R.id.feedback -> sendFeedBack()
             R.id.support -> {
                 val intent = Intent(
@@ -156,7 +154,7 @@ open class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentById(containerId) is CalculatorFragment) {
+        if (navigationController.currentDestination?.id == R.id.calculatorFragment) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
                 return

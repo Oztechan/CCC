@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply from: '../configuration.gradle'
 
@@ -64,6 +65,7 @@ dependencies {
             toasty,
             loadingView,
             jodaTime,
+            navigation,
             rxKotlin.values(),
             retrofit.values(),
             lifeCycle.values()
