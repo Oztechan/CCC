@@ -24,13 +24,13 @@ class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBindin
         false)
     )
 
-    fun refreshList(list: MutableList<Currency>, currentBase: Currencies) =
-        refreshList(list.filter {
+    fun refreshList(list: MutableList<Currency>?, currentBase: Currencies) =
+        refreshList(list?.filter {
             it.name != currentBase.toString() &&
                 it.isActive == 1 &&
                 it.rate.toString() != "NaN" &&
                 it.rate.toString() != "0.0"
-        }.toMutableList())
+        }?.toMutableList() ?: mutableListOf())
 
     inner class RatesViewBindingViewHolder(itemBinding: ItemCurrencyBinding) :
         BaseVBViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {

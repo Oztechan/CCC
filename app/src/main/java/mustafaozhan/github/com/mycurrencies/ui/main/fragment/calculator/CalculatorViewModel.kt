@@ -47,13 +47,15 @@ class CalculatorViewModel(
     }
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
+    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     val inputLiveData: MutableLiveData<String> = MutableLiveData("")
     var rates: Rates? = null
 
     init {
         initData()
+
+        inputLiveData.value = ""
     }
 
     private fun initData() {
@@ -92,7 +94,9 @@ class CalculatorViewModel(
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
+            calculatorViewStateLiveData.postValue(
+                CalculatorViewState.Success(getCalculatedList(rates), mainData.currentBase)
+            )
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -109,7 +113,9 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
+            calculatorViewStateLiveData.postValue(
+                CalculatorViewState.Success(getCalculatedList(it), mainData.currentBase)
+            )
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -118,7 +124,12 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
+            calculatorViewStateLiveData.postValue(
+                CalculatorViewState.OfflineSuccess(
+                    getCalculatedList(offlineRates),
+                    mainData.currentBase,
+                    offlineRates
+                ))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -130,9 +141,22 @@ class CalculatorViewModel(
         }
     }
 
+    private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
+        var tempList = mutableListOf<Currency>()
+
+        currencyListLiveData.value?.let { currencyList ->
+            currencyList.forEach { it.rate = calculateResultByCurrency(it.name, rates) }
+            tempList = currencyList
+        }
+
+        return tempList
+    }
+
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
+        calculatorViewStateLiveData.postValue(
+            CalculatorViewState.Error(currencyListLiveData.value?.size ?: -1 > 1)
+        )
     }
 
     fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
@@ -146,7 +170,10 @@ class CalculatorViewModel(
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
                 ?: run { getCurrencies() }
-        } ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
+        } ?: run {
+        calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput)
+        inputLiveData.postValue(input.dropLast(1))
+    }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
@@ -170,7 +197,7 @@ class CalculatorViewModel(
         return mainData.currentBase
     }
 
-    fun calculateResultByCurrency(
+    private fun calculateResultByCurrency(
         name: String,
         rate: Rates?
     ) = outputLiveData.value

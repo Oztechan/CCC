@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
+        app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
         tools:viewBindingIgnore="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="3"
+                android:text="@={viewModel.inputLiveData}"
                 android:textAppearance="@style/BaseTextStyle" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -50,6 +52,7 @@
             style="@style/AVLoadingIndicatorView"
             android:layout_width="@dimen/loading_view_size"
             android:layout_height="@dimen/loading_view_size"
+            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
             app:indicatorColor="@color/colorAccent"
             app:indicatorName="BallPulseIndicator"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -63,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_eight"
             android:text="@string/type_for_results"
+            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
@@ -71,6 +75,7 @@
             android:id="@+id/recycler_view_main"
             android:layout_width="@dimen/fit"
             android:layout_height="@dimen/fit"
+            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
             android:background="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"

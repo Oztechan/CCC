@@ -36,8 +36,7 @@ fun settingsViewState(
 fun settingsViewState(
     constraintLayout: ConstraintLayout,
     settingsViewState: SettingsViewState
-) {
-    if (settingsViewState == SettingsViewState.FewCurrency) {
-        Toasty.showToasty(constraintLayout.context, R.string.choose_at_least_two_currency)
-    }
+) = when (settingsViewState) {
+    SettingsViewState.FewCurrency -> Toasty.showToasty(constraintLayout.context, R.string.choose_at_least_two_currency)
+    else -> Unit
 }
