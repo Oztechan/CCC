@@ -2,8 +2,8 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.adapter.BaseRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.adapter.BaseViewHolder
+import com.github.mustafaozhan.basemob.recyclerview.adapter.BaseVBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.recyclerview.viewholder.BaseVBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
@@ -14,11 +14,11 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
+class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesViewHolder(ItemCurrencyBinding.inflate(
+    ) = RatesViewBindingViewHolder(ItemCurrencyBinding.inflate(
         LayoutInflater.from(parent.context),
         parent,
         false)
@@ -32,8 +32,8 @@ class CalculatorAdapter : BaseRecyclerViewAdapter<Currency, ItemCurrencyBinding>
                 it.rate.toString() != "0.0"
         }.toMutableList())
 
-    inner class RatesViewHolder(itemBinding: ItemCurrencyBinding) :
-        BaseViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
+    inner class RatesViewBindingViewHolder(itemBinding: ItemCurrencyBinding) :
+        BaseVBViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
 
         override fun bindItem(item: Currency) {
             with(itemBinding) {

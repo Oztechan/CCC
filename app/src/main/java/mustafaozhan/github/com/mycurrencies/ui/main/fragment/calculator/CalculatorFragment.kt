@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseViewBindingFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -35,7 +35,7 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class CalculatorFragment : BaseViewBindingFragment<FragmentCalculatorBinding>() {
+class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     companion object {
         fun newInstance(): CalculatorFragment = CalculatorFragment()

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseViewBindingFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.logmob.logError
 import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.rxkotlin.addTo
@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseViewBindingFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
