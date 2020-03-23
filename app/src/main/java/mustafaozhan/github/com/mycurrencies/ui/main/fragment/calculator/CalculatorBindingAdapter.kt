@@ -3,6 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mustafaozhan.scopemob.castTo
 import com.wang.avi.AVLoadingIndicatorView
@@ -79,10 +80,11 @@ fun calculatorViewState(
                 refreshList(mutableListOf())
             }
             CalculatorViewState.FewCurrency -> {
-                showSnacky(recyclerView, R.string.choose_at_least_two_currency, R.string.select)
-//                { todo
-//                    replaceFragment(SettingsFragment.newInstance(), true)
-//                }
+                showSnacky(recyclerView, R.string.choose_at_least_two_currency, R.string.select) {
+                    recyclerView.findNavController().navigate(
+                        CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
+                    )
+                }
                 refreshList(mutableListOf())
             }
             CalculatorViewState.Empty -> refreshList(mutableListOf())
