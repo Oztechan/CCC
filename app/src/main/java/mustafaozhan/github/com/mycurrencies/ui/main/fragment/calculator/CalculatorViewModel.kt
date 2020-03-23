@@ -54,7 +54,6 @@ class CalculatorViewModel(
 
     init {
         initData()
-
         inputLiveData.value = ""
     }
 
@@ -215,6 +214,12 @@ class CalculatorViewModel(
     fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
 
     fun addText(text: String) {
-        inputLiveData.postValue(inputLiveData.value.toString() + text)
+        inputLiveData.postValue(if (text.isEmpty()) "" else inputLiveData.value.toString() + text)
     }
+
+    fun deletePressed() = inputLiveData.value
+        ?.whetherNot { isEmpty() }
+        ?.apply {
+            inputLiveData.postValue(substring(0, length - 1))
+        }
 }

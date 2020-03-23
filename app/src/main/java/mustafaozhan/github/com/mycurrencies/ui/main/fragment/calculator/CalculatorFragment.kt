@@ -123,36 +123,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        layoutKeyboard.btnSeven.setOnClickListener { calculatorViewModel.addText("7") }
-        layoutKeyboard.btnEight.setOnClickListener { calculatorViewModel.addText("8") }
-        layoutKeyboard.btnNine.setOnClickListener { calculatorViewModel.addText("9") }
-        layoutKeyboard.btnDivide.setOnClickListener { calculatorViewModel.addText("/") }
-        layoutKeyboard.btnFour.setOnClickListener { calculatorViewModel.addText("4") }
-        layoutKeyboard.btnFive.setOnClickListener { calculatorViewModel.addText("5") }
-        layoutKeyboard.btnSix.setOnClickListener { calculatorViewModel.addText("6") }
-        layoutKeyboard.btnMultiply.setOnClickListener { calculatorViewModel.addText("*") }
-        layoutKeyboard.btnOne.setOnClickListener { calculatorViewModel.addText("1") }
-        layoutKeyboard.btnTwo.setOnClickListener { calculatorViewModel.addText("2") }
-        layoutKeyboard.btnThree.setOnClickListener { calculatorViewModel.addText("3") }
-        layoutKeyboard.btnMinus.setOnClickListener { calculatorViewModel.addText("-") }
-        layoutKeyboard.btnDot.setOnClickListener { calculatorViewModel.addText(".") }
-        layoutKeyboard.btnZero.setOnClickListener { calculatorViewModel.addText("0") }
-        layoutKeyboard.btnPercent.setOnClickListener { calculatorViewModel.addText("%") }
-        layoutKeyboard.btnPlus.setOnClickListener { calculatorViewModel.addText("+") }
-        layoutKeyboard.btnTripleZero.setOnClickListener { calculatorViewModel.addText("000") }
-        layoutKeyboard.btnZero.setOnClickListener { calculatorViewModel.addText("0") }
-        layoutKeyboard.btnAc.setOnClickListener {
-            calculatorViewModel.inputLiveData.postValue("")
-            layoutBar.txtOutput.text = ""
-            layoutBar.txtSymbol.text = ""
-        }
-        layoutKeyboard.btnDelete.setOnClickListener {
-            calculatorViewModel.inputLiveData.value
-                ?.whetherNot { isEmpty() }
-                ?.apply {
-                    calculatorViewModel.inputLiveData.postValue(substring(0, length - 1))
-                }
-        }
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
         layoutBar.layoutBar.setOnClickListener {
             with(layoutBar.spinnerBase) {

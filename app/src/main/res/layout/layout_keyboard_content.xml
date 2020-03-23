@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
+    </data>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,6 +23,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/seven)}"
                 android:text="@string/seven" />
 
             <Button
@@ -23,6 +31,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/eight)}"
                 android:text="@string/eight" />
 
             <Button
@@ -30,6 +39,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/nine)}"
                 android:text="@string/nine" />
 
             <Button
@@ -37,6 +47,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/multiply)}"
                 android:text="@string/multiply" />
 
 
@@ -53,6 +64,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/four)}"
                 android:text="@string/four" />
 
             <Button
@@ -60,6 +72,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/five)}"
                 android:text="@string/five" />
 
             <Button
@@ -67,6 +80,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/six)}"
                 android:text="@string/six" />
 
             <Button
@@ -74,6 +88,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/divide)}"
                 android:text="@string/divide" />
         </TableRow>
 
@@ -88,6 +103,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/one)}"
                 android:text="@string/one" />
 
             <Button
@@ -95,6 +111,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/two)}"
                 android:text="@string/two" />
 
             <Button
@@ -102,6 +119,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/three)}"
                 android:text="@string/three" />
 
             <Button
@@ -109,6 +127,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/minus)}"
                 android:text="@string/minus" />
 
         </TableRow>
@@ -124,6 +143,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/dot)}"
                 android:text="@string/dot" />
 
             <Button
@@ -131,6 +151,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/zero)}"
                 android:text="@string/zero" />
 
             <Button
@@ -138,6 +159,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/percent)}"
                 android:text="@string/percent" />
 
             <Button
@@ -145,6 +167,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/plus)}"
                 android:text="@string/plus" />
         </TableRow>
 
@@ -159,6 +182,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(@string/triple_zero)}"
                 android:text="@string/triple_zero" />
 
             <Button
@@ -166,6 +190,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.addText(``)}"
                 android:text="@string/ac" />
 
             <Button
@@ -173,6 +198,7 @@
                 style="@style/KeyboardTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="@{() -> viewModel.deletePressed()}"
                 android:text="@string/delete" />
         </TableRow>
 

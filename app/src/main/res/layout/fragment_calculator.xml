@@ -98,7 +98,8 @@
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:viewModel="@{viewModel}" />
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ad_view"
