@@ -31,9 +31,9 @@ fun Context.getImageResourceByName(name: String): Int =
         R.drawable.transparent
     }
 
-fun AdView.checkAd(id: Int, isExpired: Boolean) =
+fun AdView.checkAd(id: String, isExpired: Boolean) =
     if (isExpired) {
-        MobileAds.initialize(context, resources.getString(id))
+        MobileAds.initialize(context, id)
         val adRequest = AdRequest.Builder().build()
         loadAd(adRequest)
     } else {

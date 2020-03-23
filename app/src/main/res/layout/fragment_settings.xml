@@ -118,7 +118,9 @@
             ads:adUnitId="@string/banner_ad_unit_id_settings"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent" />
+            ads:layout_constraintStart_toStartOf="parent"
+            app:adId="@{@string/banner_ad_unit_id_settings}"
+            app:isEnabled="@{viewModel.isRewardExpired}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import javax.inject.Inject
 
@@ -45,7 +43,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
-        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 
     private fun setListeners() {

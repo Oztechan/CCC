@@ -11,7 +11,6 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
@@ -56,8 +55,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initLiveData() {
         calculatorViewModel.currencyListLiveData.reObserve(viewLifecycleOwner, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
-            calculatorAdapter.refreshList(currencyList, calculatorViewModel.mainData.currentBase)
-            binding.loadingView.smoothToHide()
         })
 
         calculatorViewModel.outputLiveData.reObserve(viewLifecycleOwner, Observer { output ->
@@ -88,7 +85,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adView.checkAd(R.string.banner_ad_unit_id_main, calculatorViewModel.isRewardExpired)
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
 

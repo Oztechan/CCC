@@ -10,6 +10,7 @@ import com.wang.avi.AVLoadingIndicatorView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.visible
+import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 
@@ -40,22 +41,23 @@ fun calculatorViewState(
     else -> Unit
 }
 
-@BindingAdapter("calculatorViewState")
+@BindingAdapter("calculatorViewState", "currencyList", requireAll = false)
 fun calculatorViewState(
     recyclerView: RecyclerView,
-    calculatorViewState: CalculatorViewState
+    calculatorViewState: CalculatorViewState?,
+    currencyList: MutableList<Currency>?
 ) = recyclerView.adapter
     ?.castTo<CalculatorAdapter>()
     ?.apply {
         when (calculatorViewState) {
             is CalculatorViewState.Success ->
                 refreshList(
-                    calculatorViewState.currencyList,
+                    currencyList,
                     calculatorViewState.baseCurrency
                 )
             is CalculatorViewState.OfflineSuccess -> {
                 refreshList(
-                    calculatorViewState.currencyList,
+                    currencyList,
                     calculatorViewState.baseCurrency
                 )
                 calculatorViewState.rates.date?.let {
