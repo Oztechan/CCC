@@ -57,7 +57,8 @@ class CalculatorViewModel(
 
     init {
         initData()
-        inputLiveData.postValue("")
+        inputLiveData.value = ""
+        outputLiveData.value = ""
         inputMediatorLiveData.addSource(inputLiveData) { input ->
             if (input.isEmpty()) {
                 calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)

@@ -8,12 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
@@ -54,22 +52,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initLiveData() {
         calculatorViewModel.currencyListLiveData.reObserve(viewLifecycleOwner, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
-        })
-
-        calculatorViewModel.outputLiveData.reObserve(viewLifecycleOwner, Observer { output ->
-            with(binding.layoutBar) {
-                txtSymbol.text = calculatorViewModel.getCurrencyByName(
-                    calculatorViewModel.mainData.currentBase.toString()
-                )?.symbol
-
-                output.toString()
-                    .whetherNot { isEmpty() }
-                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
-                    ?: run {
-                        txtOutput.text = ""
-                        txtSymbol.text = ""
-                    }
-            }
         })
     }
 

@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
@@ -9,6 +10,7 @@ import com.github.mustafaozhan.scopemob.castTo
 import com.wang.avi.AVLoadingIndicatorView
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.extension.gone
+import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
@@ -92,3 +94,9 @@ fun calculatorViewState(
             CalculatorViewState.Empty -> refreshList(mutableListOf())
         }
     }
+
+@BindingAdapter("setBackgroundByName")
+fun setBackgroundByName(
+    imageView: ImageView,
+    base: String
+) = imageView.setBackgroundByName(base)

@@ -1,5 +1,7 @@
 package mustafaozhan.github.com.mycurrencies.ui.main
 
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
@@ -15,6 +17,17 @@ abstract class MainDataViewModel(
     companion object {
         const val NUMBER_OF_HOURS = 24
         const val MINIMUM_ACTIVE_CURRENCY = 2
+    }
+
+    private val currentBaseMediatorLiveData = MediatorLiveData<String>()
+    val currentBaseLiveData: MutableLiveData<String> = currentBaseMediatorLiveData
+
+    init {
+        currentBaseLiveData.value = mainData.currentBase.toString()
+
+        currentBaseMediatorLiveData.addSource(currentBaseLiveData) {
+            setCurrentBase(it)
+        }
     }
 
     internal val mainData: MainData

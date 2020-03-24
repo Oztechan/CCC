@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="mustafaozhan.github.com.mycurrencies.extension.ViewExtensionKt" />
+
+        <import type="mustafaozhan.github.com.mycurrencies.extension.TypeExtensionKt" />
+
+        <variable
+            name="viewModel"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/layout_bar"
         android:layout_width="match_parent"
@@ -17,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/transparent"
+            app:setBackgroundByName="@{viewModel.currentBaseLiveData}"
             tools:ignore="ContentDescription" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
@@ -41,6 +52,7 @@
             android:layout_marginTop="@dimen/margin_eight"
             android:layout_marginBottom="@dimen/margin_eight"
             android:maxLines="1"
+            android:text="@{viewModel.outputLiveData != ``  ? `= `+ TypeExtensionKt.replaceNonStandardDigits(viewModel.outputLiveData)+` ` : ``}"
             android:textAppearance="@style/BaseTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/spinner_base"
@@ -53,6 +65,7 @@
             android:layout_marginTop="@dimen/margin_eight"
             android:layout_marginBottom="@dimen/margin_eight"
             android:maxLines="1"
+            android:text="@{viewModel.getCurrencyByName(viewModel.currentBaseLiveData).symbol ?? ``}"
             android:textAppearance="@style/BaseTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
