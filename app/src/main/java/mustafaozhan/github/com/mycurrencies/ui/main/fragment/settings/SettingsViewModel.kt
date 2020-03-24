@@ -19,16 +19,16 @@ class SettingsViewModel(
     private val currencyDao: CurrencyDao
 ) : MainDataViewModel(preferencesRepository) {
 
-    private val _searchQuery = MediatorLiveData<String>()
+    private val searchQueryMediatorLiveData = MediatorLiveData<String>()
     private val currencyList: MutableList<Currency> = mutableListOf()
 
-    val searchQuery: MutableLiveData<String> = _searchQuery
+    val searchQueryLiveData: MutableLiveData<String> = searchQueryMediatorLiveData
     val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData(SettingsViewState.NoResult)
 
     init {
         initData()
 
-        _searchQuery.addSource(searchQuery) {
+        searchQueryMediatorLiveData.addSource(searchQueryLiveData) {
             filterList(it)
         }
         filterList("")

@@ -12,7 +12,6 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
-import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
@@ -70,16 +69,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                         txtOutput.text = ""
                         txtSymbol.text = ""
                     }
-            }
-        })
-
-        calculatorViewModel.inputLiveData.reObserve(viewLifecycleOwner, Observer { input ->
-            if (input.isEmpty()) {
-                calculatorViewModel.postEmptyState()
-                calculatorViewModel.outputLiveData.postValue("")
-            } else {
-                calculatorViewModel.calculateOutput(input)
-                binding.txtEmpty.gone()
             }
         })
     }

@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.logmob.logWarning
@@ -46,15 +47,23 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
     }
 
+    private val inputMediatorLiveData = MediatorLiveData<String>()
+
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
-    val inputLiveData: MutableLiveData<String> = MutableLiveData("")
+    val inputLiveData: MutableLiveData<String> = inputMediatorLiveData
     var rates: Rates? = null
 
     init {
         initData()
-        inputLiveData.value = ""
+        inputLiveData.postValue("")
+        inputMediatorLiveData.addSource(inputLiveData) { input ->
+            if (input.isEmpty()) {
+                calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
+            }
+            calculateOutput(input)
+        }
     }
 
     private fun initData() {
@@ -90,12 +99,8 @@ class CalculatorViewModel(
     private fun getCurrencies() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
-            currencyListLiveData.value?.forEach { currency ->
-                currency.rate = calculateResultByCurrency(currency.name, rates)
-            }
-            calculatorViewStateLiveData.postValue(
-                CalculatorViewState.Success(getCalculatedList(rates), mainData.currentBase)
-            )
+            currencyListLiveData.postValue(getCalculatedList(rates))
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(mainData.currentBase))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -112,9 +117,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            calculatorViewStateLiveData.postValue(
-                CalculatorViewState.Success(getCalculatedList(it), mainData.currentBase)
-            )
+            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(mainData.currentBase))
             offlineRatesDao.insertOfflineRates(it)
         }
     }
@@ -125,7 +128,6 @@ class CalculatorViewModel(
         offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
             calculatorViewStateLiveData.postValue(
                 CalculatorViewState.OfflineSuccess(
-                    getCalculatedList(offlineRates),
                     mainData.currentBase,
                     offlineRates
                 ))
@@ -158,7 +160,7 @@ class CalculatorViewModel(
         )
     }
 
-    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+    private fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
         .calculate()
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
@@ -210,8 +212,6 @@ class CalculatorViewModel(
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }
-
-    fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
 
     fun addText(text: String) {
         inputLiveData.postValue(if (text.isEmpty()) "" else inputLiveData.value.toString() + text)
