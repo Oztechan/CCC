@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.findNavController
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.whether
@@ -54,7 +55,7 @@ open class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
 
-        when (navigationController.currentDestination?.id) {
+        when (findNavController(containerId).currentDestination?.id) {
             R.id.calculatorFragment -> menuInflater.inflate(R.menu.fragment_calculator_menu, menu)
             R.id.settingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
@@ -154,7 +155,7 @@ open class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (navigationController.currentDestination?.id == R.id.calculatorFragment) {
+        if (findNavController(containerId).currentDestination?.id == R.id.calculatorFragment) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
                 return
