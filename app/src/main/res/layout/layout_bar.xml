@@ -4,8 +4,6 @@
 
     <data>
 
-        <import type="mustafaozhan.github.com.mycurrencies.extension.ViewExtensionKt" />
-
         <import type="mustafaozhan.github.com.mycurrencies.extension.TypeExtensionKt" />
 
         <variable

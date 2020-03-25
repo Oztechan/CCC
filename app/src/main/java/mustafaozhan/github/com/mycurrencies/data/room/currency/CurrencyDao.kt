@@ -22,7 +22,7 @@ interface CurrencyDao {
     fun getAllCurrencies(): MutableList<Currency>
 
     @Query("SELECT * FROM currency WHERE isActive=1")
-    fun getActiveCurrenciesLiveData(): LiveData<MutableList<Currency>?>
+    fun getActiveCurrencies(): LiveData<MutableList<Currency>?>
 
     @Query("UPDATE currency set isActive=:value")
     fun updateAllCurrencyState(value: Int)

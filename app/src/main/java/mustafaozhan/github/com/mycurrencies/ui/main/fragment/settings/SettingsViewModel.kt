@@ -4,8 +4,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.scopemob.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -16,7 +15,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
  */
 class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
-    private val currencyDao: CurrencyDao
+    private val currencyRepository: CurrencyRepository
 ) : MainDataViewModel(preferencesRepository) {
 
     private val searchQueryMediatorLiveData = MediatorLiveData<String>()
@@ -31,6 +30,7 @@ class SettingsViewModel(
         searchQueryMediatorLiveData.addSource(searchQueryLiveData) {
             filterList(it)
         }
+
         filterList("")
     }
 
@@ -38,11 +38,11 @@ class SettingsViewModel(
         currencyList.clear()
 
         if (mainData.firstRun) {
-            currencyDao.insertInitialCurrencies()
+            currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
 
-        currencyDao.getAllCurrencies().removeUnUsedCurrencies()?.let {
+        currencyRepository.getAllCurrencies().removeUnUsedCurrencies()?.let {
             currencyList.addAll(it)
         }
     }
@@ -50,7 +50,7 @@ class SettingsViewModel(
     fun updateCurrencyState(value: Int, txt: String? = null) {
         txt?.let { name ->
             currencyList.find { it.name == name }?.isActive = value
-            currencyDao.updateCurrencyStateByName(name, value)
+            currencyRepository.updateCurrencyStateByName(name, value)
         } ?: updateAllCurrencyState(value)
 
         if (value == 0) verifyCurrentBase()
@@ -75,7 +75,7 @@ class SettingsViewModel(
 
     private fun updateAllCurrencyState(value: Int) {
         currencyList.forEach { it.isActive = value }
-        currencyDao.updateAllCurrencyState(value)
+        currencyRepository.updateAllCurrencyState(value)
     }
 
     private fun verifyCurrentBase() = mainData.currentBase

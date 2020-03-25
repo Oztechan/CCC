@@ -51,7 +51,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
         calculatorViewModel.currencyListLiveData.reObserve(viewLifecycleOwner, Observer { currencyList ->
-            updateBar(currencyList.map { it.name })
+            if (currencyList != null) {
+                updateBar(currencyList.map { it.name })
+            }
         })
     }
 

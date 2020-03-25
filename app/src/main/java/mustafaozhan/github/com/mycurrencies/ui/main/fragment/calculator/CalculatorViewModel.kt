@@ -13,12 +13,11 @@ import kotlinx.coroutines.runBlocking
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
-import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
+import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
-import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
@@ -39,8 +38,8 @@ import java.util.Date
 class CalculatorViewModel(
     preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : MainDataViewModel(preferencesRepository) {
 
     companion object {
@@ -48,22 +47,30 @@ class CalculatorViewModel(
     }
 
     private val inputMediatorLiveData = MediatorLiveData<String>()
+    private val currencyListMediatorLiveData = MediatorLiveData<MutableList<Currency>>()
 
-    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
+    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = currencyListMediatorLiveData
+    val inputLiveData: MutableLiveData<String> = inputMediatorLiveData
+
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
-    val inputLiveData: MutableLiveData<String> = inputMediatorLiveData
     var rates: Rates? = null
 
     init {
         initData()
-        inputLiveData.value = ""
-        outputLiveData.value = ""
+
         inputMediatorLiveData.addSource(inputLiveData) { input ->
             if (input.isEmpty()) {
                 calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
             }
             calculateOutput(input)
+        }.run {
+            inputLiveData.value = ""
+            outputLiveData.value = ""
+        }
+
+        currencyListMediatorLiveData.addSource(currencyRepository.getActiveCurrencies()) {
+            currencyListLiveData.postValue(it.removeUnUsedCurrencies())
         }
     }
 
@@ -90,11 +97,9 @@ class CalculatorViewModel(
         currencyListLiveData.value?.clear()
 
         if (mainData.firstRun) {
-            currencyDao.insertInitialCurrencies()
+            currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-
-        currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
     private fun getCurrencies() {
@@ -119,14 +124,14 @@ class CalculatorViewModel(
         rates?.date = Date().toFormattedString()
         rates?.let {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(mainData.currentBase))
-            offlineRatesDao.insertOfflineRates(it)
+            offlineRatesRepository.insertOfflineRates(it)
         }
     }
 
     private fun rateDownloadFail(t: Throwable) {
         logWarning(t, "rate download failed 1s time out")
 
-        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
+        offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
             calculatorViewStateLiveData.postValue(
                 CalculatorViewState.OfflineSuccess(
                     mainData.currentBase,
@@ -174,7 +179,7 @@ class CalculatorViewModel(
                 ?: run { getCurrencies() }
         } ?: run {
         calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput)
-        inputLiveData.postValue(input.dropLast(1))
+        this.inputLiveData.postValue(input.dropLast(1))
     }
 
     fun updateCurrentBase(currency: String?) {
@@ -186,7 +191,7 @@ class CalculatorViewModel(
     fun getClickedItemRate(name: String): String =
         "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
+    fun getCurrencyByName(name: String) = currencyRepository.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase

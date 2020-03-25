@@ -8,7 +8,7 @@ import javax.inject.Singleton
 class CurrencyRepository @Inject
 constructor(private val currencyDao: CurrencyDao) {
 
-    fun getActiveCurrenciesLiveData() = currencyDao.getActiveCurrenciesLiveData()
+    fun getActiveCurrencies() = currencyDao.getActiveCurrencies()
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
