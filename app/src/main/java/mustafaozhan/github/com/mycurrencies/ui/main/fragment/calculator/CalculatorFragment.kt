@@ -10,10 +10,12 @@ import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
+import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import javax.inject.Inject
@@ -22,7 +24,7 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
+class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>(), CalculatorItemView {
 
     companion object {
         fun newInstance(): CalculatorFragment = CalculatorFragment()
@@ -31,7 +33,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
+    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(this) }
 
     override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
         FragmentCalculatorBinding.inflate(layoutInflater, container, false)
@@ -60,23 +62,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initViews() = with(binding) {
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
-
-        calculatorAdapter.onItemClickListener = { currency, itemBinding, _: Int ->
-            calculatorViewModel.inputLiveData.postValue(itemBinding.txtAmount.text.toString().dropDecimal())
-            updateBase(currency.name)
-            calculatorViewModel.currencyListLiveData.value
-                ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
-                ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
-                ?: run { layoutBar.spinnerBase.expand() }
-        }
-        calculatorAdapter.onItemLongClickListener = { currency, _ ->
-            showSnacky(
-                view,
-                "${calculatorViewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
-                setIcon = currency.name
-            )
-            true
-        }
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
@@ -110,5 +95,24 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.updateCurrentBase(base)
         calculatorViewModel.inputLiveData.postValue(calculatorViewModel.inputLiveData.value)
         binding.layoutBar.ivBase.setBackgroundByName(base)
+    }
+
+    override fun onCalculatorItemClick(itemCurrencyBinding: ItemCurrencyBinding, currency: Currency) {
+        with(binding) {
+            calculatorViewModel.inputLiveData.postValue(itemCurrencyBinding.txtAmount.text.toString().dropDecimal())
+            updateBase(currency.name)
+            calculatorViewModel.currencyListLiveData.value
+                ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
+                ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
+                ?: run { layoutBar.spinnerBase.expand() }
+        }
+    }
+
+    override fun onCalculatorItemLongClick(itemCurrencyBinding: ItemCurrencyBinding, currency: Currency) {
+        showSnacky(
+            view,
+            "${calculatorViewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
+            setIcon = currency.name
+        )
     }
 }

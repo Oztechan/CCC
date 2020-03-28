@@ -53,12 +53,12 @@ fun calculatorViewState(
     ?.apply {
         when (calculatorViewState) {
             is CalculatorViewState.Success ->
-                refreshList(
+                submitList(
                     currencyList,
                     calculatorViewState.baseCurrency
                 )
             is CalculatorViewState.OfflineSuccess -> {
-                refreshList(
+                submitList(
                     currencyList,
                     calculatorViewState.baseCurrency
                 )
@@ -81,7 +81,7 @@ fun calculatorViewState(
                     )
 //                    { binding.layoutBar.spinnerBase.expand() } todo
                 }
-                refreshList(mutableListOf())
+                submitList(mutableListOf())
             }
             CalculatorViewState.FewCurrency -> {
                 showSnacky(recyclerView, R.string.choose_at_least_two_currency, R.string.select) {
@@ -89,9 +89,9 @@ fun calculatorViewState(
                         CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                     )
                 }
-                refreshList(mutableListOf())
+                submitList(mutableListOf())
             }
-            CalculatorViewState.Empty -> refreshList(mutableListOf())
+            CalculatorViewState.Empty -> submitList(mutableListOf())
         }
     }
 

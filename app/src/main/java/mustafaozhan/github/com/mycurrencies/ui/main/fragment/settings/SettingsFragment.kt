@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsItemView {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
@@ -21,7 +22,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
+    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(this) }
 
     override fun bind(container: ViewGroup?): FragmentSettingsBinding =
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
@@ -57,19 +58,19 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 settingsViewModel.setCurrentBase(null)
             }
         }
+    }
 
-        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
-            when (currency.isActive) {
-                0 -> {
-                    currency.isActive = 1
-                    settingsViewModel.updateCurrencyState(1, currency.name)
-                    itemBinding.checkBox.isChecked = true
-                }
-                1 -> {
-                    currency.isActive = 0
-                    settingsViewModel.updateCurrencyState(0, currency.name)
-                    itemBinding.checkBox.isChecked = false
-                }
+    override fun onSettingsItemClick(itemSettingBinding: ItemSettingBinding, currency: Currency) {
+        when (currency.isActive) {
+            0 -> {
+                currency.isActive = 1
+                settingsViewModel.updateCurrencyState(1, currency.name)
+                itemSettingBinding.checkBox.isChecked = true
+            }
+            1 -> {
+                currency.isActive = 0
+                settingsViewModel.updateCurrencyState(0, currency.name)
+                itemSettingBinding.checkBox.isChecked = false
             }
         }
     }

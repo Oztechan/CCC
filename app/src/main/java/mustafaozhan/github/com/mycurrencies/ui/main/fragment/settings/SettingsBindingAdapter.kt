@@ -27,8 +27,8 @@ fun settingsViewState(
     ?.castTo<SettingsAdapter>()
     ?.apply {
         when (settingsViewState) {
-            SettingsViewState.NoResult -> refreshList(mutableListOf())
-            is SettingsViewState.Success -> refreshList(settingsViewState.currencyList)
+            SettingsViewState.NoResult -> submitList(mutableListOf())
+            is SettingsViewState.Success -> submitList(settingsViewState.currencyList)
         }
     }
 

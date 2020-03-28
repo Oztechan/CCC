@@ -3,8 +3,9 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import com.github.mustafaozhan.basemob.recyclerview.adapter.BaseVBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.recyclerview.viewholder.BaseVBViewHolder
+import androidx.recyclerview.widget.DiffUtil
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.viewholder.BaseVBViewHolder
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
@@ -13,7 +14,12 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
-class SettingsAdapter : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>() {
+class SettingsAdapter(
+    val settingsItemPresenter: SettingsItemView
+) : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(
+    settingsItemPresenter,
+    SettingsDiffer()
+) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -48,7 +54,13 @@ class SettingsAdapter : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(
                 checkBox.isChecked = item.isActive == 1
                 imgIcon.setBackgroundByName(item.name)
             }
-            itemView.setOnClickListener { onItemClickListener(item, itemBinding, adapterPosition) }
+            itemView.setOnClickListener { settingsItemPresenter.onSettingsItemClick(itemBinding, item) }
         }
+    }
+
+    class SettingsDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
     }
 }

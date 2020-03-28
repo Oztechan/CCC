@@ -2,8 +2,9 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.recyclerview.adapter.BaseVBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.recyclerview.viewholder.BaseVBViewHolder
+import androidx.recyclerview.widget.DiffUtil
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.viewholder.BaseVBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
@@ -14,7 +15,11 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>() {
+class CalculatorAdapter(
+    val calculatorItemPresenter: CalculatorItemView
+) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(
+    calculatorItemPresenter, CalculatorDiffer()
+) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,13 +29,14 @@ class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBindin
         false)
     )
 
-    fun refreshList(list: MutableList<Currency>?, currentBase: Currencies) =
-        refreshList(list?.filter {
+    fun submitList(list: MutableList<Currency>?, currentBase: Currencies) = submitList(
+        list?.filter {
             it.name != currentBase.toString() &&
                 it.isActive == 1 &&
                 it.rate.toString() != "NaN" &&
                 it.rate.toString() != "0.0"
-        }?.toMutableList() ?: mutableListOf())
+        } ?: mutableListOf()
+    )
 
     inner class RatesViewBindingViewHolder(itemBinding: ItemCurrencyBinding) :
         BaseVBViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
@@ -42,8 +48,17 @@ class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBindin
                 txtAmount.text = item.rate.getFormatted().replaceNonStandardDigits()
                 imgItem.setBackgroundByName(item.name)
             }
-            itemView.setOnClickListener { onItemClickListener(item, itemBinding, adapterPosition) }
-            itemView.setOnLongClickListener { onItemLongClickListener(item, itemBinding) }
+            itemView.setOnClickListener { calculatorItemPresenter.onCalculatorItemClick(itemBinding, item) }
+            itemView.setOnLongClickListener {
+                calculatorItemPresenter.onCalculatorItemLongClick(itemBinding, item)
+                false
+            }
         }
+    }
+
+    class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }
