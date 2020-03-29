@@ -15,9 +15,8 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  * Created by Mustafa Ozhan on 2018-07-18.
  */
 class SettingsAdapter(
-    val settingsItemPresenter: SettingsItemView
+    val settingsItemAction: SettingsItemAction
 ) : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(
-    settingsItemPresenter,
     SettingsDiffer()
 ) {
 
@@ -54,7 +53,7 @@ class SettingsAdapter(
                 checkBox.isChecked = item.isActive == 1
                 imgIcon.setBackgroundByName(item.name)
             }
-            itemView.setOnClickListener { settingsItemPresenter.onSettingsItemClick(itemBinding, item) }
+            itemView.setOnClickListener { settingsItemAction.onSettingsItemClick(itemBinding, item) }
         }
     }
 

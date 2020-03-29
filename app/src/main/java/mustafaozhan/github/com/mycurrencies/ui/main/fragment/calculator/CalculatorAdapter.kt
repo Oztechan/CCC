@@ -16,10 +16,11 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter(
-    val calculatorItemPresenter: CalculatorItemView
+    val calculatorItemAction: CalculatorItemAction
 ) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(
-    calculatorItemPresenter, CalculatorDiffer()
+    CalculatorDiffer()
 ) {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -48,9 +49,13 @@ class CalculatorAdapter(
                 txtAmount.text = item.rate.getFormatted().replaceNonStandardDigits()
                 imgItem.setBackgroundByName(item.name)
             }
-            itemView.setOnClickListener { calculatorItemPresenter.onCalculatorItemClick(itemBinding, item) }
+
+            itemView.setOnClickListener {
+                calculatorItemAction.switchBase(itemBinding.txtAmount.text.toString(), item)
+            }
+
             itemView.setOnLongClickListener {
-                calculatorItemPresenter.onCalculatorItemLongClick(itemBinding, item)
+                calculatorItemAction.showCurrencyComparison(item)
                 false
             }
         }

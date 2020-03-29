@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
-        app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
         tools:viewBindingIgnore="true">
 
         <androidx.appcompat.widget.Toolbar
@@ -53,7 +52,6 @@
             style="@style/AVLoadingIndicatorView"
             android:layout_width="@dimen/loading_view_size"
             android:layout_height="@dimen/loading_view_size"
-            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
             app:indicatorColor="@color/colorAccent"
             app:indicatorName="BallPulseIndicator"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -67,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_eight"
             android:text="@string/type_for_results"
-            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
@@ -77,8 +74,6 @@
             android:layout_width="@dimen/fit"
             android:layout_height="@dimen/fit"
             android:background="@color/colorPrimary"
-            app:calculatorViewState="@{viewModel.calculatorViewStateLiveData}"
-            app:currencyList="@{viewModel.currencyListLiveData}"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
