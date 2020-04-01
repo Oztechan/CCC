@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
@@ -81,17 +80,15 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsActi
         }
     }
 
-    override fun onSettingsItemClick(itemSettingBinding: ItemSettingBinding, currency: Currency) {
+    override fun onSettingsItemClick(currency: Currency) {
         when (currency.isActive) {
             0 -> {
                 currency.isActive = 1
                 settingsViewModel.updateCurrencyState(1, currency.name)
-                itemSettingBinding.checkBox.isChecked = true
             }
             1 -> {
                 currency.isActive = 0
                 settingsViewModel.updateCurrencyState(0, currency.name)
-                itemSettingBinding.checkBox.isChecked = false
             }
         }
     }

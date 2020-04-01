@@ -47,13 +47,15 @@ class SettingsAdapter(
     inner class RatesViewBindingViewHolder(itemBinding: ItemSettingBinding) :
         BaseVBViewHolder<Currency, ItemSettingBinding>(itemBinding) {
 
-        override fun bindItem(item: Currency) {
-            with(itemBinding) {
-                txtSettingItem.text = item.getVariablesOneLine()
-                checkBox.isChecked = item.isActive == 1
-                imgIcon.setBackgroundByName(item.name)
+        override fun bindItem(item: Currency) = with(itemBinding) {
+            txtSettingItem.text = item.getVariablesOneLine()
+            checkBox.isChecked = item.isActive == 1
+            imgIcon.setBackgroundByName(item.name)
+
+            itemView.setOnClickListener {
+                settingsItemAction.onSettingsItemClick(item)
+                itemBinding.checkBox.isChecked = item.isActive == 1
             }
-            itemView.setOnClickListener { settingsItemAction.onSettingsItemClick(itemBinding, item) }
         }
     }
 
