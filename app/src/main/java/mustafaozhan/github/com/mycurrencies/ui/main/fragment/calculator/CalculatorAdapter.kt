@@ -42,7 +42,7 @@ class CalculatorAdapter(
     inner class RatesViewBindingViewHolder(itemBinding: ItemCurrencyBinding) :
         BaseVBViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
 
-        override fun bindItem(item: Currency) {
+        override fun onItemBind(item: Currency) {
             with(itemBinding) {
                 txtType.text = item.name
                 txtSymbol.text = item.symbol
