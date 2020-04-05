@@ -6,13 +6,18 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import com.jakewharton.rxbinding2.widget.textChanges
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.addText
+import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
+import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
+import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.extension.visible
@@ -46,15 +51,46 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         initViewState()
+        setRx()
         setListeners()
         initLiveData()
     }
 
+    private fun setRx() = compositeDisposable.add(binding.txtInput.textChanges()
+        .map { it.toString() }
+        .subscribe({
+            if (it.isEmpty()) {
+                calculatorViewModel.postEmptyState()
+                calculatorViewModel.outputLiveData.postValue("")
+            } else {
+                calculatorViewModel.calculateOutput(it)
+                binding.txtEmpty.gone()
+            }
+        }, { logError(it) }
+        )
+    )
+
     @SuppressLint("SetTextI18n")
     private fun initLiveData() {
-        calculatorViewModel.currencyListLiveData.reObserve(viewLifecycleOwner, Observer { currencyList ->
-            if (currencyList != null) {
-                updateBar(currencyList.map { it.name })
+        calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+            updateBar(currencyList.map { it.name })
+            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
+            binding.loadingView.smoothToHide()
+        })
+
+        calculatorViewModel.outputLiveData.reObserve(this, Observer { output ->
+            with(binding.layoutBar) {
+                txtSymbol.text = calculatorViewModel.getCurrencyByName(
+                    calculatorViewModel.mainData.currentBase.toString()
+                )?.symbol
+
+                output.toString()
+                    .whetherNot { isEmpty() }
+                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
+                    ?: run {
+                        txtOutput.text = ""
+                        txtSymbol.text = ""
+                    }
             }
         })
     }
@@ -62,8 +98,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
             when (calculatorViewState) {
-                Loading -> binding.loadingView.smoothToShow()
-                Error -> {
+                CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
+                CalculatorViewState.Error -> {
                     calculatorViewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
@@ -78,12 +114,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                Empty -> {
+                CalculatorViewState.Empty -> {
                     binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
-                FewCurrency -> {
+                CalculatorViewState.FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                         navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                     }
@@ -91,8 +127,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                is Success -> onStateSuccess(calculatorViewState.rates)
-                is OfflineSuccess -> {
+                is CalculatorViewState.Success -> onStateSuccess(calculatorViewState.rates)
+                is CalculatorViewState.OfflineSuccess -> {
                     onStateSuccess(calculatorViewState.rates)
                     calculatorViewState.rates.date?.let {
                         Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
@@ -100,9 +136,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         Toasty.showToasty(requireContext(), R.string.database_success)
                     }
                 }
-                is MaximumInput -> {
+                is CalculatorViewState.MaximumInput -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
-                    calculatorViewModel.inputLiveData.postValue(calculatorViewState.input.dropLast(1))
+                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
             }
@@ -117,6 +153,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
+        adView.checkAd(R.string.banner_ad_unit_id_main, calculatorViewModel.isRewardExpired)
+        loadingView.bringToFront()
+        txtEmpty.visible()
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
 
@@ -195,7 +234,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun updateBase(base: String) {
         calculatorViewModel.updateCurrentBase(base)
-        calculatorViewModel.inputLiveData.postValue(calculatorViewModel.inputLiveData.value)
+        binding.txtInput.text = binding.txtInput.text
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 }

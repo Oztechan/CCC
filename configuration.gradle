@@ -68,6 +68,7 @@ ext {
     loadingView = "com.wang.avi:library:$LOADING_VIEW_VERSION"
     jodaTime = "net.danlew:android.joda:$JODA_TIME_VERSION"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
+    rxKotlinBinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:$RX_ANDROID_VERSION"
     navigation = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
 
     lifeCycle = [

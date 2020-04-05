@@ -5,8 +5,11 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.logmob.logError
+import com.jakewharton.rxbinding2.widget.textChanges
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
@@ -37,19 +40,28 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
         initViewState()
+        initRx()
         setListeners()
     }
+
+    private fun initRx() = compositeDisposable.add(binding.editTextSearch
+        .textChanges()
+        .map { it.toString() }
+        .subscribe(
+            { settingsViewModel.filterList(it) },
+            { logError(it) }
+        ))
 
     private fun initViewState() = settingsViewModel.settingsViewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
-                FewCurrency -> Toasty.showToasty(requireContext(), R.string.choose_at_least_two_currency)
-                NoResult -> {
+                SettingsViewState.FewCurrency -> Toasty.showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                SettingsViewState.NoResult -> {
                     settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()
                 }
-                is Success -> settingsAdapter.submitList(settingsViewState.currencyList)
+                is SettingsViewState.Success -> settingsAdapter.submitList(settingsViewState.currencyList)
             }
         })
 
@@ -59,6 +71,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
+        editTextSearch.setText("")
+        adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 
     private fun setListeners() {

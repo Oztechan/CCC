@@ -64,6 +64,7 @@ dependencies {
             loadingView,
             jodaTime,
             rxAndroid,
+            rxKotlinBinding,
             navigation,
             retrofit.values(),
             lifeCycle.values()
