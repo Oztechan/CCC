@@ -15,11 +15,10 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class CalculatorAdapter(
-    val calculatorItemAction: CalculatorItemAction
-) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(
-    CalculatorDiffer()
-) {
+class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
+
+    lateinit var onItemClickListener: ((Currency, ItemCurrencyBinding) -> Unit)
+    lateinit var onItemLongClickListener: ((Currency, ItemCurrencyBinding) -> Boolean)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -51,12 +50,11 @@ class CalculatorAdapter(
             }
 
             itemView.setOnClickListener {
-                calculatorItemAction.switchBase(itemBinding.txtAmount.text.toString(), item)
+                onItemClickListener(item, itemBinding)
             }
 
             itemView.setOnLongClickListener {
-                calculatorItemAction.showCurrencyComparison(item)
-                false
+                onItemLongClickListener(item, itemBinding)
             }
         }
     }

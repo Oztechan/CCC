@@ -1,206 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
-    </data>
-
-    <TableLayout
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TableRow
+        <Button
+            android:id="@+id/btn_seven"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/seven" />
 
-            <Button
-                android:id="@+id/btn_seven"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/seven)}"
-                android:text="@string/seven" />
-
-            <Button
-                android:id="@+id/btn_eight"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/eight)}"
-                android:text="@string/eight" />
-
-            <Button
-                android:id="@+id/btn_nine"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/nine)}"
-                android:text="@string/nine" />
-
-            <Button
-                android:id="@+id/btn_multiply"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/multiply)}"
-                android:text="@string/multiply" />
-
-
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:id="@+id/btn_eight"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/eight" />
 
-            <Button
-                android:id="@+id/btn_four"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/four)}"
-                android:text="@string/four" />
-
-            <Button
-                android:id="@+id/btn_five"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/five)}"
-                android:text="@string/five" />
-
-            <Button
-                android:id="@+id/btn_six"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/six)}"
-                android:text="@string/six" />
-
-            <Button
-                android:id="@+id/btn_divide"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/divide)}"
-                android:text="@string/divide" />
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:id="@+id/btn_nine"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/nine" />
 
-            <Button
-                android:id="@+id/btn_one"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/one)}"
-                android:text="@string/one" />
-
-            <Button
-                android:id="@+id/btn_two"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/two)}"
-                android:text="@string/two" />
-
-            <Button
-                android:id="@+id/btn_three"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/three)}"
-                android:text="@string/three" />
-
-            <Button
-                android:id="@+id/btn_minus"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/minus)}"
-                android:text="@string/minus" />
-
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:id="@+id/btn_multiply"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/multiply" />
 
-            <Button
-                android:id="@+id/btn_dot"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/dot)}"
-                android:text="@string/dot" />
 
-            <Button
-                android:id="@+id/btn_zero"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/zero)}"
-                android:text="@string/zero" />
+    </TableRow>
 
-            <Button
-                android:id="@+id/btn_percent"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/percent)}"
-                android:text="@string/percent" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_plus"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/plus)}"
-                android:text="@string/plus" />
-        </TableRow>
-
-        <TableRow
+        <Button
+            android:id="@+id/btn_four"
+            style="@style/KeyboardTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="@string/four" />
 
-            <Button
-                android:id="@+id/btn_triple_zero"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(@string/triple_zero)}"
-                android:text="@string/triple_zero" />
+        <Button
+            android:id="@+id/btn_five"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/five" />
 
-            <Button
-                android:id="@+id/btn_ac"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.addText(``)}"
-                android:text="@string/ac" />
+        <Button
+            android:id="@+id/btn_six"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/six" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                style="@style/KeyboardTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="@{() -> viewModel.deletePressed()}"
-                android:text="@string/delete" />
-        </TableRow>
+        <Button
+            android:id="@+id/btn_divide"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/divide" />
+    </TableRow>
 
-    </TableLayout>
-</layout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_one"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/one" />
+
+        <Button
+            android:id="@+id/btn_two"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/two" />
+
+        <Button
+            android:id="@+id/btn_three"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/three" />
+
+        <Button
+            android:id="@+id/btn_minus"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/minus" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_dot"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/dot" />
+
+        <Button
+            android:id="@+id/btn_zero"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/zero" />
+
+        <Button
+            android:id="@+id/btn_percent"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/percent" />
+
+        <Button
+            android:id="@+id/btn_plus"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/plus" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_triple_zero"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/triple_zero" />
+
+        <Button
+            android:id="@+id/btn_ac"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/ac" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/KeyboardTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/delete" />
+    </TableRow>
+
+</TableLayout>

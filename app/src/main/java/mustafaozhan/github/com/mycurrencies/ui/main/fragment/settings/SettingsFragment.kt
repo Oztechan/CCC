@@ -2,10 +2,9 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.gone
@@ -18,7 +17,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsAction, SettingsItemAction {
+class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     companion object {
         fun newInstance(): SettingsFragment = SettingsFragment()
@@ -27,13 +26,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsActi
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(this) }
+    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
-    override fun bind(container: ViewGroup?): FragmentSettingsBinding =
-        FragmentSettingsBinding.inflate(layoutInflater, container, false)
-
-    override fun onBinding(dataBinding: FragmentSettingsBinding) {
-        binding.viewModel = settingsViewModel
+    override fun bind() {
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,13 +44,12 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsActi
         .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
-                SettingsViewState.FewCurrency ->
-                    Toasty.showToasty(requireContext(), R.string.choose_at_least_two_currency)
-                SettingsViewState.NoResult -> {
+                FewCurrency -> Toasty.showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                NoResult -> {
                     settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()
                 }
-                is SettingsViewState.Success -> settingsAdapter.submitList(settingsViewState.currencyList)
+                is Success -> settingsAdapter.submitList(settingsViewState.currencyList)
             }
         })
 
@@ -78,17 +73,18 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SettingsActi
                 settingsViewModel.setCurrentBase(null)
             }
         }
-    }
-
-    override fun onSettingsItemClick(currency: Currency) {
-        when (currency.isActive) {
-            0 -> {
-                currency.isActive = 1
-                settingsViewModel.updateCurrencyState(1, currency.name)
-            }
-            1 -> {
-                currency.isActive = 0
-                settingsViewModel.updateCurrencyState(0, currency.name)
+        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding ->
+            when (currency.isActive) {
+                0 -> {
+                    currency.isActive = 1
+                    settingsViewModel.updateCurrencyState(1, currency.name)
+                    itemBinding.checkBox.isChecked = true
+                }
+                1 -> {
+                    currency.isActive = 0
+                    settingsViewModel.updateCurrencyState(0, currency.name)
+                    itemBinding.checkBox.isChecked = false
+                }
             }
         }
     }

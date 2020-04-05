@@ -52,7 +52,7 @@ class CalculatorViewModel(
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = currencyListMediatorLiveData
     val inputLiveData: MutableLiveData<String> = inputMediatorLiveData
 
-    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
+    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
@@ -61,7 +61,7 @@ class CalculatorViewModel(
 
         inputMediatorLiveData.addSource(inputLiveData) { input ->
             if (input.isEmpty()) {
-                calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
+                calculatorViewStateLiveData.postValue(Empty)
             }
             calculateOutput(input)
         }.run {
@@ -92,7 +92,7 @@ class CalculatorViewModel(
     }
 
     private fun refreshData() {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
+        calculatorViewStateLiveData.postValue(Loading)
         rates = null
         currencyListLiveData.value?.clear()
 
@@ -103,10 +103,10 @@ class CalculatorViewModel(
     }
 
     private fun getCurrencies() {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
+        calculatorViewStateLiveData.postValue(Loading)
         rates?.let { rates ->
             currencyListLiveData.postValue(getCalculatedList(rates))
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
+            calculatorViewStateLiveData.postValue(Success(rates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -123,7 +123,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
+            calculatorViewStateLiveData.postValue(Success(it))
             offlineRatesRepository.insertOfflineRates(it)
         }
     }
@@ -132,8 +132,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(
-                CalculatorViewState.OfflineSuccess(offlineRates))
+            calculatorViewStateLiveData.postValue(OfflineSuccess(offlineRates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -158,7 +157,7 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
+        calculatorViewStateLiveData.postValue(Error)
     }
 
     private fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
@@ -170,10 +169,10 @@ class CalculatorViewModel(
             currencyListLiveData.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                ?.let { calculatorViewStateLiveData.postValue(FewCurrency) }
                 ?: run { getCurrencies() }
         } ?: run {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(inputLiveData.value.toString()))
+        calculatorViewStateLiveData.postValue(MaximumInput(inputLiveData.value.toString()))
         this.inputLiveData.postValue(input.dropLast(1))
     }
 
@@ -213,14 +212,4 @@ class CalculatorViewModel(
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }
-
-    fun addText(text: String) {
-        inputLiveData.postValue(if (text.isEmpty()) "" else inputLiveData.value.toString() + text)
-    }
-
-    fun deletePressed() = inputLiveData.value
-        ?.whetherNot { isEmpty() }
-        ?.apply {
-            inputLiveData.postValue(substring(0, length - 1))
-        }
 }

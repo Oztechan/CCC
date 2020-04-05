@@ -1,115 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_fragment_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@color/colorPrimaryDark"
-        tools:viewBindingIgnore="true">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_fragment_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:background="@color/colorPrimaryDark"
-            android:fitsSystemWindows="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/txt_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="3"
-                android:text="@={viewModel.inputLiveData}"
-                android:textAppearance="@style/BaseTextStyle" />
-        </androidx.appcompat.widget.Toolbar>
-
-        <include
-            android:id="@+id/layout_bar"
-            layout="@layout/layout_bar"
-            android:layout_width="@dimen/fit"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main"
-            app:viewModel="@{viewModel}" />
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/loading_view"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="@dimen/loading_view_size"
-            android:layout_height="@dimen/loading_view_size"
-            app:indicatorColor="@color/colorAccent"
-            app:indicatorName="BallPulseIndicator"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txt_empty"
-            style="@style/ItemTextStyle"
-            android:layout_width="wrap_content"
+            android:id="@+id/txt_input"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_eight"
-            android:text="@string/type_for_results"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+            android:gravity="center"
+            android:maxLines="3"
+            android:textAppearance="@style/BaseTextStyle" />
+    </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_main"
-            android:layout_width="@dimen/fit"
-            android:layout_height="@dimen/fit"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/layout_bar"
+        android:layout_width="@dimen/fit"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_view"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="@dimen/loading_view_size"
+        android:layout_height="@dimen/loading_view_size"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorName="BallPulseIndicator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
 
-        <include
-            android:id="@+id/layout_keyboard"
-            layout="@layout/layout_keyboard_content"
-            android:layout_width="@dimen/fit"
-            android:layout_height="@dimen/fit"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
-            app:viewModel="@{viewModel}" />
+    <TextView
+        android:id="@+id/txt_empty"
+        style="@style/ItemTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_eight"
+        android:text="@string/type_for_results"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
 
-        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ad_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimaryDark"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id_main"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            app:adId="@{@string/banner_ad_unit_id_main}"
-            app:isEnabled="@{viewModel.isRewardExpired}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_main"
+        android:layout_width="@dimen/fit"
+        android:layout_height="@dimen/fit"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <include
+        android:id="@+id/layout_keyboard"
+        layout="@layout/layout_keyboard_content"
+        android:layout_width="@dimen/fit"
+        android:layout_height="@dimen/fit"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ad_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryDark"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id_main"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

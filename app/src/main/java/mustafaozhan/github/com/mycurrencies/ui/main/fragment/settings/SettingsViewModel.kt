@@ -22,7 +22,7 @@ class SettingsViewModel(
     private val currencyList: MutableList<Currency> = mutableListOf()
 
     val searchQueryLiveData: MutableLiveData<String> = searchQueryMediatorLiveData
-    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData(SettingsViewState.NoResult)
+    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData(NoResult)
 
     init {
         initData()
@@ -56,7 +56,7 @@ class SettingsViewModel(
         if (value == 0) verifyCurrentBase()
 
         if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-            settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
+            settingsViewStateLiveData.postValue(FewCurrency)
         }
     }
 
@@ -69,7 +69,7 @@ class SettingsViewModel(
         .toMutableList()
         .let {
             settingsViewStateLiveData.postValue(
-                if (it.isEmpty()) SettingsViewState.NoResult else SettingsViewState.Success(it)
+                if (it.isEmpty()) NoResult else Success(it)
             )
         }
 
