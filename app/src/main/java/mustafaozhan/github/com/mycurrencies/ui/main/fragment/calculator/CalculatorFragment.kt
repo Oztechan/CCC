@@ -56,18 +56,21 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         initLiveData()
     }
 
-    private fun setRx() = compositeDisposable.add(binding.txtInput.textChanges()
-        .map { it.toString() }
-        .subscribe({
-            if (it.isEmpty()) {
-                calculatorViewModel.postEmptyState()
-                calculatorViewModel.outputLiveData.postValue("")
-            } else {
-                calculatorViewModel.calculateOutput(it)
-                binding.txtEmpty.gone()
-            }
-        }, { logError(it) }
-        )
+    private fun setRx() = compositeDisposable.add(
+        binding.txtInput.textChanges()
+            .map { it.toString() }
+            .subscribe(
+                {
+                    if (it.isEmpty()) {
+                        calculatorViewModel.postEmptyState()
+                        calculatorViewModel.outputLiveData.postValue("")
+                    } else {
+                        calculatorViewModel.calculateOutput(it)
+                        binding.txtEmpty.gone()
+                    }
+                },
+                { logError(it) }
+            )
     )
 
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData

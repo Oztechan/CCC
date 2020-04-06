@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.logmob.logWarning
@@ -46,35 +45,12 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
     }
 
-    private val inputMediatorLiveData = MediatorLiveData<String>()
-    private val currencyListMediatorLiveData = MediatorLiveData<MutableList<Currency>>()
-
-    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = currencyListMediatorLiveData
-    val inputLiveData: MutableLiveData<String> = inputMediatorLiveData
-
+    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
     init {
-        initData()
-
-        inputMediatorLiveData.addSource(inputLiveData) { input ->
-            if (input.isEmpty()) {
-                calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
-            }
-            calculateOutput(input)
-        }.run {
-            inputLiveData.value = ""
-            outputLiveData.value = ""
-        }
-
-        currencyListMediatorLiveData.addSource(currencyRepository.getActiveCurrencies()) {
-            currencyListLiveData.postValue(it.removeUnUsedCurrencies())
-        }
-    }
-
-    private fun initData() {
         refreshData()
 
         if (preferencesRepository.loadResetData() && !mainData.firstRun) {
@@ -91,7 +67,7 @@ class CalculatorViewModel(
         }
     }
 
-    private fun refreshData() {
+    fun refreshData() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates = null
         currencyListLiveData.value?.clear()
@@ -100,12 +76,15 @@ class CalculatorViewModel(
             currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
+        currencyListLiveData.postValue(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
     private fun getCurrencies() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
-            currencyListLiveData.postValue(getCalculatedList(rates))
+            currencyListLiveData.value?.forEach { currency ->
+                currency.rate = calculateResultByCurrency(currency.name, rates)
+            }
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
         } ?: run {
             viewModelScope.launch {
@@ -144,17 +123,6 @@ class CalculatorViewModel(
         }
     }
 
-    private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
-        var tempList = mutableListOf<Currency>()
-
-        currencyListLiveData.value?.let { currencyList ->
-            currencyList.forEach { it.rate = calculateResultByCurrency(it.name, rates) }
-            tempList = currencyList
-        }
-
-        return tempList
-    }
-
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
         calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
@@ -171,10 +139,7 @@ class CalculatorViewModel(
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
                 ?: run { getCurrencies() }
-        } ?: run {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(inputLiveData.value.toString()))
-        this.inputLiveData.postValue(input.dropLast(1))
-    }
+        } ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null

@@ -44,14 +44,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         setListeners()
     }
 
-    private fun initRx() = compositeDisposable.add(binding.editTextSearch
-        .textChanges()
-        .map { it.toString() }
-        .subscribe(
-            { settingsViewModel.filterList(it) },
-            { logError(it) }
-        ))
-
     private fun initViewState() = settingsViewModel.settingsViewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
@@ -64,6 +56,16 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 is SettingsViewState.Success -> settingsAdapter.submitList(settingsViewState.currencyList)
             }
         })
+
+    private fun initRx() = compositeDisposable.add(
+        binding.editTextSearch
+            .textChanges()
+            .map { it.toString() }
+            .subscribe(
+                { settingsViewModel.filterList(it) },
+                { logError(it) }
+            )
+    )
 
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {

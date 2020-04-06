@@ -1,6 +1,5 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.scopemob.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -18,23 +17,11 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : MainDataViewModel(preferencesRepository) {
 
-    private val searchQueryMediatorLiveData = MediatorLiveData<String>()
-    private val currencyList: MutableList<Currency> = mutableListOf()
-
-    val searchQueryLiveData: MutableLiveData<String> = searchQueryMediatorLiveData
     val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData(SettingsViewState.NoResult)
 
+    private val currencyList: MutableList<Currency> = mutableListOf()
+
     init {
-        initData()
-
-        searchQueryMediatorLiveData.addSource(searchQueryLiveData) {
-            filterList(it)
-        }
-
-        filterList("")
-    }
-
-    private fun initData() {
         currencyList.clear()
 
         if (mainData.firstRun) {
