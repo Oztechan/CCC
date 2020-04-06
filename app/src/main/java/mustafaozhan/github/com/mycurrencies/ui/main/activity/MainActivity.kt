@@ -16,14 +16,12 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragmentDirections
-import org.jetbrains.anko.contentView
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -162,12 +160,13 @@ open class MainActivity : BaseActivity() {
             }
 
             doubleBackToExitPressedOnce = true
-            showSnacky(contentView, R.string.click_back_again_to_exit)
+            showSnacky(this, R.string.click_back_again_to_exit)
 
-            Completable.complete()
-                .delay(BACK_DELAY, TimeUnit.SECONDS)
-                .subscribe { doubleBackToExitPressedOnce = false }
-                .addTo(compositeDisposable)
+            compositeDisposable.add(
+                Completable.complete()
+                    .delay(BACK_DELAY, TimeUnit.SECONDS)
+                    .subscribe { doubleBackToExitPressedOnce = false }
+            )
         } else {
             super.onBackPressed()
         }

@@ -1,4 +1,7 @@
-include ':app',':scopemob',':basemob', 'logmob'
+include ':app',
+        ':scopemob',
+        ':basemob',
+        'logmob'
 
 project(':basemob').projectDir = file('basemob/submob')
 project(':scopemob').projectDir = file('scopemob/submob')

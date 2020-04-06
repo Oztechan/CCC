@@ -40,7 +40,7 @@ fun TextView.addText(str: String) {
 
 fun AdView.checkAd(id: Int, isExpired: Boolean) =
     if (isExpired) {
-        MobileAds.initialize(context, resources.getString(id))
+        MobileAds.initialize(context, context.getString(id))
         val adRequest = AdRequest.Builder().build()
         loadAd(adRequest)
     } else {

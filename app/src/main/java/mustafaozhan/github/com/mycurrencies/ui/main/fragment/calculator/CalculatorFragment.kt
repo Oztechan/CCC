@@ -10,9 +10,7 @@ import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.addText
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -27,8 +25,6 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 /**
@@ -37,31 +33,26 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
-    companion object {
-        fun newInstance(): CalculatorFragment = CalculatorFragment()
-    }
-
-    override fun bind() {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
-    }
-
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
 
+    override fun bind() {
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        initData()
         initViews()
-        setListeners()
         initViewState()
         setRx()
+        setListeners()
         initLiveData()
     }
 
-    private fun setRx() {
+    private fun setRx() = compositeDisposable.add(
         binding.txtInput.textChanges()
             .map { it.toString() }
             .subscribe(
@@ -76,11 +67,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 },
                 { logError(it) }
             )
-            .addTo(compositeDisposable)
-    }
+    )
 
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
-        .reObserve(this, Observer { calculatorViewState ->
+        .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
             when (calculatorViewState) {
                 CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
                 CalculatorViewState.Error -> {
@@ -95,20 +85,20 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                             ) { binding.layoutBar.spinnerBase.expand() }
                         }
 
-                    calculatorAdapter.refreshList(mutableListOf(), calculatorViewModel.mainData.currentBase)
+                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
                 CalculatorViewState.Empty -> {
                     binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
-                    calculatorAdapter.refreshList(mutableListOf(), calculatorViewModel.mainData.currentBase)
+                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
                 CalculatorViewState.FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                         navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                     }
 
-                    calculatorAdapter.refreshList(mutableListOf(), calculatorViewModel.mainData.currentBase)
+                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
                 is CalculatorViewState.Success -> onStateSuccess(calculatorViewState.rates)
@@ -132,7 +122,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun initLiveData() {
         calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
-            calculatorAdapter.refreshList(currencyList, calculatorViewModel.mainData.currentBase)
+            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
             binding.loadingView.smoothToHide()
         })
 
@@ -156,7 +146,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun onStateSuccess(rates: Rates) {
         calculatorViewModel.currencyListLiveData.value?.let { currencyList ->
             currencyList.forEach { it.rate = calculatorViewModel.calculateResultByCurrency(it.name, rates) }
-            calculatorAdapter.refreshList(currencyList, calculatorViewModel.mainData.currentBase)
+            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
         }
         binding.loadingView.smoothToHide()
     }
@@ -168,7 +158,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
 
-        calculatorAdapter.onItemClickListener = { currency, itemBinding, _: Int ->
+        calculatorAdapter.onItemClickListener = { currency, itemBinding ->
             txtInput.text = itemBinding.txtAmount.text.toString().dropDecimal()
             updateBase(currency.name)
             calculatorViewModel.currencyListLiveData.value
@@ -245,23 +235,5 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.updateCurrentBase(base)
         binding.txtInput.text = binding.txtInput.text
         binding.layoutBar.ivBase.setBackgroundByName(base)
-    }
-
-    private fun initData() = calculatorViewModel.apply {
-        refreshData()
-
-        if (loadResetData() && !mainData.firstRun) {
-            doAsync {
-                AppDatabase.database.clearAllTables()
-                resetFirstRun()
-                uiThread {
-                    persistResetData(false)
-                    refreshData()
-                    getCurrencies()
-                }
-            }
-        } else {
-            getCurrencies()
-        }
     }
 }

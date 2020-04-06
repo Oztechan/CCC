@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.data.room.dao
+package mustafaozhan.github.com.mycurrencies.data.room.offlineRates
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -16,5 +16,5 @@ interface OfflineRatesDao {
     fun insertOfflineRates(rates: Rates)
 
     @Query("SELECT * FROM offline_rates WHERE base=:base")
-    fun getOfflineRatesOnBase(base: String): Rates?
+    fun getOfflineRatesByBase(base: String): Rates?
 }

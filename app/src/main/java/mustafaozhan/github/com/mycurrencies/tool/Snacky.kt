@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.tool
 
+import android.app.Activity
 import android.graphics.Typeface
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -47,6 +48,30 @@ fun showSnacky(
         .setDuration(if (isIndefinite) Snacky.LENGTH_INDEFINITE else Snacky.LENGTH_LONG)
         .setActionText(actionText)
         .setActionTextColor(ContextCompat.getColor(context, R.color.cyan_700))
+        .setActionTextTypefaceStyle(Typeface.BOLD)
+        .setActionClickListener { action() }
+        .build()
+        .show()
+}
+
+@Suppress("LongParameterList")
+fun showSnacky(
+    activity: Activity,
+    text: Int? = null,
+    actionText: Int? = null,
+    setIcon: String? = null,
+    isIndefinite: Boolean = false,
+    action: () -> Unit = {}
+) = activity.apply {
+    Snacky.builder()
+        .setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.blue_grey_800))
+        .setText(text?.let { applicationContext.getString(it) } ?: "")
+        .setIcon(setIcon?.let { applicationContext.getImageResourceByName(setIcon) }
+            ?: R.mipmap.ic_launcher)
+        .setActivity(this)
+        .setDuration(if (isIndefinite) Snacky.LENGTH_INDEFINITE else Snacky.LENGTH_LONG)
+        .setActionText(actionText?.let { applicationContext.getString(it) } ?: "")
+        .setActionTextColor(ContextCompat.getColor(applicationContext, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
         .setActionClickListener { action() }
         .build()

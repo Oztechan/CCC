@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.data.room.dao
+package mustafaozhan.github.com.mycurrencies.data.room.currency
 
 import androidx.room.Dao
 import androidx.room.Insert

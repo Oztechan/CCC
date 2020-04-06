@@ -40,7 +40,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 }
@@ -60,18 +59,16 @@ dependencies {
             coroutines,
             admob,
             firebaseConfig,
-            anko,
             snacky,
             toasty,
             loadingView,
             jodaTime,
+            rxAndroid,
+            rxKotlinBinding,
             navigation,
-            rxKotlin.values(),
             retrofit.values(),
             lifeCycle.values()
     )
-
-    api(rxApis.values())
 
     kapt(annotations.values())
 

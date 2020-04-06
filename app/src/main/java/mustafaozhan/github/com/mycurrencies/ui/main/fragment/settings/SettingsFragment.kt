@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.logmob.logError
 import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.rxkotlin.addTo
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -23,23 +22,18 @@ import javax.inject.Inject
  */
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
-    companion object {
-        fun newInstance(): SettingsFragment = SettingsFragment()
-    }
-
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
+
+    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
 
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
 
-    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        settingsViewModel.initData()
         initViews()
         initViewState()
         initRx()
@@ -47,25 +41,27 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initViewState() = settingsViewModel.settingsViewStateLiveData
-        .reObserve(this, Observer { settingsViewState ->
+        .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
                 SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
                 SettingsViewState.NoResult -> {
-                    settingsAdapter.refreshList(mutableListOf())
+                    settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()
                 }
-                is SettingsViewState.Success -> settingsAdapter.refreshList(settingsViewState.currencyList)
+                is SettingsViewState.Success -> settingsAdapter.submitList(settingsViewState.currencyList)
             }
         })
 
-    private fun initRx() = binding.editTextSearch
-        .textChanges()
-        .map { it.toString() }
-        .subscribe(
-            { settingsViewModel.filterList(it) },
-            { logError(it) }
-        ).addTo(compositeDisposable)
+    private fun initRx() = compositeDisposable.add(
+        binding.editTextSearch
+            .textChanges()
+            .map { it.toString() }
+            .subscribe(
+                { settingsViewModel.filterList(it) },
+                { logError(it) }
+            )
+    )
 
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {
@@ -73,8 +69,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
-        binding.editTextSearch.setText("")
-        binding.adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
+        editTextSearch.setText("")
+        adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 
     private fun setListeners() {
@@ -89,8 +85,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 settingsViewModel.setCurrentBase(null)
             }
         }
-
-        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding, _ ->
+        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding ->
             when (currency.isActive) {
                 0 -> {
                     currency.isActive = 1

@@ -8,14 +8,15 @@ import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
+import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
+import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
-import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
@@ -36,8 +37,8 @@ import java.util.Date
 class CalculatorViewModel(
     preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : MainDataViewModel(preferencesRepository) {
 
     companion object {
@@ -45,9 +46,26 @@ class CalculatorViewModel(
     }
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData()
+    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
+
+    init {
+        refreshData()
+
+        if (preferencesRepository.loadResetData() && !mainData.firstRun) {
+
+            runBlocking {
+                AppDatabase.database.clearAllTables()
+                preferencesRepository.updateMainData(firstRun = true)
+            }
+            preferencesRepository.persistResetData(false)
+            refreshData()
+            getCurrencies()
+        } else {
+            getCurrencies()
+        }
+    }
 
     fun refreshData() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
@@ -55,14 +73,13 @@ class CalculatorViewModel(
         currencyListLiveData.value?.clear()
 
         if (mainData.firstRun) {
-            currencyDao.insertInitialCurrencies()
+            currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-
-        currencyListLiveData.postValue(currencyDao.getActiveCurrencies().removeUnUsedCurrencies())
+        currencyListLiveData.postValue(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
-    fun getCurrencies() {
+    private fun getCurrencies() {
         calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
@@ -86,14 +103,14 @@ class CalculatorViewModel(
         rates?.date = Date().toFormattedString()
         rates?.let {
             calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
-            offlineRatesDao.insertOfflineRates(it)
+            offlineRatesRepository.insertOfflineRates(it)
         }
     }
 
     private fun rateDownloadFail(t: Throwable) {
         logWarning(t, "rate download failed 1s time out")
 
-        offlineRatesDao.getOfflineRatesOnBase(mainData.currentBase.toString())?.let { offlineRates ->
+        offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
             calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
         } ?: run {
             viewModelScope.launch {
@@ -130,14 +147,10 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun loadResetData() = preferencesRepository.loadResetData()
-
-    fun persistResetData(resetData: Boolean) = preferencesRepository.persistResetData(resetData)
-
     fun getClickedItemRate(name: String): String =
         "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
+    fun getCurrencyByName(name: String) = currencyRepository.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
@@ -164,10 +177,6 @@ class CalculatorViewModel(
                 rate.calculateResult(name, numericValue)
             }
         } ?: run { 0.0 }
-
-    fun resetFirstRun() {
-        preferencesRepository.updateMainData(firstRun = true)
-    }
 
     fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
 }
