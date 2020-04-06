@@ -70,31 +70,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         )
     )
 
-    @SuppressLint("SetTextI18n")
-    private fun initLiveData() {
-        calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
-            updateBar(currencyList.map { it.name })
-            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
-            binding.loadingView.smoothToHide()
-        })
-
-        calculatorViewModel.outputLiveData.reObserve(this, Observer { output ->
-            with(binding.layoutBar) {
-                txtSymbol.text = calculatorViewModel.getCurrencyByName(
-                    calculatorViewModel.mainData.currentBase.toString()
-                )?.symbol
-
-                output.toString()
-                    .whetherNot { isEmpty() }
-                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
-                    ?: run {
-                        txtOutput.text = ""
-                        txtSymbol.text = ""
-                    }
-            }
-        })
-    }
-
     private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
             when (calculatorViewState) {
@@ -143,6 +118,31 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
             }
         })
+
+    @SuppressLint("SetTextI18n")
+    private fun initLiveData() {
+        calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+            updateBar(currencyList.map { it.name })
+            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
+            binding.loadingView.smoothToHide()
+        })
+
+        calculatorViewModel.outputLiveData.reObserve(this, Observer { output ->
+            with(binding.layoutBar) {
+                txtSymbol.text = calculatorViewModel.getCurrencyByName(
+                    calculatorViewModel.mainData.currentBase.toString()
+                )?.symbol
+
+                output.toString()
+                    .whetherNot { isEmpty() }
+                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
+                    ?: run {
+                        txtOutput.text = ""
+                        txtSymbol.text = ""
+                    }
+            }
+        })
+    }
 
     private fun onStateSuccess(rates: Rates) {
         calculatorViewModel.currencyListLiveData.value?.let { currencyList ->
