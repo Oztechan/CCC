@@ -14,17 +14,13 @@ import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.tool.Toasty
+import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
-
-    companion object {
-        fun newInstance(): SettingsFragment = SettingsFragment()
-    }
 
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
@@ -48,7 +44,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
             binding.txtNoResult.gone()
             when (settingsViewState) {
-                SettingsViewState.FewCurrency -> Toasty.showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
                 SettingsViewState.NoResult -> {
                     settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()

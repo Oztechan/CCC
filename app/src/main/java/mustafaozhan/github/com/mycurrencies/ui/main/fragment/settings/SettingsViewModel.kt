@@ -17,7 +17,7 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : MainDataViewModel(preferencesRepository) {
 
-    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData(SettingsViewState.NoResult)
+    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
 
     private val currencyList: MutableList<Currency> = mutableListOf()
 

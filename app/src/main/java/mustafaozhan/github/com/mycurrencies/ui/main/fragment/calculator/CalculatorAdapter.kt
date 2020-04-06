@@ -49,13 +49,8 @@ class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBindin
                 imgItem.setBackgroundByName(item.name)
             }
 
-            itemView.setOnClickListener {
-                onItemClickListener(item, itemBinding)
-            }
-
-            itemView.setOnLongClickListener {
-                onItemLongClickListener(item, itemBinding)
-            }
+            itemView.setOnClickListener { onItemClickListener(item, itemBinding) }
+            itemView.setOnLongClickListener { onItemLongClickListener(item, itemBinding) }
         }
     }
 

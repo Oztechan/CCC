@@ -33,10 +33,6 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
-    companion object {
-        fun newInstance(): CalculatorFragment = CalculatorFragment()
-    }
-
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 

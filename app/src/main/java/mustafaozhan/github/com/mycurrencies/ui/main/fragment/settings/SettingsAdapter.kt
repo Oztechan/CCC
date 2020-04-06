@@ -50,9 +50,7 @@ class SettingsAdapter : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(
             checkBox.isChecked = item.isActive == 1
             imgIcon.setBackgroundByName(item.name)
 
-            itemView.setOnClickListener {
-                onItemClickListener(item, itemBinding)
-            }
+            itemView.setOnClickListener { onItemClickListener(item, itemBinding) }
         }
     }
 
