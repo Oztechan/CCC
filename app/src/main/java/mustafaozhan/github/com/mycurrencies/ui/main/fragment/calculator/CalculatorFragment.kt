@@ -86,12 +86,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
                 is SuccessState -> {
-                    calculatorViewModel.currencyListLiveData.value?.let { currencyList ->
-                        currencyList.forEach {
-                            it.rate = calculatorViewModel.calculateResultByCurrency(it.name, viewState.rates)
-                        }
-                        calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
-                    }
+                    calculatorAdapter.submitList(viewState.currencyList, calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
             }

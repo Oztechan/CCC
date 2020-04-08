@@ -90,13 +90,24 @@ class CalculatorViewModel(
         currencyListLiveData.postValue(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
+    private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
+        var tempList = mutableListOf<Currency>()
+
+        currencyListLiveData.value?.let { currencyList ->
+            currencyList.forEach { it.rate = calculateResultByCurrency(it.name, rates) }
+            tempList = currencyList
+        }
+
+        return tempList
+    }
+
     private fun getCurrencies() {
         viewStateLiveData.postValue(LoadingState)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            viewStateLiveData.postValue(SuccessState(rates))
+            viewStateLiveData.postValue(SuccessState(getCalculatedList(rates)))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -113,7 +124,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            viewStateLiveData.postValue(SuccessState(it))
+            viewStateLiveData.postValue(SuccessState(getCalculatedList(it)))
             offlineRatesRepository.insertOfflineRates(it)
         }
     }
@@ -122,7 +133,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
-            viewStateLiveData.postValue(SuccessState(offlineRates))
+            viewStateLiveData.postValue(SuccessState(getCalculatedList(offlineRates)))
             viewEffectLiveData.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             viewModelScope.launch {
