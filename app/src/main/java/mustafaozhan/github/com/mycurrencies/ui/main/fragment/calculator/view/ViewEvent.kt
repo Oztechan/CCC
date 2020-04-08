@@ -1,5 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view
 
-sealed class ViewEvent {
+import mustafaozhan.github.com.mycurrencies.model.Currency
 
+interface ViewEvent {
+
+    fun onRowClick(currency: Currency)
+
+    fun onRowLongClick(currency: Currency): Boolean
 }

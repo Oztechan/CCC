@@ -14,7 +14,6 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.addText
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
-import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
@@ -28,9 +27,12 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Emp
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
 import javax.inject.Inject
 
 /**
@@ -42,7 +44,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter() }
+    private lateinit var viewEvent: ViewEvent
+
+    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(viewEvent) }
 
     override fun bind() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
@@ -51,6 +55,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
+        viewEvent = calculatorViewModel
         initViews()
         initViewState()
         initViewEffect()
@@ -120,6 +125,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         Toasty.showToasty(requireContext(), R.string.database_success)
                     }
                 }
+                is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
+                is SwitchBaseEffect -> {
+                    binding.txtInput.text = viewEffect.text
+                    updateBase(viewEffect.base)
+                    binding.layoutBar.spinnerBase.tryToSelect(viewEffect.index)
+                }
             }
         })
 
@@ -154,23 +165,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         txtEmpty.visible()
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
-
-        calculatorAdapter.onItemClickListener = { currency, itemBinding ->
-            txtInput.text = itemBinding.txtAmount.text.toString().dropDecimal()
-            updateBase(currency.name)
-            calculatorViewModel.currencyListLiveData.value
-                ?.whether { indexOf(currency) < layoutBar.spinnerBase.getItems<String>().size }
-                ?.apply { layoutBar.spinnerBase.tryToSelect(indexOf(currency)) }
-                ?: run { layoutBar.spinnerBase.expand() }
-        }
-        calculatorAdapter.onItemLongClickListener = { currency, _ ->
-            showSnacky(
-                view,
-                "${calculatorViewModel.getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}",
-                setIcon = currency.name
-            )
-            true
-        }
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {

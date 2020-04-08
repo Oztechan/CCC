@@ -15,6 +15,7 @@ import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
+import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
@@ -31,10 +32,13 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Emp
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -48,7 +52,7 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : MainDataViewModel(preferencesRepository) {
+) : MainDataViewModel(preferencesRepository), ViewEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 15
@@ -174,7 +178,7 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun getClickedItemRate(name: String): String =
+    private fun getClickedItemRate(name: String): String =
         "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
 
     fun getCurrencyByName(name: String) = currencyRepository.getCurrencyByName(name)
@@ -190,7 +194,7 @@ class CalculatorViewModel(
         return mainData.currentBase
     }
 
-    fun calculateResultByCurrency(
+    private fun calculateResultByCurrency(
         name: String,
         rate: Rates?
     ) = outputLiveData.value
@@ -206,4 +210,19 @@ class CalculatorViewModel(
         } ?: run { 0.0 }
 
     fun postEmptyState() = viewStateLiveData.postValue(EmptyState)
+
+    override fun onRowClick(currency: Currency) {
+        viewEffectLiveData.postValue(SwitchBaseEffect(
+            currency.rate.getFormatted().replaceNonStandardDigits().dropDecimal(),
+            currency.name,
+            currencyListLiveData.value?.indexOf(currency) ?: -1
+        ))
+    }
+
+    override fun onRowLongClick(currency: Currency): Boolean {
+        viewEffectLiveData.postValue(
+            LongClickEffect("${getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}", currency.name)
+        )
+        return true
+    }
 }

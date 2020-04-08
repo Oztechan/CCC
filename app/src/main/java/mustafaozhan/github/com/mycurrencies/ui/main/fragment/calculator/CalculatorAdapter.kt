@@ -11,14 +11,14 @@ import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
-class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
-
-    lateinit var onItemClickListener: ((Currency, ItemCurrencyBinding) -> Unit)
-    lateinit var onItemLongClickListener: ((Currency, ItemCurrencyBinding) -> Boolean)
+class CalculatorAdapter(
+    val viewEvent: ViewEvent
+) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -49,8 +49,8 @@ class CalculatorAdapter : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBindin
                 imgItem.setBackgroundByName(item.name)
             }
 
-            itemView.setOnClickListener { onItemClickListener(item, itemBinding) }
-            itemView.setOnLongClickListener { onItemLongClickListener(item, itemBinding) }
+            itemView.setOnClickListener { viewEvent.onRowClick(item) }
+            itemView.setOnLongClickListener { viewEvent.onRowLongClick(item) }
         }
     }
 
