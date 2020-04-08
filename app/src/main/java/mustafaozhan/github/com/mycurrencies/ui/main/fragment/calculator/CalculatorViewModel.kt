@@ -27,13 +27,14 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Empty
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Error
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Loading
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInput
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccess
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Success
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -53,8 +54,10 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
     }
 
+    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData(EmptyState)
+    val viewEffectLiveData: MutableLiveData<ViewEffect> = MutableLiveData()
+
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData(Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
@@ -76,7 +79,7 @@ class CalculatorViewModel(
     }
 
     private fun refreshData() {
-        viewStateLiveData.postValue(Loading)
+        viewStateLiveData.postValue(LoadingState)
         rates = null
         currencyListLiveData.value?.clear()
 
@@ -88,12 +91,12 @@ class CalculatorViewModel(
     }
 
     private fun getCurrencies() {
-        viewStateLiveData.postValue(Loading)
+        viewStateLiveData.postValue(LoadingState)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            viewStateLiveData.postValue(Success(rates))
+            viewStateLiveData.postValue(SuccessState(rates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -110,7 +113,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            viewStateLiveData.postValue(Success(it))
+            viewStateLiveData.postValue(SuccessState(it))
             offlineRatesRepository.insertOfflineRates(it)
         }
     }
@@ -119,7 +122,8 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
-            viewStateLiveData.postValue(OfflineSuccess(offlineRates))
+            viewStateLiveData.postValue(SuccessState(offlineRates))
+            viewEffectLiveData.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -133,7 +137,8 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        viewStateLiveData.postValue(Error)
+        viewStateLiveData.postValue(EmptyState)
+        viewEffectLiveData.postValue(ErrorEffect)
     }
 
     fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
@@ -145,9 +150,12 @@ class CalculatorViewModel(
             currencyListLiveData.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.let { viewStateLiveData.postValue(FewCurrency) }
+                ?.let {
+                    viewStateLiveData.postValue(EmptyState)
+                    viewEffectLiveData.postValue(FewCurrencyEffect)
+                }
                 ?: run { getCurrencies() }
-        } ?: run { viewStateLiveData.postValue(MaximumInput(input)) }
+        } ?: run { viewEffectLiveData.postValue(MaximumInputEffect(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
@@ -186,5 +194,5 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    fun postEmptyState() = viewStateLiveData.postValue(Empty)
+    fun postEmptyState() = viewStateLiveData.postValue(EmptyState)
 }

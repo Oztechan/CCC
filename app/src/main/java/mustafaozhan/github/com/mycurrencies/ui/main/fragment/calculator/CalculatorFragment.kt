@@ -21,17 +21,16 @@ import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.extension.visible
-import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Empty
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Error
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Loading
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInput
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccess
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Success
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
 import javax.inject.Inject
 
 /**
@@ -54,6 +53,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         initViewState()
+        initViewEffect()
         setRx()
         setListeners()
         initLiveData()
@@ -77,50 +77,53 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     )
 
     private fun initViewState() = calculatorViewModel.viewStateLiveData
-        .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
-            when (calculatorViewState) {
-                Loading -> binding.loadingView.smoothToShow()
-                Error -> {
-                    calculatorViewModel.currencyListLiveData.value?.size
-                        ?.whether { it > 1 }
-                        ?.let {
-                            showSnacky(
-                                view,
-                                R.string.rate_not_available_offline,
-                                R.string.change,
-                                isIndefinite = true
-                            ) { binding.layoutBar.spinnerBase.expand() }
-                        }
-
-                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
-                    binding.loadingView.smoothToHide()
-                }
-                Empty -> {
+        .reObserve(viewLifecycleOwner, Observer { viewState ->
+            when (viewState) {
+                LoadingState -> binding.loadingView.smoothToShow()
+                EmptyState -> {
                     binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
-                FewCurrency -> {
-                    showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
-                        navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
+                is SuccessState -> {
+                    calculatorViewModel.currencyListLiveData.value?.let { currencyList ->
+                        currencyList.forEach {
+                            it.rate = calculatorViewModel.calculateResultByCurrency(it.name, viewState.rates)
+                        }
+                        calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
                     }
-
-                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                is Success -> onStateSuccess(calculatorViewState.rates)
-                is OfflineSuccess -> {
-                    onStateSuccess(calculatorViewState.rates)
-                    calculatorViewState.rates.date?.let {
+            }
+        })
+
+    private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
+        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+            when (viewEffect) {
+                ErrorEffect -> calculatorViewModel.currencyListLiveData.value?.size
+                    ?.whether { it > 1 }
+                    ?.let {
+                        showSnacky(
+                            view,
+                            R.string.rate_not_available_offline,
+                            R.string.change,
+                            isIndefinite = true
+                        ) { binding.layoutBar.spinnerBase.expand() }
+                    }
+                FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+                    navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
+                }
+                is MaximumInputEffect -> {
+                    Toasty.showToasty(requireContext(), R.string.max_input)
+                    binding.txtInput.text = viewEffect.input.dropLast(1)
+                    binding.loadingView.smoothToHide()
+                }
+                is OfflineSuccessEffect -> {
+                    viewEffect.date?.let {
                         Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                     } ?: run {
                         Toasty.showToasty(requireContext(), R.string.database_success)
                     }
-                }
-                is MaximumInput -> {
-                    Toasty.showToasty(requireContext(), R.string.max_input)
-                    binding.txtInput.text = calculatorViewState.input.dropLast(1)
-                    binding.loadingView.smoothToHide()
                 }
             }
         })
@@ -148,14 +151,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     }
             }
         })
-    }
-
-    private fun onStateSuccess(rates: Rates) {
-        calculatorViewModel.currencyListLiveData.value?.let { currencyList ->
-            currencyList.forEach { it.rate = calculatorViewModel.calculateResultByCurrency(it.name, rates) }
-            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
-        }
-        binding.loadingView.smoothToHide()
     }
 
     private fun initViews() = with(binding) {

@@ -4,16 +4,8 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 
 sealed class ViewState
 
-object Loading : ViewState()
+object LoadingState : ViewState()
 
-object Error : ViewState()
+object EmptyState : ViewState()
 
-object Empty : ViewState()
-
-object FewCurrency : ViewState()
-
-data class Success(val rates: Rates) : ViewState()
-
-data class OfflineSuccess(val rates: Rates) : ViewState()
-
-data class MaximumInput(var input: String) : ViewState()
+data class SuccessState(val rates: Rates) : ViewState()
