@@ -25,6 +25,13 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Empty
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Error
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Loading
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInput
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccess
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Success
 import javax.inject.Inject
 
 /**
@@ -69,11 +76,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             )
     )
 
-    private fun initViewState() = calculatorViewModel.calculatorViewStateLiveData
+    private fun initViewState() = calculatorViewModel.viewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { calculatorViewState ->
             when (calculatorViewState) {
-                CalculatorViewState.Loading -> binding.loadingView.smoothToShow()
-                CalculatorViewState.Error -> {
+                Loading -> binding.loadingView.smoothToShow()
+                Error -> {
                     calculatorViewModel.currencyListLiveData.value?.size
                         ?.whether { it > 1 }
                         ?.let {
@@ -88,12 +95,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                CalculatorViewState.Empty -> {
+                Empty -> {
                     binding.txtEmpty.visible()
                     binding.loadingView.smoothToHide()
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
-                CalculatorViewState.FewCurrency -> {
+                FewCurrency -> {
                     showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                         navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                     }
@@ -101,8 +108,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                     binding.loadingView.smoothToHide()
                 }
-                is CalculatorViewState.Success -> onStateSuccess(calculatorViewState.rates)
-                is CalculatorViewState.OfflineSuccess -> {
+                is Success -> onStateSuccess(calculatorViewState.rates)
+                is OfflineSuccess -> {
                     onStateSuccess(calculatorViewState.rates)
                     calculatorViewState.rates.date?.let {
                         Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
@@ -110,7 +117,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         Toasty.showToasty(requireContext(), R.string.database_success)
                     }
                 }
-                is CalculatorViewState.MaximumInput -> {
+                is MaximumInput -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
                     binding.txtInput.text = calculatorViewState.input.dropLast(1)
                     binding.loadingView.smoothToHide()

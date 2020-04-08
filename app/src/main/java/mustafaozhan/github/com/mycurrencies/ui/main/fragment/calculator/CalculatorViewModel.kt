@@ -27,6 +27,14 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Empty
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Error
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Loading
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInput
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccess
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Success
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -46,7 +54,7 @@ class CalculatorViewModel(
     }
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val calculatorViewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(CalculatorViewState.Empty)
+    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData(Empty)
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
     var rates: Rates? = null
 
@@ -67,8 +75,8 @@ class CalculatorViewModel(
         }
     }
 
-    fun refreshData() {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
+    private fun refreshData() {
+        viewStateLiveData.postValue(Loading)
         rates = null
         currencyListLiveData.value?.clear()
 
@@ -80,12 +88,12 @@ class CalculatorViewModel(
     }
 
     private fun getCurrencies() {
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Loading)
+        viewStateLiveData.postValue(Loading)
         rates?.let { rates ->
             currencyListLiveData.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(rates))
+            viewStateLiveData.postValue(Success(rates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -102,7 +110,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            calculatorViewStateLiveData.postValue(CalculatorViewState.Success(it))
+            viewStateLiveData.postValue(Success(it))
             offlineRatesRepository.insertOfflineRates(it)
         }
     }
@@ -111,7 +119,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
-            calculatorViewStateLiveData.postValue(CalculatorViewState.OfflineSuccess(offlineRates))
+            viewStateLiveData.postValue(OfflineSuccess(offlineRates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -125,7 +133,7 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        calculatorViewStateLiveData.postValue(CalculatorViewState.Error)
+        viewStateLiveData.postValue(Error)
     }
 
     fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
@@ -137,9 +145,9 @@ class CalculatorViewModel(
             currencyListLiveData.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.let { calculatorViewStateLiveData.postValue(CalculatorViewState.FewCurrency) }
+                ?.let { viewStateLiveData.postValue(FewCurrency) }
                 ?: run { getCurrencies() }
-        } ?: run { calculatorViewStateLiveData.postValue(CalculatorViewState.MaximumInput(input)) }
+        } ?: run { viewStateLiveData.postValue(MaximumInput(input)) }
 
     fun updateCurrentBase(currency: String?) {
         rates = null
@@ -178,5 +186,5 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    fun postEmptyState() = calculatorViewStateLiveData.postValue(CalculatorViewState.Empty)
+    fun postEmptyState() = viewStateLiveData.postValue(Empty)
 }
