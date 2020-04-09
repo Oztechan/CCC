@@ -13,8 +13,12 @@ import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
-import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoFilter
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
 import javax.inject.Inject
 
 /**
@@ -25,7 +29,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter() }
+    private lateinit var viewEvent: ViewEvent
+
+    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(viewEvent) }
 
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
@@ -34,22 +40,35 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
+        viewEvent = settingsViewModel
         initViews()
         initViewState()
+        initViewEffect()
         initRx()
-        setListeners()
     }
 
-    private fun initViewState() = settingsViewModel.settingsViewStateLiveData
-        .reObserve(viewLifecycleOwner, Observer { settingsViewState ->
+    private fun initViewState() = settingsViewModel.viewStateLiveData
+        .reObserve(viewLifecycleOwner, Observer { viewState ->
             binding.txtNoResult.gone()
-            when (settingsViewState) {
-                SettingsViewState.FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
-                SettingsViewState.NoResult -> {
+            when (viewState) {
+                NoResult -> {
                     settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()
                 }
-                is SettingsViewState.Success -> settingsAdapter.submitList(settingsViewState.currencyList)
+                is NoFilter -> {
+                    binding.editTextSearch.setText("")
+                    if (viewState.shouldCleanBase) {
+                        settingsViewModel.setCurrentBase(null)
+                    }
+                }
+                is Success -> settingsAdapter.submitList(viewState.currencyList)
+            }
+        })
+
+    private fun initViewEffect() = settingsViewModel.viewEffectLiveData
+        .reObserve(viewLifecycleOwner, Observer { viewEvent ->
+            when (viewEvent) {
+                FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
             }
         })
 
@@ -70,34 +89,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
         editTextSearch.setText("")
+        btnSelectAll.setOnClickListener { viewEvent.updateAllStates(1) }
+        btnDeSelectAll.setOnClickListener { viewEvent.updateAllStates(0) }
         adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
-    }
-
-    private fun setListeners() {
-        with(binding) {
-            btnSelectAll.setOnClickListener {
-                settingsViewModel.updateCurrencyState(1)
-                editTextSearch.setText("")
-            }
-            btnDeSelectAll.setOnClickListener {
-                settingsViewModel.updateCurrencyState(0)
-                editTextSearch.setText("")
-                settingsViewModel.setCurrentBase(null)
-            }
-        }
-        settingsAdapter.onItemClickListener = { currency: Currency, itemBinding ->
-            when (currency.isActive) {
-                0 -> {
-                    currency.isActive = 1
-                    settingsViewModel.updateCurrencyState(1, currency.name)
-                    itemBinding.checkBox.isChecked = true
-                }
-                1 -> {
-                    currency.isActive = 0
-                    settingsViewModel.updateCurrencyState(0, currency.name)
-                    itemBinding.checkBox.isChecked = false
-                }
-            }
-        }
     }
 }

@@ -8,6 +8,12 @@ import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewState
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -15,9 +21,10 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : MainDataViewModel(preferencesRepository) {
+) : MainDataViewModel(preferencesRepository), ViewEvent {
 
-    val settingsViewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
+    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData()
+    val viewEffectLiveData: MutableLiveData<ViewEffect> = MutableLiveData()
 
     private val currencyList: MutableList<Currency> = mutableListOf()
 
@@ -34,19 +41,6 @@ class SettingsViewModel(
         }
     }
 
-    fun updateCurrencyState(value: Int, txt: String? = null) {
-        txt?.let { name ->
-            currencyList.find { it.name == name }?.isActive = value
-            currencyRepository.updateCurrencyStateByName(name, value)
-        } ?: updateAllCurrencyState(value)
-
-        if (value == 0) verifyCurrentBase()
-
-        if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-            settingsViewStateLiveData.postValue(SettingsViewState.FewCurrency)
-        }
-    }
-
     fun filterList(txt: String) = currencyList
         .filter { currency ->
             currency.name.contains(txt, true) ||
@@ -55,23 +49,36 @@ class SettingsViewModel(
         }
         .toMutableList()
         .let {
-            settingsViewStateLiveData.postValue(
-                if (it.isEmpty()) SettingsViewState.NoResult else SettingsViewState.Success(it)
-            )
+            viewStateLiveData.postValue(if (it.isEmpty()) NoResult else Success(it))
         }
 
-    private fun updateAllCurrencyState(value: Int) {
-        currencyList.forEach { it.isActive = value }
-        currencyRepository.updateAllCurrencyState(value)
+    private fun verifyCurrentBase(value: Int) {
+        if (value == 0) {
+            mainData.currentBase
+                .either(
+                    { equals(Currencies.NULL) },
+                    { base ->
+                        currencyList
+                            .filter { it.name == base.toString() }
+                            .toList().firstOrNull()?.isActive == 0
+                    }
+                )?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
+        }
+
+        if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+            viewEffectLiveData.postValue(FewCurrency)
+        }
     }
 
-    private fun verifyCurrentBase() = mainData.currentBase
-        .either(
-            { equals(Currencies.NULL) },
-            { base ->
-                currencyList
-                    .filter { it.name == base.toString() }
-                    .toList().firstOrNull()?.isActive == 0
-            }
-        )?.let { setCurrentBase(currencyList.firstOrNull { it.isActive == 1 }?.name) }
+    override fun updateAllStates(value: Int) {
+        currencyList.forEach { it.isActive = value }
+        currencyRepository.updateAllCurrencyState(value)
+        verifyCurrentBase(value)
+    }
+
+    override fun updateCurrencyState(value: Int, name: String) {
+        currencyList.find { it.name == name }?.isActive = value
+        currencyRepository.updateCurrencyStateByName(name, value)
+        verifyCurrentBase(value)
+    }
 }

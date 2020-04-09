@@ -17,7 +17,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Vie
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter(
-    val viewEvent: ViewEvent
+    private val viewEvent: ViewEvent
 ) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(

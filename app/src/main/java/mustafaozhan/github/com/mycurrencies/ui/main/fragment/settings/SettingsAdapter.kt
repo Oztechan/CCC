@@ -10,13 +10,14 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
-class SettingsAdapter : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(SettingsDiffer()) {
-
-    lateinit var onItemClickListener: ((Currency, ItemSettingBinding) -> Unit)
+class SettingsAdapter(
+    private val viewEvent: ViewEvent
+) : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(SettingsDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -50,7 +51,11 @@ class SettingsAdapter : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(
             checkBox.isChecked = item.isActive == 1
             imgIcon.setBackgroundByName(item.name)
 
-            itemView.setOnClickListener { onItemClickListener(item, itemBinding) }
+            itemView.setOnClickListener {
+                item.isActive = if (item.isActive == 0) 1 else 0
+                viewEvent.updateCurrencyState(if (item.isActive == 0) 1 else 0, item.name)
+                itemBinding.checkBox.isChecked = item.isActive == 0
+            }
         }
     }
 
