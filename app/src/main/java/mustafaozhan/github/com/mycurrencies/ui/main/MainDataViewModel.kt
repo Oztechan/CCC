@@ -11,18 +11,10 @@ import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-abstract class MainDataViewModel<
-    ViewEffect : BaseViewEffect,
-    ViewEvent : BaseViewEvent,
-    ViewState : BaseViewState
-    >
-(protected var preferencesRepository: PreferencesRepository) :
-    UDFViewModel<
-        ViewEffect,
-        ViewEvent,
-        ViewState
-        >
-    () {
+abstract class MainDataViewModel
+<ViewEffect : BaseViewEffect, ViewEvent : BaseViewEvent, ViewState : BaseViewState>(
+    protected var preferencesRepository: PreferencesRepository
+) : UDFViewModel<ViewEffect, ViewEvent, ViewState>() {
 
     companion object {
         const val NUMBER_OF_HOURS = 24

@@ -9,6 +9,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoFilter
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
@@ -70,6 +71,7 @@ class SettingsViewModel(
         if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
             viewEffectLiveData.postValue(FewCurrency)
         }
+        viewStateLiveData.postValue(NoFilter(value == 0))
     }
 
     override fun updateAllStates(value: Int) {
