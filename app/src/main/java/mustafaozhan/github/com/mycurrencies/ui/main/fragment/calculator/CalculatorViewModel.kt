@@ -28,6 +28,9 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
@@ -37,9 +40,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Max
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -52,14 +52,16 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : MainDataViewModel(preferencesRepository), ViewEvent {
+) : MainDataViewModel<CalculatorViewEffect, CalculatorViewEvent, CalculatorViewState>(
+    preferencesRepository
+), CalculatorViewEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 15
     }
 
-    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData(EmptyState)
-    val viewEffectLiveData: MutableLiveData<ViewEffect> = MutableLiveData()
+    override val viewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(EmptyState)
+    override val viewEffectLiveData: MutableLiveData<CalculatorViewEffect> = MutableLiveData()
 
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
     val outputLiveData: MutableLiveData<String> = MutableLiveData()
@@ -225,4 +227,6 @@ class CalculatorViewModel(
         )
         return true
     }
+
+    override fun getViewEvent() = this as CalculatorViewEvent
 }

@@ -10,13 +10,13 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
 class SettingsAdapter(
-    private val viewEvent: ViewEvent
+    private val viewEvent: SettingsViewEvent
 ) : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(SettingsDiffer()) {
 
     override fun onCreateViewHolder(

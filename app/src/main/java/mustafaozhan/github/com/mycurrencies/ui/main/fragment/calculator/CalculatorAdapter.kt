@@ -11,13 +11,13 @@ import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter(
-    private val viewEvent: ViewEvent
+    private val viewEvent: CalculatorViewEvent
 ) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(

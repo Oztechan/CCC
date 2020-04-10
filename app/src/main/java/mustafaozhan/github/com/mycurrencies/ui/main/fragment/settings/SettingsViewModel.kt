@@ -10,10 +10,10 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewState
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -21,10 +21,12 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewS
 class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : MainDataViewModel(preferencesRepository), ViewEvent {
+) : MainDataViewModel<SettingsViewEffect, SettingsViewEvent, SettingsViewState>(
+    preferencesRepository
+), SettingsViewEvent {
 
-    val viewStateLiveData: MutableLiveData<ViewState> = MutableLiveData()
-    val viewEffectLiveData: MutableLiveData<ViewEffect> = MutableLiveData()
+    override val viewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
+    override val viewEffectLiveData: MutableLiveData<SettingsViewEffect> = MutableLiveData()
 
     private val currencyList: MutableList<Currency> = mutableListOf()
 
@@ -81,4 +83,6 @@ class SettingsViewModel(
         currencyRepository.updateCurrencyStateByName(name, value)
         verifyCurrentBase(value)
     }
+
+    override fun getViewEvent() = this as SettingsViewEvent
 }

@@ -23,6 +23,7 @@ import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
@@ -32,7 +33,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Max
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ViewEvent
 import javax.inject.Inject
 
 /**
@@ -44,7 +44,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    private lateinit var viewEvent: ViewEvent
+    private lateinit var viewEvent: CalculatorViewEvent
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(viewEvent) }
 
@@ -55,7 +55,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        viewEvent = calculatorViewModel
+        viewEvent = calculatorViewModel.getViewEvent()
         initViews()
         initViewState()
         initViewEffect()
@@ -91,7 +91,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
                 }
                 is SuccessState -> {
-                    calculatorAdapter.submitList(viewState.currencyList, calculatorViewModel.mainData.currentBase)
+                    calculatorAdapter.submitList(
+                        viewState.currencyList,
+                        calculatorViewModel.mainData.currentBase
+                    )
                     binding.loadingView.smoothToHide()
                 }
             }
@@ -118,13 +121,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     binding.txtInput.text = viewEffect.input.dropLast(1)
                     binding.loadingView.smoothToHide()
                 }
-                is OfflineSuccessEffect -> {
-                    viewEffect.date?.let {
-                        Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
-                    } ?: run {
-                        Toasty.showToasty(requireContext(), R.string.database_success)
-                    }
+                is OfflineSuccessEffect -> viewEffect.date?.let {
+                    Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
+                } ?: run {
+                    Toasty.showToasty(requireContext(), R.string.database_success)
                 }
+
                 is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
                 is SwitchBaseEffect -> {
                     binding.txtInput.text = viewEffect.text

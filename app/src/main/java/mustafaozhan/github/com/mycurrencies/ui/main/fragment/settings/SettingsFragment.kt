@@ -17,8 +17,8 @@ import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoFilter
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.ViewEvent
 import javax.inject.Inject
 
 /**
@@ -29,7 +29,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private lateinit var viewEvent: ViewEvent
+    private lateinit var viewEvent: SettingsViewEvent
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(viewEvent) }
 
@@ -40,7 +40,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        viewEvent = settingsViewModel
+        viewEvent = settingsViewModel.getViewEvent()
         initViews()
         initViewState()
         initViewEffect()
