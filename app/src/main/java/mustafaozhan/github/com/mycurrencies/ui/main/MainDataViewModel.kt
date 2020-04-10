@@ -24,7 +24,7 @@ abstract class MainDataViewModel
     internal val mainData: MainData
         get() = preferencesRepository.loadMainData()
 
-    internal val isRewardExpired: Boolean
+    val isRewardExpired: Boolean
         get() = preferencesRepository.loadMainData().adFreeActivatedDate?.let {
             Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
         } ?: true

@@ -1,10 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.github.mustafaozhan.logmob.logWarning
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -33,14 +31,9 @@ fun Context.getImageResourceByName(name: String): Int =
         R.drawable.transparent
     }
 
-@SuppressLint("SetTextI18n")
-fun TextView.addText(str: String) {
-    text = text.toString() + str
-}
-
-fun AdView.checkAd(id: Int, isExpired: Boolean) =
+fun AdView.checkAd(id: String, isExpired: Boolean) =
     if (isExpired) {
-        MobileAds.initialize(context, context.getString(id))
+        MobileAds.initialize(context, id)
         val adRequest = AdRequest.Builder().build()
         loadAd(adRequest)
     } else {

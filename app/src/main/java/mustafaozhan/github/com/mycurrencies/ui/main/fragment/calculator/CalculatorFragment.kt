@@ -3,17 +3,14 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.logmob.logError
+import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import com.jakewharton.rxbinding2.widget.textChanges
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extension.addText
-import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
@@ -39,7 +36,7 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Suppress("TooManyFunctions")
-class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
+class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
@@ -48,38 +45,26 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(viewEvent) }
 
-    override fun bind() {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+    override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
+        FragmentCalculatorBinding.inflate(layoutInflater, container, false)
+
+    override fun onBinding(dataBinding: FragmentCalculatorBinding) {
+        binding.viewModel = calculatorViewModel
+        calculatorViewModel.getViewEvent().let {
+            binding.viewEvent = it
+            viewEvent = it
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        viewEvent = calculatorViewModel.getViewEvent()
         initViews()
         initViewState()
         initViewEffect()
-        setRx()
         setListeners()
         initLiveData()
     }
-
-    private fun setRx() = compositeDisposable.add(
-        binding.txtInput.textChanges()
-            .map { it.toString() }
-            .subscribe(
-                {
-                    if (it.isEmpty()) {
-                        calculatorViewModel.postEmptyState()
-                        calculatorViewModel.outputLiveData.postValue("")
-                    } else {
-                        calculatorViewModel.calculateOutput(it)
-                        binding.txtEmpty.gone()
-                    }
-                },
-                { logError(it) }
-            )
-    )
 
     private fun initViewState() = calculatorViewModel.viewStateLiveData
         .reObserve(viewLifecycleOwner, Observer { viewState ->
@@ -118,7 +103,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
                 is MaximumInputEffect -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
-                    binding.txtInput.text = viewEffect.input.dropLast(1)
+                    calculatorViewModel.inputLiveData.postValue(viewEffect.input.dropLast(1))
                     binding.loadingView.smoothToHide()
                 }
                 is OfflineSuccessEffect -> viewEffect.date?.let {
@@ -148,7 +133,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             with(binding.layoutBar) {
                 txtSymbol.text = calculatorViewModel.getCurrencyByName(
                     calculatorViewModel.mainData.currentBase.toString()
-                )?.symbol
+                )?.symbol ?: ""
 
                 output.toString()
                     .whetherNot { isEmpty() }
@@ -159,10 +144,19 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     }
             }
         })
+
+        calculatorViewModel.inputLiveData.reObserve(this, Observer { input ->
+            if (input.isEmpty()) {
+                calculatorViewModel.postEmptyState()
+                calculatorViewModel.outputLiveData.postValue("")
+            } else {
+                calculatorViewModel.calculateOutput(input)
+                binding.txtEmpty.gone()
+            }
+        })
     }
 
     private fun initViews() = with(binding) {
-        adView.checkAd(R.string.banner_ad_unit_id_main, calculatorViewModel.isRewardExpired)
         loadingView.bringToFront()
         txtEmpty.visible()
         recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
@@ -186,34 +180,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        layoutKeyboard.btnSeven.setOnClickListener { txtInput.addText("7") }
-        layoutKeyboard.btnEight.setOnClickListener { txtInput.addText("8") }
-        layoutKeyboard.btnNine.setOnClickListener { txtInput.addText("9") }
-        layoutKeyboard.btnDivide.setOnClickListener { txtInput.addText("/") }
-        layoutKeyboard.btnFour.setOnClickListener { txtInput.addText("4") }
-        layoutKeyboard.btnFive.setOnClickListener { txtInput.addText("5") }
-        layoutKeyboard.btnSix.setOnClickListener { txtInput.addText("6") }
-        layoutKeyboard.btnMultiply.setOnClickListener { txtInput.addText("*") }
-        layoutKeyboard.btnOne.setOnClickListener { txtInput.addText("1") }
-        layoutKeyboard.btnTwo.setOnClickListener { txtInput.addText("2") }
-        layoutKeyboard.btnThree.setOnClickListener { txtInput.addText("3") }
-        layoutKeyboard.btnMinus.setOnClickListener { txtInput.addText("-") }
-        layoutKeyboard.btnDot.setOnClickListener { txtInput.addText(".") }
-        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
-        layoutKeyboard.btnPercent.setOnClickListener { txtInput.addText("%") }
-        layoutKeyboard.btnPlus.setOnClickListener { txtInput.addText("+") }
-        layoutKeyboard.btnTripleZero.setOnClickListener { txtInput.addText("000") }
-        layoutKeyboard.btnZero.setOnClickListener { txtInput.addText("0") }
-        layoutKeyboard.btnAc.setOnClickListener {
-            txtInput.text = ""
-            layoutBar.txtOutput.text = ""
-            layoutBar.txtSymbol.text = ""
-        }
-        layoutKeyboard.btnDelete.setOnClickListener {
-            txtInput.text.toString()
-                .whetherNot { isEmpty() }
-                ?.apply { txtInput.text = substring(0, length - 1) }
-        }
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
         layoutBar.layoutBar.setOnClickListener {
             with(layoutBar.spinnerBase) {
@@ -226,7 +192,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun updateBase(base: String) {
         calculatorViewModel.updateCurrentBase(base)
-        binding.txtInput.text = binding.txtInput.text
+        calculatorViewModel.inputLiveData.postValue(calculatorViewModel.inputLiveData.value)
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 }

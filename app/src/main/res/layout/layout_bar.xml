@@ -1,59 +1,73 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_bar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/iv_base"
-        android:layout_width="@dimen/currency_icon_size"
-        android:layout_height="@dimen/currency_icon_size"
-        android:layout_marginStart="@dimen/margin_eight"
-        android:layout_marginLeft="@dimen/margin_eight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/transparent"
-        tools:ignore="ContentDescription" />
+    <data>
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner_base"
-        android:layout_width="wrap_content"
+        <variable
+            name="viewModel"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
+
+        <variable
+            name="viewEvent"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/margin_three"
-        android:textAppearance="@style/TextStyleSmall"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_base"
-        app:layout_constraintTop_toTopOf="parent"
-        app:ms_background_color="@color/colorPrimaryDark"
-        app:ms_hide_arrow="true" />
+        android:background="@color/colorPrimaryDark">
 
-    <TextView
-        android:id="@+id/txt_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_eight"
-        android:layout_marginBottom="@dimen/margin_eight"
-        android:maxLines="1"
-        android:textAppearance="@style/BaseTextStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
-        app:layout_constraintStart_toEndOf="@+id/spinner_base"
-        app:layout_constraintTop_toTopOf="@+id/spinner_base" />
+        <ImageView
+            android:id="@+id/iv_base"
+            android:layout_width="@dimen/currency_icon_size"
+            android:layout_height="@dimen/currency_icon_size"
+            android:layout_marginStart="@dimen/margin_eight"
+            android:layout_marginLeft="@dimen/margin_eight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/transparent"
+            tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/txt_symbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_eight"
-        android:layout_marginBottom="@dimen/margin_eight"
-        android:maxLines="1"
-        android:textAppearance="@style/BaseTextStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
-        app:layout_constraintStart_toEndOf="@+id/txt_output"
-        app:layout_constraintTop_toTopOf="@+id/spinner_base"
-        app:layout_constraintVertical_bias="0.666" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinner_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/margin_three"
+            android:textAppearance="@style/TextStyleSmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_base"
+            app:layout_constraintTop_toTopOf="parent"
+            app:ms_background_color="@color/colorPrimaryDark"
+            app:ms_hide_arrow="true" />
+
+        <TextView
+            android:id="@+id/txt_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_eight"
+            android:layout_marginBottom="@dimen/margin_eight"
+            android:maxLines="1"
+            android:textAppearance="@style/BaseTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
+            app:layout_constraintStart_toEndOf="@+id/spinner_base"
+            app:layout_constraintTop_toTopOf="@+id/spinner_base" />
+
+        <TextView
+            android:id="@+id/txt_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_eight"
+            android:layout_marginBottom="@dimen/margin_eight"
+            android:maxLines="1"
+            android:textAppearance="@style/BaseTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
+            app:layout_constraintStart_toEndOf="@+id/txt_output"
+            app:layout_constraintTop_toTopOf="@+id/spinner_base"
+            app:layout_constraintVertical_bias="0.666" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

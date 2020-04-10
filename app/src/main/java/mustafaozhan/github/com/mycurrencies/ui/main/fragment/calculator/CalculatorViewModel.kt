@@ -63,8 +63,10 @@ class CalculatorViewModel(
     override val viewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(EmptyState)
     override val viewEffectLiveData: MutableLiveData<CalculatorViewEffect> = MutableLiveData()
 
+    val inputLiveData: MutableLiveData<String> = MutableLiveData("")
+
     val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val outputLiveData: MutableLiveData<String> = MutableLiveData()
+    val outputLiveData: MutableLiveData<String> = MutableLiveData("")
     var rates: Rates? = null
 
     init {
@@ -212,6 +214,23 @@ class CalculatorViewModel(
         } ?: run { 0.0 }
 
     fun postEmptyState() = viewStateLiveData.postValue(EmptyState)
+
+    override fun keyPressed(key: String) {
+        inputLiveData.postValue(if (key.isEmpty()) "" else inputLiveData.value.toString() + key)
+    }
+
+    override fun delPressed() {
+        inputLiveData.value
+            ?.whetherNot { isEmpty() }
+            ?.apply {
+                inputLiveData.postValue(substring(0, length - 1))
+            }
+    }
+
+    override fun acPressed() {
+        inputLiveData.postValue("")
+        outputLiveData.postValue("")
+    }
 
     override fun onRowClick(currency: Currency) {
         viewEffectLiveData.postValue(SwitchBaseEffect(

@@ -9,7 +9,6 @@ def ANDROID_PLUGIN_VERSION = '4.0.0-beta04'
 def GSM_GOOGLE_VERSION = '4.3.3'
 def FABRIC_VERSION = '1.31.2'
 def DAGGER_VERSION = '2.27'
-def RX_BINDING_VERSION = '2.2.0'
 def RX_ANDROID_VERSION = '2.1.1'
 def LIFE_CYCLE_VERSION = '2.2.0-alpha05'
 def ANDROID_MATERIAL_VERSION = '1.1.0'
@@ -69,7 +68,6 @@ ext {
     loadingView = "com.wang.avi:library:$LOADING_VIEW_VERSION"
     jodaTime = "net.danlew:android.joda:$JODA_TIME_VERSION"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
-    rxKotlinBinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:$RX_BINDING_VERSION"
     navigation = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
 
     lifeCycle = [
