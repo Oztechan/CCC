@@ -7,6 +7,4 @@ sealed class SettingsViewState : BaseViewState()
 
 object NoResult : SettingsViewState()
 
-data class NoFilter(val shouldCleanBase: Boolean) : SettingsViewState()
-
 data class Success(val currencyList: MutableList<Currency>) : SettingsViewState()

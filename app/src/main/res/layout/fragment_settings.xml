@@ -1,111 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_fragment_settings"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsViewModel" />
+
+        <variable
+            name="viewEvent"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
-        android:fitsSystemWindows="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_fragment_settings"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorPrimaryDark"
+            android:fitsSystemWindows="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txt_settings_toolbar"
-                android:layout_width="@dimen/fit"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:textAppearance="@style/BaseTextStyle"
-                android:textColor="@color/blue_grey_100"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_select_all"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/select_all"
-                android:textAppearance="@style/TextStyleSmall"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/txt_settings_toolbar"
+                    android:layout_width="@dimen/fit"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:textAppearance="@style/BaseTextStyle"
+                    android:textColor="@color/blue_grey_100"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btn_de_select_all"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/deSelect_all"
-                android:textAppearance="@style/TextStyleSmall"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
+                <Button
+                    android:id="@+id/btn_select_all"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewEvent.updateAllStates(1)}"
+                    android:text="@string/select_all"
+                    android:textAppearance="@style/TextStyleSmall"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edit_text_search"
-        style="@style/BaseEditTextTheme"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/search"
-        android:inputType="text"
-        android:paddingBottom="@dimen/margin_four"
-        android:textAppearance="@style/ItemTextStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
-        tools:ignore="Autofill" />
+                <Button
+                    android:id="@+id/btn_de_select_all"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewEvent.updateAllStates(0)}"
+                    android:text="@string/deSelect_all"
+                    android:textAppearance="@style/TextStyleSmall"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/txt_no_result"
-        style="@style/ItemTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_eight"
-        android:text="@string/no_result"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+        <EditText
+            android:id="@+id/edit_text_search"
+            style="@style/BaseEditTextTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:paddingBottom="@dimen/margin_four"
+            android:text="@={viewModel.searchQueryLiveData}"
+            android:textAppearance="@style/ItemTextStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
+            tools:ignore="Autofill" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_settings"
-        android:layout_width="@dimen/fit"
-        android:layout_height="@dimen/fit"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/ad_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+        <TextView
+            android:id="@+id/txt_no_result"
+            style="@style/ItemTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_eight"
+            android:text="@string/no_result"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_settings"
+            android:layout_width="@dimen/fit"
+            android:layout_height="@dimen/fit"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
 
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ad_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id_settings"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ad_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id_settings"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,11 +2,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.logmob.logError
-import com.jakewharton.rxbinding2.widget.textChanges
+import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
@@ -15,7 +14,6 @@ import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoFilter
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
@@ -24,7 +22,7 @@ import javax.inject.Inject
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
@@ -33,18 +31,23 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(viewEvent) }
 
-    override fun bind() {
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
+    override fun bind(container: ViewGroup?): FragmentSettingsBinding =
+        FragmentSettingsBinding.inflate(layoutInflater, container, false)
+
+    override fun onBinding(dataBinding: FragmentSettingsBinding) {
+        binding.viewModel = settingsViewModel
+        settingsViewModel.getViewEvent().let {
+            binding.viewEvent = it
+            viewEvent = it
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        viewEvent = settingsViewModel.getViewEvent()
         initViews()
         initViewState()
         initViewEffect()
-        initRx()
     }
 
     private fun initViewState() = settingsViewModel.viewStateLiveData
@@ -54,12 +57,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 NoResult -> {
                     settingsAdapter.submitList(mutableListOf())
                     binding.txtNoResult.visible()
-                }
-                is NoFilter -> {
-                    binding.editTextSearch.setText("")
-                    if (viewState.shouldCleanBase) {
-                        settingsViewModel.setCurrentBase(null)
-                    }
                 }
                 is Success -> settingsAdapter.submitList(viewState.currencyList)
             }
@@ -72,25 +69,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         })
 
-    private fun initRx() = compositeDisposable.add(
-        binding.editTextSearch
-            .textChanges()
-            .map { it.toString() }
-            .subscribe(
-                { settingsViewModel.filterList(it) },
-                { logError(it) }
-            )
-    )
-
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = settingsAdapter
         }
-        editTextSearch.setText("")
-        btnSelectAll.setOnClickListener { viewEvent.updateAllStates(1) }
-        btnDeSelectAll.setOnClickListener { viewEvent.updateAllStates(0) }
         adView.checkAd(R.string.banner_ad_unit_id_settings, settingsViewModel.isRewardExpired)
     }
 }

@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.scopemob.either
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -9,7 +10,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoFilter
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
@@ -29,9 +29,21 @@ class SettingsViewModel(
     override val viewStateLiveData: MutableLiveData<SettingsViewState> = MutableLiveData()
     override val viewEffectLiveData: MutableLiveData<SettingsViewEffect> = MutableLiveData()
 
+    private val searchQueryMediatorLiveData = MediatorLiveData<String>()
+    val searchQueryLiveData: MutableLiveData<String> = searchQueryMediatorLiveData
+
     private val currencyList: MutableList<Currency> = mutableListOf()
 
     init {
+        initData()
+
+        searchQueryMediatorLiveData.addSource(searchQueryLiveData) {
+            filterList(it)
+        }
+        filterList("")
+    }
+
+    private fun initData() {
         currencyList.clear()
 
         if (mainData.firstRun) {
@@ -44,7 +56,7 @@ class SettingsViewModel(
         }
     }
 
-    fun filterList(txt: String) = currencyList
+    private fun filterList(txt: String) = currencyList
         .filter { currency ->
             currency.name.contains(txt, true) ||
                 currency.longName.contains(txt, true) ||
@@ -71,7 +83,12 @@ class SettingsViewModel(
         if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
             viewEffectLiveData.postValue(FewCurrency)
         }
-        viewStateLiveData.postValue(NoFilter(value == 0))
+
+        if (value == 0) {
+            setCurrentBase(null)
+        }
+
+        searchQueryLiveData.postValue("")
     }
 
     override fun updateAllStates(value: Int) {
