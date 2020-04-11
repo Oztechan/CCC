@@ -88,16 +88,12 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                ErrorEffect -> calculatorViewModel.currencyListLiveData.value?.size
-                    ?.whether { it > 1 }
-                    ?.let {
-                        showSnacky(
-                            view,
-                            R.string.rate_not_available_offline,
-                            R.string.change,
-                            isIndefinite = true
-                        ) { binding.layoutBar.spinnerBase.expand() }
-                    }
+                ErrorEffect -> showSnacky(
+                    view,
+                    R.string.rate_not_available_offline,
+                    R.string.change,
+                    isIndefinite = true
+                ) { binding.layoutBar.spinnerBase.expand() }
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
@@ -111,7 +107,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 } ?: run {
                     Toasty.showToasty(requireContext(), R.string.database_success)
                 }
-
                 is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
                 is SwitchBaseEffect -> {
                     binding.txtInput.text = viewEffect.text

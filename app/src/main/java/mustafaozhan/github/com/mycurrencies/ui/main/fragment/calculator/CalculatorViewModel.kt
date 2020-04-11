@@ -157,7 +157,10 @@ class CalculatorViewModel(
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
         viewStateLiveData.postValue(EmptyState)
-        viewEffectLiveData.postValue(ErrorEffect)
+
+        currencyListLiveData.value?.size
+            ?.whether { it > 1 }
+            ?.let { viewEffectLiveData.postValue(ErrorEffect) }
     }
 
     fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
