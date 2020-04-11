@@ -81,7 +81,7 @@
             android:hint="@string/search"
             android:inputType="text"
             android:paddingBottom="@dimen/margin_four"
-            android:text="@={viewModel.searchQueryLiveData}"
+            android:text="@={viewModel.viewState.searchQuery}"
             android:textAppearance="@style/ItemTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_eight"
             android:text="@string/no_result"
-            android:visibility="gone"
+            app:visibility="@{viewModel.viewState.noResult}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />

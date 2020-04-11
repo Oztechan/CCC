@@ -21,14 +21,11 @@ import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
 import javax.inject.Inject
 
@@ -60,30 +57,10 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
-        initViewState()
         initViewEffect()
         setListeners()
         initLiveData()
     }
-
-    private fun initViewState() = calculatorViewModel.viewStateLiveData
-        .reObserve(viewLifecycleOwner, Observer { viewState ->
-            when (viewState) {
-                LoadingState -> binding.loadingView.smoothToShow()
-                EmptyState -> {
-                    binding.txtEmpty.visible()
-                    binding.loadingView.smoothToHide()
-                    calculatorAdapter.submitList(mutableListOf(), calculatorViewModel.mainData.currentBase)
-                }
-                is SuccessState -> {
-                    calculatorAdapter.submitList(
-                        viewState.currencyList,
-                        calculatorViewModel.mainData.currentBase
-                    )
-                    binding.loadingView.smoothToHide()
-                }
-            }
-        })
 
     private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
@@ -99,7 +76,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 }
                 is MaximumInputEffect -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
-                    calculatorViewModel.inputLiveData.postValue(viewEffect.input.dropLast(1))
+                    calculatorViewModel.viewState.input.postValue(viewEffect.input.dropLast(1))
                     binding.loadingView.smoothToHide()
                 }
                 is OfflineSuccessEffect -> viewEffect.date?.let {
@@ -117,14 +94,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         })
 
     @SuppressLint("SetTextI18n")
-    private fun initLiveData() {
-        calculatorViewModel.currencyListLiveData.reObserve(this, Observer { currencyList ->
+    private fun initLiveData() = calculatorViewModel.viewState.apply {
+        currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
             calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
             binding.loadingView.smoothToHide()
         })
 
-        calculatorViewModel.outputLiveData.reObserve(this, Observer { output ->
+        calculatorViewModel.viewState.output.reObserve(viewLifecycleOwner, Observer { output ->
             with(binding.layoutBar) {
                 txtSymbol.text = calculatorViewModel.getCurrencyByName(
                     calculatorViewModel.mainData.currentBase.toString()
@@ -140,10 +117,10 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             }
         })
 
-        calculatorViewModel.inputLiveData.reObserve(this, Observer { input ->
+        output.reObserve(viewLifecycleOwner, Observer { input ->
             if (input.isEmpty()) {
                 calculatorViewModel.postEmptyState()
-                calculatorViewModel.outputLiveData.postValue("")
+                calculatorViewModel.viewState.output.postValue("")
             } else {
                 calculatorViewModel.calculateOutput(input)
                 binding.txtEmpty.gone()
@@ -187,7 +164,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     private fun updateBase(base: String) {
         calculatorViewModel.updateCurrentBase(base)
-        calculatorViewModel.inputLiveData.postValue(calculatorViewModel.inputLiveData.value)
+        calculatorViewModel.viewState.input.postValue(calculatorViewModel.viewState.input.value)
         binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 }

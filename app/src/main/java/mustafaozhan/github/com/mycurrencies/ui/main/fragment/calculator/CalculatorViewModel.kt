@@ -31,14 +31,11 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewState
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.EmptyState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LoadingState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SuccessState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -60,13 +57,10 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
     }
 
-    override val viewStateLiveData: MutableLiveData<CalculatorViewState> = MutableLiveData(EmptyState)
+    override val viewState = CalculatorViewState()
     override val viewEffectLiveData: MutableLiveData<CalculatorViewEffect> = MutableLiveData()
+    override fun getViewEvent() = this as CalculatorViewEvent
 
-    val inputLiveData: MutableLiveData<String> = MutableLiveData("")
-
-    val currencyListLiveData: MutableLiveData<MutableList<Currency>> = MutableLiveData()
-    val outputLiveData: MutableLiveData<String> = MutableLiveData("")
     var rates: Rates? = null
 
     init {
@@ -87,21 +81,21 @@ class CalculatorViewModel(
     }
 
     private fun refreshData() {
-        viewStateLiveData.postValue(LoadingState)
+        viewState.loading.postValue(true)
         rates = null
-        currencyListLiveData.value?.clear()
+        viewState.currencyList.value?.clear()
 
         if (mainData.firstRun) {
             currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-        currencyListLiveData.postValue(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
+        submitList(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
     private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
         var tempList = mutableListOf<Currency>()
 
-        currencyListLiveData.value?.let { currencyList ->
+        viewState.currencyList.value?.let { currencyList ->
             currencyList.forEach { it.rate = calculateResultByCurrency(it.name, rates) }
             tempList = currencyList
         }
@@ -110,12 +104,12 @@ class CalculatorViewModel(
     }
 
     private fun getCurrencies() {
-        viewStateLiveData.postValue(LoadingState)
+        viewState.loading.postValue(true)
         rates?.let { rates ->
-            currencyListLiveData.value?.forEach { currency ->
+            viewState.currencyList.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
             }
-            viewStateLiveData.postValue(SuccessState(getCalculatedList(rates)))
+            submitList(getCalculatedList(rates))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
@@ -132,7 +126,7 @@ class CalculatorViewModel(
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
         rates?.let {
-            viewStateLiveData.postValue(SuccessState(getCalculatedList(it)))
+            submitList(getCalculatedList(it))
             offlineRatesRepository.insertOfflineRates(it)
         }
     }
@@ -141,7 +135,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(mainData.currentBase.toString())?.let { offlineRates ->
-            viewStateLiveData.postValue(SuccessState(getCalculatedList(offlineRates)))
+            submitList(getCalculatedList(offlineRates))
             viewEffectLiveData.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             viewModelScope.launch {
@@ -156,9 +150,9 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        viewStateLiveData.postValue(EmptyState)
+        viewState.empty.postValue(true)
 
-        currencyListLiveData.value?.size
+        viewState.currencyList.value?.size
             ?.whether { it > 1 }
             ?.let { viewEffectLiveData.postValue(ErrorEffect) }
     }
@@ -168,12 +162,12 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            outputLiveData.postValue(output)
-            currencyListLiveData.value
+            viewState.output.postValue(output)
+            viewState.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.let {
-                    viewStateLiveData.postValue(EmptyState)
+                    viewState.empty.postValue(true)
                     viewEffectLiveData.postValue(FewCurrencyEffect)
                 }
                 ?: run { getCurrencies() }
@@ -196,15 +190,23 @@ class CalculatorViewModel(
                 { equals(Currencies.NULL) },
                 { spinnerList.indexOf(it.toString()) == -1 }
             )
-            ?.let { updateCurrentBase(currencyListLiveData.value?.firstOrNull { it.isActive == 1 }?.name) }
+            ?.let { updateCurrentBase(viewState.currencyList.value?.firstOrNull { it.isActive == 1 }?.name) }
 
         return mainData.currentBase
+    }
+
+    private fun submitList(currencyList: MutableList<Currency>?) {
+        viewState.currencyList.postValue(currencyList)
+        viewState.loading.postValue(false)
+        if (currencyList?.isEmpty() != false) {
+            viewState.empty.postValue(false)
+        }
     }
 
     private fun calculateResultByCurrency(
         name: String,
         rate: Rates?
-    ) = outputLiveData.value
+    ) = viewState.output.value
         ?.whetherNot { isEmpty() }
         ?.let { output ->
             try {
@@ -216,30 +218,30 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    fun postEmptyState() = viewStateLiveData.postValue(EmptyState)
+    fun postEmptyState() = viewState.empty.postValue(true)
 
     override fun keyPressed(key: String) {
-        inputLiveData.postValue(if (key.isEmpty()) "" else inputLiveData.value.toString() + key)
+        viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
     }
 
     override fun delPressed() {
-        inputLiveData.value
+        viewState.input.value
             ?.whetherNot { isEmpty() }
             ?.apply {
-                inputLiveData.postValue(substring(0, length - 1))
+                viewState.input.postValue(substring(0, length - 1))
             }
     }
 
     override fun acPressed() {
-        inputLiveData.postValue("")
-        outputLiveData.postValue("")
+        viewState.input.postValue("")
+        viewState.output.postValue("")
     }
 
     override fun onRowClick(currency: Currency) {
         viewEffectLiveData.postValue(SwitchBaseEffect(
             currency.rate.getFormatted().replaceNonStandardDigits().dropDecimal(),
             currency.name,
-            currencyListLiveData.value?.indexOf(currency) ?: -1
+            viewState.currencyList.value?.indexOf(currency) ?: -1
         ))
     }
 
@@ -249,6 +251,4 @@ class CalculatorViewModel(
         )
         return true
     }
-
-    override fun getViewEvent() = this as CalculatorViewEvent
 }

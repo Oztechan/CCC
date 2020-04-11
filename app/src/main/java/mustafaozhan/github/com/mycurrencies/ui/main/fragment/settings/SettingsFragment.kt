@@ -13,9 +13,7 @@ import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.NoResult
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Success
 import javax.inject.Inject
 
 /**
@@ -45,21 +43,21 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
-        initViewState()
+        initLiveData()
         initViewEffect()
     }
 
-    private fun initViewState() = settingsViewModel.viewStateLiveData
-        .reObserve(viewLifecycleOwner, Observer { viewState ->
+    private fun initLiveData() = settingsViewModel.viewState.apply {
+        noResult.reObserve(viewLifecycleOwner, Observer {
             binding.txtNoResult.gone()
-            when (viewState) {
-                NoResult -> {
-                    settingsAdapter.submitList(mutableListOf())
-                    binding.txtNoResult.visible()
-                }
-                is Success -> settingsAdapter.submitList(viewState.currencyList)
-            }
+            settingsAdapter.submitList(mutableListOf())
+            binding.txtNoResult.visible()
         })
+        currencyList.reObserve(viewLifecycleOwner, Observer {
+            binding.txtNoResult.gone()
+            settingsAdapter.submitList(it)
+        })
+    }
 
     private fun initViewEffect() = settingsViewModel.viewEffectLiveData
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->

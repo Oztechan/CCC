@@ -31,6 +31,7 @@
 
             <TextView
                 android:id="@+id/txt_input"
+                android:text="@{viewModel.viewState.input}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -54,6 +55,7 @@
             style="@style/AVLoadingIndicatorView"
             android:layout_width="@dimen/loading_view_size"
             android:layout_height="@dimen/loading_view_size"
+            app:visibility="@{viewModel.viewState.loading}"
             app:indicatorColor="@color/colorAccent"
             app:indicatorName="BallPulseIndicator"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -63,6 +65,7 @@
         <TextView
             android:id="@+id/txt_empty"
             style="@style/ItemTextStyle"
+            app:visibility="@{viewModel.viewState.empty}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_eight"
