@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment
 
 import com.github.mustafaozhan.basemob.view.BaseViewEffect
 import com.github.mustafaozhan.basemob.view.BaseViewEvent
@@ -11,7 +11,7 @@ import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
 import org.joda.time.Duration
 import org.joda.time.Instant
 
-abstract class MainDataViewModel
+abstract class DataViewModel
 <ViewEffect : BaseViewEffect, ViewEvent : BaseViewEvent, ViewState : BaseViewState>(
     protected var preferencesRepository: PreferencesRepository
 ) : UDFViewModel<ViewEffect, ViewEvent, ViewState>() {
@@ -20,6 +20,19 @@ abstract class MainDataViewModel
         const val NUMBER_OF_HOURS = 24
         const val MINIMUM_ACTIVE_CURRENCY = 2
     }
+
+    val mainDataViewState = DataViewState(DataViewStateObserver())
+
+    init {
+        mainDataViewState.base.value = mainData.currentBase.toString()
+
+        mainDataViewState.observer.base.addSource(mainDataViewState.base) {
+            setCurrentBase(it)
+            currentBaseChanged(it)
+        }
+    }
+
+    abstract fun currentBaseChanged(newBase: String)
 
     internal val mainData: MainData
         get() = preferencesRepository.loadMainData()

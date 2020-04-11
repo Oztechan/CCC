@@ -27,10 +27,11 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewStateObserver
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
@@ -49,7 +50,7 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : MainDataViewModel<CalculatorViewEffect, CalculatorViewEvent, CalculatorViewState>(
+) : DataViewModel<CalculatorViewEffect, CalculatorViewEvent, CalculatorViewState>(
     preferencesRepository
 ), CalculatorViewEvent {
 
@@ -57,13 +58,29 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
     }
 
-    override val viewState = CalculatorViewState()
+    override val viewState = CalculatorViewState(CalculatorViewStateObserver())
     override val viewEffectLiveData: MutableLiveData<CalculatorViewEffect> = MutableLiveData()
     override fun getViewEvent() = this as CalculatorViewEvent
 
     var rates: Rates? = null
 
     init {
+        initData()
+
+        viewState.input.postValue("")
+
+        viewState.observer.input.addSource(viewState.input) { input ->
+            if (input.isEmpty()) {
+                viewState.empty.postValue(true)
+                viewState.output.postValue("")
+            } else {
+                calculateOutput(input)
+                viewState.empty.postValue(false)
+            }
+        }
+    }
+
+    private fun initData() {
         refreshData()
 
         if (preferencesRepository.loadResetData() && !mainData.firstRun) {
@@ -163,6 +180,14 @@ class CalculatorViewModel(
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
             viewState.output.postValue(output)
+
+            output
+                .whetherNot { isEmpty() }
+                ?.apply { viewState.output.postValue(replaceNonStandardDigits()) }
+                ?: run {
+                    viewState.output.postValue("")
+                    viewState.input.postValue("")
+                }
             viewState.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -218,8 +243,6 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    fun postEmptyState() = viewState.empty.postValue(true)
-
     override fun keyPressed(key: String) {
         viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
     }
@@ -250,5 +273,9 @@ class CalculatorViewModel(
             LongClickEffect("${getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}", currency.name)
         )
         return true
+    }
+
+    override fun currentBaseChanged(newBase: String) {
+        viewState.symbol.postValue(getCurrencyByName(newBase)?.symbol ?: "")
     }
 }

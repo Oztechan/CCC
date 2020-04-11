@@ -5,21 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
-import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
@@ -58,8 +53,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initViews()
         initViewEffect()
-        setListeners()
-        initLiveData()
+        setList()
     }
 
     private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
@@ -94,64 +88,18 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         })
 
     @SuppressLint("SetTextI18n")
-    private fun initLiveData() = calculatorViewModel.viewState.apply {
+    private fun setList() = calculatorViewModel.viewState.apply {
         currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
             updateBar(currencyList.map { it.name })
             calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
             binding.loadingView.smoothToHide()
         })
-
-        calculatorViewModel.viewState.output.reObserve(viewLifecycleOwner, Observer { output ->
-            with(binding.layoutBar) {
-                txtSymbol.text = calculatorViewModel.getCurrencyByName(
-                    calculatorViewModel.mainData.currentBase.toString()
-                )?.symbol ?: ""
-
-                output.toString()
-                    .whetherNot { isEmpty() }
-                    ?.apply { txtOutput.text = "=  ${replaceNonStandardDigits()} " }
-                    ?: run {
-                        txtOutput.text = ""
-                        txtSymbol.text = ""
-                    }
-            }
-        })
-
-        output.reObserve(viewLifecycleOwner, Observer { input ->
-            if (input.isEmpty()) {
-                calculatorViewModel.postEmptyState()
-                calculatorViewModel.viewState.output.postValue("")
-            } else {
-                calculatorViewModel.calculateOutput(input)
-                binding.txtEmpty.gone()
-            }
-        })
     }
 
     private fun initViews() = with(binding) {
         loadingView.bringToFront()
-        txtEmpty.visible()
-        recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewMain.adapter = calculatorAdapter
-    }
 
-    private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
-        spinnerList
-            .whether { size >= MINIMUM_ACTIVE_CURRENCY }
-            ?.apply {
-                spinnerBase.setItems(this)
-                spinnerBase.tryToSelect(indexOf(calculatorViewModel.verifyCurrentBase(this).toString()))
-                ivBase.setBackgroundByName(spinnerBase.text.toString())
-            } ?: run {
-            showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
-                navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
-            }
-            spinnerBase.setItems("")
-            ivBase.setBackgroundByName("transparent")
-        }
-    }
-
-    private fun setListeners() = with(binding) {
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
         layoutBar.layoutBar.setOnClickListener {
             with(layoutBar.spinnerBase) {
@@ -159,6 +107,19 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     ?.apply { collapse() }
                     ?: run { expand() }
             }
+        }
+    }
+
+    private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
+        spinnerList.whether { size >= MINIMUM_ACTIVE_CURRENCY }
+            ?.apply {
+                spinnerBase.setItems(this)
+                spinnerBase.tryToSelect(indexOf(calculatorViewModel.verifyCurrentBase(this).toString()))
+                ivBase.setBackgroundByName(spinnerBase.text.toString())
+            } ?: run {
+            calculatorViewModel.viewEffectLiveData.postValue(FewCurrencyEffect)
+            spinnerBase.setItems("")
+            ivBase.setBackgroundByName("transparent")
         }
     }
 

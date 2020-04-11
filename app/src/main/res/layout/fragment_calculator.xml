@@ -4,6 +4,7 @@
 
     <data>
 
+        <import type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorAdapter" />
         <variable
             name="viewModel"
             type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
@@ -77,6 +78,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
             android:layout_width="@dimen/fit"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="@dimen/fit"
             android:background="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/guideline"

@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.extension.visible
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
@@ -43,16 +41,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initViews()
-        initLiveData()
+        initList()
         initViewEffect()
     }
 
-    private fun initLiveData() = settingsViewModel.viewState.apply {
-        noResult.reObserve(viewLifecycleOwner, Observer {
-            binding.txtNoResult.gone()
-            settingsAdapter.submitList(mutableListOf())
-            binding.txtNoResult.visible()
-        })
+    private fun initList() = settingsViewModel.viewState.apply {
         currencyList.reObserve(viewLifecycleOwner, Observer {
             binding.txtNoResult.gone()
             settingsAdapter.submitList(it)
@@ -68,7 +61,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     private fun initViews() = with(binding) {
         recyclerViewSettings.apply {
-            layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = settingsAdapter
         }

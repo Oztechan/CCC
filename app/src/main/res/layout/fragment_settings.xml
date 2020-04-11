@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorAdapter" />
+
         <variable
             name="viewModel"
             type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsViewModel" />
@@ -95,16 +97,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_eight"
             android:text="@string/no_result"
-            app:visibility="@{viewModel.viewState.noResult}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
+            app:visibility="@{viewModel.viewState.noResult}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"
             android:layout_width="@dimen/fit"
             android:layout_height="@dimen/fit"
             android:background="@color/colorPrimary"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

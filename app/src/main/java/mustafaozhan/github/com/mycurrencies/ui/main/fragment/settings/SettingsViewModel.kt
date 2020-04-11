@@ -6,12 +6,12 @@ import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesReposito
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.ui.main.MainDataViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewState
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewStateWrapper
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewStateObserver
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -19,20 +19,18 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Setti
 class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : MainDataViewModel<SettingsViewEffect, SettingsViewEvent, SettingsViewState>(
+) : DataViewModel<SettingsViewEffect, SettingsViewEvent, SettingsViewState>(
     preferencesRepository
 ), SettingsViewEvent {
 
-    override val viewState = SettingsViewState(SettingsViewStateWrapper())
+    override val viewState = SettingsViewState(SettingsViewStateObserver())
     override val viewEffectLiveData: MutableLiveData<SettingsViewEffect> = MutableLiveData()
     override fun getViewEvent() = this as SettingsViewEvent
 
     init {
         initData()
 
-        viewState.wrapper.searchQuery.addSource(
-            viewState.searchQuery
-        ) {
+        viewState.observer.searchQuery.addSource(viewState.searchQuery) {
             filterList(it)
         }
         filterList("")
@@ -101,4 +99,6 @@ class SettingsViewModel(
         currencyRepository.updateCurrencyStateByName(name, value)
         verifyCurrentBase(value)
     }
+
+    override fun currentBaseChanged(newBase: String) = Unit
 }
