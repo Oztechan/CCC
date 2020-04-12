@@ -91,7 +91,7 @@
     <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 24 hours!</string>
 
     <!-- Test Ad ID-->
-    <string name="banner_ad_unit_id_main">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id_calculator">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_settings">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_text_ad_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="interstitial_video_ad_id">ca-app-pub-3940256099942544/1033173712</string>
@@ -106,5 +106,4 @@
 
     <!-- Settings Screen -->
     <string name="no_result"> No result found.</string>
-
 </resources>

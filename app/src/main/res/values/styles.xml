@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -13,12 +13,54 @@
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
     </style>
 
-    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColor">@color/cyan_700</item>
-        <item name="android:fontFamily">@font/news_cycle_regular</item>
-        <item name="android:textStyle">bold</item>
+    <style name="AppTheme.Fullscreen.SplashTheme">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
     </style>
 
+    <style name="AppTheme.Fullscreen">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!-- Size -->
+    <style name="FitStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">@dimen/fit</item>
+    </style>
+
+    <style name="WrapStyle" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="MatchStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- Base -->
+    <style name="BarBaseImageView" parent="AppTheme">
+        <item name="android:layout_width">@dimen/currency_icon_size</item>
+        <item name="android:layout_height">@dimen/currency_icon_size</item>
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="srcCompat">@color/transparent</item>
+    </style>
+
+    <style name="BaseLayoutStyle" parent="MatchStyle">
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="BaseToolbarStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <!-- Edit Text -->
     <style name="BaseEditTextTheme">
         <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:maxLines">1</item>
@@ -28,11 +70,19 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
+    <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/blue_grey_100</item>
         <item name="android:textSize">@dimen/text_size_l</item>
+    </style>
+
+    <!-- Dialog -->
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/cyan_700</item>
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ItemTextStyle" parent="BaseTextStyle">
@@ -43,7 +93,73 @@
         <item name="android:textSize">@dimen/text_size_s</item>
     </style>
 
+    <!-- Setting window animation -->
+    <style name="AppTheme.WindowTransition">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- Slide -->
+    <style name="SlideLinearLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dots_height</item>
+        <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="SlideProgressBar" parent="WrapStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="SlideViewLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/margin_one</item>
+        <item name="alpha">.1</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="SlideButtonNext" parent="WrapStyle">
+        <item name="android:background">@null</item>
+        <item name="android:text">@string/next</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SlideLayout" parent="MatchStyle">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="BaseSlideStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SlideTitle" parent="BaseSlideStyle">
+        <item name="android:textSize">@dimen/text_size_xxl</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="SlideSubTitle" parent="BaseSlideStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textAlignment" tools:ignore="NewApi">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>
+        <item name="android:paddingRight">@dimen/padding_left_right_slide_item</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_slide_items</item>
+    </style>
+
+    <style name="SlideDescription" parent="SlideSubTitle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <!-- Keyboard -->
     <style name="KeyboardTextStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/blue_grey_100</item>
@@ -52,18 +168,169 @@
         <item name="android:background">@drawable/selector_dark</item>
     </style>
 
-    <style name="AppTheme.Fullscreen.SplashTheme">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
+    <style name="SubKeyboardTableRowStyle" parent="MatchStyle">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
+    <!-- Bar -->
+    <style name="LayoutBar" parent="AppTheme">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
-    <!-- Setting window animation -->
-    <style name="AppTheme.WindowTransition">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
+
+    <style name="BarTextStyle" parent="WrapStyle">
+        <item name="android:layout_marginTop">@dimen/margin_eight</item>
+        <item name="android:layout_marginBottom">@dimen/margin_eight</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
+
+    <style name="BarSpinnerStyle" parent="WrapStyle">
+        <item name="ms_background_color">@color/colorPrimaryDark</item>
+        <item name="ms_hide_arrow">true</item>
+        <item name="android:layout_marginBottom">@dimen/margin_three</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <!-- Calculator -->
+    <style name="CalculatorToolbarTextStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textAppearance">@style/BaseTextStyle</item>
+    </style>
+
+    <style name="LoadingViewStyle" parent="AVLoadingIndicatorView">
+        <item name="android:layout_width">@dimen/loading_view_size</item>
+        <item name="android:layout_height">@dimen/loading_view_size</item>
+        <item name="indicatorColor">@color/colorAccent</item>
+        <item name="indicatorName">BallPulseIndicator</item>
+    </style>
+
+    <style name="NoResultEmptyLayoutStyle" parent="ItemTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_eight</item>
+    </style>
+
+    <!-- Settings -->
+
+    <style name="SettingsToolbarTextStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/settings</item>
+        <item name="android:textAppearance">@style/BaseTextStyle</item>
+        <item name="android:textColor">@color/blue_grey_100</item>
+    </style>
+
+    <style name="SelectDeselectAllButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextStyleSmall</item>
+    </style>
+
+    <style name="SettingsSearchTextStyle" parent="BaseEditTextTheme">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:hint">@string/search</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
+        <item name="android:textAppearance">@style/ItemTextStyle</item>
+    </style>
+
+    <!-- Item -->
+    <style name="BaseItemLayout" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/selector_light</item>
+        <item name="android:paddingLeft">@dimen/margin_four</item>
+        <item name="android:paddingRight">@dimen/margin_zero</item>
+    </style>
+
+    <!-- Calculator Item -->
+    <style name="CalculatorItemImageViewBase" parent="AppTheme">
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginEnd">@dimen/margin_four</item>
+        <item name="android:layout_marginRight">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:layout_width">@dimen/currency_icon_size</item>
+        <item name="android:layout_height">@dimen/currency_icon_size</item>
+    </style>
+
+    <style name="BaseCalculatorItemTextStyle" parent="WrapStyle">
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">@dimen/margin_zero</item>
+        <item name="android:paddingLeft">@dimen/margin_zero</item>
+        <item name="android:paddingRight">@dimen/margin_four</item>
+        <item name="android:paddingEnd">@dimen/margin_four</item>\
+        <item name="android:textAppearance">@style/ItemTextStyle</item>
+    </style>
+
+    <style name="CalculatorItemAmountTextStyle" parent="BaseCalculatorItemTextStyle">
+        <item name="android:layout_marginStart">@dimen/margin_four</item>
+        <item name="android:layout_marginLeft">@dimen/margin_four</item>
+        <item name="android:paddingStart">@dimen/margin_four</item>
+        <item name="android:paddingLeft">@dimen/margin_four</item>
+        <item name="android:paddingRight">@dimen/margin_zero</item>
+        <item name="android:paddingEnd">@dimen/margin_zero</item>
+    </style>
+
+    <style name="CalculatorItemSymbolTextStyle" parent="CalculatorItemAmountTextStyle">
+        <item name="android:paddingStart">@dimen/margin_zero</item>
+        <item name="android:paddingLeft">@dimen/margin_zero</item>
+        <item name="android:paddingRight">@dimen/margin_four</item>
+        <item name="android:paddingEnd">@dimen/margin_four</item>
+        <item name="android:textAppearance">@style/TextStyleSmall</item>
+    </style>
+
+    <style name="CalculatorItemTypeTextStyle" parent="BaseCalculatorItemTextStyle">
+        <item name="android:layout_marginEnd">@dimen/margin_eight</item>
+        <item name="android:layout_marginRight">@dimen/margin_eight</item>
+    </style>
+
+    <!-- Settings Item -->
+    <style name="SettingsItemImageViewBase" parent="CalculatorItemImageViewBase">
+        <item name="android:layout_marginTop">@dimen/margin_two</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
+    </style>
+
+    <style name="SettingsItemText" parent="AppTheme">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_two</item>
+        <item name="android:layout_marginEnd">@dimen/margin_four</item>
+        <item name="android:layout_marginRight">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAppearance">@style/TextStyleSmall</item>
+    </style>
+
+    <style name="SettingsItemCheckBoxStyle" parent="WrapStyle">
+        <item name="android:layout_marginTop">@dimen/margin_two</item>
+        <item name="android:layout_marginEnd">@dimen/margin_two</item>
+        <item name="android:layout_marginRight">@dimen/margin_two</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+    <!-- Ad -->
+    <style name="BaseBannerAdStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BaseRecyclerViewStyle" parent="FitStyle">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+    </style>
+
 </resources>

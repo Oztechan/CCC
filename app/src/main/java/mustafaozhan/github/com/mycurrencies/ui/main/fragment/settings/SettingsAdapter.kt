@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.viewholder.BaseVBViewHolder
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
@@ -17,18 +17,18 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Setti
  */
 class SettingsAdapter(
     private val viewEvent: SettingsViewEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemSettingBinding>(SettingsDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency, ItemSettingsBinding>(SettingsDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesViewBindingViewHolder(ItemSettingBinding.inflate(
+    ) = RatesViewBindingViewHolder(ItemSettingsBinding.inflate(
         LayoutInflater.from(parent.context),
         parent,
         false)
     )
 
-    override fun onBindViewHolder(holder: BaseVBViewHolder<Currency, ItemSettingBinding>, position: Int) {
+    override fun onBindViewHolder(holder: BaseVBViewHolder<Currency, ItemSettingsBinding>, position: Int) {
         holder.itemView.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.itemView.context,
@@ -38,13 +38,13 @@ class SettingsAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemSettingBinding>) {
+    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemSettingsBinding>) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.clearAnimation()
     }
 
-    inner class RatesViewBindingViewHolder(itemBinding: ItemSettingBinding) :
-        BaseVBViewHolder<Currency, ItemSettingBinding>(itemBinding) {
+    inner class RatesViewBindingViewHolder(itemBinding: ItemSettingsBinding) :
+        BaseVBViewHolder<Currency, ItemSettingsBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             txtSettingItem.text = item.getVariablesOneLine()
@@ -53,7 +53,7 @@ class SettingsAdapter(
 
             itemView.setOnClickListener {
                 item.isActive = if (item.isActive == 0) 1 else 0
-                viewEvent.updateCurrencyState(if (item.isActive == 0) 1 else 0, item.name)
+                viewEvent.onItemClicked(if (item.isActive == 0) 1 else 0, item.name)
                 itemBinding.checkBox.isChecked = item.isActive == 0
             }
         }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.viewholder.BaseVBViewHolder
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrencyBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
@@ -18,12 +18,12 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Cal
  */
 class CalculatorAdapter(
     private val viewEvent: CalculatorViewEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemCurrencyBinding>(CalculatorDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesViewBindingViewHolder(ItemCurrencyBinding.inflate(
+    ) = RatesViewBindingViewHolder(ItemCalculatorBinding.inflate(
         LayoutInflater.from(parent.context),
         parent,
         false)
@@ -38,8 +38,8 @@ class CalculatorAdapter(
         } ?: mutableListOf()
     )
 
-    inner class RatesViewBindingViewHolder(itemBinding: ItemCurrencyBinding) :
-        BaseVBViewHolder<Currency, ItemCurrencyBinding>(itemBinding) {
+    inner class RatesViewBindingViewHolder(itemBinding: ItemCalculatorBinding) :
+        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) {
             with(itemBinding) {
@@ -49,8 +49,8 @@ class CalculatorAdapter(
                 imgItem.setBackgroundByName(item.name)
             }
 
-            itemView.setOnClickListener { viewEvent.onRowClick(item) }
-            itemView.setOnLongClickListener { viewEvent.onRowLongClick(item) }
+            itemView.setOnClickListener { viewEvent.onItemClick(item) }
+            itemView.setOnLongClickListener { viewEvent.onItemLongClick(item) }
         }
     }
 

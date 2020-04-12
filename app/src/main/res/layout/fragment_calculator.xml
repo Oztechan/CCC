@@ -4,7 +4,6 @@
 
     <data>
 
-        <import type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorAdapter" />
         <variable
             name="viewModel"
             type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
@@ -14,30 +13,19 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+    <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_fragment_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:background="@color/colorPrimaryDark"
-            android:fitsSystemWindows="true"
+            style="@style/BaseToolbarStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/txt_input"
-                android:text="@{viewModel.viewState.input}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxLines="3"
-                android:textAppearance="@style/BaseTextStyle" />
+                style="@style/CalculatorToolbarTextStyle"
+                android:text="@{viewModel.viewState.input}" />
         </androidx.appcompat.widget.Toolbar>
 
         <include
@@ -53,34 +41,24 @@
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/loading_view"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="@dimen/loading_view_size"
-            android:layout_height="@dimen/loading_view_size"
-            app:visibility="@{viewModel.viewState.loading}"
-            app:indicatorColor="@color/colorAccent"
-            app:indicatorName="BallPulseIndicator"
+            style="@style/LoadingViewStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar"
+            app:visibility="@{viewModel.viewState.loading}" />
 
         <TextView
             android:id="@+id/txt_empty"
-            style="@style/ItemTextStyle"
-            app:visibility="@{viewModel.viewState.empty}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_eight"
+            style="@style/NoResultEmptyLayoutStyle"
             android:text="@string/type_for_results"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar"
+            app:visibility="@{viewModel.viewState.empty}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
-            android:layout_width="@dimen/fit"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_height="@dimen/fit"
-            android:background="@color/colorPrimary"
+            style="@style/BaseRecyclerViewStyle"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -88,16 +66,14 @@
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/WrapStyle"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.55" />
 
         <include
             android:id="@+id/layout_keyboard"
+            style="@style/FitStyle"
             layout="@layout/layout_keyboard_content"
-            android:layout_width="@dimen/fit"
-            android:layout_height="@dimen/fit"
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,17 +82,13 @@
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ad_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimaryDark"
+            style="@style/BaseBannerAdStyle"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id_main"
+            ads:adUnitId="@string/banner_ad_unit_id_calculator"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
-            app:adId="@{@string/banner_ad_unit_id_main}"
+            app:adId="@{@string/banner_ad_unit_id_calculator}"
             app:isEnabled="@{viewModel.isRewardExpired}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

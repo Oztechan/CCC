@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,61 +14,38 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
+        style="@style/LayoutBar">
 
         <ImageView
             android:id="@+id/iv_base"
-            android:layout_width="@dimen/currency_icon_size"
-            android:layout_height="@dimen/currency_icon_size"
-            android:layout_marginStart="@dimen/margin_eight"
-            android:layout_marginLeft="@dimen/margin_eight"
+            style="@style/BarBaseImageView"
             app:backgroundByName="@{viewModel.mainDataViewState.base}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/transparent"
             tools:ignore="ContentDescription" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/spinner_base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="@dimen/margin_three"
-            android:textAppearance="@style/TextStyleSmall"
+            style="@style/BarSpinnerStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
-            app:layout_constraintTop_toTopOf="parent"
-            app:ms_background_color="@color/colorPrimaryDark"
-            app:ms_hide_arrow="true" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_output"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_eight"
-            android:layout_marginBottom="@dimen/margin_eight"
-            android:maxLines="1"
+            style="@style/BarTextStyle"
             android:text="@{`=  `+viewModel.viewState.output+` `}"
-            android:textAppearance="@style/BaseTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/spinner_base"
             app:layout_constraintTop_toTopOf="@+id/spinner_base" />
 
         <TextView
             android:id="@+id/txt_symbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_eight"
-            android:layout_marginBottom="@dimen/margin_eight"
-            android:maxLines="1"
+            style="@style/BarTextStyle"
             android:text="@{viewModel.viewState.symbol}"
-            android:textAppearance="@style/BaseTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
             app:layout_constraintTop_toTopOf="@+id/spinner_base"

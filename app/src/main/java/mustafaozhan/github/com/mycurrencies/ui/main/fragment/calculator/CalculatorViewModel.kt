@@ -174,7 +174,7 @@ class CalculatorViewModel(
             ?.let { viewEffectLiveData.postValue(ErrorEffect) }
     }
 
-    fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+    private fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
         .calculate()
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
@@ -203,11 +203,6 @@ class CalculatorViewModel(
         setCurrentBase(currency)
         getCurrencies()
     }
-
-    private fun getClickedItemRate(name: String): String =
-        "1 ${mainData.currentBase.name} = ${rates?.getThroughReflection<Double>(name)}"
-
-    fun getCurrencyByName(name: String) = currencyRepository.getCurrencyByName(name)
 
     fun verifyCurrentBase(spinnerList: List<String>): Currencies {
         mainData.currentBase
@@ -243,11 +238,16 @@ class CalculatorViewModel(
             }
         } ?: run { 0.0 }
 
-    override fun keyPressed(key: String) {
+    override fun currentBaseChanged(newBase: String) {
+        viewState.symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
+    }
+
+    // region View Event
+    override fun onKeyPressed(key: String) {
         viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
     }
 
-    override fun delPressed() {
+    override fun onDelPressed() {
         viewState.input.value
             ?.whetherNot { isEmpty() }
             ?.apply {
@@ -255,12 +255,12 @@ class CalculatorViewModel(
             }
     }
 
-    override fun acPressed() {
+    override fun onAcPressed() {
         viewState.input.postValue("")
         viewState.output.postValue("")
     }
 
-    override fun onRowClick(currency: Currency) {
+    override fun onItemClick(currency: Currency) {
         viewEffectLiveData.postValue(SwitchBaseEffect(
             currency.rate.getFormatted().replaceNonStandardDigits().dropDecimal(),
             currency.name,
@@ -268,14 +268,15 @@ class CalculatorViewModel(
         ))
     }
 
-    override fun onRowLongClick(currency: Currency): Boolean {
+    override fun onItemLongClick(currency: Currency): Boolean {
         viewEffectLiveData.postValue(
-            LongClickEffect("${getClickedItemRate(currency.name)} ${currency.getVariablesOneLine()}", currency.name)
+            LongClickEffect("1 ${mainData.currentBase.name} = " +
+                "${rates?.getThroughReflection<Double>(currency.name)} " +
+                currency.getVariablesOneLine(),
+                currency.name
+            )
         )
         return true
     }
-
-    override fun currentBaseChanged(newBase: String) {
-        viewState.symbol.postValue(getCurrencyByName(newBase)?.symbol ?: "")
-    }
+    // endregion
 }

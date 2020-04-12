@@ -88,17 +88,19 @@ class SettingsViewModel(
         viewState.searchQuery.postValue("")
     }
 
-    override fun updateAllStates(value: Int) {
+    override fun currentBaseChanged(newBase: String) = Unit
+
+    // region View Event
+    override fun onSelectDeselectButtonsClick(value: Int) {
         viewState.currencyList.value?.forEach { it.isActive = value }
         currencyRepository.updateAllCurrencyState(value)
         verifyCurrentBase(value)
     }
 
-    override fun updateCurrencyState(value: Int, name: String) {
+    override fun onItemClicked(value: Int, name: String) {
         viewState.currencyList.value?.find { it.name == name }?.isActive = value
         currencyRepository.updateCurrencyStateByName(name, value)
         verifyCurrentBase(value)
     }
-
-    override fun currentBaseChanged(newBase: String) = Unit
+    // endregion
 }
