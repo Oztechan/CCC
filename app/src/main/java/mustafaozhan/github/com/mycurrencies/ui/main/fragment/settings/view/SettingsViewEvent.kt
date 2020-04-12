@@ -6,5 +6,5 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 interface SettingsViewEvent : BaseViewEvent {
     fun onSelectDeselectButtonsClick(value: Int)
 
-    fun onItemClicked(currency: Currency)
+    fun onItemClick(currency: Currency)
 }

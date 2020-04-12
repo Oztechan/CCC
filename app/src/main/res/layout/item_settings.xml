@@ -17,7 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
-        android:onClick="@{() -> viewEvent.onItemClicked(item)}">
+        android:onClick="@{() -> viewEvent.onItemClick(item)}">
 
         <ImageView
             android:id="@+id/img_icon"

@@ -8,6 +8,8 @@ object ErrorEffect : CalculatorViewEffect()
 
 object FewCurrencyEffect : CalculatorViewEffect()
 
+object ReverseSpinner : CalculatorViewEffect()
+
 data class MaximumInputEffect(var input: String) : CalculatorViewEffect()
 
 data class OfflineSuccessEffect(val date: String?) : CalculatorViewEffect()

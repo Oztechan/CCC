@@ -5,13 +5,15 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 
 interface CalculatorViewEvent : BaseViewEvent {
 
-    fun onKeyPressed(key: String)
+    fun onKeyPress(key: String)
 
-    fun onDelPressed()
+    fun onDelPress()
 
-    fun onAcPressed()
+    fun onAcPress()
 
     fun onItemClick(currency: Currency)
 
     fun onItemLongClick(currency: Currency): Boolean
+
+    fun onSpinnerClick()
 }

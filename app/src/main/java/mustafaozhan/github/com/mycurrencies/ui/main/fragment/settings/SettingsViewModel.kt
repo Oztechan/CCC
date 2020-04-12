@@ -97,7 +97,7 @@ class SettingsViewModel(
         }
     }
 
-    override fun onItemClicked(currency: Currency) = with(currency) {
+    override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
         viewState.currencyList.value?.find { it -> it.name == name }?.isActive = newValue
         currencyRepository.updateCurrencyStateByName(name, newValue)

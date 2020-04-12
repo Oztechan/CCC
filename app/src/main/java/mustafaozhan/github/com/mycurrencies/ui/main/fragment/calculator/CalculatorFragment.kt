@@ -17,6 +17,7 @@ import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import androidx.recyclerview.widget.LinearLayoutManager
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
@@ -85,31 +86,31 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     updateBase(viewEffect.base)
                     binding.layoutBar.spinnerBase.tryToSelect(viewEffect.index)
                 }
+                ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
+                    whether { isActivated }
+                        ?.apply { collapse() }
+                        ?: run { expand() }
+                }
             }
         })
 
     @SuppressLint("SetTextI18n")
-    private fun setList() = calculatorViewModel.viewState.apply {
-        currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
-            updateBar(currencyList.map { it.name })
-            calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
-            binding.loadingView.smoothToHide()
-        })
+    private fun setList() {
+        binding.recyclerViewMain.apply {
+            adapter = calculatorAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        calculatorViewModel.viewState.apply {
+            currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
+                updateBar(currencyList.map { it.name })
+                calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
+            })
+        }
     }
 
     private fun initViews() = with(binding) {
-        loadingView.bringToFront()
-        recyclerViewMain.adapter = calculatorAdapter
-        recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
-
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
-        layoutBar.layoutBar.setOnClickListener {
-            with(layoutBar.spinnerBase) {
-                whether { isActivated }
-                    ?.apply { collapse() }
-                    ?: run { expand() }
-            }
-        }
     }
 
     private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {

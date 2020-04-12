@@ -37,6 +37,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Few
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -243,11 +244,11 @@ class CalculatorViewModel(
     }
 
     // region View Event
-    override fun onKeyPressed(key: String) {
+    override fun onKeyPress(key: String) {
         viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
     }
 
-    override fun onDelPressed() {
+    override fun onDelPress() {
         viewState.input.value
             ?.whetherNot { isEmpty() }
             ?.apply {
@@ -255,7 +256,7 @@ class CalculatorViewModel(
             }
     }
 
-    override fun onAcPressed() {
+    override fun onAcPress() {
         viewState.input.postValue("")
         viewState.output.postValue("")
     }
@@ -278,5 +279,7 @@ class CalculatorViewModel(
         )
         return true
     }
+
+    override fun onSpinnerClick() = viewEffectLiveData.postValue(ReverseSpinner)
     // endregion
 }

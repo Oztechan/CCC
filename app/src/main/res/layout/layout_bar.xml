@@ -17,7 +17,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_bar"
-        style="@style/LayoutBar">
+        style="@style/LayoutBar"
+        android:onClick="@{() -> viewEvent.onSpinnerClick()}">
 
         <ImageView
             android:id="@+id/iv_base"
