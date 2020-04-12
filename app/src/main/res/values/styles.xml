@@ -330,7 +330,6 @@
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
         <item name="android:background">@color/colorPrimary</item>
-        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
     </style>
 
 </resources>

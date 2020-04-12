@@ -6,6 +6,7 @@ import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesReposito
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
+import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
@@ -81,10 +82,6 @@ class SettingsViewModel(
             viewEffectLiveData.postValue(FewCurrency)
         }
 
-        if (value == 0) {
-            setCurrentBase(null)
-        }
-
         viewState.searchQuery.postValue("")
     }
 
@@ -95,12 +92,16 @@ class SettingsViewModel(
         viewState.currencyList.value?.forEach { it.isActive = value }
         currencyRepository.updateAllCurrencyState(value)
         verifyCurrentBase(value)
+        if (value == 0) {
+            setCurrentBase(null)
+        }
     }
 
-    override fun onItemClicked(value: Int, name: String) {
-        viewState.currencyList.value?.find { it.name == name }?.isActive = value
-        currencyRepository.updateCurrencyStateByName(name, value)
-        verifyCurrentBase(value)
+    override fun onItemClicked(currency: Currency) = with(currency) {
+        val newValue = if (isActive == 0) 1 else 0
+        viewState.currencyList.value?.find { it -> it.name == name }?.isActive = newValue
+        currencyRepository.updateCurrencyStateByName(name, newValue)
+        verifyCurrentBase(newValue)
     }
     // endregion
 }

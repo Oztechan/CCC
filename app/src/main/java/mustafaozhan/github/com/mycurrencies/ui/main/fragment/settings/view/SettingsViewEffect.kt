@@ -5,5 +5,3 @@ import com.github.mustafaozhan.basemob.view.BaseViewEffect
 sealed class SettingsViewEffect : BaseViewEffect()
 
 object FewCurrency : SettingsViewEffect()
-
-

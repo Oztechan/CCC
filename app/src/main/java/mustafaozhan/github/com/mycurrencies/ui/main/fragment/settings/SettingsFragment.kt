@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
@@ -40,16 +41,23 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        initViews()
         initList()
         initViewEffect()
     }
 
-    private fun initList() = settingsViewModel.viewState.apply {
-        currencyList.reObserve(viewLifecycleOwner, Observer {
-            binding.txtNoResult.gone()
-            settingsAdapter.submitList(it)
-        })
+    private fun initList() {
+        binding.recyclerViewSettings.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = settingsAdapter
+        }
+
+        settingsViewModel.viewState.currencyList.apply {
+            reObserve(viewLifecycleOwner, Observer {
+                binding.txtNoResult.gone()
+                settingsAdapter.submitList(it)
+            })
+        }
     }
 
     private fun initViewEffect() = settingsViewModel.viewEffectLiveData
@@ -58,11 +66,4 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
             }
         })
-
-    private fun initViews() = with(binding) {
-        recyclerViewSettings.apply {
-            setHasFixedSize(true)
-            adapter = settingsAdapter
-        }
-    }
 }

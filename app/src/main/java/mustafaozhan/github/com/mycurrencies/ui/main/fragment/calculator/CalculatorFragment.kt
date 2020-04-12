@@ -14,6 +14,7 @@ import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
+import androidx.recyclerview.widget.LinearLayoutManager
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
@@ -99,6 +100,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initViews() = with(binding) {
         loadingView.bringToFront()
         recyclerViewMain.adapter = calculatorAdapter
+        recyclerViewMain.layoutManager = LinearLayoutManager(requireContext())
 
         layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
         layoutBar.layoutBar.setOnClickListener {

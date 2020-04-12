@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true">
 
     <data>
 
@@ -77,12 +78,13 @@
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_search" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
+            tools:listitem="@layout/item_settings" />
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ad_view"
-            ads:adSize="SMART_BANNER"
             style="@style/BaseBannerAdStyle"
+            ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/banner_ad_unit_id_settings"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"

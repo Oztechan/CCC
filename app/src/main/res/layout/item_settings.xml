@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintRow"
-    style="@style/BaseItemLayout">
+    tools:viewBindingIgnore="true">
 
-    <ImageView
-        android:id="@+id/img_icon"
-        style="@style/SettingsItemImageViewBase"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+    <data>
 
-    <TextView
-        android:id="@+id/txt_setting_item"
-        style="@style/SettingsItemText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
-        app:layout_constraintStart_toEndOf="@+id/img_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="item"
+            type="mustafaozhan.github.com.mycurrencies.model.Currency" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        style="@style/SettingsItemCheckBoxStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="viewEvent"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/BaseItemLayout"
+        android:onClick="@{() -> viewEvent.onItemClicked(item)}">
+
+        <ImageView
+            android:id="@+id/img_icon"
+            style="@style/SettingsItemImageViewBase"
+            app:backgroundByName="@{item.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/txt_setting_item"
+            style="@style/SettingsItemText"
+            android:text="@{item.variablesOneLine}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/checkBox"
+            app:layout_constraintStart_toEndOf="@+id/img_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            style="@style/SettingsItemCheckBoxStyle"
+            android:checked="@{item.isActive() == 1}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
