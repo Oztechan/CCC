@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.activity
+package mustafaozhan.github.com.mycurrencies.ui.main
 
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository

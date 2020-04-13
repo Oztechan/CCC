@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
 import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
 import javax.inject.Inject
 

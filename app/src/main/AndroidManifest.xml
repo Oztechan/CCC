@@ -7,7 +7,7 @@
 
     <application
         android:name=".app.CCCApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity"
+            android:name="mustafaozhan.github.com.mycurrencies.ui.main.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity

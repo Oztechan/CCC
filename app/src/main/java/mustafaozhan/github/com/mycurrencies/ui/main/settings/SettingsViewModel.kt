@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
+package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -8,12 +8,12 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsData
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsViewStateObserver
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateObserver
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -27,7 +27,7 @@ class SettingsViewModel(
         private const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
-    override val state = SettingsState(SettingsViewStateObserver())
+    override val state = SettingsState(SettingsStateObserver())
     override val event = this as SettingsEvent
     override val effect = MutableLiveData<SettingsEffect>()
     override val data = SettingsData(preferencesRepository)

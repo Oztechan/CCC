@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
+package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,17 +25,17 @@ import mustafaozhan.github.com.mycurrencies.extension.toPercent
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorData
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorViewStateObserver
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ErrorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateObserver
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -57,7 +57,7 @@ class CalculatorViewModel(
         private const val KEY_AC = "AC"
     }
 
-    override val state = CalculatorState(CalculatorViewStateObserver())
+    override val state = CalculatorState(CalculatorStateObserver())
     override val event = this as CalculatorEvent
     override val effect = MutableLiveData<CalculatorEffect>()
     override val data = CalculatorData(preferencesRepository)

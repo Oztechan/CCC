@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel" />
 
         <variable
             name="viewEvent"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">

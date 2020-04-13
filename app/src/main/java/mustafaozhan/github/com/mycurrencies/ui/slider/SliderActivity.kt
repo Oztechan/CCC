@@ -15,7 +15,7 @@ import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
 import javax.inject.Inject
 
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {

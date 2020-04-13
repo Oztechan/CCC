@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragment"
+        android:name="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragment"
         android:label="CalculatorFragment"
         tools:layout="@layout/fragment_calculator">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsFragment"
+        android:name="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
 </navigation>

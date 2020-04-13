@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
+package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import android.os.Bundle
 import android.view.View
@@ -12,12 +12,12 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ErrorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import javax.inject.Inject
 
 /**
@@ -44,11 +44,11 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        initList()
-        initViewEffect()
+        initView()
+        initEffect()
     }
 
-    private fun initViewEffect() = calculatorViewModel.effect
+    private fun initEffect() = calculatorViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnacky(
@@ -79,7 +79,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             }
         })
 
-    private fun initList() {
+    private fun initView() {
         binding.recyclerViewMain.apply {
             adapter = calculatorAdapter
             layoutManager = LinearLayoutManager(requireContext())

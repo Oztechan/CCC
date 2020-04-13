@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings
+package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import android.os.Bundle
 import android.view.View
@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
 import javax.inject.Inject
 
 /**
@@ -38,11 +37,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
-        initList()
-        initViewEffect()
+        initView()
+        initEffect()
     }
 
-    private fun initList() {
+    private fun initView() {
         binding.recyclerViewSettings.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -51,13 +50,12 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
         settingsViewModel.state.currencyList.apply {
             reObserve(viewLifecycleOwner, Observer {
-                binding.txtNoResult.gone()
                 settingsAdapter.submitList(it)
             })
         }
     }
 
-    private fun initViewEffect() = settingsViewModel.effect
+    private fun initEffect() = settingsViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
                 FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)

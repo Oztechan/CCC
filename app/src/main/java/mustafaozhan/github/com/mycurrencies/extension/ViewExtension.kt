@@ -39,7 +39,3 @@ fun AdView.checkAd(id: String, isExpired: Boolean) =
         isEnabled = false
         visibility = View.GONE
     }
-
-fun View?.gone() {
-    this?.visibility = View.GONE
-}

@@ -2,7 +2,7 @@ package mustafaozhan.github.com.mycurrencies.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import mustafaozhan.github.com.mycurrencies.ui.main.activity.MainActivity
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
 import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
 import mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivity
 

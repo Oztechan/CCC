@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.activity
+package mustafaozhan.github.com.mycurrencies.ui.main
 
 import android.content.Context
 import android.content.Intent
@@ -21,7 +21,7 @@ import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.tool.showDialog
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorFragmentDirections
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
