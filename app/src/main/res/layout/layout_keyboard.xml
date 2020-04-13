@@ -111,12 +111,12 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> viewEvent.onAcPress()}"
+                android:onClick="@{() -> viewEvent.onKeyPress(@string/ac)}"
                 android:text="@string/ac" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> viewEvent.onDelPress()}"
+                android:onClick="@{() -> viewEvent.onKeyPress(@string/delete)}"
                 android:text="@string/delete" />
         </TableRow>
     </TableLayout>

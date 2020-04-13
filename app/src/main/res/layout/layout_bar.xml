@@ -15,9 +15,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_bar"
         style="@style/LayoutBar"
-        android:onClick="@{() -> viewEvent.onSpinnerClick()}">
+        android:onClick="@{() -> viewEvent.onBarClick()}">
 
         <ImageView
             android:id="@+id/iv_base"
@@ -34,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
             app:layout_constraintTop_toTopOf="parent"
-            app:onItemSelected="@{viewModel.viewEvent}"
+            app:onItemSelected="@{viewEvent}"
             app:selectedItem="@{viewModel.mainDataViewState.base}" />
 
         <TextView

@@ -53,6 +53,8 @@ class CalculatorViewModel(
 
     companion object {
         private const val MAXIMUM_INPUT = 15
+        private const val KEY_DEL = "DEL"
+        private const val KEY_AC = "AC"
     }
 
     override val viewState = CalculatorViewState(CalculatorViewStateObserver())
@@ -64,15 +66,17 @@ class CalculatorViewModel(
     init {
         initData()
 
-        viewState.input.value = ""
+        viewState.apply {
+            input.value = ""
 
-        viewState.observer.input.addSource(viewState.input) { input ->
-            if (input.isEmpty()) {
-                viewState.empty.postValue(true)
-                viewState.output.postValue("")
-            } else {
-                calculateOutput(input)
-                viewState.empty.postValue(false)
+            observer.input.addSource(input) { input ->
+                if (input.isEmpty()) {
+                    empty.postValue(true)
+                    output.postValue("")
+                } else {
+                    calculateOutput(input)
+                    empty.postValue(false)
+                }
             }
         }
     }
@@ -232,20 +236,20 @@ class CalculatorViewModel(
 
     // region View Event
     override fun onKeyPress(key: String) {
-        viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
-    }
-
-    override fun onDelPress() {
-        viewState.input.value
-            ?.whetherNot { isEmpty() }
-            ?.apply {
-                viewState.input.postValue(substring(0, length - 1))
+        when (key) {
+            KEY_AC -> {
+                viewState.input.postValue("")
+                viewState.output.postValue("")
             }
-    }
-
-    override fun onAcPress() {
-        viewState.input.postValue("")
-        viewState.output.postValue("")
+            KEY_DEL -> {
+                viewState.input.value
+                    ?.whetherNot { isEmpty() }
+                    ?.apply {
+                        viewState.input.postValue(substring(0, length - 1))
+                    }
+            }
+            else -> viewState.input.postValue(if (key.isEmpty()) "" else viewState.input.value.toString() + key)
+        }
     }
 
     override fun onItemClick(currency: Currency) {
@@ -263,7 +267,7 @@ class CalculatorViewModel(
         return true
     }
 
-    override fun onSpinnerClick() = viewEffectLiveData.postValue(ReverseSpinner)
+    override fun onBarClick() = viewEffectLiveData.postValue(ReverseSpinner)
 
     override fun onSpinnerItemSelected(base: String) = mainDataViewState.base.postValue(base)
     // endregion

@@ -7,15 +7,11 @@ interface CalculatorViewEvent : BaseViewEvent {
 
     fun onKeyPress(key: String)
 
-    fun onDelPress()
-
-    fun onAcPress()
-
     fun onItemClick(currency: Currency)
 
     fun onItemLongClick(currency: Currency): Boolean
 
-    fun onSpinnerClick()
+    fun onBarClick()
 
     fun onSpinnerItemSelected(base: String)
 }

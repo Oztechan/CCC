@@ -75,7 +75,7 @@
         <include
             android:id="@+id/layout_keyboard"
             style="@style/FitStyle"
-            layout="@layout/layout_keyboard_content"
+            layout="@layout/layout_keyboard"
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
