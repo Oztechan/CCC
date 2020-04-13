@@ -16,4 +16,6 @@ interface CalculatorViewEvent : BaseViewEvent {
     fun onItemLongClick(currency: Currency): Boolean
 
     fun onSpinnerClick()
+
+    fun onSpinnerItemSelected(index: Int)
 }

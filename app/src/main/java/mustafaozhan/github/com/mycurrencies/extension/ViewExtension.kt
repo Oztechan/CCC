@@ -7,7 +7,6 @@ import com.github.mustafaozhan.logmob.logWarning
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 import java.util.Locale
@@ -40,20 +39,6 @@ fun AdView.checkAd(id: String, isExpired: Boolean) =
         isEnabled = false
         visibility = View.GONE
     }
-
-fun MaterialSpinner.tryToSelect(indexOf: Int) {
-    selectedIndex = try {
-        indexOf
-    } catch (exception: IllegalArgumentException) {
-        logWarning(exception, "try to select failed for index $indexOf")
-        0
-    }
-}
-
-fun View?.visible() {
-    this?.bringToFront()
-    this?.visibility = View.VISIBLE
-}
 
 fun View?.gone() {
     this?.visibility = View.GONE

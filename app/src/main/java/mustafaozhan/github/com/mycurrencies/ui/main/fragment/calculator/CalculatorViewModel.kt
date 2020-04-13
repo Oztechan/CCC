@@ -3,7 +3,6 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.logmob.logWarning
-import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -15,7 +14,6 @@ import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
-import mustafaozhan.github.com.mycurrencies.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
@@ -23,7 +21,6 @@ import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extension.toFormattedString
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
-import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -38,7 +35,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.Lon
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -68,7 +64,7 @@ class CalculatorViewModel(
     init {
         initData()
 
-        viewState.input.postValue("")
+        viewState.input.value = ""
 
         viewState.observer.input.addSource(viewState.input) { input ->
             if (input.isEmpty()) {
@@ -185,10 +181,8 @@ class CalculatorViewModel(
             output
                 .whetherNot { isEmpty() }
                 ?.apply { viewState.output.postValue(replaceNonStandardDigits()) }
-                ?: run {
-                    viewState.output.postValue("")
-                    viewState.input.postValue("")
-                }
+                ?: run { viewState.output.postValue("") }
+
             viewState.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -199,21 +193,10 @@ class CalculatorViewModel(
                 ?: run { getCurrencies() }
         } ?: run { viewEffectLiveData.postValue(MaximumInputEffect(input)) }
 
-    fun updateCurrentBase(currency: String?) {
+    private fun updateCurrentBase(currency: String?) {
         rates = null
         setCurrentBase(currency)
         getCurrencies()
-    }
-
-    fun verifyCurrentBase(spinnerList: List<String>): Currencies {
-        mainData.currentBase
-            .either(
-                { equals(Currencies.NULL) },
-                { spinnerList.indexOf(it.toString()) == -1 }
-            )
-            ?.let { updateCurrentBase(viewState.currencyList.value?.firstOrNull { it.isActive == 1 }?.name) }
-
-        return mainData.currentBase
     }
 
     private fun submitList(currencyList: MutableList<Currency>?) {
@@ -240,7 +223,12 @@ class CalculatorViewModel(
         } ?: run { 0.0 }
 
     override fun currentBaseChanged(newBase: String) {
-        viewState.symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
+        updateCurrentBase(newBase)
+        viewState.apply {
+            input.postValue(input.value)
+            symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
+            spinnerIndex.postValue(currencyList.value?.map { it.name }?.indexOf(newBase))
+        }
     }
 
     // region View Event
@@ -262,11 +250,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency) {
-        viewEffectLiveData.postValue(SwitchBaseEffect(
-            currency.rate.getFormatted().replaceNonStandardDigits().dropDecimal(),
-            currency.name,
-            viewState.currencyList.value?.indexOf(currency) ?: -1
-        ))
+        mainDataViewState.base.postValue(currency.name)
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
@@ -281,5 +265,9 @@ class CalculatorViewModel(
     }
 
     override fun onSpinnerClick() = viewEffectLiveData.postValue(ReverseSpinner)
+
+    override fun onSpinnerItemSelected(index: Int) {
+        viewState.spinnerIndex.postValue(index)
+    }
     // endregion
 }

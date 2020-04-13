@@ -1,35 +1,29 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import androidx.recyclerview.widget.LinearLayoutManager
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.SwitchBaseEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
 import javax.inject.Inject
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
  */
-@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     @Inject
@@ -53,9 +47,8 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
-        initViews()
+        initList()
         initViewEffect()
-        setList()
     }
 
     private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
@@ -70,6 +63,11 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
+                ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
+                    whether { isActivated }
+                        ?.apply { collapse() }
+                        ?: run { expand() }
+                }
                 is MaximumInputEffect -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
                     calculatorViewModel.viewState.input.postValue(viewEffect.input.dropLast(1))
@@ -81,21 +79,10 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     Toasty.showToasty(requireContext(), R.string.database_success)
                 }
                 is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
-                is SwitchBaseEffect -> {
-                    binding.txtInput.text = viewEffect.text
-                    updateBase(viewEffect.base)
-                    binding.layoutBar.spinnerBase.tryToSelect(viewEffect.index)
-                }
-                ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
-                    whether { isActivated }
-                        ?.apply { collapse() }
-                        ?: run { expand() }
-                }
             }
         })
 
-    @SuppressLint("SetTextI18n")
-    private fun setList() {
+    private fun initList() {
         binding.recyclerViewMain.apply {
             adapter = calculatorAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -103,32 +90,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
         calculatorViewModel.viewState.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
-                updateBar(currencyList.map { it.name })
+                binding.layoutBar.spinnerBase.setItems(currencyList.map { it.name })
                 calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
             })
         }
-    }
-
-    private fun initViews() = with(binding) {
-        layoutBar.spinnerBase.setOnItemSelectedListener { _, _, _, item -> updateBase(item.toString()) }
-    }
-
-    private fun updateBar(spinnerList: List<String>) = with(binding.layoutBar) {
-        spinnerList.whether { size >= MINIMUM_ACTIVE_CURRENCY }
-            ?.apply {
-                spinnerBase.setItems(this)
-                spinnerBase.tryToSelect(indexOf(calculatorViewModel.verifyCurrentBase(this).toString()))
-                ivBase.setBackgroundByName(spinnerBase.text.toString())
-            } ?: run {
-            calculatorViewModel.viewEffectLiveData.postValue(FewCurrencyEffect)
-            spinnerBase.setItems("")
-            ivBase.setBackgroundByName("transparent")
-        }
-    }
-
-    private fun updateBase(base: String) {
-        calculatorViewModel.updateCurrentBase(base)
-        calculatorViewModel.viewState.input.postValue(calculatorViewModel.viewState.input.value)
-        binding.layoutBar.ivBase.setBackgroundByName(base)
     }
 }

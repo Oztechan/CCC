@@ -3,7 +3,9 @@ package mustafaozhan.github.com.mycurrencies.tool
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.github.mustafaozhan.logmob.logWarning
 import com.google.android.gms.ads.AdView
+import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
 
@@ -17,3 +19,10 @@ fun View.visibility(visible: Boolean) {
 
 @BindingAdapter("backgroundByName")
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
+
+@BindingAdapter("selectedIndex")
+fun MaterialSpinner.selectedIndex(index: Int) = try {
+    selectedIndex = index
+} catch (exception: IllegalArgumentException) {
+    logWarning(exception, "try to select failed for index $index")
+}
