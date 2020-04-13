@@ -11,7 +11,7 @@
 
         <variable
             name="viewEvent"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
         <TextView
             android:id="@+id/txt_output"
             style="@style/BarTextStyle"
-            android:text="@{viewModel.viewState.output!=`` ? `=  `+viewModel.viewState.output+` ` :``}"
+            android:text="@{viewModel.state.output!=`` ? `=  `+viewModel.state.output+` ` :``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/spinner_base"
             app:layout_constraintTop_toTopOf="@+id/spinner_base" />
@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/txt_symbol"
             style="@style/BarTextStyle"
-            android:text="@{viewModel.viewState.output!=`` ? viewModel.viewState.symbol : ``}"
+            android:text="@{viewModel.state.output!=`` ? viewModel.state.symbol : ``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
             app:layout_constraintTop_toTopOf="@+id/spinner_base"

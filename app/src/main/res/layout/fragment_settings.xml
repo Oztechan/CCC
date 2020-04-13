@@ -11,7 +11,7 @@
 
         <variable
             name="viewEvent"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
@@ -56,7 +56,7 @@
         <EditText
             android:id="@+id/edit_text_search"
             style="@style/SettingsSearchTextStyle"
-            android:text="@={viewModel.viewState.searchQuery}"
+            android:text="@={viewModel.state.searchQuery}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
-            app:visibility="@{viewModel.viewState.noResult}" />
+            app:visibility="@{viewModel.state.noResult}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"

@@ -2,10 +2,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.basemob.view.BaseViewState
+import com.github.mustafaozhan.basemob.model.BaseState
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
-data class CalculatorViewState(val observer: CalculatorViewStateObserver) : BaseViewState() {
+data class CalculatorState(val observer: CalculatorViewStateObserver) : BaseState() {
     val input: MutableLiveData<String> = observer.input
     val currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(mutableListOf())
     val output: MutableLiveData<String> = MutableLiveData("")

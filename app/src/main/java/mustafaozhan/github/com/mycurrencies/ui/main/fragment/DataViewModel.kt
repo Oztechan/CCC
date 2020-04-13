@@ -1,9 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.fragment
 
-import com.github.mustafaozhan.basemob.view.BaseViewEffect
-import com.github.mustafaozhan.basemob.view.BaseViewEvent
-import com.github.mustafaozhan.basemob.view.BaseViewState
-import com.github.mustafaozhan.basemob.viewmodel.UDFViewModel
+import com.github.mustafaozhan.basemob.model.BaseData
+import com.github.mustafaozhan.basemob.model.BaseEffect
+import com.github.mustafaozhan.basemob.model.BaseEvent
+import com.github.mustafaozhan.basemob.model.BaseState
+import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -12,16 +13,16 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 
 abstract class DataViewModel
-<ViewEffect : BaseViewEffect, ViewEvent : BaseViewEvent, ViewState : BaseViewState>(
+<State : BaseState, Event : BaseEvent, Effect : BaseEffect, Data : BaseData>(
     protected var preferencesRepository: PreferencesRepository
-) : UDFViewModel<ViewEffect, ViewEvent, ViewState>() {
+) : SEEDViewModel<State, Event, Effect, Data>() {
 
     companion object {
         const val NUMBER_OF_HOURS = 24
         const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
-    val mainDataViewState = DataViewState(DataViewStateObserver())
+    val mainDataViewState = DataState(DataViewStateObserver())
 
     init {
         mainDataViewState.base.value = mainData.currentBase.toString()

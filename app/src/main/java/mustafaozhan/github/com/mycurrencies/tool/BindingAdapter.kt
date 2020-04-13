@@ -8,7 +8,7 @@ import com.google.android.gms.ads.AdView
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent
 
 @BindingAdapter("adId", "isEnabled")
 fun AdView.adAdapter(adId: String, isEnabled: Boolean) = checkAd(adId, isEnabled)
@@ -31,7 +31,7 @@ fun MaterialSpinner.selectedItem(base: String) = try {
 }
 
 @BindingAdapter("onItemSelected")
-fun MaterialSpinner.onItemSelected(calculatorViewEvent: CalculatorViewEvent) =
+fun MaterialSpinner.onItemSelected(calculatorViewEvent: CalculatorEvent) =
     setOnItemSelectedListener { _, _, _, item ->
         calculatorViewEvent.onSpinnerItemSelected(item.toString())
     }

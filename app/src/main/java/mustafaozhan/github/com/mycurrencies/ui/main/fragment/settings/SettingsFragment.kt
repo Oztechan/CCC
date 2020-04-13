@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent
 import javax.inject.Inject
 
 /**
@@ -23,7 +23,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private lateinit var viewEvent: SettingsViewEvent
+    private lateinit var viewEvent: SettingsEvent
 
     private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(viewEvent) }
 
@@ -32,7 +32,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.viewModel = settingsViewModel
-        settingsViewModel.getViewEvent().let {
+        settingsViewModel.event.let {
             binding.viewEvent = it
             viewEvent = it
         }
@@ -52,7 +52,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
 
-        settingsViewModel.viewState.currencyList.apply {
+        settingsViewModel.state.currencyList.apply {
             reObserve(viewLifecycleOwner, Observer {
                 binding.txtNoResult.gone()
                 settingsAdapter.submitList(it)
@@ -60,7 +60,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun initViewEffect() = settingsViewModel.viewEffectLiveData
+    private fun initViewEffect() = settingsViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
                 FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)

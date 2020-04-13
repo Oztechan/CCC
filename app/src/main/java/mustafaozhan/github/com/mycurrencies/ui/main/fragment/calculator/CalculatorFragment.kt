@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
@@ -29,7 +29,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    private lateinit var viewEvent: CalculatorViewEvent
+    private lateinit var viewEvent: CalculatorEvent
 
     private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(viewEvent) }
 
@@ -38,7 +38,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.viewModel = calculatorViewModel
-        calculatorViewModel.getViewEvent().let {
+        calculatorViewModel.event.let {
             binding.viewEvent = it
             viewEvent = it
         }
@@ -51,7 +51,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         initViewEffect()
     }
 
-    private fun initViewEffect() = calculatorViewModel.viewEffectLiveData
+    private fun initViewEffect() = calculatorViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnacky(
@@ -70,7 +70,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 }
                 is MaximumInputEffect -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
-                    calculatorViewModel.viewState.input.postValue(viewEffect.input.dropLast(1))
+                    calculatorViewModel.state.input.postValue(viewEffect.input.dropLast(1))
                     binding.loadingView.smoothToHide()
                 }
                 is OfflineSuccessEffect -> viewEffect.date?.let {
@@ -88,7 +88,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.viewState.apply {
+        calculatorViewModel.state.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase.setItems(currencyList.map { it.name })
                 calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)

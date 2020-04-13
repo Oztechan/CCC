@@ -9,9 +9,10 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.DataViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewState
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsData
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsViewStateObserver
 
 /**
@@ -20,25 +21,32 @@ import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.Setti
 class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : DataViewModel<SettingsViewEffect, SettingsViewEvent, SettingsViewState>(
+) : DataViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(
     preferencesRepository
-), SettingsViewEvent {
+), SettingsEvent {
 
-    override val viewState = SettingsViewState(SettingsViewStateObserver())
-    override val viewEffectLiveData: MutableLiveData<SettingsViewEffect> = MutableLiveData()
-    override fun getViewEvent() = this as SettingsViewEvent
+    // region SEED
+    override val state: SettingsState
+        get() = SettingsState(SettingsViewStateObserver())
+    override val event: SettingsEvent
+        get() = this
+    override val effect: MutableLiveData<SettingsEffect>
+        get() = MutableLiveData()
+    override val data: SettingsData
+        get() = SettingsData()
+    // endregion
 
     init {
         initData()
 
-        viewState.observer.searchQuery.addSource(viewState.searchQuery) {
+        state.observer.searchQuery.addSource(state.searchQuery) {
             filterList(it)
         }
         filterList("")
     }
 
     private fun initData() {
-        viewState.currencyList.value?.clear()
+        state.currencyList.value?.clear()
 
         if (mainData.firstRun) {
             currencyRepository.insertInitialCurrencies()
@@ -46,11 +54,11 @@ class SettingsViewModel(
         }
 
         currencyRepository.getAllCurrencies().removeUnUsedCurrencies()?.let {
-            viewState.currencyList.value?.addAll(it)
+            state.currencyList.value?.addAll(it)
         }
     }
 
-    private fun filterList(txt: String) = viewState.currencyList.value
+    private fun filterList(txt: String) = state.currencyList.value
         ?.filter { currency ->
             currency.name.contains(txt, true) ||
                 currency.longName.contains(txt, true) ||
@@ -59,9 +67,9 @@ class SettingsViewModel(
         ?.toMutableList()
         .let {
             if (it?.isEmpty() == true) {
-                viewState.noResult.postValue(true)
+                state.noResult.postValue(true)
             } else {
-                viewState.currencyList.postValue(it)
+                state.currencyList.postValue(it)
             }
         }
 
@@ -71,25 +79,25 @@ class SettingsViewModel(
                 .either(
                     { equals(Currencies.NULL) },
                     { base ->
-                        viewState.currencyList.value
+                        state.currencyList.value
                             ?.filter { it.name == base.toString() }
                             ?.toList()?.firstOrNull()?.isActive == 0
                     }
-                )?.let { setCurrentBase(viewState.currencyList.value?.firstOrNull { it.isActive == 1 }?.name) }
+                )?.let { setCurrentBase(state.currencyList.value?.firstOrNull { it.isActive == 1 }?.name) }
         }
 
-        if (viewState.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
-            viewEffectLiveData.postValue(FewCurrency)
+        if (state.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
+            effect.postValue(FewCurrency)
         }
 
-        viewState.searchQuery.postValue("")
+        state.searchQuery.postValue("")
     }
 
     override fun currentBaseChanged(newBase: String) = Unit
 
     // region View Event
     override fun onSelectDeselectButtonsClick(value: Int) {
-        viewState.currencyList.value?.forEach { it.isActive = value }
+        state.currencyList.value?.forEach { it.isActive = value }
         currencyRepository.updateAllCurrencyState(value)
         verifyCurrentBase(value)
         if (value == 0) {
@@ -99,7 +107,7 @@ class SettingsViewModel(
 
     override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
-        viewState.currencyList.value?.find { it -> it.name == name }?.isActive = newValue
+        state.currencyList.value?.find { it -> it.name == name }?.isActive = newValue
         currencyRepository.updateCurrencyStateByName(name, newValue)
         verifyCurrentBase(newValue)
     }
