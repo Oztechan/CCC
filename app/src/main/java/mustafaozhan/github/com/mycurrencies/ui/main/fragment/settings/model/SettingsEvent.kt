@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model
 
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import mustafaozhan.github.com.mycurrencies.model.Currency

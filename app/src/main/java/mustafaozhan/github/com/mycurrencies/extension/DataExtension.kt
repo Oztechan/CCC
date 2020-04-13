@@ -27,8 +27,8 @@ fun CurrencyDao.insertInitialCurrencies() {
                     it.readText()
                 }
         )?.currencies?.forEach { currency ->
-        this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))
-    }
+            this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))
+        }
 }
 
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =

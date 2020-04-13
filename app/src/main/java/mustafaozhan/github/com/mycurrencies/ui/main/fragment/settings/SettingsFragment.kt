@@ -11,8 +11,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import mustafaozhan.github.com.mycurrencies.extension.gone
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.FewCurrency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.FewCurrency
 import javax.inject.Inject
 
 /**
@@ -23,9 +22,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private lateinit var viewEvent: SettingsEvent
-
-    private val settingsAdapter: SettingsAdapter by lazy { SettingsAdapter(viewEvent) }
+    private lateinit var settingsAdapter: SettingsAdapter
 
     override fun bind(container: ViewGroup?): FragmentSettingsBinding =
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
@@ -34,7 +31,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         binding.viewModel = settingsViewModel
         settingsViewModel.event.let {
             binding.viewEvent = it
-            viewEvent = it
+            settingsAdapter = SettingsAdapter(it)
         }
     }
 

@@ -8,7 +8,7 @@ import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.

@@ -8,7 +8,7 @@ import com.google.android.gms.ads.AdView
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEvent
 
 @BindingAdapter("adId", "isEnabled")
 fun AdView.adAdapter(adId: String, isEnabled: Boolean) = checkAd(adId, isEnabled)

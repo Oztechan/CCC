@@ -133,7 +133,7 @@ open class MainActivity : BaseActivity() {
                     .whether(
                         { isLoaded },
                         { adVisibility },
-                        { mainViewModel.isRewardExpired }
+                        { mainViewModel.isRewardExpired() }
                     )
                     ?.apply { show() }
                     ?: run { prepareAd() }

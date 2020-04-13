@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model
 
 import com.github.mustafaozhan.basemob.model.BaseEffect
 

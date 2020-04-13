@@ -11,7 +11,7 @@
 
         <variable
             name="viewEvent"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
@@ -89,6 +89,6 @@
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             app:adId="@{@string/banner_ad_unit_id_settings}"
-            app:isEnabled="@{viewModel.isRewardExpired}" />
+            app:isEnabled="@{viewModel.data.isRewardExpired}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

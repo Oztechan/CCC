@@ -5,7 +5,7 @@
 
         <variable
             name="viewEvent"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.CalculatorEvent" />
     </data>
 
     <TableLayout style="@style/MatchStyle">

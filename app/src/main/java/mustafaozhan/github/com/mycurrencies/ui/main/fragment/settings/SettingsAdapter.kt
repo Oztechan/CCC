@@ -9,7 +9,7 @@ import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view.SettingsEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model.SettingsEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.

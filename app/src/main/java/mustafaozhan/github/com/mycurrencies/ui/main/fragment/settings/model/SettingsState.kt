@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.view
+package mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.model
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData

@@ -12,13 +12,12 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ErrorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.LongClickEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.OfflineSuccessEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.model.ReverseSpinner
 import javax.inject.Inject
 
 /**
@@ -29,9 +28,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     @Inject
     lateinit var calculatorViewModel: CalculatorViewModel
 
-    private lateinit var viewEvent: CalculatorEvent
-
-    private val calculatorAdapter: CalculatorAdapter by lazy { CalculatorAdapter(viewEvent) }
+    private lateinit var calculatorAdapter: CalculatorAdapter
 
     override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
         FragmentCalculatorBinding.inflate(layoutInflater, container, false)
@@ -40,7 +37,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         binding.viewModel = calculatorViewModel
         calculatorViewModel.event.let {
             binding.viewEvent = it
-            viewEvent = it
+            calculatorAdapter = CalculatorAdapter(it)
         }
     }
 
@@ -91,7 +88,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.state.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase.setItems(currencyList.map { it.name })
-                calculatorAdapter.submitList(currencyList, calculatorViewModel.mainData.currentBase)
+                calculatorAdapter.submitList(currencyList, calculatorViewModel.data.currentBase)
             })
         }
     }

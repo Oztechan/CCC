@@ -2,6 +2,8 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
+import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
+import org.joda.time.Duration
 import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -9,6 +11,24 @@ import javax.inject.Singleton
 @Singleton
 class PreferencesRepository @Inject
 constructor(private val sharedPreferencesHelper: PreferencesHelper) {
+
+    companion object {
+        const val NUMBER_OF_HOURS = 24
+    }
+
+    val currentBase
+        get() = loadMainData().currentBase
+
+    val firstRun
+        get() = loadMainData().firstRun
+
+    val isRewardExpired: Boolean
+        get() = loadMainData().adFreeActivatedDate?.let {
+            Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
+        } ?: true
+
+    fun setCurrentBase(newBase: String?) =
+        updateMainData(currentBase = enumValueOrNull<Currencies>(newBase ?: "NULL"))
 
     fun loadMainData() = sharedPreferencesHelper.loadMainData()
 
