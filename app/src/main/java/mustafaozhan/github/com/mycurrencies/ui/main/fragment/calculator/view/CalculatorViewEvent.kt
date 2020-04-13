@@ -17,5 +17,5 @@ interface CalculatorViewEvent : BaseViewEvent {
 
     fun onSpinnerClick()
 
-    fun onSpinnerItemSelected(index: Int)
+    fun onSpinnerItemSelected(base: String)
 }

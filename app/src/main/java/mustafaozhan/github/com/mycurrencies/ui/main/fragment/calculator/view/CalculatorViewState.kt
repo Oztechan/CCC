@@ -10,7 +10,6 @@ data class CalculatorViewState(val observer: CalculatorViewStateObserver) : Base
     val currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(mutableListOf())
     val output: MutableLiveData<String> = MutableLiveData("")
     val symbol: MutableLiveData<String> = MutableLiveData("")
-    val spinnerIndex: MutableLiveData<Int> = MutableLiveData(0)
     val loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val empty: MutableLiveData<Boolean> = MutableLiveData(true)
 }

@@ -227,7 +227,6 @@ class CalculatorViewModel(
         viewState.apply {
             input.postValue(input.value)
             symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
-            spinnerIndex.postValue(currencyList.value?.map { it.name }?.indexOf(newBase))
         }
     }
 
@@ -266,8 +265,6 @@ class CalculatorViewModel(
 
     override fun onSpinnerClick() = viewEffectLiveData.postValue(ReverseSpinner)
 
-    override fun onSpinnerItemSelected(index: Int) {
-        viewState.spinnerIndex.postValue(index)
-    }
+    override fun onSpinnerItemSelected(base: String) = mainDataViewState.base.postValue(base)
     // endregion
 }

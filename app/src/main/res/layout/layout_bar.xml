@@ -34,12 +34,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
             app:layout_constraintTop_toTopOf="parent"
-            app:selectedIndex="@{viewModel.viewState.spinnerIndex}" />
+            app:onItemSelected="@{viewModel.viewEvent}"
+            app:selectedItem="@{viewModel.mainDataViewState.base}" />
 
         <TextView
             android:id="@+id/txt_output"
             style="@style/BarTextStyle"
-            android:text="@{`=  `+viewModel.viewState.output+` `}"
+            android:text="@{viewModel.viewState.output!=`` ? `=  `+viewModel.viewState.output+` ` :``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/spinner_base"
             app:layout_constraintTop_toTopOf="@+id/spinner_base" />
@@ -47,7 +48,7 @@
         <TextView
             android:id="@+id/txt_symbol"
             style="@style/BarTextStyle"
-            android:text="@{viewModel.viewState.symbol}"
+            android:text="@{viewModel.viewState.output!=`` ? viewModel.viewState.symbol : ``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
             app:layout_constraintTop_toTopOf="@+id/spinner_base"

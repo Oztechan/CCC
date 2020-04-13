@@ -184,7 +184,7 @@
         <item name="android:layout_marginTop">@dimen/margin_eight</item>
         <item name="android:layout_marginBottom">@dimen/margin_eight</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textAppearance">@style/BaseTextStyle</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
     <style name="BarSpinnerStyle" parent="WrapStyle">

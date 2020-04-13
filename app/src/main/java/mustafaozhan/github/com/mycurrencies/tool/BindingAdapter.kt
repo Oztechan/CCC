@@ -8,6 +8,7 @@ import com.google.android.gms.ads.AdView
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
+import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.view.CalculatorViewEvent
 
 @BindingAdapter("adId", "isEnabled")
 fun AdView.adAdapter(adId: String, isEnabled: Boolean) = checkAd(adId, isEnabled)
@@ -20,9 +21,17 @@ fun View.visibility(visible: Boolean) {
 @BindingAdapter("backgroundByName")
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
 
-@BindingAdapter("selectedIndex")
-fun MaterialSpinner.selectedIndex(index: Int) = try {
-    selectedIndex = index
+@BindingAdapter("selectedItem")
+fun MaterialSpinner.selectedItem(base: String) = try {
+    getItems<String>()?.indexOf(base)?.let {
+        selectedIndex = it
+    }
 } catch (exception: IllegalArgumentException) {
-    logWarning(exception, "try to select failed for index $index")
+    logWarning(exception, "try to select failed for index $base")
 }
+
+@BindingAdapter("onItemSelected")
+fun MaterialSpinner.onItemSelected(calculatorViewEvent: CalculatorViewEvent) =
+    setOnItemSelectedListener { _, _, _, item ->
+        calculatorViewEvent.onSpinnerItemSelected(item.toString())
+    }
