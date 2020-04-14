@@ -62,7 +62,6 @@ dependencies {
             firebaseConfig,
             snacky,
             toasty,
-            loadingView,
             jodaTime,
             rxAndroid,
             navigation,

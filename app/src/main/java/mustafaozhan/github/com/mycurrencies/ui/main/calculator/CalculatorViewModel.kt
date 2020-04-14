@@ -74,13 +74,8 @@ class CalculatorViewModel(
             }
 
             observer.input.addSource(input) { input ->
-                if (input.isEmpty()) {
-                    empty.postValue(true)
-                    output.postValue("")
-                } else {
-                    calculateOutput(input)
-                    empty.postValue(false)
-                }
+                empty.value = input.isEmpty()
+                calculateOutput(input)
             }
         }
     }
@@ -103,7 +98,6 @@ class CalculatorViewModel(
     }
 
     private fun refreshData() {
-        state.loading.postValue(true)
         data.rates = null
         state.currencyList.value?.clear()
 
@@ -126,7 +120,6 @@ class CalculatorViewModel(
     }
 
     private fun getCurrencies() {
-        state.loading.postValue(true)
         data.rates?.let { rates ->
             state.currencyList.value?.forEach { currency ->
                 currency.rate = calculateResultByCurrency(currency.name, rates)
@@ -176,7 +169,7 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        state.empty.postValue(true)
+        state.empty.value = true
 
         state.currencyList.value?.size
             ?.whether { it > 1 }
@@ -188,28 +181,29 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            state.output.postValue(output)
+            state.output.value = output
 
-            output
-                .whetherNot { isEmpty() }
-                ?.apply { state.output.postValue(replaceNonStandardDigits()) }
-                ?: run { state.output.postValue("") }
+//            output
+//                .whetherNot { isEmpty() }
+//                ?.apply { state.output.value=replaceNonStandardDigits()) }
+//                ?: run { state.output.value="") }
 
             state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.let {
-                    state.empty.postValue(true)
+                    state.empty.value = true
                     effect.postValue(FewCurrencyEffect)
                 }
                 ?: run { getCurrencies() }
-        } ?: run { effect.postValue(MaximumInputEffect(input)) }
+        } ?: run {
+        effect.postValue(MaximumInputEffect(input))
+    }
 
     private fun submitList(currencyList: MutableList<Currency>?) {
-        state.currencyList.postValue(currencyList)
-        state.loading.postValue(false)
+        state.currencyList.value = currencyList
         if (currencyList?.isEmpty() != false) {
-            state.empty.postValue(false)
+            state.empty.value = false
         }
     }
 
@@ -233,8 +227,8 @@ class CalculatorViewModel(
         preferencesRepository.setCurrentBase(newBase)
 
         state.apply {
-            input.postValue(input.value)
-            symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
+            input.value = input.value
+            symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         }
 
         refreshData()
@@ -244,22 +238,22 @@ class CalculatorViewModel(
     override fun onKeyPress(key: String) {
         when (key) {
             KEY_AC -> {
-                state.input.postValue("")
-                state.output.postValue("")
+                state.input.value = ""
+                state.output.value = ""
             }
             KEY_DEL -> {
                 state.input.value
                     ?.whetherNot { isEmpty() }
                     ?.apply {
-                        state.input.postValue(substring(0, length - 1))
+                        state.input.value = substring(0, length - 1)
                     }
             }
-            else -> state.input.postValue(if (key.isEmpty()) "" else state.input.value.toString() + key)
+            else -> state.input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
         }
     }
 
     override fun onItemClick(currency: Currency) {
-        state.base.postValue(currency.name)
+        state.base.value = currency.name
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
@@ -275,6 +269,8 @@ class CalculatorViewModel(
 
     override fun onBarClick() = effect.postValue(ReverseSpinner)
 
-    override fun onSpinnerItemSelected(base: String) = state.base.postValue(base)
+    override fun onSpinnerItemSelected(base: String) {
+        state.base.value = base
+    }
     // endregion
 }

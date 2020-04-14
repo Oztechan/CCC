@@ -63,9 +63,9 @@ class SettingsViewModel(
         ?.toMutableList()
         .let {
             if (it?.isEmpty() == true) {
-                state.noResult.postValue(true)
+                state.noResult.value = true
             } else {
-                state.currencyList.postValue(it)
+                state.currencyList.value = it
             }
         }
 
@@ -90,7 +90,7 @@ class SettingsViewModel(
             effect.postValue(FewCurrency)
         }
 
-        state.searchQuery.postValue("")
+        state.searchQuery.value = ""
     }
 
     // region View Event

@@ -69,7 +69,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 is MaximumInputEffect -> {
                     Toasty.showToasty(requireContext(), R.string.max_input)
                     calculatorViewModel.state.input.postValue(viewEffect.input.dropLast(1))
-                    binding.loadingView.smoothToHide()
                 }
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))

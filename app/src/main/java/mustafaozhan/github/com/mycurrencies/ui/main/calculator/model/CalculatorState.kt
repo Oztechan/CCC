@@ -11,7 +11,6 @@ data class CalculatorState(val observer: CalculatorStateObserver) : BaseState() 
     val currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(mutableListOf())
     val output: MutableLiveData<String> = MutableLiveData("")
     val symbol: MutableLiveData<String> = MutableLiveData("")
-    val loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val empty: MutableLiveData<Boolean> = MutableLiveData(true)
 }
 
