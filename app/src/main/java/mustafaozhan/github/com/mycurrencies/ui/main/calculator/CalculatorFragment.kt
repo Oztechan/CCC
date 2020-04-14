@@ -10,6 +10,7 @@ import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.reObserve
+import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.tool.Toasty
 import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
@@ -87,7 +88,11 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
         calculatorViewModel.state.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
-                binding.layoutBar.spinnerBase.setItems(currencyList.map { it.name })
+                binding.layoutBar.spinnerBase
+                    .apply {
+                        setItems(currencyList.map { it.name })
+                        tryToSelect(calculatorViewModel.data.currentBase.toString())
+                    }
                 calculatorAdapter.submitList(currencyList, calculatorViewModel.data.currentBase)
             })
         }

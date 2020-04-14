@@ -205,12 +205,6 @@ class CalculatorViewModel(
                 ?: run { getCurrencies() }
         } ?: run { effect.postValue(MaximumInputEffect(input)) }
 
-    private fun updateCurrentBase(currency: String?) {
-        data.rates = null
-        preferencesRepository.setCurrentBase(currency)
-        getCurrencies()
-    }
-
     private fun submitList(currencyList: MutableList<Currency>?) {
         state.currencyList.postValue(currencyList)
         state.loading.postValue(false)
@@ -235,11 +229,15 @@ class CalculatorViewModel(
         } ?: run { 0.0 }
 
     private fun currentBaseChanged(newBase: String) {
-        updateCurrentBase(newBase)
+        data.rates = null
+        preferencesRepository.setCurrentBase(newBase)
+
         state.apply {
             input.postValue(input.value)
             symbol.postValue(currencyRepository.getCurrencyByName(newBase)?.symbol ?: "")
         }
+
+        refreshData()
     }
 
     // region View Event
