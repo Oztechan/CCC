@@ -35,9 +35,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         FragmentCalculatorBinding.inflate(layoutInflater, container, false)
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
-        binding.viewModel = calculatorViewModel
+        binding.vm = calculatorViewModel
         calculatorViewModel.event.let {
-            binding.viewEvent = it
+            binding.event = it
             calculatorAdapter = CalculatorAdapter(it)
         }
     }
@@ -66,10 +66,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                         ?.apply { collapse() }
                         ?: run { expand() }
                 }
-                is MaximumInputEffect -> {
-                    Toasty.showToasty(requireContext(), R.string.max_input)
-                    calculatorViewModel.state.input.postValue(viewEffect.input.dropLast(1))
-                }
+                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {

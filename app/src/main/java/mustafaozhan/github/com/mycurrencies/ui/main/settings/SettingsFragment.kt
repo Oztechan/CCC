@@ -27,9 +27,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
-        binding.viewModel = settingsViewModel
+        binding.vm = settingsViewModel
         settingsViewModel.event.let {
-            binding.viewEvent = it
+            binding.event = it
             settingsAdapter = SettingsAdapter(it)
         }
     }

@@ -12,14 +12,14 @@
             type="mustafaozhan.github.com.mycurrencies.model.Currency" />
 
         <variable
-            name="viewEvent"
+            name="event"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
-        android:onClick="@{() -> viewEvent.onItemClick(item)}"
-        android:onLongClick="@{() -> viewEvent.onItemLongClick(item)}">
+        android:onClick="@{() -> event.onItemClick(item)}"
+        android:onLongClick="@{() -> event.onItemLongClick(item)}">
 
         <TextView
             android:id="@+id/txt_amount"

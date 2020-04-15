@@ -10,7 +10,7 @@ object FewCurrencyEffect : CalculatorEffect()
 
 object ReverseSpinner : CalculatorEffect()
 
-data class MaximumInputEffect(var input: String) : CalculatorEffect()
+object MaximumInputEffect : CalculatorEffect()
 
 data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
 

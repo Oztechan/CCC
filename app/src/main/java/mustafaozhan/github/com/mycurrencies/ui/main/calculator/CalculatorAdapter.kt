@@ -35,7 +35,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.viewEvent = calculatorViewEvent
+            this.event = calculatorViewEvent
         }
     }
 

@@ -6,11 +6,11 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="vm"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel" />
 
         <variable
-            name="viewEvent"
+            name="event"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent" />
     </data>
 
@@ -26,7 +26,7 @@
             <TextView
                 android:id="@+id/txt_input"
                 style="@style/CalculatorToolbarTextStyle"
-                android:text="@{viewModel.state.input}" />
+                android:text="@{vm.state.input}" />
         </androidx.appcompat.widget.Toolbar>
 
         <include
@@ -37,8 +37,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main"
-            app:viewEvent="@{viewEvent}"
-            app:viewModel="@{viewModel}" />
+            app:event="@{event}"
+            app:vm="@{vm}" />
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/loading_view"
@@ -46,7 +46,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_bar"
-            app:visibility="@{viewModel.state.loading}" />
+            app:visibility="@{vm.state.loading}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
@@ -67,11 +67,11 @@
             android:id="@+id/layout_keyboard"
             style="@style/FitStyle"
             layout="@layout/layout_keyboard"
+            app:event="@{event}"
             app:layout_constraintBottom_toTopOf="@+id/ad_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline"
-            app:viewEvent="@{viewEvent}" />
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ad_view"
@@ -82,6 +82,6 @@
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             app:adId="@{@string/banner_ad_unit_id_calculator}"
-            app:isEnabled="@{viewModel.data.isRewardExpired}" />
+            app:isEnabled="@{vm.data.isRewardExpired}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

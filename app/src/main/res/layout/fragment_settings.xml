@@ -6,11 +6,11 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="vm"
             type="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel" />
 
         <variable
-            name="viewEvent"
+            name="event"
             type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent" />
     </data>
 
@@ -36,7 +36,7 @@
                 <Button
                     android:id="@+id/btn_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->viewEvent.onSelectDeselectButtonsClick(1)}"
+                    android:onClick="@{()->event.onSelectDeselectButtonsClick(1)}"
                     android:text="@string/select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->viewEvent.onSelectDeselectButtonsClick(0)}"
+                    android:onClick="@{()->event.onSelectDeselectButtonsClick(0)}"
                     android:text="@string/deSelect_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
@@ -56,7 +56,7 @@
         <EditText
             android:id="@+id/edit_text_search"
             style="@style/SettingsSearchTextStyle"
-            android:text="@={viewModel.state.searchQuery}"
+            android:text="@={vm.state.searchQuery}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
@@ -80,6 +80,6 @@
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             app:adId="@{@string/banner_ad_unit_id_settings}"
-            app:isEnabled="@{viewModel.data.isRewardExpired}" />
+            app:isEnabled="@{vm.data.isRewardExpired}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

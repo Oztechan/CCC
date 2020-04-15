@@ -47,7 +47,7 @@ class SettingsAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.viewEvent = settingsViewEvent
+            this.event = settingsViewEvent
         }
     }
 

@@ -189,7 +189,8 @@ class CalculatorViewModel(
                 ?.let { effect.postValue(FewCurrencyEffect) }
                 ?: run { getCurrencies() }
         } ?: run {
-        effect.postValue(MaximumInputEffect(input))
+        effect.postValue(MaximumInputEffect)
+        state.input.postValue(input.dropLast(1))
         state.loading.value = false
     }
 
