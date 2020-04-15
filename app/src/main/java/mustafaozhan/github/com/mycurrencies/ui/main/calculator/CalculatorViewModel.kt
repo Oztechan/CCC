@@ -72,10 +72,12 @@ class CalculatorViewModel(
             mediator.base.addSource(base) {
                 currentBaseChanged(it)
             }
-
             mediator.input.addSource(input) { input ->
                 loading.value = true
                 calculateOutput(input)
+            }
+            mediator.currencyList.addSource(currencyRepository.getActiveCurrencies()) {
+                submitList(it.removeUnUsedCurrencies())
             }
         }
     }
@@ -106,7 +108,6 @@ class CalculatorViewModel(
             currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-        submitList(currencyRepository.getActiveCurrencies().removeUnUsedCurrencies())
     }
 
     private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
