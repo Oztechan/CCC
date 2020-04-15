@@ -74,13 +74,14 @@ class CalculatorViewModel(
             }
 
             mediator.input.addSource(input) { input ->
-                empty.value = input.isEmpty()
+                loading.value = true
                 calculateOutput(input)
             }
         }
     }
 
     private fun initData() {
+        state.loading.value = true
         refreshData()
 
         if (preferencesRepository.loadResetData() && !preferencesRepository.firstRun) {
@@ -169,7 +170,6 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        state.empty.value = true
 
         state.currencyList.value?.size
             ?.whether { it > 1 }
@@ -183,11 +183,6 @@ class CalculatorViewModel(
         ?.let { output ->
             state.output.value = output
 
-//            output
-//                .whetherNot { isEmpty() }
-//                ?.apply { state.output.value=replaceNonStandardDigits()) }
-//                ?: run { state.output.value="") }
-
             state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -198,13 +193,12 @@ class CalculatorViewModel(
                 ?: run { getCurrencies() }
         } ?: run {
         effect.postValue(MaximumInputEffect(input))
+        state.loading.value = false
     }
 
     private fun submitList(currencyList: MutableList<Currency>?) {
         state.currencyList.value = currencyList
-        if (currencyList?.isEmpty() != false) {
-            state.empty.value = false
-        }
+        state.loading.value = false
     }
 
     private fun calculateResultByCurrency(

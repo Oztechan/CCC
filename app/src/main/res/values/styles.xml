@@ -203,9 +203,17 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
+    <style name="LoadingViewStyle" parent="AVLoadingIndicatorView">
+        <item name="android:layout_width">@dimen/loading_view_size</item>
+        <item name="android:layout_height">@dimen/loading_view_size</item>
+        <item name="indicatorColor">@color/colorAccent</item>
+        <item name="indicatorName">BallPulseIndicator</item>
+    </style>
+
     <style name="NoResultEmptyLayoutStyle" parent="ItemTextStyle">
-        <item name="android:layout_width">@dimen/margin_zero</item>
-        <item name="android:layout_height">@dimen/margin_zero</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_eight</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:gravity">center</item>
     </style>
