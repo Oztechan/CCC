@@ -39,3 +39,11 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
             it.name == Currencies.ZMK.toString() ||
             it.name == Currencies.CRYPTO_BTC.toString()
     }?.toMutableList()
+
+fun MutableList<Currency>?.toValidList(currentBase: Currencies) =
+    this?.filter {
+        it.name != currentBase.toString() &&
+            it.isActive == 1 &&
+            it.rate.toString() != "NaN" &&
+            it.rate.toString() != "0.0"
+    } ?: mutableListOf()

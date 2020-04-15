@@ -12,7 +12,6 @@ data class CalculatorState(val mediator: CalculatorStateMediator) : BaseState() 
     val output: MutableLiveData<String> = MutableLiveData("")
     val symbol: MutableLiveData<String> = MutableLiveData("")
     val loading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val empty: MutableLiveData<Boolean> = MutableLiveData(true)
 }
 
 data class CalculatorStateMediator(

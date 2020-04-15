@@ -186,10 +186,7 @@ class CalculatorViewModel(
             state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.let {
-                    state.empty.value = true
-                    effect.postValue(FewCurrencyEffect)
-                }
+                ?.let { effect.postValue(FewCurrencyEffect) }
                 ?: run { getCurrencies() }
         } ?: run {
         effect.postValue(MaximumInputEffect(input))

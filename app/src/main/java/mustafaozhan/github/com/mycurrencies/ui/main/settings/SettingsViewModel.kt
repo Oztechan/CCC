@@ -61,13 +61,7 @@ class SettingsViewModel(
                 symbol.contains(txt, true)
         }
         ?.toMutableList()
-        .let {
-            if (it?.isEmpty() == true) {
-                state.noResult.value = true
-            } else {
-                state.currencyList.value = it
-            }
-        }
+        .let { state.currencyList.value = it }
 
     private fun verifyCurrentBase(value: Int) {
         if (value == 0) {

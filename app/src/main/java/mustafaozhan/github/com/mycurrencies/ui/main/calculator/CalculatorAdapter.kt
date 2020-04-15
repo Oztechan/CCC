@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
+import mustafaozhan.github.com.mycurrencies.extension.toValidList
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
@@ -26,14 +27,8 @@ class CalculatorAdapter(
         false)
     )
 
-    fun submitList(list: MutableList<Currency>?, currentBase: Currencies) = submitList(
-        list?.filter {
-            it.name != currentBase.toString() &&
-                it.isActive == 1 &&
-                it.rate.toString() != "NaN" &&
-                it.rate.toString() != "0.0"
-        } ?: mutableListOf()
-    )
+    fun submitList(list: MutableList<Currency>?, currentBase: Currencies) =
+        submitList(list.toValidList(currentBase))
 
     inner class CalculatorDBViewHolder(itemBinding: ItemCalculatorBinding) :
         BaseDBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {

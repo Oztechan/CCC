@@ -62,15 +62,6 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
             tools:ignore="Autofill,LabelFor" />
 
-        <TextView
-            android:id="@+id/txt_no_result"
-            style="@style/NoResultEmptyLayoutStyle"
-            android:text="@string/no_result"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
-            app:visibility="@{viewModel.state.noResult}" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"
             style="@style/BaseRecyclerViewStyle"
