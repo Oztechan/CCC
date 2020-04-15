@@ -2,7 +2,6 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
-import mustafaozhan.github.com.mycurrencies.tool.enumValueOrNull
 import org.joda.time.Duration
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -28,7 +27,8 @@ constructor(private val sharedPreferencesHelper: PreferencesHelper) {
         } ?: true
 
     fun setCurrentBase(newBase: String?) =
-        updateMainData(currentBase = enumValueOrNull<Currencies>(newBase ?: "NULL"))
+        updateMainData(currentBase = enumValues<Currencies>().find { it.name == newBase }
+            ?: Currencies.NULL)
 
     fun loadMainData() = sharedPreferencesHelper.loadMainData()
 

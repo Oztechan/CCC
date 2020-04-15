@@ -6,14 +6,14 @@ import com.github.mustafaozhan.basemob.model.BaseState
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 data class SettingsState(
-    val observer: SettingsStateObserver
+    val mediator: SettingsStateMediator
 ) : BaseState() {
-    val searchQuery: MutableLiveData<String> = observer.searchQuery
+    val searchQuery: MutableLiveData<String> = mediator.searchQuery
     val currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(mutableListOf())
     val noResult: MutableLiveData<Boolean> = MutableLiveData(false)
 }
 
-data class SettingsStateObserver(
+data class SettingsStateMediator(
     val currencyList: MediatorLiveData<MutableList<Currency>> = MediatorLiveData<MutableList<Currency>>(),
     val searchQuery: MediatorLiveData<String> = MediatorLiveData<String>()
 )

@@ -29,7 +29,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorD
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateObserver
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateMediator
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
@@ -57,7 +57,7 @@ class CalculatorViewModel(
         private const val KEY_AC = "AC"
     }
 
-    override val state = CalculatorState(CalculatorStateObserver())
+    override val state = CalculatorState(CalculatorStateMediator())
     override val event = this as CalculatorEvent
     override val effect = MutableLiveData<CalculatorEffect>()
     override val data = CalculatorData(preferencesRepository)
@@ -69,11 +69,11 @@ class CalculatorViewModel(
             base.value = data.currentBase.toString()
             input.value = ""
 
-            observer.base.addSource(base) {
+            mediator.base.addSource(base) {
                 currentBaseChanged(it)
             }
 
-            observer.input.addSource(input) { input ->
+            mediator.input.addSource(input) { input ->
                 empty.value = input.isEmpty()
                 calculateOutput(input)
             }

@@ -13,7 +13,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateObserver
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateMediator
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -27,7 +27,7 @@ class SettingsViewModel(
         private const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
-    override val state = SettingsState(SettingsStateObserver())
+    override val state = SettingsState(SettingsStateMediator())
     override val event = this as SettingsEvent
     override val effect = MutableLiveData<SettingsEffect>()
     override val data = SettingsData(preferencesRepository)
@@ -35,7 +35,7 @@ class SettingsViewModel(
     init {
         initData()
 
-        state.observer.searchQuery.addSource(state.searchQuery) {
+        state.mediator.searchQuery.addSource(state.searchQuery) {
             filterList(it)
         }
         filterList("")
