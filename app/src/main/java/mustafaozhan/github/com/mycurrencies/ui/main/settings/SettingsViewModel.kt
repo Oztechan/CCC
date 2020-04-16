@@ -19,7 +19,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 class SettingsViewModel(
-    private val preferencesRepository: PreferencesRepository,
+    val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
 ) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
 
@@ -30,7 +30,7 @@ class SettingsViewModel(
     override val state = SettingsState(SettingsStateMediator())
     override val event = this as SettingsEvent
     override val effect = MutableLiveData<SettingsEffect>()
-    override val data = SettingsData(preferencesRepository)
+    override val data = SettingsData()
 
     init {
         initData()

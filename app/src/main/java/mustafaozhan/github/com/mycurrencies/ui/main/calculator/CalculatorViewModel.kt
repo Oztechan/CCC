@@ -44,7 +44,7 @@ import java.util.Date
  */
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    private val preferencesRepository: PreferencesRepository,
+    val preferencesRepository: PreferencesRepository,
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
@@ -60,13 +60,13 @@ class CalculatorViewModel(
     override val state = CalculatorState(CalculatorStateMediator())
     override val event = this as CalculatorEvent
     override val effect = MutableLiveData<CalculatorEffect>()
-    override val data = CalculatorData(preferencesRepository)
+    override val data = CalculatorData()
 
     init {
         initData()
 
         state.apply {
-            base.value = data.currentBase.toString()
+            base.value = preferencesRepository.currentBase.toString()
             input.value = ""
 
             mediator.base.addSource(base) {
@@ -130,7 +130,7 @@ class CalculatorViewModel(
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
-                    backendRepository.getAllOnBase(data.currentBase),
+                    backendRepository.getAllOnBase(preferencesRepository.currentBase),
                     ::rateDownloadSuccess,
                     ::rateDownloadFail
                 )
@@ -154,14 +154,14 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(
-            data.currentBase.toString()
+            preferencesRepository.currentBase.toString()
         )?.let { offlineRates ->
             submitList(getCalculatedList(offlineRates))
             effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             viewModelScope.launch {
                 subscribeService(
-                    backendRepository.getAllOnBaseLongTimeOut(data.currentBase),
+                    backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
                     ::rateDownloadSuccess,
                     ::rateDownloadFailLongTimeOut
                 )
@@ -251,7 +251,7 @@ class CalculatorViewModel(
 
     override fun onItemLongClick(currency: Currency): Boolean {
         effect.postValue(
-            LongClickEffect("1 ${data.currentBase.name} = " +
+            LongClickEffect("1 ${preferencesRepository.currentBase.name} = " +
                 "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name

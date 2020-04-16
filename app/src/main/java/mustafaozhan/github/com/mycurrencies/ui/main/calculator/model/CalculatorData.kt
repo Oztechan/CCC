@@ -1,13 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator.model
 
 import com.github.mustafaozhan.basemob.model.BaseData
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Rates
 
-data class CalculatorData(val preferencesRepository: PreferencesRepository) : BaseData() {
+data class CalculatorData(
     var rates: Rates? = null
-    val isRewardExpired
-        get() = preferencesRepository.isRewardExpired
-    val currentBase
-        get() = preferencesRepository.currentBase
-}
+) : BaseData()

@@ -82,6 +82,6 @@
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             app:adId="@{@string/banner_ad_unit_id_calculator}"
-            app:isEnabled="@{vm.data.isRewardExpired}" />
+            app:isEnabled="@{vm.preferencesRepository.isRewardExpired}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
