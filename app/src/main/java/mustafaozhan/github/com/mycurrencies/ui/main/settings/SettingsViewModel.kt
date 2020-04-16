@@ -35,32 +35,33 @@ class SettingsViewModel(
     init {
         initData()
 
-        state.mediator.searchQuery.addSource(state.searchQuery) {
-            filterList(it)
+        state.apply {
+            mediator.searchQuery.addSource(searchQuery) {
+                filterList(it)
+            }
+            mediator.currencyList.addSource(currencyRepository.getAllCurrencies()) {
+                currencyList.value = it.removeUnUsedCurrencies()
+                data.unFilteredList = it
+            }
         }
+
         filterList("")
     }
 
     private fun initData() {
-        state.currencyList.value?.clear()
-
         if (preferencesRepository.firstRun) {
             currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-
-        currencyRepository.getAllCurrencies().removeUnUsedCurrencies()?.let {
-            state.currencyList.value?.addAll(it)
-        }
     }
 
-    private fun filterList(txt: String) = state.currencyList.value
-        ?.filter { (name, longName, symbol) ->
+    private fun filterList(txt: String) = data.unFilteredList
+        .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
                 symbol.contains(txt, true)
         }
-        ?.toMutableList()
+        .toMutableList()
         .let { state.currencyList.value = it }
 
     private fun verifyCurrentBase(value: Int) {
@@ -89,7 +90,6 @@ class SettingsViewModel(
 
     // region View Event
     override fun onSelectDeselectButtonsClick(value: Int) {
-        state.currencyList.value?.forEach { it.isActive = value }
         currencyRepository.updateAllCurrencyState(value)
         verifyCurrentBase(value)
         if (value == 0) {
@@ -99,9 +99,6 @@ class SettingsViewModel(
 
     override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
-        state.currencyList.value
-            ?.find { (nameToFilter) -> nameToFilter == name }
-            ?.isActive = newValue
         currencyRepository.updateCurrencyStateByName(name, newValue)
         verifyCurrentBase(newValue)
     }

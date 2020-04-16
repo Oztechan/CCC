@@ -19,7 +19,7 @@ interface CurrencyDao {
     fun updateCurrencyStateByName(name: String, isActive: Int)
 
     @Query("SELECT * FROM currency")
-    fun getAllCurrencies(): MutableList<Currency>
+    fun getAllCurrencies(): LiveData<MutableList<Currency>>
 
     @Query("SELECT * FROM currency WHERE isActive=1")
     fun getActiveCurrencies(): LiveData<MutableList<Currency>?>

@@ -29,7 +29,7 @@ def SNACKY_VERSION = '1.0.3'
 def TOASTY_VERSION = '1.4.2'
 def LOADING_VIEW_VERSION = '2.1.3'
 def JODA_TIME_VERSION = '2.10.3'
-def NAVIGATION_VERSION = '2.2.1'
+def NAVIGATION_VERSION = '2.2.2'
 
 def getGitVersion = { ->
     try {

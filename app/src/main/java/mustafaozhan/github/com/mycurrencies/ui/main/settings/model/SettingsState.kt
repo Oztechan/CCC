@@ -9,7 +9,7 @@ data class SettingsState(
     val mediator: SettingsStateMediator
 ) : BaseState() {
     val searchQuery: MutableLiveData<String> = mediator.searchQuery
-    val currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(mutableListOf())
+    var currencyList: MutableLiveData<MutableList<Currency>> = mediator.currencyList
 }
 
 data class SettingsStateMediator(
