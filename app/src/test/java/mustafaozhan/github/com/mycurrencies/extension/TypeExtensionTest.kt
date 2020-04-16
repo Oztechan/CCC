@@ -13,7 +13,7 @@ class TypeExtensionTest {
 
     @Test
     fun `replace unsupported characters`() {
-        assertEquals(",٫ −".replaceUnsupportedCharacters(), "..-")
+        assertEquals(",٫ −".toSupportedCharacters(), "..-")
     }
 
     @Test
@@ -44,7 +44,7 @@ class TypeExtensionTest {
             "۰۱۲۳۴۵۶۷۸۹",
             "᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"
         ).forEach {
-            assertEquals(it.replaceNonStandardDigits(), "0123456789")
+            assertEquals(it.toStandardDigits(), "0123456789")
         }
     }
 

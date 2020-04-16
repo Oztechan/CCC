@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
+import android.annotation.SuppressLint
 import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -12,7 +13,7 @@ import java.util.Locale
 
 private const val DATE_FORMAT = "HH:mm:ss MM.dd.yyyy"
 
-fun String.replaceNonStandardDigits(): String {
+fun String.toStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
         char.whether { Character.isDigit(it) }
@@ -25,7 +26,7 @@ fun String.replaceNonStandardDigits(): String {
     return builder.toString()
 }
 
-fun String.replaceUnsupportedCharacters() =
+fun String.toSupportedCharacters() =
     replace(",", ".")
         .replace("٫", ".")
         .replace(" ", "")
@@ -49,6 +50,7 @@ fun Date.toFormattedString(): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
         .format(this)
 
+@SuppressLint("DefaultLocale")
 inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
     val getterName = "get" + propertyName.capitalize()
     return try {

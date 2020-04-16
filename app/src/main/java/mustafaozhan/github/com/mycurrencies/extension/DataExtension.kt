@@ -13,10 +13,10 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
  * Created by Mustafa Ozhan on 2018-07-20.
  */
 
-fun Rates?.calculateResult(name: String, value: String) =
-    this?.whetherNot { value.isEmpty() }
+fun Rates?.calculateResult(name: String, value: String?) =
+    this?.whetherNot { value.isNullOrEmpty() }
         ?.getThroughReflection<Double>(name)
-        ?.times(value.replaceUnsupportedCharacters().replaceNonStandardDigits().toDouble())
+        ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
         ?: 0.0
 
 fun CurrencyDao.insertInitialCurrencies() {

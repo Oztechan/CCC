@@ -7,7 +7,7 @@ interface CalculatorEvent : BaseEvent {
 
     fun onKeyPress(key: String)
 
-    fun onItemClick(currency: Currency)
+    fun onItemClick(currency: Currency, conversion: String)
 
     fun onItemLongClick(currency: Currency): Boolean
 

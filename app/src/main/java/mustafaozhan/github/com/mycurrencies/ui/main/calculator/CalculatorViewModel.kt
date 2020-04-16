@@ -18,9 +18,9 @@ import mustafaozhan.github.com.mycurrencies.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extension.toFormattedString
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -157,7 +157,7 @@ class CalculatorViewModel(
             ?.let { effect.postValue(ErrorEffect) }
     }
 
-    private fun calculateOutput(input: String) = Expression(input.replaceUnsupportedCharacters().toPercent())
+    private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
         .calculate()
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
@@ -175,12 +175,12 @@ class CalculatorViewModel(
         state.loading.value = false
     }
 
-    private fun calculateConversions(rates: Rates?) = state.output.value
-        ?.let { output ->
-            state.currencyList.value = state.currencyList.value?.onEach {
-                it.rate = rates.calculateResult(it.name, output)
-            }
-        }.run { state.loading.value = false }
+    private fun calculateConversions(rates: Rates?) = with(state) {
+        currencyList.value = currencyList.value?.onEach {
+            it.rate = rates.calculateResult(it.name, output.value)
+        }
+        loading.value = false
+    }
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
@@ -191,7 +191,7 @@ class CalculatorViewModel(
             symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         }
 
-        refreshData()
+        getCurrencies()
     }
 
     // region View Event
@@ -212,8 +212,9 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency) {
+    override fun onItemClick(currency: Currency, conversion: String) {
         state.base.value = currency.name
+        state.input.value = conversion
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {

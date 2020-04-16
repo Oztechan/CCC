@@ -18,13 +18,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
-        android:onClick="@{() -> event.onItemClick(item)}"
+        android:onClick="@{() -> event.onItemClick(item,TypeExtensionKt.toStandardDigits(TypeExtensionKt.getFormatted(item.rate)))}"
         android:onLongClick="@{() -> event.onItemLongClick(item)}">
 
         <TextView
             android:id="@+id/txt_amount"
             style="@style/CalculatorItemAmountTextStyle"
-            android:text="@{TypeExtensionKt.replaceNonStandardDigits(TypeExtensionKt.getFormatted(item.rate))}"
+            android:text="@{TypeExtensionKt.toStandardDigits(TypeExtensionKt.getFormatted(item.rate))}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
