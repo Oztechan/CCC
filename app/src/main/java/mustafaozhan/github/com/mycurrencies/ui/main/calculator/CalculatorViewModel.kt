@@ -18,7 +18,6 @@ import mustafaozhan.github.com.mycurrencies.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.replaceNonStandardDigits
 import mustafaozhan.github.com.mycurrencies.extension.replaceUnsupportedCharacters
 import mustafaozhan.github.com.mycurrencies.extension.toFormattedString
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
@@ -77,7 +76,7 @@ class CalculatorViewModel(
                 calculateOutput(input)
             }
             mediator.currencyList.addSource(currencyRepository.getActiveCurrencies()) {
-                submitList(it.removeUnUsedCurrencies())
+                currencyList.value = it.removeUnUsedCurrencies()
             }
         }
     }
@@ -110,43 +109,25 @@ class CalculatorViewModel(
         }
     }
 
-    private fun getCalculatedList(rates: Rates): MutableList<Currency>? {
-        var tempList = mutableListOf<Currency>()
-
-        state.currencyList.value?.let { currencyList ->
-            currencyList.forEach { it.rate = calculateResultByCurrency(it.name, rates) }
-            tempList = currencyList
-        }
-
-        return tempList
-    }
-
-    private fun getCurrencies() {
-        data.rates?.let { rates ->
-            state.currencyList.value?.forEach { currency ->
-                currency.rate = calculateResultByCurrency(currency.name, rates)
-            }
-            submitList(getCalculatedList(rates))
-        } ?: run {
-            viewModelScope.launch {
-                subscribeService(
-                    backendRepository.getAllOnBase(preferencesRepository.currentBase),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFail
-                )
-            }
+    private fun getCurrencies() = data.rates?.let { rates ->
+        calculateConversions(rates)
+    } ?: run {
+        viewModelScope.launch {
+            subscribeService(
+                backendRepository.getAllOnBase(preferencesRepository.currentBase),
+                ::rateDownloadSuccess,
+                ::rateDownloadFail
+            )
         }
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) {
-        data.apply {
-            rates = currencyResponse.rates
-            rates?.base = currencyResponse.base
-            rates?.date = Date().toFormattedString()
-            rates?.let {
-                submitList(getCalculatedList(it))
-                offlineRatesRepository.insertOfflineRates(it)
-            }
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(data) {
+        rates = currencyResponse.rates
+        rates?.base = currencyResponse.base
+        rates?.date = Date().toFormattedString()
+        rates?.let {
+            calculateConversions(it)
+            offlineRatesRepository.insertOfflineRates(it)
         }
     }
 
@@ -156,7 +137,7 @@ class CalculatorViewModel(
         offlineRatesRepository.getOfflineRatesByBase(
             preferencesRepository.currentBase.toString()
         )?.let { offlineRates ->
-            submitList(getCalculatedList(offlineRates))
+            calculateConversions(offlineRates)
             effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             viewModelScope.launch {
@@ -171,7 +152,6 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-
         state.currencyList.value?.size
             ?.whether { it > 1 }
             ?.let { effect.postValue(ErrorEffect) }
@@ -191,29 +171,16 @@ class CalculatorViewModel(
                 ?: run { getCurrencies() }
         } ?: run {
         effect.postValue(MaximumInputEffect)
-        state.input.postValue(input.dropLast(1))
+        state.input.value = input.dropLast(1)
         state.loading.value = false
     }
 
-    private fun submitList(currencyList: MutableList<Currency>?) {
-        state.currencyList.value = currencyList
-        state.loading.value = false
-    }
-
-    private fun calculateResultByCurrency(
-        name: String,
-        rate: Rates?
-    ) = state.output.value
-        ?.whetherNot { isEmpty() }
+    private fun calculateConversions(rates: Rates?) = state.output.value
         ?.let { output ->
-            try {
-                rate.calculateResult(name, output)
-            } catch (e: NumberFormatException) {
-                val numericValue = output.replaceUnsupportedCharacters().replaceNonStandardDigits()
-                logWarning(e, "NumberFormatException $output to $numericValue")
-                rate.calculateResult(name, numericValue)
+            state.currencyList.value = state.currencyList.value?.onEach {
+                it.rate = rates.calculateResult(it.name, output)
             }
-        } ?: run { 0.0 }
+        }.run { state.loading.value = false }
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null

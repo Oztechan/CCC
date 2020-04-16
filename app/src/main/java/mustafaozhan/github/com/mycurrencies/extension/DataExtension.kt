@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
+import com.github.mustafaozhan.scopemob.whetherNot
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyDao
@@ -13,8 +14,9 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
  */
 
 fun Rates?.calculateResult(name: String, value: String) =
-    this?.getThroughReflection<Double>(name)
-        ?.times(value.replaceUnsupportedCharacters().toDouble())
+    this?.whetherNot { value.isEmpty() }
+        ?.getThroughReflection<Double>(name)
+        ?.times(value.replaceUnsupportedCharacters().replaceNonStandardDigits().toDouble())
         ?: 0.0
 
 fun CurrencyDao.insertInitialCurrencies() {
