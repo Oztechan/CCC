@@ -8,10 +8,8 @@ import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.calculateResult
@@ -65,6 +63,7 @@ class CalculatorViewModel(
         initData()
 
         state.apply {
+            loading.value = true
             base.value = preferencesRepository.currentBase
             input.value = ""
 
@@ -82,31 +81,13 @@ class CalculatorViewModel(
     }
 
     private fun initData() {
-        state.loading.value = true
-        refreshData()
-
-        if (preferencesRepository.loadResetData() && !preferencesRepository.firstRun) {
-
-            runBlocking {
-                AppDatabase.database.clearAllTables()
-                preferencesRepository.updateMainData(firstRun = true)
-            }
-            preferencesRepository.persistResetData(false)
-            refreshData()
-            getCurrencies()
-        } else {
-            getCurrencies()
-        }
-    }
-
-    private fun refreshData() {
-        data.rates = null
-        state.currencyList.value?.clear()
-
         if (preferencesRepository.firstRun) {
-            currencyRepository.insertInitialCurrencies()
-            preferencesRepository.updateMainData(firstRun = false)
+            viewModelScope.launch {
+                currencyRepository.insertInitialCurrencies()
+                preferencesRepository.updateMainData(firstRun = false)
+            }
         }
+        getCurrencies()
     }
 
     private fun getCurrencies() = data.rates?.let { rates ->

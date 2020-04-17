@@ -17,7 +17,6 @@ constructor() : BasePreferences(CCCApplication.instance.applicationContext) {
     companion object {
         const val GENERAL_SHARED_PREFS = "GENERAL_SHARED_PREFS"
         const val MAIN_DATA = "MAIN_DATA"
-        const val RESET_DATA = "RESET_DATA"
     }
 
     override val preferencesName: String
@@ -37,8 +36,4 @@ constructor() : BasePreferences(CCCApplication.instance.applicationContext) {
             MAIN_DATA,
             moshi.adapter(MainData::class.java).toJson(MainData())
         )) ?: MainData()
-
-    fun loadResetData() = getBooleanEntry(RESET_DATA, true)
-
-    fun persistResetData(resetData: Boolean) = setBooleanEntry(RESET_DATA, resetData)
 }

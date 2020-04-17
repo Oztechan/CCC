@@ -52,8 +52,4 @@ constructor(private val sharedPreferencesHelper: PreferencesHelper) {
         sliderShown?.let { mainData.sliderShown = it }
         persistMainData(mainData)
     }
-
-    fun loadResetData() = sharedPreferencesHelper.loadResetData()
-
-    fun persistResetData(resetData: Boolean) = sharedPreferencesHelper.persistResetData(resetData)
 }
