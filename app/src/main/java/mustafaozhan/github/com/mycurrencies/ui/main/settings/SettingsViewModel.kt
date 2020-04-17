@@ -1,8 +1,11 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.scopemob.either
+import com.github.mustafaozhan.scopemob.whether
+import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
@@ -48,12 +51,12 @@ class SettingsViewModel(
         filterList("")
     }
 
-    private fun initData() {
-        if (preferencesRepository.firstRun) {
+    private fun initData() = viewModelScope
+        .whether { preferencesRepository.firstRun }
+        ?.launch {
             currencyRepository.insertInitialCurrencies()
             preferencesRepository.updateMainData(firstRun = false)
         }
-    }
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
@@ -78,7 +81,6 @@ class SettingsViewModel(
                     preferencesRepository.currentBase = state.currencyList.value
                         ?.firstOrNull { it.isActive == 1 }?.name
                         ?: Currencies.NULL.toString()
-
                 }
         }
 

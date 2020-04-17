@@ -80,26 +80,21 @@ class CalculatorViewModel(
         }
     }
 
-    private fun initData() {
-        if (preferencesRepository.firstRun) {
-            viewModelScope.launch {
-                currencyRepository.insertInitialCurrencies()
-                preferencesRepository.updateMainData(firstRun = false)
-            }
-        }
-        getCurrencies()
-    }
+    private fun initData() = viewModelScope
+        .whether { preferencesRepository.firstRun }
+        ?.launch {
+            currencyRepository.insertInitialCurrencies()
+            preferencesRepository.updateMainData(firstRun = false)
+        }.run { getCurrencies() }
 
     private fun getCurrencies() = data.rates?.let { rates ->
         calculateConversions(rates)
-    } ?: run {
-        viewModelScope.launch {
-            subscribeService(
-                backendRepository.getAllOnBase(preferencesRepository.currentBase),
-                ::rateDownloadSuccess,
-                ::rateDownloadFail
-            )
-        }
+    } ?: viewModelScope.launch {
+        subscribeService(
+            backendRepository.getAllOnBase(preferencesRepository.currentBase),
+            ::rateDownloadSuccess,
+            ::rateDownloadFail
+        )
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(data) {
@@ -120,14 +115,12 @@ class CalculatorViewModel(
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             effect.postValue(OfflineSuccessEffect(offlineRates.date))
-        } ?: run {
-            viewModelScope.launch {
-                subscribeService(
-                    backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
-                    ::rateDownloadSuccess,
-                    ::rateDownloadFailLongTimeOut
-                )
-            }
+        } ?: viewModelScope.launch {
+            subscribeService(
+                backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
+                ::rateDownloadSuccess,
+                ::rateDownloadFailLongTimeOut
+            )
         }
     }
 
@@ -182,13 +175,11 @@ class CalculatorViewModel(
                 state.input.value = ""
                 state.output.value = ""
             }
-            KEY_DEL -> {
-                state.input.value
-                    ?.whetherNot { isEmpty() }
-                    ?.apply {
-                        state.input.value = substring(0, length - 1)
-                    }
-            }
+            KEY_DEL -> state.input.value
+                ?.whetherNot { isEmpty() }
+                ?.apply {
+                    state.input.value = substring(0, length - 1)
+                }
             else -> state.input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
         }
     }
