@@ -28,8 +28,8 @@ fun CurrencyDao.insertInitialCurrencies() {
                 .use {
                     it.readText()
                 }
-        )?.currencies?.forEach { currency ->
-            this.insertCurrency(Currency(currency.name, currency.longName, currency.symbol))
+        )?.currencies?.forEach { (name, longName, symbol) ->
+            this.insertCurrency(Currency(name, longName, symbol))
         }
 }
 
@@ -42,9 +42,9 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
             it.name == Currencies.CRYPTO_BTC.toString()
     }?.toMutableList()
 
-fun MutableList<Currency>?.toValidList(currentBase: Currencies) =
+fun MutableList<Currency>?.toValidList(currentBase: String) =
     this?.filter {
-        it.name != currentBase.toString() &&
+        it.name != currentBase &&
             it.isActive == 1 &&
             it.rate.toString() != "NaN" &&
             it.rate.toString() != "0.0"

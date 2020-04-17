@@ -15,8 +15,16 @@ constructor(private val sharedPreferencesHelper: PreferencesHelper) {
         const val NUMBER_OF_HOURS = 24
     }
 
-    val currentBase
-        get() = loadMainData().currentBase
+    var currentBase: String = loadMainData().currentBase.toString()
+        get() = loadMainData().currentBase.toString()
+        set(value) {
+            updateMainData(
+                currentBase = enumValues<Currencies>()
+                    .find { it.name == value }
+                    ?: Currencies.NULL
+            )
+            field = value
+        }
 
     val firstRun
         get() = loadMainData().firstRun
@@ -25,10 +33,6 @@ constructor(private val sharedPreferencesHelper: PreferencesHelper) {
         get() = loadMainData().adFreeActivatedDate?.let {
             Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
         } ?: true
-
-    fun setCurrentBase(newBase: String?) =
-        updateMainData(currentBase = enumValues<Currencies>().find { it.name == newBase }
-            ?: Currencies.NULL)
 
     fun loadMainData() = sharedPreferencesHelper.loadMainData()
 

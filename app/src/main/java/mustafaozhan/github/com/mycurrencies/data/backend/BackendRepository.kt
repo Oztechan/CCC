@@ -1,7 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
 import com.github.mustafaozhan.basemob.api.BaseApiRepository
-import mustafaozhan.github.com.mycurrencies.model.Currencies
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,11 +8,11 @@ import javax.inject.Singleton
 class BackendRepository @Inject
 constructor(override val apiHelper: BackendHelper) : BaseApiRepository() {
 
-    suspend fun getAllOnBase(base: Currencies) = apiRequest {
+    suspend fun getAllOnBase(base: String) = apiRequest {
         apiHelper.backendService.getAllOnBase(base)
     }
 
-    suspend fun getAllOnBaseLongTimeOut(base: Currencies) = apiRequest {
+    suspend fun getAllOnBaseLongTimeOut(base: String) = apiRequest {
         apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
     }
 }

@@ -7,7 +7,6 @@ import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.toValidList
-import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 
@@ -27,7 +26,7 @@ class CalculatorAdapter(
         false)
     )
 
-    fun submitList(list: MutableList<Currency>?, currentBase: Currencies) =
+    fun submitList(list: MutableList<Currency>?, currentBase: String) =
         submitList(list.toValidList(currentBase))
 
     inner class CalculatorDBViewHolder(itemBinding: ItemCalculatorBinding) :

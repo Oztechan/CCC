@@ -87,7 +87,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 binding.layoutBar.spinnerBase
                     .apply {
                         setItems(currencyList.map { it.name })
-                        tryToSelect(calculatorViewModel.preferencesRepository.currentBase.toString())
+                        tryToSelect(calculatorViewModel.preferencesRepository.currentBase)
                     }
                 calculatorAdapter.submitList(currencyList, calculatorViewModel.preferencesRepository.currentBase)
             })

@@ -65,7 +65,7 @@ class CalculatorViewModel(
         initData()
 
         state.apply {
-            base.value = preferencesRepository.currentBase.toString()
+            base.value = preferencesRepository.currentBase
             input.value = ""
 
             mediator.base.addSource(base) {
@@ -135,7 +135,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(
-            preferencesRepository.currentBase.toString()
+            preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             effect.postValue(OfflineSuccessEffect(offlineRates.date))
@@ -184,7 +184,7 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
-        preferencesRepository.setCurrentBase(newBase)
+        preferencesRepository.currentBase = newBase
 
         state.apply {
             input.value = input.value
@@ -219,7 +219,7 @@ class CalculatorViewModel(
 
     override fun onItemLongClick(currency: Currency): Boolean {
         effect.postValue(
-            LongClickEffect("1 ${preferencesRepository.currentBase.name} = " +
+            LongClickEffect("1 ${preferencesRepository.currentBase} = " +
                 "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name

@@ -71,13 +71,14 @@ class SettingsViewModel(
                     { equals(Currencies.NULL) },
                     { base ->
                         state.currencyList.value
-                            ?.filter { it.name == base.toString() }
+                            ?.filter { it.name == base }
                             ?.toList()?.firstOrNull()?.isActive == 0
                     }
                 )?.let {
-                    preferencesRepository.setCurrentBase(
-                        state.currencyList.value?.firstOrNull { it.isActive == 1 }?.name
-                    )
+                    preferencesRepository.currentBase = state.currencyList.value
+                        ?.firstOrNull { it.isActive == 1 }?.name
+                        ?: Currencies.NULL.toString()
+
                 }
         }
 
@@ -91,10 +92,10 @@ class SettingsViewModel(
     // region View Event
     override fun onSelectDeselectButtonsClick(value: Int) {
         currencyRepository.updateAllCurrencyState(value)
-        verifyCurrentBase(value)
         if (value == 0) {
-            preferencesRepository.setCurrentBase(null)
+            preferencesRepository.currentBase = Currencies.NULL.toString()
         }
+        verifyCurrentBase(value)
     }
 
     override fun onItemClick(currency: Currency) = with(currency) {
