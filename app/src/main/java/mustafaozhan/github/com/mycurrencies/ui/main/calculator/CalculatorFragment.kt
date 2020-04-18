@@ -49,6 +49,11 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         initEffect()
     }
 
+    override fun onResume() {
+        super.onResume()
+        calculatorViewModel.verifyCurrentBase()
+    }
+
     private fun initEffect() = calculatorViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {

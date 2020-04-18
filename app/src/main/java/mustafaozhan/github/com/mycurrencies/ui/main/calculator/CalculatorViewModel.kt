@@ -168,6 +168,10 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
+    fun verifyCurrentBase() {
+        state.base.value = preferencesRepository.currentBase
+    }
+
     // region View Event
     override fun onKeyPress(key: String) {
         when (key) {
@@ -184,9 +188,9 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) {
-        state.base.value = currency.name
-        state.input.value = conversion
+    override fun onItemClick(currency: Currency, conversion: String) = with(state) {
+        base.value = currency.name
+        input.value = conversion
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {

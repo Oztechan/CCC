@@ -67,22 +67,20 @@ class SettingsViewModel(
         .toMutableList()
         .let { state.currencyList.value = it }
 
-    private fun verifyCurrentBase(value: Int) {
-        if (value == 0) {
-            preferencesRepository.currentBase
-                .either(
-                    { equals(Currencies.NULL) },
-                    { base ->
-                        state.currencyList.value
-                            ?.filter { it.name == base }
-                            ?.toList()?.firstOrNull()?.isActive == 0
-                    }
-                )?.let {
-                    preferencesRepository.currentBase = state.currencyList.value
-                        ?.firstOrNull { it.isActive == 1 }?.name
-                        ?: Currencies.NULL.toString()
+    private fun verifyCurrentBase() {
+        preferencesRepository.currentBase
+            .either(
+                { equals(Currencies.NULL.toString()) },
+                { base ->
+                    state.currencyList.value
+                        ?.filter { it.name == base }
+                        ?.toList()?.firstOrNull()?.isActive == 0
                 }
-        }
+            )?.let {
+                preferencesRepository.currentBase = state.currencyList.value
+                    ?.firstOrNull { it.isActive == 1 }?.name
+                    ?: Currencies.NULL.toString()
+            }
 
         if (state.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
             effect.postValue(FewCurrency)
@@ -97,13 +95,13 @@ class SettingsViewModel(
         if (value == 0) {
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
-        verifyCurrentBase(value)
+        verifyCurrentBase()
     }
 
     override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
         currencyRepository.updateCurrencyStateByName(name, newValue)
-        verifyCurrentBase(newValue)
+        verifyCurrentBase()
     }
     // endregion
 }
