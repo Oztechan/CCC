@@ -3,15 +3,15 @@ package mustafaozhan.github.com.mycurrencies.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import io.reactivex.Completable
+import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.room.dao.OfflineRatesDao
+import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
+import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.calculator.CalculatorViewState
+import mustafaozhan.github.com.mycurrencies.rule.CoroutineTestRule
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -28,41 +28,59 @@ class CalculatorViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    @MockK
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val coroutineTestRule = CoroutineTestRule()
+
+    @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
+
     @MockK
     lateinit var backendRepository: BackendRepository
+
+    @RelaxedMockK
+    lateinit var currencyRepository: CurrencyRepository
+
     @MockK
-    lateinit var currencyDao: CurrencyDao
-    @MockK
-    lateinit var offlineRatesDao: OfflineRatesDao
+    lateinit var offlineRatesRepository: OfflineRatesRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = CalculatorViewModel(preferencesRepository, backendRepository, currencyDao, offlineRatesDao)
-    }
 
-    @Test
-    fun `is view model initialized successfully`() {
-        assertEquals(viewModel.onLoaded(), Completable.complete())
+        viewModel = CalculatorViewModel(
+            preferencesRepository,
+            backendRepository,
+            currencyRepository,
+            offlineRatesRepository
+        )
     }
 
     @Test
     fun `is live data emitting`() {
-        val output = "123.45"
-        val currencyList: MutableList<Currency> = mutableListOf()
 
-        val date = "12:34:56 01.01.2020"
-        val rates = Rates("EUR", date)
-        val calculatorViewState = CalculatorViewState.Success(rates)
+        // state
+        val mockInput = "1"
+        val mockBase = "EUR"
+        val mockCurrencyList: MutableList<Currency> = mutableListOf()
+        val mockOutput = "123.45"
+        val mockSymbol = "$"
+        val mockLoading = false
 
-        viewModel.outputLiveData.postValue(output)
-        viewModel.currencyListLiveData.postValue(currencyList)
-        viewModel.calculatorViewStateLiveData.postValue(calculatorViewState)
+        viewModel.state.apply {
+            input.postValue(mockInput)
+            base.postValue(mockBase)
+            currencyList.postValue(mockCurrencyList)
+            output.postValue(mockOutput)
+            symbol.postValue(mockSymbol)
+            loading.postValue(mockLoading)
 
-        assertEquals(viewModel.outputLiveData.value, output)
-        assertEquals(viewModel.currencyListLiveData.value, currencyList)
-        assertEquals(viewModel.calculatorViewStateLiveData.value, calculatorViewState)
+            assertEquals(input.value, mockInput)
+            assertEquals(base.value, mockBase)
+            assertEquals(currencyList.value, mockCurrencyList)
+            assertEquals(output.value, mockOutput)
+            assertEquals(symbol.value, mockSymbol)
+            assertEquals(loading.value, mockLoading)
+        }
     }
 }
