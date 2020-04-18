@@ -17,6 +17,8 @@ def ANDROID_MATERIAL_VERSION = '1.1.0'
 def RECYCLER_VIEW_VERSION = '1.1.0'
 def CONSTRAINT_LAYOUT_VERSION = '1.1.3'
 def JUNIT_VERSION = '4.13'
+def MOCKK_VERSION = '1.9.3'
+def ARCH_TESTING_VERSION = '1.1.1'
 def RETROFIT_VERSION = '2.8.1'
 def MOSHI_VERSION = '1.9.2'
 def ROOM_VERSION = '2.2.5'
@@ -76,6 +78,9 @@ ext {
 
     // Test
     jUnit = "junit:junit:$JUNIT_VERSION"
+    mockK = "io.mockk:mockk:$MOCKK_VERSION"
+    archTesting = "android.arch.core:core-testing:$ARCH_TESTING_VERSION"
+    coroutinesTesting = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
 
     // Annotations
     annotations = [
