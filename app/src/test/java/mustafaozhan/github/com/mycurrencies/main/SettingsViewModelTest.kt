@@ -1,13 +1,15 @@
 package mustafaozhan.github.com.mycurrencies.main
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import io.reactivex.Completable
+import io.mockk.impl.annotations.RelaxedMockK
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.dao.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.ui.main.fragment.settings.SettingsViewModel
-import org.junit.Assert.assertEquals
+import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
+import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
+import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -17,19 +19,36 @@ class SettingsViewModelTest {
 
     private lateinit var viewModel: SettingsViewModel
 
-    @MockK
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
+
+    @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
-    @MockK
-    lateinit var currencyDao: CurrencyDao
+
+    @RelaxedMockK
+    lateinit var currencyRepository: CurrencyRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = SettingsViewModel(preferencesRepository, currencyDao)
+        viewModel = SettingsViewModel(preferencesRepository, currencyRepository)
     }
 
     @Test
-    fun `is view model initialized successfully`() {
-        assertEquals(viewModel.onLoaded(), Completable.complete())
+    fun `is live data emitting`() {
+
+        // state
+        val mockCurrencyList: MutableList<Currency> = mutableListOf()
+        val mockSearchQuery = "abc"
+
+        viewModel.state.apply {
+
+            currencyList.postValue(mockCurrencyList)
+            searchQuery.postValue(mockSearchQuery)
+
+            Assert.assertEquals(currencyList.value, mockCurrencyList)
+            Assert.assertEquals(searchQuery.value, mockSearchQuery)
+        }
     }
 }

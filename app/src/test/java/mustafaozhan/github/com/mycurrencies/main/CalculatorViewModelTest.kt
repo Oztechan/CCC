@@ -4,13 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.rule.CoroutineTestRule
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,10 +25,6 @@ class CalculatorViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val coroutineTestRule = CoroutineTestRule()
 
     @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
