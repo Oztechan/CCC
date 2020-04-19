@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -16,7 +17,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateMediator
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model._SettingsState
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -30,20 +31,24 @@ class SettingsViewModel(
         private const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
-    override val state = SettingsState(SettingsStateMediator())
+    private val _state = _SettingsState()
+    override val state = SettingsState(_state)
+
+    private val _effect = MutableLiveData<SettingsEffect>()
+    override val effect: LiveData<SettingsEffect> = _effect
+
     override val event = this as SettingsEvent
-    override val effect = MutableLiveData<SettingsEffect>()
     override val data = SettingsData()
 
     init {
         initData()
 
-        state.apply {
-            mediator.searchQuery.addSource(searchQuery) {
+        _state.apply {
+            _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
-            mediator.currencyList.addSource(currencyRepository.getAllCurrencies()) {
-                currencyList.value = it.removeUnUsedCurrencies()
+            _currencyList.addSource(currencyRepository.getAllCurrencies()) {
+                _currencyList.value = it.removeUnUsedCurrencies()
                 data.unFilteredList = it
             }
         }
@@ -65,7 +70,7 @@ class SettingsViewModel(
                 symbol.contains(txt, true)
         }
         .toMutableList()
-        .let { state.currencyList.value = it }
+        .let { _state._currencyList.value = it }
 
     private fun verifyCurrentBase() {
         preferencesRepository.currentBase
@@ -83,10 +88,10 @@ class SettingsViewModel(
             }
 
         if (state.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
-            effect.postValue(FewCurrency)
+            _effect.postValue(FewCurrency)
         }
 
-        state.searchQuery.value = ""
+        _state._searchQuery.value = ""
     }
 
     // region View Event
