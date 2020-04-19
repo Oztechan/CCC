@@ -1,5 +1,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -26,13 +27,13 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorD
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateMediator
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model._CalculatorState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -54,28 +55,32 @@ class CalculatorViewModel(
         private const val KEY_AC = "AC"
     }
 
-    override val state = CalculatorState(CalculatorStateMediator())
+    private val _state = _CalculatorState()
+    override val state = CalculatorState(_state)
+
+    private val _effect = MutableLiveData<CalculatorEffect>()
+    override val effect: LiveData<CalculatorEffect> = _effect
+
     override val event = this as CalculatorEvent
-    override val effect = MutableLiveData<CalculatorEffect>()
     override val data = CalculatorData()
 
     init {
         initData()
 
-        state.apply {
-            loading.value = true
-            base.value = preferencesRepository.currentBase
-            input.value = ""
+        _state.apply {
+            _loading.value = true
+            _base.value = preferencesRepository.currentBase
+            _input.value = ""
 
-            mediator.base.addSource(base) {
+            _state._base.addSource(state.base) {
                 currentBaseChanged(it)
             }
-            mediator.input.addSource(input) { input ->
-                loading.value = true
+            _state._input.addSource(state.input) { input ->
+                _loading.value = true
                 calculateOutput(input)
             }
-            mediator.currencyList.addSource(currencyRepository.getActiveCurrencies()) {
-                currencyList.value = it.removeUnUsedCurrencies()
+            _state._currencyList.addSource(currencyRepository.getActiveCurrencies()) {
+                _currencyList.value = it.removeUnUsedCurrencies()
             }
         }
     }
@@ -114,7 +119,7 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            effect.postValue(OfflineSuccessEffect(offlineRates.date))
+            _effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -128,7 +133,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed on long time out")
         state.currencyList.value?.size
             ?.whether { it > 1 }
-            ?.let { effect.postValue(ErrorEffect) }
+            ?.let { _effect.postValue(ErrorEffect) }
     }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
@@ -136,66 +141,66 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            state.output.value = output
+            _state._output.value = output
 
             state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { effect.postValue(FewCurrencyEffect) }
+                ?.let { _effect.postValue(FewCurrencyEffect) }
                 ?: run { getCurrencies() }
         } ?: run {
-        effect.postValue(MaximumInputEffect)
-        state.input.value = input.dropLast(1)
-        state.loading.value = false
+        _effect.postValue(MaximumInputEffect)
+        _state._input.value = input.dropLast(1)
+        _state._loading.value = false
     }
 
-    private fun calculateConversions(rates: Rates?) = with(state) {
-        currencyList.value = currencyList.value?.onEach {
-            it.rate = rates.calculateResult(it.name, output.value)
+    private fun calculateConversions(rates: Rates?) = with(_state) {
+        _currencyList.value = _currencyList.value?.onEach {
+            it.rate = rates.calculateResult(it.name, _output.value)
         }
-        loading.value = false
+        _loading.value = false
     }
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         preferencesRepository.currentBase = newBase
 
-        state.apply {
-            input.value = input.value
-            symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+        _state.apply {
+            _input.value = _input.value
+            _symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         }
 
         getCurrencies()
     }
 
     fun verifyCurrentBase() {
-        state.base.value = preferencesRepository.currentBase
+        _state._base.value = preferencesRepository.currentBase
     }
 
     // region View Event
     override fun onKeyPress(key: String) {
         when (key) {
             KEY_AC -> {
-                state.input.value = ""
-                state.output.value = ""
+                _state._input.value = ""
+                _state._output.value = ""
             }
             KEY_DEL -> state.input.value
                 ?.whetherNot { isEmpty() }
                 ?.apply {
-                    state.input.value = substring(0, length - 1)
+                    _state._input.value = substring(0, length - 1)
                 }
-            else -> state.input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
+            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) = with(state) {
-        base.value = currency.name
-        input.value = conversion
+    override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+        _base.value = currency.name
+        _input.value = conversion
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        effect.postValue(
+        _effect.postValue(
             LongClickEffect("1 ${preferencesRepository.currentBase} = " +
                 "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
@@ -205,10 +210,10 @@ class CalculatorViewModel(
         return true
     }
 
-    override fun onBarClick() = effect.postValue(ReverseSpinner)
+    override fun onBarClick() = _effect.postValue(ReverseSpinner)
 
     override fun onSpinnerItemSelected(base: String) {
-        state.base.value = base
+        _state._base.value = base
     }
     // endregion
 }
