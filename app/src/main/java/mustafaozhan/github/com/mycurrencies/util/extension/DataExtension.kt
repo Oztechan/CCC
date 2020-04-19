@@ -15,12 +15,12 @@ fun Rates?.calculateResult(name: String, value: String?) =
         ?: 0.0
 
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
-    this?.filterNot {
-        it.name == Currencies.BYR.toString() ||
-            it.name == Currencies.LVL.toString() ||
-            it.name == Currencies.LTL.toString() ||
-            it.name == Currencies.ZMK.toString() ||
-            it.name == Currencies.CRYPTO_BTC.toString()
+    this?.filterNot { (name) ->
+        name == Currencies.BYR.toString() ||
+            name == Currencies.LVL.toString() ||
+            name == Currencies.LTL.toString() ||
+            name == Currencies.ZMK.toString() ||
+            name == Currencies.CRYPTO_BTC.toString()
     }?.toMutableList()
 
 fun MutableList<Currency>?.toValidList(currentBase: String) =
