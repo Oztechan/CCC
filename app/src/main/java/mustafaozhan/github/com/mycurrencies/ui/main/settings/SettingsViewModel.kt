@@ -12,6 +12,7 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
@@ -27,10 +28,7 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
 
-    companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
-    }
-
+    // region SEED
     private val _state = SettingsStateBacking()
     override val state = SettingsState(_state)
 
@@ -39,6 +37,7 @@ class SettingsViewModel(
 
     override val event = this as SettingsEvent
     override val data = SettingsData()
+    // endregion
 
     init {
         initData()
@@ -105,6 +104,9 @@ class SettingsViewModel(
     override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
         currencyRepository.updateCurrencyStateByName(name, newValue)
+        if (currency.name == preferencesRepository.currentBase) {
+            preferencesRepository.currentBase = Currencies.NULL.toString()
+        }
         verifyCurrentBase()
     }
     // endregion

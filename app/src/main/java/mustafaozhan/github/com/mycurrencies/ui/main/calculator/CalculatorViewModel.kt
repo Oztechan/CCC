@@ -23,7 +23,12 @@ import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
@@ -48,14 +53,7 @@ class CalculatorViewModel(
     private val offlineRatesRepository: OfflineRatesRepository
 ) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
 
-    companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
-        private const val MAXIMUM_INPUT = 15
-        private const val KEY_DEL = "DEL"
-        private const val KEY_AC = "AC"
-        private const val CHAR_DOT = '.'
-    }
-
+    // region SEED
     private val _state = CalculatorStateBacking()
     override val state = CalculatorState(_state)
 
@@ -64,6 +62,7 @@ class CalculatorViewModel(
 
     override val event = this as CalculatorEvent
     override val data = CalculatorData()
+    // endregion
 
     init {
         initData()
