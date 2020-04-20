@@ -47,9 +47,12 @@ class SettingsViewModel(
             _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
-            _currencyList.addSource(currencyRepository.getAllCurrencies()) {
-                _currencyList.value = it.removeUnUsedCurrencies()
-                data.unFilteredList = it
+            _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
+                _currencyList.value = currencyList.removeUnUsedCurrencies()
+                data.unFilteredList = currencyList
+                if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+                    _effect.postValue(FewCurrency)
+                }
             }
         }
 
@@ -86,10 +89,6 @@ class SettingsViewModel(
                     ?.firstOrNull { it.isActive == 1 }?.name
                     ?: Currencies.NULL.toString()
             }
-
-        if (state.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
-            _effect.postValue(FewCurrency)
-        }
 
         _state._searchQuery.value = ""
     }
