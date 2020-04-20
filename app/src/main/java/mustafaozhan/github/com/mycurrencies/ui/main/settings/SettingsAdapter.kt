@@ -2,9 +2,11 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
+import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
@@ -24,6 +26,21 @@ class SettingsAdapter(
         parent,
         false)
     )
+
+    override fun onBindViewHolder(holder: BaseDBViewHolder<Currency, ItemSettingsBinding>, position: Int) {
+        holder.itemView.startAnimation(
+            AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.fall_down
+            )
+        )
+        super.onBindViewHolder(holder, position)
+    }
+
+    override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemSettingsBinding>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
 
     inner class RatesDBViewHolder(itemBinding: ItemSettingsBinding) :
         BaseDBViewHolder<Currency, ItemSettingsBinding>(itemBinding) {

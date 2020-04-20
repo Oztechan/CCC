@@ -53,6 +53,7 @@ class CalculatorViewModel(
         private const val MAXIMUM_INPUT = 15
         private const val KEY_DEL = "DEL"
         private const val KEY_AC = "AC"
+        private const val CHAR_DOT = '.'
     }
 
     private val _state = CalculatorStateBacking()
@@ -201,7 +202,7 @@ class CalculatorViewModel(
             finalResult = finalResult.dropLast(1)
         }
 
-        if (finalResult.last() == '.') {
+        if (finalResult.last() == CHAR_DOT) {
             finalResult = finalResult.dropLast(1)
         }
 
