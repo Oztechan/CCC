@@ -2,6 +2,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseState
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
@@ -11,7 +12,7 @@ data class SettingsState(
     val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
 
     // two way binding
-    val searchQuery: LiveData<String> = backing._searchQuery
+    val searchQuery: MutableLiveData<String> = backing._searchQuery
 }
 
 @Suppress("ConstructorParameterNaming")

@@ -195,8 +195,18 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+        var finalResult = conversion
+
+        while (finalResult.length > MAXIMUM_INPUT) {
+            finalResult = finalResult.dropLast(1)
+        }
+
+        if (finalResult.last() == '.') {
+            finalResult = finalResult.dropLast(1)
+        }
+
         _base.value = currency.name
-        _input.value = conversion
+        _input.value = finalResult
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
