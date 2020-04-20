@@ -17,7 +17,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model._SettingsState
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -31,7 +31,7 @@ class SettingsViewModel(
         private const val MINIMUM_ACTIVE_CURRENCY = 2
     }
 
-    private val _state = _SettingsState()
+    private val _state = SettingsStateBacking()
     override val state = SettingsState(_state)
 
     private val _effect = MutableLiveData<SettingsEffect>()

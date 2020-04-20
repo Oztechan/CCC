@@ -27,13 +27,13 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorD
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model._CalculatorState
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
 
@@ -55,7 +55,7 @@ class CalculatorViewModel(
         private const val KEY_AC = "AC"
     }
 
-    private val _state = _CalculatorState()
+    private val _state = CalculatorStateBacking()
     override val state = CalculatorState(_state)
 
     private val _effect = MutableLiveData<CalculatorEffect>()

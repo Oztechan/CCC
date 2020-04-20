@@ -6,20 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseState
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
-@Suppress("ConstructorParameterNaming")
 data class CalculatorState(
-    private val _state: _CalculatorState
+    private val backing: CalculatorStateBacking
 ) : BaseState() {
-    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
-    val input: LiveData<String> = _state._input
-    val base: LiveData<String> = _state._base
-    val output: LiveData<String> = _state._output
-    val symbol: LiveData<String> = _state._symbol
-    val loading: LiveData<Boolean> = _state._loading
+    val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
+    val input: LiveData<String> = backing._input
+    val base: LiveData<String> = backing._base
+    val output: LiveData<String> = backing._output
+    val symbol: LiveData<String> = backing._symbol
+    val loading: LiveData<Boolean> = backing._loading
 }
 
-@Suppress("ClassNaming", "ClassName", "ConstructorParameterNaming")
-data class _CalculatorState(
+@Suppress("ConstructorParameterNaming")
+data class CalculatorStateBacking(
     val _currencyList: MediatorLiveData<MutableList<Currency>> = MediatorLiveData<MutableList<Currency>>(),
     val _input: MediatorLiveData<String> = MediatorLiveData<String>(),
     val _base: MediatorLiveData<String> = MediatorLiveData<String>(),
