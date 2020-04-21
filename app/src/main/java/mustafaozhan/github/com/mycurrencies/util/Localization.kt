@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.tool
+package mustafaozhan.github.com.mycurrencies.util
 
 import android.annotation.TargetApi
 import android.content.Context

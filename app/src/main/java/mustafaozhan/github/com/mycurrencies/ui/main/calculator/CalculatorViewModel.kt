@@ -72,14 +72,14 @@ class CalculatorViewModel(
             _base.value = preferencesRepository.currentBase
             _input.value = ""
 
-            _state._base.addSource(state.base) {
+            _base.addSource(state.base) {
                 currentBaseChanged(it)
             }
-            _state._input.addSource(state.input) { input ->
+            _input.addSource(state.input) { input ->
                 _loading.value = true
                 calculateOutput(input)
             }
-            _state._currencyList.addSource(currencyRepository.getActiveCurrencies()) {
+            _currencyList.addSource(currencyRepository.getActiveCurrencies()) {
                 _currencyList.value = it.removeUnUsedCurrencies()
             }
         }
