@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
+import com.github.mustafaozhan.basemob.viewmodel.SADEViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.launch
@@ -14,9 +14,9 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
 
@@ -26,7 +26,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
+) : SADEViewModel<SettingsState, SettingsAction, SettingsEffect, SettingsData>(), SettingsAction {
 
     // region SEED
     private val _state = SettingsStateBacking()
@@ -35,7 +35,7 @@ class SettingsViewModel(
     private val _effect = MutableLiveData<SettingsEffect>()
     override val effect: LiveData<SettingsEffect> = _effect
 
-    override val event = this as SettingsEvent
+    override val event = this as SettingsAction
     override val data = SettingsData()
     // endregion
 

@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
+import com.github.mustafaozhan.basemob.viewmodel.SADEViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -24,13 +24,13 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
@@ -51,7 +51,7 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
+) : SADEViewModel<CalculatorState, CalculatorAction, CalculatorEffect, CalculatorData>(), CalculatorAction {
 
     // region SEED
     private val _state = CalculatorStateBacking()
@@ -60,7 +60,7 @@ class CalculatorViewModel(
     private val _effect = MutableLiveData<CalculatorEffect>()
     override val effect: LiveData<CalculatorEffect> = _effect
 
-    override val event = this as CalculatorEvent
+    override val event = this as CalculatorAction
     override val data = CalculatorData()
     // endregion
 

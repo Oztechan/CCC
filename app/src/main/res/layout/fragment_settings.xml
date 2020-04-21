@@ -10,8 +10,8 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel" />
 
         <variable
-            name="event"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent" />
+            name="action"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
@@ -36,7 +36,7 @@
                 <Button
                     android:id="@+id/btn_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->event.onSelectDeselectButtonsClick(1)}"
+                    android:onClick="@{()->action.onSelectDeselectButtonsClick(1)}"
                     android:text="@string/select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->event.onSelectDeselectButtonsClick(0)}"
+                    android:onClick="@{()->action.onSelectDeselectButtonsClick(0)}"
                     android:text="@string/deSelect_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"

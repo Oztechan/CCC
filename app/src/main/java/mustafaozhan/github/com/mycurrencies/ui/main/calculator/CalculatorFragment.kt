@@ -37,7 +37,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.vm = calculatorViewModel
         calculatorViewModel.event.let {
-            binding.event = it
+            binding.action = it
             calculatorAdapter = CalculatorAdapter(it)
         }
     }

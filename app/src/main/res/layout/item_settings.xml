@@ -10,13 +10,13 @@
             type="mustafaozhan.github.com.mycurrencies.model.Currency" />
 
         <variable
-            name="event"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent" />
+            name="action"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
-        android:onClick="@{() -> event.onItemClick(item)}">
+        android:onClick="@{() -> action.onItemClick(item)}">
 
         <ImageView
             android:id="@+id/img_icon"

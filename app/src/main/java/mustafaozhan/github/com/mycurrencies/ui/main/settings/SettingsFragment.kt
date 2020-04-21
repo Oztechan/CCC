@@ -29,7 +29,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
         settingsViewModel.event.let {
-            binding.event = it
+            binding.action = it
             settingsAdapter = SettingsAdapter(it)
         }
     }

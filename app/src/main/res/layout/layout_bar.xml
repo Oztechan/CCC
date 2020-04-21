@@ -10,13 +10,13 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel" />
 
         <variable
-            name="event"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent" />
+            name="action"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/LayoutBar"
-        android:onClick="@{() -> event.onBarClick()}">
+        android:onClick="@{() -> action.onBarClick()}">
 
         <ImageView
             android:id="@+id/iv_base"
@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
             app:layout_constraintTop_toTopOf="parent"
-            app:onItemSelected="@{event}" />
+            app:onItemSelected="@{action}" />
 
         <TextView
             android:id="@+id/txt_output"
