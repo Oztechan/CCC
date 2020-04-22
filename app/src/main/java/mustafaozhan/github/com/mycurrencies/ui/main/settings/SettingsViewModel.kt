@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.viewmodel.SADEViewModel
+import com.github.mustafaozhan.basemob.viewmodel.EASYViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.launch
@@ -12,13 +12,13 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.MainYield.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsYield
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -26,17 +26,17 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : SADEViewModel<SettingsState, SettingsAction, SettingsEffect, SettingsData>(), SettingsAction {
+) : EASYViewModel<SettingsState, SettingsAction, SettingsEvent, SettingsYield>(), SettingsAction {
 
     // region SEED
     private val _state = SettingsStateBacking()
     override val state = SettingsState(_state)
 
-    private val _effect = MutableLiveData<SettingsEffect>()
-    override val effect: LiveData<SettingsEffect> = _effect
+    private val _event = MutableLiveData<SettingsEvent>()
+    override val event: LiveData<SettingsEvent> = _event
 
-    override val event = this as SettingsAction
-    override val data = SettingsData()
+    override val action = this as SettingsAction
+    override val yield = SettingsYield()
     // endregion
 
     init {
@@ -48,9 +48,9 @@ class SettingsViewModel(
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
-                data.unFilteredList = currencyList
+                yield.unFilteredList = currencyList
                 if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-                    _effect.postValue(FewCurrency)
+                    _event.postValue(FewCurrencyEvent)
                 }
             }
         }
@@ -65,7 +65,7 @@ class SettingsViewModel(
             preferencesRepository.updateMainData(firstRun = false)
         }
 
-    private fun filterList(txt: String) = data.unFilteredList
+    private fun filterList(txt: String) = yield.unFilteredList
         .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||

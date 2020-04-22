@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main
 
-import com.github.mustafaozhan.basemob.model.BaseData
+import com.github.mustafaozhan.basemob.model.BaseYield
 
-open class MainActivityData : BaseData() {
+open class MainYield : BaseYield() {
     companion object {
         const val MINIMUM_ACTIVE_CURRENCY = 2
     }
