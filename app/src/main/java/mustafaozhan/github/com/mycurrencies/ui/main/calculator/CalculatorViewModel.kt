@@ -53,29 +53,29 @@ class CalculatorViewModel(
     private val offlineRatesRepository: OfflineRatesRepository
 ) : EASYViewModel<CalculatorState, CalculatorAction, CalculatorEvent, CalculatorYield>(), CalculatorAction {
 
-    // region SEED
-    private val _state = CalculatorStateBacking()
-    override val state = CalculatorState(_state)
+    // region take it EASY!
+    private val _states = CalculatorStateBacking()
+    override val states = CalculatorState(_states)
 
-    private val _event = MutableLiveData<CalculatorEvent>()
-    override val event: LiveData<CalculatorEvent> = _event
+    private val _events = MutableLiveData<CalculatorEvent>()
+    override val events: LiveData<CalculatorEvent> = _events
 
-    override val action = this as CalculatorAction
-    override val yield = CalculatorYield()
+    override fun getActions() = this as CalculatorAction
+    override val yields = CalculatorYield()
     // endregion
 
     init {
         initData()
 
-        _state.apply {
+        _states.apply {
             _loading.value = true
             _base.value = preferencesRepository.currentBase
             _input.value = ""
 
-            _base.addSource(state.base) {
+            _base.addSource(states.base) {
                 currentBaseChanged(it)
             }
-            _input.addSource(state.input) { input ->
+            _input.addSource(states.input) { input ->
                 _loading.value = true
                 calculateOutput(input)
             }
@@ -92,7 +92,7 @@ class CalculatorViewModel(
             preferencesRepository.updateMainData(firstRun = false)
         }.run { getCurrencies() }
 
-    private fun getCurrencies() = yield.rates?.let { rates ->
+    private fun getCurrencies() = yields.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         subscribeService(
@@ -102,7 +102,7 @@ class CalculatorViewModel(
         )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(yield) {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(yields) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
@@ -119,7 +119,7 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _event.postValue(OfflineSuccessEvent(offlineRates.date))
+            _events.postValue(OfflineSuccessEvent(offlineRates.date))
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -131,9 +131,9 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        state.currencyList.value?.size
+        states.currencyList.value?.size
             ?.whether { it > 1 }
-            ?.let { _event.postValue(ErrorEvent) }
+            ?.let { _events.postValue(ErrorEvent) }
     }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
@@ -141,21 +141,21 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            _state._output.value = output
+            _states._output.value = output
 
-            state.currencyList.value
+            states.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _event.postValue(FewCurrencyEvent) }
+                ?.whetherNot { states.input.value.isNullOrEmpty() }
+                ?.let { _events.setValue(FewCurrencyEvent) }
                 ?: run { getCurrencies() }
         } ?: run {
-        _event.postValue(MaximumInputEvent)
-        _state._input.value = input.dropLast(1)
-        _state._loading.value = false
+        _events.postValue(MaximumInputEvent)
+        _states._input.value = input.dropLast(1)
+        _states._loading.value = false
     }
 
-    private fun calculateConversions(rates: Rates?) = with(_state) {
+    private fun calculateConversions(rates: Rates?) = with(_states) {
         _currencyList.value = _currencyList.value?.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
         }
@@ -163,38 +163,36 @@ class CalculatorViewModel(
     }
 
     private fun currentBaseChanged(newBase: String) {
-        yield.rates = null
+        yields.rates = null
         preferencesRepository.currentBase = newBase
 
-        _state.apply {
-            _input.value = _input.value
-            _symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
-        }
+        _states._input.value = _states._input.value
+        _states._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
 
         getCurrencies()
     }
 
     fun verifyCurrentBase() {
-        _state._base.value = preferencesRepository.currentBase
+        _states._base.value = preferencesRepository.currentBase
     }
 
-    // region View Event
+    // region Actions
     override fun onKeyPress(key: String) {
         when (key) {
             KEY_AC -> {
-                _state._input.value = ""
-                _state._output.value = ""
+                _states._input.value = ""
+                _states._output.value = ""
             }
-            KEY_DEL -> state.input.value
+            KEY_DEL -> states.input.value
                 ?.whetherNot { isEmpty() }
                 ?.apply {
-                    _state._input.value = substring(0, length - 1)
+                    _states._input.value = substring(0, length - 1)
                 }
-            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
+            else -> _states._input.value = if (key.isEmpty()) "" else states.input.value.toString() + key
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+    override fun onItemClick(currency: Currency, conversion: String) = with(_states) {
         var finalResult = conversion
 
         while (finalResult.length > MAXIMUM_INPUT) {
@@ -210,9 +208,9 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _event.postValue(
+        _events.postValue(
             LongClickEvent("1 ${preferencesRepository.currentBase} = " +
-                "${yield.rates?.getThroughReflection<Double>(currency.name)} " +
+                "${yields.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name
             )
@@ -220,10 +218,10 @@ class CalculatorViewModel(
         return true
     }
 
-    override fun onBarClick() = _event.postValue(ReverseSpinner)
+    override fun onBarClick() = _events.postValue(ReverseSpinner)
 
     override fun onSpinnerItemSelected(base: String) {
-        _state._base.value = base
+        _states._base.value = base
     }
     // endregion
 }

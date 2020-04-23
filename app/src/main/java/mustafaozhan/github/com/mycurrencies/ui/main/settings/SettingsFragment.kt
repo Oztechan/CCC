@@ -28,8 +28,8 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
-        settingsViewModel.action.let {
-            binding.action = it
+        settingsViewModel.getActions().let {
+            binding.actions = it
             settingsAdapter = SettingsAdapter(it)
         }
     }
@@ -48,14 +48,14 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
 
-        settingsViewModel.state.currencyList.apply {
+        settingsViewModel.states.currencyList.apply {
             reObserve(viewLifecycleOwner, Observer {
                 settingsAdapter.submitList(it)
             })
         }
     }
 
-    private fun initEvent() = settingsViewModel.event
+    private fun initEvent() = settingsViewModel.events
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
                 FewCurrencyEvent -> showToasty(requireContext(), R.string.choose_at_least_two_currency)

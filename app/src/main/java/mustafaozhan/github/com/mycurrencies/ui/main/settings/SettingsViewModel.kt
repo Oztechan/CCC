@@ -28,29 +28,29 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : EASYViewModel<SettingsState, SettingsAction, SettingsEvent, SettingsYield>(), SettingsAction {
 
-    // region SEED
-    private val _state = SettingsStateBacking()
-    override val state = SettingsState(_state)
+    // region take it EASY!
+    private val _states = SettingsStateBacking()
+    override val states = SettingsState(_states)
 
-    private val _event = MutableLiveData<SettingsEvent>()
-    override val event: LiveData<SettingsEvent> = _event
+    private val _events = MutableLiveData<SettingsEvent>()
+    override val events: LiveData<SettingsEvent> = _events
 
-    override val action = this as SettingsAction
-    override val yield = SettingsYield()
+    override fun getActions() = this as SettingsAction
+    override val yields = SettingsYield()
     // endregion
 
     init {
         initData()
 
-        _state.apply {
-            _searchQuery.addSource(state.searchQuery) {
+        _states.apply {
+            _searchQuery.addSource(states.searchQuery) {
                 filterList(it)
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
-                yield.unFilteredList = currencyList
+                yields.unFilteredList = currencyList
                 if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-                    _event.postValue(FewCurrencyEvent)
+                    _events.postValue(FewCurrencyEvent)
                 }
             }
         }
@@ -65,34 +65,34 @@ class SettingsViewModel(
             preferencesRepository.updateMainData(firstRun = false)
         }
 
-    private fun filterList(txt: String) = yield.unFilteredList
+    private fun filterList(txt: String) = yields.unFilteredList
         .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
                 symbol.contains(txt, true)
         }
         .toMutableList()
-        .let { _state._currencyList.value = it }
+        .let { _states._currencyList.value = it }
 
     private fun verifyCurrentBase() {
         preferencesRepository.currentBase
             .either(
                 { equals(Currencies.NULL.toString()) },
                 { base ->
-                    state.currencyList.value
+                    states.currencyList.value
                         ?.filter { it.name == base }
                         ?.toList()?.firstOrNull()?.isActive == 0
                 }
             )?.let {
-                preferencesRepository.currentBase = state.currencyList.value
+                preferencesRepository.currentBase = states.currencyList.value
                     ?.firstOrNull { it.isActive == 1 }?.name
                     ?: Currencies.NULL.toString()
             }
 
-        _state._searchQuery.value = ""
+        _states._searchQuery.value = ""
     }
 
-    // region View Event
+    // region Actions
     override fun onSelectDeselectButtonsClick(value: Int) {
         currencyRepository.updateAllCurrencyState(value)
         if (value == 0) {

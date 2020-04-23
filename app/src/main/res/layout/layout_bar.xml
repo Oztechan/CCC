@@ -10,18 +10,18 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel" />
 
         <variable
-            name="action"
+            name="actions"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/LayoutBar"
-        android:onClick="@{() -> action.onBarClick()}">
+        android:onClick="@{() -> actions.onBarClick()}">
 
         <ImageView
             android:id="@+id/iv_base"
             style="@style/BarBaseImageView"
-            app:backgroundByName="@{vm.state.base}"
+            app:backgroundByName="@{vm.states.base}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,12 +33,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
             app:layout_constraintTop_toTopOf="parent"
-            app:onItemSelected="@{action}" />
+            app:onItemSelected="@{actions}" />
 
         <TextView
             android:id="@+id/txt_output"
             style="@style/BarTextStyle"
-            android:text="@{vm.state.output!=`` ? `=  `+vm.state.output+` ` :``}"
+            android:text="@{vm.states.output!=`` ? `=  `+vm.states.output+` ` :``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/spinner_base"
             app:layout_constraintTop_toTopOf="@+id/spinner_base" />
@@ -46,7 +46,7 @@
         <TextView
             android:id="@+id/txt_symbol"
             style="@style/BarTextStyle"
-            android:text="@{vm.state.output!=`` ? vm.state.symbol : ``}"
+            android:text="@{vm.states.output!=`` ? vm.states.symbol : ``}"
             app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
             app:layout_constraintTop_toTopOf="@+id/spinner_base"

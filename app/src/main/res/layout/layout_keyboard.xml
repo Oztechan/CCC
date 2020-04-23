@@ -4,7 +4,7 @@
     <data>
 
         <variable
-            name="action"
+            name="actions"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction" />
     </data>
 
@@ -14,22 +14,22 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/seven)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/seven)}"
                 android:text="@string/seven" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/eight)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/eight)}"
                 android:text="@string/eight" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/nine)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/nine)}"
                 android:text="@string/nine" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/multiply)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/multiply)}"
                 android:text="@string/multiply" />
         </TableRow>
 
@@ -37,22 +37,22 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/four)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/four)}"
                 android:text="@string/four" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/five)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/five)}"
                 android:text="@string/five" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/six)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/six)}"
                 android:text="@string/six" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/divide)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/divide)}"
                 android:text="@string/divide" />
         </TableRow>
 
@@ -60,22 +60,22 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/one)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/one)}"
                 android:text="@string/one" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/two)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/two)}"
                 android:text="@string/two" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/three)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/three)}"
                 android:text="@string/three" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/minus)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/minus)}"
                 android:text="@string/minus" />
         </TableRow>
 
@@ -83,22 +83,22 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/dot)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/dot)}"
                 android:text="@string/dot" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/zero)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/zero)}"
                 android:text="@string/zero" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/percent)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/percent)}"
                 android:text="@string/percent" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/plus)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/plus)}"
                 android:text="@string/plus" />
         </TableRow>
 
@@ -106,17 +106,17 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/triple_zero)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/triple_zero)}"
                 android:text="@string/triple_zero" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/ac)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/ac)}"
                 android:text="@string/ac" />
 
             <Button
                 style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> action.onKeyPress(@string/delete)}"
+                android:onClick="@{() -> actions.onKeyPress(@string/delete)}"
                 android:text="@string/delete" />
         </TableRow>
     </TableLayout>

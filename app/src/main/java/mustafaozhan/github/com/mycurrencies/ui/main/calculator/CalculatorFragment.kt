@@ -36,8 +36,8 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.vm = calculatorViewModel
-        calculatorViewModel.action.let {
-            binding.action = it
+        calculatorViewModel.getActions().let {
+            binding.actions = it
             calculatorAdapter = CalculatorAdapter(it)
         }
     }
@@ -54,7 +54,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.verifyCurrentBase()
     }
 
-    private fun initEvent() = calculatorViewModel.event
+    private fun initEvent() = calculatorViewModel.events
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
                 ErrorEvent -> showSnacky(
@@ -87,7 +87,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.state.apply {
+        calculatorViewModel.states.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase
                     .apply {

@@ -10,7 +10,7 @@
             type="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel" />
 
         <variable
-            name="action"
+            name="actions"
             type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction" />
     </data>
 
@@ -36,7 +36,7 @@
                 <Button
                     android:id="@+id/btn_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->action.onSelectDeselectButtonsClick(1)}"
+                    android:onClick="@{()->actions.onSelectDeselectButtonsClick(1)}"
                     android:text="@string/select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->action.onSelectDeselectButtonsClick(0)}"
+                    android:onClick="@{()->actions.onSelectDeselectButtonsClick(0)}"
                     android:text="@string/deSelect_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
@@ -56,7 +56,7 @@
         <EditText
             android:id="@+id/edit_text_search"
             style="@style/SettingsSearchTextStyle"
-            android:text="@={vm.state.searchQuery}"
+            android:text="@={vm.states.searchQuery}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"

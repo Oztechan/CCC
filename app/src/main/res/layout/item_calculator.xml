@@ -12,14 +12,14 @@
             type="mustafaozhan.github.com.mycurrencies.model.Currency" />
 
         <variable
-            name="action"
+            name="actions"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
-        android:onClick="@{() -> action.onItemClick(item,TypeExtensionKt.toStandardDigits(TypeExtensionKt.getFormatted(item.rate)))}"
-        android:onLongClick="@{() -> action.onItemLongClick(item)}">
+        android:onClick="@{() -> actions.onItemClick(item,TypeExtensionKt.toStandardDigits(TypeExtensionKt.getFormatted(item.rate)))}"
+        android:onLongClick="@{() -> actions.onItemLongClick(item)}">
 
         <TextView
             android:id="@+id/txt_amount"

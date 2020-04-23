@@ -34,7 +34,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.action = calculatorAction
+            this.actions = calculatorAction
         }
     }
 

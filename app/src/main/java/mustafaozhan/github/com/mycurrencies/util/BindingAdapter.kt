@@ -28,7 +28,7 @@ fun View.visibility(visible: Boolean) = if (visible) {
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
 
 @BindingAdapter("onItemSelected")
-fun MaterialSpinner.onItemSelected(action: CalculatorAction) =
+fun MaterialSpinner.onItemSelected(actions: CalculatorAction) =
     setOnItemSelectedListener { _, _, _, item ->
-        action.onSpinnerItemSelected(item.toString())
+        actions.onSpinnerItemSelected(item.toString())
     }
