@@ -11,11 +11,11 @@ import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import mustafaozhan.github.com.mycurrencies.util.Toasty
 import mustafaozhan.github.com.mycurrencies.util.showSnacky
@@ -36,8 +36,8 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.vm = calculatorViewModel
-        calculatorViewModel.getActions().let {
-            binding.actions = it
+        calculatorViewModel.event.let {
+            binding.event = it
             calculatorAdapter = CalculatorAdapter(it)
         }
     }
@@ -54,16 +54,16 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.verifyCurrentBase()
     }
 
-    private fun initEvent() = calculatorViewModel.events
+    private fun initEvent() = calculatorViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
-                ErrorEvent -> showSnacky(
+                ErrorEffect -> showSnacky(
                     view,
                     R.string.rate_not_available_offline,
                     R.string.change,
                     isIndefinite = true
                 ) { binding.layoutBar.spinnerBase.expand() }
-                FewCurrencyEvent -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+                FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
                 ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
@@ -71,13 +71,13 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                         ?.apply { collapse() }
                         ?: run { expand() }
                 }
-                MaximumInputEvent -> Toasty.showToasty(requireContext(), R.string.max_input)
-                is OfflineSuccessEvent -> viewEvent.date?.let {
+                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
+                is OfflineSuccessEffect -> viewEvent.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
                     Toasty.showToasty(requireContext(), R.string.database_success)
                 }
-                is LongClickEvent -> showSnacky(view, viewEvent.text, setIcon = viewEvent.name)
+                is LongClickEffect -> showSnacky(view, viewEvent.text, setIcon = viewEvent.name)
             }
         })
 
@@ -87,7 +87,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.states.apply {
+        calculatorViewModel.state.apply {
             currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase
                     .apply {

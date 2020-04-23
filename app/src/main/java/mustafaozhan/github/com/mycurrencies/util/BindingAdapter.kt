@@ -9,7 +9,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.extension.setBackgroundByName
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 
 @BindingAdapter("adId", "isEnabled")
 fun AdView.adAdapter(adId: String, isEnabled: Boolean) = checkAd(adId, isEnabled)
@@ -28,7 +28,7 @@ fun View.visibility(visible: Boolean) = if (visible) {
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
 
 @BindingAdapter("onItemSelected")
-fun MaterialSpinner.onItemSelected(actions: CalculatorAction) =
+fun MaterialSpinner.onItemSelected(event: CalculatorEvent) =
     setOnItemSelectedListener { _, _, _, item ->
-        actions.onSpinnerItemSelected(item.toString())
+        event.onSpinnerItemSelected(item.toString())
     }

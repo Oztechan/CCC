@@ -9,13 +9,13 @@ import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-18.
  */
 class SettingsAdapter(
-    private val settingsAction: SettingsAction
+    private val settingsEvent: SettingsEvent
 ) : BaseDBRecyclerViewAdapter<Currency, ItemSettingsBinding>(SettingsDiffer()) {
 
     override fun onCreateViewHolder(
@@ -47,7 +47,7 @@ class SettingsAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.actions = settingsAction
+            this.event = settingsEvent
         }
     }
 

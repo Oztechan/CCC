@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.viewmodel.EASYViewModel
+import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -23,21 +23,21 @@ import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.ui.main.MainYield.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorYield
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorYield.Companion.CHAR_DOT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorYield.Companion.KEY_AC
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorYield.Companion.KEY_DEL
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorYield.Companion.MAXIMUM_INPUT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -51,31 +51,31 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : EASYViewModel<CalculatorState, CalculatorAction, CalculatorEvent, CalculatorYield>(), CalculatorAction {
+) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
 
     // region take it EASY!
-    private val _states = CalculatorStateBacking()
-    override val states = CalculatorState(_states)
+    private val _state = CalculatorStateBacking()
+    override val state = CalculatorState(_state)
 
-    private val _events = MutableLiveData<CalculatorEvent>()
-    override val events: LiveData<CalculatorEvent> = _events
+    private val _effect = MutableLiveData<CalculatorEffect>()
+    override val effect: LiveData<CalculatorEffect> = _effect
 
-    override fun getActions() = this as CalculatorAction
-    override val yields = CalculatorYield()
+    override val event = this as CalculatorEvent
+    override val data = CalculatorData()
     // endregion
 
     init {
         initData()
 
-        _states.apply {
+        _state.apply {
             _loading.value = true
             _base.value = preferencesRepository.currentBase
             _input.value = ""
 
-            _base.addSource(states.base) {
+            _base.addSource(state.base) {
                 currentBaseChanged(it)
             }
-            _input.addSource(states.input) { input ->
+            _input.addSource(state.input) { input ->
                 _loading.value = true
                 calculateOutput(input)
             }
@@ -92,7 +92,7 @@ class CalculatorViewModel(
             preferencesRepository.updateMainData(firstRun = false)
         }.run { getCurrencies() }
 
-    private fun getCurrencies() = yields.rates?.let { rates ->
+    private fun getCurrencies() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         subscribeService(
@@ -102,7 +102,7 @@ class CalculatorViewModel(
         )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(yields) {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(data) {
         rates = currencyResponse.rates
         rates?.base = currencyResponse.base
         rates?.date = Date().toFormattedString()
@@ -119,7 +119,7 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _events.postValue(OfflineSuccessEvent(offlineRates.date))
+            _effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -131,9 +131,9 @@ class CalculatorViewModel(
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
-        states.currencyList.value?.size
+        state.currencyList.value?.size
             ?.whether { it > 1 }
-            ?.let { _events.postValue(ErrorEvent) }
+            ?.let { _effect.postValue(ErrorEffect) }
     }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
@@ -141,21 +141,21 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            _states._output.value = output
+            _state._output.value = output
 
-            states.currencyList.value
+            state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.whetherNot { states.input.value.isNullOrEmpty() }
-                ?.let { _events.setValue(FewCurrencyEvent) }
+                ?.whetherNot { state.input.value.isNullOrEmpty() }
+                ?.let { _effect.setValue(FewCurrencyEffect) }
                 ?: run { getCurrencies() }
         } ?: run {
-        _events.postValue(MaximumInputEvent)
-        _states._input.value = input.dropLast(1)
-        _states._loading.value = false
+        _effect.postValue(MaximumInputEffect)
+        _state._input.value = input.dropLast(1)
+        _state._loading.value = false
     }
 
-    private fun calculateConversions(rates: Rates?) = with(_states) {
+    private fun calculateConversions(rates: Rates?) = with(_state) {
         _currencyList.value = _currencyList.value?.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
         }
@@ -163,36 +163,36 @@ class CalculatorViewModel(
     }
 
     private fun currentBaseChanged(newBase: String) {
-        yields.rates = null
+        data.rates = null
         preferencesRepository.currentBase = newBase
 
-        _states._input.value = _states._input.value
-        _states._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+        _state._input.value = _state._input.value
+        _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
 
         getCurrencies()
     }
 
     fun verifyCurrentBase() {
-        _states._base.value = preferencesRepository.currentBase
+        _state._base.value = preferencesRepository.currentBase
     }
 
-    // region Actions
+    // region Event
     override fun onKeyPress(key: String) {
         when (key) {
             KEY_AC -> {
-                _states._input.value = ""
-                _states._output.value = ""
+                _state._input.value = ""
+                _state._output.value = ""
             }
-            KEY_DEL -> states.input.value
+            KEY_DEL -> state.input.value
                 ?.whetherNot { isEmpty() }
                 ?.apply {
-                    _states._input.value = substring(0, length - 1)
+                    _state._input.value = substring(0, length - 1)
                 }
-            else -> _states._input.value = if (key.isEmpty()) "" else states.input.value.toString() + key
+            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) = with(_states) {
+    override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
         var finalResult = conversion
 
         while (finalResult.length > MAXIMUM_INPUT) {
@@ -208,9 +208,9 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _events.postValue(
-            LongClickEvent("1 ${preferencesRepository.currentBase} = " +
-                "${yields.rates?.getThroughReflection<Double>(currency.name)} " +
+        _effect.postValue(
+            LongClickEffect("1 ${preferencesRepository.currentBase} = " +
+                "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name
             )
@@ -218,10 +218,10 @@ class CalculatorViewModel(
         return true
     }
 
-    override fun onBarClick() = _events.postValue(ReverseSpinner)
+    override fun onBarClick() = _effect.postValue(ReverseSpinner)
 
     override fun onSpinnerItemSelected(base: String) {
-        _states._base.value = base
+        _state._base.value = base
     }
     // endregion
 }

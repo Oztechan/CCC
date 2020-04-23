@@ -1,17 +1,17 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator.model
 
 import com.github.mustafaozhan.basemob.model.BaseEvent
+import mustafaozhan.github.com.mycurrencies.model.Currency
 
-sealed class CalculatorEvent : BaseEvent()
+interface CalculatorEvent : BaseEvent {
 
-object ErrorEvent : CalculatorEvent()
+    fun onKeyPress(key: String)
 
-object FewCurrencyEvent : CalculatorEvent()
+    fun onItemClick(currency: Currency, conversion: String)
 
-object ReverseSpinner : CalculatorEvent()
+    fun onItemLongClick(currency: Currency): Boolean
 
-object MaximumInputEvent : CalculatorEvent()
+    fun onBarClick()
 
-data class OfflineSuccessEvent(val date: String?) : CalculatorEvent()
-
-data class LongClickEvent(val text: String, val name: String) : CalculatorEvent()
+    fun onSpinnerItemSelected(base: String)
+}

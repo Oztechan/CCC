@@ -9,7 +9,7 @@ import com.github.mustafaozhan.basemob.extension.reObserve
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.util.Toasty.showToasty
 import javax.inject.Inject
 
@@ -28,8 +28,8 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
-        settingsViewModel.getActions().let {
-            binding.actions = it
+        settingsViewModel.event.let {
+            binding.event = it
             settingsAdapter = SettingsAdapter(it)
         }
     }
@@ -48,17 +48,17 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
 
-        settingsViewModel.states.currencyList.apply {
+        settingsViewModel.state.currencyList.apply {
             reObserve(viewLifecycleOwner, Observer {
                 settingsAdapter.submitList(it)
             })
         }
     }
 
-    private fun initEvent() = settingsViewModel.events
+    private fun initEvent() = settingsViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEvent ->
             when (viewEvent) {
-                FewCurrencyEvent -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                FewCurrencyEffect -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
             }
         })
 }

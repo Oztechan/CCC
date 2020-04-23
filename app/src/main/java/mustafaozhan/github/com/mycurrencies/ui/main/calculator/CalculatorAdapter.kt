@@ -8,13 +8,13 @@ import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.extension.toValidList
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorAction
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 
 /**
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter(
-    private val calculatorAction: CalculatorAction
+    private val calculatorEvent: CalculatorEvent
 ) : BaseDBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
@@ -34,7 +34,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.actions = calculatorAction
+            this.event = calculatorEvent
         }
     }
 

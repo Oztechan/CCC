@@ -3,7 +3,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.viewmodel.EASYViewModel
+import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.launch
@@ -12,13 +12,13 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.MainYield.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsAction
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsYield
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -26,31 +26,31 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsYield
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : EASYViewModel<SettingsState, SettingsAction, SettingsEvent, SettingsYield>(), SettingsAction {
+) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
 
     // region take it EASY!
     private val _states = SettingsStateBacking()
-    override val states = SettingsState(_states)
+    override val state = SettingsState(_states)
 
-    private val _events = MutableLiveData<SettingsEvent>()
-    override val events: LiveData<SettingsEvent> = _events
+    private val _events = MutableLiveData<SettingsEffect>()
+    override val effect: LiveData<SettingsEffect> = _events
 
-    override fun getActions() = this as SettingsAction
-    override val yields = SettingsYield()
+    override val event = this as SettingsEvent
+    override val data = SettingsData()
     // endregion
 
     init {
         initData()
 
         _states.apply {
-            _searchQuery.addSource(states.searchQuery) {
+            _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
-                yields.unFilteredList = currencyList
+                data.unFilteredList = currencyList
                 if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-                    _events.postValue(FewCurrencyEvent)
+                    _events.postValue(FewCurrencyEffect)
                 }
             }
         }
@@ -65,7 +65,7 @@ class SettingsViewModel(
             preferencesRepository.updateMainData(firstRun = false)
         }
 
-    private fun filterList(txt: String) = yields.unFilteredList
+    private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
@@ -79,12 +79,12 @@ class SettingsViewModel(
             .either(
                 { equals(Currencies.NULL.toString()) },
                 { base ->
-                    states.currencyList.value
+                    state.currencyList.value
                         ?.filter { it.name == base }
                         ?.toList()?.firstOrNull()?.isActive == 0
                 }
             )?.let {
-                preferencesRepository.currentBase = states.currencyList.value
+                preferencesRepository.currentBase = state.currencyList.value
                     ?.firstOrNull { it.isActive == 1 }?.name
                     ?: Currencies.NULL.toString()
             }
@@ -92,7 +92,7 @@ class SettingsViewModel(
         _states._searchQuery.value = ""
     }
 
-    // region Actions
+    // region Event
     override fun onSelectDeselectButtonsClick(value: Int) {
         currencyRepository.updateAllCurrencyState(value)
         if (value == 0) {

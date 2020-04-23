@@ -1,7 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.settings.model
 
 import com.github.mustafaozhan.basemob.model.BaseEvent
+import mustafaozhan.github.com.mycurrencies.model.Currency
 
-sealed class SettingsEvent : BaseEvent()
+interface SettingsEvent : BaseEvent {
+    fun onSelectDeselectButtonsClick(value: Int)
 
-object FewCurrencyEvent : SettingsEvent()
+    fun onItemClick(currency: Currency)
+}
