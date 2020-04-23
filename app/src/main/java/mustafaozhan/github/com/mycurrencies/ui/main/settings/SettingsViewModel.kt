@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.github.mustafaozhan.basemob.util.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.util.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
@@ -28,12 +28,12 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
 
-    // region take it EASY!
+    // region SEED
     private val _states = SettingsStateBacking()
     override val state = SettingsState(_states)
 
-    private val _events = MutableLiveData<SettingsEffect>()
-    override val effect: LiveData<SettingsEffect> = _events
+    private val _effect = MutableSingleLiveData<SettingsEffect>()
+    override val effect: SingleLiveData<SettingsEffect> = _effect
 
     override val event = this as SettingsEvent
     override val data = SettingsData()
@@ -50,7 +50,7 @@ class SettingsViewModel(
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
                 if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
-                    _events.postValue(FewCurrencyEffect)
+                    _effect.value = FewCurrencyEffect
                 }
             }
         }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.extension.reObserve
+import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
@@ -38,7 +39,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initView()
-        initEvent()
+        initEffect()
     }
 
     private fun initView() {
@@ -55,9 +56,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun initEvent() = settingsViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEvent ->
-            when (viewEvent) {
+    private fun initEffect() = settingsViewModel.effect
+        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+            when (viewEffect) {
                 FewCurrencyEffect -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
             }
         })

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.extension.reObserve
+import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
@@ -46,7 +47,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initView()
-        initEvent()
+        initEffect()
     }
 
     override fun onResume() {
@@ -54,9 +55,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.verifyCurrentBase()
     }
 
-    private fun initEvent() = calculatorViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEvent ->
-            when (viewEvent) {
+    private fun initEffect() = calculatorViewModel.effect
+        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+            when (viewEffect) {
                 ErrorEffect -> showSnacky(
                     view,
                     R.string.rate_not_available_offline,
@@ -72,12 +73,12 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                         ?: run { expand() }
                 }
                 MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
-                is OfflineSuccessEffect -> viewEvent.date?.let {
+                is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
                     Toasty.showToasty(requireContext(), R.string.database_success)
                 }
-                is LongClickEffect -> showSnacky(view, viewEvent.text, setIcon = viewEvent.name)
+                is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
             }
         })
 

@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.github.mustafaozhan.basemob.util.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.util.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
@@ -53,12 +53,12 @@ class CalculatorViewModel(
     private val offlineRatesRepository: OfflineRatesRepository
 ) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
 
-    // region take it EASY!
+    // region SEED
     private val _state = CalculatorStateBacking()
     override val state = CalculatorState(_state)
 
-    private val _effect = MutableLiveData<CalculatorEffect>()
-    override val effect: LiveData<CalculatorEffect> = _effect
+    private val _effect = MutableSingleLiveData<CalculatorEffect>()
+    override val effect: SingleLiveData<CalculatorEffect> = _effect
 
     override val event = this as CalculatorEvent
     override val data = CalculatorData()
@@ -119,7 +119,7 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _effect.postValue(OfflineSuccessEffect(offlineRates.date))
+            _effect.value = OfflineSuccessEffect(offlineRates.date)
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -133,7 +133,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed on long time out")
         state.currencyList.value?.size
             ?.whether { it > 1 }
-            ?.let { _effect.postValue(ErrorEffect) }
+            ?.let { _effect.value = ErrorEffect }
     }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
@@ -147,10 +147,10 @@ class CalculatorViewModel(
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _effect.setValue(FewCurrencyEffect) }
+                ?.let { _effect.value = FewCurrencyEffect }
                 ?: run { getCurrencies() }
         } ?: run {
-        _effect.postValue(MaximumInputEffect)
+        _effect.value = MaximumInputEffect
         _state._input.value = input.dropLast(1)
         _state._loading.value = false
     }
@@ -208,17 +208,17 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _effect.postValue(
-            LongClickEffect("1 ${preferencesRepository.currentBase} = " +
-                "${data.rates?.getThroughReflection<Double>(currency.name)} " +
-                currency.getVariablesOneLine(),
-                currency.name
-            )
+        _effect.value = LongClickEffect("1 ${preferencesRepository.currentBase} = " +
+            "${data.rates?.getThroughReflection<Double>(currency.name)} " +
+            currency.getVariablesOneLine(),
+            currency.name
         )
         return true
     }
 
-    override fun onBarClick() = _effect.postValue(ReverseSpinner)
+    override fun onBarClick() {
+        _effect.value = ReverseSpinner
+    }
 
     override fun onSpinnerItemSelected(base: String) {
         _state._base.value = base
