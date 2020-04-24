@@ -60,8 +60,9 @@ class CalculatorViewModel(
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     override val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    override val event = this as CalculatorEvent
     override val data = CalculatorData()
+
+    override fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {

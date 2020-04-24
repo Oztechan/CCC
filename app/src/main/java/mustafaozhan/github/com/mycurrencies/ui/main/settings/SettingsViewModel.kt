@@ -35,8 +35,9 @@ class SettingsViewModel(
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     override val effect: SingleLiveData<SettingsEffect> = _effect
 
-    override val event = this as SettingsEvent
     override val data = SettingsData()
+
+    override fun getEvent() = this as SettingsEvent
     // endregion
 
     init {
