@@ -1,8 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.util.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.util.SingleLiveData
+import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
