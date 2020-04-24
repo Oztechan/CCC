@@ -17,11 +17,11 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.tool.checkRemoteConfig
-import mustafaozhan.github.com.mycurrencies.tool.showDialog
-import mustafaozhan.github.com.mycurrencies.tool.showSnacky
-import mustafaozhan.github.com.mycurrencies.tool.updateBaseContextLocale
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
+import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
+import mustafaozhan.github.com.mycurrencies.util.showDialog
+import mustafaozhan.github.com.mycurrencies.util.showSnacky
+import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

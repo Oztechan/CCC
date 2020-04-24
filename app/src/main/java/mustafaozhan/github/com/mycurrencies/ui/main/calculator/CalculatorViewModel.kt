@@ -1,7 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
@@ -22,11 +23,16 @@ import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateMediator
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
@@ -47,35 +53,35 @@ class CalculatorViewModel(
     private val offlineRatesRepository: OfflineRatesRepository
 ) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
 
-    companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
-        private const val MAXIMUM_INPUT = 15
-        private const val KEY_DEL = "DEL"
-        private const val KEY_AC = "AC"
-    }
+    // region SEED
+    private val _state = CalculatorStateBacking()
+    override val state = CalculatorState(_state)
 
-    override val state = CalculatorState(CalculatorStateMediator())
-    override val event = this as CalculatorEvent
-    override val effect = MutableLiveData<CalculatorEffect>()
+    private val _effect = MutableSingleLiveData<CalculatorEffect>()
+    override val effect: SingleLiveData<CalculatorEffect> = _effect
+
     override val data = CalculatorData()
+
+    override fun getEvent() = this as CalculatorEvent
+    // endregion
 
     init {
         initData()
 
-        state.apply {
-            loading.value = true
-            base.value = preferencesRepository.currentBase
-            input.value = ""
+        _state.apply {
+            _loading.value = true
+            _base.value = preferencesRepository.currentBase
+            _input.value = ""
 
-            mediator.base.addSource(base) {
+            _base.addSource(state.base) {
                 currentBaseChanged(it)
             }
-            mediator.input.addSource(input) { input ->
-                loading.value = true
+            _input.addSource(state.input) { input ->
+                _loading.value = true
                 calculateOutput(input)
             }
-            mediator.currencyList.addSource(currencyRepository.getActiveCurrencies()) {
-                currencyList.value = it.removeUnUsedCurrencies()
+            _currencyList.addSource(currencyRepository.getActiveCurrencies()) {
+                _currencyList.value = it.removeUnUsedCurrencies()
             }
         }
     }
@@ -114,7 +120,7 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            effect.postValue(OfflineSuccessEffect(offlineRates.date))
+            _effect.value = OfflineSuccessEffect(offlineRates.date)
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -128,7 +134,7 @@ class CalculatorViewModel(
         logWarning(t, "rate download failed on long time out")
         state.currencyList.value?.size
             ?.whether { it > 1 }
-            ?.let { effect.postValue(ErrorEffect) }
+            ?.let { _effect.value = ErrorEffect }
     }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
@@ -136,79 +142,87 @@ class CalculatorViewModel(
         .mapTo { if (isNaN()) "" else getFormatted() }
         ?.whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
-            state.output.value = output
+            _state._output.value = output
 
             state.currencyList.value
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { effect.postValue(FewCurrencyEffect) }
+                ?.let { _effect.value = FewCurrencyEffect }
                 ?: run { getCurrencies() }
         } ?: run {
-        effect.postValue(MaximumInputEffect)
-        state.input.value = input.dropLast(1)
-        state.loading.value = false
+        _effect.value = MaximumInputEffect
+        _state._input.value = input.dropLast(1)
+        _state._loading.value = false
     }
 
-    private fun calculateConversions(rates: Rates?) = with(state) {
-        currencyList.value = currencyList.value?.onEach {
-            it.rate = rates.calculateResult(it.name, output.value)
+    private fun calculateConversions(rates: Rates?) = with(_state) {
+        _currencyList.value = _currencyList.value?.onEach {
+            it.rate = rates.calculateResult(it.name, _output.value)
         }
-        loading.value = false
+        _loading.value = false
     }
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         preferencesRepository.currentBase = newBase
 
-        state.apply {
-            input.value = input.value
-            symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
-        }
+        _state._input.value = _state._input.value
+        _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
 
         getCurrencies()
     }
 
     fun verifyCurrentBase() {
-        state.base.value = preferencesRepository.currentBase
+        _state._base.value = preferencesRepository.currentBase
     }
 
-    // region View Event
+    // region Event
     override fun onKeyPress(key: String) {
         when (key) {
             KEY_AC -> {
-                state.input.value = ""
-                state.output.value = ""
+                _state._input.value = ""
+                _state._output.value = ""
             }
             KEY_DEL -> state.input.value
                 ?.whetherNot { isEmpty() }
                 ?.apply {
-                    state.input.value = substring(0, length - 1)
+                    _state._input.value = substring(0, length - 1)
                 }
-            else -> state.input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
+            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) = with(state) {
-        base.value = currency.name
-        input.value = conversion
+    override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+        var finalResult = conversion
+
+        while (finalResult.length > MAXIMUM_INPUT) {
+            finalResult = finalResult.dropLast(1)
+        }
+
+        if (finalResult.last() == CHAR_DOT) {
+            finalResult = finalResult.dropLast(1)
+        }
+
+        _base.value = currency.name
+        _input.value = finalResult
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        effect.postValue(
-            LongClickEffect("1 ${preferencesRepository.currentBase} = " +
-                "${data.rates?.getThroughReflection<Double>(currency.name)} " +
-                currency.getVariablesOneLine(),
-                currency.name
-            )
+        _effect.value = LongClickEffect("1 ${preferencesRepository.currentBase} = " +
+            "${data.rates?.getThroughReflection<Double>(currency.name)} " +
+            currency.getVariablesOneLine(),
+            currency.name
         )
         return true
     }
 
-    override fun onBarClick() = effect.postValue(ReverseSpinner)
+    override fun onBarClick() {
+        _effect.value = ReverseSpinner
+    }
 
     override fun onSpinnerItemSelected(base: String) {
-        state.base.value = base
+        _state._base.value = base
     }
     // endregion
 }

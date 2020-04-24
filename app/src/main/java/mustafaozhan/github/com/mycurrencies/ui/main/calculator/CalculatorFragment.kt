@@ -5,20 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mustafaozhan.basemob.extension.reObserve
+import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.extension.reObserve
 import mustafaozhan.github.com.mycurrencies.extension.tryToSelect
-import mustafaozhan.github.com.mycurrencies.tool.Toasty
-import mustafaozhan.github.com.mycurrencies.tool.showSnacky
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.util.Toasty
+import mustafaozhan.github.com.mycurrencies.util.showSnacky
 import javax.inject.Inject
 
 /**
@@ -36,7 +37,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.vm = calculatorViewModel
-        calculatorViewModel.event.let {
+        calculatorViewModel.getEvent().let {
             binding.event = it
             calculatorAdapter = CalculatorAdapter(it)
         }
@@ -55,7 +56,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initEffect() = calculatorViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnacky(
                     view,

@@ -1,4 +1,4 @@
-package mustafaozhan.github.com.mycurrencies.tool
+package mustafaozhan.github.com.mycurrencies.util
 
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -28,7 +28,7 @@ fun View.visibility(visible: Boolean) = if (visible) {
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
 
 @BindingAdapter("onItemSelected")
-fun MaterialSpinner.onItemSelected(calculatorViewEvent: CalculatorEvent) =
+fun MaterialSpinner.onItemSelected(event: CalculatorEvent) =
     setOnItemSelectedListener { _, _, _, item ->
-        calculatorViewEvent.onSpinnerItemSelected(item.toString())
+        event.onSpinnerItemSelected(item.toString())
     }

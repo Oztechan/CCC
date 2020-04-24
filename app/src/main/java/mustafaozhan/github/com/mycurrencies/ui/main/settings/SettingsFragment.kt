@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mustafaozhan.basemob.extension.reObserve
+import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.extension.reObserve
-import mustafaozhan.github.com.mycurrencies.tool.Toasty.showToasty
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
+import mustafaozhan.github.com.mycurrencies.util.Toasty.showToasty
 import javax.inject.Inject
 
 /**
@@ -28,7 +29,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
-        settingsViewModel.event.let {
+        settingsViewModel.getEvent().let {
             binding.event = it
             settingsAdapter = SettingsAdapter(it)
         }
@@ -56,9 +57,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initEffect() = settingsViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEvent ->
-            when (viewEvent) {
-                FewCurrency -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
+        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+            when (viewEffect) {
+                FewCurrencyEffect -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
             }
         })
 }

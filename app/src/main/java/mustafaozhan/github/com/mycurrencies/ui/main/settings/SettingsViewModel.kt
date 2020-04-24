@@ -1,7 +1,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
@@ -11,12 +12,13 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrency
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateMediator
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -26,25 +28,31 @@ class SettingsViewModel(
     private val currencyRepository: CurrencyRepository
 ) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
 
-    companion object {
-        private const val MINIMUM_ACTIVE_CURRENCY = 2
-    }
+    // region SEED
+    private val _states = SettingsStateBacking()
+    override val state = SettingsState(_states)
 
-    override val state = SettingsState(SettingsStateMediator())
-    override val event = this as SettingsEvent
-    override val effect = MutableLiveData<SettingsEffect>()
+    private val _effect = MutableSingleLiveData<SettingsEffect>()
+    override val effect: SingleLiveData<SettingsEffect> = _effect
+
     override val data = SettingsData()
+
+    override fun getEvent() = this as SettingsEvent
+    // endregion
 
     init {
         initData()
 
-        state.apply {
-            mediator.searchQuery.addSource(searchQuery) {
+        _states.apply {
+            _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
-            mediator.currencyList.addSource(currencyRepository.getAllCurrencies()) {
-                currencyList.value = it.removeUnUsedCurrencies()
-                data.unFilteredList = it
+            _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
+                _currencyList.value = currencyList.removeUnUsedCurrencies()
+                data.unFilteredList = currencyList
+                if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+                    _effect.value = FewCurrencyEffect
+                }
             }
         }
 
@@ -65,7 +73,7 @@ class SettingsViewModel(
                 symbol.contains(txt, true)
         }
         .toMutableList()
-        .let { state.currencyList.value = it }
+        .let { _states._currencyList.value = it }
 
     private fun verifyCurrentBase() {
         preferencesRepository.currentBase
@@ -82,14 +90,10 @@ class SettingsViewModel(
                     ?: Currencies.NULL.toString()
             }
 
-        if (state.currencyList.value?.filter { it.isActive == 1 }?.size ?: -1 < MINIMUM_ACTIVE_CURRENCY) {
-            effect.postValue(FewCurrency)
-        }
-
-        state.searchQuery.value = ""
+        _states._searchQuery.value = ""
     }
 
-    // region View Event
+    // region Event
     override fun onSelectDeselectButtonsClick(value: Int) {
         currencyRepository.updateAllCurrencyState(value)
         if (value == 0) {
@@ -101,6 +105,9 @@ class SettingsViewModel(
     override fun onItemClick(currency: Currency) = with(currency) {
         val newValue = if (isActive == 0) 1 else 0
         currencyRepository.updateCurrencyStateByName(name, newValue)
+        if (currency.name == preferencesRepository.currentBase) {
+            preferencesRepository.currentBase = Currencies.NULL.toString()
+        }
         verifyCurrentBase()
     }
     // endregion

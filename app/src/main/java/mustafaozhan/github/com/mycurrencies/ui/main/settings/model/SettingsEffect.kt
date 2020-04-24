@@ -4,4 +4,4 @@ import com.github.mustafaozhan.basemob.model.BaseEffect
 
 sealed class SettingsEffect : BaseEffect()
 
-object FewCurrency : SettingsEffect()
+object FewCurrencyEffect : SettingsEffect()

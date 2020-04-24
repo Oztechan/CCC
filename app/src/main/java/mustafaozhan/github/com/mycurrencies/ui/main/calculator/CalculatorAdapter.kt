@@ -14,7 +14,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorE
  * Created by Mustafa Ozhan on 2018-07-16.
  */
 class CalculatorAdapter(
-    private val calculatorViewEvent: CalculatorEvent
+    private val calculatorEvent: CalculatorEvent
 ) : BaseDBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
@@ -34,7 +34,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.event = calculatorViewEvent
+            this.event = calculatorEvent
         }
     }
 
