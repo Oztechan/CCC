@@ -88,14 +88,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.state.apply {
-            currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
+        calculatorViewModel.apply {
+            state.currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase
                     .apply {
                         setItems(currencyList.map { it.name })
-                        tryToSelect(calculatorViewModel.preferencesRepository.currentBase)
+                        tryToSelect(preferencesRepository.currentBase)
                     }
-                calculatorAdapter.submitList(currencyList, calculatorViewModel.preferencesRepository.currentBase)
+                calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
             })
         }
     }

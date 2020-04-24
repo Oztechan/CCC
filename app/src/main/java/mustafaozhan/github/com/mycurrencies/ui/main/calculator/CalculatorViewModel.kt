@@ -173,9 +173,11 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun verifyCurrentBase() {
-        _state._base.value = preferencesRepository.currentBase
-    }
+    fun verifyCurrentBase() = _state._base
+        .whetherNot { value == preferencesRepository.currentBase }
+        ?.apply {
+            value = preferencesRepository.currentBase
+        }
 
     // region Event
     override fun onKeyPress(key: String) {
