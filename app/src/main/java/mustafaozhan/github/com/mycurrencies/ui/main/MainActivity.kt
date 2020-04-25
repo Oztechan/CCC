@@ -6,17 +6,26 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.NonNull
 import androidx.navigation.findNavController
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_INITIAL_DELAY
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_PERIOD
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.BACK_DELAY
+import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
 import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.util.showDialog
@@ -28,18 +37,12 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 open class MainActivity : BaseActivity() {
 
-    companion object {
-        const val BACK_DELAY: Long = 2
-        const val AD_INITIAL_DELAY: Long = 50
-        const val AD_PERIOD: Long = 250
-    }
-
     @Inject
     lateinit var mainViewModel: MainViewModel
 
+    private lateinit var rewardedAd: RewardedAd
+    private lateinit var interstitialAd: InterstitialAd
     private lateinit var adObservableInterval: Disposable
-    private lateinit var interstitialTextAd: InterstitialAd
-    private lateinit var interstitialVideoAd: InterstitialAd
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
@@ -47,6 +50,7 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkRemoteConfig(this)
+        loadRewardedAd()
         prepareAd()
     }
 
@@ -76,10 +80,9 @@ open class MainActivity : BaseActivity() {
                     }
                 }
             }
-            R.id.removeAds ->
-                showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
-                    showVideoAd()
-                }
+            R.id.removeAds -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
+                showRewardedAd()
+            }
             R.id.onGithub -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
@@ -92,20 +95,30 @@ open class MainActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showVideoAd() {
-        interstitialVideoAd
-            .whether { isLoaded }
-            ?.apply {
-                mainViewModel.updateAdFreeActivation()
-                show()
-            }
-
-        prepareAd()
+    private fun loadRewardedAd() {
+        rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+        })
     }
+
+    private fun showRewardedAd() = rewardedAd
+        .whether { isLoaded }?.show(this, object : RewardedAdCallback() {
+            override fun onRewardedAdOpened() = Unit
+            override fun onRewardedAdClosed() = loadRewardedAd()
+            override fun onRewardedAdFailedToShow(errorCode: Int) = loadRewardedAd()
+            override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                mainViewModel.updateAdFreeActivation()
+                val intent = intent
+                finish()
+                startActivity(intent)
+            }
+        })
 
     private fun sendFeedBack() {
         Intent(Intent.ACTION_SEND).apply {
-            type = "text/email"
+            type = TEXT_EMAIL_TYPE
             putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
             putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
@@ -114,13 +127,9 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun prepareAd() {
-        interstitialTextAd = InterstitialAd(this)
-        interstitialTextAd.adUnitId = getString(R.string.interstitial_text_ad_id)
-        interstitialTextAd.loadAd(AdRequest.Builder().build())
-
-        interstitialVideoAd = InterstitialAd(this)
-        interstitialVideoAd.adUnitId = getString(R.string.interstitial_video_ad_id)
-        interstitialVideoAd.loadAd(AdRequest.Builder().build())
+        interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
+        interstitialAd.loadAd(AdRequest.Builder().build())
     }
 
     private fun ad() {
@@ -129,13 +138,11 @@ open class MainActivity : BaseActivity() {
             .debounce(0, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                interstitialTextAd
-                    .whether(
-                        { isLoaded },
-                        { adVisibility },
-                        { mainViewModel.isRewardExpired() }
-                    )
-                    ?.apply { show() }
+                interstitialAd.whether(
+                    { isLoaded },
+                    { adVisibility },
+                    { mainViewModel.isRewardExpired() }
+                )?.apply { show() }
                     ?: run { prepareAd() }
             }, { logWarning(it) }
             )
