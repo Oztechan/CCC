@@ -6,6 +6,7 @@ import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
+import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
@@ -37,7 +38,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
 import java.util.Date
@@ -120,7 +120,8 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _effect.value = OfflineSuccessEffect(offlineRates.date)
+            // todo BE fix need
+            // _effect.value = OfflineSuccessEffect(offlineRates.date)
         } ?: viewModelScope.launch {
             subscribeService(
                 backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
@@ -148,7 +149,9 @@ class CalculatorViewModel(
                 ?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _effect.value = FewCurrencyEffect }
+                ?.let {
+                    _effect.value = FewCurrencyEffect
+                }
                 ?: run { getCurrencies() }
         } ?: run {
         _effect.value = MaximumInputEffect
@@ -173,11 +176,13 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun verifyCurrentBase() = _state._base
-        .whetherNot { value == preferencesRepository.currentBase }
-        ?.apply {
-            value = preferencesRepository.currentBase
-        }
+    fun verifyCurrentBase(): Unit = with(_state) {
+        _base.value
+            ?.notSameAs { preferencesRepository.currentBase }
+            ?.apply {
+                _base.postValue(preferencesRepository.currentBase)
+            } ?: run { _loading.value = false }
+    }
 
     // region Event
     override fun onKeyPress(key: String) {
