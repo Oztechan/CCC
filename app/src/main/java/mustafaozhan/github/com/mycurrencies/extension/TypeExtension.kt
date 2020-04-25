@@ -5,6 +5,8 @@ import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -46,9 +48,13 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
         ?: run { nonEmpty }
 }
 
-fun Date.toFormattedString(): String =
-    SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
-        .format(this)
+fun CurrencyResponse.toRate(): Rates {
+    val rate = rates
+    rate.base = base
+    // todo need to change to CurrencyResponse.date when BE return date
+    rate.date = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(Date())
+    return rate
+}
 
 @SuppressLint("DefaultLocale")
 inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {

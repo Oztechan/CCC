@@ -12,7 +12,6 @@ object ReverseSpinner : CalculatorEffect()
 
 object MaximumInputEffect : CalculatorEffect()
 
-// todo BE fix need
-// data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
+data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
 
 data class LongClickEffect(val text: String, val name: String) : CalculatorEffect()

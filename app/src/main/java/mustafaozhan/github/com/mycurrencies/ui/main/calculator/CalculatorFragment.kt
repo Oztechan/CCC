@@ -16,6 +16,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import mustafaozhan.github.com.mycurrencies.util.Toasty
 import mustafaozhan.github.com.mycurrencies.util.showSnacky
@@ -65,18 +66,17 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
+                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
                 ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
                     whether { isActivated }
                         ?.apply { collapse() }
                         ?: run { expand() }
                 }
-                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
-                /* todo BE fix need
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
                     Toasty.showToasty(requireContext(), R.string.database_success)
-                }*/
+                }
                 is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
             }
         })
