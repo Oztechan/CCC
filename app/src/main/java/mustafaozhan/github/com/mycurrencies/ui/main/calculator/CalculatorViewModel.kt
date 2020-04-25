@@ -6,6 +6,7 @@ import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
+import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
@@ -17,8 +18,8 @@ import mustafaozhan.github.com.mycurrencies.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.toFormattedString
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.extension.toRate
 import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
@@ -40,7 +41,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInpu
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
-import java.util.Date
 
 /**
  * Created by Mustafa Ozhan on 2018-07-12.
@@ -68,7 +68,7 @@ class CalculatorViewModel(
     init {
         initData()
 
-        _state.apply {
+        with(_state) {
             _loading.value = true
             _base.value = preferencesRepository.currentBase
             _input.value = ""
@@ -103,15 +103,12 @@ class CalculatorViewModel(
         )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse): Unit = with(data) {
-        rates = currencyResponse.rates
-        rates?.base = currencyResponse.base
-        rates?.date = Date().toFormattedString()
-        rates?.let {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) =
+        currencyResponse.toRate().let {
+            data.rates = it
             calculateConversions(it)
             offlineRatesRepository.insertOfflineRates(it)
         }
-    }
 
     private fun rateDownloadFail(t: Throwable) {
         logWarning(t, "rate download failed 1s time out")
@@ -140,12 +137,10 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
         .calculate()
         .mapTo { if (isNaN()) "" else getFormatted() }
-        ?.whether { length <= MAXIMUM_INPUT }
+        .whether { length <= MAXIMUM_INPUT }
         ?.let { output ->
             _state._output.value = output
-
-            state.currencyList.value
-                ?.size
+            state.currencyList.value?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
                 ?.let { _effect.value = FewCurrencyEffect }
@@ -173,9 +168,11 @@ class CalculatorViewModel(
         getCurrencies()
     }
 
-    fun verifyCurrentBase() {
-        _state._base.value = preferencesRepository.currentBase
-    }
+    fun verifyCurrentBase() = _state._base.value
+        ?.notSameAs { preferencesRepository.currentBase }
+        ?.let {
+            _state._base.postValue(preferencesRepository.currentBase)
+        }
 
     // region Event
     override fun onKeyPress(key: String) {

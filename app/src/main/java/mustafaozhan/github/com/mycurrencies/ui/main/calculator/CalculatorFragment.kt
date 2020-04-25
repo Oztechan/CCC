@@ -61,18 +61,17 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 ErrorEffect -> showSnacky(
                     view,
                     R.string.rate_not_available_offline,
-                    R.string.change,
-                    isIndefinite = true
+                    R.string.change
                 ) { binding.layoutBar.spinnerBase.expand() }
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
+                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
                 ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
                     whether { isActivated }
                         ?.apply { collapse() }
                         ?: run { expand() }
                 }
-                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
@@ -88,14 +87,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.state.apply {
-            currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
+        calculatorViewModel.apply {
+            state.currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
                 binding.layoutBar.spinnerBase
                     .apply {
                         setItems(currencyList.map { it.name })
-                        tryToSelect(calculatorViewModel.preferencesRepository.currentBase)
+                        tryToSelect(preferencesRepository.currentBase)
                     }
-                calculatorAdapter.submitList(currencyList, calculatorViewModel.preferencesRepository.currentBase)
+                calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
             })
         }
     }

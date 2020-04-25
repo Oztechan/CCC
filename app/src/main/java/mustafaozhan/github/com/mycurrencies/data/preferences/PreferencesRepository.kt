@@ -12,7 +12,7 @@ class PreferencesRepository @Inject
 constructor(private val sharedPreferencesHelper: PreferencesHelper) {
 
     companion object {
-        const val NUMBER_OF_HOURS = 24
+        private const val NUMBER_OF_HOURS = 24
     }
 
     var currentBase: String = loadMainData().currentBase.toString()

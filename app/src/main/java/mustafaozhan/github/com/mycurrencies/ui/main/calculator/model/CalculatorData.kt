@@ -7,9 +7,9 @@ data class CalculatorData(
     var rates: Rates? = null
 ) : MainActivityData() {
     companion object {
-        const val MAXIMUM_INPUT = 15
-        const val KEY_DEL = "DEL"
-        const val KEY_AC = "AC"
-        const val CHAR_DOT = '.'
+        internal const val MAXIMUM_INPUT = 15
+        internal const val KEY_DEL = "DEL"
+        internal const val KEY_AC = "AC"
+        internal const val CHAR_DOT = '.'
     }
 }

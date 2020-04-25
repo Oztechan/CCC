@@ -5,6 +5,8 @@ import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
 import com.github.mustafaozhan.scopemob.either
+import com.github.mustafaozhan.scopemob.inCase
+import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -15,6 +17,8 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData.Companion.ACTIVE
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData.Companion.DE_ACTIVE
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
@@ -43,16 +47,17 @@ class SettingsViewModel(
     init {
         initData()
 
-        _states.apply {
+        with(_states) {
             _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
-                if (currencyList.filter { it.isActive == 1 }.size < MINIMUM_ACTIVE_CURRENCY) {
+                if (currencyList.filter { it.isActive == ACTIVE }.size < MINIMUM_ACTIVE_CURRENCY) {
                     _effect.value = FewCurrencyEffect
                 }
+                verifyCurrentBase()
             }
         }
 
@@ -71,44 +76,37 @@ class SettingsViewModel(
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
                 symbol.contains(txt, true)
-        }
-        .toMutableList()
+        }.toMutableList()
         .let { _states._currencyList.value = it }
 
-    private fun verifyCurrentBase() {
-        preferencesRepository.currentBase
-            .either(
-                { equals(Currencies.NULL.toString()) },
-                { base ->
-                    state.currencyList.value
-                        ?.filter { it.name == base }
-                        ?.toList()?.firstOrNull()?.isActive == 0
-                }
-            )?.let {
-                preferencesRepository.currentBase = state.currencyList.value
-                    ?.firstOrNull { it.isActive == 1 }?.name
-                    ?: Currencies.NULL.toString()
-            }
-
+    private fun verifyCurrentBase() = preferencesRepository.currentBase.either(
+        { equals(Currencies.NULL.toString()) },
+        { base ->
+            state.currencyList.value
+                ?.filter { it.name == base }
+                ?.toList()?.firstOrNull()?.isActive == DE_ACTIVE
+        }
+    )?.let {
+        preferencesRepository.currentBase = state.currencyList.value
+            ?.firstOrNull { it.isActive == ACTIVE }?.name
+            ?: Currencies.NULL.toString()
+    }.run {
         _states._searchQuery.value = ""
     }
 
     // region Event
-    override fun onSelectDeselectButtonsClick(value: Int) {
-        currencyRepository.updateAllCurrencyState(value)
-        if (value == 0) {
+    override fun onSelectDeselectButtonsClick(value: Int) = currencyRepository
+        .updateAllCurrencyState(value)
+        .inCase(value == DE_ACTIVE) {
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
-        verifyCurrentBase()
-    }
 
-    override fun onItemClick(currency: Currency) = with(currency) {
-        val newValue = if (isActive == 0) 1 else 0
-        currencyRepository.updateCurrencyStateByName(name, newValue)
-        if (currency.name == preferencesRepository.currentBase) {
+    override fun onItemClick(currency: Currency) = currency.isActive
+        .mapTo { if (currency.isActive == DE_ACTIVE) ACTIVE else DE_ACTIVE }
+        .let { newValue ->
+            currencyRepository.updateCurrencyStateByName(currency.name, newValue)
+        }.inCase(currency.name == preferencesRepository.currentBase) {
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
-        verifyCurrentBase()
-    }
     // endregion
 }
