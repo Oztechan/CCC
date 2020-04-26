@@ -12,9 +12,6 @@ import javax.inject.Inject
  * Created by Mustafa Ozhan on 7/10/18 at 9:43 PM on Arch Linux wit Love <3.
  */
 class CCCApplication : MultiDexApplication(), HasAndroidInjector {
-    companion object {
-        lateinit var instance: CCCApplication
-    }
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
@@ -26,8 +23,6 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
             .application(this)
             .build()
             .inject(this)
-
-        instance = this
 
         initLogMob(this, true)
     }
