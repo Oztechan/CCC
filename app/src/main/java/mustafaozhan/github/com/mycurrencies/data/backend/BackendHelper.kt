@@ -16,8 +16,8 @@ import javax.inject.Singleton
  * Created by Mustafa Ozhan on 2018-07-12.
  */
 @Singleton
-class BackendHelper @Inject
-constructor(
+class BackendHelper
+@Inject constructor(
     private val context: Context
 ) : BaseApiHelper() {
 

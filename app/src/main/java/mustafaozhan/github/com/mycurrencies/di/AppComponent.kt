@@ -9,17 +9,15 @@ import javax.inject.Singleton
 
 @SuppressWarnings("unchecked")
 @Singleton
-@Component(
-    modules = [
-        AndroidInjectionModule::class,
-        AndroidSupportInjectionModule::class,
-        ActivityInjectionModule::class,
-        FragmentInjectionModule::class,
-        ViewModelModule::class,
-        ApplicationModule::class,
-        AppDatabaseModule::class
-    ]
-)
+@Component(modules = [
+    AndroidInjectionModule::class,
+    AndroidSupportInjectionModule::class,
+    ActivityInjectionModule::class,
+    FragmentInjectionModule::class,
+    ViewModelModule::class,
+    ApplicationModule::class,
+    AppDatabaseModule::class
+])
 interface AppComponent {
 
     @Component.Builder

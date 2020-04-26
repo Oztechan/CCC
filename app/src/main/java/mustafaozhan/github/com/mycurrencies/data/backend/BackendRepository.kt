@@ -5,8 +5,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BackendRepository @Inject
-constructor(override val apiHelper: BackendHelper) : BaseApiRepository() {
+class BackendRepository
+@Inject constructor(
+    override val apiHelper: BackendHelper
+) : BaseApiRepository() {
 
     suspend fun getAllOnBase(base: String) = apiRequest {
         apiHelper.backendService.getAllOnBase(base)

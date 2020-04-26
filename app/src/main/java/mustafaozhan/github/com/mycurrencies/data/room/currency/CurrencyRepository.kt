@@ -6,8 +6,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CurrencyRepository @Inject
-constructor(
+class CurrencyRepository
+@Inject constructor(
     private val currencyDao: CurrencyDao,
     private val context: Context
 ) {

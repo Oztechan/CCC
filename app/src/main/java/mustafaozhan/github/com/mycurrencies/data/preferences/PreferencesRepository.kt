@@ -8,8 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PreferencesRepository @Inject
-constructor(private val sharedPreferencesHelper: PreferencesHelper) {
+class PreferencesRepository
+@Inject constructor(
+    private val sharedPreferencesHelper: PreferencesHelper
+) {
 
     companion object {
         private const val NUMBER_OF_HOURS = 24
