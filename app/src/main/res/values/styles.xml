@@ -140,11 +140,10 @@
 
     <style name="SlideTitle" parent="BaseSlideStyle">
         <item name="android:textSize">@dimen/text_size_xxl</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
     </style>
 
     <style name="SlideSubTitle" parent="BaseSlideStyle">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:textAlignment" tools:ignore="NewApi">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>
@@ -153,7 +152,7 @@
     </style>
 
     <style name="SlideDescription" parent="SlideSubTitle">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">@dimen/text_size</item>
     </style>
 
     <!-- Keyboard -->
