@@ -24,23 +24,23 @@
     </style>
 
     <!-- Size -->
-    <style name="FitStyle" parent="AppTheme">
+    <style name="FitStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">@dimen/fit</item>
     </style>
 
-    <style name="WrapStyle" parent="AppTheme">
+    <style name="WrapStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="MatchStyle" parent="AppTheme">
+    <style name="MatchStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
     <!-- Base -->
-    <style name="BarBaseImageView" parent="AppTheme">
+    <style name="BarBaseImageView">
         <item name="android:layout_width">@dimen/currency_icon_size</item>
         <item name="android:layout_height">@dimen/currency_icon_size</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
@@ -52,7 +52,7 @@
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="BaseToolbarStyle" parent="AppTheme">
+    <style name="BaseToolbarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:animateLayoutChanges">true</item>
@@ -100,7 +100,7 @@
     </style>
 
     <!-- Slide -->
-    <style name="SlideLinearLayout" parent="AppTheme">
+    <style name="SlideLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dots_height</item>
         <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>
@@ -114,7 +114,7 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="SlideViewLayout" parent="AppTheme">
+    <style name="SlideViewLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_one</item>
         <item name="alpha">.1</item>
@@ -133,18 +133,18 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="BaseSlideStyle" parent="AppTheme">
+    <style name="BaseSlideStyle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="SlideTitle" parent="BaseSlideStyle">
-        <item name="android:textSize">@dimen/text_size_xxl</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
     </style>
 
     <style name="SlideSubTitle" parent="BaseSlideStyle">
-        <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:textAlignment" tools:ignore="NewApi">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>
         <item name="android:paddingRight">@dimen/padding_left_right_slide_item</item>
@@ -152,7 +152,7 @@
     </style>
 
     <style name="SlideDescription" parent="SlideSubTitle">
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
     <!-- Keyboard -->
@@ -173,7 +173,7 @@
     </style>
 
     <!-- Bar -->
-    <style name="LayoutBar" parent="AppTheme">
+    <style name="LayoutBar">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -194,7 +194,7 @@
     </style>
 
     <!-- Calculator -->
-    <style name="CalculatorToolbarTextStyle" parent="AppTheme">
+    <style name="CalculatorToolbarTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -211,7 +211,7 @@
 
     <!-- Settings -->
 
-    <style name="SettingsToolbarTextStyle" parent="AppTheme">
+    <style name="SettingsToolbarTextStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/settings</item>
@@ -235,7 +235,7 @@
     </style>
 
     <!-- Item -->
-    <style name="BaseItemLayout" parent="AppTheme">
+    <style name="BaseItemLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/selector_light</item>
@@ -244,7 +244,7 @@
     </style>
 
     <!-- Calculator Item -->
-    <style name="CalculatorItemImageViewBase" parent="AppTheme">
+    <style name="CalculatorItemImageViewBase">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:layout_marginRight">@dimen/margin_four</item>
@@ -288,7 +288,7 @@
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
 
-    <style name="SettingsItemText" parent="AppTheme">
+    <style name="SettingsItemText">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_two</item>
@@ -312,7 +312,7 @@
     </style>
 
     <!-- Ad -->
-    <style name="BaseBannerAdStyle" parent="AppTheme">
+    <style name="BaseBannerAdStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
