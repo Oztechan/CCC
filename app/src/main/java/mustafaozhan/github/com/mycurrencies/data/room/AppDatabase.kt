@@ -1,11 +1,9 @@
 package mustafaozhan.github.com.mycurrencies.data.room
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.extension.execSQL1To2
@@ -21,22 +19,14 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
-        private val FROM_1_TO_2 = object : Migration(1, 2) {
+        internal const val DATABASE_NAME = "application_database"
+
+        internal val FROM_1_TO_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
         }
-        private val FROM_2_TO_3 = object : Migration(2, 3) {
+        internal val FROM_2_TO_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
         }
-
-        val database = Room
-            .databaseBuilder(
-                CCCApplication.instance.applicationContext,
-                AppDatabase::class.java,
-                "application_database"
-            )
-            .addMigrations(FROM_1_TO_2)
-            .addMigrations(FROM_2_TO_3)
-            .allowMainThreadQueries().build()
     }
 
     abstract fun currencyDao(): CurrencyDao

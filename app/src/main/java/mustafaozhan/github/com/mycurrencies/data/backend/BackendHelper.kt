@@ -1,10 +1,10 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
+import android.content.Context
 import com.github.mustafaozhan.basemob.api.BaseApiHelper
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.app.CCCApplication
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,13 +17,15 @@ import javax.inject.Singleton
  */
 @Singleton
 class BackendHelper @Inject
-constructor() : BaseApiHelper() {
+constructor(
+    private val context: Context
+) : BaseApiHelper() {
 
     override val moshi: Moshi
         get() = Moshi.Builder().build()
 
     private val endPoint: String
-        get() = CCCApplication.instance.getString(R.string.backend_endpoint)
+        get() = context.getString(R.string.backend_endpoint)
 
     val backendService: BackendService by lazy { initBackendApiServices() }
     val backendServiceLongTimeOut: BackendService by lazy { initBackendApiServicesLongTimeOut() }
@@ -46,13 +48,12 @@ constructor() : BaseApiHelper() {
     }
 
     private fun getLoggingInterceptor(): Interceptor {
-        val level = if (BuildConfig.DEBUG) {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.BASIC
         }
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(level)
         return loggingInterceptor
     }
 }
