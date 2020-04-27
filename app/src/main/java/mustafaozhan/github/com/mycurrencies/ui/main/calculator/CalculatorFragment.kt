@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import android.os.Bundle
@@ -22,9 +23,6 @@ import mustafaozhan.github.com.mycurrencies.util.Toasty
 import mustafaozhan.github.com.mycurrencies.util.showSnacky
 import javax.inject.Inject
 
-/**
- * Created by Mustafa Ozhan on 2018-07-12.
- */
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     @Inject

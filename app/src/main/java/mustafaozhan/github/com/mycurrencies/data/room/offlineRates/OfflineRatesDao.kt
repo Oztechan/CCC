@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.data.room.offlineRates
 
 import androidx.room.Dao
@@ -6,9 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import mustafaozhan.github.com.mycurrencies.model.Rates
 
-/**
- * Created by Mustafa Ozhan on 2018-07-20.
- */
 @Dao
 interface OfflineRatesDao {
 

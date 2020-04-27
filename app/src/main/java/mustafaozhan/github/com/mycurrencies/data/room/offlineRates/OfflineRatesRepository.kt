@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.data.room.offlineRates
 
 import mustafaozhan.github.com.mycurrencies.model.Rates

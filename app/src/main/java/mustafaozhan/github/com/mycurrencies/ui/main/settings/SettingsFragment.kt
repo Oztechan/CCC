@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import android.os.Bundle
@@ -14,9 +15,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEf
 import mustafaozhan.github.com.mycurrencies.util.Toasty.showToasty
 import javax.inject.Inject
 
-/**
- * Created by Mustafa Ozhan on 2018-07-12.
- */
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     @Inject

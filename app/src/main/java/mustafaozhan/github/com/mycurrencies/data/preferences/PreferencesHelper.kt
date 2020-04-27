@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import android.content.Context
@@ -7,9 +8,6 @@ import mustafaozhan.github.com.mycurrencies.model.MainData
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Mustafa Ozhan on 7/10/18 at 9:50 PM on Arch Linux wit Love <3.
- */
 @Singleton
 class PreferencesHelper
 @Inject constructor(

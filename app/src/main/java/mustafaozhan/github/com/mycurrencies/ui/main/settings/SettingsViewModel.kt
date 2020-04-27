@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import androidx.lifecycle.viewModelScope
@@ -24,9 +25,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
 
-/**
- * Created by Mustafa Ozhan on 2018-07-12.
- */
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository

@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.extension
 
 import android.content.Context
@@ -11,10 +12,6 @@ import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 import java.util.Locale
-
-/**
- * Created by Mustafa Ozhan on 2018-07-20.
- */
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))

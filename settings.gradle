@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 include ':app',
         ':scopemob',
         ':basemob',

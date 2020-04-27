@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.data.backend
 
 import android.content.Context
@@ -12,9 +13,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by Mustafa Ozhan on 2018-07-12.
- */
 @Singleton
 class BackendHelper
 @Inject constructor(

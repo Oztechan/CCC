@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.data.backend
 
 import com.github.mustafaozhan.basemob.api.BaseApiRepository

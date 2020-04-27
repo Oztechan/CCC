@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import androidx.lifecycle.viewModelScope
@@ -42,9 +43,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSucc
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
 
-/**
- * Created by Mustafa Ozhan on 2018-07-12.
- */
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
     val preferencesRepository: PreferencesRepository,

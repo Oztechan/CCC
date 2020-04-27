@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2020 Mustafa Ozhan. All rights reserved. -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">

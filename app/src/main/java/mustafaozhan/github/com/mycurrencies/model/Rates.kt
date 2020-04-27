@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.model
 
 import androidx.room.ColumnInfo
@@ -6,9 +7,6 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-/**
- * Created by Mustafa Ozhan on 2018-07-20.
- */
 @Entity(tableName = "offline_rates")
 @JsonClass(generateAdapter = true)
 data class Rates(

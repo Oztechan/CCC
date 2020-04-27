@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
 import android.view.LayoutInflater
@@ -11,9 +12,6 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 
-/**
- * Created by Mustafa Ozhan on 2018-07-18.
- */
 class SettingsAdapter(
     private val settingsEvent: SettingsEvent
 ) : BaseDBRecyclerViewAdapter<Currency, ItemSettingsBinding>(SettingsDiffer()) {

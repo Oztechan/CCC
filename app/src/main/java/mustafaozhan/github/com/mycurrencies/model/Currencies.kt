@@ -1,8 +1,6 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.model
 
-/**
- * Created by Mustafa Ozhan on 2018-07-16.
- */
 @Suppress("LargeClass")
 enum class Currencies {
     AED,

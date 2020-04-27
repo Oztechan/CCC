@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.splash
 
 import android.content.Intent
@@ -8,9 +9,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
 import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
 import javax.inject.Inject
 
-/**
- * Created by Mustafa Ozhan on 2018-07-20.
- */
 class SplashActivity : BaseActivity() {
 
     @Inject

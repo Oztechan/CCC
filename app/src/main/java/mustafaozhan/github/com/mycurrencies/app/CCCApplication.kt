@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.app
 
 import androidx.multidex.MultiDexApplication
@@ -8,9 +9,6 @@ import dagger.android.HasAndroidInjector
 import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
 import javax.inject.Inject
 
-/**
- * Created by Mustafa Ozhan on 7/10/18 at 9:43 PM on Arch Linux wit Love <3.
- */
 class CCCApplication : MultiDexApplication(), HasAndroidInjector {
 
     @Inject

@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.model
 
 import androidx.room.ColumnInfo
@@ -5,9 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
-/**
- * Created by Mustafa Ozhan on 2018-07-16.
- */
 @Entity(tableName = "currency")
 @JsonClass(generateAdapter = true)
 data class Currency(

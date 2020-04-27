@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import android.view.LayoutInflater
@@ -10,9 +11,6 @@ import mustafaozhan.github.com.mycurrencies.extension.toValidList
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
 
-/**
- * Created by Mustafa Ozhan on 2018-07-16.
- */
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent
 ) : BaseDBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {

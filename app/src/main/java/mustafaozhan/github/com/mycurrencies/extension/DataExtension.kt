@@ -1,3 +1,4 @@
+// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
 package mustafaozhan.github.com.mycurrencies.extension
 
 import android.content.Context
@@ -8,10 +9,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyJson
 import mustafaozhan.github.com.mycurrencies.model.Rates
-
-/**
- * Created by Mustafa Ozhan on 2018-07-20.
- */
 
 fun Rates?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }
