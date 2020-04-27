@@ -86,13 +86,15 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         }
 
         calculatorViewModel.apply {
-            state.currencyList.reObserve(viewLifecycleOwner, Observer { currencyList ->
-                binding.layoutBar.spinnerBase
-                    .apply {
-                        setItems(currencyList.map { it.name })
-                        tryToSelect(preferencesRepository.currentBase)
-                    }
-                calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
+            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
+                list?.let { currencyList ->
+                    binding.layoutBar.spinnerBase
+                        .apply {
+                            setItems(currencyList.map { it.name })
+                            tryToSelect(preferencesRepository.currentBase)
+                        }
+                    calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
+                }
             })
         }
     }
