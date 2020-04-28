@@ -14,6 +14,9 @@ fun Rates?.calculateResult(name: String, value: String?) =
         ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
         ?: 0.0
 
+fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
+    "1 $base = " + "${rate?.getThroughReflection<Double>(name)} ${getVariablesOneLine()}"
+
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
     this?.filterNot { (name) ->
         name == Currencies.BYR.toString() ||

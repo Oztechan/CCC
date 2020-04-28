@@ -9,11 +9,14 @@ import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
+import mustafaozhan.github.com.mycurrencies.extension.getCurrencyConversionByRate
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.junit.Assert
 import org.junit.Before
@@ -84,6 +87,23 @@ open class CalculatorViewModelTest {
         val validConversion = "123"
         event.onItemClick(currency, unValidConversion)
         Assert.assertEquals(validConversion, viewModel.state.input.value)
+    }
+
+    @Test
+    fun `on item long click`() {
+        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
+        val currentBase = "EUR"
+        val rates = Rates()
+
+        event.onItemLongClick(currency)
+
+        Assert.assertEquals(
+            LongClickEffect(
+                currency.getCurrencyConversionByRate(currentBase, rates),
+                currency.name
+            ),
+            viewModel.effect.value
+        )
     }
 
     @Test
