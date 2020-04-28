@@ -11,7 +11,6 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.extension.getCurrencyConversionByRate
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
@@ -92,14 +91,12 @@ open class CalculatorViewModelTest {
     @Test
     fun `on item long click`() {
         val currency = Currency("USD", "Dollar", "$", 0.0, 1)
-        val currentBase = "EUR"
-        val rates = Rates()
 
         event.onItemLongClick(currency)
 
         Assert.assertEquals(
             LongClickEffect(
-                currency.getCurrencyConversionByRate(currentBase, rates),
+                currency.getCurrencyConversionByRate(preferencesRepository.currentBase, viewModel.data.rates),
                 currency.name
             ),
             viewModel.effect.value
