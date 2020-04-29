@@ -58,8 +58,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             when (viewEffect) {
                 ErrorEffect -> showSnacky(
                     view,
-                    R.string.rate_not_available_offline,
-                    R.string.change
+                    R.string.rate_not_available_offline
                 ) { binding.layoutBar.spinnerBase.expand() }
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
