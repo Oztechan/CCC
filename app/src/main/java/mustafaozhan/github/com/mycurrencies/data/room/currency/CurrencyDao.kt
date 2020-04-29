@@ -16,7 +16,7 @@ interface CurrencyDao {
     fun insertCurrency(currency: Currency)
 
     @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
-    fun updateCurrencyStateByName(name: String, isActive: Int)
+    fun updateCurrencyStateByName(name: String, isActive: Boolean)
 
     @Query("SELECT * FROM currency")
     fun getAllCurrencies(): LiveData<MutableList<Currency>>
@@ -25,7 +25,7 @@ interface CurrencyDao {
     fun getActiveCurrencies(): LiveData<MutableList<Currency>?>
 
     @Query("UPDATE currency set isActive=:value")
-    fun updateAllCurrencyState(value: Int)
+    fun updateAllCurrencyState(value: Boolean)
 
     @Query("SELECT * FROM currency WHERE name=:name")
     fun getCurrencyByName(name: String): Currency?

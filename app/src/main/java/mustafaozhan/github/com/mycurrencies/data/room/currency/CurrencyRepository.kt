@@ -23,7 +23,7 @@ class CurrencyRepository
 
     fun getAllCurrencies() = currencyDao.getAllCurrencies()
 
-    fun updateCurrencyStateByName(name: String, value: Int) = currencyDao.updateCurrencyStateByName(name, value)
+    fun updateCurrencyStateByName(name: String, state: Boolean) = currencyDao.updateCurrencyStateByName(name, state)
 
-    fun updateAllCurrencyState(value: Int) = currencyDao.updateAllCurrencyState(value)
+    fun updateAllCurrencyState(state: Boolean) = currencyDao.updateAllCurrencyState(state)
 }

@@ -39,7 +39,7 @@
                 <Button
                     android:id="@+id/btn_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->event.onSelectDeselectButtonsClick(1)}"
+                    android:onClick="@{()->event.onSelectAllClick()}"
                     android:text="@string/select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->event.onSelectDeselectButtonsClick(0)}"
+                    android:onClick="@{()->event.onDeselectAllClick()}"
                     android:text="@string/deSelect_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"

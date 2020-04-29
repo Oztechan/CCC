@@ -42,7 +42,7 @@
         <CheckBox
             android:id="@+id/checkBox"
             style="@style/SettingsItemCheckBoxStyle"
-            android:checked="@{item.isActive() == 1}"
+            android:checked="@{item.isActive}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"

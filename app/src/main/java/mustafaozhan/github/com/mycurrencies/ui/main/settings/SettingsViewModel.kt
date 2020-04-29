@@ -20,8 +20,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData.Companion.ACTIVE
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData.Companion.DE_ACTIVE
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
@@ -54,7 +52,7 @@ class SettingsViewModel(
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
-                if (currencyList.filter { it.isActive == ACTIVE }.size < MINIMUM_ACTIVE_CURRENCY) {
+                if (currencyList.filter { it.isActive }.size < MINIMUM_ACTIVE_CURRENCY) {
                     _effect.value = FewCurrencyEffect
                 }
                 verifyCurrentBase()
@@ -84,27 +82,29 @@ class SettingsViewModel(
         { base ->
             state.currencyList.value
                 ?.filter { it.name == base }
-                ?.toList()?.firstOrNull()?.isActive == DE_ACTIVE
+                ?.toList()?.firstOrNull()?.isActive == false
         }
     )?.let {
         preferencesRepository.currentBase = state.currencyList.value
-            ?.firstOrNull { it.isActive == ACTIVE }?.name
+            ?.firstOrNull { it.isActive }?.name
             ?: Currencies.NULL.toString()
     }.run {
         _states._searchQuery.value = ""
     }
 
     // region Event
-    override fun onSelectDeselectButtonsClick(value: Int) = currencyRepository
-        .updateAllCurrencyState(value)
-        .inCase(value == DE_ACTIVE) {
-            preferencesRepository.currentBase = Currencies.NULL.toString()
-        }
+    override fun onSelectAllClick() {
+        currencyRepository.updateAllCurrencyState(true)
+    }
+
+    override fun onDeselectAllClick() {
+        currencyRepository.updateAllCurrencyState(false)
+        preferencesRepository.currentBase = Currencies.NULL.toString()
+    }
 
     override fun onItemClick(currency: Currency) = currency.isActive
-        .mapTo { if (currency.isActive == DE_ACTIVE) ACTIVE else DE_ACTIVE }
-        .let { newValue ->
-            currencyRepository.updateCurrencyStateByName(currency.name, newValue)
+        .mapTo { !it }.let { newState ->
+            currencyRepository.updateCurrencyStateByName(currency.name, newState)
         }.inCase(currency.name == preferencesRepository.currentBase) {
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }

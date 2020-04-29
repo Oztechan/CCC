@@ -42,7 +42,7 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
 fun MutableList<Currency>?.toValidList(currentBase: String) =
     this?.filter {
         it.name != currentBase &&
-            it.isActive == 1 &&
+            it.isActive &&
             it.rate.toString() != "NaN" &&
             it.rate.toString() != "0.0"
     } ?: mutableListOf()

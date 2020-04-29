@@ -7,7 +7,9 @@ import com.github.mustafaozhan.basemob.model.BaseEvent
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 interface SettingsEvent : BaseEvent {
-    fun onSelectDeselectButtonsClick(value: Int)
+    fun onSelectAllClick()
+
+    fun onDeselectAllClick()
 
     fun onItemClick(currency: Currency)
 }
