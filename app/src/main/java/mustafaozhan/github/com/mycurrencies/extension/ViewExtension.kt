@@ -43,5 +43,6 @@ fun MaterialSpinner.tryToSelect(base: String) = try {
         selectedIndex = it
     }
 } catch (exception: IllegalArgumentException) {
+    expand()
     logWarning(exception, "try to select failed for index $base")
 }
