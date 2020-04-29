@@ -2,6 +2,7 @@
 package mustafaozhan.github.com.mycurrencies.data.backend
 
 import com.github.mustafaozhan.basemob.api.BaseApiRepository
+import com.github.mustafaozhan.basemob.error.EmptyParameterException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,10 +13,18 @@ class BackendRepository
 ) : BaseApiRepository() {
 
     suspend fun getAllOnBase(base: String) = apiRequest {
-        apiHelper.backendService.getAllOnBase(base)
+        if (base.isEmpty()) {
+            throw EmptyParameterException()
+        } else {
+            apiHelper.backendService.getAllOnBase(base)
+        }
     }
 
     suspend fun getAllOnBaseLongTimeOut(base: String) = apiRequest {
-        apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
+        if (base.isEmpty()) {
+            throw EmptyParameterException()
+        } else {
+            apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
+        }
     }
 }
