@@ -10,6 +10,5 @@ import org.joda.time.Instant
 data class MainData(
     var firstRun: Boolean = true,
     var currentBase: Currencies = Currencies.EUR,
-    var adFreeActivatedDate: Instant? = null,
-    var sliderShown: Boolean? = false
+    var adFreeActivatedDate: Instant? = null
 )

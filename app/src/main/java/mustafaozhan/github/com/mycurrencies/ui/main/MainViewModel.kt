@@ -16,4 +16,6 @@ class MainViewModel(
     }
 
     fun isRewardExpired() = preferencesRepository.isRewardExpired
+
+    fun isFirstRun() = preferencesRepository.firstRun
 }

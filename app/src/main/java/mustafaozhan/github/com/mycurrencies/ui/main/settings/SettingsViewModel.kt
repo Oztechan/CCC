@@ -64,10 +64,7 @@ class SettingsViewModel(
 
     private fun initData() = viewModelScope
         .whether { preferencesRepository.firstRun }
-        ?.launch {
-            currencyRepository.insertInitialCurrencies()
-            preferencesRepository.updateMainData(firstRun = false)
-        }
+        ?.launch { currencyRepository.insertInitialCurrencies() }
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
@@ -108,5 +105,9 @@ class SettingsViewModel(
         }.inCase(currency.name == preferencesRepository.currentBase) {
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
+
+    override fun onSaveClick() {
+        preferencesRepository.updateMainData(firstRun = false)
+    }
     // endregion
 }

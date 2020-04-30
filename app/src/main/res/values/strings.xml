@@ -34,8 +34,9 @@
     <!--SettingsFragment-->
     <string name="settings_fragment_toolbar_title">Settings Fragment</string>
     <string name="search">Search</string>
-    <string name="select_all">Select All</string>
-    <string name="deSelect_all">Deselect All</string>
+    <string name="btn_select_all">Select All</string>
+    <string name="btn_de_select_all">Deselect All</string>
+    <string name="btn_save">Save</string>
     <string name="base_currency">Base Currency</string>
 
     <!--Snacky Text-->

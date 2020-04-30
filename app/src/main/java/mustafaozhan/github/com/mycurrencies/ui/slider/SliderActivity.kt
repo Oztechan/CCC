@@ -102,7 +102,6 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
     private fun launchMainActivity() {
         binding.progressBar.visibility = View.VISIBLE
-        preferencesRepository.updateMainData(sliderShown = true)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

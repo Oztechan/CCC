@@ -12,4 +12,6 @@ interface SettingsEvent : BaseEvent {
     fun onDeselectAllClick()
 
     fun onItemClick(currency: Currency)
+
+    fun onSaveClick()
 }

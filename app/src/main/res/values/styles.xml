@@ -222,7 +222,7 @@
         <item name="android:textColor">@color/blue_grey_100</item>
     </style>
 
-    <style name="SelectDeselectAllButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+    <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextStyleSmall</item>
