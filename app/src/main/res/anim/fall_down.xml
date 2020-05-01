@@ -1,4 +1,6 @@
-<!-- Copyright (c) 2020 Mustafa Ozhan. All rights reserved. -->
+<!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="100">
 

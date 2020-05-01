@@ -1,4 +1,6 @@
-<!-- Copyright (c) 2020 Mustafa Ozhan. All rights reserved. -->
+<!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
 <resources>
     <!-- Test Ad ID-->
     <string name="banner_ad_unit_id_calculator">ca-app-pub-3940256099942544/6300978111</string>

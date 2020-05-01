@@ -1,4 +1,6 @@
-// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+/*
+ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
 package mustafaozhan.github.com.mycurrencies.util
 
 import android.view.View
