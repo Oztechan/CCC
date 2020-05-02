@@ -104,6 +104,7 @@
 
     <!-- Slide -->
     <style name="SlideLinearLayout">
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dots_height</item>
         <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>

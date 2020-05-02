@@ -66,8 +66,6 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        initData()
-
         with(_state) {
             _loading.value = true
             _base.value = preferencesRepository.currentBase
@@ -85,13 +83,6 @@ class CalculatorViewModel(
             }
         }
     }
-
-    private fun initData() = viewModelScope
-        .whether { preferencesRepository.firstRun }
-        ?.launch {
-            currencyRepository.insertInitialCurrencies()
-            preferencesRepository.updateMainData(firstRun = false)
-        }.run { getCurrencies() }
 
     private fun getCurrencies() = data.rates?.let { rates ->
         calculateConversions(rates)

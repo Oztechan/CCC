@@ -24,7 +24,7 @@ import javax.inject.Inject
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
     companion object {
-        const val SLIDE_SIZE = 4
+        const val SLIDE_SIZE = 3
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
     }
