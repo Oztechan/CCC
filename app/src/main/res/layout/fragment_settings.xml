@@ -35,23 +35,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/btn_select_all"
-                    style="@style/SelectDeselectAllButtonStyle"
-                    android:onClick="@{()->event.onSelectAllClick()}"
-                    android:text="@string/select_all"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btn_de_select_all"
-                    style="@style/SelectDeselectAllButtonStyle"
+                    style="@style/BarButtonStyle"
                     android:onClick="@{()->event.onDeselectAllClick()}"
-                    android:text="@string/deSelect_all"
+                    android:text="@string/btn_de_select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_select_all"
+                    style="@style/BarButtonStyle"
+                    android:onClick="@{()->event.onSelectAllClick()}"
+                    android:text="@string/btn_select_all"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_save"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_save"
+                    style="@style/BarButtonStyle"
+                    android:onClick="@{()->event.onSaveClick()}"
+                    android:text="@string/btn_save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visibility="@{vm.preferencesRepository.firstRun}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 

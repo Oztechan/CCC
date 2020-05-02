@@ -13,6 +13,7 @@ import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.CalculatorEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.util.Toasty.showToasty
 import javax.inject.Inject
@@ -60,6 +61,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
+                CalculatorEffect -> navigate(SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment())
             }
         })
 }

@@ -8,3 +8,5 @@ import com.github.mustafaozhan.basemob.model.BaseEffect
 sealed class SettingsEffect : BaseEffect()
 
 object FewCurrencyEffect : SettingsEffect()
+
+object CalculatorEffect : SettingsEffect()
