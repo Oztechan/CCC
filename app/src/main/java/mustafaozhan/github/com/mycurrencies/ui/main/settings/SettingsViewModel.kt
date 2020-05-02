@@ -11,6 +11,7 @@ import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
@@ -53,9 +54,13 @@ class SettingsViewModel(
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
-                if (currencyList.filter { it.isActive }.size < MINIMUM_ACTIVE_CURRENCY) {
-                    _effect.value = FewCurrencyEffect
-                }
+
+                currencyList
+                    ?.filter { it.isActive }?.size
+                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    ?.whetherNot { preferencesRepository.firstRun }
+                    ?.let { _effect.value = FewCurrencyEffect }
+
                 verifyCurrentBase()
             }
         }
@@ -107,9 +112,13 @@ class SettingsViewModel(
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
 
-    override fun onDoneClick() {
-        preferencesRepository.updateMainData(firstRun = false)
-        _effect.value = CalculatorEffect
-    }
+    override fun onDoneClick() = _states._currencyList.value
+        ?.filter { it.isActive }?.size
+        ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+        ?.let { _effect.value = FewCurrencyEffect }
+        ?: run {
+            preferencesRepository.updateMainData(firstRun = false)
+            _effect.value = CalculatorEffect
+        }
     // endregion
 }
