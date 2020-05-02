@@ -13,5 +13,5 @@ interface SettingsEvent : BaseEvent {
 
     fun onItemClick(currency: Currency)
 
-    fun onSaveClick()
+    fun onDoneClick()
 }

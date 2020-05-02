@@ -228,6 +228,16 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
+    <style name="DoneButtonStyle" parent="BarButtonStyle">
+        <item name="android:background">@color/blue_grey_800</item>
+    </style>
+
+    <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
+        <item name="backgroundColor">@color/blue_grey_900</item>
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+        <item name="android:text">@string/txt_select_currencies</item>
+    </style>
+
     <style name="SettingsSearchTextStyle" parent="BaseEditTextTheme">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>

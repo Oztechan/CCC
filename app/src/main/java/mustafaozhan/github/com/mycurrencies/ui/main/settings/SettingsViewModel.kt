@@ -107,7 +107,7 @@ class SettingsViewModel(
             preferencesRepository.currentBase = Currencies.NULL.toString()
         }
 
-    override fun onSaveClick() {
+    override fun onDoneClick() {
         preferencesRepository.updateMainData(firstRun = false)
         _effect.value = CalculatorEffect
     }

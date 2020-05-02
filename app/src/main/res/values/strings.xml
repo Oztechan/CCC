@@ -36,7 +36,8 @@
     <string name="search">Search</string>
     <string name="btn_select_all">Select All</string>
     <string name="btn_de_select_all">Deselect All</string>
-    <string name="btn_save">Save</string>
+    <string name="btn_done">Done</string>
+    <string name="txt_select_currencies">Please select your favorite currencies</string>
     <string name="base_currency">Base Currency</string>
 
     <!--Snacky Text-->
