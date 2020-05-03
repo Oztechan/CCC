@@ -3,6 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
+import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -11,7 +12,7 @@ import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
@@ -44,20 +45,13 @@ class SettingsViewModel(
     // endregion
 
     init {
-        _states._loading.value = true
-
-        if (preferencesRepository.firstRun) {
-            runBlocking {
-                currencyRepository.insertInitialCurrencies()
-            }
-        }
+        initData()
 
         with(_states) {
             _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
-                _states._loading.value = false
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
 
@@ -73,6 +67,14 @@ class SettingsViewModel(
 
         filterList("")
     }
+
+    private fun initData() = viewModelScope
+        .whether { preferencesRepository.firstRun }
+        ?.launch {
+            _states._loading.value = true
+            currencyRepository.insertInitialCurrencies()
+            _states._loading.value = false
+        }
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->

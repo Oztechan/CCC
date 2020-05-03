@@ -13,7 +13,7 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 @Dao
 interface CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCurrency(currency: Currency)
+    suspend fun insertCurrency(currency: Currency)
 
     @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
     fun updateCurrencyStateByName(name: String, isActive: Boolean)

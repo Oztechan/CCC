@@ -19,7 +19,7 @@ class CurrencyRepository
 
     fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
-    fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies(context)
+    suspend fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies(context)
 
     fun getAllCurrencies() = currencyDao.getAllCurrencies()
 
