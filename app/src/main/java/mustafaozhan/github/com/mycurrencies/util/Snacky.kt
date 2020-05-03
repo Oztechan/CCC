@@ -21,7 +21,7 @@ fun showSnacky(
     action: () -> Unit = {}
 ) = view?.apply {
     Snacky.builder()
-        .setBackgroundColor(ContextCompat.getColor(context, R.color.blue_grey_800))
+        .setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimarySemiDark))
         .setText(text?.let { context.getString(it) } ?: "")
         .setIcon(setIcon?.let { context.getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
         .setView(this)
@@ -44,7 +44,7 @@ fun showSnacky(
     action: () -> Unit = {}
 ) = view?.apply {
     Snacky.builder()
-        .setBackgroundColor(ContextCompat.getColor(context, R.color.blue_grey_800))
+        .setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimarySemiDark))
         .setText(text)
         .setIcon(setIcon?.let { context.getImageResourceByName(setIcon) } ?: R.mipmap.ic_launcher)
         .setView(this)
@@ -67,7 +67,7 @@ fun showSnacky(
     action: () -> Unit = {}
 ) = activity.apply {
     Snacky.builder()
-        .setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.blue_grey_800))
+        .setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimarySemiDark))
         .setText(text?.let { applicationContext.getString(it) } ?: "")
         .setIcon(setIcon?.let { applicationContext.getImageResourceByName(setIcon) }
             ?: R.mipmap.ic_launcher)

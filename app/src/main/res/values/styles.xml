@@ -9,7 +9,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/blue_grey_800</item>
+        <item name="android:itemBackground">@color/colorPrimarySemiDark</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -230,7 +230,7 @@
     </style>
 
     <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/blue_grey_800</item>
+        <item name="android:background">@color/colorPrimarySemiDark</item>
     </style>
 
     <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
