@@ -47,14 +47,12 @@ class PreferencesRepository
     fun updateMainData(
         firstRun: Boolean? = null,
         currentBase: Currencies? = null,
-        adFreeActivatedDate: Instant? = null,
-        sliderShown: Boolean? = null
+        adFreeActivatedDate: Instant? = null
     ) {
         val mainData = loadMainData()
         firstRun?.let { mainData.firstRun = it }
         currentBase?.let { mainData.currentBase = it }
         adFreeActivatedDate?.let { mainData.adFreeActivatedDate = it }
-        sliderShown?.let { mainData.sliderShown = it }
         persistMainData(mainData)
     }
 }

@@ -9,7 +9,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/blue_grey_800</item>
+        <item name="android:itemBackground">@color/colorPrimarySemiDark</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -104,6 +104,7 @@
 
     <!-- Slide -->
     <style name="SlideLinearLayout">
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dots_height</item>
         <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>
@@ -222,10 +223,20 @@
         <item name="android:textColor">@color/blue_grey_100</item>
     </style>
 
-    <style name="SelectDeselectAllButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+    <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextStyleSmall</item>
+    </style>
+
+    <style name="DoneButtonStyle" parent="BarButtonStyle">
+        <item name="android:background">@color/colorPrimarySemiDark</item>
+    </style>
+
+    <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
+        <item name="backgroundColor">@color/blue_grey_900</item>
+        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+        <item name="android:text">@string/txt_select_currencies</item>
     </style>
 
     <style name="SettingsSearchTextStyle" parent="BaseEditTextTheme">

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
@@ -8,7 +7,6 @@
     <dimen name="text_size">17sp</dimen>
     <dimen name="text_size_l">19sp</dimen>
     <dimen name="text_size_xl">22sp</dimen>
-    <dimen name="text_size_xxl">36sp</dimen>
 
     <!--Match Parent-->
     <dimen name="fit">0dp</dimen>
@@ -20,8 +18,6 @@
     <dimen name="margin_three">3dp</dimen>
     <dimen name="margin_four">4dp</dimen>
     <dimen name="margin_eight">8dp</dimen>
-    <dimen name="margin_thirty_six">36dp</dimen>
-    <dimen name="seventy_two">72dp</dimen>
 
     <!--Currency Icon Size-->
     <dimen name="currency_icon_size">32dp</dimen>

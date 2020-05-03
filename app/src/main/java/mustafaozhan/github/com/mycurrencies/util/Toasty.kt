@@ -22,7 +22,7 @@ object Toasty {
             .custom(context,
                 text,
                 R.drawable.ic_info_outline_black_24dp,
-                tintColor ?: R.color.blue_grey_800,
+                tintColor ?: R.color.colorPrimarySemiDark,
                 if (isLong) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT,
                 true,
                 true)
@@ -40,7 +40,7 @@ object Toasty {
             .custom(context,
                 context.getString(text),
                 R.drawable.ic_info_outline_black_24dp,
-                tintColor ?: R.color.blue_grey_800,
+                tintColor ?: R.color.colorPrimarySemiDark,
                 if (isLong) Toasty.LENGTH_LONG else Toasty.LENGTH_SHORT,
                 true,
                 true)

@@ -15,7 +15,7 @@ data class Currency(
     @ColumnInfo(name = "longName") var longName: String,
     @ColumnInfo(name = "symbol") var symbol: String,
     @ColumnInfo(name = "rate") var rate: Double = 0.0,
-    @ColumnInfo(name = "isActive") var isActive: Int = 1
+    @ColumnInfo(name = "isActive") var isActive: Boolean = false
 ) {
     fun getVariablesOneLine() = "$name $longName $symbol"
 }

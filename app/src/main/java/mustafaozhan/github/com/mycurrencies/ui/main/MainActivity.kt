@@ -52,9 +52,23 @@ open class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setGraph()
         checkRemoteConfig(this)
         loadRewardedAd()
         prepareAd()
+    }
+
+    private fun setGraph() {
+        findNavController(containerId).apply {
+            graph = navInflater.inflate(R.navigation.main_graph)
+                .apply {
+                    startDestination = if (mainViewModel.isFirstRun()) {
+                        R.id.settingsFragment
+                    } else {
+                        R.id.calculatorFragment
+                    }
+                }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

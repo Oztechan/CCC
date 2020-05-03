@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,5 +20,9 @@
         android:id="@+id/settingsFragment"
         android:name="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
+    </fragment>
 </navigation>

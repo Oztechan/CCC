@@ -106,6 +106,6 @@ ext {
             kotlinGradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}",
             gsmGoogle         : "com.google.gms:google-services:$GSM_GOOGLE_VERSION",
             fabric            : "io.fabric.tools:gradle:$FABRIC_VERSION",
-            navigation: "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
+            navigation        : "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     ]
 }

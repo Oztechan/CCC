@@ -15,18 +15,12 @@ class BackendRepository
 ) : BaseApiRepository() {
 
     suspend fun getAllOnBase(base: String) = apiRequest {
-        if (base.isEmpty()) {
-            throw EmptyParameterException()
-        } else {
-            apiHelper.backendService.getAllOnBase(base)
-        }
+        if (base.isEmpty()) throw EmptyParameterException()
+        else apiHelper.backendService.getAllOnBase(base)
     }
 
     suspend fun getAllOnBaseLongTimeOut(base: String) = apiRequest {
-        if (base.isEmpty()) {
-            throw EmptyParameterException()
-        } else {
-            apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
-        }
+        if (base.isEmpty()) throw EmptyParameterException()
+        else apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
     }
 }

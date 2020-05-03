@@ -13,6 +13,7 @@ data class SettingsState(
     private val backing: SettingsStateBacking
 ) : BaseState() {
     val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
+    val loading: LiveData<Boolean> = backing._loading
 
     // two way binding
     val searchQuery: MutableLiveData<String> = backing._searchQuery
@@ -21,5 +22,6 @@ data class SettingsState(
 @Suppress("ConstructorParameterNaming")
 data class SettingsStateBacking(
     val _currencyList: MediatorLiveData<MutableList<Currency>> = MediatorLiveData<MutableList<Currency>>(),
-    val _searchQuery: MediatorLiveData<String> = MediatorLiveData<String>()
+    val _searchQuery: MediatorLiveData<String> = MediatorLiveData<String>(),
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
 )

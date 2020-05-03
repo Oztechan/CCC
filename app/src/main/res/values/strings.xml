@@ -32,22 +32,18 @@
     <string name="on_github">On Github</string>
 
     <!--SettingsFragment-->
-    <string name="settings_fragment_toolbar_title">Settings Fragment</string>
     <string name="search">Search</string>
-    <string name="select_all">Select All</string>
-    <string name="deSelect_all">Deselect All</string>
-    <string name="base_currency">Base Currency</string>
+    <string name="btn_select_all">Select All</string>
+    <string name="btn_de_select_all">Deselect All</string>
+    <string name="btn_done">Done</string>
+    <string name="txt_select_currencies">Please select your favorite currencies</string>
 
     <!--Snacky Text-->
     <string name="rate_not_available_offline">Error Occurred! Please check your internet connection and active currencies.</string>
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
-    <string name="choose_currencies">Please Select at least 2 currencies</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
-    <string name="change">Change</string>
-    <string name="ok">@android:string/ok</string>
-    <string name="init_app_data">App data initializing…</string>
 
     <!--Toasty Text-->
     <string name="max_input">Maximum number of input exceeded.</string>
@@ -74,21 +70,14 @@
     <string name="remote_config_title">App Update</string>
     <string name="remote_config_description">Looks like you have an older\nversion of the app.\nPlease update to get latest\nfeatures and best experience.</string>
 
-    <!--Log-->
-    <string name="error_tag_updating_ui">Updating UI</string>
-    <string name="error_message_updating_ui">If there is no error Updating UI successful</string>
-
     <!--Intro Sliders-->
     <string name="next">NEXT</string>
     <string name="got_it">GOT IT</string>
     <string name="slide_intro_title">Currency Converter Calculator</string>
     <string name="slide_intro_text_2">Simple user interface\n\nFast responses\n\nAccurate rates\n\nEasy to use</string>
-    <string name="slide_filter_title">Filter your list !</string>
-    <string name="slide_filter_text_1">By default CCC has selected all currencies</string>
-    <string name="slide_filter_text_2"> If you want to filter them\n\nClick Top Right Menu > Settings\n Select the currencies you are interested in</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
-    <string name="slide_bug_report_text_2"> You can let us know! Click Top Right Menu\n\n - Feedback > Than you can write email to us\nor\n- On GitHub > Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
+    <string name="slide_bug_report_text_2">Click Top Right Menu\n\n - Feedback > Than you can write email to us\n\n- On GitHub > Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads for 24 hours</string>
     <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 24 hours!</string>
