@@ -3,7 +3,6 @@
  */
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
-import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -12,7 +11,7 @@ import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
@@ -45,13 +44,20 @@ class SettingsViewModel(
     // endregion
 
     init {
-        initData()
+        _states._loading.value = true
+
+        if (preferencesRepository.firstRun) {
+            runBlocking {
+                currencyRepository.insertInitialCurrencies()
+            }
+        }
 
         with(_states) {
             _searchQuery.addSource(state.searchQuery) {
                 filterList(it)
             }
             _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
+                _states._loading.value = false
                 _currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
 
@@ -67,10 +73,6 @@ class SettingsViewModel(
 
         filterList("")
     }
-
-    private fun initData() = viewModelScope
-        .whether { preferencesRepository.firstRun }
-        ?.launch { currencyRepository.insertInitialCurrencies() }
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
@@ -96,9 +98,7 @@ class SettingsViewModel(
     }
 
     // region Event
-    override fun onSelectAllClick() {
-        currencyRepository.updateAllCurrencyState(true)
-    }
+    override fun onSelectAllClick() = currencyRepository.updateAllCurrencyState(true)
 
     override fun onDeselectAllClick() {
         currencyRepository.updateAllCurrencyState(false)
