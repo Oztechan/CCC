@@ -13,8 +13,8 @@ import mustafaozhan.github.com.mycurrencies.model.Rates
 interface OfflineRatesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOfflineRates(rates: Rates)
+    suspend fun insertOfflineRates(rates: Rates)
 
     @Query("SELECT * FROM offline_rates WHERE base=:base")
-    fun getOfflineRatesByBase(base: String): Rates?
+    suspend fun getOfflineRatesByBase(base: String): Rates?
 }

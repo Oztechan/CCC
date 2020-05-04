@@ -12,7 +12,7 @@ class OfflineRatesRepository
 @Inject constructor(
     private val offlineRatesDao: OfflineRatesDao
 ) {
-    fun insertOfflineRates(rates: Rates) = offlineRatesDao.insertOfflineRates(rates)
+    suspend fun insertOfflineRates(rates: Rates) = offlineRatesDao.insertOfflineRates(rates)
 
-    fun getOfflineRatesByBase(base: String) = offlineRatesDao.getOfflineRatesByBase(base)
+    suspend fun getOfflineRatesByBase(base: String) = offlineRatesDao.getOfflineRatesByBase(base)
 }

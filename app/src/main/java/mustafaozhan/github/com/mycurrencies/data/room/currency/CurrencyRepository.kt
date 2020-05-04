@@ -17,13 +17,14 @@ class CurrencyRepository
 
     fun getActiveCurrencies() = currencyDao.getActiveCurrencies()
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
+    fun getAllCurrencies() = currencyDao.getAllCurrencies()
+
+    suspend fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
     suspend fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies(context)
 
-    fun getAllCurrencies() = currencyDao.getAllCurrencies()
+    suspend fun updateCurrencyStateByName(name: String, state: Boolean) =
+        currencyDao.updateCurrencyStateByName(name, state)
 
-    fun updateCurrencyStateByName(name: String, state: Boolean) = currencyDao.updateCurrencyStateByName(name, state)
-
-    fun updateAllCurrencyState(state: Boolean) = currencyDao.updateAllCurrencyState(state)
+    suspend fun updateAllCurrencyState(state: Boolean) = currencyDao.updateAllCurrencyState(state)
 }

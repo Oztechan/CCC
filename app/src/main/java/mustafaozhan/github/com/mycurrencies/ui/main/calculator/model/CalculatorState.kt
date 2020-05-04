@@ -12,9 +12,9 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 data class CalculatorState(
     private val backing: CalculatorStateBacking
 ) : BaseState() {
-    val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
     val input: LiveData<String> = backing._input
     val base: LiveData<String> = backing._base
+    val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
     val output: LiveData<String> = backing._output
     val symbol: LiveData<String> = backing._symbol
     val loading: LiveData<Boolean> = backing._loading
@@ -22,9 +22,10 @@ data class CalculatorState(
 
 @Suppress("ConstructorParameterNaming")
 data class CalculatorStateBacking(
-    val _currencyList: MediatorLiveData<MutableList<Currency>> = MediatorLiveData<MutableList<Currency>>(),
     val _input: MediatorLiveData<String> = MediatorLiveData<String>(),
     val _base: MediatorLiveData<String> = MediatorLiveData<String>(),
+
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(false)

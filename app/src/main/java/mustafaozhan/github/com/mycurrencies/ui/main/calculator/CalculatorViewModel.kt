@@ -12,6 +12,7 @@ import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -24,6 +25,7 @@ import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.extension.toPercent
 import mustafaozhan.github.com.mycurrencies.extension.toRate
 import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
+import mustafaozhan.github.com.mycurrencies.extension.toUnit
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -78,8 +80,11 @@ class CalculatorViewModel(
                 _loading.value = true
                 calculateOutput(input)
             }
-            _currencyList.addSource(currencyRepository.getActiveCurrencies()) {
-                _currencyList.value = it.removeUnUsedCurrencies()
+
+            viewModelScope.launch {
+                currencyRepository.getActiveCurrencies().collect {
+                    _currencyList.value = it.removeUnUsedCurrencies()
+                }
             }
         }
     }
@@ -94,14 +99,15 @@ class CalculatorViewModel(
         )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) =
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
             offlineRatesRepository.insertOfflineRates(it)
         }
+    }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) {
+    private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
         logWarning(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(
@@ -109,14 +115,12 @@ class CalculatorViewModel(
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: viewModelScope.launch {
-            subscribeService(
-                backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
-                ::rateDownloadSuccess,
-                ::rateDownloadFailLongTimeOut
-            )
-        }
-    }
+        } ?: subscribeService(
+            backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
+            ::rateDownloadSuccess,
+            ::rateDownloadFailLongTimeOut
+        )
+    }.toUnit()
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
         logWarning(t, "rate download failed on long time out")
@@ -154,7 +158,10 @@ class CalculatorViewModel(
         preferencesRepository.currentBase = newBase
 
         _state._input.value = _state._input.value
-        _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+
+        viewModelScope.launch {
+            _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+        }
 
         getCurrencies()
     }
