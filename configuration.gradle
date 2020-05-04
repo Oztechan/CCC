@@ -18,9 +18,9 @@ def ANDROID_MATERIAL_VERSION = '1.1.0'
 def RECYCLER_VIEW_VERSION = '1.1.0'
 def CONSTRAINT_LAYOUT_VERSION = '1.1.3'
 def JUNIT_VERSION = '4.13'
-def RETROFIT_VERSION = '2.4.0'
+def RETROFIT_VERSION = '2.8.1'
 def NETWORK_INTERCEPTOR_VERSION = '3.12.0'
-def OK_HTTP_VERSION = '3.12.0'
+def OK_HTTP_VERSION = '4.6.0'
 def MOSHI_VERSION = '1.9.2'
 def MATERIAL_SPINNER_VERSION = '1.3.1'
 def ROOM_VERSION = '2.2.5'
@@ -84,7 +84,6 @@ ext {
 
     retrofit = [
             retrofit      : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
-            rxjava2       : "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION",
             moshiConverter: "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION",
             interceptor   : "com.squareup.okhttp3:logging-interceptor:$NETWORK_INTERCEPTOR_VERSION"
     ]

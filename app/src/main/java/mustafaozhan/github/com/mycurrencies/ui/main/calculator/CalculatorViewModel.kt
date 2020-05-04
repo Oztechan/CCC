@@ -4,7 +4,6 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.error.NetworkException
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
@@ -93,27 +92,8 @@ class CalculatorViewModel(
     private fun getCurrencies() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        try {
-            backendRepository.getAllOnBase(preferencesRepository.currentBase)
-                .collect { rateDownloadSuccess(it) }
-        } catch (e: NetworkException) {
-            logWarning(e, "rate download failed 1s time out")
-
-            offlineRatesRepository.getOfflineRatesByBase(
-                preferencesRepository.currentBase
-            )?.let { offlineRates ->
-                calculateConversions(offlineRates)
-                _effect.value = OfflineSuccessEffect(offlineRates.date)
-            } ?: try {
-                backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase)
-                    .collect { rateDownloadSuccess(it) }
-            } catch (e: NetworkException) {
-                logWarning(e, "rate download failed on long time out")
-                state.currencyList.value?.size
-                    ?.whether { it > 1 }
-                    ?.let { _effect.value = ErrorEffect }
-            }
-        }
+        backendRepository.getAllOnBase(preferencesRepository.currentBase)
+            .execute(::rateDownloadSuccess, ::rateDownloadFail)
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
@@ -123,6 +103,25 @@ class CalculatorViewModel(
             offlineRatesRepository.insertOfflineRates(it)
         }
     }.toUnit()
+
+    private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
+        logWarning(t, "rate download failed 1s time out")
+
+        offlineRatesRepository.getOfflineRatesByBase(
+            preferencesRepository.currentBase
+        )?.let { offlineRates ->
+            calculateConversions(offlineRates)
+            _effect.value = OfflineSuccessEffect(offlineRates.date)
+        } ?: backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase)
+            .execute(::rateDownloadSuccess, ::rateDownloadFailLongTimeOut)
+    }.toUnit()
+
+    private fun rateDownloadFailLongTimeOut(t: Throwable) {
+        logWarning(t, "rate download failed on long time out")
+        state.currencyList.value?.size
+            ?.whether { it > 1 }
+            ?.let { _effect.value = ErrorEffect }
+    }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
         .calculate()
