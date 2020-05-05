@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.util.extension
 
 import android.annotation.SuppressLint
 import com.github.mustafaozhan.scopemob.mapTo

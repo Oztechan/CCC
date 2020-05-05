@@ -16,8 +16,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.toUnit
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
@@ -28,6 +26,8 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffec
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
+import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,

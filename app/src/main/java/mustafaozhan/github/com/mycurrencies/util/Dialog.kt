@@ -15,7 +15,7 @@ fun showDialog(
     description: String,
     positiveButton: String,
     cancelable: Boolean = true,
-    function: () -> Unit = {}
+    function: (() -> Unit)? = null
 ) {
     if (!activity.isFinishing) {
         AlertDialog
@@ -23,7 +23,7 @@ fun showDialog(
             .setIcon(R.mipmap.ic_launcher)
             .setTitle(title)
             .setMessage(description)
-            .setPositiveButton(positiveButton) { _, _ -> function() }
+            .setPositiveButton(positiveButton) { _, _ -> function?.invoke() }
             .setCancelable(cancelable)
             .inCase(cancelable) { setNegativeButton(activity.getString(R.string.cancel), null) }
             .show()
@@ -37,7 +37,7 @@ fun showDialog(
     description: Int,
     positiveButton: Int,
     cancelable: Boolean = true,
-    function: () -> Unit = {}
+    function: (() -> Unit)? = null
 ) {
     if (!activity.isFinishing) {
         AlertDialog
@@ -45,7 +45,7 @@ fun showDialog(
             .setIcon(R.mipmap.ic_launcher)
             .setTitle(activity.getString(title))
             .setMessage(activity.getString(description))
-            .setPositiveButton(activity.getText(positiveButton)) { _, _ -> function() }
+            .setPositiveButton(activity.getText(positiveButton)) { _, _ -> function?.invoke() }
             .setCancelable(cancelable)
             .inCase(cancelable) { setNegativeButton(activity.getString(R.string.cancel), null) }
             .show()

@@ -17,14 +17,6 @@ import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
-import mustafaozhan.github.com.mycurrencies.extension.calculateResult
-import mustafaozhan.github.com.mycurrencies.extension.getFormatted
-import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
-import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.toPercent
-import mustafaozhan.github.com.mycurrencies.extension.toRate
-import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
-import mustafaozhan.github.com.mycurrencies.extension.toUnit
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -44,6 +36,14 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEf
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.util.extension.calculateResult
+import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
+import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.util.extension.toRate
+import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
+import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
 

@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.util.extension
 
 import android.content.Context
 import android.view.View

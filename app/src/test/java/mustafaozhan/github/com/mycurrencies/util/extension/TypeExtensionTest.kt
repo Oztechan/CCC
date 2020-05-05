@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.mycurrencies.util.extension
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -4,7 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.data.room.currency
 
 import android.content.Context
-import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.insertInitialCurrencies
 import javax.inject.Inject
 import javax.inject.Singleton
 

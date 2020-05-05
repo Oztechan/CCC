@@ -7,7 +7,7 @@
 
     <data>
 
-        <import type="mustafaozhan.github.com.mycurrencies.extension.TypeExtensionKt" />
+        <import type="mustafaozhan.github.com.mycurrencies.util.extension.TypeExtensionKt" />
 
         <variable
             name="item"
