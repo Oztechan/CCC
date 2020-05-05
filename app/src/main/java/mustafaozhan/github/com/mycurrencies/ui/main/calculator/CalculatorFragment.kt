@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.extension.reObserve
 import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.util.Toasty
@@ -60,11 +59,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
                 MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
-                ReverseSpinner -> with(binding.layoutBar.spinnerBase) {
-                    whether { isActivated }
-                        ?.apply { collapse() }
-                        ?: run { expand() }
+                ReverseSpinner -> {
+                    navigate(CalculatorFragmentDirections.actionCalculatorFragmentToBarDialogFragment())
                 }
+//                    with(binding.layoutBar.spinnerBase) {
+//                    whether { isActivated }
+//                        ?.apply { collapse() }
+//                        ?: run { expand() }
+//                }
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
