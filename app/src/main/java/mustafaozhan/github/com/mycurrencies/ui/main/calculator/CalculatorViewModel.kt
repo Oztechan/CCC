@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
-import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
@@ -46,6 +45,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInpu
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
 import org.mariuszgromada.math.mxparser.Expression
+import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
@@ -105,7 +105,7 @@ class CalculatorViewModel(
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
-        logWarning(t, "rate download failed 1s time out")
+        Timber.w(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(
             preferencesRepository.currentBase
@@ -117,7 +117,7 @@ class CalculatorViewModel(
     }.toUnit()
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
-        logWarning(t, "rate download failed on long time out")
+        Timber.w(t, "rate download failed on long time out")
         state.currencyList.value?.size
             ?.whether { it > 1 }
             ?.let { _effect.value = ErrorEffect }

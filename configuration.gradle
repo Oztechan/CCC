@@ -26,6 +26,7 @@ def COROUTINES_VERSION = '1.3.0'
 def ADMOB_VERSION = '19.1.0'
 def FIREBASE_CONFIG_VERSION = '19.1.4'
 def MULTIDEX_VERSION = '2.0.1'
+def TIMBER_VERSION = '4.7.1'
 def SNACKY_VERSION = '1.0.3'
 def TOASTY_VERSION = '1.4.2'
 def LOADING_VIEW_VERSION = '2.1.3'
@@ -60,6 +61,7 @@ ext {
     moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     materialSpinner = "com.jaredrummler:material-spinner:$MATERIAL_SPINNER_VERSION"
     multiDex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
+    timber = "com.jakewharton.timber:timber:$TIMBER_VERSION"
     coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
     admob = "com.google.android.gms:play-services-ads:$ADMOB_VERSION"
     firebaseConfig = "com.google.firebase:firebase-config:$FIREBASE_CONFIG_VERSION"

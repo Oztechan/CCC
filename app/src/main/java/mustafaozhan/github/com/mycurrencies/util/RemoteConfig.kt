@@ -7,8 +7,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
-import com.github.mustafaozhan.logmob.logError
-import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.whether
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -18,6 +16,7 @@ import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 const val CHECK_DURATION: Long = 6
@@ -68,9 +67,9 @@ fun checkRemoteConfig(activity: Activity) {
                                 }
                             }
                     } catch (e: JsonDataException) {
-                        logWarning(e)
+                        Timber.w(e)
                     } catch (e: JsonEncodingException) {
-                        logError(e)
+                        Timber.e(e)
                     }
                 }
             }

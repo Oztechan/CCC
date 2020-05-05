@@ -59,6 +59,7 @@ dependencies {
             moshi,
             materialSpinner,
             multiDex,
+            timber,
             coroutines,
             admob,
             firebaseConfig,

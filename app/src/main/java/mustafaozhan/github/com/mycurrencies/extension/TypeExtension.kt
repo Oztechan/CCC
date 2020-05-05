@@ -4,12 +4,12 @@
 package mustafaozhan.github.com.mycurrencies.extension
 
 import android.annotation.SuppressLint
-import com.github.mustafaozhan.logmob.logError
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -65,7 +65,7 @@ inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
     return try {
         javaClass.getMethod(getterName).invoke(this) as? T
     } catch (e: NoSuchMethodException) {
-        logError(e)
+        Timber.e(e)
         null
     }
 }
