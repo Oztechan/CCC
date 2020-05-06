@@ -13,8 +13,6 @@ import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
 import mustafaozhan.github.com.mycurrencies.util.Toasty.showToasty
 import javax.inject.Inject
 

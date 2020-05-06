@@ -9,7 +9,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import de.mateware.snacky.Snacky
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.extension.getImageResourceByName
+import mustafaozhan.github.com.mycurrencies.util.extension.getImageResourceByName
 
 @Suppress("LongParameterList")
 fun showSnacky(
@@ -18,7 +18,7 @@ fun showSnacky(
     actionText: Int? = null,
     setIcon: String? = null,
     isIndefinite: Boolean = false,
-    action: () -> Unit = {}
+    action: (() -> Unit)? = null
 ) = view?.apply {
     Snacky.builder()
         .setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimarySemiDark))
@@ -29,7 +29,7 @@ fun showSnacky(
         .setActionText(actionText?.let { context.getString(it) } ?: "")
         .setActionTextColor(ContextCompat.getColor(context, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
-        .setActionClickListener { action() }
+        .setActionClickListener { action?.invoke() }
         .build()
         .show()
 }
@@ -41,7 +41,7 @@ fun showSnacky(
     actionText: String = "",
     setIcon: String? = null,
     isIndefinite: Boolean = false,
-    action: () -> Unit = {}
+    action: (() -> Unit)? = null
 ) = view?.apply {
     Snacky.builder()
         .setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimarySemiDark))
@@ -52,7 +52,7 @@ fun showSnacky(
         .setActionText(actionText)
         .setActionTextColor(ContextCompat.getColor(context, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
-        .setActionClickListener { action() }
+        .setActionClickListener { action?.invoke() }
         .build()
         .show()
 }
@@ -64,7 +64,7 @@ fun showSnacky(
     actionText: Int? = null,
     setIcon: String? = null,
     isIndefinite: Boolean = false,
-    action: () -> Unit = {}
+    action: (() -> Unit)? = null
 ) = activity.apply {
     Snacky.builder()
         .setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.colorPrimarySemiDark))
@@ -76,7 +76,7 @@ fun showSnacky(
         .setActionText(actionText?.let { applicationContext.getString(it) } ?: "")
         .setActionTextColor(ContextCompat.getColor(applicationContext, R.color.cyan_700))
         .setActionTextTypefaceStyle(Typeface.BOLD)
-        .setActionClickListener { action() }
+        .setActionClickListener { action?.invoke() }
         .build()
         .show()
 }

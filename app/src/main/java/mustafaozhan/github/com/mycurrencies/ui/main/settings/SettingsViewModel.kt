@@ -3,67 +3,57 @@
  */
 package mustafaozhan.github.com.mycurrencies.ui.main.settings
 
+import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
+import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
+import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
+) : BaseViewModel(), SettingsEvent {
 
     // region SEED
     private val _states = SettingsStateBacking()
-    override val state = SettingsState(_states)
+    val state = SettingsState(_states)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()
-    override val effect: SingleLiveData<SettingsEffect> = _effect
+    val effect: SingleLiveData<SettingsEffect> = _effect
 
-    override val data = SettingsData()
+    val data = SettingsData()
 
-    override fun getEvent() = this as SettingsEvent
+    fun getEvent() = this as SettingsEvent
     // endregion
 
     init {
-        _states._loading.value = true
+        initData()
 
-        if (preferencesRepository.firstRun) {
-            runBlocking {
-                currencyRepository.insertInitialCurrencies()
-            }
+        _states._searchQuery.addSource(state.searchQuery) {
+            filterList(it)
         }
 
-        with(_states) {
-            _searchQuery.addSource(state.searchQuery) {
-                filterList(it)
-            }
-            _currencyList.addSource(currencyRepository.getAllCurrencies()) { currencyList ->
-                _states._loading.value = false
-                _currencyList.value = currencyList.removeUnUsedCurrencies()
+        viewModelScope.launch {
+            currencyRepository.getAllCurrencies().collect { currencyList ->
+                _states._currencyList.value = currencyList.removeUnUsedCurrencies()
                 data.unFilteredList = currencyList
 
                 currencyList
-                    ?.filter { it.isActive }?.size
-                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    .filter { it.isActive }.size
+                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { preferencesRepository.firstRun }
                     ?.let { _effect.value = FewCurrencyEffect }
 
@@ -73,6 +63,14 @@ class SettingsViewModel(
 
         filterList("")
     }
+
+    private fun initData() = viewModelScope
+        .whether { preferencesRepository.firstRun }
+        ?.launch {
+            _states._loading.value = true
+            currencyRepository.insertInitialCurrencies()
+            _states._loading.value = false
+        }
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
@@ -98,19 +96,23 @@ class SettingsViewModel(
     }
 
     // region Event
-    override fun onSelectAllClick() = currencyRepository.updateAllCurrencyState(true)
+    override fun onSelectAllClick() = viewModelScope.launch {
+        currencyRepository.updateAllCurrencyState(true)
+    }.toUnit()
 
-    override fun onDeselectAllClick() {
+    override fun onDeselectAllClick() = viewModelScope.launch {
         currencyRepository.updateAllCurrencyState(false)
         preferencesRepository.currentBase = Currencies.NULL.toString()
-    }
+    }.toUnit()
 
-    override fun onItemClick(currency: Currency) = currency.isActive
-        .mapTo { !it }.let { newState ->
-            currencyRepository.updateCurrencyStateByName(currency.name, newState)
-        }.inCase(currency.name == preferencesRepository.currentBase) {
-            preferencesRepository.currentBase = Currencies.NULL.toString()
-        }
+    override fun onItemClick(currency: Currency) = viewModelScope.launch {
+        currency.isActive
+            .mapTo { !it }.let { newState ->
+                currencyRepository.updateCurrencyStateByName(currency.name, newState)
+            }.inCase(currency.name == preferencesRepository.currentBase) {
+                preferencesRepository.currentBase = Currencies.NULL.toString()
+            }
+    }.toUnit()
 
     override fun onDoneClick() = _states._currencyList.value
         ?.filter { it.isActive }?.size

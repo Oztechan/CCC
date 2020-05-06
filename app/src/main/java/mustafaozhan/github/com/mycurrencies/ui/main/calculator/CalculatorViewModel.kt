@@ -6,44 +6,35 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
-import com.github.mustafaozhan.logmob.logWarning
+import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
-import mustafaozhan.github.com.mycurrencies.extension.calculateResult
-import mustafaozhan.github.com.mycurrencies.extension.getFormatted
-import mustafaozhan.github.com.mycurrencies.extension.getThroughReflection
-import mustafaozhan.github.com.mycurrencies.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.extension.toPercent
-import mustafaozhan.github.com.mycurrencies.extension.toRate
-import mustafaozhan.github.com.mycurrencies.extension.toSupportedCharacters
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.CHAR_DOT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import mustafaozhan.github.com.mycurrencies.util.extension.calculateResult
+import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
+import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.util.extension.toRate
+import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
+import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 import org.mariuszgromada.math.mxparser.Expression
+import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
@@ -51,18 +42,18 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
+) : BaseViewModel(), CalculatorEvent {
 
     // region SEED
     private val _state = CalculatorStateBacking()
-    override val state = CalculatorState(_state)
+    val state = CalculatorState(_state)
 
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
-    override val effect: SingleLiveData<CalculatorEffect> = _effect
+    val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    override val data = CalculatorData()
+    val data = CalculatorData()
 
-    override fun getEvent() = this as CalculatorEvent
+    fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {
@@ -78,48 +69,44 @@ class CalculatorViewModel(
                 _loading.value = true
                 calculateOutput(input)
             }
-            _currencyList.addSource(currencyRepository.getActiveCurrencies()) {
-                _currencyList.value = it.removeUnUsedCurrencies()
+
+            viewModelScope.launch {
+                currencyRepository.getActiveCurrencies().collect {
+                    _currencyList.value = it.removeUnUsedCurrencies()
+                }
             }
         }
     }
 
-    private fun getCurrencies() = data.rates?.let { rates ->
+    private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        subscribeService(
-            backendRepository.getAllOnBase(preferencesRepository.currentBase),
-            ::rateDownloadSuccess,
-            ::rateDownloadFail
-        )
+        backendRepository.getRatesByBase(preferencesRepository.currentBase)
+            .execute(::rateDownloadSuccess, ::rateDownloadFail)
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) =
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
             offlineRatesRepository.insertOfflineRates(it)
         }
+    }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) {
-        logWarning(t, "rate download failed 1s time out")
+    private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
+        Timber.w(t, "rate download failed 1s time out")
 
         offlineRatesRepository.getOfflineRatesByBase(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: viewModelScope.launch {
-            subscribeService(
-                backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase),
-                ::rateDownloadSuccess,
-                ::rateDownloadFailLongTimeOut
-            )
-        }
-    }
+        } ?: backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase)
+            .execute(::rateDownloadSuccess, ::rateDownloadFailLongTimeOut)
+    }.toUnit()
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
-        logWarning(t, "rate download failed on long time out")
+        Timber.w(t, "rate download failed on long time out")
         state.currencyList.value?.size
             ?.whether { it > 1 }
             ?.let { _effect.value = ErrorEffect }
@@ -135,7 +122,7 @@ class CalculatorViewModel(
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
                 ?.let { _effect.value = FewCurrencyEffect }
-                ?: run { getCurrencies() }
+                ?: run { getRates() }
         } ?: run {
         _effect.value = MaximumInputEffect
         _state._input.value = input.dropLast(1)
@@ -154,9 +141,10 @@ class CalculatorViewModel(
         preferencesRepository.currentBase = newBase
 
         _state._input.value = _state._input.value
-        _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
 
-        getCurrencies()
+        viewModelScope.launch {
+            _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+        }
     }
 
     fun verifyCurrentBase() = _state._base.value

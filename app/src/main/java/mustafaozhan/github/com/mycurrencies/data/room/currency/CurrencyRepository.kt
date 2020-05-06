@@ -4,7 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.data.room.currency
 
 import android.content.Context
-import mustafaozhan.github.com.mycurrencies.extension.insertInitialCurrencies
+import mustafaozhan.github.com.mycurrencies.util.extension.insertInitialCurrencies
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,13 +17,14 @@ class CurrencyRepository
 
     fun getActiveCurrencies() = currencyDao.getActiveCurrencies()
 
-    fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
-
-    fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies(context)
-
     fun getAllCurrencies() = currencyDao.getAllCurrencies()
 
-    fun updateCurrencyStateByName(name: String, state: Boolean) = currencyDao.updateCurrencyStateByName(name, state)
+    suspend fun getCurrencyByName(name: String) = currencyDao.getCurrencyByName(name)
 
-    fun updateAllCurrencyState(state: Boolean) = currencyDao.updateAllCurrencyState(state)
+    suspend fun insertInitialCurrencies() = currencyDao.insertInitialCurrencies(context)
+
+    suspend fun updateCurrencyStateByName(name: String, state: Boolean) =
+        currencyDao.updateCurrencyStateByName(name, state)
+
+    suspend fun updateAllCurrencyState(state: Boolean) = currencyDao.updateAllCurrencyState(state)
 }

@@ -12,7 +12,6 @@ import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
 
 class SettingsAdapter(
     private val settingsEvent: SettingsEvent

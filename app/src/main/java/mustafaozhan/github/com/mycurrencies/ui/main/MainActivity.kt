@@ -10,9 +10,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.NonNull
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.logmob.logWarning
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -20,10 +20,10 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_INITIAL_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_PERIOD
@@ -34,7 +34,6 @@ import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.util.showDialog
 import mustafaozhan.github.com.mycurrencies.util.showSnacky
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
@@ -45,7 +44,7 @@ open class MainActivity : BaseActivity() {
 
     private lateinit var rewardedAd: RewardedAd
     private lateinit var interstitialAd: InterstitialAd
-    private lateinit var adObservableInterval: Disposable
+    private lateinit var adJob: Job
     private var adVisibility = false
     private var doubleBackToExitPressedOnce = false
 
@@ -54,8 +53,8 @@ open class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setGraph()
         checkRemoteConfig(this)
-        loadRewardedAd()
-        prepareAd()
+        prepareRewardedAd()
+        prepareInterstitialAd()
     }
 
     private fun setGraph() {
@@ -112,7 +111,7 @@ open class MainActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadRewardedAd() {
+    private fun prepareRewardedAd() {
         rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() = Unit
@@ -123,8 +122,8 @@ open class MainActivity : BaseActivity() {
     private fun showRewardedAd() = rewardedAd
         .whether { isLoaded }?.show(this, object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
-            override fun onRewardedAdClosed() = loadRewardedAd()
-            override fun onRewardedAdFailedToShow(errorCode: Int) = loadRewardedAd()
+            override fun onRewardedAdClosed() = prepareRewardedAd()
+            override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
                 mainViewModel.updateAdFreeActivation()
                 val intent = intent
@@ -143,36 +142,39 @@ open class MainActivity : BaseActivity() {
         }
     }
 
-    private fun prepareAd() {
+    private fun prepareInterstitialAd() {
         interstitialAd = InterstitialAd(this)
         interstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
         interstitialAd.loadAd(AdRequest.Builder().build())
     }
 
-    private fun ad() {
+    private fun setupInterstitialAd() {
         adVisibility = true
-        adObservableInterval = Observable.interval(AD_INITIAL_DELAY, AD_PERIOD, TimeUnit.SECONDS)
-            .debounce(0, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+
+        adJob = lifecycle.coroutineScope.launch {
+            delay(AD_INITIAL_DELAY)
+
+            while (isActive) {
+                delay(AD_PERIOD)
+
                 interstitialAd.whether(
                     { isLoaded },
                     { adVisibility },
                     { mainViewModel.isRewardExpired() }
                 )?.apply { show() }
-                    ?: run { prepareAd() }
-            }, { logWarning(it) }
-            )
+                    ?: prepareInterstitialAd()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        ad()
+        setupInterstitialAd()
     }
 
     override fun onPause() {
         super.onPause()
-        adObservableInterval.dispose()
+        adJob.cancel()
         adVisibility = false
     }
 
@@ -186,11 +188,10 @@ open class MainActivity : BaseActivity() {
             doubleBackToExitPressedOnce = true
             showSnacky(this, R.string.click_back_again_to_exit)
 
-            compositeDisposable.add(
-                Completable.complete()
-                    .delay(BACK_DELAY, TimeUnit.SECONDS)
-                    .subscribe { doubleBackToExitPressedOnce = false }
-            )
+            lifecycle.coroutineScope.launch {
+                delay(BACK_DELAY)
+                doubleBackToExitPressedOnce = false
+            }
         } else {
             super.onBackPressed()
         }

@@ -14,13 +14,13 @@ class BackendRepository
     override val apiHelper: BackendHelper
 ) : BaseApiRepository() {
 
-    suspend fun getAllOnBase(base: String) = apiRequest {
+    suspend fun getRatesByBase(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiHelper.backendService.getAllOnBase(base)
+        else apiHelper.backendService.getRatesByBase(base)
     }
 
-    suspend fun getAllOnBaseLongTimeOut(base: String) = apiRequest {
+    suspend fun getRatesByBaseLongTimeOut(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiHelper.backendServiceLongTimeOut.getAllOnBase(base)
+        else apiHelper.backendServiceLongTimeOut.getRatesByBase(base)
     }
 }

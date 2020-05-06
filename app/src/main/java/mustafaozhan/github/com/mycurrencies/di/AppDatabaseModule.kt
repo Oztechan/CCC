@@ -10,8 +10,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
-import mustafaozhan.github.com.mycurrencies.extension.execSQL1To2
-import mustafaozhan.github.com.mycurrencies.extension.execSQL2To3
+import mustafaozhan.github.com.mycurrencies.util.extension.execSQL1To2
+import mustafaozhan.github.com.mycurrencies.util.extension.execSQL2To3
 import javax.inject.Singleton
 
 @Module

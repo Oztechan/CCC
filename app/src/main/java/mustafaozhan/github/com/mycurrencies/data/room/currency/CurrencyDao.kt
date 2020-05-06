@@ -3,30 +3,31 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.room.currency
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 @Dao
 interface CurrencyDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCurrency(currency: Currency)
-
-    @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
-    fun updateCurrencyStateByName(name: String, isActive: Boolean)
 
     @Query("SELECT * FROM currency")
-    fun getAllCurrencies(): LiveData<MutableList<Currency>>
+    fun getAllCurrencies(): Flow<MutableList<Currency>>
 
     @Query("SELECT * FROM currency WHERE isActive=1")
-    fun getActiveCurrencies(): LiveData<MutableList<Currency>?>
+    fun getActiveCurrencies(): Flow<MutableList<Currency>?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCurrency(currency: Currency)
+
+    @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
+    suspend fun updateCurrencyStateByName(name: String, isActive: Boolean)
 
     @Query("UPDATE currency set isActive=:value")
-    fun updateAllCurrencyState(value: Boolean)
+    suspend fun updateAllCurrencyState(value: Boolean)
 
     @Query("SELECT * FROM currency WHERE name=:name")
-    fun getCurrencyByName(name: String): Currency?
+    suspend fun getCurrencyByName(name: String): Currency?
 }
