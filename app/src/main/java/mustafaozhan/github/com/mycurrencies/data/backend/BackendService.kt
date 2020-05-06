@@ -9,5 +9,5 @@ import retrofit2.http.Query
 
 interface BackendService {
     @GET("byBase")
-    suspend fun getAllOnBase(@Query("base") base: String): CurrencyResponse
+    suspend fun getRatesByBase(@Query("base") base: String): CurrencyResponse
 }

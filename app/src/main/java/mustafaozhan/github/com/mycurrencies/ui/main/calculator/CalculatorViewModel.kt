@@ -78,10 +78,10 @@ class CalculatorViewModel(
         }
     }
 
-    private fun getCurrencies() = data.rates?.let { rates ->
+    private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        backendRepository.getAllOnBase(preferencesRepository.currentBase)
+        backendRepository.getRatesByBase(preferencesRepository.currentBase)
             .execute(::rateDownloadSuccess, ::rateDownloadFail)
     }
 
@@ -101,7 +101,7 @@ class CalculatorViewModel(
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: backendRepository.getAllOnBaseLongTimeOut(preferencesRepository.currentBase)
+        } ?: backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase)
             .execute(::rateDownloadSuccess, ::rateDownloadFailLongTimeOut)
     }.toUnit()
 
@@ -122,7 +122,7 @@ class CalculatorViewModel(
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
                 ?.let { _effect.value = FewCurrencyEffect }
-                ?: run { getCurrencies() }
+                ?: run { getRates() }
         } ?: run {
         _effect.value = MaximumInputEffect
         _state._input.value = input.dropLast(1)
@@ -145,8 +145,6 @@ class CalculatorViewModel(
         viewModelScope.launch {
             _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         }
-
-        getCurrencies()
     }
 
     fun verifyCurrentBase() = _state._base.value
