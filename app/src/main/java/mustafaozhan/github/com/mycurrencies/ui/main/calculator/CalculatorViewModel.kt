@@ -6,7 +6,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
+import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
@@ -21,21 +21,10 @@ import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.CHAR_DOT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.MAXIMUM_INPUT
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorState
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorStateBacking
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ErrorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.MaximumInputEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.OfflineSuccessEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.CHAR_DOT
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import mustafaozhan.github.com.mycurrencies.util.extension.calculateResult
 import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
@@ -53,18 +42,18 @@ class CalculatorViewModel(
     private val backendRepository: BackendRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
-) : SEEDViewModel<CalculatorState, CalculatorEvent, CalculatorEffect, CalculatorData>(), CalculatorEvent {
+) : BaseViewModel(), CalculatorEvent {
 
     // region SEED
     private val _state = CalculatorStateBacking()
-    override val state = CalculatorState(_state)
+    val state = CalculatorState(_state)
 
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
-    override val effect: SingleLiveData<CalculatorEffect> = _effect
+    val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    override val data = CalculatorData()
+    val data = CalculatorData()
 
-    override fun getEvent() = this as CalculatorEvent
+    fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {

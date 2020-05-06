@@ -6,7 +6,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.SEEDViewModel
+import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.mapTo
@@ -19,31 +19,24 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.CalculatorEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.FewCurrencyEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsData
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsState
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsStateBacking
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
-) : SEEDViewModel<SettingsState, SettingsEvent, SettingsEffect, SettingsData>(), SettingsEvent {
+) : BaseViewModel(), SettingsEvent {
 
     // region SEED
     private val _states = SettingsStateBacking()
-    override val state = SettingsState(_states)
+    val state = SettingsState(_states)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()
-    override val effect: SingleLiveData<SettingsEffect> = _effect
+    val effect: SingleLiveData<SettingsEffect> = _effect
 
-    override val data = SettingsData()
+    val data = SettingsData()
 
-    override fun getEvent() = this as SettingsEvent
+    fun getEvent() = this as SettingsEvent
     // endregion
 
     init {

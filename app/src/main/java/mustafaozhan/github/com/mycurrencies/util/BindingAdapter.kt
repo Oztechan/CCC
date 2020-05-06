@@ -10,7 +10,7 @@ import androidx.databinding.BindingAdapter
 import com.google.android.gms.ads.AdView
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.util.extension.checkAd
 import mustafaozhan.github.com.mycurrencies.util.extension.setBackgroundByName
 

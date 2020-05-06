@@ -13,7 +13,7 @@
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.model.SettingsEvent" />
+            type="mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
