@@ -11,6 +11,7 @@ import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepositor
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 
 @Suppress("unused")
@@ -37,4 +38,7 @@ class ViewModelModule {
         preferencesRepository: PreferencesRepository,
         currencyRepository: CurrencyRepository
     ) = SettingsViewModel(preferencesRepository, currencyRepository)
+
+    @Provides
+    fun providesBarViewModel() = BarViewModel()
 }

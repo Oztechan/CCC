@@ -59,14 +59,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
                 MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
-                ReverseSpinner -> {
-                    navigate(CalculatorFragmentDirections.actionCalculatorFragmentToBarDialogFragment())
-                }
-//                    with(binding.layoutBar.spinnerBase) {
-//                    whether { isActivated }
-//                        ?.apply { collapse() }
-//                        ?: run { expand() }
-//                }
+                ReverseSpinner -> navigate(
+                    CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
+                )
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {

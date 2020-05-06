@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel" />
+
+        <variable
+            name="event"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_bar"
+            style="@style/BaseRecyclerViewStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_bar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
