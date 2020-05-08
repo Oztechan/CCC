@@ -21,7 +21,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode gitVersion
         versionName "1.${gitVersion}"
@@ -56,6 +56,7 @@ dependencies {
             constraintLayout,
             dagger,
             okHttp,
+            rxAndroid,
             moshi,
             materialSpinner,
             multiDex,

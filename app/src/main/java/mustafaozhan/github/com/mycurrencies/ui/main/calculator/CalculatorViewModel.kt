@@ -81,8 +81,11 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        backendRepository.getRatesByBase(preferencesRepository.currentBase)
-            .execute(::rateDownloadSuccess, ::rateDownloadFail)
+        subscribeService(
+            backendRepository.getRatesByBase(preferencesRepository.currentBase),
+            ::rateDownloadSuccess,
+            ::rateDownloadFail
+        )
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
@@ -101,8 +104,11 @@ class CalculatorViewModel(
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase)
-            .execute(::rateDownloadSuccess, ::rateDownloadFailLongTimeOut)
+        } ?: subscribeService(
+            backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase),
+            ::rateDownloadSuccess,
+            ::rateDownloadFailLongTimeOut
+        )
     }.toUnit()
 
     private fun rateDownloadFailLongTimeOut(t: Throwable) {
