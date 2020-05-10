@@ -40,5 +40,8 @@ class ViewModelModule {
     ) = SettingsViewModel(preferencesRepository, currencyRepository)
 
     @Provides
-    fun providesBarViewModel() = BarViewModel()
+    fun providesBarViewModel(
+        preferencesRepository: PreferencesRepository,
+        currencyRepository: CurrencyRepository
+    ) = BarViewModel(preferencesRepository, currencyRepository)
 }

@@ -181,6 +181,7 @@
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
     </style>
 
     <style name="BarTextStyle" parent="WrapStyle">
@@ -188,13 +189,6 @@
         <item name="android:layout_marginBottom">@dimen/margin_eight</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
-    </style>
-
-    <style name="BarSpinnerStyle" parent="WrapStyle">
-        <item name="ms_background_color">@color/colorPrimaryDark</item>
-        <item name="ms_hide_arrow">true</item>
-        <item name="android:layout_marginBottom">@dimen/margin_three</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
     </style>
 
     <!-- Calculator -->
@@ -213,8 +207,13 @@
         <item name="indicatorName">BallPulseIndicator</item>
     </style>
 
-    <!-- Settings -->
+    <!-- Bar Bottom Sheet Dialog -->
+    <style name="CurrentBaseStyle" parent="WrapStyle">
+        <item name="android:textAppearance">@style/BaseTextStyle</item>
+        <item name="android:padding">@dimen/margin_eight</item>
+    </style>
 
+    <!-- Settings -->
     <style name="SettingsToolbarTextStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
@@ -333,6 +332,13 @@
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
         <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="BottomSheetDialogRecyclerViewStye" parent="BaseRecyclerViewStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>
 
 </resources>

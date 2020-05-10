@@ -25,8 +25,7 @@ class BarAdapter(
         false)
     )
 
-    fun submitList(list: MutableList<Currency>?, currentBase: String) =
-        submitList(list.toValidList(currentBase))
+    fun submitList(list: MutableList<Currency>?, currentBase: String) = submitList(list.toValidList(currentBase))
 
     inner class CalculatorDBViewHolder(itemBinding: ItemBarBinding) :
         BaseDBViewHolder<Currency, ItemBarBinding>(itemBinding) {
@@ -38,7 +37,7 @@ class BarAdapter(
     }
 
     class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = false
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }

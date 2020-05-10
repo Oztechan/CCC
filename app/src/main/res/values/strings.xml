@@ -92,4 +92,7 @@
     <string name="remove_ads">Remove Ads</string>
     <string name="remove_ads_text">Would you like to watch a video to stop ads for 24 hours ?</string>
     <string name="watch">Watch</string>
+
+    <!-- Bar Bottom Sheet Dialog -->
+    <string name="txt_current_base">Select new base currency</string>
 </resources>

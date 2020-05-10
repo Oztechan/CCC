@@ -14,7 +14,6 @@ import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.util.Toasty
-import mustafaozhan.github.com.mycurrencies.util.extension.tryToSelect
 import mustafaozhan.github.com.mycurrencies.util.showSnacky
 import javax.inject.Inject
 
@@ -54,7 +53,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 ErrorEffect -> showSnacky(
                     view,
                     R.string.rate_not_available_offline
-                ) { binding.layoutBar.spinnerBase.expand() }
+                )
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
                 }
@@ -80,11 +79,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.apply {
             state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
                 list?.let { currencyList ->
-                    binding.layoutBar.spinnerBase
-                        .apply {
-                            setItems(currencyList.map { it.name })
-                            tryToSelect(preferencesRepository.currentBase)
-                        }
                     calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
                 }
             })

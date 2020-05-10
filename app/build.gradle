@@ -57,7 +57,6 @@ dependencies {
             dagger,
             rxAndroid,
             moshi,
-            materialSpinner,
             multiDex,
             timber,
             coroutines,

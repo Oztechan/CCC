@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
+import com.github.mustafaozhan.basemob.extension.reObserve
 import com.github.mustafaozhan.basemob.extension.reObserveSingle
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
 import javax.inject.Inject
@@ -26,7 +27,6 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     override fun onBinding(dataBinding: FragmentBottomSheetBarBinding) {
         binding.vm = barViewModel
         barViewModel.getEvent().let {
-            binding.event = it
             barAdapter = BarAdapter(it)
         }
     }
@@ -40,6 +40,9 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     private fun initEffect() = barViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
+                BaseCurrencySelected -> navigate(
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment()
+                )
             }
         })
 
@@ -50,16 +53,11 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
         }
 
         barViewModel.apply {
-//            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
-//                list?.let { currencyList ->
-//                    binding.layoutBar.spinnerBase
-//                        .apply {
-//                            setItems(currencyList.map { it.name })
-//                            tryToSelect(preferencesRepository.currentBase)
-//                        }
-//                    calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
-//                }
-//            })
+            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
+                list?.let { currencyList ->
+                    barAdapter.submitList(currencyList)
+                }
+            })
         }
     }
 }
