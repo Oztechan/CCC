@@ -86,7 +86,7 @@
         <TextView
             android:id="@+id/txt_select_currencies"
             style="@style/SelectYourCurrenciesStyle"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_settings"
             app:visibility="@{vm.preferencesRepository.firstRun}" />
@@ -96,19 +96,17 @@
             style="@style/DoneButtonStyle"
             android:onClick="@{()->event.onDoneClick()}"
             android:text="@string/btn_done"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:visibility="@{vm.preferencesRepository.firstRun}" />
 
-        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ad_view"
+        <FrameLayout
+            android:id="@+id/ad_view_container"
             style="@style/BaseBannerAdStyle"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id_settings"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
             app:adId="@{@string/banner_ad_unit_id_settings}"
-            app:isEnabled="@{vm.preferencesRepository.isRewardExpired}" />
+            app:isExpired="@{vm.preferencesRepository.isRewardExpired}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

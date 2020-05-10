@@ -155,14 +155,13 @@ open class MainActivity : BaseActivity() {
             delay(AD_INITIAL_DELAY)
 
             while (isActive) {
-                delay(AD_PERIOD)
-
                 interstitialAd.whether(
                     { isLoaded },
                     { adVisibility },
                     { mainViewModel.isRewardExpired() }
                 )?.apply { show() }
                     ?: prepareInterstitialAd()
+                delay(AD_PERIOD)
             }
         }
     }

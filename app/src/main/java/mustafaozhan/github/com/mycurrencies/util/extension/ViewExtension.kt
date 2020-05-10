@@ -4,11 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.util.extension
 
 import android.content.Context
-import android.view.View
 import android.widget.ImageView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
 import timber.log.Timber
@@ -28,16 +24,6 @@ fun Context.getImageResourceByName(name: String): Int =
     } catch (e: FileNotFoundException) {
         Timber.w(e)
         R.drawable.transparent
-    }
-
-fun AdView.checkAd(id: String, isExpired: Boolean) =
-    if (isExpired) {
-        MobileAds.initialize(context, id)
-        val adRequest = AdRequest.Builder().build()
-        loadAd(adRequest)
-    } else {
-        isEnabled = false
-        visibility = View.GONE
     }
 
 fun MaterialSpinner.tryToSelect(base: String) = try {
