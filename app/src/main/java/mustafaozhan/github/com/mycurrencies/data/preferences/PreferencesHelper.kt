@@ -26,15 +26,16 @@ class PreferencesHelper
     override val moshi: Moshi
         get() = Moshi.Builder().build()
 
-    fun persistMainData(mainData: MainData) = setStringEntry(
+    fun persistMainData(mainData: MainData) = setValue(
         MAIN_DATA,
         moshi.adapter(MainData::class.java).toJson(mainData)
     )
 
-    fun loadMainData() = moshi
-        .adapter(MainData::class.java)
-        .fromJson(getStringEntry(
-            MAIN_DATA,
-            moshi.adapter(MainData::class.java).toJson(MainData())
-        )) ?: MainData()
+    fun loadMainData() = getValue(
+        MAIN_DATA,
+        moshi.adapter(MainData::class.java).toJson(MainData())
+    )?.let {
+        moshi.adapter(MainData::class.java)
+            .fromJson(it) ?: MainData()
+    } ?: MainData()
 }
