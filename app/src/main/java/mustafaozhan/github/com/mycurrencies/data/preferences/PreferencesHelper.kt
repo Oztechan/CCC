@@ -34,8 +34,8 @@ class PreferencesHelper
     fun loadMainData() = getValue(
         MAIN_DATA,
         moshi.adapter(MainData::class.java).toJson(MainData())
-    )?.let {
+    ).let {
         moshi.adapter(MainData::class.java)
             .fromJson(it) ?: MainData()
-    } ?: MainData()
+    }
 }
