@@ -3,6 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
+import com.github.mustafaozhan.basemob.preferences.BasePreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import org.joda.time.Duration
@@ -13,8 +14,8 @@ import javax.inject.Singleton
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    private val sharedPreferencesHelper: PreferencesHelper
-) {
+    override val preferencesHelper: PreferencesHelper
+) : BasePreferencesRepository() {
 
     companion object {
         private const val NUMBER_OF_HOURS = 24
@@ -39,10 +40,10 @@ class PreferencesRepository
             Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
         } ?: true
 
-    fun loadMainData() = sharedPreferencesHelper.loadMainData()
+    fun loadMainData() = preferencesHelper.loadMainData()
 
     private fun persistMainData(mainData: MainData) =
-        sharedPreferencesHelper.persistMainData(mainData)
+        preferencesHelper.persistMainData(mainData)
 
     fun updateMainData(
         firstRun: Boolean? = null,
