@@ -6,9 +6,7 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 import android.content.Context
 import com.github.mustafaozhan.basemob.preferences.BasePreferencesFactory
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class PreferencesFactory
 @Inject constructor(
     context: Context
