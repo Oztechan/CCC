@@ -10,15 +10,12 @@ import javax.inject.Singleton
 
 @Singleton
 class ApiRepository
-@Inject constructor(override val apiFactory: ApiFactory) : BaseApiRepository() {
+@Inject constructor(
+    override val apiFactory: ApiFactory
+) : BaseApiRepository() {
 
     suspend fun getRatesByBase(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
         else apiFactory.apiService.getRatesByBase(base)
-    }
-
-    suspend fun getRatesByBaseLongTimeOut(base: String) = apiRequest {
-        if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.apiServiceLongTimeOut.getRatesByBase(base)
     }
 }

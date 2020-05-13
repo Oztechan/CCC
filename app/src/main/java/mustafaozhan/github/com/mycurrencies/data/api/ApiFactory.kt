@@ -6,9 +6,6 @@ package mustafaozhan.github.com.mycurrencies.data.api
 import android.content.Context
 import com.github.mustafaozhan.basemob.api.BaseApiFactory
 import mustafaozhan.github.com.mycurrencies.R
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ApiFactory
@@ -16,31 +13,17 @@ class ApiFactory
     private val context: Context
 ) : BaseApiFactory() {
 
-    val apiService: ApiService by lazy { initApiServices() }
-    val apiServiceLongTimeOut: ApiService by lazy { initApiServicesLongTimeOut() }
+    companion object {
+        private const val TIME_OUT: Long = 3
+    }
 
     override val endpoint: String
         get() = context.getString(R.string.backend_endpoint)
 
-    private val interceptor: HttpLoggingInterceptor
-        get() = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
-        }
+    override val timeOut: Long = TIME_OUT
 
-    private fun initApiServices(): ApiService {
-        val clientBuilder = OkHttpClient.Builder()
-            .connectTimeout(2, TimeUnit.SECONDS)
-            .readTimeout(2L, TimeUnit.SECONDS)
-            .writeTimeout(2L, TimeUnit.SECONDS)
-            .addInterceptor(interceptor)
+    val apiService: ApiService by lazy { initApiServices() }
 
-        return createRetrofit(clientBuilder.build())
-            .create(ApiService::class.java)
-    }
-
-    private fun initApiServicesLongTimeOut(): ApiService {
-        val clientBuilder = OkHttpClient.Builder().addInterceptor(interceptor)
-        return createRetrofit(clientBuilder.build())
-            .create(ApiService::class.java)
-    }
+    private fun initApiServices() = createRetrofit(getClient())
+        .create(ApiService::class.java)
 }

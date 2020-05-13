@@ -97,26 +97,20 @@ class CalculatorViewModel(
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
-        Timber.w(t, "rate download failed 1s time out")
+        Timber.w(t, "rate download failed.")
 
         offlineRatesRepository.getOfflineRatesByBase(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: subscribeService(
-            apiRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase),
-            ::rateDownloadSuccess,
-            ::rateDownloadFailLongTimeOut
-        )
+        } ?: run {
+            Timber.w(t, "no offline rate found")
+            state.currencyList.value?.size
+                ?.whether { it > 1 }
+                ?.let { _effect.value = ErrorEffect }
+        }
     }.toUnit()
-
-    private fun rateDownloadFailLongTimeOut(t: Throwable) {
-        Timber.w(t, "rate download failed on long time out")
-        state.currencyList.value?.size
-            ?.whether { it > 1 }
-            ?.let { _effect.value = ErrorEffect }
-    }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
         .calculate()
