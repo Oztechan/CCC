@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    override val preferencesHelper: PreferencesHelper
+    override val preferencesFactory: PreferencesFactory
 ) : BasePreferencesRepository() {
 
     companion object {
@@ -45,7 +45,7 @@ class PreferencesRepository
             Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
         } ?: true
 
-    fun loadMainData() = preferencesHelper.getValue(
+    fun loadMainData() = preferencesFactory.getValue(
         MAIN_DATA,
         moshi.adapter(MainData::class.java).toJson(MainData())
     ).let {
@@ -53,7 +53,7 @@ class PreferencesRepository
             .fromJson(it) ?: MainData()
     }
 
-    private fun persistMainData(mainData: MainData) = preferencesHelper.setValue(
+    private fun persistMainData(mainData: MainData) = preferencesFactory.setValue(
         MAIN_DATA,
         moshi.adapter(MainData::class.java).toJson(mainData)
     )

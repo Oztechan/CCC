@@ -13,7 +13,7 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
@@ -39,7 +39,7 @@ import timber.log.Timber
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
     val preferencesRepository: PreferencesRepository,
-    private val backendRepository: BackendRepository,
+    private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseViewModel(), CalculatorEvent {
@@ -82,7 +82,7 @@ class CalculatorViewModel(
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         subscribeService(
-            backendRepository.getRatesByBase(preferencesRepository.currentBase),
+            apiRepository.getRatesByBase(preferencesRepository.currentBase),
             ::rateDownloadSuccess,
             ::rateDownloadFail
         )
@@ -105,7 +105,7 @@ class CalculatorViewModel(
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
         } ?: subscribeService(
-            backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase),
+            apiRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase),
             ::rateDownloadSuccess,
             ::rateDownloadFailLongTimeOut
         )

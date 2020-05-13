@@ -4,15 +4,15 @@
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import android.content.Context
-import com.github.mustafaozhan.basemob.preferences.BasePreferencesHelper
+import com.github.mustafaozhan.basemob.preferences.BasePreferencesFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PreferencesHelper
+class PreferencesFactory
 @Inject constructor(
     context: Context
-) : BasePreferencesHelper(context) {
+) : BasePreferencesFactory(context) {
     companion object {
         const val GENERAL_SHARED_PREFS = "GENERAL_SHARED_PREFS"
     }

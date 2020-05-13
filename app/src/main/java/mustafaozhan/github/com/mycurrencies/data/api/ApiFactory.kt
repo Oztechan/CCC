@@ -1,10 +1,10 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.backend
+package mustafaozhan.github.com.mycurrencies.data.api
 
 import android.content.Context
-import com.github.mustafaozhan.basemob.api.BaseApiHelper
+import com.github.mustafaozhan.basemob.api.BaseApiFactory
 import mustafaozhan.github.com.mycurrencies.R
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,10 +13,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BackendHelper
+class ApiFactory
 @Inject constructor(
     private val context: Context
-) : BaseApiHelper() {
+) : BaseApiFactory() {
+
+    val apiService: ApiService by lazy { initApiServices() }
+    val apiServiceLongTimeOut: ApiService by lazy { initApiServicesLongTimeOut() }
 
     override val endpoint: String
         get() = context.getString(R.string.backend_endpoint)
@@ -26,23 +29,20 @@ class BackendHelper
             level = HttpLoggingInterceptor.Level.BASIC
         }
 
-    val backendService: BackendService by lazy { initBackendApiServices() }
-    val backendServiceLongTimeOut: BackendService by lazy { initBackendApiServicesLongTimeOut() }
-
-    private fun initBackendApiServices(): BackendService {
+    private fun initApiServices(): ApiService {
         val clientBuilder = OkHttpClient.Builder()
             .connectTimeout(2, TimeUnit.SECONDS)
             .readTimeout(2L, TimeUnit.SECONDS)
             .writeTimeout(2L, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
 
-        val retrofit = initRxRetrofit(clientBuilder.build())
-        return retrofit.create(BackendService::class.java)
+        return createRetrofit(clientBuilder.build())
+            .create(ApiService::class.java)
     }
 
-    private fun initBackendApiServicesLongTimeOut(): BackendService {
+    private fun initApiServicesLongTimeOut(): ApiService {
         val clientBuilder = OkHttpClient.Builder().addInterceptor(interceptor)
-        val retrofit = initRxRetrofit(clientBuilder.build())
-        return retrofit.create(BackendService::class.java)
+        return createRetrofit(clientBuilder.build())
+            .create(ApiService::class.java)
     }
 }

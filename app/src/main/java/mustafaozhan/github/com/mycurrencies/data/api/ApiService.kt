@@ -1,14 +1,14 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.backend
+package mustafaozhan.github.com.mycurrencies.data.api
 
 import io.reactivex.Flowable
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface BackendService {
+interface ApiService {
     @GET("byBase")
     fun getRatesByBase(@Query("base") base: String): Flowable<CurrencyResponse>
 }
