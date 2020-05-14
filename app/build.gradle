@@ -55,7 +55,6 @@ dependencies {
             recyclerView,
             constraintLayout,
             dagger,
-            okHttp,
             rxAndroid,
             moshi,
             materialSpinner,

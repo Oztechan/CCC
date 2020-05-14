@@ -3,6 +3,8 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
+import com.github.mustafaozhan.basemob.preferences.BasePreferencesRepository
+import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
 import org.joda.time.Duration
@@ -13,12 +15,16 @@ import javax.inject.Singleton
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    private val sharedPreferencesHelper: PreferencesHelper
-) {
+    override val preferencesFactory: PreferencesFactory
+) : BasePreferencesRepository() {
 
     companion object {
+        const val MAIN_DATA = "MAIN_DATA"
         private const val NUMBER_OF_HOURS = 24
     }
+
+    override val moshi: Moshi
+        get() = Moshi.Builder().build()
 
     var currentBase: String = loadMainData().currentBase.toString()
         get() = loadMainData().currentBase.toString()
@@ -39,10 +45,18 @@ class PreferencesRepository
             Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
         } ?: true
 
-    fun loadMainData() = sharedPreferencesHelper.loadMainData()
+    fun loadMainData() = preferencesFactory.getValue(
+        MAIN_DATA,
+        moshi.adapter(MainData::class.java).toJson(MainData())
+    ).let {
+        moshi.adapter(MainData::class.java)
+            .fromJson(it) ?: MainData()
+    }
 
-    private fun persistMainData(mainData: MainData) =
-        sharedPreferencesHelper.persistMainData(mainData)
+    private fun persistMainData(mainData: MainData) = preferencesFactory.setValue(
+        MAIN_DATA,
+        moshi.adapter(MainData::class.java).toJson(mainData)
+    )
 
     fun updateMainData(
         firstRun: Boolean? = null,

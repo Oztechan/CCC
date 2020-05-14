@@ -13,7 +13,7 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
@@ -39,7 +39,7 @@ import timber.log.Timber
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
     val preferencesRepository: PreferencesRepository,
-    private val backendRepository: BackendRepository,
+    private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseViewModel(), CalculatorEvent {
@@ -82,7 +82,7 @@ class CalculatorViewModel(
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         subscribeService(
-            backendRepository.getRatesByBase(preferencesRepository.currentBase),
+            apiRepository.getRatesByBase(preferencesRepository.currentBase),
             ::rateDownloadSuccess,
             ::rateDownloadFail
         )
@@ -97,26 +97,20 @@ class CalculatorViewModel(
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
-        Timber.w(t, "rate download failed 1s time out")
+        Timber.w(t, "rate download failed.")
 
         offlineRatesRepository.getOfflineRatesByBase(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.value = OfflineSuccessEffect(offlineRates.date)
-        } ?: subscribeService(
-            backendRepository.getRatesByBaseLongTimeOut(preferencesRepository.currentBase),
-            ::rateDownloadSuccess,
-            ::rateDownloadFailLongTimeOut
-        )
+        } ?: run {
+            Timber.w(t, "no offline rate found")
+            state.currencyList.value?.size
+                ?.whether { it > 1 }
+                ?.let { _effect.value = ErrorEffect }
+        }
     }.toUnit()
-
-    private fun rateDownloadFailLongTimeOut(t: Throwable) {
-        Timber.w(t, "rate download failed on long time out")
-        state.currencyList.value?.size
-            ?.whether { it > 1 }
-            ?.let { _effect.value = ErrorEffect }
-    }
 
     private fun calculateOutput(input: String) = Expression(input.toSupportedCharacters().toPercent())
         .calculate()

@@ -8,7 +8,7 @@ repositories {
 }
 
 def KOTLIN_VERSION = '1.3.72'
-def ANDROID_PLUGIN_VERSION = '4.0.0-beta05'
+def ANDROID_PLUGIN_VERSION = '4.0.0-rc01'
 def GSM_GOOGLE_VERSION = '4.3.3'
 def FABRIC_VERSION = '1.31.2'
 def DAGGER_VERSION = '2.27'
@@ -19,7 +19,6 @@ def CONSTRAINT_LAYOUT_VERSION = '1.1.3'
 def JUNIT_VERSION = '4.13'
 def RX_ANDROID_VERSION = '2.1.1'
 def RETROFIT_VERSION = '2.6.4'
-def OK_HTTP_VERSION = '3.12.11'
 def MOSHI_VERSION = '1.9.2'
 def MATERIAL_SPINNER_VERSION = '1.3.1'
 def ROOM_VERSION = '2.2.5'
@@ -58,7 +57,6 @@ ext {
     recyclerView = "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
     constraintLayout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
     dagger = "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
-    okHttp = "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
     moshi = "com.squareup.moshi:moshi:$MOSHI_VERSION"
     materialSpinner = "com.jaredrummler:material-spinner:$MATERIAL_SPINNER_VERSION"
@@ -86,7 +84,6 @@ ext {
     retrofit = [
             retrofit      : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
             moshiConverter: "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION",
-            interceptor   : "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_VERSION"
     ]
 
     // Test
