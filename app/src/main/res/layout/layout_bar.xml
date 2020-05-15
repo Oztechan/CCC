@@ -29,29 +29,21 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinner_base"
-            style="@style/BarSpinnerStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_base"
-            app:layout_constraintTop_toTopOf="parent"
-            app:onItemSelected="@{event}" />
-
         <TextView
             android:id="@+id/txt_output"
             style="@style/BarTextStyle"
-            android:text="@{vm.state.output!=`` ? `=  `+vm.state.output+` ` :``}"
-            app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
-            app:layout_constraintStart_toEndOf="@+id/spinner_base"
-            app:layout_constraintTop_toTopOf="@+id/spinner_base" />
+            android:text="@{`  `+vm.preferencesRepository.currentBase+`  `+ (vm.state.output!=`` ? `=  `+vm.state.output+` ` :``)}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_base"
+            app:layout_constraintStart_toEndOf="@+id/iv_base"
+            app:layout_constraintTop_toTopOf="@+id/iv_base" />
 
         <TextView
             android:id="@+id/txt_symbol"
             style="@style/BarTextStyle"
             android:text="@{vm.state.output!=`` ? vm.state.symbol : ``}"
-            app:layout_constraintBottom_toBottomOf="@+id/spinner_base"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
-            app:layout_constraintTop_toTopOf="@+id/spinner_base"
+            app:layout_constraintTop_toTopOf="@+id/iv_base"
             app:layout_constraintVertical_bias="0.666" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

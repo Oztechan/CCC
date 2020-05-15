@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/txt_current_base"
+            style="@style/CurrentBaseStyle"
+            android:text="@{@string/txt_current_base}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_bar"
+            style="@style/BottomSheetDialogRecyclerViewStye"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

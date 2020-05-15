@@ -18,6 +18,8 @@
     <dimen name="margin_three">3dp</dimen>
     <dimen name="margin_four">4dp</dimen>
     <dimen name="margin_eight">8dp</dimen>
+    <dimen name="margin_fifty_six">56dp</dimen>
+
 
     <!--Currency Icon Size-->
     <dimen name="currency_icon_size">32dp</dimen>

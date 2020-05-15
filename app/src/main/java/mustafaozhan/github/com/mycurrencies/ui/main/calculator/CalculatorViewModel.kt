@@ -12,6 +12,7 @@ import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
@@ -71,9 +72,9 @@ class CalculatorViewModel(
             }
 
             viewModelScope.launch {
-                currencyRepository.getActiveCurrencies().collect {
-                    _currencyList.value = it.removeUnUsedCurrencies()
-                }
+                currencyRepository.getActiveCurrencies()
+                    .map { it.removeUnUsedCurrencies() }
+                    .collect { _currencyList.value = it }
             }
         }
     }

@@ -12,9 +12,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.jaredrummler.materialspinner.MaterialSpinner
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.util.extension.setBackgroundByName
 
 @BindingAdapter("adId", "isExpired")
@@ -54,9 +52,3 @@ fun View.visibility(visible: Boolean) = if (visible) {
 
 @BindingAdapter("backgroundByName")
 fun ImageView.backgroundByName(base: String) = setBackgroundByName(base)
-
-@BindingAdapter("onItemSelected")
-fun MaterialSpinner.onItemSelected(event: CalculatorEvent) =
-    setOnItemSelectedListener { _, _, _, item ->
-        event.onSpinnerItemSelected(item.toString())
-    }
