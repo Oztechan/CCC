@@ -43,7 +43,6 @@
             android:text="@{vm.state.output!=`` ? vm.state.symbol : ``}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_base"
             app:layout_constraintStart_toEndOf="@+id/txt_output"
-            app:layout_constraintTop_toTopOf="@+id/iv_base"
-            app:layout_constraintVertical_bias="0.666" />
+            app:layout_constraintTop_toTopOf="@+id/iv_base" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
