@@ -5,7 +5,7 @@
     <color name="colorPrimary">@color/blue_grey_700</color>
     <color name="colorPrimarySemiDark">@color/blue_grey_800</color>
     <color name="colorPrimaryDark">@color/blue_grey_900</color>
-    <color name="colorPrimaryBlack">#000a12</color>
+    <color name="colorPrimaryBlack">#171E22</color>
     <color name="colorPrimaryLight">@color/blue_grey_400</color>
     <color name="colorAccent">@color/blue_grey_100</color>
     <color name="transparent">#00000000</color>
