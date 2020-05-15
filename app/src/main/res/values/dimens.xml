@@ -7,6 +7,7 @@
     <dimen name="text_size">17sp</dimen>
     <dimen name="text_size_l">19sp</dimen>
     <dimen name="text_size_xl">22sp</dimen>
+    <dimen name="text_size_xxl">24sp</dimen>
 
     <!--Match Parent-->
     <dimen name="fit">0dp</dimen>
