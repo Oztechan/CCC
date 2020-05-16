@@ -21,7 +21,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode gitVersion
         versionName "1.1.${gitVersion}"
