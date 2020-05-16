@@ -55,10 +55,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     R.string.rate_not_available_offline
                 )
                 FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
-                    navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
+                    navigate(
+                        R.id.calculatorFragment,
+                        CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
+                    )
                 }
                 MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
                 ReverseSpinner -> navigate(
+                    R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
                 is OfflineSuccessEffect -> viewEffect.date?.let {

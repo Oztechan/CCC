@@ -59,7 +59,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> showToasty(requireContext(), R.string.choose_at_least_two_currency)
-                CalculatorEffect -> navigate(SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment())
+                CalculatorEffect -> navigate(
+                    R.id.settingsFragment,
+                    SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
+                )
             }
         })
 }
