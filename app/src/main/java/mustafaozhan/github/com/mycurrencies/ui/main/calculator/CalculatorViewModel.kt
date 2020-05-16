@@ -82,11 +82,12 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        subscribeService(
-            apiRepository.getRatesByBase(preferencesRepository.currentBase),
-            ::rateDownloadSuccess,
-            ::rateDownloadFail
-        )
+        apiRepository
+            .getRatesByBase(preferencesRepository.currentBase)
+            .execute(
+                ::rateDownloadSuccess,
+                ::rateDownloadFail
+            )
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
