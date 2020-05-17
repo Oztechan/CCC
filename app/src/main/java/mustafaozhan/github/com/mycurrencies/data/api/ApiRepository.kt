@@ -3,7 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.api
 
-import com.github.mustafaozhan.basemob.api.BaseApiRepository
+import com.github.mustafaozhan.basemob.data.api.BaseApiRepository
 import com.github.mustafaozhan.basemob.error.EmptyParameterException
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -12,7 +12,7 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
-import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd

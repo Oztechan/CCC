@@ -3,7 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
-import com.github.mustafaozhan.basemob.preferences.BasePreferencesRepository
+import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData

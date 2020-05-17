@@ -4,8 +4,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar
 
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
+import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
