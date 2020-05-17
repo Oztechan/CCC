@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class PreferencesRepository
 @Inject constructor(
     override val preferencesFactory: PreferencesFactory
-) : BasePreferencesRepository() {
+) : BasePreferencesRepository {
 
     companion object {
         const val MAIN_DATA = "MAIN_DATA"
