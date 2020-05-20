@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply from: '../configuration.gradle'
@@ -24,7 +24,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode gitVersion
-        versionName "1.${gitVersion}"
+        versionName "1.1.${gitVersion}"
 
         android {
             javaCompileOptions {
