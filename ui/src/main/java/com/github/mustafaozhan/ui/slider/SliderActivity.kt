@@ -84,12 +84,12 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         dots.forEach { textView ->
             textView.text = HtmlCompat.fromHtml(HTML_DOT_CODE, HtmlCompat.FROM_HTML_MODE_LEGACY)
             textView.textSize = TEXT_SIZE
-            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
+            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorText))
             binding.layoutDots.addView(textView)
         }
 
         if (dots.size > 0) {
-            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryLight))
+            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorBackground))
         }
     }
 
