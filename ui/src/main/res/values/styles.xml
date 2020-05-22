@@ -125,10 +125,12 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="SlideButtonNext" parent="WrapStyle">
+    <style name="SlideButtonNext" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
-        <item name="android:background">@null</item>
         <item name="android:text">@string/next</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -159,11 +161,12 @@
     </style>
 
     <style name="SlideDescription" parent="SlideSubTitle">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
     </style>
 
     <!-- Keyboard -->
-    <style name="KeyboardTextStyle" parent="Widget.AppCompat.Button.Borderless">
+    <style name="KeyboardTextStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
@@ -171,7 +174,6 @@
         <item name="android:textColor">@color/blue_grey_100</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/selector_dark</item>
     </style>
 
     <style name="SubKeyboardTableRowStyle" parent="MatchStyle">
@@ -191,7 +193,8 @@
         <item name="android:layout_marginTop">@dimen/margin_eight</item>
         <item name="android:layout_marginBottom">@dimen/margin_eight</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
     </style>
 
     <!-- Calculator -->
@@ -229,7 +232,9 @@
         <item name="android:textColor">@color/blue_grey_100</item>
     </style>
 
-    <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+    <style name="BarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textColor">@color/blue_grey_100</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextStyleSmall</item>
