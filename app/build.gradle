@@ -61,8 +61,6 @@ dependencies {
             coroutines,
             admob,
             firebaseConfig,
-            snacky,
-            toasty,
             loadingView,
             jodaTime,
             navigation,
