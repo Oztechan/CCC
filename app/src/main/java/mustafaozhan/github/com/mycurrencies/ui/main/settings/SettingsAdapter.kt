@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.viewholder.BaseDBViewHolder
+import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency

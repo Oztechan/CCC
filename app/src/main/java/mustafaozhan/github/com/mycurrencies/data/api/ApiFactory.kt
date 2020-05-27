@@ -4,7 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.data.api
 
 import android.content.Context
-import com.github.mustafaozhan.basemob.api.BaseApiFactory
+import com.github.mustafaozhan.basemob.data.api.BaseApiFactory
 import mustafaozhan.github.com.mycurrencies.R
 import javax.inject.Inject
 

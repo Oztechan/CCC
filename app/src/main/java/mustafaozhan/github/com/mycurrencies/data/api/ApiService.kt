@@ -3,12 +3,11 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.api
 
-import io.reactivex.Flowable
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
     @GET("byBase")
-    fun getRatesByBase(@Query("base") base: String): Flowable<CurrencyResponse>
+    suspend fun getRatesByBase(@Query("base") base: String): CurrencyResponse
 }

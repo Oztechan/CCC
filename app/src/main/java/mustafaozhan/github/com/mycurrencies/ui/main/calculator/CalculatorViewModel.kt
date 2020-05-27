@@ -4,8 +4,8 @@
 package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.lifecycle.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.lifecycle.SingleLiveData
+import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
+import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
@@ -82,11 +82,12 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
     } ?: viewModelScope.launch {
-        subscribeService(
-            apiRepository.getRatesByBase(preferencesRepository.currentBase),
-            ::rateDownloadSuccess,
-            ::rateDownloadFail
-        )
+        apiRepository
+            .getRatesByBase(preferencesRepository.currentBase)
+            .execute(
+                ::rateDownloadSuccess,
+                ::rateDownloadFail
+            )
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {

@@ -3,7 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
-import com.github.mustafaozhan.basemob.preferences.BasePreferencesRepository
+import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.MainData
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class PreferencesRepository
 @Inject constructor(
     override val preferencesFactory: PreferencesFactory
-) : BasePreferencesRepository() {
+) : BasePreferencesRepository {
 
     companion object {
         const val MAIN_DATA = "MAIN_DATA"

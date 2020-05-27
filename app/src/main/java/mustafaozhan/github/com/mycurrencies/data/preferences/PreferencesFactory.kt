@@ -4,7 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import android.content.Context
-import com.github.mustafaozhan.basemob.preferences.BasePreferencesFactory
+import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesFactory
 import javax.inject.Inject
 
 class PreferencesFactory
