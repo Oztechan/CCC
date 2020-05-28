@@ -252,7 +252,7 @@
     </style>
 
     <!-- Calculator Item -->
-    <style name="CalculatorItemImageViewBase">
+    <style name="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:layout_marginRight">@dimen/margin_four</item>
@@ -291,7 +291,7 @@
     </style>
 
     <!-- Settings Item -->
-    <style name="SettingsItemImageViewBase" parent="CalculatorItemImageViewBase">
+    <style name="SettingsItemImageView" parent="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
@@ -300,9 +300,9 @@
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_two</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:layout_marginRight">@dimen/margin_four</item>
-        <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:ellipsize">end</item>
@@ -317,6 +317,18 @@
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
+    </style>
+
+    <!-- Bar -->
+    <style name="BarItemText" parent="SettingsItemText">
+        <item name="android:textAppearance">@style/ItemTextStyle</item>
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+    </style>
+
+    <style name="BarItemImageView" parent="SettingsItemImageView">
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
     <!-- Ad -->
