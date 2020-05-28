@@ -196,10 +196,10 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
-    <style name="LoadingViewStyle">
+    <style name="ProgressBarStyle">
         <item name="android:paddingTop">@dimen/progress_bar_margin_top</item>
-        <item name="android:layout_width">@dimen/progress_bar_size</item>
-        <item name="android:layout_height">@dimen/progress_bar_size</item>
+        <item name="android:layout_width">@dimen/progress_bar_height_width</item>
+        <item name="android:layout_height">@dimen/progress_bar_height_width</item>
     </style>
 
     <!-- Bar Bottom Sheet Dialog -->
