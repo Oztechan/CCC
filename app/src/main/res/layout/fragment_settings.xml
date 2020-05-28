@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
             tools:ignore="Autofill,LabelFor" />
 
-        <com.wang.avi.AVLoadingIndicatorView
+        <ProgressBar
             android:id="@+id/loading_view"
             style="@style/LoadingViewStyle"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -26,7 +26,8 @@
     <dimen name="currency_icon_size">32dp</dimen>
 
     <!--LoadingView Size-->
-    <dimen name="loading_view_size">100dp</dimen>
+    <dimen name="progress_bar_size">100dp</dimen>
+    <dimen name="progress_bar_margin_top">24dp</dimen>
 
     <dimen name="dots_height">30dp</dimen>
     <dimen name="dots_margin_bottom">20dp</dimen>

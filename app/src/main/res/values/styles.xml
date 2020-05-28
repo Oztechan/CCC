@@ -196,11 +196,10 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
-    <style name="LoadingViewStyle" parent="AVLoadingIndicatorView">
-        <item name="android:layout_width">@dimen/loading_view_size</item>
-        <item name="android:layout_height">@dimen/loading_view_size</item>
-        <item name="indicatorColor">@color/colorAccent</item>
-        <item name="indicatorName">BallPulseIndicator</item>
+    <style name="LoadingViewStyle">
+        <item name="android:paddingTop">@dimen/progress_bar_margin_top</item>
+        <item name="android:layout_width">@dimen/progress_bar_size</item>
+        <item name="android:layout_height">@dimen/progress_bar_size</item>
     </style>
 
     <!-- Bar Bottom Sheet Dialog -->
