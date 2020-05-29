@@ -50,7 +50,7 @@
 
         <ImageView
             android:id="@+id/img_item"
-            style="@style/CalculatorItemImageViewBase"
+            style="@style/CalculatorItemImageView"
             app:backgroundByName="@{item.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

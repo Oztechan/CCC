@@ -12,6 +12,8 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
+import com.github.mustafaozhan.basemob.util.showDialog
+import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
@@ -31,8 +33,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.B
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
 import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
-import mustafaozhan.github.com.mycurrencies.util.showDialog
-import mustafaozhan.github.com.mycurrencies.util.showSnacky
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import javax.inject.Inject
 
@@ -185,7 +185,7 @@ open class MainActivity : BaseActivity() {
             }
 
             doubleBackToExitPressedOnce = true
-            showSnacky(this, R.string.click_back_again_to_exit)
+            showSnack(findViewById(containerId), R.string.click_back_again_to_exit)
 
             lifecycle.coroutineScope.launch {
                 delay(BACK_DELAY)

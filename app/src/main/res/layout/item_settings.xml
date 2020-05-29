@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/img_icon"
-            style="@style/SettingsItemImageViewBase"
+            style="@style/SettingsItemImageView"
             app:backgroundByName="@{item.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

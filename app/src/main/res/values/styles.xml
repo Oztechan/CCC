@@ -81,13 +81,6 @@
         <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
-    <!-- Dialog -->
-    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColor">@color/cyan_700</item>
-        <item name="android:fontFamily">@font/news_cycle_regular</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="ItemTextStyle" parent="BaseTextStyle">
         <item name="android:textSize">@dimen/text_size</item>
     </style>
@@ -203,11 +196,10 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
-    <style name="LoadingViewStyle" parent="AVLoadingIndicatorView">
-        <item name="android:layout_width">@dimen/loading_view_size</item>
-        <item name="android:layout_height">@dimen/loading_view_size</item>
-        <item name="indicatorColor">@color/colorAccent</item>
-        <item name="indicatorName">BallPulseIndicator</item>
+    <style name="ProgressBarStyle">
+        <item name="android:paddingTop">@dimen/progress_bar_margin_top</item>
+        <item name="android:layout_width">@dimen/progress_bar_height_width</item>
+        <item name="android:layout_height">@dimen/progress_bar_height_width</item>
     </style>
 
     <!-- Bar Bottom Sheet Dialog -->
@@ -260,7 +252,7 @@
     </style>
 
     <!-- Calculator Item -->
-    <style name="CalculatorItemImageViewBase">
+    <style name="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:layout_marginRight">@dimen/margin_four</item>
@@ -299,7 +291,7 @@
     </style>
 
     <!-- Settings Item -->
-    <style name="SettingsItemImageViewBase" parent="CalculatorItemImageViewBase">
+    <style name="SettingsItemImageView" parent="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
@@ -308,9 +300,9 @@
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_two</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:layout_marginRight">@dimen/margin_four</item>
-        <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:ellipsize">end</item>
@@ -325,6 +317,18 @@
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
+    </style>
+
+    <!-- Bar -->
+    <style name="BarItemText" parent="SettingsItemText">
+        <item name="android:textAppearance">@style/ItemTextStyle</item>
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+    </style>
+
+    <style name="BarItemImageView" parent="SettingsItemImageView">
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
     <!-- Ad -->

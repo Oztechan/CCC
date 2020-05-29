@@ -8,13 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.reObserveSingle
+import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.util.Toasty
-import mustafaozhan.github.com.mycurrencies.util.showSnacky
+import mustafaozhan.github.com.mycurrencies.util.extension.getImageResourceByName
 import javax.inject.Inject
 
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
@@ -50,27 +51,31 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun initEffect() = calculatorViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                ErrorEffect -> showSnacky(
-                    view,
+                ErrorEffect -> showSnack(
+                    requireView(),
                     R.string.rate_not_available_offline
                 )
-                FewCurrencyEffect -> showSnacky(view, R.string.choose_at_least_two_currency, R.string.select) {
+                FewCurrencyEffect -> showSnack(requireView(), R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(
                         R.id.calculatorFragment,
                         CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                     )
                 }
-                MaximumInputEffect -> Toasty.showToasty(requireContext(), R.string.max_input)
+                MaximumInputEffect -> Toast.show(requireContext(), R.string.max_input)
                 ReverseSpinner -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
                 is OfflineSuccessEffect -> viewEffect.date?.let {
-                    Toasty.showToasty(requireContext(), getString(R.string.database_success_with_date, it))
+                    Toast.show(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
-                    Toasty.showToasty(requireContext(), R.string.database_success)
+                    Toast.show(requireContext(), R.string.database_success)
                 }
-                is LongClickEffect -> showSnacky(view, viewEffect.text, setIcon = viewEffect.name)
+                is LongClickEffect -> showSnack(
+                    requireView(),
+                    viewEffect.text,
+                    icon = requireContext().getImageResourceByName(viewEffect.name)
+                )
             }
         })
 
