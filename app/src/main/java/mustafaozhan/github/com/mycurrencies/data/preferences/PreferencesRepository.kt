@@ -15,69 +15,42 @@ class PreferencesRepository
 ) : BasePreferencesRepository {
 
     companion object {
-        const val MAIN_DATA = "MAIN_DATA"
-        const val FIRST_RUN = "first_run"
-        const val CURRENT_BASE = "current_base"
-        const val AD_FREE_ACTIVATION_DATE = "ad_free_activation_date"
-        private const val NUMBER_OF_HOURS = 24
+        private const val MAIN_DATA = "MAIN_DATA"
+        private const val FIRST_RUN = "firs_run"
+        private const val CURRENT_BASE = "current_base"
+        private const val AD_FREE_DATE = "ad_free_date"
+        private const val DAY = 24 * 60 * 60 * 1000.toLong()
     }
 
-    var isFirstRun
-        get() = preferencesFactory.getValue(FIRST_RUN, true)
+    var firstRun
+        get() = preferencesFactory.getValue(FIRST_RUN, getMainDataMap()?.get(0) == true.toString())
         set(value) = preferencesFactory.setValue(FIRST_RUN, value)
 
     var currentBase
-        get() = preferencesFactory.getValue(CURRENT_BASE, Currencies.EUR.toString())
+        get() = preferencesFactory.getValue(
+            CURRENT_BASE,
+            getMainDataMap()?.get(1) ?: Currencies.EUR.toString()
+        )
         set(value) = preferencesFactory.setValue(CURRENT_BASE, value)
 
     var adFreeActivatedDate
-        get() = preferencesFactory.getValue(AD_FREE_ACTIVATION_DATE, System.currentTimeMillis())
-        set(value) = preferencesFactory.setValue(AD_FREE_ACTIVATION_DATE, value)
+        get() = preferencesFactory.getValue(AD_FREE_DATE, 0.toLong())
+        set(value) = preferencesFactory.setValue(AD_FREE_DATE, value)
 
-//    override val moshi: Moshi
-//        get() = Moshi.Builder().build()
-//
-//    var currentBase: String = loadMainData().currentBase.toString()
-//        get() = loadMainData().currentBase.toString()
-//        set(value) {
-//            updateMainData(
-//                currentBase = enumValues<Currencies>()
-//                    .find { it.name == value }
-//                    ?: Currencies.NULL
-//            )
-//            field = value
-//        }
-//
-//    val firstRun
-//        get() = loadMainData().firstRun
-//
-//    val isRewardExpired: Boolean
-//        get() = loadMainData().adFreeActivatedDate?.let {
-//            Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
-//        } ?: true
-//
-//    fun loadMainData() = preferencesFactory.getValue(
-//        MAIN_DATA,
-//        moshi.adapter(MainData::class.java).toJson(MainData())
-//    ).let {
-//        moshi.adapter(MainData::class.java)
-//            .fromJson(it) ?: MainData()
-//    }
-//
-//    private fun persistMainData(mainData: MainData) = preferencesFactory.setValue(
-//        MAIN_DATA,
-//        moshi.adapter(MainData::class.java).toJson(mainData)
-//    )
-//
-//    fun updateMainData(
-//        firstRun: Boolean? = null,
-//        currentBase: Currencies? = null,
-//        adFreeActivatedDate: Instant? = null
-//    ) {
-//        val mainData = loadMainData()
-//        firstRun?.let { mainData.firstRun = it }
-//        currentBase?.let { mainData.currentBase = it }
-//        adFreeActivatedDate?.let { mainData.adFreeActivatedDate = it }
-//        persistMainData(mainData)
-//    }
+    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate > DAY
+
+    private fun getMainDataMap(): MutableList<String>? {
+        val mainDataList: MutableList<String>? = null
+        preferencesFactory.getValue(MAIN_DATA, "")
+            .dropLast(1).drop(1)
+            .replace("\"", "")
+            .split(",")
+            .take(2)
+            .forEach { value ->
+                value.split(":").let {
+                    mainDataList?.add(it[1])
+                }
+            }
+        return mainDataList
+    }
 }

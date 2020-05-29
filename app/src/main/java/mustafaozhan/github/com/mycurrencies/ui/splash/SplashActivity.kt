@@ -22,7 +22,7 @@ class SplashActivity : BaseActivity() {
         startActivity(
             Intent(
                 this,
-                if (preferencesRepository.loadMainData().firstRun) {
+                if (preferencesRepository.firstRun) {
                     SliderActivity::class.java
                 } else {
                     MainActivity::class.java

@@ -27,10 +27,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_INITIAL_DELAY
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.AD_PERIOD
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.BACK_DELAY
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.TEXT_EMAIL_TYPE
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_INITIAL_DELAY
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
 import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
