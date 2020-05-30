@@ -25,6 +25,7 @@ class SplashActivity : BaseActivity() {
                 if (preferencesRepository.firstRun) {
                     SliderActivity::class.java
                 } else {
+                    preferencesRepository.firstRun = false
                     MainActivity::class.java
                 }
             )

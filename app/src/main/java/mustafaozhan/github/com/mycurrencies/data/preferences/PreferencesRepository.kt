@@ -28,16 +28,16 @@ class PreferencesRepository
         get() = KEY_APPLICATION_PREFERENCES
 
     var firstRun
-        get() = getValue(KEY_FIRST_RUN, getOldFirstRun(context) != true.toString())
-        set(value) = setValue(KEY_FIRST_RUN, value)
+        get() = getValue(KEY_FIRST_RUN, getOldFirstRun(context) == true.toString())
+        internal set(value) = setValue(KEY_FIRST_RUN, value)
 
     var currentBase
         get() = getValue(KEY_CURRENT_BASE, getOldBaseCurrency(context) ?: Currencies.EUR.toString())
-        set(value) = setValue(KEY_CURRENT_BASE, value)
+        internal set(value) = setValue(KEY_CURRENT_BASE, value)
 
     var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
-        set(value) = setValue(KEY_AD_FREE_DATE, value)
+        internal set(value) = setValue(KEY_AD_FREE_DATE, value)
 
     fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate > DAY
 }
