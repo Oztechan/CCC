@@ -5,9 +5,9 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
+import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.util.getOldBaseCurrency
-import mustafaozhan.github.com.mycurrencies.util.getOldFirstRun
+import mustafaozhan.github.com.mycurrencies.util.OldPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,6 +21,7 @@ class PreferencesRepository
         private const val KEY_FIRST_RUN = "firs_run"
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
+
         private const val DAY = 24 * 60 * 60 * 1000.toLong()
     }
 
@@ -28,11 +29,11 @@ class PreferencesRepository
         get() = KEY_APPLICATION_PREFERENCES
 
     var firstRun
-        get() = getValue(KEY_FIRST_RUN, getOldFirstRun(context) == true.toString())
+        get() = getValue(KEY_FIRST_RUN, true)
         internal set(value) = setValue(KEY_FIRST_RUN, value)
 
     var currentBase
-        get() = getValue(KEY_CURRENT_BASE, getOldBaseCurrency(context) ?: Currencies.EUR.toString())
+        get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
         internal set(value) = setValue(KEY_CURRENT_BASE, value)
 
     var adFreeActivatedDate
@@ -40,4 +41,12 @@ class PreferencesRepository
         internal set(value) = setValue(KEY_AD_FREE_DATE, value)
 
     fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate > DAY
+
+    fun syncPreferences() = OldPreferences(context)
+        .whether { isOldPreferencesExist() }
+        ?.let { oldPreferences ->
+            firstRun = oldPreferences.getOldFirstRun() == true.toString()
+            currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.EUR.toString()
+            oldPreferences.removeOldPreferences()
+        }
 }
