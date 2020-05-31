@@ -31,7 +31,7 @@ data class CalculatorStateBacking(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(true)
 )
 
 interface CalculatorEvent : BaseEvent {

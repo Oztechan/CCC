@@ -59,7 +59,6 @@ class CalculatorViewModel(
 
     init {
         with(_state) {
-            _loading.value = true
             _base.value = preferencesRepository.currentBase
             _input.value = ""
 

@@ -15,11 +15,13 @@ data class BarState(
     private val backing: BarStateBacking
 ) : BaseState() {
     val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
+    val loading: LiveData<Boolean> = backing._loading
 }
 
 @Suppress("ConstructorParameterNaming")
 data class BarStateBacking(
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>()
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(true)
 )
 
 // Event

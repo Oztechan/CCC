@@ -24,9 +24,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/loading_view"
+            style="@style/ProgressBarStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
+            app:visibility="@{vm.state.loading}" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_bar"
-            style="@style/BottomSheetDialogRecyclerViewStye"
+            style="@style/BottomSheetDialogRecyclerViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />

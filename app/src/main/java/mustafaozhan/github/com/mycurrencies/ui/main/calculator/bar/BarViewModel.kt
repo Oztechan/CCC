@@ -34,7 +34,10 @@ class BarViewModel(
             viewModelScope.launch {
                 currencyRepository.getActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
-                    .collect { _currencyList.value = it }
+                    .collect {
+                        _currencyList.value = it
+                        _loading.value = false
+                    }
             }
         }
     }
