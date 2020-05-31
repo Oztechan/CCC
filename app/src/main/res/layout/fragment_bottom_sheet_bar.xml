@@ -9,12 +9,16 @@
         <variable
             name="vm"
             type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel" />
+
+        <variable
+            name="event"
+            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/txt_current_base"
@@ -37,6 +41,23 @@
             style="@style/BottomSheetDialogRecyclerViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
+            app:visibility="@{vm.state.enoughCurrency}" />
+
+        <TextView
+            android:id="@+id/txt_no_enough_currency"
+            style="@style/SelectAtLeastTwoCurrenciesStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_select"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_select"
+            app:visibility="@{!vm.state.enoughCurrency}" />
+
+        <Button
+            android:id="@+id/btn_select"
+            style="@style/SelectButtonStyle"
+            android:onClick="@{()->event.onSelectClick()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_bar"
+            app:visibility="@{!vm.state.enoughCurrency}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

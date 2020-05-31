@@ -39,11 +39,13 @@ fun FrameLayout.adAdapter(adId: String, isExpired: Boolean) = if (isExpired) {
 }
 
 @BindingAdapter("visibility")
-fun View.visibility(visible: Boolean) = if (visible) {
-    bringToFront()
-    visibility = View.VISIBLE
-} else {
-    visibility = View.GONE
+fun View.visibility(visible: Boolean) {
+    visibility = if (visible) {
+        bringToFront()
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
 }
 
 @BindingAdapter("backgroundByName")

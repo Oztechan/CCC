@@ -51,6 +51,3 @@ fun MutableList<Currency>?.toValidList(currentBase: String) =
             it.rate.toString() != "NaN" &&
             it.rate.toString() != "0.0"
     } ?: mutableListOf()
-
-@Suppress("unused")
-fun Any.toUnit() = Unit

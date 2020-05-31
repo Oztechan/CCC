@@ -76,7 +76,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"
             style="@style/BaseRecyclerViewStyle"
-            app:layout_constraintBottom_toTopOf="@+id/btn_done"
+            app:layout_constraintBottom_toTopOf="@+id/btn_select"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
@@ -92,7 +92,7 @@
             app:visibility="@{vm.preferencesRepository.firstRun}" />
 
         <Button
-            android:id="@+id/btn_done"
+            android:id="@+id/btn_select"
             style="@style/DoneButtonStyle"
             android:onClick="@{()->event.onDoneClick()}"
             android:text="@string/btn_done"

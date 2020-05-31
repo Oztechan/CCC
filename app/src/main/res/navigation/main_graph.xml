@@ -40,6 +40,8 @@
             app:destination="@id/calculatorFragment" />
         <action
             android:id="@+id/action_barBottomSheetDialogFragment_to_settingsFragment"
+            app:popUpTo="@id/calculatorFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/settingsFragment" />
     </dialog>
 </navigation>

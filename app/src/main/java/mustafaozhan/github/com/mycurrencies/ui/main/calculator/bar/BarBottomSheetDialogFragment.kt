@@ -28,6 +28,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     override fun onBinding(dataBinding: FragmentBottomSheetBarBinding) {
         binding.vm = barViewModel
         barViewModel.getEvent().let {
+            binding.event = it
             barAdapter = BarAdapter(it)
         }
     }
@@ -43,7 +44,14 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
             when (viewEffect) {
                 BaseCurrencySelected -> navigate(
                     R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment()
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
+                    dismiss = true,
+                    animate = false
+                )
+                OpenSettings -> navigate(
+                    R.id.barBottomSheetDialogFragment,
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),
+                    dismiss = false
                 )
             }
         })

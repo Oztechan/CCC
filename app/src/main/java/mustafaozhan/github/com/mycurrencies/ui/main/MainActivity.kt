@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
+import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
@@ -35,7 +36,6 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
-import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import javax.inject.Inject
 

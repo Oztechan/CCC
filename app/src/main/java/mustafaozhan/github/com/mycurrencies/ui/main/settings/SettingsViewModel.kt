@@ -6,6 +6,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
+import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.inCase
@@ -20,7 +21,6 @@ import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
-import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
