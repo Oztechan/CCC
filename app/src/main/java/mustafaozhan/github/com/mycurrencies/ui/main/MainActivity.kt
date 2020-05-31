@@ -10,8 +10,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.NonNull
+import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
+import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
@@ -26,13 +28,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_INITIAL_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
-import mustafaozhan.github.com.mycurrencies.util.checkRemoteConfig
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import javax.inject.Inject
 
@@ -52,10 +55,36 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setGraph()
-        checkRemoteConfig(this)
+        initEffect()
+        checkRemoteConfig()
         prepareRewardedAd()
         prepareInterstitialAd()
     }
+
+    private fun checkRemoteConfig() = mainViewModel.checkRemoteConfig(
+        RemoteConfig(
+            getString(R.string.remote_config_title),
+            getString(R.string.remote_config_description),
+            getString(R.string.app_market_link)
+        )
+    )
+
+    private fun initEffect() = mainViewModel.effect
+        .reObserveSingle(this, Observer { viewEffect ->
+            when (viewEffect) {
+                is AppUpdateEffect -> viewEffect.remoteConfig.apply {
+                    showDialog(
+                        this@MainActivity,
+                        title,
+                        description,
+                        getString(R.string.update),
+                        forceVersion <= BuildConfig.VERSION_CODE
+                    ) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.remoteConfig.updateUrl)))
+                    }
+                }
+            }
+        })
 
     private fun setGraph() {
         findNavController(containerId).apply {
