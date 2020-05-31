@@ -3,7 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.model
 
-@Suppress("LargeClass")
+@Suppress("LargeClass", "unused")
 enum class Currencies {
     AED,
     AFN,
