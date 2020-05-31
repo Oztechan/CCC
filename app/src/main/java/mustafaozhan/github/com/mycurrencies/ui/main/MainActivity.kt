@@ -35,6 +35,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
+import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
 import javax.inject.Inject
 
@@ -60,35 +61,32 @@ open class MainActivity : BaseActivity() {
         prepareInterstitialAd()
     }
 
-    private fun initEffect() = mainViewModel.effect
-        .reObserveSingle(this, Observer { viewEffect ->
-            when (viewEffect) {
-                is AppUpdateEffect -> viewEffect.remoteConfig.apply {
-                    showDialog(
-                        this@MainActivity,
-                        title,
-                        description,
-                        getString(R.string.update),
-                        forceVersion <= BuildConfig.VERSION_CODE
-                    ) {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.remoteConfig.updateUrl)))
-                    }
+    private fun initEffect() = mainViewModel.effect.reObserveSingle(this, Observer { viewEffect ->
+        when (viewEffect) {
+            is AppUpdateEffect -> viewEffect.remoteConfig.apply {
+                showDialog(
+                    this@MainActivity,
+                    title,
+                    description,
+                    getString(R.string.update),
+                    forceVersion <= BuildConfig.VERSION_CODE
+                ) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.remoteConfig.updateUrl)))
                 }
             }
-        })
-
-    private fun setGraph() {
-        findNavController(containerId).apply {
-            graph = navInflater.inflate(R.navigation.main_graph)
-                .apply {
-                    startDestination = if (mainViewModel.isFirstRun()) {
-                        R.id.settingsFragment
-                    } else {
-                        R.id.calculatorFragment
-                    }
-                }
         }
-    }
+    })
+
+    private fun setGraph() = findNavController(containerId).apply {
+        graph = navInflater.inflate(R.navigation.main_graph)
+            .apply {
+                startDestination = if (mainViewModel.isFirstRun()) {
+                    R.id.settingsFragment
+                } else {
+                    R.id.calculatorFragment
+                }
+            }
+    }.toUnit()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
@@ -105,27 +103,21 @@ open class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
             R.id.feedback -> sendFeedBack()
-            R.id.support -> {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(getString(R.string.app_market_link))
-                )
-                intent.resolveActivity(packageManager)?.let {
-                    showDialog(this, R.string.support_us, R.string.rate_and_support, R.string.rate) {
-                        startActivity(intent)
-                    }
+            R.id.support -> Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.app_market_link))
+            ).resolveActivity(packageManager)?.let {
+                showDialog(this, R.string.support_us, R.string.rate_and_support, R.string.rate) {
+                    startActivity(intent)
                 }
             }
             R.id.removeAds -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
                 showRewardedAd()
             }
-            R.id.onGithub -> {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(getString(R.string.github_url))
-                )
-                intent.resolveActivity(packageManager)?.let { startActivity(intent) }
-            }
+            R.id.onGithub -> Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.github_url))
+            ).resolveActivity(packageManager)?.let { startActivity(intent) }
         }
 
         return super.onOptionsItemSelected(item)
@@ -152,15 +144,13 @@ open class MainActivity : BaseActivity() {
             }
         })
 
-    private fun sendFeedBack() {
-        Intent(Intent.ACTION_SEND).apply {
-            type = TEXT_EMAIL_TYPE
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
-            startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
-        }
-    }
+    private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
+        type = TEXT_EMAIL_TYPE
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
+        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
+        startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
+    }.toUnit()
 
     private fun prepareInterstitialAd() {
         interstitialAd = InterstitialAd(this)

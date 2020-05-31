@@ -49,7 +49,7 @@ class MainViewModel(
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
                                 .fromJson(getString(MainData.REMOTE_CONFIG))
-                                ?.whether { latestVersion < BuildConfig.VERSION_CODE }
+                                ?.whether { latestVersion > BuildConfig.VERSION_CODE }
                                 ?.let {
                                     _effect.value = AppUpdateEffect(it)
                                 }
