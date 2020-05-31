@@ -16,6 +16,7 @@ import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import timber.log.Timber
+import java.io.EOFException
 import java.util.concurrent.TimeUnit
 
 class MainViewModel(
@@ -33,10 +34,7 @@ class MainViewModel(
 
     fun isFirstRun() = preferencesRepository.firstRun
 
-    fun checkRemoteConfig(remoteConfig: RemoteConfig) {
-        val defaultMap = HashMap<String, Any>()
-        defaultMap[MainData.REMOTE_CONFIG] = remoteConfig
-
+    fun checkRemoteConfig() {
         FirebaseRemoteConfig.getInstance().apply {
             setConfigSettingsAsync(
                 FirebaseRemoteConfigSettings
@@ -44,20 +42,13 @@ class MainViewModel(
                     .setMinimumFetchIntervalInSeconds(MainData.CHECK_INTERVAL)
                     .build()
             )
-            setDefaultsAsync(defaultMap)
             fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(MainData.CHECK_DURATION))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         activate()
-
-                        val remoteConfigStr = getString(MainData.REMOTE_CONFIG)
-                            .whether { isEmpty() }
-                            ?.let { defaultMap[MainData.REMOTE_CONFIG] as? String }
-                            ?: run { getString(MainData.REMOTE_CONFIG) }
-
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(remoteConfigStr)
+                                .fromJson(getString(MainData.REMOTE_CONFIG))
                                 ?.whether { latestVersion < BuildConfig.VERSION_CODE }
                                 ?.let {
                                     _effect.value = AppUpdateEffect(it)
@@ -66,6 +57,8 @@ class MainViewModel(
                             Timber.w(e)
                         } catch (e: JsonEncodingException) {
                             Timber.e(e)
+                        } catch (e: EOFException) {
+                            Timber.e(e, "check remote config file")
                         }
                     }
                 }

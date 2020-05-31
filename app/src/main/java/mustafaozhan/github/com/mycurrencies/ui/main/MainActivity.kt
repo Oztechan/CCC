@@ -30,7 +30,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_INITIAL_DELAY
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
@@ -56,18 +55,10 @@ open class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setGraph()
         initEffect()
-        checkRemoteConfig()
+        mainViewModel.checkRemoteConfig()
         prepareRewardedAd()
         prepareInterstitialAd()
     }
-
-    private fun checkRemoteConfig() = mainViewModel.checkRemoteConfig(
-        RemoteConfig(
-            getString(R.string.remote_config_title),
-            getString(R.string.remote_config_description),
-            getString(R.string.app_market_link)
-        )
-    )
 
     private fun initEffect() = mainViewModel.effect
         .reObserveSingle(this, Observer { viewEffect ->
