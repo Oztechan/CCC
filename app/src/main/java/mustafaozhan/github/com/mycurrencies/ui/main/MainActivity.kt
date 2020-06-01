@@ -12,7 +12,6 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
-import androidx.navigation.findNavController
 import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
@@ -61,6 +60,17 @@ open class MainActivity : BaseActivity() {
         prepareInterstitialAd()
     }
 
+    private fun setGraph() = getNavigationController().apply {
+        graph = navInflater.inflate(R.navigation.main_graph)
+            .apply {
+                startDestination = if (mainViewModel.isFirstRun()) {
+                    R.id.settingsFragment
+                } else {
+                    R.id.calculatorFragment
+                }
+            }
+    }.toUnit()
+
     private fun initEffect() = mainViewModel.effect.reObserveSingle(this, Observer { viewEffect ->
         when (viewEffect) {
             is AppUpdateEffect -> viewEffect.remoteConfig.apply {
@@ -77,21 +87,10 @@ open class MainActivity : BaseActivity() {
         }
     })
 
-    private fun setGraph() = findNavController(containerId).apply {
-        graph = navInflater.inflate(R.navigation.main_graph)
-            .apply {
-                startDestination = if (mainViewModel.isFirstRun()) {
-                    R.id.settingsFragment
-                } else {
-                    R.id.calculatorFragment
-                }
-            }
-    }.toUnit()
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
 
-        when (findNavController(containerId).currentDestination?.id) {
+        when (getNavigationController().currentDestination?.id) {
             R.id.calculatorFragment -> menuInflater.inflate(R.menu.fragment_calculator_menu, menu)
             R.id.settingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
         }
@@ -188,7 +187,7 @@ open class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (findNavController(containerId).currentDestination?.id == R.id.calculatorFragment) {
+        if (getNavigationController().currentDestination?.id == R.id.calculatorFragment) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
                 return
