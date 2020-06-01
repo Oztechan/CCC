@@ -91,8 +91,8 @@
 
     <!-- Setting window animation -->
     <style name="AppTheme.WindowTransition">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
     <!-- Slide -->
@@ -204,8 +204,11 @@
 
     <!-- Bar Bottom Sheet Dialog -->
     <style name="CurrentBaseStyle" parent="WrapStyle">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
     <!-- Settings -->
@@ -227,10 +230,18 @@
         <item name="android:background">@color/colorPrimarySemiDark</item>
     </style>
 
+    <style name="SelectButtonStyle" parent="DoneButtonStyle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:text">@string/select</item>
+    </style>
+
     <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
-        <item name="backgroundColor">@color/blue_grey_900</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:text">@string/txt_select_currencies</item>
+    </style>
+
+    <style name="SelectAtLeastTwoCurrenciesStyle" parent="SelectYourCurrenciesStyle">
+        <item name="android:text">@string/choose_at_least_two_currency</item>
     </style>
 
     <style name="SettingsSearchTextStyle" parent="BaseEditTextTheme">
@@ -341,7 +352,7 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-    <style name="BottomSheetDialogRecyclerViewStye" parent="BaseRecyclerViewStyle">
+    <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:clipToPadding">false</item>

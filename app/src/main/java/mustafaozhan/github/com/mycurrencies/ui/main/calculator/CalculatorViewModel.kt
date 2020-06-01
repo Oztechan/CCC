@@ -6,6 +6,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
+import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.notSameAs
@@ -33,7 +34,6 @@ import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencie
 import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
 import mustafaozhan.github.com.mycurrencies.util.extension.toRate
 import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
-import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
 
@@ -59,7 +59,6 @@ class CalculatorViewModel(
 
     init {
         with(_state) {
-            _loading.value = true
             _base.value = preferencesRepository.currentBase
             _input.value = ""
 
