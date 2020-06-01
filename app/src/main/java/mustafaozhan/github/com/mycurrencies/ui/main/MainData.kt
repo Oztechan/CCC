@@ -5,7 +5,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main
 
 import com.github.mustafaozhan.basemob.model.BaseData
 
-open class MainActivityData : BaseData() {
+open class MainData : BaseData() {
     companion object {
         internal const val MINIMUM_ACTIVE_CURRENCY = 2
         internal const val BACK_DELAY: Long = 2000

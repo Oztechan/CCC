@@ -19,10 +19,12 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        preferencesRepository.syncPreferences()
+
         startActivity(
             Intent(
                 this,
-                if (preferencesRepository.loadMainData().firstRun) {
+                if (preferencesRepository.firstRun) {
                     SliderActivity::class.java
                 } else {
                     MainActivity::class.java

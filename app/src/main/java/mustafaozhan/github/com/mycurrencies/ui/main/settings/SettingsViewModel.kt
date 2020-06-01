@@ -18,7 +18,7 @@ import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesReposito
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.util.extension.toUnit
 
@@ -119,7 +119,7 @@ class SettingsViewModel(
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.value = FewCurrencyEffect }
         ?: run {
-            preferencesRepository.updateMainData(firstRun = false)
+            preferencesRepository.firstRun = false
             _effect.value = CalculatorEffect
         }
     // endregion

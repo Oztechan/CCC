@@ -11,7 +11,7 @@ import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivityData
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData
 
 data class CalculatorState(
     private val backing: CalculatorStateBacking
@@ -52,7 +52,7 @@ data class LongClickEffect(val text: String, val name: String) : CalculatorEffec
 
 data class CalculatorData(
     var rates: Rates? = null
-) : MainActivityData() {
+) : MainData() {
     companion object {
         internal const val MAXIMUM_INPUT = 15
         internal const val KEY_DEL = "DEL"

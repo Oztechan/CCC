@@ -61,7 +61,6 @@ dependencies {
             coroutines,
             admob,
             firebaseConfig,
-            jodaTime,
             navigation,
             room.values(),
             retrofit.values(),

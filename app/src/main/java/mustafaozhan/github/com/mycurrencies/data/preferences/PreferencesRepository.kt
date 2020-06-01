@@ -3,70 +3,50 @@
  */
 package mustafaozhan.github.com.mycurrencies.data.preferences
 
+import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
-import com.squareup.moshi.Moshi
+import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.MainData
-import org.joda.time.Duration
-import org.joda.time.Instant
+import mustafaozhan.github.com.mycurrencies.util.OldPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    override val preferencesFactory: PreferencesFactory
-) : BasePreferencesRepository {
-
+    context: Context
+) : BasePreferencesRepository(context) {
     companion object {
-        const val MAIN_DATA = "MAIN_DATA"
-        private const val NUMBER_OF_HOURS = 24
+        private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
+        private const val KEY_FIRST_RUN = "firs_run"
+        private const val KEY_CURRENT_BASE = "current_base"
+        private const val KEY_AD_FREE_DATE = "ad_free_date"
+
+        private const val DAY = (24 * 60 * 60 * 1000).toLong()
     }
 
-    override val moshi: Moshi
-        get() = Moshi.Builder().build()
+    override val preferencesName: String
+        get() = KEY_APPLICATION_PREFERENCES
 
-    var currentBase: String = loadMainData().currentBase.toString()
-        get() = loadMainData().currentBase.toString()
-        set(value) {
-            updateMainData(
-                currentBase = enumValues<Currencies>()
-                    .find { it.name == value }
-                    ?: Currencies.NULL
-            )
-            field = value
+    var firstRun
+        get() = getValue(KEY_FIRST_RUN, true)
+        internal set(value) = setValue(KEY_FIRST_RUN, value)
+
+    var currentBase
+        get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
+        internal set(value) = setValue(KEY_CURRENT_BASE, value)
+
+    var adFreeActivatedDate
+        get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
+        internal set(value) = setValue(KEY_AD_FREE_DATE, value)
+
+    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
+
+    fun syncPreferences() = OldPreferences(context)
+        .whether { isOldPreferencesExist() }
+        ?.let { oldPreferences ->
+            firstRun = oldPreferences.getOldFirstRun() == true.toString()
+            currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.EUR.toString()
+            oldPreferences.removeOldPreferences()
         }
-
-    val firstRun
-        get() = loadMainData().firstRun
-
-    val isRewardExpired: Boolean
-        get() = loadMainData().adFreeActivatedDate?.let {
-            Duration(it, Instant.now()).standardHours > NUMBER_OF_HOURS
-        } ?: true
-
-    fun loadMainData() = preferencesFactory.getValue(
-        MAIN_DATA,
-        moshi.adapter(MainData::class.java).toJson(MainData())
-    ).let {
-        moshi.adapter(MainData::class.java)
-            .fromJson(it) ?: MainData()
-    }
-
-    private fun persistMainData(mainData: MainData) = preferencesFactory.setValue(
-        MAIN_DATA,
-        moshi.adapter(MainData::class.java).toJson(mainData)
-    )
-
-    fun updateMainData(
-        firstRun: Boolean? = null,
-        currentBase: Currencies? = null,
-        adFreeActivatedDate: Instant? = null
-    ) {
-        val mainData = loadMainData()
-        firstRun?.let { mainData.firstRun = it }
-        currentBase?.let { mainData.currentBase = it }
-        adFreeActivatedDate?.let { mainData.adFreeActivatedDate = it }
-        persistMainData(mainData)
-    }
 }
