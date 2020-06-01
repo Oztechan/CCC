@@ -22,7 +22,7 @@ class PreferencesRepository
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
 
-        private const val DAY = 24 * 60 * 60 * 1000.toLong()
+        private const val DAY = (24 * 60 * 60 * 1000).toLong()
     }
 
     override val preferencesName: String
@@ -40,7 +40,7 @@ class PreferencesRepository
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
         internal set(value) = setValue(KEY_AD_FREE_DATE, value)
 
-    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate > DAY
+    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
     fun syncPreferences() = OldPreferences(context)
         .whether { isOldPreferencesExist() }
