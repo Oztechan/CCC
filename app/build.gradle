@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode gitVersion
-        versionName "1.1.${gitVersion}"
+        versionName "1.2.${gitVersion}"
 
         android {
             javaCompileOptions {

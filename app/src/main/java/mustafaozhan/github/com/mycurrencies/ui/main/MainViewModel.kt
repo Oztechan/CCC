@@ -26,9 +26,7 @@ class MainViewModel(
     private val _effect = MutableSingleLiveData<MainEffect>()
     val effect: SingleLiveData<MainEffect> = _effect
 
-    fun updateAdFreeActivation() {
-        preferencesRepository.adFreeActivatedDate = System.currentTimeMillis()
-    }
+    fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
 
     fun isRewardExpired() = preferencesRepository.isRewardExpired()
 

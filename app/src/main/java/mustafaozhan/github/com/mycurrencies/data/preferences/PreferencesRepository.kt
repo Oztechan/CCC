@@ -36,9 +36,13 @@ class PreferencesRepository
         get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
         internal set(value) = setValue(KEY_CURRENT_BASE, value)
 
-    var adFreeActivatedDate
+    private var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
-        internal set(value) = setValue(KEY_AD_FREE_DATE, value)
+        private set(value) = setValue(KEY_AD_FREE_DATE, value)
+
+    fun setAdFreeActivation() {
+        adFreeActivatedDate = System.currentTimeMillis()
+    }
 
     fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
@@ -46,7 +50,7 @@ class PreferencesRepository
         .whether { isOldPreferencesExist() }
         ?.let { oldPreferences ->
             firstRun = oldPreferences.getOldFirstRun() == true.toString()
-            currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.EUR.toString()
+            currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.NULL.toString()
             oldPreferences.removeOldPreferences()
         }
 }
