@@ -4,8 +4,6 @@
 package mustafaozhan.github.com.mycurrencies.util.extension
 
 import android.annotation.SuppressLint
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -59,13 +57,6 @@ fun CurrencyResponse.toRate(): Rates {
     // todo need to change to CurrencyResponse.date when BE return date
     rate.date = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(Date())
     return rate
-}
-
-fun <T> Fragment.getNavigationResult(key: String) =
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
-
-fun <T> Fragment.setNavigationResult(result: T, key: String) {
-    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
 }
 
 @SuppressLint("DefaultLocale")
