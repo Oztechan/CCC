@@ -15,7 +15,9 @@ import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_BASE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.getImageResourceByName
+import mustafaozhan.github.com.mycurrencies.util.extension.getNavigationResult
 import javax.inject.Inject
 
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
@@ -41,12 +43,13 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initView()
         initEffect()
+        initNavResults()
     }
 
-    override fun onResume() {
-        super.onResume()
-        calculatorViewModel.verifyCurrentBase()
-    }
+    private fun initNavResults() = getNavigationResult<String>(KEY_BASE_CURRENCY)
+        ?.reObserve(viewLifecycleOwner, Observer {
+            calculatorViewModel.verifyCurrentBase(it)
+        })
 
     private fun initEffect() = calculatorViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->

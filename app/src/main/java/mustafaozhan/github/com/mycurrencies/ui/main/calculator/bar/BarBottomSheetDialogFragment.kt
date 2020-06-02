@@ -13,6 +13,7 @@ import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
+import mustafaozhan.github.com.mycurrencies.util.extension.setNavigationResult
 import javax.inject.Inject
 
 class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
@@ -42,7 +43,10 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     private fun initEffect() = barViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                DismissDialog -> dismissDialog()
+                is ChangeBase -> {
+                    setNavigationResult(viewEffect.newBase, "123")
+                    dismissDialog()
+                }
                 OpenSettings -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),

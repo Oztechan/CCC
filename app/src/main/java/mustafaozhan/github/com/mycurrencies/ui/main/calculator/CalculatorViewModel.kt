@@ -9,7 +9,6 @@ import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.mapTo
-import com.github.mustafaozhan.scopemob.notSameAs
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
@@ -148,11 +147,9 @@ class CalculatorViewModel(
         }
     }
 
-    fun verifyCurrentBase() = _state._base.value
-        ?.notSameAs { preferencesRepository.currentBase }
-        ?.let {
-            _state._base.postValue(preferencesRepository.currentBase)
-        }
+    fun verifyCurrentBase(it: String) {
+        _state._base.postValue(it)
+    }
 
     // region Event
     override fun onKeyPress(key: String) {

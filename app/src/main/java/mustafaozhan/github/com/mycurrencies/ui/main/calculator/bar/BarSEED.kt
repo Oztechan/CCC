@@ -33,5 +33,5 @@ interface BarEvent : BaseEvent {
 }
 
 sealed class BarEffect : BaseEffect()
-object DismissDialog : BarEffect()
+data class ChangeBase(val newBase: String) : BarEffect()
 object OpenSettings : BarEffect()

@@ -25,7 +25,7 @@ def ADMOB_VERSION = '19.1.0'
 def FIREBASE_CONFIG_VERSION = '19.1.4'
 def MULTIDEX_VERSION = '2.0.1'
 def TIMBER_VERSION = '4.7.1'
-def NAVIGATION_VERSION = '2.2.2'
+def NAVIGATION_VERSION = '2.3.0-alpha02'
 
 def getGitVersion = { ->
     try {
