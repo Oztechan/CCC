@@ -42,12 +42,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     private fun initEffect() = barViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                BaseCurrencySelected -> navigate(
-                    R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
-                    dismiss = true,
-                    animate = false
-                )
+                DismissDialog -> dismissDialog()
                 OpenSettings -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),

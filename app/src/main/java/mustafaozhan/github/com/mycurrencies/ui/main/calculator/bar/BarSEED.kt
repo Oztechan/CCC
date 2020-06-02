@@ -33,5 +33,5 @@ interface BarEvent : BaseEvent {
 }
 
 sealed class BarEffect : BaseEffect()
-object BaseCurrencySelected : BarEffect()
+object DismissDialog : BarEffect()
 object OpenSettings : BarEffect()

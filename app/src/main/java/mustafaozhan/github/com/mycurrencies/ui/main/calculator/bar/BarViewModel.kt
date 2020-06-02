@@ -47,7 +47,7 @@ class BarViewModel(
     // region Event
     override fun onItemClick(currency: Currency) {
         preferencesRepository.currentBase = currency.name
-        _effect.value = BaseCurrencySelected
+        _effect.value = DismissDialog
     }
 
     override fun onSelectClick() {
