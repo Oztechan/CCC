@@ -42,16 +42,16 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initView()
-        initEffect()
-        initNavResults()
+        observeEffect()
+        observeNavigationResult()
     }
 
-    private fun initNavResults() = getNavigationResult<String>(KEY_BASE_CURRENCY)
+    private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
         ?.reObserve(viewLifecycleOwner, Observer {
             calculatorViewModel.verifyCurrentBase(it)
         })
 
-    private fun initEffect() = calculatorViewModel.effect
+    private fun observeEffect() = calculatorViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnack(

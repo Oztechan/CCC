@@ -38,7 +38,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initView()
-        initEffect()
+        observeEffect()
     }
 
     private fun initView() {
@@ -55,7 +55,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun initEffect() = settingsViewModel.effect
+    private fun observeEffect() = settingsViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)

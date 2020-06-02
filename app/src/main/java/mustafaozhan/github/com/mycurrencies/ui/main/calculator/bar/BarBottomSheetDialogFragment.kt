@@ -13,6 +13,7 @@ import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_BASE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.setNavigationResult
 import javax.inject.Inject
 
@@ -37,14 +38,14 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initEffect()
+        observeEffect()
     }
 
-    private fun initEffect() = barViewModel.effect
+    private fun observeEffect() = barViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 is ChangeBase -> {
-                    setNavigationResult(viewEffect.newBase, "123")
+                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                     dismissDialog()
                 }
                 OpenSettings -> navigate(
