@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
+import com.github.mustafaozhan.basemob.model.BaseStateBacking
 import mustafaozhan.github.com.mycurrencies.model.Currency
 
 // State
@@ -24,7 +25,7 @@ data class BarStateBacking(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
     val _enoughCurrency: MutableLiveData<Boolean> = MutableLiveData(false)
-)
+) : BaseStateBacking()
 
 // Event
 interface BarEvent : BaseEvent {
