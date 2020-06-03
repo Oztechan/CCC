@@ -46,10 +46,10 @@ interface CalculatorEvent : BaseEvent {
 sealed class CalculatorEffect : BaseEffect()
 object ErrorEffect : CalculatorEffect()
 object FewCurrencyEffect : CalculatorEffect()
-object ReverseSpinner : CalculatorEffect()
+object OpenBarEffect : CalculatorEffect()
 object MaximumInputEffect : CalculatorEffect()
 data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
-data class LongClickEffect(val text: String, val name: String) : CalculatorEffect()
+data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
 data class CalculatorData(
     var rates: Rates? = null

@@ -65,7 +65,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     )
                 }
                 MaximumInputEffect -> Toast.show(requireContext(), R.string.max_input)
-                ReverseSpinner -> navigate(
+                OpenBarEffect -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
@@ -74,7 +74,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 } ?: run {
                     Toast.show(requireContext(), R.string.database_success)
                 }
-                is LongClickEffect -> showSnack(
+                is ShowRateEffect -> showSnack(
                     requireView(),
                     viewEffect.text,
                     icon = requireContext().getImageResourceByName(viewEffect.name)

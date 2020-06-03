@@ -183,7 +183,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _effect.value = LongClickEffect("1 ${preferencesRepository.currentBase} = " +
+        _effect.value = ShowRateEffect("1 ${preferencesRepository.currentBase} = " +
             "${data.rates?.getThroughReflection<Double>(currency.name)} " +
             currency.getVariablesOneLine(),
             currency.name
@@ -192,7 +192,7 @@ class CalculatorViewModel(
     }
 
     override fun onBarClick() {
-        _effect.value = ReverseSpinner
+        _effect.value = OpenBarEffect
     }
 
     override fun onSpinnerItemSelected(base: String) {

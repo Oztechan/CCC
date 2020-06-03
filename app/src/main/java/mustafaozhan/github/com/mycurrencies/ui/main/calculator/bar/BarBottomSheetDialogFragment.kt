@@ -44,11 +44,11 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     private fun observeEffect() = barViewModel.effect
         .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                is ChangeBase -> {
+                is ChangeBaseEffect -> {
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                     dismissDialog()
                 }
-                OpenSettings -> navigate(
+                OpenSettingsEffect -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),
                     dismiss = false
