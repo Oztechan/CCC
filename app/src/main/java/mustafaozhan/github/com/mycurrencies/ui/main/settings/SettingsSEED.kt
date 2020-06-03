@@ -38,6 +38,7 @@ interface SettingsEvent : BaseEvent {
 sealed class SettingsEffect : BaseEffect()
 object FewCurrencyEffect : SettingsEffect()
 object CalculatorEffect : SettingsEffect()
+data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 
 data class SettingsData(
     var unFilteredList: MutableList<Currency> = mutableListOf()

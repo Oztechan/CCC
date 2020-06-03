@@ -44,7 +44,7 @@ class BarViewModel(
 
     // region Event
     override fun onItemClick(currency: Currency) {
-        _effect.value = ChangeBaseEffect(currency.name)
+        _effect.value = ChangeBaseNavResultEffect(currency.name)
     }
 
     override fun onSelectClick() {

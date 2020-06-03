@@ -19,6 +19,7 @@ open class MainData : BaseData() {
         internal const val TEXT_EMAIL_TYPE = "text/email"
         internal const val CHECK_DURATION: Long = 6
         internal const val CHECK_INTERVAL: Long = 4200
-        internal const val REMOTE_CONFIG = "remote_config"
+        internal const val KEY_REMOTE_CONFIG = "remote_config"
+        internal const val KEY_BASE_CURRENCY = "base_currency"
     }
 }

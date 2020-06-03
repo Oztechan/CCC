@@ -88,11 +88,18 @@ class SettingsViewModel(
                 ?.toList()?.firstOrNull()?.isActive == false
         }
     )?.let {
-        preferencesRepository.currentBase = state.currencyList.value
-            ?.firstOrNull { it.isActive }?.name
-            ?: Currencies.NULL.toString()
+        updateCurrentBase(
+            state.currencyList.value
+                ?.firstOrNull { it.isActive }?.name
+                ?: Currencies.NULL.toString()
+        )
     }.run {
         _states._searchQuery.value = ""
+    }
+
+    private fun updateCurrentBase(newBase: String) {
+        preferencesRepository.currentBase = newBase
+        _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
 
     // region Event
@@ -102,7 +109,7 @@ class SettingsViewModel(
 
     override fun onDeselectAllClick() = viewModelScope.launch {
         currencyRepository.updateAllCurrencyState(false)
-        preferencesRepository.currentBase = Currencies.NULL.toString()
+        updateCurrentBase(Currencies.NULL.toString())
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = viewModelScope.launch {
@@ -110,7 +117,7 @@ class SettingsViewModel(
             .mapTo { !it }.let { newState ->
                 currencyRepository.updateCurrencyStateByName(currency.name, newState)
             }.inCase(currency.name == preferencesRepository.currentBase) {
-                preferencesRepository.currentBase = Currencies.NULL.toString()
+                updateCurrentBase(Currencies.NULL.toString())
             }
     }.toUnit()
 

@@ -34,5 +34,5 @@ interface BarEvent : BaseEvent {
 }
 
 sealed class BarEffect : BaseEffect()
-data class ChangeBaseEffect(val newBase: String) : BarEffect()
+data class ChangeBaseNavResultEffect(val newBase: String) : BarEffect()
 object OpenSettingsEffect : BarEffect()

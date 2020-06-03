@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.reObserveSingle
+import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -63,6 +65,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
                 )
+                is ChangeBaseNavResultEffect -> {
+                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
+                }
             }
         })
 }

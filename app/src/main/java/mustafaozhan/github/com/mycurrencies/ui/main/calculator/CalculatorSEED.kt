@@ -59,6 +59,5 @@ data class CalculatorData(
         internal const val KEY_DEL = "DEL"
         internal const val KEY_AC = "AC"
         internal const val CHAR_DOT = '.'
-        internal const val KEY_BASE_CURRENCY = "base_currency"
     }
 }
