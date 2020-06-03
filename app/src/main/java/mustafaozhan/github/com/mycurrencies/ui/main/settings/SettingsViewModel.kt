@@ -55,7 +55,7 @@ class SettingsViewModel(
                     .filter { it.isActive }.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { preferencesRepository.firstRun }
-                    ?.let { _effect.value = FewCurrencyEffect }
+                    ?.let { _effect.postValue(FewCurrencyEffect) }
 
                 verifyCurrentBase()
             }
@@ -124,10 +124,10 @@ class SettingsViewModel(
     override fun onDoneClick() = _states._currencyList.value
         ?.filter { it.isActive }?.size
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-        ?.let { _effect.value = FewCurrencyEffect }
+        ?.let { _effect.postValue(FewCurrencyEffect) }
         ?: run {
             preferencesRepository.firstRun = false
-            _effect.value = CalculatorEffect
+            _effect.postValue(CalculatorEffect)
         }
     // endregion
 }

@@ -103,12 +103,12 @@ class CalculatorViewModel(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _effect.value = OfflineSuccessEffect(offlineRates.date)
+            _effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             Timber.w(t, "no offline rate found")
             state.currencyList.value?.size
                 ?.whether { it > 1 }
-                ?.let { _effect.value = ErrorEffect }
+                ?.let { _effect.postValue(ErrorEffect) }
         }
     }.toUnit()
 
@@ -121,10 +121,10 @@ class CalculatorViewModel(
             state.currencyList.value?.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                 ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _effect.value = FewCurrencyEffect }
+                ?.let { _effect.postValue(FewCurrencyEffect) }
                 ?: run { getRates() }
         } ?: run {
-        _effect.value = MaximumInputEffect
+        _effect.postValue(MaximumInputEffect)
         _state._input.value = input.dropLast(1)
         _state._loading.value = false
     }
@@ -183,17 +183,17 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _effect.value = ShowRateEffect("1 ${preferencesRepository.currentBase} = " +
-            "${data.rates?.getThroughReflection<Double>(currency.name)} " +
-            currency.getVariablesOneLine(),
-            currency.name
+        _effect.postValue(
+            ShowRateEffect("1 ${preferencesRepository.currentBase} = " +
+                "${data.rates?.getThroughReflection<Double>(currency.name)} " +
+                currency.getVariablesOneLine(),
+                currency.name
+            )
         )
         return true
     }
 
-    override fun onBarClick() {
-        _effect.value = OpenBarEffect
-    }
+    override fun onBarClick() = _effect.postValue(OpenBarEffect)
 
     override fun onSpinnerItemSelected(base: String) {
         _state._base.value = base

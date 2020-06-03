@@ -49,7 +49,7 @@ class MainViewModel(
                                 .fromJson(getString(MainData.KEY_REMOTE_CONFIG))
                                 ?.whether { latestVersion > BuildConfig.VERSION_CODE }
                                 ?.let {
-                                    _effect.value = AppUpdateEffect(it)
+                                    _effect.postValue(AppUpdateEffect(it))
                                 }
                         } catch (e: JsonDataException) {
                             Timber.w(e)
