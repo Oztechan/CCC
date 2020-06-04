@@ -70,7 +70,7 @@ class SettingsViewModel(
             _states._loading.value = true
             currencyRepository.insertInitialCurrencies()
             _states._loading.value = false
-        }
+        }?.toUnit()
 
     private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->

@@ -5,6 +5,8 @@ package mustafaozhan.github.com.mycurrencies.data.api
 
 import com.github.mustafaozhan.basemob.data.api.BaseApiRepository
 import com.github.mustafaozhan.basemob.error.EmptyParameterException
+import mustafaozhan.github.com.mycurrencies.model.Currencies
+import mustafaozhan.github.com.mycurrencies.model.NullBaseException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +17,10 @@ class ApiRepository
 ) : BaseApiRepository() {
 
     suspend fun getRatesByBase(base: String) = apiRequest {
-        if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.apiService.getRatesByBase(base)
+        when {
+            base.isEmpty() -> throw EmptyParameterException()
+            base == Currencies.NULL.toString() -> throw NullBaseException()
+            else -> apiFactory.apiService.getRatesByBase(base)
+        }
     }
 }
