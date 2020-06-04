@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -58,7 +57,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun observeEffect() = settingsViewModel.effect
-        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> navigate(

@@ -12,7 +12,7 @@ import android.view.MenuItem
 import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
-import com.github.mustafaozhan.basemob.util.reObserveSingle
+import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.util.toUnit
@@ -71,7 +71,7 @@ open class MainActivity : BaseActivity() {
             }
     }.toUnit()
 
-    private fun initEffect() = mainViewModel.effect.reObserveSingle(this, Observer { viewEffect ->
+    private fun initEffect() = mainViewModel.effect.reObserve(this, Observer { viewEffect ->
         when (viewEffect) {
             is AppUpdateEffect -> viewEffect.remoteConfig.apply {
                 showDialog(

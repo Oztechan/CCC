@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
 import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.reObserveSingle
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -52,7 +51,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         })
 
     private fun observeEffect() = calculatorViewModel.effect
-        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnack(
                     requireView(),
