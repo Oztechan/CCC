@@ -6,9 +6,8 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -41,7 +40,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     }
 
     private fun observeEffect() = barViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .observe(viewLifecycleOwner) { viewEffect ->
             when (viewEffect) {
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
@@ -53,7 +52,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
                     dismiss = false
                 )
             }
-        })
+        }
 
     private fun initView() {
         binding.recyclerViewBar.apply {
@@ -61,12 +60,8 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        barViewModel.apply {
-            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
-                list?.let { currencyList ->
-                    barAdapter.submitList(currencyList)
-                }
-            })
+        barViewModel.state.currencyList.observe(viewLifecycleOwner) {
+            barAdapter.submitList(it)
         }
     }
 }

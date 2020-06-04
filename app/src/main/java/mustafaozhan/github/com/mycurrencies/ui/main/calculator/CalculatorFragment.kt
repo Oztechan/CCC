@@ -6,11 +6,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
-import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -46,12 +45,12 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
-        ?.reObserve(viewLifecycleOwner, Observer {
+        ?.observe(viewLifecycleOwner) {
             calculatorViewModel.verifyCurrentBase(it)
-        })
+        }
 
     private fun observeEffect() = calculatorViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .observe(viewLifecycleOwner) { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnack(
                     requireView(),
@@ -79,7 +78,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
-        })
+        }
 
     private fun initView() {
         binding.recyclerViewMain.apply {
@@ -87,12 +86,10 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        calculatorViewModel.apply {
-            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
-                list?.let { currencyList ->
-                    calculatorAdapter.submitList(currencyList, preferencesRepository.currentBase)
-                }
-            })
+        with(calculatorViewModel) {
+            state.currencyList.observe(viewLifecycleOwner) {
+                calculatorAdapter.submitList(it, preferencesRepository.currentBase)
+            }
         }
     }
 }
