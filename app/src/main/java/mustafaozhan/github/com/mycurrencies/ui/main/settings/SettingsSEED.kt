@@ -41,5 +41,5 @@ object CalculatorEffect : SettingsEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 
 data class SettingsData(
-    var unFilteredList: MutableList<Currency> = mutableListOf()
+    var unFilteredList: MutableList<Currency>? = mutableListOf()
 ) : MainData()
