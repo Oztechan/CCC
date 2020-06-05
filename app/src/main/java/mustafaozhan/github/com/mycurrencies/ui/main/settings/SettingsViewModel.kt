@@ -105,12 +105,8 @@ class SettingsViewModel(
     }
 
     // region Event
-    override fun onSelectAllClick() = viewModelScope.launch {
-        currencyRepository.updateAllCurrencyState(true)
-    }.toUnit()
-
-    override fun onDeselectAllClick() = viewModelScope.launch {
-        currencyRepository.updateAllCurrencyState(false)
+    override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
+        currencyRepository.updateAllCurrencyState(state)
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = viewModelScope.launch {

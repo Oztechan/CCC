@@ -39,7 +39,7 @@
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.onDeselectAllClick()}"
+                    android:onClick="@{()->event.updateAllCurrenciesState(false)}"
                     android:text="@string/btn_de_select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
@@ -48,7 +48,7 @@
                 <Button
                     android:id="@+id/btn_select_all"
                     style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.onSelectAllClick()}"
+                    android:onClick="@{()->event.updateAllCurrenciesState(true)}"
                     android:text="@string/btn_select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

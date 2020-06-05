@@ -29,8 +29,7 @@ data class SettingsStateBacking(
 ) : BaseStateBacking()
 
 interface SettingsEvent : BaseEvent {
-    fun onSelectAllClick()
-    fun onDeselectAllClick()
+    fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
 }
