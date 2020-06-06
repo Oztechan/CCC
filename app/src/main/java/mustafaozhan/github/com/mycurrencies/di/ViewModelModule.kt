@@ -18,11 +18,11 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 @Module
 class ViewModelModule {
     @Provides
-    fun provideMainViewModel(preferencesRepository: PreferencesRepository) =
+    internal fun provideMainViewModel(preferencesRepository: PreferencesRepository) =
         MainViewModel(preferencesRepository)
 
     @Provides
-    fun provideCalculatorViewModel(
+    internal fun provideCalculatorViewModel(
         preferencesRepository: PreferencesRepository,
         apiRepository: ApiRepository,
         currencyRepository: CurrencyRepository,
@@ -34,13 +34,13 @@ class ViewModelModule {
         offlineRatesRepository)
 
     @Provides
-    fun provideSettingsViewModel(
+    internal fun provideSettingsViewModel(
         preferencesRepository: PreferencesRepository,
         currencyRepository: CurrencyRepository
     ) = SettingsViewModel(preferencesRepository, currencyRepository)
 
     @Provides
-    fun providesBarViewModel(
+    internal fun providesBarViewModel(
         currencyRepository: CurrencyRepository
     ) = BarViewModel(currencyRepository)
 }
