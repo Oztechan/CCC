@@ -6,11 +6,12 @@ package mustafaozhan.github.com.mycurrencies.data.api
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.api.BaseApiFactory
 import mustafaozhan.github.com.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.di.ApplicationContext
 import javax.inject.Inject
 
 class ApiFactory
 @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : BaseApiFactory() {
 
     companion object {

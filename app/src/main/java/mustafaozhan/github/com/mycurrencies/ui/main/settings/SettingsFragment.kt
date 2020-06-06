@@ -6,14 +6,14 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
-import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.reObserveSingle
+import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -38,7 +38,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
         initView()
-        initEffect()
+        observeEffect()
     }
 
     private fun initView() {
@@ -48,21 +48,22 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
 
-        settingsViewModel.state.currencyList.apply {
-            reObserve(viewLifecycleOwner, Observer {
-                settingsAdapter.submitList(it)
-            })
+        settingsViewModel.state.currencyList.observe(viewLifecycleOwner) {
+            settingsAdapter.submitList(it)
         }
     }
 
-    private fun initEffect() = settingsViewModel.effect
-        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+    private fun observeEffect() = settingsViewModel.effect
+        .observe(viewLifecycleOwner) { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> navigate(
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
                 )
+                is ChangeBaseNavResultEffect -> {
+                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
+                }
             }
-        })
+        }
 }

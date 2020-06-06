@@ -6,13 +6,13 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.reObserveSingle
+import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
+import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import javax.inject.Inject
 
 class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
@@ -36,25 +36,23 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initEffect()
+        observeEffect()
     }
 
-    private fun initEffect() = barViewModel.effect
-        .reObserveSingle(viewLifecycleOwner, Observer { viewEffect ->
+    private fun observeEffect() = barViewModel.effect
+        .observe(viewLifecycleOwner) { viewEffect ->
             when (viewEffect) {
-                BaseCurrencySelected -> navigate(
-                    R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
-                    dismiss = true,
-                    animate = false
-                )
-                OpenSettings -> navigate(
+                is ChangeBaseNavResultEffect -> {
+                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
+                    dismissDialog()
+                }
+                OpenSettingsEffect -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),
                     dismiss = false
                 )
             }
-        })
+        }
 
     private fun initView() {
         binding.recyclerViewBar.apply {
@@ -62,12 +60,8 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        barViewModel.apply {
-            state.currencyList.reObserve(viewLifecycleOwner, Observer { list ->
-                list?.let { currencyList ->
-                    barAdapter.submitList(currencyList)
-                }
-            })
+        barViewModel.state.currencyList.observe(viewLifecycleOwner) {
+            barAdapter.submitList(it)
         }
     }
 }

@@ -10,14 +10,12 @@ import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
 
 class BarViewModel(
-    val preferencesRepository: PreferencesRepository,
     private val currencyRepository: CurrencyRepository
 ) : BaseViewModel(), BarEvent {
     // region SEED
@@ -45,13 +43,8 @@ class BarViewModel(
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) {
-        preferencesRepository.currentBase = currency.name
-        _effect.value = BaseCurrencySelected
-    }
+    override fun onItemClick(currency: Currency) = _effect.postValue(ChangeBaseNavResultEffect(currency.name))
 
-    override fun onSelectClick() {
-        _effect.value = OpenSettings
-    }
+    override fun onSelectClick() = _effect.postValue(OpenSettingsEffect)
     // endregion
 }

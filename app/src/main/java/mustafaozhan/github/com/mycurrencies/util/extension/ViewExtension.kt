@@ -13,14 +13,13 @@ import java.util.Locale
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
 
-fun Context.getImageResourceByName(name: String): Int =
-    try {
-        resources.getIdentifier(
-            name.toLowerCase(Locale.getDefault()).replace("try", "tryy"),
-            "drawable",
-            packageName
-        )
-    } catch (e: FileNotFoundException) {
-        Timber.w(e)
-        R.drawable.transparent
-    }
+fun Context.getImageResourceByName(name: String): Int = try {
+    resources.getIdentifier(
+        name.toLowerCase(Locale.getDefault()).replace("try", "tryy"),
+        "drawable",
+        packageName
+    )
+} catch (e: FileNotFoundException) {
+    Timber.w(e)
+    R.drawable.transparent
+}

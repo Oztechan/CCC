@@ -36,9 +36,6 @@
         android:label="BarBottomSheetDialogFragment"
         tools:layout="@layout/fragment_bottom_sheet_bar">
         <action
-            android:id="@+id/action_barBottomSheetDialogFragment_to_calculatorFragment"
-            app:destination="@id/calculatorFragment" />
-        <action
             android:id="@+id/action_barBottomSheetDialogFragment_to_settingsFragment"
             app:popUpTo="@id/calculatorFragment"
             app:popUpToInclusive="true"

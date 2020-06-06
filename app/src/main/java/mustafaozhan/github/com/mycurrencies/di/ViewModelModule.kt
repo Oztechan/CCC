@@ -17,12 +17,15 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 @Suppress("unused")
 @Module
 class ViewModelModule {
+
     @Provides
-    fun provideMainViewModel(preferencesRepository: PreferencesRepository) =
+    @ActivityScope
+    internal fun providesMainViewModel(preferencesRepository: PreferencesRepository) =
         MainViewModel(preferencesRepository)
 
     @Provides
-    fun provideCalculatorViewModel(
+    @ActivityScope
+    internal fun providesCalculatorViewModel(
         preferencesRepository: PreferencesRepository,
         apiRepository: ApiRepository,
         currencyRepository: CurrencyRepository,
@@ -34,14 +37,15 @@ class ViewModelModule {
         offlineRatesRepository)
 
     @Provides
-    fun provideSettingsViewModel(
+    @ActivityScope
+    internal fun providesSettingsViewModel(
         preferencesRepository: PreferencesRepository,
         currencyRepository: CurrencyRepository
     ) = SettingsViewModel(preferencesRepository, currencyRepository)
 
     @Provides
-    fun providesBarViewModel(
-        preferencesRepository: PreferencesRepository,
+    @FragmentScope
+    internal fun providesBarViewModel(
         currencyRepository: CurrencyRepository
-    ) = BarViewModel(preferencesRepository, currencyRepository)
+    ) = BarViewModel(currencyRepository)
 }

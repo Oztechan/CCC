@@ -26,9 +26,7 @@ class MainViewModel(
     private val _effect = MutableSingleLiveData<MainEffect>()
     val effect: SingleLiveData<MainEffect> = _effect
 
-    fun updateAdFreeActivation() {
-        preferencesRepository.adFreeActivatedDate = System.currentTimeMillis()
-    }
+    fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
 
     fun isRewardExpired() = preferencesRepository.isRewardExpired()
 
@@ -48,10 +46,10 @@ class MainViewModel(
                         activate()
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(getString(MainData.REMOTE_CONFIG))
+                                .fromJson(getString(MainData.KEY_REMOTE_CONFIG))
                                 ?.whether { latestVersion > BuildConfig.VERSION_CODE }
                                 ?.let {
-                                    _effect.value = AppUpdateEffect(it)
+                                    _effect.postValue(AppUpdateEffect(it))
                                 }
                         } catch (e: JsonDataException) {
                             Timber.w(e)
