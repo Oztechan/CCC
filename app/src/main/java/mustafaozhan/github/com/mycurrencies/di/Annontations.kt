@@ -3,6 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.di
 
+import javax.inject.Qualifier
 import javax.inject.Scope
 
 @Scope
@@ -12,3 +13,7 @@ annotation class ActivityScope
 @Scope
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class FragmentScope
+
+@Qualifier
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class ApplicationContext

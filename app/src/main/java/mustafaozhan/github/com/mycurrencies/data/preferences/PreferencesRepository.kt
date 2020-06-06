@@ -6,6 +6,7 @@ package mustafaozhan.github.com.mycurrencies.data.preferences
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
 import com.github.mustafaozhan.scopemob.whether
+import mustafaozhan.github.com.mycurrencies.di.ApplicationContext
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.util.OldPreferences
 import javax.inject.Inject
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 ) : BasePreferencesRepository(context) {
     companion object {
         private const val KEY_APPLICATION_PREFERENCES = "application_preferences"

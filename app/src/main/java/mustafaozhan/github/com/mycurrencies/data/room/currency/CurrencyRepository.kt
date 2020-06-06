@@ -4,6 +4,7 @@
 package mustafaozhan.github.com.mycurrencies.data.room.currency
 
 import android.content.Context
+import mustafaozhan.github.com.mycurrencies.di.ApplicationContext
 import mustafaozhan.github.com.mycurrencies.util.extension.insertInitialCurrencies
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,8 +12,8 @@ import javax.inject.Singleton
 @Singleton
 class CurrencyRepository
 @Inject constructor(
-    private val currencyDao: CurrencyDao,
-    private val context: Context
+    @ApplicationContext private val context: Context,
+    private val currencyDao: CurrencyDao
 ) {
 
     fun getActiveCurrencies() = currencyDao.getActiveCurrencies()

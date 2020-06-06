@@ -14,5 +14,6 @@ class ApplicationModule {
 
     @Provides
     @Singleton
+    @ApplicationContext
     internal fun providesContext(application: CCCApplication): Context = application.applicationContext
 }

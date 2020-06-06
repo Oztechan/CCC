@@ -34,14 +34,15 @@ class AppDatabaseModule {
 
     @Provides
     @Singleton
-    internal fun providesAppDatabase(applicationContext: Context): AppDatabase =
-        Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            DATABASE_NAME
-        ).addMigrations(object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
-        }).addMigrations(object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
-        }).build()
+    internal fun providesAppDatabase(
+        @ApplicationContext applicationContext: Context
+    ): AppDatabase = Room.databaseBuilder(
+        applicationContext,
+        AppDatabase::class.java,
+        DATABASE_NAME
+    ).addMigrations(object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
+    }).addMigrations(object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
+    }).build()
 }
