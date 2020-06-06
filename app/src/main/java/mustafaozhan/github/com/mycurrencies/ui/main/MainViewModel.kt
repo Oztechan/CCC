@@ -18,8 +18,10 @@ import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class MainViewModel(
+class MainViewModel
+@Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
 

@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
+import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.room.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -35,9 +35,11 @@ import mustafaozhan.github.com.mycurrencies.util.extension.toRate
 import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
-class CalculatorViewModel(
+class CalculatorViewModel
+@Inject constructor(
     val preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,

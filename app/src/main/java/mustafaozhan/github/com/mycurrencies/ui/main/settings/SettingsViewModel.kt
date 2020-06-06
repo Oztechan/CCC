@@ -14,14 +14,16 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
+import javax.inject.Inject
 
-class SettingsViewModel(
+class SettingsViewModel
+@Inject constructor(
     val preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
 ) : BaseViewModel(), SettingsEvent {
@@ -60,11 +62,9 @@ class SettingsViewModel(
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
-                    _states._loading.value = false
+                    filterList("")
                 }
         }
-
-        filterList("")
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -73,7 +73,10 @@ class SettingsViewModel(
                 longName.contains(txt, true) ||
                 symbol.contains(txt, true)
         }?.toMutableList()
-        ?.let { _states._currencyList.value = it }
+        ?.let {
+            _states._currencyList.value = it
+            _states._loading.value = false
+        }
 
     private fun verifyCurrentBase() = preferencesRepository.currentBase.either(
         { equals(Currencies.NULL.toString()) },
