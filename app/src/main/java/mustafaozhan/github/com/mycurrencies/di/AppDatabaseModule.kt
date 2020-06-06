@@ -17,6 +17,7 @@ import javax.inject.Singleton
 @Module
 @Suppress("MagicNumber")
 class AppDatabaseModule {
+
     companion object {
         private const val DATABASE_NAME = "application_database"
     }

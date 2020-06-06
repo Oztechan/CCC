@@ -9,8 +9,6 @@ import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
-import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
-import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel
@@ -19,6 +17,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 @Suppress("unused")
 @Module
 class ViewModelModule {
+
     @Provides
     @ActivityScope
     internal fun providesMainViewModel(preferencesRepository: PreferencesRepository) =
