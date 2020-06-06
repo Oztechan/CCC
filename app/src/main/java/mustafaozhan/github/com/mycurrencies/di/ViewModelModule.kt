@@ -7,8 +7,8 @@ import dagger.Module
 import dagger.Provides
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel
@@ -28,24 +28,22 @@ class ViewModelModule {
     internal fun providesCalculatorViewModel(
         preferencesRepository: PreferencesRepository,
         apiRepository: ApiRepository,
-        currencyRepository: CurrencyRepository,
-        offlineRatesRepository: OfflineRatesRepository
+        currencyDao: CurrencyDao,
+        offlineRatesDao: OfflineRatesDao
     ) = CalculatorViewModel(
         preferencesRepository,
         apiRepository,
-        currencyRepository,
-        offlineRatesRepository)
+        currencyDao,
+        offlineRatesDao)
 
     @Provides
     @ActivityScope
     internal fun providesSettingsViewModel(
         preferencesRepository: PreferencesRepository,
-        currencyRepository: CurrencyRepository
-    ) = SettingsViewModel(preferencesRepository, currencyRepository)
+        currencyDao: CurrencyDao
+    ) = SettingsViewModel(preferencesRepository, currencyDao)
 
     @Provides
     @FragmentScope
-    internal fun providesBarViewModel(
-        currencyRepository: CurrencyRepository
-    ) = BarViewModel(currencyRepository)
+    internal fun providesBarViewModel(currencyDao: CurrencyDao) = BarViewModel(currencyDao)
 }

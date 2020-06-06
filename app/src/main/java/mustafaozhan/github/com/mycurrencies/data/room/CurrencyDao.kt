@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.room.currency
+package mustafaozhan.github.com.mycurrencies.data.room
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
+import mustafaozhan.github.com.mycurrencies.data.room.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
@@ -23,7 +23,7 @@ import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencie
 
 class SettingsViewModel(
     val preferencesRepository: PreferencesRepository,
-    private val currencyRepository: CurrencyRepository
+    private val currencyDao: CurrencyDao
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
@@ -46,7 +46,7 @@ class SettingsViewModel(
         }
 
         viewModelScope.launch {
-            currencyRepository.getAllCurrencies()
+            currencyDao.getAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
@@ -99,11 +99,11 @@ class SettingsViewModel(
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
-        currencyRepository.updateAllCurrencyState(state)
+        currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = viewModelScope.launch {
-        currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
+        currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
     override fun onDoneClick() = _states._currencyList.value

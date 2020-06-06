@@ -5,8 +5,6 @@ package mustafaozhan.github.com.mycurrencies.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.Rates
 

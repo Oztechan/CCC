@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
+import mustafaozhan.github.com.mycurrencies.data.room.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.room.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -40,8 +40,8 @@ import timber.log.Timber
 class CalculatorViewModel(
     val preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
-    private val currencyRepository: CurrencyRepository,
-    private val offlineRatesRepository: OfflineRatesRepository
+    private val currencyDao: CurrencyDao,
+    private val offlineRatesDao: OfflineRatesDao
 ) : BaseViewModel(), CalculatorEvent {
 
     // region SEED
@@ -70,7 +70,7 @@ class CalculatorViewModel(
             }
 
             viewModelScope.launch {
-                currencyRepository.getActiveCurrencies()
+                currencyDao.getActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
             }
@@ -92,14 +92,14 @@ class CalculatorViewModel(
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
-            offlineRatesRepository.insertOfflineRates(it)
+            offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
         Timber.w(t, "rate download failed.")
 
-        offlineRatesRepository.getOfflineRatesByBase(
+        offlineRatesDao.getOfflineRatesByBase(
             preferencesRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
@@ -143,7 +143,7 @@ class CalculatorViewModel(
         _state._input.value = _state._input.value
 
         viewModelScope.launch {
-            _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
         }
     }
 
