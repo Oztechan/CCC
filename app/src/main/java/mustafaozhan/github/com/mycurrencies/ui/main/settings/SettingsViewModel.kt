@@ -39,7 +39,7 @@ class SettingsViewModel(
     // endregion
 
     init {
-        initData()
+        _states._loading.value = true
 
         _states._searchQuery.addSource(state.searchQuery) {
             filterList(it)
@@ -60,19 +60,12 @@ class SettingsViewModel(
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
+                    _states._loading.value = false
                 }
         }
 
         filterList("")
     }
-
-    private fun initData() = viewModelScope
-        .whether { preferencesRepository.firstRun }
-        ?.launch {
-            _states._loading.value = true
-            currencyRepository.insertInitialCurrencies()
-            _states._loading.value = false
-        }?.toUnit()
 
     private fun filterList(txt: String) = data.unFilteredList
         ?.filter { (name, longName, symbol) ->
