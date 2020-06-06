@@ -8,10 +8,14 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
+import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
+import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
 import javax.inject.Singleton
 
 @SuppressWarnings("unchecked")
 @Singleton
+@ActivityScope
+@FragmentScope
 @Component(modules = [
     AndroidInjectionModule::class,
     AndroidSupportInjectionModule::class,

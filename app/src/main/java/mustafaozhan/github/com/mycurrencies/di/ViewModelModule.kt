@@ -9,6 +9,8 @@ import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
 import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
+import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
+import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel
@@ -18,11 +20,13 @@ import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 @Module
 class ViewModelModule {
     @Provides
-    internal fun provideMainViewModel(preferencesRepository: PreferencesRepository) =
+    @ActivityScope
+    internal fun providesMainViewModel(preferencesRepository: PreferencesRepository) =
         MainViewModel(preferencesRepository)
 
     @Provides
-    internal fun provideCalculatorViewModel(
+    @ActivityScope
+    internal fun providesCalculatorViewModel(
         preferencesRepository: PreferencesRepository,
         apiRepository: ApiRepository,
         currencyRepository: CurrencyRepository,
@@ -34,12 +38,14 @@ class ViewModelModule {
         offlineRatesRepository)
 
     @Provides
-    internal fun provideSettingsViewModel(
+    @ActivityScope
+    internal fun providesSettingsViewModel(
         preferencesRepository: PreferencesRepository,
         currencyRepository: CurrencyRepository
     ) = SettingsViewModel(preferencesRepository, currencyRepository)
 
     @Provides
+    @FragmentScope
     internal fun providesBarViewModel(
         currencyRepository: CurrencyRepository
     ) = BarViewModel(currencyRepository)
