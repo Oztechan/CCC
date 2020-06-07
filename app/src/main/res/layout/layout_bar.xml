@@ -32,7 +32,7 @@
         <TextView
             android:id="@+id/txt_base"
             style="@style/BarTextStyle"
-            android:text="@{vm.data.currentBase == `NULL` ? `` : `  `+vm.data.currentBase}"
+            android:text="@{vm.state.base == `NULL` ? `` : `  `+vm.state.base}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_base"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
             app:layout_constraintTop_toTopOf="@+id/iv_base"
