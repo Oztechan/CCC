@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
+import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
 import mustafaozhan.github.com.mycurrencies.model.Rates
@@ -35,13 +35,15 @@ import mustafaozhan.github.com.mycurrencies.util.extension.toRate
 import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
 import org.mariuszgromada.math.mxparser.Expression
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
-class CalculatorViewModel(
-    val preferencesRepository: PreferencesRepository,
+class CalculatorViewModel
+@Inject constructor(
+    preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
-    private val currencyRepository: CurrencyRepository,
-    private val offlineRatesRepository: OfflineRatesRepository
+    private val currencyDao: CurrencyDao,
+    private val offlineRatesDao: OfflineRatesDao
 ) : BaseViewModel(), CalculatorEvent {
 
     // region SEED
@@ -51,14 +53,14 @@ class CalculatorViewModel(
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    val data = CalculatorData()
+    val data = CalculatorData(preferencesRepository)
 
     fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {
         with(_state) {
-            _base.value = preferencesRepository.currentBase
+            _base.value = data.currentBase
             _input.value = ""
 
             _base.addSource(state.base) {
@@ -70,7 +72,7 @@ class CalculatorViewModel(
             }
 
             viewModelScope.launch {
-                currencyRepository.getActiveCurrencies()
+                currencyDao.getActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
             }
@@ -81,7 +83,7 @@ class CalculatorViewModel(
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         apiRepository
-            .getRatesByBase(preferencesRepository.currentBase)
+            .getRatesByBase(data.currentBase)
             .execute(
                 ::rateDownloadSuccess,
                 ::rateDownloadFail
@@ -92,15 +94,15 @@ class CalculatorViewModel(
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
-            offlineRatesRepository.insertOfflineRates(it)
+            offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
         Timber.w(t, "rate download failed.")
 
-        offlineRatesRepository.getOfflineRatesByBase(
-            preferencesRepository.currentBase
+        offlineRatesDao.getOfflineRatesByBase(
+            data.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.postValue(OfflineSuccessEffect(offlineRates.date))
@@ -138,12 +140,12 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
-        preferencesRepository.currentBase = newBase
+        data.currentBase = newBase
 
         _state._input.value = _state._input.value
 
         viewModelScope.launch {
-            _state._symbol.value = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
         }
     }
 
@@ -184,7 +186,7 @@ class CalculatorViewModel(
 
     override fun onItemLongClick(currency: Currency): Boolean {
         _effect.postValue(
-            ShowRateEffect("1 ${preferencesRepository.currentBase} = " +
+            ShowRateEffect("1 ${data.currentBase} = " +
                 "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name

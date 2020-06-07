@@ -18,19 +18,17 @@ import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class MainViewModel(
-    private val preferencesRepository: PreferencesRepository
+class MainViewModel
+@Inject constructor(
+    preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
 
     private val _effect = MutableSingleLiveData<MainEffect>()
     val effect: SingleLiveData<MainEffect> = _effect
 
-    fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
-
-    fun isRewardExpired() = preferencesRepository.isRewardExpired()
-
-    fun isFirstRun() = preferencesRepository.firstRun
+    val data = MainData(preferencesRepository)
 
     fun checkRemoteConfig() {
         FirebaseRemoteConfig.getInstance().apply {

@@ -62,7 +62,7 @@ open class MainActivity : BaseActivity() {
     private fun setGraph() = getNavigationController().apply {
         graph = navInflater.inflate(R.navigation.main_graph)
             .apply {
-                startDestination = if (mainViewModel.isFirstRun()) {
+                startDestination = if (mainViewModel.data.firstRun) {
                     R.id.settingsFragment
                 } else {
                     R.id.calculatorFragment
@@ -135,7 +135,7 @@ open class MainActivity : BaseActivity() {
             override fun onRewardedAdClosed() = prepareRewardedAd()
             override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-                mainViewModel.updateAdFreeActivation()
+                mainViewModel.data.updateAdFreeActivation()
                 val intent = intent
                 finish()
                 startActivity(intent)
@@ -166,7 +166,7 @@ open class MainActivity : BaseActivity() {
                 interstitialAd.whether(
                     { isLoaded },
                     { adVisibility },
-                    { mainViewModel.isRewardExpired() }
+                    { mainViewModel.data.isRewardExpired }
                 )?.apply { show() }
                     ?: prepareInterstitialAd()
                 delay(AD_PERIOD)

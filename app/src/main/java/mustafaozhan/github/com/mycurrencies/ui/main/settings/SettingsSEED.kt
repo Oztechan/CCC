@@ -10,6 +10,7 @@ import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
 import com.github.mustafaozhan.basemob.model.BaseStateBacking
+import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData
 
@@ -40,5 +41,7 @@ object CalculatorEffect : SettingsEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 
 data class SettingsData(
+    private val preferencesRepository: PreferencesRepository
+) : MainData(preferencesRepository) {
     var unFilteredList: MutableList<Currency>? = mutableListOf()
-) : MainData()
+}

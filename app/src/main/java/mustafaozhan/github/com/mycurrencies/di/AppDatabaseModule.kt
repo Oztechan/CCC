@@ -9,7 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import mustafaozhan.github.com.mycurrencies.data.room.AppDatabase
+import mustafaozhan.github.com.mycurrencies.data.db.AppDatabase
 import mustafaozhan.github.com.mycurrencies.util.extension.execSQL1To2
 import mustafaozhan.github.com.mycurrencies.util.extension.execSQL2To3
 import javax.inject.Singleton
@@ -44,5 +44,6 @@ class AppDatabaseModule {
         override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
     }).addMigrations(object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
-    }).build()
+    }).createFromAsset(DATABASE_NAME)
+        .build()
 }
