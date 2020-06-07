@@ -40,7 +40,7 @@ import javax.inject.Inject
 @Suppress("TooManyFunctions")
 class CalculatorViewModel
 @Inject constructor(
-    val preferencesRepository: PreferencesRepository,
+    preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
@@ -53,14 +53,14 @@ class CalculatorViewModel
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    val data = CalculatorData()
+    val data = CalculatorData(preferencesRepository)
 
     fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {
         with(_state) {
-            _base.value = preferencesRepository.currentBase
+            _base.value = data.currentBase
             _input.value = ""
 
             _base.addSource(state.base) {
@@ -83,7 +83,7 @@ class CalculatorViewModel
         calculateConversions(rates)
     } ?: viewModelScope.launch {
         apiRepository
-            .getRatesByBase(preferencesRepository.currentBase)
+            .getRatesByBase(data.currentBase)
             .execute(
                 ::rateDownloadSuccess,
                 ::rateDownloadFail
@@ -102,7 +102,7 @@ class CalculatorViewModel
         Timber.w(t, "rate download failed.")
 
         offlineRatesDao.getOfflineRatesByBase(
-            preferencesRepository.currentBase
+            data.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _effect.postValue(OfflineSuccessEffect(offlineRates.date))
@@ -140,7 +140,7 @@ class CalculatorViewModel
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
-        preferencesRepository.currentBase = newBase
+        data.currentBase = newBase
 
         _state._input.value = _state._input.value
 
@@ -186,7 +186,7 @@ class CalculatorViewModel
 
     override fun onItemLongClick(currency: Currency): Boolean {
         _effect.postValue(
-            ShowRateEffect("1 ${preferencesRepository.currentBase} = " +
+            ShowRateEffect("1 ${data.currentBase} = " +
                 "${data.rates?.getThroughReflection<Double>(currency.name)} " +
                 currency.getVariablesOneLine(),
                 currency.name

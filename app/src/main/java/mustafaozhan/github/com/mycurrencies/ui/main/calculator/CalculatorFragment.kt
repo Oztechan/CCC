@@ -88,7 +88,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
         with(calculatorViewModel) {
             state.currencyList.observe(viewLifecycleOwner) {
-                calculatorAdapter.submitList(it, preferencesRepository.currentBase)
+                calculatorAdapter.submitList(it, data.currentBase)
             }
         }
     }

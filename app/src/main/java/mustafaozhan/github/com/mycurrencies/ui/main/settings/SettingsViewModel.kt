@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class SettingsViewModel
 @Inject constructor(
-    val preferencesRepository: PreferencesRepository,
+    preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
 ) : BaseViewModel(), SettingsEvent {
 
@@ -35,7 +35,7 @@ class SettingsViewModel
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
 
-    val data = SettingsData()
+    val data = SettingsData(preferencesRepository)
 
     fun getEvent() = this as SettingsEvent
     // endregion
@@ -58,7 +58,7 @@ class SettingsViewModel
                     currencyList
                         ?.filter { it.isActive }?.size
                         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                        ?.whetherNot { preferencesRepository.firstRun }
+                        ?.whetherNot { data.firstRun }
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
@@ -78,7 +78,7 @@ class SettingsViewModel
             _states._loading.value = false
         }
 
-    private fun verifyCurrentBase() = preferencesRepository.currentBase.either(
+    private fun verifyCurrentBase() = data.currentBase.either(
         { equals(Currencies.NULL.toString()) },
         { base ->
             state.currencyList.value
@@ -96,7 +96,7 @@ class SettingsViewModel
     }
 
     private fun updateCurrentBase(newBase: String) {
-        preferencesRepository.currentBase = newBase
+        data.currentBase = newBase
         _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
 
@@ -114,7 +114,7 @@ class SettingsViewModel
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
         ?: run {
-            preferencesRepository.firstRun = false
+            data.firstRun = false
             _effect.postValue(CalculatorEffect)
         }
     // endregion

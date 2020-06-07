@@ -79,7 +79,7 @@
             android:id="@+id/ad_view_container"
             style="@style/BaseBannerAdStyle"
             app:adId="@{@string/banner_ad_unit_id_calculator}"
-            app:isExpired="@{vm.preferencesRepository.isRewardExpired()}"
+            app:isExpired="@{vm.data.isRewardExpired}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

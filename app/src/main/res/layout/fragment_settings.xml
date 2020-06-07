@@ -89,7 +89,7 @@
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_settings"
-            app:visibility="@{vm.preferencesRepository.firstRun}" />
+            app:visibility="@{vm.data.firstRun}" />
 
         <Button
             android:id="@+id/btn_done"
@@ -98,13 +98,13 @@
             android:text="@string/btn_done"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:visibility="@{vm.preferencesRepository.firstRun}" />
+            app:visibility="@{vm.data.firstRun}" />
 
         <FrameLayout
             android:id="@+id/ad_view_container"
             style="@style/BaseBannerAdStyle"
             app:adId="@{@string/banner_ad_unit_id_settings}"
-            app:isExpired="@{vm.preferencesRepository.isRewardExpired()}"
+            app:isExpired="@{vm.data.isRewardExpired}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

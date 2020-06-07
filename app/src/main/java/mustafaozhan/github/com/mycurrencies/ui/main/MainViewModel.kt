@@ -22,17 +22,13 @@ import javax.inject.Inject
 
 class MainViewModel
 @Inject constructor(
-    private val preferencesRepository: PreferencesRepository
+    preferencesRepository: PreferencesRepository
 ) : BaseViewModel() {
 
     private val _effect = MutableSingleLiveData<MainEffect>()
     val effect: SingleLiveData<MainEffect> = _effect
 
-    fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
-
-    fun isRewardExpired() = preferencesRepository.isRewardExpired()
-
-    fun isFirstRun() = preferencesRepository.firstRun
+    val data = MainData(preferencesRepository)
 
     fun checkRemoteConfig() {
         FirebaseRemoteConfig.getInstance().apply {
