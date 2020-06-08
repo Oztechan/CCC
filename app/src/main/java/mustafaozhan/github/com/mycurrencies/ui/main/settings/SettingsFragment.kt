@@ -6,9 +6,10 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
+import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -48,13 +49,13 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             adapter = settingsAdapter
         }
 
-        settingsViewModel.state.currencyList.observe(viewLifecycleOwner) {
+        settingsViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
             settingsAdapter.submitList(it)
-        }
+        })
     }
 
     private fun observeEffect() = settingsViewModel.effect
-        .observe(viewLifecycleOwner) { viewEffect ->
+        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> navigate(
@@ -65,5 +66,5 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                 }
             }
-        }
+        })
 }

@@ -6,10 +6,11 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
+import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import mustafaozhan.github.com.mycurrencies.R
@@ -45,12 +46,12 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
-        ?.observe(viewLifecycleOwner) {
+        ?.reObserve(viewLifecycleOwner, Observer {
             calculatorViewModel.verifyCurrentBase(it)
-        }
+        })
 
     private fun observeEffect() = calculatorViewModel.effect
-        .observe(viewLifecycleOwner) { viewEffect ->
+        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> showSnack(
                     requireView(),
@@ -78,7 +79,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
-        }
+        })
 
     private fun initView() {
         binding.recyclerViewMain.apply {
@@ -87,9 +88,9 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         }
 
         with(calculatorViewModel) {
-            state.currencyList.observe(viewLifecycleOwner) {
+            state.currencyList.reObserve(viewLifecycleOwner, Observer {
                 calculatorAdapter.submitList(it, data.currentBase)
-            }
+            })
         }
     }
 }

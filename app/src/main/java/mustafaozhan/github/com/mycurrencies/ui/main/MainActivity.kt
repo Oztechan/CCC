@@ -10,8 +10,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.NonNull
+import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.observe
+import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.util.toUnit
@@ -70,7 +71,7 @@ open class MainActivity : BaseActivity() {
             }
     }.toUnit()
 
-    private fun initEffect() = mainViewModel.effect.observe(this) { viewEffect ->
+    private fun initEffect() = mainViewModel.effect.reObserve(this, Observer { viewEffect ->
         when (viewEffect) {
             is AppUpdateEffect -> viewEffect.remoteConfig.apply {
                 showDialog(
@@ -84,7 +85,7 @@ open class MainActivity : BaseActivity() {
                 }
             }
         }
-    }
+    })
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
