@@ -101,21 +101,27 @@ open class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
             R.id.feedback -> sendFeedBack()
-            R.id.support -> Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.app_market_link))
-            ).resolveActivity(packageManager)?.let {
-                showDialog(this, R.string.support_us, R.string.rate_and_support, R.string.rate) {
-                    startActivity(intent)
+            R.id.support -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(R.string.app_market_link))
+                )
+                intent.resolveActivity(packageManager)?.let {
+                    showDialog(this, R.string.support_us, R.string.rate_and_support, R.string.rate) {
+                        startActivity(intent)
+                    }
                 }
             }
             R.id.removeAds -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
                 showRewardedAd()
             }
-            R.id.onGithub -> Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.github_url))
-            ).resolveActivity(packageManager)?.let { startActivity(intent) }
+            R.id.onGithub -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(R.string.github_url))
+                )
+                intent.resolveActivity(packageManager)?.let { startActivity(intent) }
+            }
         }
 
         return super.onOptionsItemSelected(item)
