@@ -12,7 +12,7 @@ import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.rule.TestCoroutineRule
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,7 +53,7 @@ class SettingsViewModelTest {
 
         viewModel.state.apply {
             searchQuery.postValue(mockSearchQuery)
-            Assert.assertEquals(searchQuery.value, mockSearchQuery)
+            assertEquals(searchQuery.value, mockSearchQuery)
         }
     }
 }

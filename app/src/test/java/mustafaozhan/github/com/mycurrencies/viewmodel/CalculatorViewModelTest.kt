@@ -22,7 +22,7 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewMod
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.OpenBarEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.ShowRateEffect
 import mustafaozhan.github.com.mycurrencies.util.extension.getCurrencyConversionByRate
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -75,13 +75,13 @@ class CalculatorViewModelTest {
     fun `spinner item click`() {
         val clickedItem = "asd"
         event.onSpinnerItemSelected(clickedItem)
-        Assert.assertEquals(clickedItem, viewModel.state.base.value)
+        assertEquals(clickedItem, viewModel.state.base.value)
     }
 
     @Test
     fun `bar click`() {
         event.onBarClick()
-        Assert.assertEquals(OpenBarEffect, viewModel.effect.value)
+        assertEquals(OpenBarEffect, viewModel.effect.value)
     }
 
     @Test
@@ -90,13 +90,13 @@ class CalculatorViewModelTest {
         val conversion = "123.456"
         event.onItemClick(currency, conversion)
 
-        Assert.assertEquals(currency.name, viewModel.state.base.value)
-        Assert.assertEquals(conversion, viewModel.state.input.value)
+        assertEquals(currency.name, viewModel.state.base.value)
+        assertEquals(conversion, viewModel.state.input.value)
 
         val unValidConversion = "123."
         val validConversion = "123"
         event.onItemClick(currency, unValidConversion)
-        Assert.assertEquals(validConversion, viewModel.state.input.value)
+        assertEquals(validConversion, viewModel.state.input.value)
     }
 
     @Test
@@ -105,7 +105,7 @@ class CalculatorViewModelTest {
 
         event.onItemLongClick(currency)
 
-        Assert.assertEquals(
+        assertEquals(
             ShowRateEffect(
                 currency.getCurrencyConversionByRate(preferencesRepository.currentBase, viewModel.data.rates),
                 currency.name
@@ -119,14 +119,14 @@ class CalculatorViewModelTest {
         val oldValue = viewModel.state.input.value
         val key = "1"
         event.onKeyPress(key)
-        Assert.assertEquals(oldValue + key, viewModel.state.input.value)
+        assertEquals(oldValue + key, viewModel.state.input.value)
 
         event.onKeyPress(KEY_AC)
-        Assert.assertEquals("", viewModel.state.input.value)
+        assertEquals("", viewModel.state.input.value)
 
         val currentInput = "12345"
         event.onKeyPress(currentInput)
         event.onKeyPress(KEY_DEL)
-        Assert.assertEquals(currentInput.dropLast(1), viewModel.state.input.value)
+        assertEquals(currentInput.dropLast(1), viewModel.state.input.value)
     }
 }
