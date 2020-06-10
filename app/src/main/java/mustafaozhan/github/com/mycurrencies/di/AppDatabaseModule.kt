@@ -44,6 +44,5 @@ class AppDatabaseModule {
         override fun migrate(database: SupportSQLiteDatabase) = database.execSQL1To2()
     }).addMigrations(object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
-    }).createFromAsset(DATABASE_NAME)
-        .build()
+    }).build()
 }
