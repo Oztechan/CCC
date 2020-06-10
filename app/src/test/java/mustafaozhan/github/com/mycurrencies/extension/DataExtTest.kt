@@ -1,7 +1,10 @@
-// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+/*
+ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
 package mustafaozhan.github.com.mycurrencies.extension
 
 import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.mycurrencies.util.extension.calculateResult
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

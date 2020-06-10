@@ -1,22 +1,25 @@
-// Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+/*
+ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
 package mustafaozhan.github.com.mycurrencies.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import mustafaozhan.github.com.mycurrencies.data.backend.BackendRepository
+import kotlinx.coroutines.newSingleThreadContext
+import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
+import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
+import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.data.room.currency.CurrencyRepository
-import mustafaozhan.github.com.mycurrencies.data.room.offlineRates.OfflineRatesRepository
-import mustafaozhan.github.com.mycurrencies.extension.getCurrencyConversionByRate
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_AC
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorData.Companion.KEY_DEL
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.LongClickEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.model.ReverseSpinner
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.OpenBarEffect
+import mustafaozhan.github.com.mycurrencies.ui.main.calculator.ShowRateEffect
+import mustafaozhan.github.com.mycurrencies.util.extension.getCurrencyConversionByRate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -30,6 +33,7 @@ open class CalculatorViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
+    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     private lateinit var viewModel: CalculatorViewModel
 
@@ -37,13 +41,13 @@ open class CalculatorViewModelTest {
     lateinit var preferencesRepository: PreferencesRepository
 
     @MockK
-    lateinit var backendRepository: BackendRepository
+    lateinit var apiRepository: ApiRepository
 
     @RelaxedMockK
-    lateinit var currencyRepository: CurrencyRepository
+    lateinit var currencyDao: CurrencyDao
 
     @MockK
-    lateinit var offlineRatesRepository: OfflineRatesRepository
+    lateinit var offlineRatesDao: OfflineRatesDao
 
     private lateinit var event: CalculatorEvent
 
@@ -53,9 +57,9 @@ open class CalculatorViewModelTest {
 
         viewModel = CalculatorViewModel(
             preferencesRepository,
-            backendRepository,
-            currencyRepository,
-            offlineRatesRepository
+            apiRepository,
+            currencyDao,
+            offlineRatesDao
         )
         event = viewModel.getEvent()
     }
@@ -70,12 +74,12 @@ open class CalculatorViewModelTest {
     @Test
     fun `bar click`() {
         event.onBarClick()
-        Assert.assertEquals(ReverseSpinner, viewModel.effect.value)
+        Assert.assertEquals(OpenBarEffect, viewModel.effect.value)
     }
 
     @Test
     fun `on item click`() {
-        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val conversion = "123.456"
         event.onItemClick(currency, conversion)
 
@@ -90,12 +94,12 @@ open class CalculatorViewModelTest {
 
     @Test
     fun `on item long click`() {
-        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
 
         event.onItemLongClick(currency)
 
         Assert.assertEquals(
-            LongClickEffect(
+            ShowRateEffect(
                 currency.getCurrencyConversionByRate(preferencesRepository.currentBase, viewModel.data.rates),
                 currency.name
             ),

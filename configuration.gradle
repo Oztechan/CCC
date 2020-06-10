@@ -81,6 +81,7 @@ ext {
     mockK = "io.mockk:mockk:$MOCKK_VERSION"
     archTesting = "android.arch.core:core-testing:$ARCH_TESTING_VERSION"
 
+
     // Annotations
     annotations = [
             daggerCompiler : "com.google.dagger:dagger-compiler:$DAGGER_VERSION",
