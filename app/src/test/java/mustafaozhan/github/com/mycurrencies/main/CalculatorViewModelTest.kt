@@ -7,7 +7,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
@@ -27,13 +28,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
+@ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
-open class CalculatorViewModelTest {
+class CalculatorViewModelTest : ViewModelTest() {
 
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     private lateinit var viewModel: CalculatorViewModel
 
@@ -51,9 +52,12 @@ open class CalculatorViewModelTest {
 
     private lateinit var event: CalculatorEvent
 
+    @ExperimentalCoroutinesApi
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        setMainThread()
 
         viewModel = CalculatorViewModel(
             preferencesRepository,

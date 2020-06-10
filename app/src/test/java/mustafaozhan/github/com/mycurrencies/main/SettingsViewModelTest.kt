@@ -6,6 +6,8 @@ package mustafaozhan.github.com.mycurrencies.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
@@ -16,8 +18,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
+@ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
-class SettingsViewModelTest {
+class SettingsViewModelTest : ViewModelTest() {
 
     private lateinit var viewModel: SettingsViewModel
 
@@ -31,9 +34,11 @@ class SettingsViewModelTest {
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
 
+    @ExperimentalCoroutinesApi
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        setMainThread()
         viewModel = SettingsViewModel(preferencesRepository, currencyDao)
     }
 

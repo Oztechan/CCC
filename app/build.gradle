@@ -80,6 +80,7 @@ dependencies {
             jUnit,
             mockK,
             archTesting,
+            coroutinesTest
     )
 
     implementation(files(mxParser))

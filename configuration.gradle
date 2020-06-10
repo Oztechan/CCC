@@ -80,6 +80,7 @@ ext {
     jUnit = "junit:junit:$JUNIT_VERSION"
     mockK = "io.mockk:mockk:$MOCKK_VERSION"
     archTesting = "android.arch.core:core-testing:$ARCH_TESTING_VERSION"
+    coroutinesTest="org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
 
 
     // Annotations
