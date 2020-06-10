@@ -100,7 +100,7 @@ ext {
             androidBuildTools : "com.android.tools.build:gradle:${ANDROID_PLUGIN_VERSION}",
             kotlinGradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}",
             gsmGoogle         : "com.google.gms:google-services:$GSM_GOOGLE_VERSION",
-            fabric            : "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_VERSION",
+            crashlytics            : "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_VERSION",
             navigation        : "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     ]
 }

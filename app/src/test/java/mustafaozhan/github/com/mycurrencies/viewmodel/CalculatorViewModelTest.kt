@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.main
+package mustafaozhan.github.com.mycurrencies.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
@@ -14,6 +14,7 @@ import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.mycurrencies.rule.TestCoroutineRule
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_AC
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorEvent
@@ -30,11 +31,15 @@ import org.junit.runners.JUnit4
 
 @ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
-class CalculatorViewModelTest : ViewModelTest() {
+class CalculatorViewModelTest {
 
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
 
     private lateinit var viewModel: CalculatorViewModel
 
@@ -56,8 +61,6 @@ class CalculatorViewModelTest : ViewModelTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-
-        setMainThread()
 
         viewModel = CalculatorViewModel(
             preferencesRepository,

@@ -1,8 +1,14 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util.extension
+package mustafaozhan.github.com.mycurrencies.extension
 
+import mustafaozhan.github.com.mycurrencies.util.extension.dropDecimal
+import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
+import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
+import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.util.extension.toStandardDigits
+import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mariuszgromada.math.mxparser.Expression
