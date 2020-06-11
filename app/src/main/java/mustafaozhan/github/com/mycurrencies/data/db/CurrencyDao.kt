@@ -4,8 +4,6 @@
 package mustafaozhan.github.com.mycurrencies.data.db
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -18,9 +16,6 @@ interface CurrencyDao {
 
     @Query("SELECT * FROM currency WHERE isActive=1")
     fun getActiveCurrencies(): Flow<MutableList<Currency>?>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCurrency(currency: Currency)
 
     @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
     suspend fun updateCurrencyStateByName(name: String, isActive: Boolean)

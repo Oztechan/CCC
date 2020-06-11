@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.db.DBInitialise
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.Currencies
 import mustafaozhan.github.com.mycurrencies.model.Currency
@@ -26,8 +25,7 @@ import javax.inject.Inject
 class SettingsViewModel
 @Inject constructor(
     preferencesRepository: PreferencesRepository,
-    private val currencyDao: CurrencyDao,
-    private val dbInitialise: DBInitialise
+    private val currencyDao: CurrencyDao
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
@@ -43,7 +41,8 @@ class SettingsViewModel
     // endregion
 
     init {
-        initData()
+        _states._loading.value = true
+
         _states._searchQuery.addSource(state.searchQuery) {
             filterList(it)
         }
@@ -66,17 +65,7 @@ class SettingsViewModel
                     filterList("")
                 }
         }
-
-        filterList("")
     }
-
-    private fun initData() = viewModelScope
-        .whether { data.firstRun }
-        ?.launch {
-            _states._loading.value = true
-            dbInitialise.insertInitialCurrencies()
-            _states._loading.value = false
-        }?.toUnit()
 
     private fun filterList(txt: String) = data.unFilteredList
         ?.filter { (name, longName, symbol) ->
@@ -84,7 +73,10 @@ class SettingsViewModel
                 longName.contains(txt, true) ||
                 symbol.contains(txt, true)
         }?.toMutableList()
-        ?.let { _states._currencyList.value = it }
+        ?.let {
+            _states._currencyList.value = it
+            _states._loading.value = false
+        }
 
     private fun verifyCurrentBase() = data.currentBase.either(
         { equals(Currencies.NULL.toString()) },

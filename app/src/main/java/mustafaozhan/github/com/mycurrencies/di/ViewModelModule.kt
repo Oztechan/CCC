@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
 import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.db.DBInitialise
 import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
@@ -41,9 +40,8 @@ class ViewModelModule {
     @ActivityScope
     internal fun providesSettingsViewModel(
         preferencesRepository: PreferencesRepository,
-        currencyDao: CurrencyDao,
-        dbInitialise: DBInitialise
-    ) = SettingsViewModel(preferencesRepository, currencyDao, dbInitialise)
+        currencyDao: CurrencyDao
+    ) = SettingsViewModel(preferencesRepository, currencyDao)
 
     @Provides
     @FragmentScope
