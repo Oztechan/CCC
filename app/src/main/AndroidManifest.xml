@@ -17,11 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup"
         tools:targetApi="m">
         <activity
             android:name="mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Fullscreen.SplashTheme">
+            android:theme="@style/AppTheme.Fullscreen.SplashTheme"
+            tools:ignore="AllowBackup">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
