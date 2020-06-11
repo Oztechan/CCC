@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class AppDatabaseModule {
 
     companion object {
-        private const val DATABASE_NAME = "application_database"
+        private const val DATABASE_NAME = "application_database.sqlite"
     }
 
     @Provides
