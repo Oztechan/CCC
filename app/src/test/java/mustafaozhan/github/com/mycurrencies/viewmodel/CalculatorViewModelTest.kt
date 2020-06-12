@@ -3,6 +3,7 @@
  */
 package mustafaozhan.github.com.mycurrencies.viewmodel
 
+import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -43,6 +44,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         viewModel = CalculatorViewModel(
             preferencesRepository,
             apiRepository,
