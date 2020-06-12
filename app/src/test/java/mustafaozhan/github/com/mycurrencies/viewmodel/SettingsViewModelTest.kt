@@ -3,35 +3,23 @@
  */
 package mustafaozhan.github.com.mycurrencies.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.rule.TestCoroutineRule
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
-class SettingsViewModelTest {
+class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
-    private lateinit var viewModel: SettingsViewModel
-
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    val testCoroutineRule = TestCoroutineRule()
+    override lateinit var viewModel: SettingsViewModel
 
     @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
@@ -39,7 +27,6 @@ class SettingsViewModelTest {
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
 
-    @ExperimentalCoroutinesApi
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -47,13 +34,9 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun `is search query emitting`() {
-        // state
+    fun `is search query emitting`() = with(viewModel.state) {
         val mockSearchQuery = "abc"
-
-        viewModel.state.apply {
-            searchQuery.postValue(mockSearchQuery)
-            assertEquals(searchQuery.value, mockSearchQuery)
-        }
+        searchQuery.postValue(mockSearchQuery)
+        assertEquals(searchQuery.value, mockSearchQuery)
     }
 }
