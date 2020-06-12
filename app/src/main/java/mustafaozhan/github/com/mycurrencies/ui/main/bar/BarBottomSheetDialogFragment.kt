@@ -14,7 +14,6 @@ import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogF
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarBottomSheetDialogFragmentDirections
 import javax.inject.Inject
 
 class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
