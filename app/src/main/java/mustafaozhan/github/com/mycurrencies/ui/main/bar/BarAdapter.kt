@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar
+package mustafaozhan.github.com.mycurrencies.ui.main.bar
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
 import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
 import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.util.extension.toValidList
 
 class BarAdapter(
     private val barEvent: BarEvent
@@ -23,8 +22,6 @@ class BarAdapter(
         parent,
         false)
     )
-
-    fun submitList(list: MutableList<Currency>?, currentBase: String) = submitList(list.toValidList(currentBase))
 
     inner class CalculatorDBViewHolder(itemBinding: ItemBarBinding) :
         BaseDBViewHolder<Currency, ItemBarBinding>(itemBinding) {

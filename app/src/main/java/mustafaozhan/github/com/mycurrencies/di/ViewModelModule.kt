@@ -10,8 +10,8 @@ import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
 import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
 import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
+import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar.BarViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 
 @Suppress("unused")
