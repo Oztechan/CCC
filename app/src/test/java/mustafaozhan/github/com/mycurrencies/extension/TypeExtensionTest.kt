@@ -3,15 +3,21 @@
  */
 package mustafaozhan.github.com.mycurrencies.extension
 
+import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
+import mustafaozhan.github.com.mycurrencies.model.Rates
 import mustafaozhan.github.com.mycurrencies.util.extension.dropDecimal
 import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
 import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
+import mustafaozhan.github.com.mycurrencies.util.extension.toRate
 import mustafaozhan.github.com.mycurrencies.util.extension.toStandardDigits
 import mustafaozhan.github.com.mycurrencies.util.extension.toSupportedCharacters
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mariuszgromada.math.mxparser.Expression
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TypeExtensionTest {
 
@@ -84,6 +90,22 @@ class TypeExtensionTest {
         assertEquals(
             c.someInt,
             c.getThroughReflection<Int>("someInt")
+        )
+    }
+
+    @Test
+    fun `currency response to rate`() {
+        val base = "EUR"
+        val date = SimpleDateFormat(
+            "HH:mm:ss MM.dd.yyyy",
+            Locale.ENGLISH
+        ).format(Date())
+
+        val rates = Rates(base, date, uSD = 5.0)
+        val currencyResponse = CurrencyResponse(base, date, rates)
+        assertEquals(
+            rates,
+            currencyResponse.toRate()
         )
     }
 }
