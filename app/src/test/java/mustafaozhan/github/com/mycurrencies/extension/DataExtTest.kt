@@ -45,7 +45,7 @@ class DataExtTest {
     }
 
     @Test
-    fun `remove unused currencies`() {
+    fun `remove unused currencies from currency list`() {
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
             add(Currency(Currencies.BYR.toString(), "", ""))
@@ -61,7 +61,7 @@ class DataExtTest {
     }
 
     @Test
-    fun `to valid list`() {
+    fun `currency list to valid list`() {
         val base = "EUR"
 
         val list: MutableList<Currency> = mutableListOf()

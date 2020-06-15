@@ -79,7 +79,7 @@ class TypeExtensionTest {
     }
 
     @Test
-    fun getThroughReflection() {
+    fun `get through reflection`() {
         val c = SubjectModel()
 
         assertEquals(
