@@ -26,5 +26,5 @@ class AppDatabaseModule {
     @Singleton
     internal fun providesAppDatabase(
         @ApplicationContext applicationContext: Context
-    ): AppDatabase = AppDatabase.getAppDatabase(applicationContext)
+    ): AppDatabase = AppDatabase.createAppDatabase(applicationContext)
 }

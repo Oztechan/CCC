@@ -31,8 +31,6 @@ android {
         versionCode gitVersion
         versionName "1.2.${gitVersion}"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         android {
             javaCompileOptions {
                 annotationProcessorOptions {
