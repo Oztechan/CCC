@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.calculator.bar
+package mustafaozhan.github.com.mycurrencies.ui.main.bar
 
 import android.os.Bundle
 import android.view.View

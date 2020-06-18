@@ -16,10 +16,8 @@ import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.view.activity.BaseVBActivity
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
-import javax.inject.Inject
 
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
@@ -28,9 +26,6 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
     }
-
-    @Inject
-    lateinit var preferencesRepository: PreferencesRepository
 
     override fun bind() {
         binding = ActivitySliderBinding.inflate(layoutInflater)

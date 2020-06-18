@@ -27,8 +27,8 @@ import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Co
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import mustafaozhan.github.com.mycurrencies.util.extension.calculateResult
+import mustafaozhan.github.com.mycurrencies.util.extension.getCurrencyConversionByRate
 import mustafaozhan.github.com.mycurrencies.util.extension.getFormatted
-import mustafaozhan.github.com.mycurrencies.util.extension.getThroughReflection
 import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.util.extension.toPercent
 import mustafaozhan.github.com.mycurrencies.util.extension.toRate
@@ -186,9 +186,8 @@ class CalculatorViewModel
 
     override fun onItemLongClick(currency: Currency): Boolean {
         _effect.postValue(
-            ShowRateEffect("1 ${data.currentBase} = " +
-                "${data.rates?.getThroughReflection<Double>(currency.name)} " +
-                currency.getVariablesOneLine(),
+            ShowRateEffect(
+                currency.getCurrencyConversionByRate(data.currentBase, data.rates),
                 currency.name
             )
         )
