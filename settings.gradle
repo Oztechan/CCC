@@ -2,6 +2,8 @@
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 include ':app',
+        ':data',
+        ':domain',
         ':common:scopemob', ':common:basemob', ':common:logmob'
 
 project(':common:basemob').projectDir = file('common/basemob/submob')

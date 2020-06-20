@@ -1,0 +1,22 @@
+/*
+ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+apply from: '../configuration.gradle'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode gitVersion
+        versionName "1.${gitVersion}"
+    }
+}
+
+dependencies {
+    implementation(kotlin)
+}
