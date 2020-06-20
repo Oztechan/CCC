@@ -21,4 +21,8 @@ dependencies {
     implementation(kotlin)
 
     implementation project(':domain')
+
+    implementation project(':common:scopemob')
+    implementation project(':common:basemob')
+    implementation project(':common:logmob')
 }

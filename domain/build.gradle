@@ -19,4 +19,8 @@ android {
 
 dependencies {
     implementation(kotlin)
+
+    implementation project(':common:scopemob')
+    implementation project(':common:basemob')
+    implementation project(':common:logmob')
 }
