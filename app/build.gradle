@@ -83,7 +83,7 @@ dependencies {
 
     implementation(files(mxParser))
 
-    implementation project(':scopemob')
-    implementation project(':basemob')
-    implementation project(':logmob')
+    implementation project(':common:scopemob')
+    implementation project(':common:basemob')
+    implementation project(':common:logmob')
 }
