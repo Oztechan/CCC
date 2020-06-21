@@ -16,10 +16,11 @@ def getGitVersion = { ->
     }
 }
 ext {
+    def mayorVersion = 1
+    def minorVersion = 2
+
     minSdkVersion = 21
     targetSdkVersion = 29
     versionCode = getGitVersion()
-    mayorVersion = 1
-    minorVersion = 2
     versionName = "$mayorVersion.$minorVersion.${getGitVersion()}"
 }
