@@ -11,7 +11,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import mustafaozhan.github.com.mycurrencies.util.extension.setBackgroundByName
 
 @BindingAdapter("adId", "isExpired")
 fun FrameLayout.adAdapter(adId: String, isExpired: Boolean) = if (isExpired) {

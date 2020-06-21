@@ -14,7 +14,6 @@ import mustafaozhan.github.com.data.util.toStandardDigits
 import mustafaozhan.github.com.data.util.toSupportedCharacters
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mariuszgromada.math.mxparser.Expression
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -72,10 +71,7 @@ class TypeExtensionTest {
 
     @Test
     fun `to percent`() {
-        assertEquals(
-            Expression("10+200%5+5-5*3".toPercent()).calculate().toString(),
-            "10.0"
-        )
+        assertEquals("200/100*5", ("200%5").toPercent())
     }
 
     @Test

@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util.extension
+package mustafaozhan.github.com.data.util
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 

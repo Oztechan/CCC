@@ -6,8 +6,8 @@ package mustafaozhan.github.com.mycurrencies.viewmodel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.data.db.CurrencyDao
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before

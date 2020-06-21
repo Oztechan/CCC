@@ -1,14 +1,14 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util.extension
+package mustafaozhan.github.com.data.util
 
 import android.annotation.SuppressLint
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import mustafaozhan.github.com.mycurrencies.model.CurrencyResponse
-import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.data.model.CurrencyResponse
+import mustafaozhan.github.com.data.model.Rates
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols

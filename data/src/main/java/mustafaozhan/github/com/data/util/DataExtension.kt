@@ -1,12 +1,12 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util.extension
+package mustafaozhan.github.com.data.util
 
 import com.github.mustafaozhan.scopemob.whetherNot
-import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.data.model.Currencies
+import mustafaozhan.github.com.data.model.Currency
+import mustafaozhan.github.com.data.model.Rates
 
 fun Rates?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }

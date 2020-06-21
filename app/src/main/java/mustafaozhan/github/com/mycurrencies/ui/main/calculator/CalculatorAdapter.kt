@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
+import mustafaozhan.github.com.data.model.Currency
+import mustafaozhan.github.com.data.util.toValidList
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.model.Currency
-import mustafaozhan.github.com.mycurrencies.util.extension.toValidList
 
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent

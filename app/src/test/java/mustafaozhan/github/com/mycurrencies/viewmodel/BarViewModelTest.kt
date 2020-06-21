@@ -5,8 +5,8 @@ package mustafaozhan.github.com.mycurrencies.viewmodel
 
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
-import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.data.db.CurrencyDao
+import mustafaozhan.github.com.data.model.Currency
 import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.bar.ChangeBaseNavResultEffect
 import mustafaozhan.github.com.mycurrencies.ui.main.bar.OpenSettingsEffect

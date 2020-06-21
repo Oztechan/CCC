@@ -3,6 +3,7 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 apply from: '../configuration.gradle'
 
@@ -18,7 +19,19 @@ android {
 }
 
 dependencies {
-    implementation(kotlin)
+    implementation(
+            kotlin,
+            dagger,
+            moshi,
+            timber,
+            retrofit.values(),
+            room.values()
+    )
+    // todo dependencies
+
+    testImplementation(jUnit)
+
+    kapt(annotations.values())
 
     implementation project(':domain')
 

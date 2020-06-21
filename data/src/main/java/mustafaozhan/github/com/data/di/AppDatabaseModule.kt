@@ -1,12 +1,12 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.di
+package mustafaozhan.github.com.data.di
 
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import mustafaozhan.github.com.mycurrencies.data.db.AppDatabase
+import mustafaozhan.github.com.data.db.AppDatabase
 import javax.inject.Singleton
 
 @Module
@@ -25,6 +25,6 @@ class AppDatabaseModule {
     @Provides
     @Singleton
     internal fun providesAppDatabase(
-        @ApplicationContext applicationContext: Context
+        applicationContext: Context
     ): AppDatabase = AppDatabase.createAppDatabase(applicationContext)
 }

@@ -1,21 +1,20 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.preferences
+package mustafaozhan.github.com.data.preferences
 
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
 import com.github.mustafaozhan.scopemob.whether
-import mustafaozhan.github.com.mycurrencies.di.ApplicationContext
-import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.util.OldPreferences
+import mustafaozhan.github.com.data.model.Currencies
+import mustafaozhan.github.com.data.util.OldPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PreferencesRepository
 @Inject constructor(
-    @ApplicationContext context: Context
+    context: Context
 ) : BasePreferencesRepository(context) {
     companion object {
         private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
@@ -31,11 +30,11 @@ class PreferencesRepository
 
     var firstRun
         get() = getValue(KEY_FIRST_RUN, true)
-        internal set(value) = setValue(KEY_FIRST_RUN, value)
+        set(value) = setValue(KEY_FIRST_RUN, value)
 
     var currentBase
         get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
-        internal set(value) = setValue(KEY_CURRENT_BASE, value)
+        set(value) = setValue(KEY_CURRENT_BASE, value)
 
     private var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())

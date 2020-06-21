@@ -5,7 +5,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main
 
 import com.github.mustafaozhan.basemob.model.BaseData
 import com.github.mustafaozhan.basemob.model.BaseEffect
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 
 sealed class MainEffect : BaseEffect()

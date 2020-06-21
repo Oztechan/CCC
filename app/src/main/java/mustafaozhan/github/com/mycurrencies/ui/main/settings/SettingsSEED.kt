@@ -10,8 +10,8 @@ import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
 import com.github.mustafaozhan.basemob.model.BaseStateBacking
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.data.model.Currency
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData
 
 data class SettingsState(

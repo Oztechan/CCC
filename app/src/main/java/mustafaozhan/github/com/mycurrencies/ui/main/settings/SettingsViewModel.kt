@@ -14,12 +14,12 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.model.Currencies
-import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.data.db.CurrencyDao
+import mustafaozhan.github.com.data.model.Currencies
+import mustafaozhan.github.com.data.model.Currency
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.data.util.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.util.extension.removeUnUsedCurrencies
 import javax.inject.Inject
 
 class SettingsViewModel

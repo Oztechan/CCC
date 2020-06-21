@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.model
+package mustafaozhan.github.com.data.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

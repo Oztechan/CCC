@@ -1,12 +1,12 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.db
+package mustafaozhan.github.com.data.db
 
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import mustafaozhan.github.com.mycurrencies.model.Currency
+import mustafaozhan.github.com.data.model.Currency
 
 @Dao
 interface CurrencyDao {

@@ -7,11 +7,11 @@
 
     <data>
 
-        <import type="mustafaozhan.github.com.mycurrencies.util.extension.TypeExtensionKt" />
+        <import type="mustafaozhan.github.com.data.util.TypeExtensionKt" />
 
         <variable
             name="item"
-            type="mustafaozhan.github.com.mycurrencies.model.Currency" />
+            type="mustafaozhan.github.com.data.model.Currency" />
 
         <variable
             name="event"

@@ -1,13 +1,13 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.data.db
+package mustafaozhan.github.com.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import mustafaozhan.github.com.mycurrencies.model.Rates
+import mustafaozhan.github.com.data.model.Rates
 
 @Dao
 interface OfflineRatesDao {

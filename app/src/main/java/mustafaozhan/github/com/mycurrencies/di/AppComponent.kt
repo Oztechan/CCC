@@ -7,7 +7,10 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
+import mustafaozhan.github.com.data.di.AppDatabaseModule
 import mustafaozhan.github.com.mycurrencies.app.CCCApplication
+import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
+import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
 import javax.inject.Singleton
 
 @Singleton

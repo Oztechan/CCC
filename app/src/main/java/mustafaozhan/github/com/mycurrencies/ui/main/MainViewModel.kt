@@ -12,8 +12,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.BuildConfig
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException

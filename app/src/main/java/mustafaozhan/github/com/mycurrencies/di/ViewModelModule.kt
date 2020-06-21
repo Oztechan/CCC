@@ -5,10 +5,12 @@ package mustafaozhan.github.com.mycurrencies.di
 
 import dagger.Module
 import dagger.Provides
-import mustafaozhan.github.com.mycurrencies.data.api.ApiRepository
-import mustafaozhan.github.com.mycurrencies.data.db.CurrencyDao
-import mustafaozhan.github.com.mycurrencies.data.db.OfflineRatesDao
-import mustafaozhan.github.com.mycurrencies.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.data.api.ApiRepository
+import mustafaozhan.github.com.data.db.CurrencyDao
+import mustafaozhan.github.com.data.db.OfflineRatesDao
+import mustafaozhan.github.com.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
+import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
 import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarViewModel
 import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
