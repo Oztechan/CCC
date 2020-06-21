@@ -11,10 +11,10 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion minSdkVersion
-        targetSdkVersion targetSdkVersion
-        versionCode versionCode
-        versionName versionName
+        minSdkVersion project.versions.minSdkVersion
+        targetSdkVersion project.versions.targetSdkVersion
+        versionCode project.versions.versionCode
+        versionName project.versions.versionName
     }
 }
 

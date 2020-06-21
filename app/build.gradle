@@ -27,10 +27,10 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion minSdkVersion
-        targetSdkVersion targetSdkVersion
-        versionCode versionCode
-        versionName versionName
+        minSdkVersion project.versions.minSdkVersion
+        targetSdkVersion project.versions.targetSdkVersion
+        versionCode project.versions.versionCode
+        versionName project.versions.versionName
 
         android {
             javaCompileOptions {
