@@ -20,10 +20,11 @@ ext {
     def minorVersion = 2
 
     versions = [
-            minSdkVersion   : 21,
-            targetSdkVersion: 29,
-            versionCode     : getGitVersion(),
-            versionName     : "$mayorVersion.$minorVersion.${getGitVersion()}"
+            compileSdkVersion: 29,
+            minSdkVersion    : 21,
+            targetSdkVersion : 29,
+            versionCode      : getGitVersion(),
+            versionName      : "$mayorVersion.$minorVersion.${getGitVersion()}"
     ]
 
 }

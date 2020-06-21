@@ -8,7 +8,12 @@ apply from: '../dependencies.gradle'
 apply from: '../version.gradle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion project.versions.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 
     defaultConfig {
         minSdkVersion project.versions.minSdkVersion
@@ -21,7 +26,7 @@ android {
 dependencies {
     implementation(kotlin)
 
-    implementation project(':common:scopemob')
-    implementation project(':common:basemob')
-    implementation project(':common:logmob')
+    implementation project(':scopemob')
+    implementation project(':basemob')
+    implementation project(':logmob')
 }

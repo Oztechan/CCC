@@ -4,8 +4,8 @@
 include ':app',
         ':data',
         ':domain',
-        ':common:scopemob', ':common:basemob', ':common:logmob'
+        ':scopemob', ':basemob', ':logmob'
 
-project(':common:basemob').projectDir = file('common/basemob/submob')
-project(':common:scopemob').projectDir = file('common/scopemob/submob')
-project(':common:logmob').projectDir = file('common/logmob/submob')
+project(':basemob').projectDir = file('basemob/submob')
+project(':scopemob').projectDir = file('scopemob/submob')
+project(':logmob').projectDir = file('logmob/submob')

@@ -6,6 +6,6 @@
 /captures
 .externalNativeBuild
 /.idea
-/common/scopemob
-/common/basemob
-/common/logmob
+/scopemob
+/basemob
+/logmob

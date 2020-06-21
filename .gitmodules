@@ -1,9 +1,9 @@
 [submodule "basemob"]
-	path = common/basemob
+	path = basemob
 	url = https://github.com/SUB-MOB/basemob
 [submodule "scopemob"]
-	path = common/scopemob
+	path = scopemob
 	url = https://github.com/SUB-MOB/scopemob
 [submodule "logmob"]
-	path = common/logmob
+	path = logmob
 	url = https://github.com/SUB-MOB/logmob
