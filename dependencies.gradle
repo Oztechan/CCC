@@ -29,24 +29,7 @@ def MULTIDEX_VERSION = '2.0.1'
 def TIMBER_VERSION = '4.7.1'
 def NAVIGATION_VERSION = '2.3.0-rc01'
 
-def getGitVersion = { ->
-    try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'rev-list', '--first-parent', '--count', 'origin/master'
-            standardOutput = stdout
-        }
-        return Integer.parseInt(stdout.toString().trim())
-    }
-    catch (ignored) {
-        return 1
-    }
-}
-
 ext {
-    // Version
-    gitVersion = getGitVersion()
-
     // Dependencies
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
     androidMaterial = "com.google.android.material:material:$ANDROID_MATERIAL_VERSION"
@@ -80,7 +63,7 @@ ext {
     jUnit = "junit:junit:$JUNIT_VERSION"
     mockK = "io.mockk:mockk:$MOCKK_VERSION"
     archTesting = "android.arch.core:core-testing:$ARCH_TESTING_VERSION"
-    coroutinesTest="org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
+    coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINES_VERSION"
 
     // Annotations
     annotations = [
@@ -99,7 +82,7 @@ ext {
             androidBuildTools : "com.android.tools.build:gradle:${ANDROID_PLUGIN_VERSION}",
             kotlinGradlePlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}",
             gsmGoogle         : "com.google.gms:google-services:$GSM_GOOGLE_VERSION",
-            crashlytics            : "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_VERSION",
+            crashlytics       : "com.google.firebase:firebase-crashlytics-gradle:$CRASHLYTICS_VERSION",
             navigation        : "androidx.navigation:navigation-safe-args-gradle-plugin:$NAVIGATION_VERSION"
     ]
 }

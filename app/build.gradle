@@ -8,7 +8,8 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
-apply from: '../configuration.gradle'
+apply from: '../dependencies.gradle'
+apply from: '../version.gradle'
 
 android {
     compileSdkVersion 29
@@ -26,10 +27,10 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode gitVersion
-        versionName "1.2.${gitVersion}"
+        minSdkVersion minSdkVersion
+        targetSdkVersion targetSdkVersion
+        versionCode versionCode
+        versionName versionName
 
         android {
             javaCompileOptions {
