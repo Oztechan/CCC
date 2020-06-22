@@ -68,7 +68,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
-                is OfflineSuccessEffect -> viewEffect.date?.let {
+                is OfflineSuccessEffect -> viewEffect.date.let {
                     Toast.show(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
                     Toast.show(requireContext(), R.string.database_success)

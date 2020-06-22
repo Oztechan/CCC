@@ -6,7 +6,6 @@ package mustafaozhan.github.com.mycurrencies.ui.main
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
-import com.github.mustafaozhan.scopemob.whether
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
@@ -45,8 +44,8 @@ class MainViewModel
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
                                 .fromJson(getString(MainData.KEY_REMOTE_CONFIG))
-                                ?.whether { latestVersion > BuildConfig.VERSION_CODE }
-                                ?.let {
+                                .whether { latestVersion > BuildConfig.VERSION_CODE }
+                                .let {
                                     _effect.postValue(AppUpdateEffect(it))
                                 }
                         } catch (e: JsonDataException) {

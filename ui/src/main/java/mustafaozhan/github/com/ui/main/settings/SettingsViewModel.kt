@@ -6,11 +6,8 @@ package mustafaozhan.github.com.mycurrencies.ui.main.settings
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.scopemob.either
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -18,7 +15,6 @@ import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.model.Currencies
 import mustafaozhan.github.com.data.model.Currency
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.data.util.removeUnUsedCurrencies
 import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import javax.inject.Inject
 
@@ -58,8 +54,8 @@ class SettingsViewModel
                     currencyList
                         ?.filter { it.isActive }?.size
                         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                        ?.whetherNot { data.firstRun }
-                        ?.let { _effect.postValue(FewCurrencyEffect) }
+                        .whetherNot { data.firstRun }
+                        .let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
                     filterList("")
@@ -83,12 +79,12 @@ class SettingsViewModel
         { base ->
             state.currencyList.value
                 ?.filter { it.name == base }
-                ?.toList()?.firstOrNull()?.isActive == false
+                ?.toList().firstOrNull().isActive == false
         }
     )?.let {
         updateCurrentBase(
             state.currencyList.value
-                ?.firstOrNull { it.isActive }?.name
+                .firstOrNull { it.isActive }.name
                 ?: Currencies.NULL.toString()
         )
     }.run {
@@ -110,9 +106,9 @@ class SettingsViewModel
     }.toUnit()
 
     override fun onDoneClick() = _states._currencyList.value
-        ?.filter { it.isActive }?.size
-        ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-        ?.let { _effect.postValue(FewCurrencyEffect) }
+        .filter { it.isActive }.size
+        .whether { it < MINIMUM_ACTIVE_CURRENCY }
+        .let { _effect.postValue(FewCurrencyEffect) }
         ?: run {
             data.firstRun = false
             _effect.postValue(CalculatorEffect)

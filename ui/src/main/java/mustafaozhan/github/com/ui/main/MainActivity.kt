@@ -17,7 +17,6 @@ import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
-import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -137,7 +136,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun showRewardedAd() = rewardedAd
-        .whether { isLoaded }?.show(this, object : RewardedAdCallback() {
+        .whether { isLoaded }.show(this, object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
             override fun onRewardedAdClosed() = prepareRewardedAd()
             override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
@@ -174,7 +173,7 @@ open class MainActivity : BaseActivity() {
                     { isLoaded },
                     { adVisibility },
                     { mainViewModel.data.isRewardExpired }
-                )?.apply { show() }
+                ).apply { show() }
                     ?: prepareInterstitialAd()
                 delay(AD_PERIOD)
             }

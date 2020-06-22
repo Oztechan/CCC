@@ -6,11 +6,7 @@ package mustafaozhan.github.com.mycurrencies.ui.main.calculator
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
-import com.github.mustafaozhan.scopemob.mapTo
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -23,8 +19,6 @@ import mustafaozhan.github.com.data.model.Rates
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.data.util.calculateResult
 import mustafaozhan.github.com.data.util.getCurrencyConversionByRate
-import mustafaozhan.github.com.data.util.getFormatted
-import mustafaozhan.github.com.data.util.removeUnUsedCurrencies
 import mustafaozhan.github.com.data.util.toPercent
 import mustafaozhan.github.com.data.util.toRate
 import mustafaozhan.github.com.data.util.toSupportedCharacters
@@ -108,9 +102,9 @@ class CalculatorViewModel
             _effect.postValue(OfflineSuccessEffect(offlineRates.date))
         } ?: run {
             Timber.w(t, "no offline rate found")
-            state.currencyList.value?.size
-                ?.whether { it > 1 }
-                ?.let { _effect.postValue(ErrorEffect) }
+            state.currencyList.value.size
+                .whether { it > 1 }
+                .let { _effect.postValue(ErrorEffect) }
         }
     }.toUnit()
 
@@ -118,12 +112,12 @@ class CalculatorViewModel
         .calculate()
         .mapTo { if (isNaN()) "" else getFormatted() }
         .whether { length <= MAXIMUM_INPUT }
-        ?.let { output ->
+        .let { output ->
             _state._output.value = output
-            state.currencyList.value?.size
+            state.currencyList.value.size
                 ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _effect.postValue(FewCurrencyEffect) }
+                .whetherNot { state.input.value.isNullOrEmpty() }
+                .let { _effect.postValue(FewCurrencyEffect) }
                 ?: run { getRates() }
         } ?: run {
         _effect.postValue(MaximumInputEffect)
@@ -132,7 +126,7 @@ class CalculatorViewModel
     }
 
     private fun calculateConversions(rates: Rates?) = with(_state) {
-        _currencyList.value = _currencyList.value?.onEach {
+        _currencyList.value = _currencyList.value.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
         }
         _loading.value = false
@@ -161,8 +155,8 @@ class CalculatorViewModel
                 _state._output.value = ""
             }
             KEY_DEL -> state.input.value
-                ?.whetherNot { isEmpty() }
-                ?.apply {
+                .whetherNot { isEmpty() }
+                .apply {
                     _state._input.value = substring(0, length - 1)
                 }
             else -> _state._input.value = if (key.isEmpty()) "" else state.input.value.toString() + key
