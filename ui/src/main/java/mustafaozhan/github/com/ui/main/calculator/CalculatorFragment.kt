@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.calculator
+package mustafaozhan.github.com.ui.main.calculator
 
 import android.os.Bundle
 import android.view.View
@@ -13,10 +13,10 @@ import com.github.mustafaozhan.basemob.util.getNavigationResult
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
-import mustafaozhan.github.com.mycurrencies.util.getImageResourceByName
+import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.databinding.FragmentCalculatorBinding
+import mustafaozhan.github.com.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import mustafaozhan.github.com.ui.util.getImageResourceByName
 import javax.inject.Inject
 
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
@@ -68,7 +68,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
-                is OfflineSuccessEffect -> viewEffect.date.let {
+                is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toast.show(requireContext(), getString(R.string.database_success_with_date, it))
                 } ?: run {
                     Toast.show(requireContext(), R.string.database_success)

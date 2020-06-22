@@ -1,16 +1,16 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.settings
+package mustafaozhan.github.com.ui.main.settings
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.databinding.ItemSettingsBinding
 import mustafaozhan.github.com.data.model.Currency
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.ItemSettingsBinding
 
 class SettingsAdapter(
     private val settingsEvent: SettingsEvent

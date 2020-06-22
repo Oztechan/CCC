@@ -3,6 +3,8 @@
  */
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-kapt'
 
 apply from: '../dependencies.gradle'
 apply from: '../version.gradle'
@@ -16,13 +18,41 @@ android {
         versionCode project.versions.versionCode
         versionName project.versions.versionName
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
-    implementation(kotlin)
-    // todo dependencies
+    implementation(
+            kotlin,
+            androidMaterial,
+            recyclerView,
+            constraintLayout,
+            dagger,
+            moshi,
+            multiDex,
+            timber,
+            coroutines,
+            admob,
+            firebaseConfig,
+            navigation,
+            room.values(),
+            retrofit.values(),
+            lifeCycle.values()
+    )
 
-    testImplementation(jUnit)
+    kapt(annotations.values())
+
+    testImplementation(
+            jUnit,
+            mockK,
+            archTesting,
+            coroutinesTest
+    )
+
+    implementation(files(mxParser))
 
     implementation project(':data')
 

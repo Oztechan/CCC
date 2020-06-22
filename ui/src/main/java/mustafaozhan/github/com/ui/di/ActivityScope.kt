@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.di.scope
+package mustafaozhan.github.com.ui.di
 
 import javax.inject.Scope
 

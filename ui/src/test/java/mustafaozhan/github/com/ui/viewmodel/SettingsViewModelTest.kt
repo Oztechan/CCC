@@ -1,14 +1,14 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.viewmodel
+package mustafaozhan.github.com.ui.viewmodel
 
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
+import mustafaozhan.github.com.ui.main.settings.SettingsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

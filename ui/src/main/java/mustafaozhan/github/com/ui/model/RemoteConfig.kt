@@ -1,11 +1,11 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.model
+package mustafaozhan.github.com.ui.model
 
+import com.github.mustafaozhan.ui.BuildConfig
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 @JsonClass(generateAdapter = true)
 data class RemoteConfig(

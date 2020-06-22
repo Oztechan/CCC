@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.bar
+package mustafaozhan.github.com.ui.main.bar
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

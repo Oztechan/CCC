@@ -1,19 +1,20 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main
+package mustafaozhan.github.com.ui.main
 
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.ui.BuildConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonEncodingException
 import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.BuildConfig
-import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
+import mustafaozhan.github.com.ui.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException
 import java.util.concurrent.TimeUnit
@@ -44,8 +45,8 @@ class MainViewModel
                         try {
                             Moshi.Builder().build().adapter(RemoteConfig::class.java)
                                 .fromJson(getString(MainData.KEY_REMOTE_CONFIG))
-                                .whether { latestVersion > BuildConfig.VERSION_CODE }
-                                .let {
+                                ?.whether { latestVersion > BuildConfig.VERSION_CODE }
+                                ?.let {
                                     _effect.postValue(AppUpdateEffect(it))
                                 }
                         } catch (e: JsonDataException) {

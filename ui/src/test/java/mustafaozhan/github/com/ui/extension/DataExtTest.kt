@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.extension
+package mustafaozhan.github.com.ui.extension
 
 import mustafaozhan.github.com.data.model.Currencies
 import mustafaozhan.github.com.data.model.Currency

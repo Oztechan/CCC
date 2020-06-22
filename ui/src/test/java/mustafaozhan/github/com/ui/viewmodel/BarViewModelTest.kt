@@ -1,15 +1,15 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.viewmodel
+package mustafaozhan.github.com.ui.viewmodel
 
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.bar.ChangeBaseNavResultEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.bar.OpenSettingsEffect
+import mustafaozhan.github.com.ui.main.bar.BarViewModel
+import mustafaozhan.github.com.ui.main.bar.ChangeBaseNavResultEffect
+import mustafaozhan.github.com.ui.main.bar.OpenSettingsEffect
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

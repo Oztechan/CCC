@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.bar
+package mustafaozhan.github.com.ui.main.bar
 
 import android.os.Bundle
 import android.view.View
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.databinding.FragmentBottomSheetBarBinding
+import mustafaozhan.github.com.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import javax.inject.Inject
 
 class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {

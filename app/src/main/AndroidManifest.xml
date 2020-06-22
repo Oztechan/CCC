@@ -20,7 +20,7 @@
         tools:ignore="AllowBackup"
         tools:targetApi="m">
         <activity
-            android:name="mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivity"
+            android:name="mustafaozhan.github.com.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme"
             tools:ignore="AllowBackup">
@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="mustafaozhan.github.com.mycurrencies.ui.main.MainActivity"
+            android:name="mustafaozhan.github.com.ui.main.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity"
+            android:name="mustafaozhan.github.com.ui.slider.SliderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

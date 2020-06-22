@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.slider
+package mustafaozhan.github.com.ui.slider
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.github.mustafaozhan.scopemob.castTo
-import mustafaozhan.github.com.mycurrencies.R
+import com.github.mustafaozhan.ui.R
 
 class SliderPagerAdapter(var context: Context) : PagerAdapter() {
 

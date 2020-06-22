@@ -1,12 +1,12 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main
+package mustafaozhan.github.com.ui.main
 
 import com.github.mustafaozhan.basemob.model.BaseData
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.model.RemoteConfig
+import mustafaozhan.github.com.ui.model.RemoteConfig
 
 sealed class MainEffect : BaseEffect()
 data class AppUpdateEffect(val remoteConfig: RemoteConfig) : MainEffect()

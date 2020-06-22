@@ -1,13 +1,13 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.di
+package mustafaozhan.github.com.ui.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
-import mustafaozhan.github.com.mycurrencies.ui.slider.SliderActivity
-import mustafaozhan.github.com.mycurrencies.ui.splash.SplashActivity
+import mustafaozhan.github.com.ui.main.MainActivity
+import mustafaozhan.github.com.ui.slider.SliderActivity
+import mustafaozhan.github.com.ui.splash.SplashActivity
 
 @Suppress("unused")
 @Module

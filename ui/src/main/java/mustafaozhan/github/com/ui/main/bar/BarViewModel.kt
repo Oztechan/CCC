@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.bar
+package mustafaozhan.github.com.ui.main.bar
 
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.model.Currency
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import mustafaozhan.github.com.data.util.removeUnUsedCurrencies
+import mustafaozhan.github.com.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import javax.inject.Inject
 
 class BarViewModel
@@ -37,7 +38,7 @@ class BarViewModel
                     .collect {
                         _currencyList.value = it
                         _loading.value = false
-                        _enoughCurrency.postValue(it.size ?: -1 >= MINIMUM_ACTIVE_CURRENCY)
+                        _enoughCurrency.postValue(it?.size ?: -1 >= MINIMUM_ACTIVE_CURRENCY)
                     }
             }
         }

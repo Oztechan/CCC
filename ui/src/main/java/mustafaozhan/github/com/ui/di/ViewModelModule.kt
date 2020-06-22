@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.di
+package mustafaozhan.github.com.ui.di
 
 import dagger.Module
 import dagger.Provides
@@ -9,12 +9,10 @@ import mustafaozhan.github.com.data.api.ApiRepository
 import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.db.OfflineRatesDao
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.di.scope.ActivityScope
-import mustafaozhan.github.com.mycurrencies.di.scope.FragmentScope
-import mustafaozhan.github.com.mycurrencies.ui.main.MainViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsViewModel
+import mustafaozhan.github.com.ui.main.MainViewModel
+import mustafaozhan.github.com.ui.main.bar.BarViewModel
+import mustafaozhan.github.com.ui.main.calculator.CalculatorViewModel
+import mustafaozhan.github.com.ui.main.settings.SettingsViewModel
 
 @Suppress("unused")
 @Module

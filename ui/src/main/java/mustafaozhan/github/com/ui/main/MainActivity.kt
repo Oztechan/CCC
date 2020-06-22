@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main
+package mustafaozhan.github.com.ui.main
 
 import android.content.Context
 import android.content.Intent
@@ -17,6 +17,9 @@ import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.ui.BuildConfig
+import com.github.mustafaozhan.ui.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -27,14 +30,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import mustafaozhan.github.com.mycurrencies.BuildConfig
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_INITIAL_DELAY
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.AD_PERIOD
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.BACK_DELAY
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragmentDirections
-import mustafaozhan.github.com.mycurrencies.util.updateBaseContextLocale
+import mustafaozhan.github.com.ui.main.MainData.Companion.AD_INITIAL_DELAY
+import mustafaozhan.github.com.ui.main.MainData.Companion.AD_PERIOD
+import mustafaozhan.github.com.ui.main.MainData.Companion.BACK_DELAY
+import mustafaozhan.github.com.ui.main.MainData.Companion.TEXT_EMAIL_TYPE
+import mustafaozhan.github.com.ui.main.calculator.CalculatorFragmentDirections
+import mustafaozhan.github.com.ui.util.updateBaseContextLocale
 import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
@@ -136,7 +137,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun showRewardedAd() = rewardedAd
-        .whether { isLoaded }.show(this, object : RewardedAdCallback() {
+        .whether { isLoaded }?.show(this, object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
             override fun onRewardedAdClosed() = prepareRewardedAd()
             override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
@@ -173,7 +174,7 @@ open class MainActivity : BaseActivity() {
                     { isLoaded },
                     { adVisibility },
                     { mainViewModel.data.isRewardExpired }
-                ).apply { show() }
+                )?.apply { show() }
                     ?: prepareInterstitialAd()
                 delay(AD_PERIOD)
             }

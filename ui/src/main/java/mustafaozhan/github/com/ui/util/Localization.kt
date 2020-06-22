@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util
+package mustafaozhan.github.com.ui.util
 
 import android.annotation.TargetApi
 import android.content.Context

@@ -1,13 +1,13 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.di
+package mustafaozhan.github.com.ui.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import mustafaozhan.github.com.mycurrencies.ui.main.bar.BarBottomSheetDialogFragment
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorFragment
-import mustafaozhan.github.com.mycurrencies.ui.main.settings.SettingsFragment
+import mustafaozhan.github.com.ui.main.bar.BarBottomSheetDialogFragment
+import mustafaozhan.github.com.ui.main.calculator.CalculatorFragment
+import mustafaozhan.github.com.ui.main.settings.SettingsFragment
 
 @Suppress("unused")
 @Module

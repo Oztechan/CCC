@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.viewmodel
+package mustafaozhan.github.com.ui.viewmodel
 
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -13,11 +13,11 @@ import mustafaozhan.github.com.data.db.OfflineRatesDao
 import mustafaozhan.github.com.data.model.Currency
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.data.util.getCurrencyConversionByRate
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_AC
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorData.Companion.KEY_DEL
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorViewModel
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.OpenBarEffect
-import mustafaozhan.github.com.mycurrencies.ui.main.calculator.ShowRateEffect
+import mustafaozhan.github.com.ui.main.calculator.CalculatorData.Companion.KEY_AC
+import mustafaozhan.github.com.ui.main.calculator.CalculatorData.Companion.KEY_DEL
+import mustafaozhan.github.com.ui.main.calculator.CalculatorViewModel
+import mustafaozhan.github.com.ui.main.calculator.OpenBarEffect
+import mustafaozhan.github.com.ui.main.calculator.ShowRateEffect
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

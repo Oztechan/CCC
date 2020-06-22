@@ -21,6 +21,14 @@ android {
         targetSdkVersion project.versions.targetSdkVersion
         versionCode project.versions.versionCode
         versionName project.versions.versionName
+
+        android {
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                }
+            }
+        }
     }
 }
 

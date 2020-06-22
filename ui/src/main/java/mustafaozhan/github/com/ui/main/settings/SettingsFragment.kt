@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.settings
+package mustafaozhan.github.com.ui.main.settings
 
 import android.os.Bundle
 import android.view.View
@@ -12,9 +12,9 @@ import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
+import mustafaozhan.github.com.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {

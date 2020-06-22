@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.slider
+package mustafaozhan.github.com.ui.slider
 
 import android.content.Intent
 import android.graphics.Color
@@ -14,9 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.view.activity.BaseVBActivity
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
-import mustafaozhan.github.com.mycurrencies.ui.main.MainActivity
+import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.databinding.ActivitySliderBinding
+import mustafaozhan.github.com.ui.main.MainActivity
 
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
@@ -67,7 +68,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         binding.btnNext.setOnClickListener {
             getNextItem()
                 .whether { it < SLIDE_SIZE }
-                .let { binding.viewPager.currentItem = it }
+                ?.let { binding.viewPager.currentItem = it }
                 ?: run { launchMainActivity() }
         }
     }

@@ -1,11 +1,11 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.util
+package mustafaozhan.github.com.ui.util
 
 import android.content.Context
 import android.widget.ImageView
-import mustafaozhan.github.com.mycurrencies.R
+import com.github.mustafaozhan.ui.R
 import timber.log.Timber
 import java.io.FileNotFoundException
 import java.util.Locale

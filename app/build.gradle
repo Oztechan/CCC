@@ -4,9 +4,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.google.gms.google-services'
 
 apply from: '../dependencies.gradle'
 apply from: '../version.gradle'
@@ -31,14 +30,6 @@ android {
         targetSdkVersion project.versions.targetSdkVersion
         versionCode project.versions.versionCode
         versionName project.versions.versionName
-
-        android {
-            javaCompileOptions {
-                annotationProcessorOptions {
-                    arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-                }
-            }
-        }
     }
 
     buildTypes {
@@ -57,32 +48,13 @@ android {
 dependencies {
     implementation(
             kotlin,
-            androidMaterial,
-            recyclerView,
-            constraintLayout,
             dagger,
-            moshi,
             multiDex,
-            timber,
-            coroutines,
-            admob,
-            firebaseConfig,
-            navigation,
-            room.values(),
-            retrofit.values(),
-            lifeCycle.values()
+            room.values()
     )
 
     kapt(annotations.values())
 
-    testImplementation(
-            jUnit,
-            mockK,
-            archTesting,
-            coroutinesTest
-    )
-
-    implementation(files(mxParser))
 
     implementation project(':ui')
 

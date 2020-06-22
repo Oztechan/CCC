@@ -1,15 +1,15 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.calculator
+package mustafaozhan.github.com.ui.main.calculator
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.ui.databinding.ItemCalculatorBinding
 import mustafaozhan.github.com.data.model.Currency
 import mustafaozhan.github.com.data.util.toValidList
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent

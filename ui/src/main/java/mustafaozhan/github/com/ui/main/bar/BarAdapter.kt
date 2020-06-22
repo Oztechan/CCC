@@ -1,14 +1,14 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.bar
+package mustafaozhan.github.com.ui.main.bar
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.ui.databinding.ItemBarBinding
 import mustafaozhan.github.com.data.model.Currency
-import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
 
 class BarAdapter(
     private val barEvent: BarEvent

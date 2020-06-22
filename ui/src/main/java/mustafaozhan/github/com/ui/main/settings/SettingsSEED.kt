@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.ui.main.settings
+package mustafaozhan.github.com.ui.main.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -12,7 +12,7 @@ import com.github.mustafaozhan.basemob.model.BaseState
 import com.github.mustafaozhan.basemob.model.BaseStateBacking
 import mustafaozhan.github.com.data.model.Currency
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.mycurrencies.ui.main.MainData
+import mustafaozhan.github.com.ui.main.MainData
 
 data class SettingsState(
     private val backing: SettingsStateBacking

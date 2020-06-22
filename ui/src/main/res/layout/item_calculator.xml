@@ -15,7 +15,7 @@
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.mycurrencies.ui.main.calculator.CalculatorEvent" />
+            type="mustafaozhan.github.com.ui.main.calculator.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

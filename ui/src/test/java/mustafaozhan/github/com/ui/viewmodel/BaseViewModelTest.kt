@@ -1,11 +1,11 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.viewmodel
+package mustafaozhan.github.com.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import mustafaozhan.github.com.mycurrencies.rule.TestCoroutineRule
+import mustafaozhan.github.com.ui.rule.TestCoroutineRule
 import org.junit.Rule
 
 abstract class BaseViewModelTest<ViewModelType> {
