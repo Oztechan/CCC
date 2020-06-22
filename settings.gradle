@@ -4,7 +4,6 @@
 include ':app',
         ':ui',
         ':data',
-        ':domain',
         ':scopemob', ':basemob', ':logmob'
 
 project(':basemob').projectDir = file('basemob/submob')

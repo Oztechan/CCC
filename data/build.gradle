@@ -39,8 +39,6 @@ dependencies {
 
     kapt(annotations.values())
 
-    implementation project(':domain')
-
     implementation project(':scopemob')
     implementation project(':basemob')
     implementation project(':logmob')

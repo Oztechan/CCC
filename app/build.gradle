@@ -84,9 +84,9 @@ dependencies {
 
     implementation(files(mxParser))
 
-    implementation project(':data')
+    implementation project(':ui')
 
-    implementation project(':domain')
+    implementation project(':data')
 
     implementation project(':scopemob')
     implementation project(':basemob')
