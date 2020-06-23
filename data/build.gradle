@@ -45,7 +45,11 @@ dependencies {
 
     testImplementation(jUnit)
 
-    kapt(annotations.values())
+    kapt(
+            annotations.daggerCompiler,
+            annotations.moshi,
+            annotations.room
+    )
 
     implementation project(':scopemob')
     implementation project(':basemob')

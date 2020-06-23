@@ -37,19 +37,21 @@ dependencies {
             recyclerView,
             constraintLayout,
             dagger,
-            moshi,
-            multiDex,
             timber,
             coroutines,
             admob,
             firebaseConfig,
             navigation,
-            room.values(),
-            retrofit.values(),
+            moshi, // needs to be removed
             lifeCycle.values()
     )
 
-    kapt(annotations.values())
+    kapt(
+            annotations.daggerCompiler,
+            annotations.daggerProcessor,
+            annotations.dataBinding,
+            annotations.moshi
+    )
 
     testImplementation(
             jUnit,

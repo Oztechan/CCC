@@ -22,6 +22,16 @@ android {
         versionName project.versions.versionName
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,11 +45,10 @@ dependencies {
             kotlin,
             dagger,
             multiDex,
-            room.values()
+            room.roomRuntime
     )
 
-    kapt(annotations.values())
-
+    kapt(annotations.daggerCompiler)
 
     implementation project(':ui')
 
