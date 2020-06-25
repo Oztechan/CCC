@@ -22,20 +22,20 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
     AndroidSupportInjectionModule::class,
+    ApplicationModule::class,
     ActivityInjectionModule::class,
     FragmentInjectionModule::class,
     ViewModelModule::class,
-    ApplicationModule::class,
     AppDatabaseModule::class
 ])
-interface AppComponent {
+interface ApplicationComponent {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun application(app: CCCApplication): Builder
 
-        fun build(): AppComponent
+        fun build(): ApplicationComponent
     }
 
     fun inject(app: CCCApplication)
