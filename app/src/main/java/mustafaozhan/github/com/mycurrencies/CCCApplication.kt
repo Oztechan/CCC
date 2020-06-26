@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.mycurrencies.app
+package mustafaozhan.github.com.mycurrencies
 
 import androidx.multidex.MultiDexApplication
 import com.github.mustafaozhan.logmob.initLogMob
