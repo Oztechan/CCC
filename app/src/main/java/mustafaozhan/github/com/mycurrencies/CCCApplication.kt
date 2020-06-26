@@ -8,7 +8,7 @@ import com.github.mustafaozhan.logmob.initLogMob
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import mustafaozhan.github.com.mycurrencies.di.DaggerAppComponent
+import mustafaozhan.github.com.mycurrencies.di.DaggerApplicationComponent
 import javax.inject.Inject
 
 class CCCApplication : MultiDexApplication(), HasAndroidInjector {
@@ -19,7 +19,7 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
     override fun onCreate() {
         super.onCreate()
 
-        DaggerAppComponent.builder()
+        DaggerApplicationComponent.builder()
             .application(this)
             .build()
             .inject(this)

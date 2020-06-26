@@ -9,19 +9,24 @@ import mustafaozhan.github.com.data.api.ApiRepository
 import mustafaozhan.github.com.data.db.CurrencyDao
 import mustafaozhan.github.com.data.db.OfflineRatesDao
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
+import mustafaozhan.github.com.data.remote.RemoteConfigRepository
 import mustafaozhan.github.com.ui.main.MainViewModel
 import mustafaozhan.github.com.ui.main.bar.BarViewModel
 import mustafaozhan.github.com.ui.main.calculator.CalculatorViewModel
 import mustafaozhan.github.com.ui.main.settings.SettingsViewModel
 
-@Suppress("unused")
 @Module
 class ViewModelModule {
 
     @Provides
     @ActivityScope
-    internal fun providesMainViewModel(preferencesRepository: PreferencesRepository) =
-        MainViewModel(preferencesRepository)
+    internal fun providesMainViewModel(
+        preferencesRepository: PreferencesRepository,
+        remoteConfigRepository: RemoteConfigRepository
+    ) = MainViewModel(
+        preferencesRepository,
+        remoteConfigRepository
+    )
 
     @Provides
     @ActivityScope

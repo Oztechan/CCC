@@ -17,15 +17,18 @@ import mustafaozhan.github.com.data.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemoteConfigRepository {
+@Singleton
+class RemoteConfigRepository @Inject constructor() {
     companion object {
         private const val CHECK_DURATION: Long = 6
         private const val CHECK_INTERVAL: Long = 4200
         private const val KEY_REMOTE_CONFIG = "remote_config"
     }
 
-    fun checkRemoteConfig() = flow<RemoteConfig?> {
+    fun checkRemoteConfig() = flow {
         FirebaseRemoteConfig.getInstance().apply {
             setConfigSettingsAsync(
                 FirebaseRemoteConfigSettings
