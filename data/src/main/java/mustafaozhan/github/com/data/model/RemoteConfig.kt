@@ -1,9 +1,9 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package mustafaozhan.github.com.ui.model
+package mustafaozhan.github.com.data.model
 
-import com.github.mustafaozhan.ui.BuildConfig
+import com.github.mustafaozhan.data.BuildConfig
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

@@ -40,17 +40,14 @@ dependencies {
             timber,
             coroutines,
             admob,
-            firebaseConfig,
             navigation,
-            moshi, // needs to be removed
             lifeCycle.values()
     )
 
     kapt(
             annotations.daggerCompiler,
             annotations.daggerProcessor,
-            annotations.dataBinding,
-            annotations.moshi
+            annotations.dataBinding
     )
 
     testImplementation(

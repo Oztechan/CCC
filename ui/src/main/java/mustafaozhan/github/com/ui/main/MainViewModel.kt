@@ -6,18 +6,7 @@ package mustafaozhan.github.com.ui.main
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.ui.BuildConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.JsonEncodingException
-import com.squareup.moshi.Moshi
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-import mustafaozhan.github.com.ui.model.RemoteConfig
-import timber.log.Timber
-import java.io.EOFException
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainViewModel
@@ -31,33 +20,6 @@ class MainViewModel
     val data = MainData(preferencesRepository)
 
     fun checkRemoteConfig() {
-        FirebaseRemoteConfig.getInstance().apply {
-            setConfigSettingsAsync(
-                FirebaseRemoteConfigSettings
-                    .Builder()
-                    .setMinimumFetchIntervalInSeconds(MainData.CHECK_INTERVAL)
-                    .build()
-            )
-            fetch(if (BuildConfig.DEBUG) 0 else TimeUnit.HOURS.toSeconds(MainData.CHECK_DURATION))
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        activate()
-                        try {
-                            Moshi.Builder().build().adapter(RemoteConfig::class.java)
-                                .fromJson(getString(MainData.KEY_REMOTE_CONFIG))
-                                ?.whether { latestVersion > BuildConfig.VERSION_CODE }
-                                ?.let {
-                                    _effect.postValue(AppUpdateEffect(it))
-                                }
-                        } catch (e: JsonDataException) {
-                            Timber.w(e)
-                        } catch (e: JsonEncodingException) {
-                            Timber.e(e)
-                        } catch (e: EOFException) {
-                            Timber.e(e, "check remote config file")
-                        }
-                    }
-                }
-        }
+//        _effect.postValue(AppUpdateEffect(it))
     }
 }
