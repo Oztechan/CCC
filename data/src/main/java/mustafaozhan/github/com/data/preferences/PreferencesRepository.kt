@@ -8,12 +8,10 @@ import com.github.mustafaozhan.basemob.data.BasePreferencesRepository
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.data.model.Currencies
 import mustafaozhan.github.com.data.util.OldPreferences
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PreferencesRepository
-@Inject constructor(
+class PreferencesRepository(
     context: Context
 ) : BasePreferencesRepository(context) {
     companion object {

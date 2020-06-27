@@ -9,12 +9,10 @@ import com.github.mustafaozhan.basemob.error.EmptyParameterException
 import com.github.mustafaozhan.data.R
 import mustafaozhan.github.com.data.model.Currencies
 import mustafaozhan.github.com.data.model.NullBaseException
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ApiRepository
-@Inject constructor(
+class ApiRepository(
     var context: Context
 ) : BaseApiRepository() {
 
