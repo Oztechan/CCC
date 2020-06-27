@@ -9,6 +9,7 @@ import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
 import mustafaozhan.github.com.data.remote.RemoteConfigRepository
@@ -26,7 +27,8 @@ class MainViewModel
     val data = MainData(preferencesRepository)
 
     fun checkRemoteConfig() = viewModelScope.launch {
-        remoteConfigRepository.checkRemoteConfig()
+        remoteConfigRepository.remoteConfigState
+            .filterNotNull()
             .collect {
                 _effect.postValue(AppUpdateEffect(it))
             }

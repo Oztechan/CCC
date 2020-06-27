@@ -38,6 +38,7 @@ dependencies {
             dagger,
             moshi,
             timber,
+            coroutines,
             firebaseConfig,
             retrofit.values(),
             room.values()
