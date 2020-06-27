@@ -4,7 +4,7 @@
 package mustafaozhan.github.com.data.preferences
 
 import android.content.Context
-import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
+import com.github.mustafaozhan.basemob.data.BasePreferencesRepository
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.data.model.Currencies
 import mustafaozhan.github.com.data.util.OldPreferences
