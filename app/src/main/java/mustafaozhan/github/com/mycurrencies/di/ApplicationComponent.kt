@@ -8,7 +8,6 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import mustafaozhan.github.com.data.di.AppDatabaseModule
-import mustafaozhan.github.com.data.di.RepositoryModule
 import mustafaozhan.github.com.mycurrencies.CCCApplication
 import mustafaozhan.github.com.ui.di.ActivityInjectionModule
 import mustafaozhan.github.com.ui.di.ActivityScope
@@ -27,8 +26,7 @@ import javax.inject.Singleton
     ActivityInjectionModule::class,
     FragmentInjectionModule::class,
     ViewModelModule::class,
-    AppDatabaseModule::class,
-    RepositoryModule::class
+    AppDatabaseModule::class
 ])
 interface ApplicationComponent {
 

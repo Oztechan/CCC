@@ -17,10 +17,11 @@ import mustafaozhan.github.com.data.model.RemoteConfig
 import timber.log.Timber
 import java.io.EOFException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RemoteConfigRepository {
+class RemoteConfigRepository @Inject constructor() {
     companion object {
         private const val CHECK_DURATION: Long = 6
         private const val CHECK_INTERVAL: Long = 4200
