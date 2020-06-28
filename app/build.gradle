@@ -8,18 +8,18 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
 apply from: '../dependencies.gradle'
-apply from: '../version.gradle'
+apply from: '../configuration.gradle'
 
 android {
-    compileSdkVersion project.versions.compileSdkVersion
+    compileSdkVersion config.compileSdkVersion
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "mustafaozhan.github.com.mycurrencies"
-        minSdkVersion project.versions.minSdkVersion
-        targetSdkVersion project.versions.targetSdkVersion
-        versionCode project.versions.versionCode
-        versionName project.versions.versionName
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
     }
 
     compileOptions {
@@ -30,13 +30,6 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 }
 
@@ -54,7 +47,6 @@ dependencies {
 
     implementation project(':data')
 
-    implementation project(':scopemob')
-    implementation project(':basemob')
+    implementation project(':basemob' )
     implementation project(':logmob')
 }

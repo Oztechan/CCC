@@ -19,7 +19,8 @@ ext {
     def mayorVersion = 1
     def minorVersion = 2
 
-    versions = [
+    config = [
+            applicationId    : "mustafaozhan.github.com.mycurrencies",
             compileSdkVersion: 29,
             minSdkVersion    : 21,
             targetSdkVersion : 29,

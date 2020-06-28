@@ -7,16 +7,16 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 
 apply from: '../dependencies.gradle'
-apply from: '../version.gradle'
+apply from: '../configuration.gradle'
 
 android {
-    compileSdkVersion project.versions.compileSdkVersion
+    compileSdkVersion config.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion project.versions.minSdkVersion
-        targetSdkVersion project.versions.targetSdkVersion
-        versionCode project.versions.versionCode
-        versionName project.versions.versionName
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
     }
 
     compileOptions {
@@ -34,20 +34,16 @@ dependencies {
     implementation(
             kotlin,
             androidMaterial,
-            recyclerView,
             constraintLayout,
             dagger,
             timber,
-            coroutines,
             admob,
-            navigation,
             lifeCycle.values()
     )
 
     kapt(
             annotations.daggerCompiler,
-            annotations.daggerProcessor,
-            annotations.dataBinding
+            annotations.daggerProcessor
     )
 
     testImplementation(
@@ -57,11 +53,10 @@ dependencies {
             coroutinesTest
     )
 
-    implementation(files(mxParser))
-
     implementation project(':data')
 
     implementation project(':scopemob')
     implementation project(':basemob')
-    implementation project(':logmob')
+
+    implementation(files(mxParser))
 }

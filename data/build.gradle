@@ -6,10 +6,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 apply from: '../dependencies.gradle'
-apply from: '../version.gradle'
+apply from: '../configuration.gradle'
 
 android {
-    compileSdkVersion project.versions.compileSdkVersion
+    compileSdkVersion config.compileSdkVersion
 
     compileOptions {
         sourceCompatibility 1.8
@@ -17,10 +17,10 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion project.versions.minSdkVersion
-        targetSdkVersion project.versions.targetSdkVersion
-        versionCode project.versions.versionCode
-        versionName project.versions.versionName
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
 
         android {
             javaCompileOptions {
@@ -40,10 +40,9 @@ dependencies {
             timber,
             coroutines,
             firebaseConfig,
-            retrofit.values(),
-            room.values()
+            retrofit,
+            room.roomKtx
     )
-    // todo dependencies
 
     testImplementation(jUnit)
 
@@ -55,5 +54,4 @@ dependencies {
 
     implementation project(':scopemob')
     implementation project(':basemob')
-    implementation project(':logmob')
 }
