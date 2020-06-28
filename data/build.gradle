@@ -1,0 +1,55 @@
+/*
+ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../dependencies.gradle'
+apply from: '../configuration.gradle'
+
+android {
+    compileSdkVersion config.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+
+        android {
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation(
+            kotlin,
+            dagger,
+            moshi,
+            timber,
+            retrofit,
+            room.roomKtx
+    )
+
+    testImplementation(jUnit)
+
+    kapt(
+            annotations.daggerCompiler,
+            annotations.moshi,
+            annotations.room
+    )
+
+    implementation project(':scopemob')
+    implementation project(':basemob')
+}

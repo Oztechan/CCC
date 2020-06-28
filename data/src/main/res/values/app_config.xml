@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+
+<resources>
+    <string name="backend_endpoint">http://backendendpoint/</string>
+</resources>

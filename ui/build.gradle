@@ -1,11 +1,10 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.gms.google-services'
 
 apply from: '../dependencies.gradle'
 apply from: '../configuration.gradle'
@@ -14,8 +13,6 @@ android {
     compileSdkVersion config.compileSdkVersion
 
     defaultConfig {
-        multiDexEnabled true
-        applicationId config.applicationId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
         versionCode config.versionCode
@@ -36,17 +33,30 @@ android {
 dependencies {
     implementation(
             kotlin,
+            androidMaterial,
+            constraintLayout,
             dagger,
-            multiDex,
-            room.roomRuntime
+            timber,
+            admob,
+            navigation
     )
 
-    kapt(annotations.daggerCompiler)
+    kapt(
+            annotations.daggerCompiler,
+            annotations.daggerProcessor
+    )
 
-    implementation project(':ui')
+    testImplementation(
+            jUnit,
+            mockK,
+            archTesting,
+            coroutinesTest
+    )
 
     implementation project(':data')
 
-    implementation project(':basemob' )
-    implementation project(':logmob')
+    implementation project(':scopemob')
+    implementation project(':basemob')
+
+    implementation(files(mxParser))
 }
