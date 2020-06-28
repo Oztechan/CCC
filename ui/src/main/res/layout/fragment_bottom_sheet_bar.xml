@@ -8,11 +8,11 @@
 
         <variable
             name="vm"
-            type="mustafaozhan.github.com.ui.main.bar.BarViewModel" />
+            type="com.github.mustafaozhan.ui.main.bar.BarViewModel" />
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.ui.main.bar.BarEvent" />
+            type="com.github.mustafaozhan.ui.main.bar.BarEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,15 +7,15 @@
 
     <data>
 
-        <import type="mustafaozhan.github.com.data.util.TypeExtensionKt" />
+        <import type="com.github.mustafaozhan.data.util.TypeExtensionKt" />
 
         <variable
             name="item"
-            type="mustafaozhan.github.com.data.model.Currency" />
+            type="com.github.mustafaozhan.data.model.Currency" />
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.ui.main.bar.BarEvent" />
+            type="com.github.mustafaozhan.ui.main.bar.BarEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="mustafaozhan.github.com.ui.main.calculator.CalculatorFragment"
+        android:name="com.github.mustafaozhan.ui.main.calculator.CalculatorFragment"
         android:label="CalculatorFragment"
         tools:layout="@layout/fragment_calculator">
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="mustafaozhan.github.com.ui.main.settings.SettingsFragment"
+        android:name="com.github.mustafaozhan.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -32,7 +32,7 @@
 
     <dialog
         android:id="@+id/barBottomSheetDialogFragment"
-        android:name="mustafaozhan.github.com.ui.main.bar.BarBottomSheetDialogFragment"
+        android:name="com.github.mustafaozhan.ui.main.bar.BarBottomSheetDialogFragment"
         android:label="BarBottomSheetDialogFragment"
         tools:layout="@layout/fragment_bottom_sheet_bar">
         <action

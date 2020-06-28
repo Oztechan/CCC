@@ -9,11 +9,11 @@
 
         <variable
             name="item"
-            type="mustafaozhan.github.com.data.model.Currency" />
+            type="com.github.mustafaozhan.data.model.Currency" />
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.ui.main.settings.SettingsEvent" />
+            type="com.github.mustafaozhan.ui.main.settings.SettingsEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

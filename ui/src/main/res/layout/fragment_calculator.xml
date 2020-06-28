@@ -9,11 +9,11 @@
 
         <variable
             name="vm"
-            type="mustafaozhan.github.com.ui.main.calculator.CalculatorViewModel" />
+            type="com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel" />
 
         <variable
             name="event"
-            type="mustafaozhan.github.com.ui.main.calculator.CalculatorEvent" />
+            type="com.github.mustafaozhan.ui.main.calculator.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">

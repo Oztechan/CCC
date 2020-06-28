@@ -3,6 +3,5 @@
   -->
 
 <resources>
-    <!--    // todo resources-->
     <string name="backend_endpoint">http://backendendpoint/</string>
 </resources>
