@@ -4,12 +4,7 @@
 package mustafaozhan.github.com.ui.main
 
 import com.github.mustafaozhan.basemob.model.BaseData
-import com.github.mustafaozhan.basemob.model.BaseEffect
-import mustafaozhan.github.com.data.model.RemoteConfig
 import mustafaozhan.github.com.data.preferences.PreferencesRepository
-
-sealed class MainEffect : BaseEffect()
-data class AppUpdateEffect(val remoteConfig: RemoteConfig) : MainEffect()
 
 open class MainData(
     private val preferencesRepository: PreferencesRepository

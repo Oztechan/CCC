@@ -10,15 +10,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.NonNull
-import androidx.lifecycle.Observer
 import androidx.lifecycle.coroutineScope
-import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.ui.BuildConfig
 import com.github.mustafaozhan.ui.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -54,8 +51,6 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setGraph()
-        initEffect()
-        mainViewModel.checkRemoteConfig()
         prepareRewardedAd()
         prepareInterstitialAd()
     }
@@ -70,22 +65,6 @@ open class MainActivity : BaseActivity() {
                 }
             }
     }.toUnit()
-
-    private fun initEffect() = mainViewModel.effect.reObserve(this, Observer { viewEffect ->
-        when (viewEffect) {
-            is AppUpdateEffect -> viewEffect.remoteConfig.apply {
-                showDialog(
-                    this@MainActivity,
-                    title,
-                    description,
-                    getString(R.string.update),
-                    forceVersion <= BuildConfig.VERSION_CODE
-                ) {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.remoteConfig.updateUrl)))
-                }
-            }
-        }
-    })
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()

@@ -38,7 +38,7 @@ dependencies {
             dagger,
             timber,
             admob,
-            lifeCycle.values()
+            navigation
     )
 
     kapt(

@@ -38,8 +38,6 @@ dependencies {
             dagger,
             moshi,
             timber,
-            coroutines,
-            firebaseConfig,
             retrofit,
             room.roomKtx
     )
