@@ -53,17 +53,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
             style="@style/BaseRecyclerViewStyle"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_bar"
             tools:listitem="@layout/item_calculator" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             style="@style/WrapStyle"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
         <include
             android:id="@+id/layout_keyboard"
@@ -72,8 +74,8 @@
             app:event="@{event}"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
 
         <FrameLayout
             android:id="@+id/ad_view_container"
