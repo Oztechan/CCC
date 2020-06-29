@@ -10,15 +10,9 @@
         <variable
             name="vm"
             type="com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel" />
-
-        <variable
-            name="event"
-            type="com.github.mustafaozhan.ui.main.calculator.CalculatorEvent" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/LayoutBar"
-        android:onClick="@{() -> event.onBarClick()}">
+    <androidx.constraintlayout.widget.ConstraintLayout style="@style/LayoutBar">
 
         <ImageView
             android:id="@+id/iv_base"

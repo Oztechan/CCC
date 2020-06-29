@@ -36,7 +36,7 @@
             layout="@layout/layout_bar"
             android:layout_width="@dimen/fit"
             android:layout_height="wrap_content"
-            app:event="@{event}"
+            android:onClick="@{() -> event.onBarClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main"

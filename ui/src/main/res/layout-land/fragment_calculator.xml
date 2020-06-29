@@ -21,6 +21,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_fragment_main"
             style="@style/BaseToolbarStyle"
+            android:onClick="@{() -> event.onBarClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +35,6 @@
                     layout="@layout/layout_bar"
                     android:layout_width="@dimen/fit"
                     android:layout_height="wrap_content"
-                    app:event="@{event}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_bar"
                     app:layout_constraintHorizontal_bias="0.0"
