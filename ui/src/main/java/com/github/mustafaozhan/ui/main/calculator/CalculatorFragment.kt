@@ -3,10 +3,12 @@
  */
 package com.github.mustafaozhan.ui.main.calculator
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
@@ -82,7 +84,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         })
 
     private fun initView() {
-        binding.recyclerViewMain.apply {
+        with(binding.recyclerViewMain) {
             adapter = calculatorAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -91,6 +93,15 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
             state.currencyList.reObserve(viewLifecycleOwner, Observer {
                 calculatorAdapter.submitList(it, data.currentBase)
             })
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.recyclerViewMain.layoutManager = GridLayoutManager(requireContext(), 2)
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.recyclerViewMain.layoutManager = GridLayoutManager(requireContext(), 1)
         }
     }
 }
