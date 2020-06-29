@@ -53,6 +53,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
             style="@style/BaseRecyclerViewStyle"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintLeft_toLeftOf="parent"

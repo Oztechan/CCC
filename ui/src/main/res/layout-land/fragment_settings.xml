@@ -60,6 +60,7 @@
             android:id="@+id/edit_text_search"
             style="@style/SettingsSearchTextStyle"
             android:text="@={vm.state.searchQuery}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
@@ -76,12 +77,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"
             style="@style/BaseRecyclerViewStyle"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
             app:layout_constraintVertical_bias="0.0"
+            app:spanCount="3"
             tools:listitem="@layout/item_settings" />
 
         <TextView

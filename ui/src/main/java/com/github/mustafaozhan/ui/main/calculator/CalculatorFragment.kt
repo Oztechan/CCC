@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
 import com.github.mustafaozhan.basemob.util.reObserve
@@ -82,10 +81,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         })
 
     private fun initView() {
-        with(binding.recyclerViewMain) {
-            adapter = calculatorAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
+        binding.recyclerViewMain.adapter = calculatorAdapter
 
         with(calculatorViewModel) {
             state.currencyList.reObserve(viewLifecycleOwner, Observer {

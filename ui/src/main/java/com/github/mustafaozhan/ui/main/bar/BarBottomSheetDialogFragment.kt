@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
@@ -56,10 +55,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
         })
 
     private fun initView() {
-        binding.recyclerViewBar.apply {
-            adapter = barAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
+        binding.recyclerViewBar.adapter = barAdapter
 
         barViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
             barAdapter.submitList(it)
