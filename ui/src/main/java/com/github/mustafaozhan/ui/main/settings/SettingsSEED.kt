@@ -43,5 +43,10 @@ data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 data class SettingsData(
     private val preferencesRepository: PreferencesRepository
 ) : MainData(preferencesRepository) {
+    companion object {
+        internal const val SPAN_PORTRAIT = 1
+        internal const val SPAN_LANDSCAPE = 3
+    }
+
     var unFilteredList: MutableList<Currency>? = mutableListOf()
 }

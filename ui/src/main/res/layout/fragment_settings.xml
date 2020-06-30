@@ -76,7 +76,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_settings"
             style="@style/BaseRecyclerViewStyle"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
