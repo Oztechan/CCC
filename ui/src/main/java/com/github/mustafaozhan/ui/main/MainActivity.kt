@@ -50,21 +50,19 @@ open class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setGraph()
+        checkDestination()
         prepareRewardedAd()
         prepareInterstitialAd()
     }
 
-    private fun setGraph() = getNavigationController().apply {
-        graph = navInflater.inflate(R.navigation.main_graph)
-            .apply {
-                startDestination = if (mainViewModel.data.firstRun) {
-                    R.id.settingsFragment
-                } else {
-                    R.id.calculatorFragment
+    private fun checkDestination() = with(getNavigationController()) {
+        if (mainViewModel.data.firstRun) {
+            graph = navInflater.inflate(R.navigation.main_graph)
+                .apply {
+                    startDestination = R.id.settingsFragment
                 }
-            }
-    }.toUnit()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.clear()
