@@ -47,7 +47,7 @@ class CalculatorViewModel
 ) : BaseViewModel(), CalculatorEvent {
 
     // region SEED
-    private val _state = CalculatorStateBacking()
+    private val _state = MutableCalculatorState()
     val state = CalculatorState(_state)
 
     private val _effect = MutableSingleLiveData<CalculatorEffect>()

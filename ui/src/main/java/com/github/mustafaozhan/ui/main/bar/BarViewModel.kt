@@ -21,7 +21,7 @@ class BarViewModel
     private val currencyDao: CurrencyDao
 ) : BaseViewModel(), BarEvent {
     // region SEED
-    private val _state = BarStateBacking()
+    private val _state = MutableBarState()
     val state = BarState(_state)
 
     private val _effect = MutableSingleLiveData<BarEffect>()

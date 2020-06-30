@@ -8,24 +8,25 @@ import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
-import com.github.mustafaozhan.basemob.model.BaseStateBacking
+import com.github.mustafaozhan.basemob.model.MutableBaseState
 import com.github.mustafaozhan.data.model.Currency
 
 // State
+@Suppress("ConstructorParameterNaming")
 data class BarState(
-    private val backing: BarStateBacking
+    private val _state: MutableBarState
 ) : BaseState() {
-    val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
-    val loading: LiveData<Boolean> = backing._loading
-    val enoughCurrency: LiveData<Boolean> = backing._enoughCurrency
+    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
+    val loading: LiveData<Boolean> = _state._loading
+    val enoughCurrency: LiveData<Boolean> = _state._enoughCurrency
 }
 
 @Suppress("ConstructorParameterNaming")
-data class BarStateBacking(
+data class MutableBarState(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
     val _enoughCurrency: MutableLiveData<Boolean> = MutableLiveData(false)
-) : BaseStateBacking()
+) : MutableBaseState()
 
 // Event
 interface BarEvent : BaseEvent {
@@ -33,6 +34,7 @@ interface BarEvent : BaseEvent {
     fun onSelectClick()
 }
 
+// Effect
 sealed class BarEffect : BaseEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : BarEffect()
 object OpenSettingsEffect : BarEffect()
