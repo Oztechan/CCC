@@ -29,7 +29,7 @@ class SettingsViewModel
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
-    private val _states = SettingsStateBacking()
+    private val _states = MutableSettingsState()
     val state = SettingsState(_states)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()

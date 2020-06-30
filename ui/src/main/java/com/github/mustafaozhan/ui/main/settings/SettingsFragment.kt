@@ -3,11 +3,13 @@
  */
 package com.github.mustafaozhan.ui.main.settings
 
+import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
@@ -15,6 +17,8 @@ import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LANDSCAPE
+import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -42,9 +46,22 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         observeEffect()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setSpanByOrientation(newConfig.orientation)
+    }
+
+    private fun setSpanByOrientation(orientation: Int) {
+        binding.recyclerViewSettings.layoutManager = GridLayoutManager(
+            requireContext(),
+            if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
+        )
+    }
+
     private fun initView() {
-        binding.recyclerViewSettings.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+        setSpanByOrientation(resources.configuration.orientation)
+
+        with(binding.recyclerViewSettings) {
             setHasFixedSize(true)
             adapter = settingsAdapter
         }

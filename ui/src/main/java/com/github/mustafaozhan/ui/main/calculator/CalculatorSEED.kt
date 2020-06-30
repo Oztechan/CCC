@@ -9,33 +9,36 @@ import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
-import com.github.mustafaozhan.basemob.model.BaseStateBacking
+import com.github.mustafaozhan.basemob.model.MutableBaseState
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainData
 
+// State
+@Suppress("ConstructorParameterNaming")
 data class CalculatorState(
-    private val backing: CalculatorStateBacking
+    private val _state: MutableCalculatorState
 ) : BaseState() {
-    val input: LiveData<String> = backing._input
-    val base: LiveData<String> = backing._base
-    val currencyList: LiveData<MutableList<Currency>> = backing._currencyList
-    val output: LiveData<String> = backing._output
-    val symbol: LiveData<String> = backing._symbol
-    val loading: LiveData<Boolean> = backing._loading
+    val input: LiveData<String> = _state._input
+    val base: LiveData<String> = _state._base
+    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
+    val output: LiveData<String> = _state._output
+    val symbol: LiveData<String> = _state._symbol
+    val loading: LiveData<Boolean> = _state._loading
 }
 
 @Suppress("ConstructorParameterNaming")
-data class CalculatorStateBacking(
+data class MutableCalculatorState(
     val _input: MediatorLiveData<String> = MediatorLiveData<String>(),
     val _base: MediatorLiveData<String> = MediatorLiveData<String>(),
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true)
-) : BaseStateBacking()
+) : MutableBaseState()
 
+// Event
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency, conversion: String)
@@ -44,6 +47,7 @@ interface CalculatorEvent : BaseEvent {
     fun onSpinnerItemSelected(base: String)
 }
 
+// Effect
 sealed class CalculatorEffect : BaseEffect()
 object ErrorEffect : CalculatorEffect()
 object FewCurrencyEffect : CalculatorEffect()
@@ -52,6 +56,7 @@ object MaximumInputEffect : CalculatorEffect()
 data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
+// Data
 data class CalculatorData(
     private val preferencesRepository: PreferencesRepository
 ) : MainData(preferencesRepository) {
