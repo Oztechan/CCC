@@ -17,7 +17,7 @@ def getGitVersion = { ->
 }
 ext {
     def mayorVersion = 1
-    def minorVersion = 2
+    def minorVersion = 3
 
     config = [
             applicationId    : "mustafaozhan.github.com.mycurrencies",
