@@ -68,7 +68,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         binding.btnNext.setOnClickListener {
             getNextItem()
                 .whether { it < SLIDE_SIZE }
-                .let { binding.viewPager.currentItem = it }
+                ?.let { binding.viewPager.currentItem = it }
                 ?: run { launchMainActivity() }
         }
     }
