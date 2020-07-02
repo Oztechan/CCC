@@ -86,8 +86,6 @@ class SettingsViewModel
                 ?.firstOrNull { it.isActive }?.name
                 ?: Currencies.NULL.toString()
         )
-    }.run {
-        _states._searchQuery.value = ""
     }
 
     private fun updateCurrentBase(newBase: String) {

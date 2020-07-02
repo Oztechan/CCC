@@ -9,9 +9,7 @@ import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
@@ -31,12 +29,5 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = SettingsViewModel(preferencesRepository, currencyDao)
-    }
-
-    @Test
-    fun `is search query emitting`() = with(viewModel.state) {
-        val mockSearchQuery = "abc"
-        searchQuery.postValue(mockSearchQuery)
-        assertEquals(searchQuery.value, mockSearchQuery)
     }
 }
