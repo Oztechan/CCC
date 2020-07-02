@@ -18,12 +18,14 @@ import com.github.mustafaozhan.ui.main.MainData
 data class SettingsState(
     private val _state: MutableSettingsState
 ) : BaseState() {
+    val searchQuery: LiveData<String> = _state._searchQuery
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
     val loading: LiveData<Boolean> = _state._loading
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
+    val _searchQuery: MutableLiveData<String> = MutableLiveData(""),
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()

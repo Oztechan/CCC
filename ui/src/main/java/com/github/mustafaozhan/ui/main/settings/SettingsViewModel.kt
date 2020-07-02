@@ -60,6 +60,7 @@ class SettingsViewModel
                     verifyCurrentBase()
                 }
         }
+        filterList("")
     }
 
     internal fun filterList(txt: String) = data.unFilteredList
@@ -86,6 +87,8 @@ class SettingsViewModel
                 ?.firstOrNull { it.isActive }?.name
                 ?: Currencies.NULL.toString()
         )
+    }.run {
+        _states._searchQuery.value = ""
     }
 
     private fun updateCurrentBase(newBase: String) {
