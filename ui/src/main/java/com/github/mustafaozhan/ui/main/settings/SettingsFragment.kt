@@ -94,10 +94,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SearchView.O
         .castTo<SearchView>()
         ?.setOnQueryTextListener(this).toUnit()
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        settingsViewModel.filterList("")
-        return false
-    }
+    override fun onQueryTextSubmit(query: String?) = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
         settingsViewModel.filterList(newText ?: "")
