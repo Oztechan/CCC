@@ -6,14 +6,18 @@ package com.github.mustafaozhan.ui.main.settings
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
+import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
+import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
@@ -21,7 +25,7 @@ import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LAND
 import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
 import javax.inject.Inject
 
-class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>(), SearchView.OnQueryTextListener {
 
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
@@ -84,4 +88,19 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 }
             }
         })
+
+    override fun onPrepareOptionsMenu(menu: Menu) = menu.findItem(R.id.action_search)
+        .actionView
+        .castTo<SearchView>()
+        ?.setOnQueryTextListener(this).toUnit()
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        settingsViewModel.filterList("")
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        settingsViewModel.filterList(newText ?: "")
+        return false
+    }
 }

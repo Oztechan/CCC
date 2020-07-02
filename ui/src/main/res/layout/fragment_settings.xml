@@ -56,21 +56,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/edit_text_search"
-            style="@style/SettingsSearchTextStyle"
-            android:text="@={vm.state.searchQuery}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
-            tools:ignore="Autofill,LabelFor" />
-
         <ProgressBar
             android:id="@+id/loading_view"
             style="@style/ProgressBarStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
             app:visibility="@{vm.state.loading}" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -79,7 +70,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_search"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_settings" />
 

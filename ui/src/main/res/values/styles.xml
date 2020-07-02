@@ -244,15 +244,6 @@
         <item name="android:text">@string/choose_at_least_two_currency</item>
     </style>
 
-    <style name="SettingsSearchTextStyle" parent="BaseEditTextTheme">
-        <item name="android:layout_width">@dimen/fit</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:hint">@string/search</item>
-        <item name="android:inputType">text</item>
-        <item name="android:paddingBottom">@dimen/margin_four</item>
-        <item name="android:textAppearance">@style/ItemTextStyle</item>
-    </style>
-
     <!-- Item -->
     <style name="BaseItemLayout">
         <item name="android:layout_width">match_parent</item>

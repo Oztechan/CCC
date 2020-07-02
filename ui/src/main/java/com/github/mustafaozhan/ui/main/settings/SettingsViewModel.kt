@@ -43,10 +43,6 @@ class SettingsViewModel
     init {
         _states._loading.value = true
 
-        _states._searchQuery.addSource(state.searchQuery) {
-            filterList(it)
-        }
-
         viewModelScope.launch {
             currencyDao.getAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
@@ -62,12 +58,11 @@ class SettingsViewModel
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
-                    filterList("")
                 }
         }
     }
 
-    private fun filterList(txt: String) = data.unFilteredList
+    internal fun filterList(txt: String) = data.unFilteredList
         ?.filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
