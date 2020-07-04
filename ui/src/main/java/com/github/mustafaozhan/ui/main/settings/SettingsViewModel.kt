@@ -29,8 +29,8 @@ class SettingsViewModel
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
-    private val _states = MutableSettingsState()
-    val state = SettingsState(_states)
+    private val _state = MutableSettingsState()
+    val state = SettingsState(_state)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
@@ -41,14 +41,14 @@ class SettingsViewModel
     // endregion
 
     init {
-        _states._loading.value = true
+        _state._loading.value = true
 
         viewModelScope.launch {
             currencyDao.getAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
-                    _states._currencyList.value = currencyList
+                    _state._currencyList.value = currencyList
                     data.unFilteredList = currencyList
 
                     currencyList
@@ -59,7 +59,7 @@ class SettingsViewModel
 
                     verifyCurrentBase()
                     filterList(data.query)
-                    _states._selectionVisibility.value = false
+                    _state._selectionVisibility.value = false
                 }
         }
         filterList("")
@@ -92,8 +92,8 @@ class SettingsViewModel
                 symbol.contains(txt, true)
         }?.toMutableList()
         ?.let {
-            _states._currencyList.value = it
-            _states._loading.value = false
+            _state._currencyList.value = it
+            _state._loading.value = false
         }.run {
             data.query = txt
             true
@@ -108,7 +108,7 @@ class SettingsViewModel
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = _states._currencyList.value
+    override fun onDoneClick() = _state._currencyList.value
         ?.filter { it.isActive }?.size
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
@@ -117,8 +117,8 @@ class SettingsViewModel
             _effect.postValue(CalculatorEffect)
         }
 
-    override fun onItemLongClick() = _states._selectionVisibility.value?.let {
-        _states._selectionVisibility.value = !it
+    override fun onItemLongClick() = _state._selectionVisibility.value?.let {
+        _state._selectionVisibility.value = !it
         true
     } ?: false
     // endregion

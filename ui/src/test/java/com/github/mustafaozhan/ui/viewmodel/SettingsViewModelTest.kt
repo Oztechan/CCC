@@ -40,10 +40,9 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `on long click`() = with(viewModel) {
         val currentValue = viewModel.state.selectionVisibility.value
         getEvent().onItemLongClick()
-        Assert.assertEquals(
-            !(currentValue ?: return@with),
-            viewModel.state.selectionVisibility.value
-        )
+        currentValue?.let {
+            Assert.assertEquals(!it, viewModel.state.selectionVisibility.value)
+        } ?: Assert.fail()
     }
 
     @Test

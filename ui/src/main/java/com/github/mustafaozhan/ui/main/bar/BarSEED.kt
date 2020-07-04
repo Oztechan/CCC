@@ -23,7 +23,7 @@ data class BarState(
 
 @Suppress("ConstructorParameterNaming")
 data class MutableBarState(
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
     val _enoughCurrency: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()
