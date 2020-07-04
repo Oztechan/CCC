@@ -64,18 +64,21 @@ class SettingsViewModel
         filterList("")
     }
 
-    internal fun filterList(txt: String) = data.unFilteredList
-        ?.filter { (name, longName, symbol) ->
-            name.contains(txt, true) ||
-                longName.contains(txt, true) ||
-                symbol.contains(txt, true)
-        }?.toMutableList()
-        ?.let {
-            _state._currencyList.value = it
-            _state._loading.value = false
-        }.run {
-            data.query = txt
-        }
+    fun filterList(txt: String): Boolean {
+        data.unFilteredList
+            ?.filter { (name, longName, symbol) ->
+                name.contains(txt, true) ||
+                    longName.contains(txt, true) ||
+                    symbol.contains(txt, true)
+            }?.toMutableList()
+            ?.let {
+                _states._currencyList.value = it
+                _states._loading.value = false
+            }.run {
+                data.query = txt
+            }
+        return true
+    }
 
     private fun verifyCurrentBase() = data.currentBase.either(
         { equals(Currencies.NULL.toString()) },

@@ -15,22 +15,22 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/feedback"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="@string/feedback"
         app:showAsAction="never" />
     <item
         android:id="@+id/support"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="@string/support"
         app:showAsAction="never" />
     <item
         android:id="@+id/removeAds"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:title="@string/remove_ads"
         app:showAsAction="never" />
     <item
         android:id="@+id/onGithub"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:title="@string/on_github"
         app:showAsAction="never" />
 </menu>
