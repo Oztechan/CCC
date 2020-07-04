@@ -29,8 +29,8 @@ class SettingsViewModel
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
-    private val _state = MutableSettingsState()
-    val state = SettingsState(_state)
+    private val _states = MutableSettingsState()
+    val state = SettingsState(_states)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
@@ -41,14 +41,14 @@ class SettingsViewModel
     // endregion
 
     init {
-        _state._loading.value = true
+        _states._loading.value = true
 
         viewModelScope.launch {
             currencyDao.getAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
-                    _state._currencyList.value = currencyList
+                    _states._currencyList.value = currencyList
                     data.unFilteredList = currencyList
 
                     currencyList
@@ -109,7 +109,7 @@ class SettingsViewModel
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = _state._currencyList.value
+    override fun onDoneClick() = _states._currencyList.value
         ?.filter { it.isActive }?.size
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }

@@ -30,9 +30,9 @@ data class CalculatorState(
 
 @Suppress("ConstructorParameterNaming")
 data class MutableCalculatorState(
-    val _input: MediatorLiveData<String> = MediatorLiveData(),
-    val _base: MediatorLiveData<String> = MediatorLiveData(),
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
+    val _input: MediatorLiveData<String> = MediatorLiveData<String>(),
+    val _base: MediatorLiveData<String> = MediatorLiveData<String>(),
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true)
