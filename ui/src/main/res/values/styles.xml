@@ -214,6 +214,16 @@
     </style>
 
     <!-- Settings -->
+    <style name="SettingsToolbarTextStyle">
+        <item name="android:layout_width">@dimen/fit</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/settings</item>
+        <item name="android:textAppearance">@style/BaseTextStyle</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/blue_grey_100</item>
+    </style>
+
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

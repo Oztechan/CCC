@@ -27,6 +27,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
 
+                <TextView
+                    android:id="@+id/txt_settings_toolbar"
+                    style="@style/SettingsToolbarTextStyle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Button
                     android:id="@+id/btn_de_select_all"
                     style="@style/BarButtonStyle"
@@ -49,13 +57,12 @@
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/WrapStyle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:visibility="@{!vm.state.selectionVisibility}"
-                    app:onQueryTextChange="@{(query) -> vm.filterList(query)}" />
+                    app:onQueryTextChange="@{(query) -> vm.filterList(query)}"
+                    app:visibility="@{!vm.state.selectionVisibility}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 

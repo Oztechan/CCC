@@ -65,22 +65,6 @@ class SettingsViewModel
         filterList("")
     }
 
-    fun filterList(txt: String): Boolean {
-        data.unFilteredList
-            ?.filter { (name, longName, symbol) ->
-                name.contains(txt, true) ||
-                    longName.contains(txt, true) ||
-                    symbol.contains(txt, true)
-            }?.toMutableList()
-            ?.let {
-                _states._currencyList.value = it
-                _states._loading.value = false
-            }.run {
-                data.query = txt
-            }
-        return true
-    }
-
     private fun verifyCurrentBase() = data.currentBase.either(
         { equals(Currencies.NULL.toString()) },
         { base ->
@@ -100,6 +84,20 @@ class SettingsViewModel
         data.currentBase = newBase
         _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
+
+    fun filterList(txt: String) = data.unFilteredList
+        ?.filter { (name, longName, symbol) ->
+            name.contains(txt, true) ||
+                longName.contains(txt, true) ||
+                symbol.contains(txt, true)
+        }?.toMutableList()
+        ?.let {
+            _states._currencyList.value = it
+            _states._loading.value = false
+        }.run {
+            data.query = txt
+            true
+        }
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
