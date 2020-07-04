@@ -23,38 +23,7 @@
             style="@style/BaseToolbarStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
-
-                <TextView
-                    android:id="@+id/txt_settings_toolbar"
-                    style="@style/SettingsToolbarTextStyle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <Button
-                    android:id="@+id/btn_de_select_all"
-                    style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.updateAllCurrenciesState(false)}"
-                    android:text="@string/btn_de_select_all"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/btn_select_all"
-                    style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.updateAllCurrenciesState(true)}"
-                    android:text="@string/btn_select_all"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/loading_view"

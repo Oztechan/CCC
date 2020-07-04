@@ -24,7 +24,7 @@ data class SettingsState(
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()
 
