@@ -59,6 +59,7 @@ class SettingsViewModel
 
                     verifyCurrentBase()
                     filterList(data.query)
+                    _states._selectionVisibility.value = false
                 }
         }
         filterList("")
@@ -117,5 +118,10 @@ class SettingsViewModel
             data.firstRun = false
             _effect.postValue(CalculatorEffect)
         }
+
+    override fun onItemLongClick() = _states._selectionVisibility.value?.let {
+        _states._selectionVisibility.value = !it
+        true
+    } ?: false
     // endregion
 }

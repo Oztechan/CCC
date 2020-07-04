@@ -34,7 +34,8 @@
                     android:text="@string/btn_de_select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visibility="@{vm.state.selectionVisibility}" />
 
                 <Button
                     android:id="@+id/btn_select_all"
@@ -43,7 +44,8 @@
                     android:text="@string/btn_select_all"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/search_view"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visibility="@{vm.state.selectionVisibility}" />
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_view"
@@ -52,6 +54,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:visibility="@{!vm.state.selectionVisibility}"
                     app:onQueryTextChange="@{(query) -> vm.filterList(query)}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>

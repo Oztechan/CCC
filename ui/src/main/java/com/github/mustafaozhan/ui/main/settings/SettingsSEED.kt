@@ -20,12 +20,14 @@ data class SettingsState(
 ) : BaseState() {
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
     val loading: LiveData<Boolean> = _state._loading
+    val selectionVisibility: LiveData<Boolean> = _state._selectionVisibility
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
+    val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()
 
 // Event
@@ -33,6 +35,7 @@ interface SettingsEvent : BaseEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
+    fun onItemLongClick(): Boolean
 }
 
 // Effect
