@@ -58,6 +58,7 @@ class SettingsViewModel
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
+                    filterList(data.query)
                 }
         }
         filterList("")
@@ -72,6 +73,8 @@ class SettingsViewModel
         ?.let {
             _states._currencyList.value = it
             _states._loading.value = false
+        }.run {
+            data.query = txt
         }
 
     private fun verifyCurrentBase() = data.currentBase.either(
@@ -87,8 +90,6 @@ class SettingsViewModel
                 ?.firstOrNull { it.isActive }?.name
                 ?: Currencies.NULL.toString()
         )
-    }.run {
-        _states._searchQuery.value = ""
     }
 
     private fun updateCurrentBase(newBase: String) {
