@@ -36,6 +36,36 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         viewModel = SettingsViewModel(preferencesRepository, currencyDao)
     }
 
+    @Test
+    fun `filter list`() {
+        val euro = Currency("EUR", "Euro", "€")
+        val dollar = Currency("USD", "American Dollar", "$")
+
+        viewModel.data.unFilteredList = mutableListOf<Currency>().apply {
+            add(euro)
+            add(dollar)
+        }
+
+        viewModel.filterList("USD")
+        Assert.assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
+
+        viewModel.filterList("Euro")
+        Assert.assertEquals(true, viewModel.state.currencyList.value?.contains(euro))
+
+        viewModel.filterList("$")
+        Assert.assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
+
+        viewModel.filterList("asdasd")
+        Assert.assertEquals(true, viewModel.state.currencyList.value?.isEmpty())
+    }
+
+    @Test
+    fun `query get updated on filtering list`() {
+        val query = "query"
+        viewModel.filterList(query)
+        Assert.assertEquals(query, viewModel.data.query)
+    }
+
     // Event
     @Test
     fun `on long click`() = with(viewModel) {
@@ -59,9 +89,10 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `on back click`() {
-        viewModel.getEvent().onBackClick()
+    fun `on close click`() {
+        viewModel.getEvent().onCloseClick()
         Assert.assertEquals(BackEffect, viewModel.effect.value)
+        Assert.assertEquals("", viewModel.data.query)
     }
 
     @Test

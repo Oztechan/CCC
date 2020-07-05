@@ -17,6 +17,7 @@
     </data>
 
     <androidx.appcompat.widget.Toolbar
+        android:background="@{vm.state.selectionVisibility ? @color/colorPrimaryBlack : @color/colorPrimaryDark}"
         android:id="@+id/toolbar_fragment_settings"
         style="@style/WideStyle">
 
@@ -24,15 +25,17 @@
 
             <ImageView
                 android:id="@+id/back_button"
-                style="@style/BackButtonStyle"
-                android:onClick="@{()->event.onBackClick()}"
+                style="@style/WrapStyle"
+                android:onClick="@{()->event.onCloseClick()}"
+                android:src="@{vm.state.selectionVisibility ?  @drawable/ic_close : @drawable/ic_back}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{!vm.data.firstRun}"
+                app:visibility="@{!vm.data.firstRun||vm.state.selectionVisibility}"
                 tools:ignore="ContentDescription" />
 
             <TextView
+                app:visibility="@{!vm.state.selectionVisibility}"
                 android:id="@+id/txt_settings_toolbar"
                 style="@style/SettingsToolbarTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -4,7 +4,11 @@
 package com.github.mustafaozhan.ui.util
 
 import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import com.github.mustafaozhan.basemob.util.toUnit
+import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.ui.R
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -23,3 +27,8 @@ fun Context.getImageResourceByName(name: String): Int = try {
     Timber.w(e)
     R.drawable.transparent
 }
+
+fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)
+    ?.castTo<InputMethodManager>()
+    ?.hideSoftInputFromWindow(windowToken, 0)
+    ?.toUnit()

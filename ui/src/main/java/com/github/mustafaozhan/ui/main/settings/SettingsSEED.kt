@@ -36,7 +36,7 @@ interface SettingsEvent : BaseEvent {
     fun onItemClick(currency: Currency)
     fun onDoneClick()
     fun onItemLongClick(): Boolean
-    fun onBackClick()
+    fun onCloseClick()
 }
 
 // Effect

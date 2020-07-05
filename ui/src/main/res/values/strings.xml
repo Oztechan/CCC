@@ -26,10 +26,10 @@
     <string name="delete">DEL</string>
 
     <!--Menu-->
-    <string name="settings">Settings</string>
-    <string name="feedback">FeedBack</string>
-    <string name="support">Support</string>
-    <string name="on_github">On Github</string>
+    <string name="txt_settings">Settings</string>
+    <string name="txt_feedback">FeedBack</string>
+    <string name="txt_support_us">Support Us</string>
+    <string name="txt_on_github">On Github</string>
 
     <!--SettingsFragment-->
     <string name="search">Search</string>
@@ -50,14 +50,12 @@
     <string name="database_success">Error Occurred! Using saved offline rate.</string>
     <string name="database_success_with_date">Error Occurred! Using the last saved rates. Last update: %s</string>
 
-    <!--Support-->
-    <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
-    <string name="support_us">Support us !</string>
-
     <!--Dialog-->
     <string name="rate_and_support">Please rate and comment to the app at Google Play Store :)</string>
     <string name="rate">RATE</string>
     <string name="update">Update</string>
+    <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
+    <string name="support_us">Support Us !</string>
 
     <!--Mail-->
     <string name="mail_developer">mr.mustafa.ozhan@gmail.com\</string>

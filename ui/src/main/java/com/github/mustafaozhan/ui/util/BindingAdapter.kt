@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ui.util
 
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
@@ -43,8 +44,10 @@ fun FrameLayout.adAdapter(adId: String, isExpired: Boolean) = if (isExpired) {
 fun View.visibility(visible: Boolean) {
     visibility = if (visible) {
         bringToFront()
+        if (visibility != View.VISIBLE) startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_in))
         View.VISIBLE
     } else {
+        if (visibility != View.GONE) startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out))
         View.GONE
     }
 }
