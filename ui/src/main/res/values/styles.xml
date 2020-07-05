@@ -44,6 +44,11 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="WideStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <!-- Base -->
     <style name="BarBaseImageView">
         <item name="android:layout_width">@dimen/currency_icon_size</item>
@@ -222,6 +227,11 @@
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/blue_grey_100</item>
+    </style>
+
+    <style name="BackButtonStyle" parent="WrapStyle">
+        <item name="android:padding">@dimen/margin_four</item>
+        <item name="android:src">@drawable/ic_back</item>
     </style>
 
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">

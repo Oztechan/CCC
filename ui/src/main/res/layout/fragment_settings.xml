@@ -18,73 +18,22 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_fragment_settings"
+        <include
+            android:id="@+id/layout_settings_toolbar"
             style="@style/BaseToolbarStyle"
+            layout="@layout/layout_settings_toolbar"
+            app:event="@{event}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
-
-                <ImageView
-                    android:id="@+id/back_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{()->event.onBackClick()}"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_back"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visibility="@{!vm.data.firstRun}"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/txt_settings_toolbar"
-                    style="@style/SettingsToolbarTextStyle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
-                    app:layout_constraintStart_toEndOf="@+id/back_button"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/btn_de_select_all"
-                    style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.updateAllCurrenciesState(false)}"
-                    android:text="@string/btn_de_select_all"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visibility="@{vm.state.selectionVisibility}" />
-
-                <Button
-                    android:id="@+id/btn_select_all"
-                    style="@style/BarButtonStyle"
-                    android:onClick="@{()->event.updateAllCurrenciesState(true)}"
-                    android:text="@string/btn_select_all"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/search_view"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visibility="@{vm.state.selectionVisibility}" />
-
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
-                    style="@style/WrapStyle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:onQueryTextChange="@{(query) -> vm.filterList(query)}"
-                    app:visibility="@{!vm.state.selectionVisibility}" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_constraintTop_toTopOf="parent"
+            app:vm="@{vm}" />
 
         <ProgressBar
             android:id="@+id/loading_view"
             style="@style/ProgressBarStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
+            app:layout_constraintTop_toBottomOf="@+id/layout_settings_toolbar"
             app:visibility="@{vm.state.loading}" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -93,7 +42,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_settings"
+            app:layout_constraintTop_toBottomOf="@+id/layout_settings_toolbar"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_settings" />
 

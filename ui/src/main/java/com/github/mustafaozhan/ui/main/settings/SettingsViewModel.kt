@@ -122,7 +122,9 @@ class SettingsViewModel
         true
     } ?: false
 
-    override fun onBackClick() {
+    override fun onBackClick() = if (_state._selectionVisibility.value == true) {
+        _state._selectionVisibility.value = false
+    } else {
         _effect.postValue(BackEffect)
     }
     // endregion

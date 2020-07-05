@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ui.viewmodel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ui.main.settings.BackEffect
 import com.github.mustafaozhan.ui.main.settings.FewCurrencyEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import io.mockk.MockKAnnotations
@@ -55,6 +56,12 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `on item click`() {
         val currency = Currency("EUR", "Euro", "€")
         Assert.assertEquals(Unit, viewModel.getEvent().onItemClick(currency))
+    }
+
+    @Test
+    fun `on back click`() {
+        viewModel.getEvent().onBackClick()
+        Assert.assertEquals(BackEffect, viewModel.effect.value)
     }
 
     @Test

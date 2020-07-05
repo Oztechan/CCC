@@ -41,7 +41,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
+        getBaseActivity()?.setSupportActionBar(binding.layoutSettingsToolbar.toolbarFragmentSettings)
         initView()
         observeEffect()
     }
