@@ -121,5 +121,9 @@ class SettingsViewModel
         _state._selectionVisibility.value = !it
         true
     } ?: false
+
+    override fun onBackClick() {
+        _effect.postValue(BackEffect)
+    }
     // endregion
 }

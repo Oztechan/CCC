@@ -36,12 +36,14 @@ interface SettingsEvent : BaseEvent {
     fun onItemClick(currency: Currency)
     fun onDoneClick()
     fun onItemLongClick(): Boolean
+    fun onBackClick()
 }
 
 // Effect
 sealed class SettingsEffect : BaseEffect()
 object FewCurrencyEffect : SettingsEffect()
 object CalculatorEffect : SettingsEffect()
+object BackEffect : SettingsEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 
 // Data

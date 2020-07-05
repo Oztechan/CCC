@@ -79,6 +79,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
                 )
+                BackEffect -> getBaseActivity()?.onBackPressed()
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                 }
