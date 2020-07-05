@@ -29,8 +29,8 @@ class SettingsViewModel
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
-    private val _states = MutableSettingsState()
-    val state = SettingsState(_states)
+    private val _state = MutableSettingsState()
+    val state = SettingsState(_state)
 
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
@@ -41,18 +41,14 @@ class SettingsViewModel
     // endregion
 
     init {
-        _states._loading.value = true
-
-        _states._searchQuery.addSource(state.searchQuery) {
-            filterList(it)
-        }
+        _state._loading.value = true
 
         viewModelScope.launch {
             currencyDao.getAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
-                    _states._currencyList.value = currencyList
+                    _state._currencyList.value = currencyList
                     data.unFilteredList = currencyList
 
                     currencyList
@@ -62,21 +58,12 @@ class SettingsViewModel
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
-                    filterList("")
+                    filterList(data.query)
+                    _state._selectionVisibility.value = false
                 }
         }
+        filterList("")
     }
-
-    private fun filterList(txt: String) = data.unFilteredList
-        ?.filter { (name, longName, symbol) ->
-            name.contains(txt, true) ||
-                longName.contains(txt, true) ||
-                symbol.contains(txt, true)
-        }?.toMutableList()
-        ?.let {
-            _states._currencyList.value = it
-            _states._loading.value = false
-        }
 
     private fun verifyCurrentBase() = data.currentBase.either(
         { equals(Currencies.NULL.toString()) },
@@ -91,14 +78,26 @@ class SettingsViewModel
                 ?.firstOrNull { it.isActive }?.name
                 ?: Currencies.NULL.toString()
         )
-    }.run {
-        _states._searchQuery.value = ""
     }
 
     private fun updateCurrentBase(newBase: String) {
         data.currentBase = newBase
         _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
+
+    fun filterList(txt: String) = data.unFilteredList
+        ?.filter { (name, longName, symbol) ->
+            name.contains(txt, true) ||
+                longName.contains(txt, true) ||
+                symbol.contains(txt, true)
+        }?.toMutableList()
+        ?.let {
+            _state._currencyList.value = it
+            _state._loading.value = false
+        }.run {
+            data.query = txt
+            true
+        }
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
@@ -109,7 +108,7 @@ class SettingsViewModel
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = _states._currencyList.value
+    override fun onDoneClick() = _state._currencyList.value
         ?.filter { it.isActive }?.size
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
@@ -117,5 +116,18 @@ class SettingsViewModel
             data.firstRun = false
             _effect.postValue(CalculatorEffect)
         }
+
+    override fun onItemLongClick() = _state._selectionVisibility.value?.let {
+        _state._selectionVisibility.value = !it
+        true
+    } ?: false
+
+    override fun onCloseClick() = if (_state._selectionVisibility.value == true) {
+        _state._selectionVisibility.value = false
+    } else {
+        _effect.postValue(BackEffect)
+    }.run {
+        filterList("")
+    }.toUnit()
     // endregion
 }

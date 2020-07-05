@@ -53,6 +53,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         )
     }
 
+    // Event
     @Test
     fun `spinner item click`() = with(viewModel) {
         val clickedItem = "asd"

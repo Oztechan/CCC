@@ -9,12 +9,12 @@
     <item
         android:id="@+id/feedback"
         android:orderInCategory="1"
-        android:title="@string/feedback"
+        android:title="@string/txt_feedback"
         app:showAsAction="never" />
     <item
-        android:id="@+id/support"
+        android:id="@+id/support_us"
         android:orderInCategory="2"
-        android:title="@string/support"
+        android:title="@string/txt_support_us"
         app:showAsAction="never" />
     <item
         android:id="@+id/removeAds"
@@ -24,6 +24,6 @@
     <item
         android:id="@+id/onGithub"
         android:orderInCategory="4"
-        android:title="@string/on_github"
+        android:title="@string/txt_on_github"
         app:showAsAction="never" />
 </menu>

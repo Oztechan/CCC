@@ -4,7 +4,6 @@
 package com.github.mustafaozhan.ui.main.settings
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
@@ -19,18 +18,16 @@ import com.github.mustafaozhan.ui.main.MainData
 data class SettingsState(
     private val _state: MutableSettingsState
 ) : BaseState() {
-    // two way binding
-    val searchQuery: MutableLiveData<String> = _state._searchQuery
-
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
     val loading: LiveData<Boolean> = _state._loading
+    val selectionVisibility: LiveData<Boolean> = _state._selectionVisibility
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
-    val _searchQuery: MediatorLiveData<String> = MediatorLiveData<String>(),
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData<MutableList<Currency>>(),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
+    val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()
 
 // Event
@@ -38,12 +35,15 @@ interface SettingsEvent : BaseEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
+    fun onItemLongClick(): Boolean
+    fun onCloseClick()
 }
 
 // Effect
 sealed class SettingsEffect : BaseEffect()
 object FewCurrencyEffect : SettingsEffect()
 object CalculatorEffect : SettingsEffect()
+object BackEffect : SettingsEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
 
 // Data
@@ -56,4 +56,5 @@ data class SettingsData(
     }
 
     var unFilteredList: MutableList<Currency>? = mutableListOf()
+    lateinit var query: String
 }

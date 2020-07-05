@@ -79,7 +79,7 @@ open class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
             R.id.feedback -> sendFeedBack()
-            R.id.support -> {
+            R.id.support_us -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(getString(R.string.app_market_link))

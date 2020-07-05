@@ -19,6 +19,7 @@ import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LANDSCAPE
 import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
+import com.github.mustafaozhan.ui.util.hideKeyboard
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -41,7 +42,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentSettings)
+        getBaseActivity()?.setSupportActionBar(binding.layoutSettingsToolbar.toolbarFragmentSettings)
         initView()
         observeEffect()
     }
@@ -75,10 +76,17 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
-                CalculatorEffect -> navigate(
-                    R.id.settingsFragment,
-                    SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
-                )
+                CalculatorEffect -> {
+                    navigate(
+                        R.id.settingsFragment,
+                        SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
+                    )
+                    requireView().hideKeyboard()
+                }
+                BackEffect -> {
+                    getBaseActivity()?.onBackPressed()
+                    requireView().hideKeyboard()
+                }
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                 }

@@ -18,6 +18,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/BaseItemLayout"
+        android:onLongClick="@{() -> event.onItemLongClick()}"
         android:onClick="@{() -> event.onItemClick(item)}">
 
         <ImageView

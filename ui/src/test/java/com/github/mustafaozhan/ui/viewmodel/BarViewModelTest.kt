@@ -30,6 +30,7 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
         viewModel = BarViewModel(currencyDao)
     }
 
+    // Event
     @Test
     fun `on item click`() = with(viewModel) {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
