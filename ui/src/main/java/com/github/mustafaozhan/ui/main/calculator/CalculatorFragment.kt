@@ -16,6 +16,7 @@ import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentCalculatorBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.util.getImageResourceByName
+import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
 import javax.inject.Inject
 
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
@@ -42,6 +43,14 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         initView()
         observeEffect()
         observeNavigationResult()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            calculatorViewModel.data.isRewardExpired
+        )
     }
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)

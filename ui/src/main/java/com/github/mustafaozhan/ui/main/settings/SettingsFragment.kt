@@ -20,6 +20,7 @@ import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LANDSCAPE
 import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
 import com.github.mustafaozhan.ui.util.hideKeyboard
+import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -49,6 +50,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            settingsViewModel.data.isRewardExpired
+        )
         settingsViewModel.hideSelectionVisibility()
     }
 
