@@ -47,6 +47,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         observeEffect()
     }
 
+    override fun onResume() {
+        super.onResume()
+        settingsViewModel.hideSelectionVisibility()
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setSpanByOrientation(newConfig.orientation)

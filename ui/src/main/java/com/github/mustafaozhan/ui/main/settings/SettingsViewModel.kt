@@ -85,6 +85,10 @@ class SettingsViewModel
         _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
 
+    fun hideSelectionVisibility() {
+        _state._selectionVisibility.value = false
+    }
+
     fun filterList(txt: String) = data.unFilteredList
         ?.filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
