@@ -35,4 +35,7 @@
     <!-- Slide -->
     <dimen name="margin_top_slide_items">20dp</dimen>
     <dimen name="padding_left_right_slide_item">36dp</dimen>
+
+    <!-- Search View -->
+    <dimen name="max_width_search_view">275dp</dimen>
 </resources>

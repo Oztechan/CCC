@@ -65,7 +65,7 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
-                style="@style/WrapStyle"
+                style="@style/SearchViewStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -244,6 +244,10 @@
         <item name="android:text">@string/select</item>
     </style>
 
+    <style name="SearchViewStyle" parent="WrapStyle">
+        <item name="android:maxWidth">@dimen/max_width_search_view</item>
+    </style>
+
     <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:text">@string/txt_select_currencies</item>
