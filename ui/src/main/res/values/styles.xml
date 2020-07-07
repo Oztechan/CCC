@@ -76,7 +76,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/blue_grey_400</item>
+        <item name="android:textColorHint">@color/colorHint</item>
         <item name="android:background">@color/transparent</item>
     </style>
 
@@ -84,7 +84,7 @@
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/colorText</item>
         <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
@@ -122,14 +122,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_one</item>
         <item name="alpha">.1</item>
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/colorTextStrong</item>
     </style>
 
     <style name="SlideButtonNext" parent="WrapStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:background">@null</item>
         <item name="android:text">@string/next</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/colorTextStrong</item>
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
@@ -139,7 +139,7 @@
     </style>
 
     <style name="BaseSlideStyle">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/colorTextStrong</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -168,7 +168,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/colorText</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/selector_keyboard</item>

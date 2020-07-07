@@ -6,20 +6,20 @@
     <color name="colorPrimaryDark">@color/black_grey</color>
     <color name="colorAccent">@color/blue_grey_100</color>
 
-    <color name="colorTextWeak">@color/blue_grey_900</color>
-    <color name="colorText">@color/black_grey</color>
-    <color name="colorTextStrong">@color/black</color>
-    <color name="colorHint">@color/blue_grey_400</color>
+    <color name="colorTextWeak">@color/blue_grey_200</color>
+    <color name="colorText">@color/blue_grey_100</color>
+    <color name="colorTextStrong">@color/white</color>
 
     <color name="colorBackgroundExtraWeak">@color/blue_grey_700</color>
-    <color name="colorBackgroundWeak">@color/blue_grey_400</color>
-    <color name="colorBackground">@color/blue_grey_200</color>
-    <color name="colorBackgroundStrong">@color/blue_grey_100</color>
-    <color name="colorBackgroundExtraStrong">@color/white</color>
+    <color name="colorBackgroundWeak">@color/blue_grey_800</color>
+    <color name="colorBackground">@color/blue_grey_900</color>
+    <color name="colorBackgroundStrong">@color/black_grey</color>
+    <color name="colorBackgroundExtraStrong">@color/black</color>
 
     <color name="transparent">#00000000</color>
     <color name="colorSplash">#455a63</color>
     <color name="color_slider_dots">@color/blue_grey_400</color>
+    <color name="colorHint">@color/blue_grey_400</color>
 
     <!-- Base Mob Colors -->
     <color name="toast_text_color">@color/black</color>
