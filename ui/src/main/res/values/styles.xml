@@ -59,7 +59,7 @@
     </style>
 
     <style name="BaseLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorBackgroundStrong</item>
     </style>
 
     <style name="BaseToolbarStyle">
@@ -133,7 +133,7 @@
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/colorBackgroundWeak</item>
+        <item name="android:background">@color/colorBackgroundExtraWeak</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -236,7 +236,7 @@
     </style>
 
     <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/colorBackgroundWeak</item>
+        <item name="android:background">@color/colorBackground</item>
     </style>
 
     <style name="SelectButtonStyle" parent="DoneButtonStyle">
