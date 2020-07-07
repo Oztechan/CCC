@@ -8,14 +8,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/colorPrimarySemiDark</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:itemBackground">@color/colorBackgroundWeak</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorText</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
@@ -59,14 +59,14 @@
     </style>
 
     <style name="BaseLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorBackground</item>
     </style>
 
     <style name="BaseToolbarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -75,7 +75,7 @@
         <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/blue_grey_400</item>
         <item name="android:background">@color/transparent</item>
     </style>
@@ -133,7 +133,7 @@
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorBackgroundWeak</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -171,7 +171,7 @@
         <item name="android:textColor">@color/blue_grey_100</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/selector_dark</item>
+        <item name="android:background">@drawable/selector_keyboard</item>
     </style>
 
     <style name="SubKeyboardTableRowStyle" parent="MatchStyle">
@@ -181,7 +181,7 @@
 
     <!-- Bar -->
     <style name="LayoutBar">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
@@ -215,7 +215,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorBackground</item>
     </style>
 
     <!-- Settings -->
@@ -236,11 +236,11 @@
     </style>
 
     <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/colorPrimarySemiDark</item>
+        <item name="android:background">@color/colorBackgroundWeak</item>
     </style>
 
     <style name="SelectButtonStyle" parent="DoneButtonStyle">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
         <item name="android:text">@string/select</item>
     </style>
 
@@ -261,7 +261,7 @@
     <style name="BaseItemLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/selector_light</item>
+        <item name="android:background">@drawable/selector_item</item>
         <item name="android:paddingLeft">@dimen/margin_four</item>
         <item name="android:paddingRight">@dimen/margin_zero</item>
     </style>
@@ -353,12 +353,12 @@
     </style>
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorBackgroundWeak</item>
     </style>
 
     <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorBackgroundWeak</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>

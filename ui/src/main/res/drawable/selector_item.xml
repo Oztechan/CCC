@@ -2,6 +2,6 @@
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/colorPrimary" android:state_pressed="false" />
-    <item android:drawable="@color/colorPrimarySemiDark" android:state_pressed="true" />
+    <item android:drawable="@color/colorBackgroundWeak" android:state_pressed="false" />
+    <item android:drawable="@color/colorBackground" android:state_pressed="true" />
 </selector>

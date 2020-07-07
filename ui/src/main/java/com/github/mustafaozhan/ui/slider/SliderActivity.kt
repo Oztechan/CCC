@@ -89,7 +89,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         }
 
         if (dots.size > 0) {
-            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryLight))
+            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.color_slider_dots))
         }
     }
 
