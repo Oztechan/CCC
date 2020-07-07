@@ -17,7 +17,7 @@
     </data>
 
     <androidx.appcompat.widget.Toolbar
-        android:background="@{vm.state.selectionVisibility ? @color/colorSecondary : @color/colorBackgroundStrong}"
+        android:background="@{vm.state.selectionVisibility ? @color/colorPrimaryDark : @color/colorBackgroundStrong}"
         android:id="@+id/toolbar_fragment_settings"
         style="@style/WideStyle">
 
