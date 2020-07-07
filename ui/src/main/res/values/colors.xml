@@ -4,7 +4,7 @@
 <resources>
     <color name="colorPrimary">@color/blue_grey_700</color>
     <color name="colorAccent">@color/blue_grey_100</color>
-    <color name="colorPrimaryDark">@color/blue_grey_900</color>
+    <color name="colorPrimaryDark">@color/black_grey</color>
 
     <color name="colorTextWeak">@color/blue_grey_200</color>
     <color name="colorText">@color/blue_grey_100</color>
@@ -19,11 +19,11 @@
     <color name="color_slider_dots">@color/blue_grey_400</color>
 
     <color name="white">#ffffff</color>
-    <color name="black_grey">#171E22</color>
     <color name="blue_grey_100">#CFD8DC</color>
     <color name="blue_grey_200">#b0bec5</color>
     <color name="blue_grey_400">#78909c</color>
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
+    <color name="black_grey">#171E22</color>
 </resources>

@@ -9,7 +9,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:itemBackground">@color/colorBackgroundWeak</item>
+        <item name="android:itemBackground">@color/colorBackground</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -66,7 +66,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorBackgroundStrong</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -181,7 +181,7 @@
 
     <!-- Bar -->
     <style name="LayoutBar">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorBackgroundStrong</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
@@ -215,7 +215,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorBackgroundStrong</item>
     </style>
 
     <!-- Settings -->
@@ -226,7 +226,7 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
