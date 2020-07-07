@@ -15,8 +15,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-        <item name="android:textColorPrimary">@color/colorText</item>
-        <item name="android:textColorSecondary">@color/colorText</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
@@ -247,6 +245,9 @@
 
     <style name="SearchViewStyle" parent="WrapStyle">
         <item name="android:maxWidth">@dimen/max_width_search_view</item>
+        <item name="queryHint">@string/search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+        <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
     <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
