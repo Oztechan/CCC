@@ -46,11 +46,12 @@ class PreferencesRepository
 
     fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
-    fun syncPreferences() = OldPreferences(context)
+    fun syncAndGetFirstRun() = OldPreferences(context)
         .whether { isOldPreferencesExist() }
         ?.let { oldPreferences ->
             firstRun = oldPreferences.getOldFirstRun() == true.toString()
             currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.NULL.toString()
             oldPreferences.removeOldPreferences()
-        }
+            firstRun
+        } ?: true
 }

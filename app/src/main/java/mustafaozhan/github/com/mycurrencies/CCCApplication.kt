@@ -34,9 +34,7 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(
                 StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork()
+                    .detectAll()
                     .penaltyLog()
                     .build()
             )
