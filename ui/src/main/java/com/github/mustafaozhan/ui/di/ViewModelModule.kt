@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ui.main.MainViewModel
 import com.github.mustafaozhan.ui.main.bar.BarViewModel
 import com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
+import com.github.mustafaozhan.ui.splash.SplashViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -22,6 +23,12 @@ class ViewModelModule {
     internal fun providesMainViewModel(
         preferencesRepository: PreferencesRepository
     ) = MainViewModel(preferencesRepository)
+
+    @Provides
+    @ActivityScope
+    internal fun providesSplashViewModel(
+        preferencesRepository: PreferencesRepository
+    ) = SplashViewModel(preferencesRepository)
 
     @Provides
     @ActivityScope

@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainActivity
 import com.github.mustafaozhan.ui.slider.SliderActivity
 import javax.inject.Inject
@@ -14,17 +13,17 @@ import javax.inject.Inject
 class SplashActivity : BaseActivity() {
 
     @Inject
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var splashViewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        preferencesRepository.syncPreferences()
+        splashViewModel.preferencesRepository.syncPreferences()
 
         startActivity(
             Intent(
                 this,
-                if (preferencesRepository.firstRun) {
+                if (splashViewModel.preferencesRepository.firstRun) {
                     SliderActivity::class.java
                 } else {
                     MainActivity::class.java
