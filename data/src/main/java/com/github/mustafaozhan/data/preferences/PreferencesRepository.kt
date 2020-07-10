@@ -6,8 +6,7 @@ package com.github.mustafaozhan.data.preferences
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
 import com.github.mustafaozhan.data.model.Currencies
-import com.github.mustafaozhan.data.util.OldPreferences
-import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.data.util.getOldPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,12 +45,10 @@ class PreferencesRepository
 
     fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
-    fun syncAndGetFirstRun() = OldPreferences(context)
-        .whether { isOldPreferencesExist() }
+    fun syncAndGetFirstRun() = getOldPreferences(context)
         ?.let { oldPreferences ->
-            firstRun = oldPreferences.getOldFirstRun() == true.toString()
-            currentBase = oldPreferences.getOldBaseCurrency() ?: Currencies.NULL.toString()
-            oldPreferences.removeOldPreferences()
+            firstRun = oldPreferences[0] == true.toString()
+            currentBase = oldPreferences[1] ?: Currencies.NULL.toString()
             firstRun
         } ?: true
 }
