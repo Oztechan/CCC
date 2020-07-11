@@ -15,6 +15,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+    </style>
+
+    <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorText</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
