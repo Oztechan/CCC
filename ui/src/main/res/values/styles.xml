@@ -5,16 +5,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorText</item>
-        <item name="hintTextColor">@color/colorTextWeak</item>
-        <item name="android:buttonTint">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/colorBackgroundWeak</item>
-        <item name="android:editTextColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/colorTextWeak</item>
-        <item name="android:tint">@color/transparent</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="hintTextColor">@color/color_text_weak</item>
+        <item name="android:buttonTint">@color/color_accent</item>
+        <item name="android:itemBackground">@color/color_background_weak</item>
+        <item name="android:editTextColor">@color/color_text</item>
+        <item name="android:textColorHint">@color/color_text_weak</item>
+        <item name="android:tint">@color/color_transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
@@ -22,7 +22,7 @@
     </style>
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorText</item>
+        <item name="android:tint">@color/color_text</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
@@ -62,18 +62,18 @@
         <item name="android:layout_height">@dimen/currency_icon_size</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
-        <item name="srcCompat">@color/transparent</item>
+        <item name="srcCompat">@color/color_transparent</item>
     </style>
 
     <style name="BaseLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/colorBackgroundStrong</item>
+        <item name="android:background">@color/color_background_strong</item>
     </style>
 
     <style name="BaseToolbarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:background">@color/colorBackgroundStrong</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -82,16 +82,16 @@
         <item name="android:textSize">@dimen/text_size_l</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/colorTextWeak</item>
-        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColorHint">@color/color_text_weak</item>
+        <item name="android:background">@color/color_transparent</item>
     </style>
 
     <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
@@ -129,24 +129,24 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_one</item>
         <item name="alpha">.1</item>
-        <item name="android:background">@color/colorTextWeak</item>
+        <item name="android:background">@color/color_text_weak</item>
     </style>
 
     <style name="SlideButtonNext" parent="WrapStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:background">@null</item>
         <item name="android:text">@string/next</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/color_text</item>
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/color_background</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="BaseSlideStyle">
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -175,7 +175,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/selector_keyboard</item>
@@ -188,7 +188,7 @@
 
     <!-- Bar -->
     <style name="LayoutBar">
-        <item name="android:background">@color/colorBackgroundStrong</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
@@ -222,7 +222,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
-        <item name="android:background">@color/colorBackgroundStrong</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <!-- Settings -->
@@ -233,7 +233,7 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/color_text</item>
     </style>
 
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
@@ -242,12 +242,17 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
-    <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/colorBackgroundWeak</item>
+    <style name="DoneButtonStyle" parent="SelectButtonStyle">
+        <item name="android:drawableEnd">@drawable/ic_done</item>
+        <item name="android:text">@string/btn_done</item>
+        <item name="android:paddingEnd">@dimen/margin_eight</item>
+        <item name="android:background">@color/color_background_weak</item>
     </style>
 
-    <style name="SelectButtonStyle" parent="DoneButtonStyle">
-        <item name="android:textColor">@color/colorText</item>
+    <style name="SelectButtonStyle" parent="BarButtonStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:text">@string/select</item>
     </style>
 
@@ -276,6 +281,10 @@
         <item name="android:background">@drawable/selector_item</item>
         <item name="android:paddingLeft">@dimen/margin_four</item>
         <item name="android:paddingRight">@dimen/margin_zero</item>
+    </style>
+
+    <style name="BarItemLayout" parent="BaseItemLayout">
+        <item name="android:background">@drawable/selector_bar</item>
     </style>
 
     <!-- Calculator Item -->
@@ -365,12 +374,12 @@
     </style>
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/color_background_weak</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>
