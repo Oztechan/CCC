@@ -16,10 +16,6 @@
     <color name="transparent">#00000000</color>
     <color name="colorSplash">#455a63</color>
 
-    <!-- Slider -->
-    <color name="slide_background">#455A64</color>
-    <color name="color_slider_dots">#78909c</color>
-
     <!-- Base Mob Colors -->
     <color name="toast_text_color">@color/colorPrimaryDark</color>
     <color name="dialog_text_color">@color/colorPrimary</color>

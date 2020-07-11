@@ -129,7 +129,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_one</item>
         <item name="alpha">.1</item>
-        <item name="android:background">@color/colorText</item>
+        <item name="android:background">@color/colorTextWeak</item>
     </style>
 
     <style name="SlideButtonNext" parent="WrapStyle">
@@ -140,7 +140,7 @@
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/slide_background</item>
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -243,7 +243,7 @@
     </style>
 
     <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/colorBackground</item>
+        <item name="android:background">@color/colorBackgroundWeak</item>
     </style>
 
     <style name="SelectButtonStyle" parent="DoneButtonStyle">
@@ -255,7 +255,7 @@
         <item name="android:maxWidth">@dimen/max_width_search_view</item>
         <item name="queryHint">@string/search</item>
         <item name="closeIcon">@drawable/ic_close</item>
-        <item name="searchHintIcon">@drawable/ic_search</item>
+        <item name="searchHintIcon">@drawable/ic_search_hint</item>
         <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
@@ -270,6 +270,7 @@
 
     <!-- Item -->
     <style name="BaseItemLayout">
+        <item name="android:layout_margin">@dimen/margin_two</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/selector_item</item>
