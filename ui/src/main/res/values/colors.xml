@@ -2,16 +2,16 @@
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
-    <color name="colorPrimary">#0097A7</color>
-    <color name="colorPrimaryDark">#e7ecf0</color>
-    <color name="colorAccent">#4ca0eb</color>
+    <color name="colorPrimary">#19c9ff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#0ee6b7</color>
 
-    <color name="colorTextWeak">#687984</color>
-    <color name="colorText">#15171a</color>
+    <color name="colorTextWeak">#9f9f9f</color>
+    <color name="colorText">#000000</color>
 
-    <color name="colorBackgroundWeak">@android:color/white</color>
-    <color name="colorBackground">#f6f8fa</color>
-    <color name="colorBackgroundStrong">#e7ecf0</color>
+    <color name="colorBackgroundWeak">#bdc1c8</color>
+    <color name="colorBackground">#f1f1f1</color>
+    <color name="colorBackgroundStrong">#ffffff</color>
 
     <color name="transparent">#00000000</color>
     <color name="colorSplash">#455a63</color>
