@@ -10,7 +10,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="hintTextColor">@color/colorTextWeak</item>
-        <item name="android:itemBackground">@color/colorBackground</item>
+        <item name="android:buttonTint">@color/colorText</item>
+        <item name="android:itemBackground">@color/colorBackgroundWeak</item>
+        <item name="android:editTextColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorTextWeak</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -360,12 +363,12 @@
     </style>
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/colorBackgroundWeak</item>
+        <item name="android:background">@color/colorBackground</item>
     </style>
 
     <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorBackgroundWeak</item>
+        <item name="android:background">@color/colorBackground</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>
