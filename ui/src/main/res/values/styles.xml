@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="hintTextColor">@color/colorTextWeak</item>
-        <item name="android:buttonTint">@color/colorText</item>
+        <item name="android:buttonTint">@color/colorAccent</item>
         <item name="android:itemBackground">@color/colorBackgroundWeak</item>
         <item name="android:editTextColor">@color/colorText</item>
         <item name="android:textColorHint">@color/colorTextWeak</item>
@@ -255,6 +255,7 @@
         <item name="android:maxWidth">@dimen/max_width_search_view</item>
         <item name="queryHint">@string/search</item>
         <item name="closeIcon">@drawable/ic_close</item>
+        <item name="searchHintIcon">@drawable/ic_search</item>
         <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
