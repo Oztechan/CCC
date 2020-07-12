@@ -60,6 +60,7 @@
 
                 <ImageView
                     android:id="@+id/btn_settings"
+                    android:onClick="@{() -> event.onSettingsClicked()}"
                     style="@style/SettingsButtonStyle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

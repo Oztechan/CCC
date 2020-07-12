@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ui.main.MainViewModel
 import com.github.mustafaozhan.ui.main.bar.BarViewModel
 import com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ui.main.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -36,6 +37,10 @@ class ViewModelModule {
         currencyDao,
         offlineRatesDao
     )
+
+    @Provides
+    @ActivityScope
+    internal fun providesSettingsViewModel() = SettingsViewModel()
 
     @Provides
     @ActivityScope

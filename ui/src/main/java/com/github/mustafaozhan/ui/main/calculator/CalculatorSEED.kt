@@ -45,6 +45,7 @@ interface CalculatorEvent : BaseEvent {
     fun onItemLongClick(currency: Currency): Boolean
     fun onBarClick()
     fun onSpinnerItemSelected(base: String)
+    fun onSettingsClicked()
 }
 
 // Effect
@@ -53,6 +54,7 @@ object ErrorEffect : CalculatorEffect()
 object FewCurrencyEffect : CalculatorEffect()
 object OpenBarEffect : CalculatorEffect()
 object MaximumInputEffect : CalculatorEffect()
+object OpenSettingsEffect : CalculatorEffect()
 data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
