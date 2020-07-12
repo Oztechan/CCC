@@ -43,7 +43,6 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.layoutCurrenciesToolbar.toolbarFragmentCurrencies)
         initView()
         observeEffect()
     }

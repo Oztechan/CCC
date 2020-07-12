@@ -201,9 +201,7 @@
     </style>
 
     <!-- Calculator -->
-    <style name="CalculatorToolbarTextStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="CalculatorToolbarTextStyle" parent="FitStyle">
         <item name="android:gravity">center</item>
         <item name="android:maxLines">3</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
@@ -323,6 +321,12 @@
     <style name="CalculatorItemTypeTextStyle" parent="BaseCalculatorItemTextStyle">
         <item name="android:layout_marginEnd">@dimen/margin_eight</item>
         <item name="android:layout_marginRight">@dimen/margin_eight</item>
+    </style>
+
+    <!-- Settings -->
+    <style name="SettingsButtonStyle" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_settings</item>
+        <item name="android:paddingEnd">@dimen/margin_twelve</item>
     </style>
 
     <!-- Currencies Item -->

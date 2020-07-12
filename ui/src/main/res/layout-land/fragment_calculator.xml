@@ -21,7 +21,6 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_fragment_main"
             style="@style/BaseToolbarStyle"
-            android:onClick="@{() -> event.onBarClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -33,6 +32,7 @@
                 <include
                     android:id="@+id/layout_bar"
                     layout="@layout/layout_bar"
+                    android:onClick="@{() -> event.onBarClick()}"
                     android:layout_width="@dimen/fit"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -51,12 +51,20 @@
                 <TextView
                     android:id="@+id/txt_input"
                     style="@style/CalculatorToolbarTextStyle"
-                    android:layout_width="@dimen/margin_zero"
                     android:text="@{vm.state.input}"
+                    android:onClick="@{() -> event.onBarClick()}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_settings"
                     app:layout_constraintStart_toStartOf="@+id/guideline_bar"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btn_settings"
+                    style="@style/SettingsButtonStyle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 
