@@ -20,8 +20,15 @@
     <dimen name="margin_four">4dp</dimen>
     <dimen name="margin_eight">8dp</dimen>
     <dimen name="margin_twelve">12dp</dimen>
+    <dimen name="margin_sixteen">16dp</dimen>
     <dimen name="margin_fifty_six">56dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="height_settings_item_layout">100dp</dimen>
+    <dimen name="height_settings_item_row">75dp</dimen>
+    <dimen name="width_height_settings_icon">36dp</dimen>
+    <dimen name="margin_start_settings_item_separator">52dp</dimen>
+    <dimen name="height_settings_item_separator">0.33dp</dimen>
 
     <!--Currency Icon Size-->
     <dimen name="currency_icon_size">36dp</dimen>

@@ -1,0 +1,13 @@
+<!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="8dp"
+    android:height="14dp"
+    android:tint="@color/color_text_weak"
+    android:viewportWidth="8"
+    android:viewportHeight="14">
+    <path
+        android:fillColor="@color/color_text_weak"
+        android:pathData="M7.805,6.506l-5.991,-6.29a0.652,0.652 0,0 0,-0.953 -0,0.73 0.73,0 0,0 -0,0.999l5.517,5.79 -5.516,5.79a0.73,0.73 0,0 0,-0 0.998,0.652 0.652,0 0,0 0.952,-0L7.806,7.505a0.738,0.738 0,0 0,-0 -1" />
+</vector>

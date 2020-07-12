@@ -77,16 +77,6 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
-    <!-- Edit Text -->
-    <style name="BaseEditTextTheme">
-        <item name="android:textSize">@dimen/text_size_l</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/color_text</item>
-        <item name="android:textColorHint">@color/color_text_weak</item>
-        <item name="android:background">@color/color_transparent</item>
-    </style>
-
     <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
@@ -213,6 +203,11 @@
         <item name="android:layout_height">@dimen/progress_bar_height_width</item>
     </style>
 
+    <style name="SettingsButtonStyle" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_settings</item>
+        <item name="android:paddingEnd">@dimen/margin_twelve</item>
+    </style>
+
     <!-- Bar Bottom Sheet Dialog -->
     <style name="CurrentBaseStyle" parent="WrapStyle">
         <item name="android:layout_width">@dimen/fit</item>
@@ -324,9 +319,70 @@
     </style>
 
     <!-- Settings -->
-    <style name="SettingsButtonStyle" parent="WrapStyle">
-        <item name="android:src">@drawable/ic_settings</item>
-        <item name="android:paddingEnd">@dimen/margin_twelve</item>
+    <style name="SettingsScrollViewStyle" parent="MatchStyle">
+        <item name="android:background">@color/color_background</item>
+    </style>
+
+    <style name="SettingsBackButtonStyle" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_back</item>
+    </style>
+
+    <style name="SettingsToolbarTextStyle" parent="CurrenciesToolbarTextStyle">
+        <item name="android:text">@string/txt_settings</item>
+    </style>
+
+    <!-- Settings Item -->
+    <style name="SettingsItemLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_settings_item_layout</item>
+        <item name="android:background">@drawable/selector_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SettingsItemRowStyle">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">@dimen/height_settings_item_row</item>
+        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:paddingTop">@dimen/margin_eight</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
+    </style>
+
+    <style name="SettingsItemIconStyle" parent="WrapStyle">
+        <item name="android:layout_width">@dimen/width_height_settings_icon</item>
+        <item name="android:layout_height">@dimen/width_height_settings_icon</item>
+    </style>
+
+    <style name="SettingsItemSeparator">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">@dimen/height_settings_item_separator</item>
+        <item name="android:layout_marginStart">@dimen/margin_start_settings_item_separator</item>
+        <item name="android:layout_marginEnd">@dimen/margin_four</item>
+        <item name="android:background">@color/color_text_weak</item>
+    </style>
+
+    <style name="SettingsItemArrow" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_forward</item>
+    </style>
+
+    <style name="SettingsItemTitle" parent="WrapStyle">
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="SettingsItemSubTitle" parent="WrapStyle">
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <style name="SettingsItemValue" parent="WrapStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>
 
     <!-- Currencies Item -->
