@@ -7,23 +7,28 @@
     tools:context=".activities.LoginActivity">
 
     <item
-        android:id="@+id/feedback"
+        android:id="@+id/menu_theme"
         android:orderInCategory="1"
-        android:title="@string/txt_feedback"
+        android:title="@string/txt_theme"
         app:showAsAction="never" />
     <item
-        android:id="@+id/support_us"
+        android:id="@+id/menu_remove_ads"
         android:orderInCategory="2"
-        android:title="@string/txt_support_us"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/removeAds"
-        android:orderInCategory="3"
         android:title="@string/remove_ads"
         app:showAsAction="never" />
     <item
-        android:id="@+id/onGithub"
+        android:id="@+id/menu_feedback"
+        android:orderInCategory="3"
+        android:title="@string/txt_feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_support_us"
         android:orderInCategory="4"
+        android:title="@string/txt_support_us"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_on_github"
+        android:orderInCategory="5"
         android:title="@string/txt_on_github"
         app:showAsAction="never" />
 </menu>

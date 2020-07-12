@@ -77,9 +77,14 @@ open class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
-            R.id.feedback -> sendFeedBack()
-            R.id.support_us -> {
+            R.id.menu_settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
+            R.id.menu_theme -> {
+            }
+            R.id.menu_remove_ads -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
+                showRewardedAd()
+            }
+            R.id.menu_feedback -> sendFeedBack()
+            R.id.menu_support_us -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(getString(R.string.app_market_link))
@@ -90,10 +95,7 @@ open class MainActivity : BaseActivity() {
                     }
                 }
             }
-            R.id.removeAds -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {
-                showRewardedAd()
-            }
-            R.id.onGithub -> {
+            R.id.menu_on_github -> {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse(getString(R.string.github_url))
