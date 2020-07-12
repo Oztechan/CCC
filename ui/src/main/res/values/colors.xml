@@ -2,15 +2,15 @@
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
-    <color name="color_primary">#ff00bcd4</color>
+    <color name="color_primary">#00bcd4</color>
     <color name="color_primary_dark">#ffffff</color>
-    <color name="color_accent">#ff009688</color>
+    <color name="color_accent">#009688</color>
 
-    <color name="color_text_weak">#999999</color>
-    <color name="color_text">#000000</color>
+    <color name="color_text_weak">#757575</color>
+    <color name="color_text">#212121</color>
 
-    <color name="color_background_weak">#ededed</color>
-    <color name="color_background">#f6f6f6</color>
+    <color name="color_background_weak">#e0e0e0</color>
+    <color name="color_background">#f2f2f2</color>
     <color name="color_background_strong">#ffffff</color>
 
     <color name="color_transparent">#00000000</color>
