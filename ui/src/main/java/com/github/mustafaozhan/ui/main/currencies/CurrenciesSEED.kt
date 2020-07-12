@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ui.main.settings
+package com.github.mustafaozhan.ui.main.currencies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,8 +15,8 @@ import com.github.mustafaozhan.ui.main.MainData
 
 // State
 @Suppress("ConstructorParameterNaming")
-data class SettingsState(
-    private val _state: MutableSettingsState
+data class CurrenciesState(
+    private val _state: MutableCurrenciesState
 ) : BaseState() {
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
     val loading: LiveData<Boolean> = _state._loading
@@ -24,14 +24,14 @@ data class SettingsState(
 }
 
 @Suppress("ConstructorParameterNaming")
-data class MutableSettingsState(
+data class MutableCurrenciesState(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
     val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
 ) : MutableBaseState()
 
 // Event
-interface SettingsEvent : BaseEvent {
+interface CurrenciesEvent : BaseEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
@@ -40,14 +40,14 @@ interface SettingsEvent : BaseEvent {
 }
 
 // Effect
-sealed class SettingsEffect : BaseEffect()
-object FewCurrencyEffect : SettingsEffect()
-object CalculatorEffect : SettingsEffect()
-object BackEffect : SettingsEffect()
-data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
+sealed class CurrenciesEffect : BaseEffect()
+object FewCurrencyEffect : CurrenciesEffect()
+object CalculatorEffect : CurrenciesEffect()
+object BackEffect : CurrenciesEffect()
+data class ChangeBaseNavResultEffect(val newBase: String) : CurrenciesEffect()
 
 // Data
-data class SettingsData(
+data class CurrenciesData(
     private val preferencesRepository: PreferencesRepository
 ) : MainData(preferencesRepository) {
     companion object {

@@ -10,7 +10,7 @@ import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainViewModel
 import com.github.mustafaozhan.ui.main.bar.BarViewModel
 import com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
+import com.github.mustafaozhan.ui.main.currencies.CurrenciesViewModel
 import dagger.Module
 import dagger.Provides
 
@@ -39,10 +39,10 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    internal fun providesSettingsViewModel(
+    internal fun providesCurrenciesViewModel(
         preferencesRepository: PreferencesRepository,
         currencyDao: CurrencyDao
-    ) = SettingsViewModel(
+    ) = CurrenciesViewModel(
         preferencesRepository,
         currencyDao
     )

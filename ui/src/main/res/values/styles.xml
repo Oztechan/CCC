@@ -224,11 +224,11 @@
         <item name="android:background">@color/color_background</item>
     </style>
 
-    <!-- Settings -->
-    <style name="SettingsToolbarTextStyle">
+    <!-- Currencies -->
+    <style name="CurrenciesToolbarTextStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:text">@string/txt_settings</item>
+        <item name="android:text">@string/txt_currencies</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
@@ -325,13 +325,13 @@
         <item name="android:layout_marginRight">@dimen/margin_eight</item>
     </style>
 
-    <!-- Settings Item -->
-    <style name="SettingsItemImageView" parent="CalculatorItemImageView">
+    <!-- Currencies Item -->
+    <style name="CurrenciesItemImageView" parent="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
 
-    <style name="SettingsItemText">
+    <style name="CurrenciesItemText">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_two</item>
@@ -345,7 +345,7 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
-    <style name="SettingsItemCheckBoxStyle" parent="WrapStyle">
+    <style name="CurrenciesItemCheckBoxStyle" parent="WrapStyle">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_two</item>
         <item name="android:layout_marginRight">@dimen/margin_two</item>
@@ -355,13 +355,13 @@
     </style>
 
     <!-- Bar -->
-    <style name="BarItemText" parent="SettingsItemText">
+    <style name="BarItemText" parent="CurrenciesItemText">
         <item name="android:textAppearance">@style/ItemTextStyle</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
-    <style name="BarItemImageView" parent="SettingsItemImageView">
+    <style name="BarItemImageView" parent="CurrenciesItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>

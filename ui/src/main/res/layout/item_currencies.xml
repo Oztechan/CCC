@@ -13,7 +13,7 @@
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ui.main.settings.SettingsEvent" />
+            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
 
         <ImageView
             android:id="@+id/img_icon"
-            style="@style/SettingsItemImageView"
+            style="@style/CurrenciesItemImageView"
             app:backgroundByName="@{item.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/txt_setting_item"
-            style="@style/SettingsItemText"
+            style="@style/CurrenciesItemText"
             android:text="@{item.variablesOneLine}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/checkBox"
@@ -41,7 +41,7 @@
 
         <CheckBox
             android:id="@+id/checkBox"
-            style="@style/SettingsItemCheckBoxStyle"
+            style="@style/CurrenciesItemCheckBoxStyle"
             android:checked="@{item.isActive}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

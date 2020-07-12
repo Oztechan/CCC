@@ -7,9 +7,9 @@
     tools:context=".activities.LoginActivity">
 
     <item
-        android:id="@+id/menu_settings"
+        android:id="@+id/menu_currencies"
         android:orderInCategory="1"
-        android:title="@string/txt_settings"
+        android:title="@string/txt_currencies"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_theme"

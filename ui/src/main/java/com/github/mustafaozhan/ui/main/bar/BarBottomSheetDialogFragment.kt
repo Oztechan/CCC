@@ -46,9 +46,9 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
                     setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
                     dismissDialog()
                 }
-                OpenSettingsEffect -> navigate(
+                OpenCurrenciesEffect -> navigate(
                     R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToSettingsFragment(),
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment(),
                     dismiss = false
                 )
             }

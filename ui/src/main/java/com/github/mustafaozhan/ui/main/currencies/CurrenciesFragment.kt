@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ui.main.settings
+package com.github.mustafaozhan.ui.main.currencies
 
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
@@ -15,35 +15,35 @@ import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
-import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
+import com.github.mustafaozhan.ui.databinding.FragmentCurrenciesBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LANDSCAPE
-import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
+import com.github.mustafaozhan.ui.main.currencies.CurrenciesData.Companion.SPAN_LANDSCAPE
+import com.github.mustafaozhan.ui.main.currencies.CurrenciesData.Companion.SPAN_PORTRAIT
 import com.github.mustafaozhan.ui.util.hideKeyboard
 import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
 import javax.inject.Inject
 
-class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
+class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
 
     @Inject
-    lateinit var settingsViewModel: SettingsViewModel
+    lateinit var currenciesViewModel: CurrenciesViewModel
 
-    private lateinit var settingsAdapter: SettingsAdapter
+    private lateinit var currenciesAdapter: CurrenciesAdapter
 
-    override fun bind(container: ViewGroup?): FragmentSettingsBinding =
-        FragmentSettingsBinding.inflate(layoutInflater, container, false)
+    override fun bind(container: ViewGroup?): FragmentCurrenciesBinding =
+        FragmentCurrenciesBinding.inflate(layoutInflater, container, false)
 
-    override fun onBinding(dataBinding: FragmentSettingsBinding) {
-        binding.vm = settingsViewModel
-        settingsViewModel.getEvent().let {
+    override fun onBinding(dataBinding: FragmentCurrenciesBinding) {
+        binding.vm = currenciesViewModel
+        currenciesViewModel.getEvent().let {
             binding.event = it
-            settingsAdapter = SettingsAdapter(it)
+            currenciesAdapter = CurrenciesAdapter(it)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.layoutSettingsToolbar.toolbarFragmentSettings)
+        getBaseActivity()?.setSupportActionBar(binding.layoutCurrenciesToolbar.toolbarFragmentCurrencies)
         initView()
         observeEffect()
     }
@@ -51,10 +51,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onResume() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
-            settingsViewModel.data.isRewardExpired
+            getString(R.string.banner_ad_unit_id_currencies),
+            currenciesViewModel.data.isRewardExpired
         )
-        settingsViewModel.hideSelectionVisibility()
+        currenciesViewModel.hideSelectionVisibility()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -63,7 +63,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun setSpanByOrientation(orientation: Int) {
-        binding.recyclerViewSettings.layoutManager = GridLayoutManager(
+        binding.recyclerViewCurrencies.layoutManager = GridLayoutManager(
             requireContext(),
             if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
         )
@@ -72,24 +72,24 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     private fun initView() {
         setSpanByOrientation(resources.configuration.orientation)
 
-        with(binding.recyclerViewSettings) {
+        with(binding.recyclerViewCurrencies) {
             setHasFixedSize(true)
-            adapter = settingsAdapter
+            adapter = currenciesAdapter
         }
 
-        settingsViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
-            settingsAdapter.submitList(it)
+        currenciesViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
+            currenciesAdapter.submitList(it)
         })
     }
 
-    private fun observeEffect() = settingsViewModel.effect
+    private fun observeEffect() = currenciesViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> {
                     navigate(
-                        R.id.settingsFragment,
-                        SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
+                        R.id.currenciesFragment,
+                        CurrenciesFragmentDirections.actionCurrenciesFragmentToCalculatorFragment()
                     )
                     requireView().hideKeyboard()
                 }

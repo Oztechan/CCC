@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.data
 
-import com.github.mustafaozhan.data.model.Currencies
 import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
@@ -48,11 +48,11 @@ class DataExtTest {
     fun `remove unused currencies from currency list`() {
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(Currencies.BYR.toString(), "", ""))
-            add(Currency(Currencies.LVL.toString(), "", ""))
-            add(Currency(Currencies.LTL.toString(), "", ""))
-            add(Currency(Currencies.ZMK.toString(), "", ""))
-            add(Currency(Currencies.CRYPTO_BTC.toString(), "", ""))
+            add(Currency(CurrencyType.BYR.toString(), "", ""))
+            add(Currency(CurrencyType.LVL.toString(), "", ""))
+            add(Currency(CurrencyType.LTL.toString(), "", ""))
+            add(Currency(CurrencyType.ZMK.toString(), "", ""))
+            add(Currency(CurrencyType.CRYPTO_BTC.toString(), "", ""))
         }
         assertEquals(
             mutableListOf<Currency>(),
@@ -66,10 +66,10 @@ class DataExtTest {
 
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(Currencies.EUR.toString(), "", ""))
-            add(Currency(Currencies.LVL.toString(), "", "", isActive = true))
-            add(Currency(Currencies.LTL.toString(), "", "", rate = Double.NaN))
-            add(Currency(Currencies.LTL.toString(), "", "", rate = 0.0))
+            add(Currency(CurrencyType.EUR.toString(), "", ""))
+            add(Currency(CurrencyType.LVL.toString(), "", "", isActive = true))
+            add(Currency(CurrencyType.LTL.toString(), "", "", rate = Double.NaN))
+            add(Currency(CurrencyType.LTL.toString(), "", "", rate = 0.0))
         }
         assertEquals(
             mutableListOf<Currency>(),

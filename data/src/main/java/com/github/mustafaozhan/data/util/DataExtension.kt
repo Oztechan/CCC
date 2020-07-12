@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.data.util
 
-import com.github.mustafaozhan.data.model.Currencies
 import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.scopemob.whetherNot
 
@@ -19,11 +19,11 @@ fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
 
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
     this?.filterNot { (name) ->
-        name == Currencies.BYR.toString() ||
-            name == Currencies.LVL.toString() ||
-            name == Currencies.LTL.toString() ||
-            name == Currencies.ZMK.toString() ||
-            name == Currencies.CRYPTO_BTC.toString()
+        name == CurrencyType.BYR.toString() ||
+            name == CurrencyType.LVL.toString() ||
+            name == CurrencyType.LTL.toString() ||
+            name == CurrencyType.ZMK.toString() ||
+            name == CurrencyType.CRYPTO_BTC.toString()
     }?.toMutableList()
 
 fun MutableList<Currency>?.toValidList(currentBase: String) =

@@ -9,19 +9,19 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ui.main.settings.SettingsViewModel" />
+            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ui.main.settings.SettingsEvent" />
+            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
 
         <include
-            android:id="@+id/layout_settings_toolbar"
+            android:id="@+id/layout_currencies_toolbar"
             style="@style/BaseToolbarStyle"
-            layout="@layout/layout_settings_toolbar"
+            layout="@layout/layout_currencies_toolbar"
             app:event="@{event}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,25 +33,25 @@
             style="@style/ProgressBarStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_settings_toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/layout_currencies_toolbar"
             app:visibility="@{vm.state.loading}" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_settings"
+            android:id="@+id/recycler_view_currencies"
             style="@style/BaseRecyclerViewStyle"
             app:layout_constraintBottom_toTopOf="@+id/btn_done"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_settings_toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/layout_currencies_toolbar"
             app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/item_settings" />
+            tools:listitem="@layout/item_currencies" />
 
         <TextView
             android:id="@+id/txt_select_currencies"
             style="@style/SelectYourCurrenciesStyle"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_view_settings"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_currencies"
             app:visibility="@{vm.data.firstRun}" />
 
         <TextView

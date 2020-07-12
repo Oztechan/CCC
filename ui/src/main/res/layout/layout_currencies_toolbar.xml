@@ -9,16 +9,16 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ui.main.settings.SettingsViewModel" />
+            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ui.main.settings.SettingsEvent" />
+            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesEvent" />
     </data>
 
     <androidx.appcompat.widget.Toolbar
         android:background="@{vm.state.selectionVisibility ? @color/color_background_weak : @color/color_background_strong}"
-        android:id="@+id/toolbar_fragment_settings"
+        android:id="@+id/toolbar_fragment_currencies"
         style="@style/WideStyle">
 
         <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
@@ -36,8 +36,8 @@
 
             <TextView
                 app:visibility="@{!vm.state.selectionVisibility}"
-                android:id="@+id/txt_settings_toolbar"
-                style="@style/SettingsToolbarTextStyle"
+                android:id="@+id/txt_currencies_toolbar"
+                style="@style/CurrenciesToolbarTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
                 app:layout_constraintStart_toEndOf="@+id/back_button"

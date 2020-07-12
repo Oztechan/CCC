@@ -5,7 +5,7 @@ package com.github.mustafaozhan.data.preferences
 
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
-import com.github.mustafaozhan.data.model.Currencies
+import com.github.mustafaozhan.data.model.CurrencyType
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +31,7 @@ class PreferencesRepository
         set(value) = setValue(KEY_FIRST_RUN, value)
 
     var currentBase
-        get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
+        get() = getValue(KEY_CURRENT_BASE, CurrencyType.NULL.toString())
         set(value) = setValue(KEY_CURRENT_BASE, value)
 
     private var adFreeActivatedDate

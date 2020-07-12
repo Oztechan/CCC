@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ui.main.settings
+package com.github.mustafaozhan.ui.main.currencies
 
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
@@ -9,8 +9,8 @@ import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currencies
 import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.scopemob.either
@@ -22,22 +22,22 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SettingsViewModel
+class CurrenciesViewModel
 @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), SettingsEvent {
+) : BaseViewModel(), CurrenciesEvent {
 
     // region SEED
-    private val _state = MutableSettingsState()
-    val state = SettingsState(_state)
+    private val _state = MutableCurrenciesState()
+    val state = CurrenciesState(_state)
 
-    private val _effect = MutableSingleLiveData<SettingsEffect>()
-    val effect: SingleLiveData<SettingsEffect> = _effect
+    private val _effect = MutableSingleLiveData<CurrenciesEffect>()
+    val effect: SingleLiveData<CurrenciesEffect> = _effect
 
-    val data = SettingsData(preferencesRepository)
+    val data = CurrenciesData(preferencesRepository)
 
-    fun getEvent() = this as SettingsEvent
+    fun getEvent() = this as CurrenciesEvent
     // endregion
 
     init {
@@ -66,7 +66,7 @@ class SettingsViewModel
     }
 
     private fun verifyCurrentBase() = data.currentBase.either(
-        { equals(Currencies.NULL.toString()) },
+        { equals(CurrencyType.NULL.toString()) },
         { base ->
             state.currencyList.value
                 ?.filter { it.name == base }
@@ -76,7 +76,7 @@ class SettingsViewModel
         updateCurrentBase(
             state.currencyList.value
                 ?.firstOrNull { it.isActive }?.name
-                ?: Currencies.NULL.toString()
+                ?: CurrencyType.NULL.toString()
         )
     }
 

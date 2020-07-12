@@ -59,7 +59,7 @@ open class MainActivity : BaseActivity() {
         if (mainViewModel.data.firstRun) {
             graph = navInflater.inflate(R.navigation.main_graph)
                 .apply {
-                    startDestination = R.id.settingsFragment
+                    startDestination = R.id.currenciesFragment
                 }
         }
     }
@@ -69,7 +69,7 @@ open class MainActivity : BaseActivity() {
 
         when (getNavigationController().currentDestination?.id) {
             R.id.calculatorFragment -> menuInflater.inflate(R.menu.fragment_calculator_menu, menu)
-            R.id.settingsFragment -> menuInflater.inflate(R.menu.fragment_settings_menu, menu)
+            R.id.currenciesFragment -> menuInflater.inflate(R.menu.fragment_currencies_menu, menu)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -77,7 +77,9 @@ open class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings -> navigate(CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment())
+            R.id.menu_currencies -> navigate(
+                CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
+            )
             R.id.menu_theme -> {
             }
             R.id.menu_remove_ads -> showDialog(this, R.string.remove_ads, R.string.remove_ads_text, R.string.watch) {

@@ -48,7 +48,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onResume() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
+            getString(R.string.banner_ad_unit_id_currencies),
             calculatorViewModel.data.isRewardExpired
         )
     }
@@ -68,7 +68,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 FewCurrencyEffect -> showSnack(requireView(), R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(
                         R.id.calculatorFragment,
-                        CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
+                        CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
                 MaximumInputEffect -> Toast.show(requireContext(), R.string.max_input)
