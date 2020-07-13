@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ui.viewmodel
 
+import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.settings.BackEffect
 import com.github.mustafaozhan.ui.main.settings.CurrenciesEffect
 import com.github.mustafaozhan.ui.main.settings.FeedBackEffect
@@ -10,6 +11,7 @@ import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
 import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -18,10 +20,13 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     override lateinit var viewModel: SettingsViewModel
 
+    @RelaxedMockK
+    lateinit var preferencesRepository: PreferencesRepository
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = SettingsViewModel()
+        viewModel = SettingsViewModel(preferencesRepository)
     }
 
     // Event

@@ -56,6 +56,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="WideFitStyle">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <!-- Base -->
     <style name="BarBaseImageView">
         <item name="android:layout_width">@dimen/currency_icon_size</item>
@@ -319,11 +323,12 @@
     </style>
 
     <!-- Settings -->
-    <style name="SettingsScrollViewStyle" parent="MatchStyle">
+    <style name="SettingsLayoutStyle" parent="MatchStyle">
         <item name="android:background">@color/color_background</item>
     </style>
 
     <style name="SettingsBackButtonStyle" parent="WrapStyle">
+        <item name="android:padding">@dimen/margin_eight</item>
         <item name="android:src">@drawable/ic_back</item>
     </style>
 

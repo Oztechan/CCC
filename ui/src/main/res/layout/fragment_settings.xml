@@ -16,111 +16,125 @@
             type="com.github.mustafaozhan.ui.main.settings.SettingsEvent" />
     </data>
 
-    <androidx.core.widget.NestedScrollView style="@style/SettingsScrollViewStyle">
+    <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsLayoutStyle">
 
-        <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_fragment_currencies"
+            style="@style/BaseToolbarStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_fragment_currencies"
-                style="@style/BaseToolbarStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
 
-                <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
+                <ImageView
+                    android:id="@+id/back_button"
+                    style="@style/SettingsBackButtonStyle"
+                    android:onClick="@{()->event.onBackClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
-                    <ImageView
-                        android:id="@+id/back_button"
-                        style="@style/SettingsBackButtonStyle"
-                        android:onClick="@{()->event.onBackClick()}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/txt_currencies_toolbar"
+                    style="@style/SettingsToolbarTextStyle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/back_button"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/txt_currencies_toolbar"
-                        style="@style/SettingsToolbarTextStyle"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/back_button"
-                        app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
+        <androidx.core.widget.NestedScrollView
+            style="@style/FitStyle"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_currencies">
 
-            <include
-                android:id="@+id/item_first"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                android:onClick="@{()->event.onCurrenciesClick()}"
-                app:iconRes="@{@drawable/ic_currency}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_currencies"
-                app:subTitle="@{@string/settings_item_currencies_sub_title}"
-                app:title="@{@string/settings_item_currencies_title}"
-                app:value="@{`todo`}" />
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
 
-            <include
-                android:id="@+id/item_second"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                app:iconRes="@{@drawable/ic_dark_mode}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_first"
-                app:subTitle="@{@string/settings_item_theme_sub_title}"
-                app:title="@{@string/settings_item_theme_title}"
-                app:value="@{`todo`}" />
+                <include
+                    android:id="@+id/item_first"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onCurrenciesClick()}"
+                    app:iconRes="@{@drawable/ic_currency}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:subTitle="@{@string/settings_item_currencies_sub_title}"
+                    app:title="@{@string/settings_item_currencies_title}"
+                    app:value="@{`todo`}" />
 
-            <include
-                android:id="@+id/item_third"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                app:iconRes="@{@drawable/ic_disable_ads}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_second"
-                app:subTitle="@{@string/settings_item_remove_ads_sub_title}"
-                app:title="@{@string/settings_item_remove_ads_title}"
-                app:value="@{`todo`}" />
+                <include
+                    android:id="@+id/item_second"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    app:iconRes="@{@drawable/ic_dark_mode}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_first"
+                    app:subTitle="@{@string/settings_item_theme_sub_title}"
+                    app:title="@{@string/settings_item_theme_title}"
+                    app:value="@{`todo`}" />
 
-            <include
-                android:id="@+id/item_fourth"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                android:onClick="@{()->event.onSupportUsClick()}"
-                app:iconRes="@{@drawable/ic_store}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_third"
-                app:subTitle="@{@string/settings_item_support_us_sub_title}"
-                app:title="@{@string/settings_item_support_us_title}" />
+                <include
+                    android:id="@+id/item_third"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    app:iconRes="@{@drawable/ic_disable_ads}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_second"
+                    app:subTitle="@{@string/settings_item_remove_ads_sub_title}"
+                    app:title="@{@string/settings_item_remove_ads_title}"
+                    app:value="@{`todo`}" />
 
-            <include
-                android:id="@+id/item_fifth"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                android:onClick="@{()->event.onFeedBackClick()}"
-                app:iconRes="@{@drawable/ic_email}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_fourth"
-                app:subTitle="@{@string/settings_item_feedback_sub_title}"
-                app:title="@{@string/settings_item_feedback_title}" />
+                <include
+                    android:id="@+id/item_fourth"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onSupportUsClick()}"
+                    app:iconRes="@{@drawable/ic_store}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_third"
+                    app:subTitle="@{@string/settings_item_support_us_sub_title}"
+                    app:title="@{@string/settings_item_support_us_title}" />
 
-            <include
-                android:id="@+id/item_sixth"
-                style="@style/WideStyle"
-                layout="@layout/item_settings"
-                android:onClick="@{()->event.onOnGitHubClick()}"
-                app:iconRes="@{@drawable/ic_code}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_fifth"
-                app:subTitle="@{@string/settings_item_on_github_sub_title}"
-                app:title="@{@string/settings_item_on_github_title}" />
+                <include
+                    android:id="@+id/item_fifth"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onFeedBackClick()}"
+                    app:iconRes="@{@drawable/ic_email}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_fourth"
+                    app:subTitle="@{@string/settings_item_feedback_sub_title}"
+                    app:title="@{@string/settings_item_feedback_title}" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <include
+                    android:id="@+id/item_sixth"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onOnGitHubClick()}"
+                    app:iconRes="@{@drawable/ic_code}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_fifth"
+                    app:subTitle="@{@string/settings_item_on_github_sub_title}"
+                    app:title="@{@string/settings_item_on_github_title}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:id="@+id/ad_view_container"
+            style="@style/BaseBannerAdStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

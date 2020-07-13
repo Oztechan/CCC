@@ -6,12 +6,19 @@ package com.github.mustafaozhan.ui.main.settings
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
+import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import javax.inject.Inject
 
-class SettingsViewModel : BaseViewModel(), SettingsEvent {
+class SettingsViewModel
+@Inject constructor(
+    preferencesRepository: PreferencesRepository
+) : BaseViewModel(), SettingsEvent {
 
     // region SEED
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
+
+    val data = SettingsData(preferencesRepository)
 
     fun getEvent() = this as SettingsEvent
     // endregion

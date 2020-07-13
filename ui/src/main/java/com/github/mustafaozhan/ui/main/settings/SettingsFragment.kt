@@ -16,6 +16,7 @@ import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData
+import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
@@ -33,6 +34,14 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeEffect()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            settingsViewModel.data.isRewardExpired
+        )
     }
 
     private fun observeEffect() = settingsViewModel.effect

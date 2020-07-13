@@ -40,7 +40,9 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    internal fun providesSettingsViewModel() = SettingsViewModel()
+    internal fun providesSettingsViewModel(
+        preferencesRepository: PreferencesRepository
+    ) = SettingsViewModel(preferencesRepository)
 
     @Provides
     @ActivityScope

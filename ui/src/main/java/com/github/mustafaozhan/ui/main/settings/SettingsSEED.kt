@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ui.main.settings
 
 import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
+import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ui.main.MainData
 
 // Event
 interface SettingsEvent : BaseEvent {
@@ -22,3 +24,8 @@ object CurrenciesEffect : SettingsEffect()
 object FeedBackEffect : SettingsEffect()
 object SupportUsEffect : SettingsEffect()
 object OnGitHubEffect : SettingsEffect()
+
+// Data
+data class SettingsData(
+    private val preferencesRepository: PreferencesRepository
+) : MainData(preferencesRepository)
