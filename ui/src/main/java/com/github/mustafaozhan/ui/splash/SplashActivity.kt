@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainActivity
@@ -18,6 +19,8 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppCompatDelegate.setDefaultNightMode(preferencesRepository.appTheme)
 
         startActivity(
             Intent(

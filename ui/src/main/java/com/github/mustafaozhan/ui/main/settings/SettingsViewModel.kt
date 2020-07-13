@@ -9,6 +9,7 @@ import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ui.main.model.AppTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,6 +33,7 @@ class SettingsViewModel
     // endregion
 
     init {
+        _state._appThemeType.value = AppTheme.getThemeByValue(data.appTheme)
         viewModelScope.launch {
             currencyDao.getActiveCurrencies()
                 .collect {
@@ -40,6 +42,12 @@ class SettingsViewModel
                     }?.size ?: 0
                 }
         }
+    }
+
+    fun updateTheme(theme: AppTheme) {
+        _state._appThemeType.value = theme
+        data.appTheme = theme.themeValue
+        _effect.postValue(ChangeThemeEffect(theme.themeValue))
     }
 
     // region Event
@@ -54,5 +62,8 @@ class SettingsViewModel
     override fun onOnGitHubClick() = _effect.postValue(OnGitHubEffect)
 
     override fun onRemoveAdsClick() = _effect.postValue(RemoveAdsEffect)
+
+    override fun onThemeClick() = _effect.postValue(ThemeDialogEffect)
+
     // endregion
 }

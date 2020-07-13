@@ -19,6 +19,7 @@ class PreferencesRepository
         private const val KEY_FIRST_RUN = "firs_run"
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
+        private const val KEY_APP_THEME = "app_theme"
 
         private const val DAY = (24 * 60 * 60 * 1000).toLong()
     }
@@ -33,6 +34,10 @@ class PreferencesRepository
     var currentBase
         get() = getValue(KEY_CURRENT_BASE, CurrencyType.NULL.toString())
         set(value) = setValue(KEY_CURRENT_BASE, value)
+
+    var appTheme
+        get() = getValue(KEY_APP_THEME, -1)
+        set(value) = setValue(KEY_APP_THEME, value)
 
     private var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())

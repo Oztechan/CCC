@@ -9,15 +9,18 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
+import com.github.mustafaozhan.basemob.util.showSingleChoiceDialog
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData
+import com.github.mustafaozhan.ui.main.model.AppTheme
 import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -79,8 +82,23 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     R.string.watch) {
                     showRewardedAd()
                 }
+                ThemeDialogEffect -> changeTheme()
+                is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
             }
         })
+
+    private fun changeTheme() {
+        AppTheme.getThemeByValue(settingsViewModel.data.appTheme)?.let { currentThemeType ->
+            showSingleChoiceDialog(
+                requireActivity(),
+                getString(R.string.title_dialog_choose_theme),
+                AppTheme.values().map { it.typeName }.toTypedArray(),
+                currentThemeType.order
+            ) { index ->
+                AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
+            }
+        }
+    }
 
     private fun showRewardedAd() = rewardedAd
         .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {

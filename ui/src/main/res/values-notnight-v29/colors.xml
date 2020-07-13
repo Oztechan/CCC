@@ -12,12 +12,4 @@
     <color name="color_background_weak">#e0e0e0</color>
     <color name="color_background">#f2f2f2</color>
     <color name="color_background_strong">#ffffff</color>
-
-    <color name="color_transparent">#00000000</color>
-
-    <!-- Base Mob Colors -->
-    <color name="toast_text_color">@color/color_primary_dark</color>
-    <color name="dialog_text_color">@color/color_primary</color>
-    <color name="snack_bar_action_text_color">@color/color_primary</color>
-    <color name="snack_bar_background_color">@color/color_background</color>
 </resources>

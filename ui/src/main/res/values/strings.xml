@@ -103,6 +103,7 @@
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
+    <string name="title_dialog_choose_theme">Choose app theme</string>
 
     <string name="settings_item_remove_ads_title">Remove Ads</string>
     <string name="settings_item_remove_ads_sub_title">Disable ads 24 hours</string>

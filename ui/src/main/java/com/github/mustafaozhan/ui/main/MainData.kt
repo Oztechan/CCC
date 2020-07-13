@@ -34,5 +34,11 @@ open class MainData(
             preferencesRepository.currentBase = value
         }
 
+    var appTheme
+        get() = preferencesRepository.appTheme
+        set(value) {
+            preferencesRepository.appTheme = value
+        }
+
     fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
 }

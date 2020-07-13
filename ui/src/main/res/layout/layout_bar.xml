@@ -29,8 +29,7 @@
             android:text="@{vm.state.base == `NULL` ? `` : `  `+vm.state.base}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_base"
             app:layout_constraintStart_toEndOf="@+id/iv_base"
-            app:layout_constraintTop_toTopOf="@+id/iv_base"
-            tools:text="1" />
+            app:layout_constraintTop_toTopOf="@+id/iv_base" />
 
         <TextView
             android:id="@id/txt_output"

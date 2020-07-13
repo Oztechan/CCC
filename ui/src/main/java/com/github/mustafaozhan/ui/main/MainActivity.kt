@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ui.main
 
 import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.coroutineScope
 import com.github.mustafaozhan.basemob.util.showSnack
 import com.github.mustafaozhan.basemob.view.activity.BaseActivity
@@ -34,6 +35,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
         setContentView(R.layout.activity_main)
         checkDestination()
         prepareInterstitialAd()

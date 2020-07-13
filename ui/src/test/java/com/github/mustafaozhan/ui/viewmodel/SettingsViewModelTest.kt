@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ui.viewmodel
 
+import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.settings.BackEffect
 import com.github.mustafaozhan.ui.main.settings.CurrenciesEffect
@@ -11,6 +12,7 @@ import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
 import com.github.mustafaozhan.ui.main.settings.RemoveAdsEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
+import com.github.mustafaozhan.ui.main.settings.ThemeDialogEffect
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
@@ -24,10 +26,16 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
 
+    @RelaxedMockK
+    lateinit var currencyDao: CurrencyDao
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = SettingsViewModel(preferencesRepository)
+        viewModel = SettingsViewModel(
+            preferencesRepository,
+            currencyDao
+        )
     }
 
     // Event
@@ -65,5 +73,11 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `on remove ad click`() = with(viewModel) {
         getEvent().onRemoveAdsClick()
         assertEquals(RemoveAdsEffect, effect.value)
+    }
+
+    @Test
+    fun `on theme click`() = with(viewModel) {
+        getEvent().onThemeClick()
+        assertEquals(ThemeDialogEffect, effect.value)
     }
 }
