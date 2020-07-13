@@ -58,7 +58,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
 
                 <include
-                    android:id="@+id/item_first"
+                    android:id="@+id/item_currencies"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     android:onClick="@{()->event.onCurrenciesClick()}"
@@ -68,67 +68,67 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:subTitle="@{@string/settings_item_currencies_sub_title}"
                     app:title="@{@string/settings_item_currencies_title}"
-                    app:value="@{`todo`}" />
+                    app:value="@{@plurals/settings_item_currencies_value(vm.state.activeCurrencyCount,vm.state.activeCurrencyCount)}" />
 
                 <include
-                    android:id="@+id/item_second"
+                    android:id="@+id/item_theme"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     app:iconRes="@{@drawable/ic_dark_mode}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_first"
+                    app:layout_constraintTop_toBottomOf="@+id/item_currencies"
                     app:visibility="@{VERSION.SDK_INT>=29}"
                     app:subTitle="@{@string/settings_item_theme_sub_title}"
                     app:title="@{@string/settings_item_theme_title}"
                     app:value="@{`todo`}" />
 
                 <include
-                    android:id="@+id/item_third"
+                    android:id="@+id/item_disable_ads"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     app:iconRes="@{@drawable/ic_disable_ads}"
                     android:onClick="@{()->event.onRemoveAdsClick()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_second"
+                    app:layout_constraintTop_toBottomOf="@+id/item_theme"
                     app:subTitle="@{@string/settings_item_remove_ads_sub_title}"
                     app:title="@{@string/settings_item_remove_ads_title}"
                     app:value="@{vm.data.isRewardExpired ? @string/settings_item_remove_ads_reward_not_achieved : @string/settings_item_remove_ads_reward_achieved}" />
 
                 <include
-                    android:id="@+id/item_fourth"
+                    android:id="@+id/item_support_us"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     android:onClick="@{()->event.onSupportUsClick()}"
                     app:iconRes="@{@drawable/ic_store}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_third"
+                    app:layout_constraintTop_toBottomOf="@+id/item_disable_ads"
                     app:subTitle="@{@string/settings_item_support_us_sub_title}"
                     app:title="@{@string/settings_item_support_us_title}" />
 
                 <include
-                    android:id="@+id/item_fifth"
+                    android:id="@+id/item_feedback"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     android:onClick="@{()->event.onFeedBackClick()}"
                     app:iconRes="@{@drawable/ic_email}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_fourth"
+                    app:layout_constraintTop_toBottomOf="@+id/item_support_us"
                     app:subTitle="@{@string/settings_item_feedback_sub_title}"
                     app:title="@{@string/settings_item_feedback_title}" />
 
                 <include
-                    android:id="@+id/item_sixth"
+                    android:id="@+id/item_on_github"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     android:onClick="@{()->event.onOnGitHubClick()}"
                     app:iconRes="@{@drawable/ic_code}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_fifth"
+                    app:layout_constraintTop_toBottomOf="@+id/item_feedback"
                     app:subTitle="@{@string/settings_item_on_github_sub_title}"
                     app:title="@{@string/settings_item_on_github_title}" />
             </androidx.constraintlayout.widget.ConstraintLayout>

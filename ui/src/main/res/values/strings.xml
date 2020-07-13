@@ -95,16 +95,26 @@
 
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Change your favourite currencies</string>
+    <plurals name="settings_item_currencies_value">
+        <item quantity="zero">%d active currency</item>
+        <item quantity="one">%d active currency</item>
+        <item quantity="other">%d active currencies</item>
+    </plurals>
+
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
+
     <string name="settings_item_remove_ads_title">Remove Ads</string>
     <string name="settings_item_remove_ads_sub_title">Disable ads 24 hours</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
     <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
+
     <string name="settings_item_feedback_title">Feedback</string>
     <string name="settings_item_feedback_sub_title">Write email to us</string>
+
     <string name="settings_item_support_us_title">Support Us</string>
     <string name="settings_item_support_us_sub_title">Give review or star in market</string>
+
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
 
