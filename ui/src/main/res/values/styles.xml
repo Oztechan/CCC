@@ -384,10 +384,12 @@
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
         <item name="android:textColor">@color/color_text_weak</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">@dimen/text_size_xs</item>
     </style>
 
     <style name="SettingsItemValue" parent="WrapStyle">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">@dimen/text_size_xs</item>
         <item name="android:textColor">@color/color_text_weak</item>
         <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>

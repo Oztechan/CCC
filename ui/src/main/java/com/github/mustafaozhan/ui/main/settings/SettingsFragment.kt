@@ -8,20 +8,29 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
+import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData
 import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
+
+    private lateinit var rewardedAd: RewardedAd
 
     override fun bind(container: ViewGroup?): FragmentSettingsBinding =
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
@@ -33,6 +42,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareRewardedAd()
         observeEffect()
     }
 
@@ -62,8 +72,36 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
                 }
                 OnGitHubEffect -> startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
+                RemoveAdsEffect -> showDialog(
+                    requireActivity(),
+                    R.string.remove_ads,
+                    R.string.remove_ads_text,
+                    R.string.watch) {
+                    showRewardedAd()
+                }
             }
         })
+
+    private fun showRewardedAd() = rewardedAd
+        .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
+            override fun onRewardedAdOpened() = Unit
+            override fun onRewardedAdClosed() = prepareRewardedAd()
+            override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
+            override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                settingsViewModel.data.updateAdFreeActivation()
+                val intent = requireActivity().intent
+                requireActivity().finish()
+                startActivity(intent)
+            }
+        })
+
+    private fun prepareRewardedAd() {
+        rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+        })
+    }
 
     private fun startIntent(intent: Intent) {
         getBaseActivity()?.packageManager?.let {

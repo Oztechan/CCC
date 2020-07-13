@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ui.main.settings.BackEffect
 import com.github.mustafaozhan.ui.main.settings.CurrenciesEffect
 import com.github.mustafaozhan.ui.main.settings.FeedBackEffect
 import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
+import com.github.mustafaozhan.ui.main.settings.RemoveAdsEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
 import io.mockk.MockKAnnotations
@@ -58,5 +59,11 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `on github click`() = with(viewModel) {
         getEvent().onOnGitHubClick()
         assertEquals(OnGitHubEffect, effect.value)
+    }
+
+    @Test
+    fun `on remove ad click`() = with(viewModel) {
+        getEvent().onRemoveAdsClick()
+        assertEquals(RemoveAdsEffect, effect.value)
     }
 }

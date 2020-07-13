@@ -16,8 +16,6 @@ import com.github.mustafaozhan.ui.main.MainData.Companion.BACK_DELAY
 import com.github.mustafaozhan.ui.util.updateBaseContextLocale
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -29,7 +27,6 @@ open class MainActivity : BaseActivity() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    private lateinit var rewardedAd: RewardedAd
     private lateinit var interstitialAd: InterstitialAd
     private lateinit var adJob: Job
     private var adVisibility = false
@@ -39,7 +36,6 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkDestination()
-        prepareRewardedAd()
         prepareInterstitialAd()
     }
 
@@ -50,14 +46,6 @@ open class MainActivity : BaseActivity() {
                     startDestination = R.id.currenciesFragment
                 }
         }
-    }
-
-    private fun prepareRewardedAd() {
-        rewardedAd = RewardedAd(this, getString(R.string.rewarded_ad_unit_id))
-        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onRewardedAdLoaded() = Unit
-            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
-        })
     }
 
     private fun prepareInterstitialAd() {

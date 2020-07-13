@@ -15,6 +15,7 @@ interface SettingsEvent : BaseEvent {
     fun onFeedBackClick()
     fun onSupportUsClick()
     fun onOnGitHubClick()
+    fun onRemoveAdsClick()
 }
 
 // Effect
@@ -24,6 +25,7 @@ object CurrenciesEffect : SettingsEffect()
 object FeedBackEffect : SettingsEffect()
 object SupportUsEffect : SettingsEffect()
 object OnGitHubEffect : SettingsEffect()
+object RemoveAdsEffect : SettingsEffect()
 
 // Data
 data class SettingsData(

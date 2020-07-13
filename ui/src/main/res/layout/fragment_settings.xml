@@ -88,12 +88,13 @@
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     app:iconRes="@{@drawable/ic_disable_ads}"
+                    android:onClick="@{()->event.onRemoveAdsClick()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/item_second"
                     app:subTitle="@{@string/settings_item_remove_ads_sub_title}"
                     app:title="@{@string/settings_item_remove_ads_title}"
-                    app:value="@{`todo`}" />
+                    app:value="@{vm.data.isRewardExpired ? @string/settings_item_remove_ads_reward_not_achieved : @string/settings_item_remove_ads_reward_achieved}" />
 
                 <include
                     android:id="@+id/item_fourth"
