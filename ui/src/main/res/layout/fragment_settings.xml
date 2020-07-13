@@ -7,6 +7,8 @@
 
     <data>
 
+        <import type="android.os.Build.VERSION" />
+
         <variable
             name="vm"
             type="com.github.mustafaozhan.ui.main.settings.SettingsViewModel" />
@@ -76,6 +78,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/item_first"
+                    app:visibility="@{VERSION.SDK_INT>=29}"
                     app:subTitle="@{@string/settings_item_theme_sub_title}"
                     app:title="@{@string/settings_item_theme_title}"
                     app:value="@{`todo`}" />

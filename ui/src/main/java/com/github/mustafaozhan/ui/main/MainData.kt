@@ -20,7 +20,7 @@ open class MainData(
     }
 
     val isRewardExpired
-        get() = false
+        get() = preferencesRepository.isRewardExpired()
 
     var firstRun
         get() = preferencesRepository.firstRun

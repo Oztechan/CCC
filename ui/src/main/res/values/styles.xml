@@ -2,9 +2,8 @@
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
@@ -19,7 +18,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+        <item name="android:navigationBarColor">@color/color_background_strong</item>
     </style>
+
+    <style name="AppTheme" parent="BaseAppTheme" />
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/color_text</item>
@@ -121,7 +123,7 @@
 
     <style name="SlideViewLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/margin_one</item>
+        <item name="android:layout_height">@dimen/height_separator</item>
         <item name="alpha">.1</item>
         <item name="android:background">@color/color_text_weak</item>
     </style>
@@ -135,7 +137,7 @@
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
@@ -360,7 +362,7 @@
 
     <style name="SettingsItemSeparator">
         <item name="android:layout_width">@dimen/margin_zero</item>
-        <item name="android:layout_height">@dimen/height_settings_item_separator</item>
+        <item name="android:layout_height">@dimen/height_separator</item>
         <item name="android:layout_marginStart">@dimen/margin_start_settings_item_separator</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
         <item name="android:background">@color/color_text_weak</item>
