@@ -5,7 +5,9 @@ package com.github.mustafaozhan.ui.viewmodel
 
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ui.main.model.AppTheme
 import com.github.mustafaozhan.ui.main.settings.BackEffect
+import com.github.mustafaozhan.ui.main.settings.ChangeThemeEffect
 import com.github.mustafaozhan.ui.main.settings.CurrenciesEffect
 import com.github.mustafaozhan.ui.main.settings.FeedBackEffect
 import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
@@ -36,6 +38,14 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             preferencesRepository,
             currencyDao
         )
+    }
+
+    @Test
+    fun `update theme`() = with(viewModel) {
+        val appTheme = AppTheme.DARK
+        updateTheme(appTheme)
+        assertEquals(appTheme, state.appThemeType.value)
+        assertEquals(ChangeThemeEffect(appTheme.themeValue), effect.value)
     }
 
     // Event
