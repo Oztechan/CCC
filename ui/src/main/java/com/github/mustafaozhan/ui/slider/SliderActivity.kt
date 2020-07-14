@@ -23,7 +23,12 @@ import com.github.mustafaozhan.ui.main.MainActivity
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
     companion object {
-        const val SLIDE_SIZE = 4
+        private var layouts = arrayListOf(
+            R.layout.layout_slide_intro,
+            R.layout.layout_slide_bug_report,
+            R.layout.layout_slide_disable_ads
+        )
+        var SLIDE_SIZE = 3
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
     }
@@ -38,11 +43,16 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
-            window.decorView.systemUiVisibility = if (
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-                resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_NO
-            ) {
-                flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.decorView.systemUiVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                layouts.add(R.layout.layout_slide_dark_mode)
+                SLIDE_SIZE++
+                if (resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_NO
+                ) {
+                    flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                } else {
+                    flags
+                }
             } else {
                 flags
             }
@@ -56,7 +66,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
     private fun setListeners() {
 
         binding.viewPager.apply {
-            adapter = SliderPagerAdapter(applicationContext)
+            adapter = SliderPagerAdapter(applicationContext, layouts)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
