@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ui.main.settings
+package com.github.mustafaozhan.ui.main.currencies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,22 +10,22 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.ui.R
-import com.github.mustafaozhan.ui.databinding.ItemSettingsBinding
+import com.github.mustafaozhan.ui.databinding.ItemCurrenciesBinding
 
-class SettingsAdapter(
-    private val settingsEvent: SettingsEvent
-) : BaseDBRecyclerViewAdapter<Currency, ItemSettingsBinding>(SettingsDiffer()) {
+class CurrenciesAdapter(
+    private val currenciesEvent: CurrenciesEvent
+) : BaseDBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesDBViewHolder(ItemSettingsBinding.inflate(
+    ) = RatesDBViewHolder(ItemCurrenciesBinding.inflate(
         LayoutInflater.from(parent.context),
         parent,
         false)
     )
 
-    override fun onBindViewHolder(holder: BaseDBViewHolder<Currency, ItemSettingsBinding>, position: Int) {
+    override fun onBindViewHolder(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>, position: Int) {
         holder.itemView.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.itemView.context,
@@ -35,21 +35,21 @@ class SettingsAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemSettingsBinding>) {
+    override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.clearAnimation()
     }
 
-    inner class RatesDBViewHolder(itemBinding: ItemSettingsBinding) :
-        BaseDBViewHolder<Currency, ItemSettingsBinding>(itemBinding) {
+    inner class RatesDBViewHolder(itemBinding: ItemCurrenciesBinding) :
+        BaseDBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             this.item = item
-            this.event = settingsEvent
+            this.event = currenciesEvent
         }
     }
 
-    class SettingsDiffer : DiffUtil.ItemCallback<Currency>() {
+    class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = oldItem.isActive == newItem.isActive

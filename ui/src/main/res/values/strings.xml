@@ -25,13 +25,7 @@
     <string name="ac">AC</string>
     <string name="delete">DEL</string>
 
-    <!--Menu-->
-    <string name="txt_settings">Settings</string>
-    <string name="txt_feedback">FeedBack</string>
-    <string name="txt_support_us">Support Us</string>
-    <string name="txt_on_github">On Github</string>
-
-    <!--SettingsFragment-->
+    <!--CurrenciesFragment-->
     <string name="search">Search</string>
     <string name="btn_select_all">Select All</string>
     <string name="btn_de_select_all">Deselect All</string>
@@ -71,16 +65,20 @@
     <string name="slide_intro_text_2">Simple user interface\n\nFast responses\n\nAccurate rates\n\nEasy to use</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
-    <string name="slide_bug_report_text_2">Click Top Right Menu\n\n - Feedback > Than you can write email to us\n\n- On GitHub > Than create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
+    <string name="slide_bug_report_text_2">Click settings icon \n\n Feedback > Then you can send us an email\n\n On GitHub > Then create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads for 24 hours</string>
-    <string name="slide_disable_ads_text_2"> Please navigate\n\nClick Top Right Menu > Disable Ads\n\n After you watch a video app will be ad free for 24 hours!</string>
+    <string name="slide_disable_ads_text_2">Click settings icon > Removed Ads\n\n After you watch a video, app will be ad free for 24 hours!</string>
+    <string name="slide_dark_mode_title">Dark Mode</string>
+    <string name="slide_dark_mode_text_1">If you want to enable Dark Mode</string>
+    <string name="slide_dark_mode_text_2">Click settings icon > Theme\n\n Then chose your theme!</string>
 
     <!-- Test Ad ID-->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
 
     <string name="banner_ad_unit_id_calculator">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_settings">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id_currencies">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="rewarded_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
 
@@ -91,4 +89,36 @@
 
     <!-- Bar Bottom Sheet Dialog -->
     <string name="txt_current_base">Select new base currency</string>
+
+    <!-- Settings -->
+    <string name="txt_settings">Settings</string>
+
+    <string name="settings_item_currencies_title">Currencies</string>
+    <string name="settings_item_currencies_sub_title">Change your favourite currencies</string>
+    <plurals name="settings_item_currencies_value">
+        <item quantity="zero">%d active currency</item>
+        <item quantity="one">%d active currency</item>
+        <item quantity="other">%d active currencies</item>
+    </plurals>
+
+    <string name="settings_item_theme_title">Theme</string>
+    <string name="settings_item_theme_sub_title">Change app theme</string>
+    <string name="title_dialog_choose_theme">Choose app theme</string>
+
+    <string name="settings_item_remove_ads_title">Remove Ads</string>
+    <string name="settings_item_remove_ads_sub_title">Disable ads 24 hours</string>
+    <string name="settings_item_remove_ads_reward_achieved">Active</string>
+    <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
+
+    <string name="settings_item_feedback_title">Feedback</string>
+    <string name="settings_item_feedback_sub_title">Write email to us</string>
+
+    <string name="settings_item_support_us_title">Support Us</string>
+    <string name="settings_item_support_us_sub_title">Give review or star in market</string>
+
+    <string name="settings_item_on_github_title">On GitHub</string>
+    <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
+
+    <!-- Currencies -->
+    <string name="txt_currencies">Currencies</string>
 </resources>

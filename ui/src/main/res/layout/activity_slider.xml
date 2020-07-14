@@ -28,7 +28,6 @@
         android:id="@+id/btn_next"
         style="@style/SlideButtonNext"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         tools:ignore="RelativeOverlap" />
 </RelativeLayout>

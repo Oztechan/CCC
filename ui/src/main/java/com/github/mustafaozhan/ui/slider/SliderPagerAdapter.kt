@@ -9,15 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.github.mustafaozhan.scopemob.castTo
-import com.github.mustafaozhan.ui.R
 
-class SliderPagerAdapter(var context: Context) : PagerAdapter() {
-
-    private var layouts = intArrayOf(
-        R.layout.slide_intro,
-        R.layout.slide_bug_report,
-        R.layout.slide_disable_ads
-    )
+class SliderPagerAdapter(
+    var context: Context,
+    private var layouts: ArrayList<Int>
+) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): View {
         val view = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)

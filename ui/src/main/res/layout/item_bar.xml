@@ -19,7 +19,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/BaseItemLayout"
+        style="@style/BarItemLayout"
         android:onClick="@{() -> event.onItemClick(item)}">
 
         <ImageView

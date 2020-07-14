@@ -199,5 +199,7 @@ class CalculatorViewModel
     override fun onSpinnerItemSelected(base: String) {
         _state._base.value = base
     }
+
+    override fun onSettingsClicked() = _effect.postValue(OpenSettingsEffect)
     // endregion
 }

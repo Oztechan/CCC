@@ -47,6 +47,6 @@ class BarViewModel
     // region Event
     override fun onItemClick(currency: Currency) = _effect.postValue(ChangeBaseNavResultEffect(currency.name))
 
-    override fun onSelectClick() = _effect.postValue(OpenSettingsEffect)
+    override fun onSelectClick() = _effect.postValue(OpenCurrenciesEffect)
     // endregion
 }

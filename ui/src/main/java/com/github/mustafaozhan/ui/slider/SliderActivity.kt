@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ui.slider
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -22,7 +23,12 @@ import com.github.mustafaozhan.ui.main.MainActivity
 class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
     companion object {
-        const val SLIDE_SIZE = 3
+        private var layouts = arrayListOf(
+            R.layout.layout_slide_intro,
+            R.layout.layout_slide_bug_report,
+            R.layout.layout_slide_disable_ads
+        )
+        var SLIDE_SIZE = 3
         const val TEXT_SIZE = 36f
         const val HTML_DOT_CODE = "&#8226;"
     }
@@ -35,8 +41,21 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+            window.decorView.systemUiVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                layouts.add(R.layout.layout_slide_dark_mode)
+                SLIDE_SIZE++
+                if (resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_NO
+                ) {
+                    flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                } else {
+                    flags
+                }
+            } else {
+                flags
+            }
         }
 
         addBottomDots(0)
@@ -47,7 +66,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
     private fun setListeners() {
 
         binding.viewPager.apply {
-            adapter = SliderPagerAdapter(applicationContext)
+            adapter = SliderPagerAdapter(applicationContext, layouts)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
@@ -84,12 +103,12 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
         dots.forEach { textView ->
             textView.text = HtmlCompat.fromHtml(HTML_DOT_CODE, HtmlCompat.FROM_HTML_MODE_LEGACY)
             textView.textSize = TEXT_SIZE
-            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryDark))
+            textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.color_background_weak))
             binding.layoutDots.addView(textView)
         }
 
         if (dots.size > 0) {
-            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.colorPrimaryLight))
+            dots[currentPage].setTextColor(ContextCompat.getColor(applicationContext, R.color.color_text_weak))
         }
     }
 

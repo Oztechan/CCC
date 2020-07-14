@@ -4,23 +4,26 @@
 package com.github.mustafaozhan.ui.viewmodel
 
 import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.data.util.dateStringToFormattedString
+import com.github.mustafaozhan.ui.main.MainData.Companion.DAY
+import com.github.mustafaozhan.ui.main.model.AppTheme
 import com.github.mustafaozhan.ui.main.settings.BackEffect
-import com.github.mustafaozhan.ui.main.settings.FewCurrencyEffect
+import com.github.mustafaozhan.ui.main.settings.ChangeThemeEffect
+import com.github.mustafaozhan.ui.main.settings.CurrenciesEffect
+import com.github.mustafaozhan.ui.main.settings.FeedBackEffect
+import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
+import com.github.mustafaozhan.ui.main.settings.RemoveAdsEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
+import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
+import com.github.mustafaozhan.ui.main.settings.ThemeDialogEffect
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import java.util.Date
 
-@ObsoleteCoroutinesApi
-@RunWith(JUnit4::class)
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     override lateinit var viewModel: SettingsViewModel
@@ -34,80 +37,69 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = SettingsViewModel(preferencesRepository, currencyDao)
+        viewModel = SettingsViewModel(
+            preferencesRepository,
+            currencyDao
+        )
     }
 
     @Test
-    fun `filter list`() {
-        val euro = Currency("EUR", "Euro", "€")
-        val dollar = Currency("USD", "American Dollar", "$")
-
-        viewModel.data.unFilteredList = mutableListOf<Currency>().apply {
-            add(euro)
-            add(dollar)
-        }
-
-        viewModel.filterList("USD")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
-
-        viewModel.filterList("Euro")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(euro))
-
-        viewModel.filterList("$")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
-
-        viewModel.filterList("asdasd")
-        assertEquals(true, viewModel.state.currencyList.value?.isEmpty())
-
-        viewModel.filterList("o")
-        assertEquals(2, viewModel.state.currencyList.value?.size)
+    fun `update theme`() = with(viewModel) {
+        val appTheme = AppTheme.DARK
+        updateTheme(appTheme)
+        assertEquals(appTheme, state.appThemeType.value)
+        assertEquals(ChangeThemeEffect(appTheme.themeValue), effect.value)
     }
 
     @Test
-    fun `hide selection visibility`() {
-        viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.selectionVisibility.value)
-    }
-
-    @Test
-    fun `query get updated on filtering list`() {
-        val query = "query"
-        viewModel.filterList(query)
-        assertEquals(query, viewModel.data.query)
+    fun `update ad expiration date`() = with(viewModel) {
+        updateAddFreeDate()
+        assertEquals(
+            state.addFreeDate.value,
+            Date(System.currentTimeMillis() + DAY).dateStringToFormattedString()
+        )
     }
 
     // Event
     @Test
-    fun `on long click`() = with(viewModel) {
-        val currentValue = viewModel.state.selectionVisibility.value
-        getEvent().onItemLongClick()
-        currentValue?.let {
-            assertEquals(!it, viewModel.state.selectionVisibility.value)
-        } ?: fail()
+    fun `back click`() = with(viewModel) {
+        getEvent().onBackClick()
+        assertEquals(BackEffect, effect.value)
     }
 
     @Test
-    fun `update all currencies state`() {
-        assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(true))
-        assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(false))
+    fun `currencies click`() = with(viewModel) {
+        getEvent().onCurrenciesClick()
+        assertEquals(CurrenciesEffect, effect.value)
     }
 
     @Test
-    fun `on item click`() {
-        val currency = Currency("EUR", "Euro", "€")
-        assertEquals(Unit, viewModel.getEvent().onItemClick(currency))
+    fun `feedback click`() = with(viewModel) {
+        getEvent().onFeedBackClick()
+        assertEquals(FeedBackEffect, effect.value)
     }
 
     @Test
-    fun `on close click`() {
-        viewModel.getEvent().onCloseClick()
-        assertEquals(BackEffect, viewModel.effect.value)
-        assertEquals("", viewModel.data.query)
+    fun `support us click`() = with(viewModel) {
+        getEvent().onSupportUsClick()
+        assertEquals(SupportUsEffect, effect.value)
     }
 
     @Test
-    fun `on done click`() {
-        viewModel.getEvent().onDoneClick()
-        assertEquals(FewCurrencyEffect, viewModel.effect.value)
+    fun `on github click`() = with(viewModel) {
+        getEvent().onOnGitHubClick()
+        assertEquals(OnGitHubEffect, effect.value)
+    }
+
+    @Test
+    fun `on remove ad click`() = with(viewModel) {
+        getEvent().onRemoveAdsClick()
+        assertEquals(RemoveAdsEffect, effect.value)
+    }
+
+    @Test
+    fun `on theme click`() = with(viewModel) {
+        getEvent().onThemeClick()
+        assertEquals(ThemeDialogEffect, effect.value)
     }
 }

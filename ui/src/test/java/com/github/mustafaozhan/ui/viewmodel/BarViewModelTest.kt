@@ -7,7 +7,7 @@ import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.ui.main.bar.BarViewModel
 import com.github.mustafaozhan.ui.main.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ui.main.bar.OpenSettingsEffect
+import com.github.mustafaozhan.ui.main.bar.OpenCurrenciesEffect
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
@@ -45,6 +45,6 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     @Test
     fun `on select click`() = with(viewModel) {
         getEvent().onSelectClick()
-        assertEquals(OpenSettingsEffect, effect.value)
+        assertEquals(OpenCurrenciesEffect, effect.value)
     }
 }

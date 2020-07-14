@@ -39,7 +39,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.toolbarFragmentMain)
         initView()
         observeEffect()
         observeNavigationResult()
@@ -48,7 +47,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     override fun onResume() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
+            getString(R.string.banner_ad_unit_id_currencies),
             calculatorViewModel.data.isRewardExpired
         )
     }
@@ -68,13 +67,17 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                 FewCurrencyEffect -> showSnack(requireView(), R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(
                         R.id.calculatorFragment,
-                        CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
+                        CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
                 MaximumInputEffect -> Toast.show(requireContext(), R.string.max_input)
                 OpenBarEffect -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
+                )
+                OpenSettingsEffect -> navigate(
+                    R.id.calculatorFragment,
+                    CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
                 is OfflineSuccessEffect -> viewEffect.date?.let {
                     Toast.show(requireContext(), getString(R.string.database_success_with_date, it))

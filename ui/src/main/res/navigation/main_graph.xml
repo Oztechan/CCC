@@ -16,6 +16,9 @@
             android:id="@+id/action_calculatorFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
+            android:id="@+id/action_calculatorFragment_to_currenciesFragment"
+            app:destination="@id/currenciesFragment" />
+        <action
             android:id="@+id/action_calculatorFragment_to_barBottomSheetDialogFragment"
             app:destination="@id/barBottomSheetDialogFragment" />
     </fragment>
@@ -26,7 +29,18 @@
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/action_settingsFragment_to_calculatorFragment"
+            android:id="@+id/action_currenciesFragment_to_currenciesFragment"
+            app:destination="@id/currenciesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/currenciesFragment"
+        android:name="com.github.mustafaozhan.ui.main.currencies.CurrenciesFragment"
+        android:label="CurrenciesFragment"
+        tools:layout="@layout/fragment_currencies">
+
+        <action
+            android:id="@+id/action_currenciesFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
     </fragment>
 
@@ -36,9 +50,9 @@
         android:label="BarBottomSheetDialogFragment"
         tools:layout="@layout/fragment_bottom_sheet_bar">
         <action
-            android:id="@+id/action_barBottomSheetDialogFragment_to_settingsFragment"
+            android:id="@+id/action_barBottomSheetDialogFragment_to_currenciesFragment"
+            app:destination="@id/currenciesFragment"
             app:popUpTo="@id/calculatorFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/settingsFragment" />
+            app:popUpToInclusive="true" />
     </dialog>
 </navigation>

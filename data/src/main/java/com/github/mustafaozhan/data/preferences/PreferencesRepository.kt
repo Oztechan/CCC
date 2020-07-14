@@ -5,7 +5,7 @@ package com.github.mustafaozhan.data.preferences
 
 import android.content.Context
 import com.github.mustafaozhan.basemob.data.preferences.BasePreferencesRepository
-import com.github.mustafaozhan.data.model.Currencies
+import com.github.mustafaozhan.data.model.CurrencyType
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,8 +19,7 @@ class PreferencesRepository
         private const val KEY_FIRST_RUN = "firs_run"
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
-
-        private const val DAY = (24 * 60 * 60 * 1000).toLong()
+        private const val KEY_APP_THEME = "app_theme"
     }
 
     override val preferencesName: String
@@ -31,16 +30,14 @@ class PreferencesRepository
         set(value) = setValue(KEY_FIRST_RUN, value)
 
     var currentBase
-        get() = getValue(KEY_CURRENT_BASE, Currencies.NULL.toString())
+        get() = getValue(KEY_CURRENT_BASE, CurrencyType.NULL.toString())
         set(value) = setValue(KEY_CURRENT_BASE, value)
 
-    private var adFreeActivatedDate
+    var appTheme
+        get() = getValue(KEY_APP_THEME, -1)
+        set(value) = setValue(KEY_APP_THEME, value)
+
+    var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
-        private set(value) = setValue(KEY_AD_FREE_DATE, value)
-
-    fun setAdFreeActivation() {
-        adFreeActivatedDate = System.currentTimeMillis()
-    }
-
-    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
+        set(value) = setValue(KEY_AD_FREE_DATE, value)
 }

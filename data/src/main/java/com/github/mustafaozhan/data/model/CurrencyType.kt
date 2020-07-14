@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.data.model
 
 @Suppress("LargeClass", "unused")
-enum class Currencies {
+enum class CurrencyType {
     AED,
     AFN,
     ALL,

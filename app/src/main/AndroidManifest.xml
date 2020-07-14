@@ -32,11 +32,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.github.mustafaozhan.ui.main.MainActivity" />
+        <activity
+            android:name="com.github.mustafaozhan.ui.main.MainActivity"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name="com.github.mustafaozhan.ui.slider.SliderActivity"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
         <uses-library

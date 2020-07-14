@@ -37,4 +37,4 @@ interface BarEvent : BaseEvent {
 // Effect
 sealed class BarEffect : BaseEffect()
 data class ChangeBaseNavResultEffect(val newBase: String) : BarEffect()
-object OpenSettingsEffect : BarEffect()
+object OpenCurrenciesEffect : BarEffect()

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_slide_items"
-        android:src="@drawable/splash_icon"
+        android:src="@drawable/ic_launcher"
         tools:ignore="ContentDescription" />
 
     <TextView

@@ -9,52 +9,50 @@ import com.github.mustafaozhan.basemob.model.BaseEffect
 import com.github.mustafaozhan.basemob.model.BaseEvent
 import com.github.mustafaozhan.basemob.model.BaseState
 import com.github.mustafaozhan.basemob.model.MutableBaseState
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainData
+import com.github.mustafaozhan.ui.main.model.AppTheme
 
 // State
 @Suppress("ConstructorParameterNaming")
 data class SettingsState(
     private val _state: MutableSettingsState
 ) : BaseState() {
-    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
-    val loading: LiveData<Boolean> = _state._loading
-    val selectionVisibility: LiveData<Boolean> = _state._selectionVisibility
+    val activeCurrencyCount: LiveData<Int> = _state._activeCurrencyCount
+    val appThemeType: LiveData<AppTheme> = _state._appThemeType
+    val addFreeDate: LiveData<String> = _state._addFreeDate
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
-    val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _activeCurrencyCount: MutableLiveData<Int> = MutableLiveData(0),
+    val _appThemeType: MutableLiveData<AppTheme> = MutableLiveData(),
+    val _addFreeDate: MutableLiveData<String> = MutableLiveData()
 ) : MutableBaseState()
 
 // Event
 interface SettingsEvent : BaseEvent {
-    fun updateAllCurrenciesState(state: Boolean)
-    fun onItemClick(currency: Currency)
-    fun onDoneClick()
-    fun onItemLongClick(): Boolean
-    fun onCloseClick()
+    fun onBackClick()
+    fun onCurrenciesClick()
+    fun onFeedBackClick()
+    fun onSupportUsClick()
+    fun onOnGitHubClick()
+    fun onRemoveAdsClick()
+    fun onThemeClick()
 }
 
 // Effect
 sealed class SettingsEffect : BaseEffect()
-object FewCurrencyEffect : SettingsEffect()
-object CalculatorEffect : SettingsEffect()
 object BackEffect : SettingsEffect()
-data class ChangeBaseNavResultEffect(val newBase: String) : SettingsEffect()
+object CurrenciesEffect : SettingsEffect()
+object FeedBackEffect : SettingsEffect()
+object SupportUsEffect : SettingsEffect()
+object OnGitHubEffect : SettingsEffect()
+object RemoveAdsEffect : SettingsEffect()
+object ThemeDialogEffect : SettingsEffect()
+data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
 
 // Data
 data class SettingsData(
     private val preferencesRepository: PreferencesRepository
-) : MainData(preferencesRepository) {
-    companion object {
-        internal const val SPAN_PORTRAIT = 1
-        internal const val SPAN_LANDSCAPE = 3
-    }
-
-    var unFilteredList: MutableList<Currency>? = mutableListOf()
-    lateinit var query: String
-}
+) : MainData(preferencesRepository)

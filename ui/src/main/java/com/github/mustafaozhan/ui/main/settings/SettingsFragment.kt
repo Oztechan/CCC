@@ -3,48 +3,48 @@
  */
 package com.github.mustafaozhan.ui.main.settings
 
-import android.content.res.Configuration
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
-import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.setNavigationResult
+import com.github.mustafaozhan.basemob.util.showDialog
+import com.github.mustafaozhan.basemob.util.showSingleChoiceDialog
+import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
+import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
-import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_LANDSCAPE
-import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SPAN_PORTRAIT
-import com.github.mustafaozhan.ui.util.hideKeyboard
+import com.github.mustafaozhan.ui.main.MainData
+import com.github.mustafaozhan.ui.main.model.AppTheme
 import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import javax.inject.Inject
 
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
-
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
 
-    private lateinit var settingsAdapter: SettingsAdapter
+    private lateinit var rewardedAd: RewardedAd
 
     override fun bind(container: ViewGroup?): FragmentSettingsBinding =
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
-        settingsViewModel.getEvent().let {
-            binding.event = it
-            settingsAdapter = SettingsAdapter(it)
-        }
+        binding.event = settingsViewModel.getEvent()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBaseActivity()?.setSupportActionBar(binding.layoutSettingsToolbar.toolbarFragmentSettings)
-        initView()
         observeEffect()
     }
 
@@ -54,52 +54,83 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             getString(R.string.banner_ad_unit_id_settings),
             settingsViewModel.data.isRewardExpired
         )
-        settingsViewModel.hideSelectionVisibility()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        setSpanByOrientation(newConfig.orientation)
-    }
-
-    private fun setSpanByOrientation(orientation: Int) {
-        binding.recyclerViewSettings.layoutManager = GridLayoutManager(
-            requireContext(),
-            if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
-        )
-    }
-
-    private fun initView() {
-        setSpanByOrientation(resources.configuration.orientation)
-
-        with(binding.recyclerViewSettings) {
-            setHasFixedSize(true)
-            adapter = settingsAdapter
-        }
-
-        settingsViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
-            settingsAdapter.submitList(it)
-        })
     }
 
     private fun observeEffect() = settingsViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
-                CalculatorEffect -> {
-                    navigate(
-                        R.id.settingsFragment,
-                        SettingsFragmentDirections.actionSettingsFragmentToCalculatorFragment()
-                    )
-                    requireView().hideKeyboard()
+                BackEffect -> getBaseActivity()?.onBackPressed()
+                CurrenciesEffect -> navigate(
+                    R.id.settingsFragment,
+                    SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
+                )
+                FeedBackEffect -> sendFeedBack()
+                SupportUsEffect -> showDialog(
+                    requireActivity(),
+                    R.string.support_us,
+                    R.string.rate_and_support,
+                    R.string.rate
+                ) {
+                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
                 }
-                BackEffect -> {
-                    getBaseActivity()?.onBackPressed()
-                    requireView().hideKeyboard()
+                OnGitHubEffect -> startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
+                RemoveAdsEffect -> showDialog(
+                    requireActivity(),
+                    R.string.remove_ads,
+                    R.string.remove_ads_text,
+                    R.string.watch) {
+                    prepareRewardedAd()
                 }
-                is ChangeBaseNavResultEffect -> {
-                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
-                }
+                ThemeDialogEffect -> changeTheme()
+                is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
             }
         })
+
+    private fun changeTheme() {
+        AppTheme.getThemeByValue(settingsViewModel.data.appTheme)?.let { currentThemeType ->
+            showSingleChoiceDialog(
+                requireActivity(),
+                getString(R.string.title_dialog_choose_theme),
+                AppTheme.values().map { it.typeName }.toTypedArray(),
+                currentThemeType.order
+            ) { index ->
+                AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
+            }
+        }
+    }
+
+    private fun showRewardedAd() = rewardedAd
+        .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
+            override fun onRewardedAdOpened() = Unit
+            override fun onRewardedAdClosed() = Unit
+            override fun onRewardedAdFailedToShow(errorCode: Int) = Unit
+            override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                settingsViewModel.updateAddFreeDate()
+                val intent = requireActivity().intent
+                requireActivity().finish()
+                startActivity(intent)
+            }
+        }).toUnit()
+
+    private fun prepareRewardedAd() {
+        rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
+        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() = showRewardedAd()
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+        })
+    }
+
+    private fun startIntent(intent: Intent) {
+        getBaseActivity()?.packageManager?.let {
+            intent.resolveActivity(it)?.let { startActivity(intent) }
+        }
+    }
+
+    private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
+        type = MainData.TEXT_EMAIL_TYPE
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
+        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
+        startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
+    }.toUnit()
 }

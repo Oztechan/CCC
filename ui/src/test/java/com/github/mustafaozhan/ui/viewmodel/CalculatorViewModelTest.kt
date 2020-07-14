@@ -13,6 +13,7 @@ import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.KEY_A
 import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ui.main.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ui.main.calculator.OpenBarEffect
+import com.github.mustafaozhan.ui.main.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ui.main.calculator.ShowRateEffect
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -65,6 +66,12 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun `bar click`() = with(viewModel) {
         getEvent().onBarClick()
         assertEquals(OpenBarEffect, effect.value)
+    }
+
+    @Test
+    fun `settings click`() = with(viewModel) {
+        getEvent().onSettingsClicked()
+        assertEquals(OpenSettingsEffect, effect.value)
     }
 
     @Test

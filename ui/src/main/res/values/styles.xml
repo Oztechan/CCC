@@ -2,20 +2,29 @@
   Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/colorPrimarySemiDark</item>
-        <item name="android:tint">@color/transparent</item>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="hintTextColor">@color/color_text_weak</item>
+        <item name="android:buttonTint">@color/color_accent</item>
+        <item name="android:itemBackground">@color/color_background_weak</item>
+        <item name="android:editTextColor">@color/color_text</item>
+        <item name="android:textColorHint">@color/color_text_weak</item>
+        <item name="android:tint">@color/color_transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+        <item name="android:navigationBarColor">@color/color_background_strong</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseAppTheme" />
+
+    <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/color_text</item>
     </style>
 
     <style name="AppTheme.Fullscreen.SplashTheme">
@@ -49,42 +58,36 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="WideFitStyle">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     <!-- Base -->
     <style name="BarBaseImageView">
         <item name="android:layout_width">@dimen/currency_icon_size</item>
         <item name="android:layout_height">@dimen/currency_icon_size</item>
         <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
-        <item name="srcCompat">@color/transparent</item>
+        <item name="srcCompat">@color/color_transparent</item>
     </style>
 
     <style name="BaseLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/color_background_strong</item>
     </style>
 
     <style name="BaseToolbarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-    <!-- Edit Text -->
-    <style name="BaseEditTextTheme">
-        <item name="android:textSize">@dimen/text_size_l</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/blue_grey_400</item>
-        <item name="android:background">@color/transparent</item>
     </style>
 
     <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
@@ -120,36 +123,35 @@
 
     <style name="SlideViewLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/margin_one</item>
+        <item name="android:layout_height">@dimen/height_separator</item>
         <item name="alpha">.1</item>
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/color_text_weak</item>
     </style>
 
     <style name="SlideButtonNext" parent="WrapStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:background">@null</item>
         <item name="android:text">@string/next</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/color_text</item>
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="BaseSlideStyle">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="SlideTitle" parent="BaseSlideStyle">
-        <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textSize">@dimen/text_size_xxl</item>
     </style>
 
     <style name="SlideSubTitle" parent="BaseSlideStyle">
-        <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textSize">@dimen/text_size</item>
         <item name="android:textAlignment" tools:ignore="NewApi">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -168,10 +170,10 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/selector_dark</item>
+        <item name="android:background">@drawable/selector_keyboard</item>
     </style>
 
     <style name="SubKeyboardTableRowStyle" parent="MatchStyle">
@@ -181,7 +183,7 @@
 
     <!-- Bar -->
     <style name="LayoutBar">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/color_background_strong</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
@@ -195,9 +197,7 @@
     </style>
 
     <!-- Calculator -->
-    <style name="CalculatorToolbarTextStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="CalculatorToolbarTextStyle" parent="FitStyle">
         <item name="android:gravity">center</item>
         <item name="android:maxLines">3</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
@@ -209,24 +209,29 @@
         <item name="android:layout_height">@dimen/progress_bar_height_width</item>
     </style>
 
+    <style name="SettingsButtonStyle" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_settings</item>
+        <item name="android:paddingEnd">@dimen/margin_twelve</item>
+    </style>
+
     <!-- Bar Bottom Sheet Dialog -->
     <style name="CurrentBaseStyle" parent="WrapStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
-    <!-- Settings -->
-    <style name="SettingsToolbarTextStyle">
+    <!-- Currencies -->
+    <style name="CurrenciesToolbarTextStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:text">@string/txt_settings</item>
+        <item name="android:text">@string/txt_currencies</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/blue_grey_100</item>
+        <item name="android:textColor">@color/color_text</item>
     </style>
 
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
@@ -235,17 +240,26 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
-    <style name="DoneButtonStyle" parent="BarButtonStyle">
-        <item name="android:background">@color/colorPrimarySemiDark</item>
+    <style name="DoneButtonStyle" parent="SelectButtonStyle">
+        <item name="android:drawableEnd">@drawable/ic_done</item>
+        <item name="android:text">@string/btn_done</item>
+        <item name="android:paddingEnd">@dimen/margin_eight</item>
+        <item name="android:background">@color/color_background_weak</item>
     </style>
 
-    <style name="SelectButtonStyle" parent="DoneButtonStyle">
-        <item name="android:textColor">@color/colorAccent</item>
+    <style name="SelectButtonStyle" parent="BarButtonStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:text">@string/select</item>
     </style>
 
     <style name="SearchViewStyle" parent="WrapStyle">
         <item name="android:maxWidth">@dimen/max_width_search_view</item>
+        <item name="queryHint">@string/search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+        <item name="searchHintIcon">@drawable/ic_search_hint</item>
+        <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
     <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
@@ -259,11 +273,16 @@
 
     <!-- Item -->
     <style name="BaseItemLayout">
+        <item name="android:padding">@dimen/margin_two</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/selector_light</item>
+        <item name="android:background">@drawable/selector_item</item>
         <item name="android:paddingLeft">@dimen/margin_four</item>
         <item name="android:paddingRight">@dimen/margin_zero</item>
+    </style>
+
+    <style name="BarItemLayout" parent="BaseItemLayout">
+        <item name="android:background">@drawable/selector_bar</item>
     </style>
 
     <!-- Calculator Item -->
@@ -305,13 +324,85 @@
         <item name="android:layout_marginRight">@dimen/margin_eight</item>
     </style>
 
+    <!-- Settings -->
+    <style name="SettingsLayoutStyle" parent="MatchStyle">
+        <item name="android:background">@color/color_background</item>
+    </style>
+
+    <style name="SettingsBackButtonStyle" parent="WrapStyle">
+        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:src">@drawable/ic_back</item>
+    </style>
+
+    <style name="SettingsToolbarTextStyle" parent="CurrenciesToolbarTextStyle">
+        <item name="android:text">@string/txt_settings</item>
+    </style>
+
     <!-- Settings Item -->
-    <style name="SettingsItemImageView" parent="CalculatorItemImageView">
+    <style name="SettingsItemLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_settings_item_layout</item>
+        <item name="android:background">@drawable/selector_item</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SettingsItemRowStyle">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">@dimen/height_settings_item_row</item>
+        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:paddingTop">@dimen/margin_eight</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
+    </style>
+
+    <style name="SettingsItemIconStyle" parent="WrapStyle">
+        <item name="android:layout_margin">@dimen/margin_four</item>
+        <item name="android:layout_width">@dimen/width_height_settings_icon</item>
+        <item name="android:layout_height">@dimen/width_height_settings_icon</item>
+    </style>
+
+    <style name="SettingsItemSeparator">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">@dimen/height_separator</item>
+        <item name="android:layout_marginStart">@dimen/margin_start_settings_item_separator</item>
+        <item name="android:layout_marginEnd">@dimen/margin_four</item>
+        <item name="android:background">@color/color_text_weak</item>
+    </style>
+
+    <style name="SettingsItemArrow" parent="WrapStyle">
+        <item name="android:src">@drawable/ic_forward</item>
+    </style>
+
+    <style name="SettingsItemTitle" parent="WrapStyle">
+        <item name="android:layout_marginStart">@dimen/margin_twelve</item>
+        <item name="android:layout_marginTop">@dimen/margin_four</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="SettingsItemSubTitle" parent="WrapStyle">
+        <item name="android:layout_marginStart">@dimen/margin_twelve</item>
+        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">@dimen/text_size_xs</item>
+    </style>
+
+    <style name="SettingsItemValue" parent="WrapStyle">
+        <item name="android:gravity">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textSize">@dimen/text_size_xxs</item>
+        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
+    </style>
+
+    <!-- Currencies Item -->
+    <style name="CurrenciesItemImageView" parent="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
 
-    <style name="SettingsItemText">
+    <style name="CurrenciesItemText">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_two</item>
@@ -325,7 +416,7 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
-    <style name="SettingsItemCheckBoxStyle" parent="WrapStyle">
+    <style name="CurrenciesItemCheckBoxStyle" parent="WrapStyle">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_two</item>
         <item name="android:layout_marginRight">@dimen/margin_two</item>
@@ -335,13 +426,13 @@
     </style>
 
     <!-- Bar -->
-    <style name="BarItemText" parent="SettingsItemText">
+    <style name="BarItemText" parent="CurrenciesItemText">
         <item name="android:textAppearance">@style/ItemTextStyle</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
-    <style name="BarItemImageView" parent="SettingsItemImageView">
+    <style name="BarItemImageView" parent="CurrenciesItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
@@ -353,12 +444,12 @@
     </style>
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/color_background_weak</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>
