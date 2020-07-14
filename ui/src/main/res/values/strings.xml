@@ -65,13 +65,13 @@
     <string name="slide_intro_text_2">Simple user interface\n\nFast responses\n\nAccurate rates\n\nEasy to use</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
-    <string name="slide_bug_report_text_2">Click Top Right Menu\n\n - Feedback > Then you can send us an email\n\n- On GitHub > Then create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
+    <string name="slide_bug_report_text_2">Click settings icon \n\n Feedback > Then you can send us an email\n\n On GitHub > Then create a GitHub Issue to CurrencyConverterCalculator/androidCCC Project\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads for 24 hours</string>
-    <string name="slide_disable_ads_text_2">Click Top Right Menu > Disable Ads\n\n After you watch a video, app will be ad free for 24 hours!</string>
+    <string name="slide_disable_ads_text_2">Click settings icon > Removed Ads\n\n After you watch a video, app will be ad free for 24 hours!</string>
     <string name="slide_dark_mode_title">Dark Mode</string>
     <string name="slide_dark_mode_text_1">If you want to enable Dark Mode</string>
-    <string name="slide_dark_mode_text_2">Click Top Right Menu > Theme\n\n Then chose your theme!</string>
+    <string name="slide_dark_mode_text_2">Click settings icon > Theme\n\n Then chose your theme!</string>
 
     <!-- Test Ad ID-->
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>

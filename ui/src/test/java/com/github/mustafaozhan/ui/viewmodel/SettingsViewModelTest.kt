@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ui.viewmodel
 
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.data.util.dateStringToFormattedString
+import com.github.mustafaozhan.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ui.main.model.AppTheme
 import com.github.mustafaozhan.ui.main.settings.BackEffect
 import com.github.mustafaozhan.ui.main.settings.ChangeThemeEffect
@@ -20,6 +22,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.util.Date
 
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
@@ -46,6 +49,15 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         updateTheme(appTheme)
         assertEquals(appTheme, state.appThemeType.value)
         assertEquals(ChangeThemeEffect(appTheme.themeValue), effect.value)
+    }
+
+    @Test
+    fun `update ad expiration date`() = with(viewModel) {
+        updateAddFreeDate()
+        assertEquals(
+            state.addFreeDate.value,
+            Date(System.currentTimeMillis() + DAY).dateStringToFormattedString()
+        )
     }
 
     // Event

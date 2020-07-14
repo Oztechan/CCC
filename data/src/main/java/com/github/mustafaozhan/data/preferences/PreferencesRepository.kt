@@ -20,8 +20,6 @@ class PreferencesRepository
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
         private const val KEY_APP_THEME = "app_theme"
-
-        private const val DAY = (24 * 60 * 60 * 1000).toLong()
     }
 
     override val preferencesName: String
@@ -39,13 +37,7 @@ class PreferencesRepository
         get() = getValue(KEY_APP_THEME, -1)
         set(value) = setValue(KEY_APP_THEME, value)
 
-    private var adFreeActivatedDate
+    var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
-        private set(value) = setValue(KEY_AD_FREE_DATE, value)
-
-    fun setAdFreeActivation() {
-        adFreeActivatedDate = System.currentTimeMillis()
-    }
-
-    fun isRewardExpired() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
+        set(value) = setValue(KEY_AD_FREE_DATE, value)
 }

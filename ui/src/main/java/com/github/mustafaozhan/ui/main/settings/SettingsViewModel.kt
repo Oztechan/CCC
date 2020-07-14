@@ -9,9 +9,12 @@ import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.data.util.dateStringToFormattedString
+import com.github.mustafaozhan.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ui.main.model.AppTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 class SettingsViewModel
@@ -34,6 +37,8 @@ class SettingsViewModel
 
     init {
         _state._appThemeType.value = AppTheme.getThemeByValue(data.appTheme)
+        _state._addFreeDate.value = Date(preferencesRepository.adFreeActivatedDate).dateStringToFormattedString()
+
         viewModelScope.launch {
             currencyDao.getActiveCurrencies()
                 .collect {
@@ -42,6 +47,11 @@ class SettingsViewModel
                     }?.size ?: 0
                 }
         }
+    }
+
+    fun updateAddFreeDate() = System.currentTimeMillis().let {
+        _state._addFreeDate.value = Date(it + DAY).dateStringToFormattedString()
+        data.adFreeActivatedDate = it
     }
 
     fun updateTheme(theme: AppTheme) {

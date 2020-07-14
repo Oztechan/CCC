@@ -3,7 +3,7 @@
   -->
 <resources>
     <!--Text Sizes-->
-    <dimen name="text_size_xxs">12sp</dimen>
+    <dimen name="text_size_xxs">11sp</dimen>
     <dimen name="text_size_xs">13sp</dimen>
     <dimen name="text_size_s">15sp</dimen>
     <dimen name="text_size">17sp</dimen>

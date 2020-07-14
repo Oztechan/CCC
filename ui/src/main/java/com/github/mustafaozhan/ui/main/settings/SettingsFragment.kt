@@ -45,7 +45,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prepareRewardedAd()
         observeEffect()
     }
 
@@ -80,7 +79,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     R.string.remove_ads,
                     R.string.remove_ads_text,
                     R.string.watch) {
-                    showRewardedAd()
+                    prepareRewardedAd()
                 }
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
@@ -103,20 +102,20 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     private fun showRewardedAd() = rewardedAd
         .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
-            override fun onRewardedAdClosed() = prepareRewardedAd()
-            override fun onRewardedAdFailedToShow(errorCode: Int) = prepareRewardedAd()
+            override fun onRewardedAdClosed() = Unit
+            override fun onRewardedAdFailedToShow(errorCode: Int) = Unit
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-                settingsViewModel.data.updateAdFreeActivation()
+                settingsViewModel.updateAddFreeDate()
                 val intent = requireActivity().intent
                 requireActivity().finish()
                 startActivity(intent)
             }
-        })
+        }).toUnit()
 
     private fun prepareRewardedAd() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onRewardedAdLoaded() = Unit
+            override fun onRewardedAdLoaded() = showRewardedAd()
             override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
         })
     }

@@ -54,6 +54,7 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
             currenciesViewModel.data.isRewardExpired
         )
         currenciesViewModel.hideSelectionVisibility()
+        currenciesViewModel.filterList("")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

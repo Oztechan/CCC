@@ -17,10 +17,11 @@ open class MainData(
         internal const val AD_PERIOD: Long = 180000
         internal const val TEXT_EMAIL_TYPE = "text/email"
         internal const val KEY_BASE_CURRENCY = "base_currency"
+        internal const val DAY = (24 * 60 * 60 * 1000).toLong()
     }
 
     val isRewardExpired
-        get() = preferencesRepository.isRewardExpired()
+        get() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
     var firstRun
         get() = preferencesRepository.firstRun
@@ -40,5 +41,9 @@ open class MainData(
             preferencesRepository.appTheme = value
         }
 
-    fun updateAdFreeActivation() = preferencesRepository.setAdFreeActivation()
+    var adFreeActivatedDate
+        get() = preferencesRepository.adFreeActivatedDate
+        set(value) {
+            preferencesRepository.adFreeActivatedDate = value
+        }
 }

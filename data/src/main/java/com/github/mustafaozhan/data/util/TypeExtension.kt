@@ -51,11 +51,13 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
         ?: run { nonEmpty }
 }
 
+fun Date.dateStringToFormattedString(): String = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(this)
+
 fun CurrencyResponse.toRate(): Rates {
     val rate = rates
     rate.base = base
     // todo need to change to CurrencyResponse.date when BE return date
-    rate.date = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(Date())
+    rate.date = Date().dateStringToFormattedString()
     return rate
 }
 

@@ -20,12 +20,14 @@ data class SettingsState(
 ) : BaseState() {
     val activeCurrencyCount: LiveData<Int> = _state._activeCurrencyCount
     val appThemeType: LiveData<AppTheme> = _state._appThemeType
+    val addFreeDate: LiveData<String> = _state._addFreeDate
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
     val _activeCurrencyCount: MutableLiveData<Int> = MutableLiveData(0),
-    val _appThemeType: MutableLiveData<AppTheme> = MutableLiveData()
+    val _appThemeType: MutableLiveData<AppTheme> = MutableLiveData(),
+    val _addFreeDate: MutableLiveData<String> = MutableLiveData()
 ) : MutableBaseState()
 
 // Event
