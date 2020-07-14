@@ -356,6 +356,7 @@
     </style>
 
     <style name="SettingsItemIconStyle" parent="WrapStyle">
+        <item name="android:layout_margin">@dimen/margin_four</item>
         <item name="android:layout_width">@dimen/width_height_settings_icon</item>
         <item name="android:layout_height">@dimen/width_height_settings_icon</item>
     </style>
@@ -373,14 +374,14 @@
     </style>
 
     <style name="SettingsItemTitle" parent="WrapStyle">
-        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="android:layout_marginStart">@dimen/margin_twelve</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:textColor">@color/color_text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
     <style name="SettingsItemSubTitle" parent="WrapStyle">
-        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+        <item name="android:layout_marginStart">@dimen/margin_twelve</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
         <item name="android:textColor">@color/color_text_weak</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>

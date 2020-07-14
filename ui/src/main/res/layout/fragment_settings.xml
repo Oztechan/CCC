@@ -126,7 +126,7 @@
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
                     android:onClick="@{()->event.onOnGitHubClick()}"
-                    app:iconRes="@{@drawable/ic_code}"
+                    app:iconRes="@{@drawable/ic_on_github}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/item_feedback"
