@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
+import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
 import com.github.mustafaozhan.basemob.util.showSingleChoiceDialog
@@ -103,7 +104,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
             override fun onRewardedAdClosed() = Unit
-            override fun onRewardedAdFailedToShow(errorCode: Int) = Unit
+            override fun onRewardedAdFailedToShow(errorCode: Int) = Toast.show(
+                requireContext(),
+                R.string.error_text_unknown
+            )
+
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
                 settingsViewModel.updateAddFreeDate()
                 val intent = requireActivity().intent
@@ -116,7 +121,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() = showRewardedAd()
-            override fun onRewardedAdFailedToLoad(errorCode: Int) = Unit
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = Toast.show(
+                requireContext(),
+                R.string.error_text_unknown
+            )
         })
     }
 

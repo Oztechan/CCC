@@ -43,6 +43,7 @@
     <string name="max_input">Maximum number of input exceeded.</string>
     <string name="database_success">Error Occurred! Using saved offline rate.</string>
     <string name="database_success_with_date">Error Occurred! Using the last saved rates. Last update: %s</string>
+    <string name="error_text_unknown">Error Occurred! Please try again later.</string>
 
     <!--Dialog-->
     <string name="rate_and_support">Please rate and comment to the app at Google Play Store :)</string>
