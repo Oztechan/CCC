@@ -42,10 +42,14 @@ class ViewModelModule {
     @ActivityScope
     internal fun providesSettingsViewModel(
         preferencesRepository: PreferencesRepository,
-        currencyDao: CurrencyDao
+        apiRepository: ApiRepository,
+        currencyDao: CurrencyDao,
+        offlineRatesDao: OfflineRatesDao
     ) = SettingsViewModel(
         preferencesRepository,
-        currencyDao
+        apiRepository,
+        currencyDao,
+        offlineRatesDao
     )
 
     @Provides

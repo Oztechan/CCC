@@ -112,6 +112,11 @@
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
     <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
 
+    <string name="settings_item_sync_title">Synchronise</string>
+    <string name="settings_item_sync_sub_title">Sync to use app offline</string>
+    <string name="txt_synced">Synchronisation completed!</string>
+    <string name="txt_already_synced">Your currencies are already synchronised.</string>
+
     <string name="settings_item_feedback_title">Feedback</string>
     <string name="settings_item_feedback_sub_title">Write email to us</string>
 

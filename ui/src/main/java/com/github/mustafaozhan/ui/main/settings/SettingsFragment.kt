@@ -84,6 +84,8 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 }
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
+                SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
+                OnlyOneTimeSyncEffect -> Toast.show(requireContext(), R.string.txt_already_synced)
             }
         })
 

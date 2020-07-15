@@ -12,10 +12,13 @@ import kotlinx.coroutines.flow.Flow
 interface CurrencyDao {
 
     @Query("SELECT * FROM currency")
-    fun getAllCurrencies(): Flow<MutableList<Currency>>
+    fun collectAllCurrencies(): Flow<MutableList<Currency>>
 
     @Query("SELECT * FROM currency WHERE isActive=1")
-    fun getActiveCurrencies(): Flow<MutableList<Currency>?>
+    fun collectActiveCurrencies(): Flow<MutableList<Currency>?>
+
+    @Query("SELECT * FROM currency WHERE isActive=1")
+    suspend fun getActiveCurrencies(): MutableList<Currency>?
 
     @Query("UPDATE currency set isActive=:isActive WHERE name=:name")
     suspend fun updateCurrencyStateByName(name: String, isActive: Boolean)

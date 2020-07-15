@@ -7,20 +7,29 @@ import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
+import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
+import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
+import com.github.mustafaozhan.data.util.toRate
 import com.github.mustafaozhan.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ui.main.model.AppTheme
+import com.github.mustafaozhan.ui.main.settings.SettingsData.Companion.SYNC_DELAY
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class SettingsViewModel
 @Inject constructor(
     preferencesRepository: PreferencesRepository,
-    private val currencyDao: CurrencyDao
+    private val apiRepository: ApiRepository,
+    private val currencyDao: CurrencyDao,
+    private val offlineRatesDao: OfflineRatesDao
 ) : BaseViewModel(), SettingsEvent {
 
     // region SEED
@@ -40,7 +49,7 @@ class SettingsViewModel
         _state._addFreeDate.value = Date(preferencesRepository.adFreeActivatedDate).dateStringToFormattedString()
 
         viewModelScope.launch {
-            currencyDao.getActiveCurrencies()
+            currencyDao.collectActiveCurrencies()
                 .collect {
                     _state._activeCurrencyCount.value = it?.filter { currency ->
                         currency.isActive
@@ -74,6 +83,24 @@ class SettingsViewModel
     override fun onRemoveAdsClick() = _effect.postValue(RemoveAdsEffect)
 
     override fun onThemeClick() = _effect.postValue(ThemeDialogEffect)
+
+    override fun onSyncClick() {
+        if (!data.synced) {
+            viewModelScope.launch {
+                currencyDao.getActiveCurrencies()?.forEach { (name) ->
+                    delay(SYNC_DELAY)
+                    apiRepository.getRatesByBase(name).execute(
+                        {
+                            viewModelScope.launch { offlineRatesDao.insertOfflineRates(it.toRate()) }
+                        },
+                        { error -> Timber.e(error) }
+                    )
+                }
+                data.synced = true
+                _effect.postValue(SynchronisedEffect)
+            }
+        } else _effect.postValue(OnlyOneTimeSyncEffect)
+    }
 
     // endregion
 }
