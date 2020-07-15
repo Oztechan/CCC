@@ -43,7 +43,7 @@ class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBot
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
                 is ChangeBaseNavResultEffect -> {
-                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
+                    setNavigationResult(R.id.calculatorFragment, viewEffect.newBase, KEY_BASE_CURRENCY)
                     dismissDialog()
                 }
                 OpenCurrenciesEffect -> navigate(

@@ -19,6 +19,8 @@
     <string name="minus">-</string>
     <string name="dot">.</string>
     <string name="zero">0</string>
+    <string name="open_parentheses">(</string>
+    <string name="close_parentheses">)</string>
     <string name="percent">%</string>
     <string name="plus">+</string>
     <string name="triple_zero">000</string>
