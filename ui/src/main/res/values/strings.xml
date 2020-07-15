@@ -33,7 +33,6 @@
     <string name="txt_select_currencies">Please select your favorite currencies</string>
 
     <!--Snacky Text-->
-    <string name="rate_not_available_offline">Error Occurred! Please check your internet connection and active currencies.</string>
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
@@ -41,8 +40,10 @@
 
     <!--Toasty Text-->
     <string name="max_input">Maximum number of input exceeded.</string>
-    <string name="database_success">Error Occurred! Using saved offline rate.</string>
-    <string name="database_success_with_date">Error Occurred! Using the last saved rates. Last update: %s</string>
+    <string name="text_online_last_updated">Online! Last update: %s</string>
+    <string name="text_cached_last_updated">Cached! Last update: %s</string>
+    <string name="text_offline_last_updated">Offline! Last update: %s</string>
+    <string name="text_offline">No internet connection!</string>
     <string name="error_text_unknown">Error Occurred! Please try again later.</string>
 
     <!--Dialog-->

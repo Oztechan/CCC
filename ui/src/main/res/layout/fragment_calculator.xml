@@ -90,10 +90,18 @@
             style="@style/FitStyle"
             layout="@layout/layout_keyboard"
             app:event="@{event}"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+            app:layout_constraintBottom_toTopOf="@+id/txt_app_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+        <TextView
+            android:id="@+id/txt_app_status"
+            style="@style/DataStateStyle"
+            app:dataState="@{vm.state.dataState}"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <FrameLayout
             android:id="@+id/ad_view_container"

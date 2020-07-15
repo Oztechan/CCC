@@ -26,6 +26,7 @@ data class CalculatorState(
     val output: LiveData<String> = _state._output
     val symbol: LiveData<String> = _state._symbol
     val loading: LiveData<Boolean> = _state._loading
+    val dataState: LiveData<DataState> = _state._dataState
 }
 
 @Suppress("ConstructorParameterNaming")
@@ -35,7 +36,8 @@ data class MutableCalculatorState(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(true)
+    val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
+    val _dataState: MutableLiveData<DataState> = MutableLiveData(Error)
 ) : MutableBaseState()
 
 // Event
@@ -55,7 +57,6 @@ object FewCurrencyEffect : CalculatorEffect()
 object OpenBarEffect : CalculatorEffect()
 object MaximumInputEffect : CalculatorEffect()
 object OpenSettingsEffect : CalculatorEffect()
-data class OfflineSuccessEffect(val date: String?) : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
 // Data
@@ -72,3 +73,10 @@ data class CalculatorData(
 
     var rates: Rates? = null
 }
+
+// Others
+sealed class DataState
+data class Online(val lastUpdate: String?) : DataState()
+data class Cached(val lastUpdate: String?) : DataState()
+data class Offline(val lastUpdate: String?) : DataState()
+object Error : DataState()

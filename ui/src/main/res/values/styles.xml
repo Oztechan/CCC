@@ -209,6 +209,12 @@
         <item name="android:layout_height">@dimen/progress_bar_height_width</item>
     </style>
 
+    <style name="DataStateStyle" parent="WrapStyle">
+        <item name="android:textSize">@dimen/text_size_xxs</item>
+        <item name="android:drawablePadding">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_two</item>
+    </style>
+
     <style name="SettingsButtonStyle" parent="WrapStyle">
         <item name="android:src">@drawable/ic_settings</item>
         <item name="android:paddingEnd">@dimen/margin_eight</item>

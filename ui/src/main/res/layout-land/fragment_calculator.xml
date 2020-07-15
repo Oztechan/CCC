@@ -32,9 +32,9 @@
                 <include
                     android:id="@+id/layout_bar"
                     layout="@layout/layout_bar"
-                    android:onClick="@{() -> event.onBarClick()}"
                     android:layout_width="@dimen/fit"
                     android:layout_height="wrap_content"
+                    android:onClick="@{() -> event.onBarClick()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_bar"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -51,8 +51,8 @@
                 <TextView
                     android:id="@+id/txt_input"
                     style="@style/CalculatorToolbarTextStyle"
-                    android:text="@{vm.state.input}"
                     android:onClick="@{() -> event.onBarClick()}"
+                    android:text="@{vm.state.input}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_settings"
                     app:layout_constraintStart_toStartOf="@+id/guideline_bar"
@@ -60,8 +60,8 @@
 
                 <ImageView
                     android:id="@+id/btn_settings"
-                    android:onClick="@{() -> event.onSettingsClicked()}"
                     style="@style/SettingsButtonStyle"
+                    android:onClick="@{() -> event.onSettingsClicked()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -102,10 +102,20 @@
             style="@style/FitStyle"
             layout="@layout/layout_keyboard"
             app:event="@{event}"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+            app:layout_constraintBottom_toTopOf="@+id/txt_app_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main" />
+
+        <TextView
+            android:id="@+id/txt_app_status"
+            style="@style/DataStateStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dataState="@{vm.state.dataState}"
+            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline" />
 
         <FrameLayout
             android:id="@+id/ad_view_container"
