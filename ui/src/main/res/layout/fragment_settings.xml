@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:id="@+id/back_button"
-                    style="@style/SettingsBackButtonStyle"
+                    style="@style/BackButtonStyle"
                     android:onClick="@{()->event.onBackClick()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +98,18 @@
                     app:value="@{vm.data.adFreeActivatedDate == 0 ?`` : (vm.data.isRewardExpired ? `Expired\n` : `Will expire\n`)+vm.state.addFreeDate}" />
 
                 <include
+                    android:id="@+id/item_sync"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onSyncClick()}"
+                    app:iconRes="@{@drawable/ic_sync}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_disable_ads"
+                    app:subTitle="@{@string/settings_item_sync_sub_title}"
+                    app:title="@{@string/settings_item_sync_title}" />
+
+                <include
                     android:id="@+id/item_support_us"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
@@ -105,7 +117,7 @@
                     app:iconRes="@{@drawable/ic_store}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_disable_ads"
+                    app:layout_constraintTop_toBottomOf="@+id/item_sync"
                     app:subTitle="@{@string/settings_item_support_us_sub_title}"
                     app:title="@{@string/settings_item_support_us_title}" />
 

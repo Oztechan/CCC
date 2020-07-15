@@ -60,10 +60,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     private fun observeEffect() = calculatorViewModel.effect
         .reObserve(viewLifecycleOwner, Observer { viewEffect ->
             when (viewEffect) {
-                ErrorEffect -> showSnack(
-                    requireView(),
-                    R.string.rate_not_available_offline
-                )
+                ErrorEffect -> Toast.show(requireContext(), R.string.error_text_unknown)
                 FewCurrencyEffect -> showSnack(requireView(), R.string.choose_at_least_two_currency, R.string.select) {
                     navigate(
                         R.id.calculatorFragment,
@@ -79,11 +76,6 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
-                is OfflineSuccessEffect -> viewEffect.date?.let {
-                    Toast.show(requireContext(), getString(R.string.database_success_with_date, it))
-                } ?: run {
-                    Toast.show(requireContext(), R.string.database_success)
-                }
                 is ShowRateEffect -> showSnack(
                     requireView(),
                     viewEffect.text,

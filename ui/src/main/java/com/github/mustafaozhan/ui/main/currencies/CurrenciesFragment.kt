@@ -98,7 +98,7 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                     requireView().hideKeyboard()
                 }
                 is ChangeBaseNavResultEffect -> {
-                    setNavigationResult(viewEffect.newBase, KEY_BASE_CURRENCY)
+                    setNavigationResult(R.id.calculatorFragment, viewEffect.newBase, KEY_BASE_CURRENCY)
                 }
             }
         })

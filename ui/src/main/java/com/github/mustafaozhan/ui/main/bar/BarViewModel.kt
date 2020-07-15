@@ -33,7 +33,7 @@ class BarViewModel
     init {
         with(_state) {
             viewModelScope.launch {
-                currencyDao.getActiveCurrencies()
+                currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect {
                         _currencyList.value = it

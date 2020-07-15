@@ -19,6 +19,8 @@
     <string name="minus">-</string>
     <string name="dot">.</string>
     <string name="zero">0</string>
+    <string name="open_parentheses">(</string>
+    <string name="close_parentheses">)</string>
     <string name="percent">%</string>
     <string name="plus">+</string>
     <string name="triple_zero">000</string>
@@ -33,7 +35,6 @@
     <string name="txt_select_currencies">Please select your favorite currencies</string>
 
     <!--Snacky Text-->
-    <string name="rate_not_available_offline">Error Occurred! Please check your internet connection and active currencies.</string>
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="select">Select</string>
     <string name="cancel">@android:string/cancel</string>
@@ -41,8 +42,10 @@
 
     <!--Toasty Text-->
     <string name="max_input">Maximum number of input exceeded.</string>
-    <string name="database_success">Error Occurred! Using saved offline rate.</string>
-    <string name="database_success_with_date">Error Occurred! Using the last saved rates. Last update: %s</string>
+    <string name="text_online_last_updated">Online! Last update: %s</string>
+    <string name="text_cached_last_updated">Cached! Last update: %s</string>
+    <string name="text_offline_last_updated">Offline! Last update: %s</string>
+    <string name="text_offline">No internet connection!</string>
     <string name="error_text_unknown">Error Occurred! Please try again later.</string>
 
     <!--Dialog-->
@@ -95,7 +98,7 @@
     <string name="txt_settings">Settings</string>
 
     <string name="settings_item_currencies_title">Currencies</string>
-    <string name="settings_item_currencies_sub_title">Change your favourite currencies</string>
+    <string name="settings_item_currencies_sub_title">Set your currencies</string>
     <plurals name="settings_item_currencies_value">
         <item quantity="zero">%d active currency</item>
         <item quantity="one">%d active currency</item>
@@ -110,6 +113,11 @@
     <string name="settings_item_remove_ads_sub_title">Disable ads 24 hours</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
     <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
+
+    <string name="settings_item_sync_title">Synchronise</string>
+    <string name="settings_item_sync_sub_title">Sync to use app offline</string>
+    <string name="txt_synced">Synchronisation completed!</string>
+    <string name="txt_already_synced">Your currencies are already synchronised.</string>
 
     <string name="settings_item_feedback_title">Feedback</string>
     <string name="settings_item_feedback_sub_title">Write email to us</string>

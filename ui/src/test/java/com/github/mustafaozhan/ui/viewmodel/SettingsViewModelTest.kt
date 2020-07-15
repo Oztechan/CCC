@@ -3,7 +3,9 @@
  */
 package com.github.mustafaozhan.ui.viewmodel
 
+import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
+import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import com.github.mustafaozhan.ui.main.MainData.Companion.DAY
@@ -18,6 +20,7 @@ import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
 import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
 import com.github.mustafaozhan.ui.main.settings.ThemeDialogEffect
 import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -28,18 +31,26 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     override lateinit var viewModel: SettingsViewModel
 
+    @MockK
+    lateinit var apiRepository: ApiRepository
+
     @RelaxedMockK
     lateinit var preferencesRepository: PreferencesRepository
 
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
 
+    @MockK
+    lateinit var offlineRatesDao: OfflineRatesDao
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = SettingsViewModel(
             preferencesRepository,
-            currencyDao
+            apiRepository,
+            currencyDao,
+            offlineRatesDao
         )
     }
 

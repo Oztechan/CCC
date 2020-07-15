@@ -25,7 +25,7 @@
 
             <ImageView
                 android:id="@+id/back_button"
-                style="@style/WrapStyle"
+                style="@style/CurrenciesBackButtonStyle"
                 android:onClick="@{()->event.onCloseClick()}"
                 android:src="@{vm.state.selectionVisibility ?  @drawable/ic_close : @drawable/ic_back}"
                 app:layout_constraintBottom_toBottomOf="parent"

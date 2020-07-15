@@ -72,7 +72,7 @@ class CalculatorViewModel
             }
 
             viewModelScope.launch {
-                currencyDao.getActiveCurrencies()
+                currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
             }
@@ -81,6 +81,7 @@ class CalculatorViewModel
 
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
+        _state._dataState.value = Cached(rates.date)
     } ?: viewModelScope.launch {
         apiRepository
             .getRatesByBase(data.currentBase)
@@ -94,6 +95,7 @@ class CalculatorViewModel
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
+            _state._dataState.value = Online(it.date)
             offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
@@ -105,12 +107,13 @@ class CalculatorViewModel
             data.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _effect.postValue(OfflineSuccessEffect(offlineRates.date))
+            _state._dataState.value = Offline(offlineRates.date)
         } ?: run {
             Timber.w(t, "no offline rate found")
             state.currencyList.value?.size
                 ?.whether { it > 1 }
                 ?.let { _effect.postValue(ErrorEffect) }
+            _state._dataState.value = Error
         }
     }.toUnit()
 

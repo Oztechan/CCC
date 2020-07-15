@@ -38,6 +38,7 @@ interface SettingsEvent : BaseEvent {
     fun onSupportUsClick()
     fun onOnGitHubClick()
     fun onRemoveAdsClick()
+    fun onSyncClick()
     fun onThemeClick()
 }
 
@@ -50,9 +51,17 @@ object SupportUsEffect : SettingsEffect()
 object OnGitHubEffect : SettingsEffect()
 object RemoveAdsEffect : SettingsEffect()
 object ThemeDialogEffect : SettingsEffect()
+object SynchronisedEffect : SettingsEffect()
+object OnlyOneTimeSyncEffect : SettingsEffect()
 data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
 
 // Data
 data class SettingsData(
     private val preferencesRepository: PreferencesRepository
-) : MainData(preferencesRepository)
+) : MainData(preferencesRepository) {
+    companion object {
+        internal const val SYNC_DELAY = 10.toLong()
+    }
+
+    var synced = false
+}

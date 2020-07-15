@@ -15,6 +15,9 @@
 
     <color name="color_transparent">#00000000</color>
 
+    <color name="color_online">#a5d6a7</color>
+    <color name="color_offline">#ef9a9a</color>
+
     <!-- Base Mob Colors -->
 
     <!-- Toast -->

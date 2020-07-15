@@ -108,6 +108,11 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
+                android:onClick="@{() -> event.onKeyPress(@string/open_parentheses)}"
+                android:text="@string/open_parentheses" />
+
+            <Button
+                style="@style/KeyboardTextStyle"
                 android:onClick="@{() -> event.onKeyPress(@string/triple_zero)}"
                 android:text="@string/triple_zero" />
 
@@ -120,6 +125,11 @@
                 style="@style/KeyboardTextStyle"
                 android:onClick="@{() -> event.onKeyPress(@string/delete)}"
                 android:text="@string/delete" />
+
+            <Button
+                style="@style/KeyboardTextStyle"
+                android:onClick="@{() -> event.onKeyPress(@string/close_parentheses)}"
+                android:text="@string/close_parentheses" />
         </TableRow>
     </TableLayout>
 </layout>

@@ -44,7 +44,7 @@ class CurrenciesViewModel
         _state._loading.value = true
 
         viewModelScope.launch {
-            currencyDao.getAllCurrencies()
+            currencyDao.collectAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
