@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:id="@+id/back_button"
-                    style="@style/SettingsBackButtonStyle"
+                    style="@style/BackButtonStyle"
                     android:onClick="@{()->event.onBackClick()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

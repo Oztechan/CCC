@@ -211,7 +211,8 @@
 
     <style name="SettingsButtonStyle" parent="WrapStyle">
         <item name="android:src">@drawable/ic_settings</item>
-        <item name="android:paddingEnd">@dimen/margin_twelve</item>
+        <item name="android:paddingEnd">@dimen/margin_eight</item>
+        <item name="android:padding">@dimen/margin_eight</item>
     </style>
 
     <!-- Bar Bottom Sheet Dialog -->
@@ -329,8 +330,11 @@
         <item name="android:background">@color/color_background</item>
     </style>
 
-    <style name="SettingsBackButtonStyle" parent="WrapStyle">
+    <style name="CurrenciesBackButtonStyle" parent="WrapStyle">
         <item name="android:padding">@dimen/margin_eight</item>
+    </style>
+
+    <style name="BackButtonStyle" parent="CurrenciesBackButtonStyle">
         <item name="android:src">@drawable/ic_back</item>
     </style>
 
