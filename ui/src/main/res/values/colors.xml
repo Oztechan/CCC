@@ -16,7 +16,9 @@
     <color name="color_transparent">#00000000</color>
 
     <color name="color_online">#a5d6a7</color>
-    <color name="color_offline">#ef9a9a</color>
+    <color name="color_cached">#90caf9</color>
+    <color name="color_offline">#ffcc80</color>
+    <color name="color_error">#ef9a9a</color>
 
     <!-- Base Mob Colors -->
 

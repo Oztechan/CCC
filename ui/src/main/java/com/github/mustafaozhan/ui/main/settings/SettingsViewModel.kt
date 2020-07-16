@@ -90,9 +90,7 @@ class SettingsViewModel
                 currencyDao.getActiveCurrencies()?.forEach { (name) ->
                     delay(SYNC_DELAY)
                     apiRepository.getRatesByBase(name).execute(
-                        {
-                            viewModelScope.launch { offlineRatesDao.insertOfflineRates(it.toRate()) }
-                        },
+                        { viewModelScope.launch { offlineRatesDao.insertOfflineRates(it.toRate()) } },
                         { error -> Timber.e(error) }
                     )
                 }

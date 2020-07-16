@@ -13,6 +13,8 @@
     <color name="color_background">#f2f2f2</color>
     <color name="color_background_strong">#ffffff</color>
 
-    <color name="color_online">#4acf50</color>
-    <color name="color_offline">#f44336</color>
+    <color name="color_online">#4caf50</color>
+    <color name="color_cached">#2196f3</color>
+    <color name="color_offline">#ff9800</color>
+    <color name="color_error">#f44336</color>
 </resources>
