@@ -108,6 +108,8 @@
 
             <Button
                 style="@style/KeyboardTextStyle"
+                android:paddingStart="@dimen/margin_sixteen"
+                android:paddingEnd="@dimen/margin_zero"
                 android:onClick="@{() -> event.onKeyPress(@string/open_parentheses)}"
                 android:text="@string/open_parentheses" />
 
@@ -127,6 +129,8 @@
                 android:text="@string/delete" />
 
             <Button
+                android:paddingStart="@dimen/margin_zero"
+                android:paddingEnd="@dimen/margin_sixteen"
                 style="@style/KeyboardTextStyle"
                 android:onClick="@{() -> event.onKeyPress(@string/close_parentheses)}"
                 android:text="@string/close_parentheses" />
