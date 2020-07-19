@@ -16,9 +16,9 @@
 
 ## Screenshots
 
-<img src="https://i.postimg.cc/sDjyhnBs/1mixx.png" width="450px"/><img src="https://i.postimg.cc/BQm3cxDD/2mixx.png" width="360px"/><img src="https://i.postimg.cc/TwvvYQM8/3mixx.png" width="450px"/><img src="https://i.postimg.cc/PxbsLZTC/4mixx.png" width="450px"/>
+<img src="https://i.postimg.cc/sDjyhnBs/1mixx.png" width="420px"/><img src="https://i.postimg.cc/BQm3cxDD/2mixx.png" width="320px"/><img src="https://i.postimg.cc/TwvvYQM8/3mixx.png" width="420px"/><img src="https://i.postimg.cc/PxbsLZTC/4mixx.png" width="420px"/>
 
-<img src="https://i.postimg.cc/Z50SfCFQ/5mixx.png" width="450px"/><img src="https://i.postimg.cc/5tCMVTrq/6mixx.png" width="450px"/><img src="https://i.postimg.cc/J01wjnzP/7mixx.png" width="450px"/><img src="https://i.postimg.cc/3x6HzYtx/8mixx.png" width="450px"/>
+<img src="https://i.postimg.cc/Z50SfCFQ/5mixx.png" width="420px"/><img src="https://i.postimg.cc/5tCMVTrq/6mixx.png" width="420px"/><img src="https://i.postimg.cc/J01wjnzP/7mixx.png" width="420px"/><img src="https://i.postimg.cc/3x6HzYtx/8mixx.png" width="420px"/>
 
 ## Included Currencies
 
