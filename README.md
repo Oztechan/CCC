@@ -16,52 +16,14 @@
 
 ## Screenshots
 
-<img src="https://i.postimg.cc/7wQ3PPVM/1.png?dl=1" width="216px"/><img src="https://i.postimg.cc/sfgWybGN/2.png?dl=1" width="216px"/><img src="https://i.postimg.cc/4s3vTHzx/3.png?dl=1" width="216px"/><img src="https://i.postimg.cc/HTcQrGvG/4.png?dl=1" width="216px"/>
+<img src="https://i.postimg.cc/sDjyhnBs/1mixx.png" width="400px"/><img src="https://i.postimg.cc/BQm3cxDD/2mixx.png" width="400px"/><img src="https://i.postimg.cc/TwvvYQM8/3mixx.png" width="400px"/><img src="https://i.postimg.cc/PxbsLZTC/4mixx.png" width="400px"/>
 
-<img src="https://i.postimg.cc/HpbXtwCB/5.png?dl=1" width="216px"/><img src="https://i.postimg.cc/ZbZ3sWbZ/6.png?dl=1" width="216px"/><img src="https://i.postimg.cc/VzxXM72J/7.png?dl=1" width="216px"/><img src="https://i.postimg.cc/cxm3pdC3/8.png?dl=1" width="216px"/>
+<img src="https://i.postimg.cc/Z50SfCFQ/5mixx.png" width="400px"/><img src="https://i.postimg.cc/5tCMVTrq/6mixx.png" width="400px"/><img src="https://i.postimg.cc/J01wjnzP/7mixx.png" width="400px"/><img src="https://i.postimg.cc/3x6HzYtx/8mixx.png" width="400px"/>
 
 ## Included Currencies
 
-<img src="https://i.postimg.cc/1yLhy6jr/cover.png?dl=1"/>
+[![currencies.png](https://i.postimg.cc/tJDKkj1y/currencies.png)](https://postimg.cc/p5hcV3Y1)
 
-## Dependencies
-```gradle
-dependencies {
-    implementation(
-            kotlin,
-            androidMaterial,
-            recyclerView,
-            constraintLayout,
-            dagger,
-            okHttp,
-            moshi,
-            materialSpinner,
-            multiDex,
-            room,
-            coroutines,
-            admob,
-            firebaseConfig,
-            snacky,
-            toasty,
-            loadingView,
-            jodaTime,
-            rxAndroid,
-            navigation,
-            retrofit.values(),
-            lifeCycle.values()
-    )
-
-    kapt(annotations.values())
-
-    testImplementation(jUnit)
-
-    implementation(files(mxParser))
-
-    implementation project(':scopemob')
-    implementation project(':basemob')
-    implementation project(':logmob')
-}
-```
 
 ### License
 Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
