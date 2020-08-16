@@ -6,15 +6,15 @@ import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object Configuration {
+object ProjectSettings {
 
     private const val mayorVersion = 2
     private const val minorVersion = 0
 
     const val applicationId = "mustafaozhan.github.com.mycurrencies"
-    const val compileSdkVersion = 29
-    const val minSdkVersion = 21
-    const val targetSdkVersion = 29
+    const val projectCompileSdkVersion = 29
+    const val projectMinSdkVersion = 21
+    const val projectTargetSdkVersion = 29
 
     fun getVersionCode(project: Project) = gitCommitCount(project).let {
         if (it.isEmpty()) 1 else it.toInt()

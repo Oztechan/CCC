@@ -2,9 +2,6 @@
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 @file:Suppress("SpellCheckingInspection")
-/*
-Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
-*/
 
 object Versions {
     const val kotlinVersion = "1.3.72"
@@ -42,7 +39,7 @@ object Dependencies {
     const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
 }
 
-object Tests {
+object TestDependencies {
     const val jUnit = "junit:junit:${Versions.jUnitVersion}"
     const val mockK = "io.mockk:mockk:${Versions.mockKVersion}"
     const val archTesting = "android.arch.core:core-testing:${Versions.archTestingVersion}"
@@ -64,14 +61,14 @@ object Classpaths {
     const val navigation = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationVersion}"
 }
 
-object Libs {
-    const val mxParser = "libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar"
-}
-
 object Modules {
     const val ui = ":ui"
     const val data = ":data"
     const val basemob = ":basemob"
     const val logmob = ":logmob"
     const val scopemob = ":scopemob"
+}
+
+object Libs {
+    const val mxParser = "libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar"
 }

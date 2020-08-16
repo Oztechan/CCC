@@ -9,49 +9,57 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Configuration.compileSdkVersion)
+    with(ProjectSettings) {
+        compileSdkVersion(projectCompileSdkVersion)
 
-    defaultConfig {
-        minSdkVersion(Configuration.minSdkVersion)
-        targetSdkVersion(Configuration.targetSdkVersion)
+        defaultConfig {
+            minSdkVersion(projectMinSdkVersion)
+            targetSdkVersion(projectTargetSdkVersion)
 
-        versionCode = Configuration.getVersionCode(project)
-        versionName = Configuration.getVersionName(project)
-    }
+            versionCode = getVersionCode(project)
+            versionName = getVersionName(project)
+        }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
 
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
+        buildFeatures {
+            viewBinding = true
+            dataBinding = true
+        }
     }
 }
 
 dependencies {
+    with(Dependencies) {
+        implementation(kotlin)
+        implementation(androidMaterial)
+        implementation(constraintLayout)
+        implementation(dagger)
+        implementation(timber)
+        implementation(admob)
+        implementation(navigation)
+    }
+    with(Annotations) {
+        kapt(daggerCompiler)
+        kapt(daggerProcessor)
+    }
 
-    implementation(Dependencies.kotlin)
-    implementation(Dependencies.androidMaterial)
-    implementation(Dependencies.constraintLayout)
-    implementation(Dependencies.dagger)
-    implementation(Dependencies.timber)
-    implementation(Dependencies.admob)
-    implementation(Dependencies.navigation)
+    with(TestDependencies) {
+        testImplementation(jUnit)
+        testImplementation(mockK)
+        testImplementation(archTesting)
+        testImplementation(coroutinesTest)
+    }
 
-    kapt(Annotations.daggerCompiler)
-    kapt(Annotations.daggerProcessor)
+    with(Modules) {
+        implementation(project(data))
 
-    testImplementation(Tests.jUnit)
-    testImplementation(Tests.mockK)
-    testImplementation(Tests.archTesting)
-    testImplementation(Tests.coroutinesTest)
-
-    implementation(project(Modules.data))
-
-    implementation(project(Modules.scopemob))
-    implementation(project(Modules.basemob))
+        implementation(project(scopemob))
+        implementation(project(basemob))
+    }
 
     implementation(files(Libs.mxParser))
 }

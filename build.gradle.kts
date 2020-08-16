@@ -7,11 +7,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath(Classpaths.androidBuildTools)
-        classpath(Classpaths.kotlinGradlePlugin)
-        classpath(Classpaths.gsmGoogle)
-        classpath(Classpaths.crashlytics)
-        classpath(Classpaths.navigation)
+        with(Classpaths) {
+            classpath(androidBuildTools)
+            classpath(kotlinGradlePlugin)
+            classpath(gsmGoogle)
+            classpath(crashlytics)
+            classpath(navigation)
+        }
     }
 }
 

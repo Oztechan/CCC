@@ -11,42 +11,47 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Configuration.compileSdkVersion)
+    with(ProjectSettings) {
+        compileSdkVersion(projectCompileSdkVersion)
 
-    defaultConfig {
-        minSdkVersion(Configuration.minSdkVersion)
-        targetSdkVersion(Configuration.targetSdkVersion)
+        defaultConfig {
+            minSdkVersion(projectMinSdkVersion)
+            targetSdkVersion(projectTargetSdkVersion)
 
-        multiDexEnabled = true
-        applicationId = Configuration.applicationId
+            multiDexEnabled = true
+            applicationId = applicationId
 
-        versionCode = Configuration.getVersionCode(project)
-        versionName = Configuration.getVersionName(project)
-    }
+            versionCode = getVersionCode(project)
+            versionName = getVersionName(project)
+        }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
 
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
+        buildFeatures {
+            viewBinding = true
+            dataBinding = true
+        }
     }
 }
 
 dependencies {
-    implementation(Dependencies.kotlin)
-    implementation(Dependencies.dagger)
-    implementation(Dependencies.multiDex)
-    implementation(Dependencies.roomRuntime)
-
+    with(Dependencies) {
+        implementation(kotlin)
+        implementation(dagger)
+        implementation(multiDex)
+        implementation(roomRuntime)
+    }
     kapt(Annotations.daggerCompiler)
 
-    implementation(project(Modules.ui))
+    with(Modules) {
+        implementation(project(ui))
 
-    implementation(project(Modules.data))
+        implementation(project(data))
 
-    implementation(project(Modules.basemob))
-    implementation(project(Modules.logmob))
+        implementation(project(basemob))
+        implementation(project(logmob))
+    }
 }
