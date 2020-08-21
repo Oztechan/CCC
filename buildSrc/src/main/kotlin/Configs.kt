@@ -4,7 +4,7 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     const val androidPluginVersion = "4.0.1"
     const val gsmVersion = "4.3.3"
     const val crashlyticsVersion = "2.1.0"
@@ -27,6 +27,7 @@ object Versions {
     const val anrWatchDogVersion = "1.4.0"
     const val moshiConverterVersion = "2.9.0"
     const val okhttpInterceptorVersion = "4.8.1"
+    const val versionsVersion = "0.29.0"
 }
 
 object Dependencies {
@@ -81,4 +82,18 @@ object Modules {
 
 object Libs {
     const val mxParser = "libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar"
+}
+
+object Plugins {
+    // Id
+    const val application = "com.android.application"
+    const val library = "com.android.library"
+    const val crashlytics = "com.google.firebase.crashlytics"
+    const val googleServices = "com.google.gms.google-services"
+    const val versions = "com.github.ben-manes.versions"
+    const val safeargs = "androidx.navigation.safeargs"
+
+    // Kapt
+    const val android = "android"
+    const val kapt = "kapt"
 }
