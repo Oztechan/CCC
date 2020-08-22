@@ -103,19 +103,20 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun showRewardedAd() = rewardedAd
-        .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
+        .whether { isLoaded }
+        ?.show(requireActivity(), object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
             override fun onRewardedAdClosed() = Unit
-            override fun onRewardedAdFailedToShow(errorCode: Int) = Toast.show(
-                requireContext(),
-                R.string.error_text_unknown
-            )
+            override fun onRewardedAdFailedToShow(errorCode: Int) = context?.let {
+                Toast.show(it, R.string.error_text_unknown)
+            }.toUnit()
 
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
                 settingsViewModel.updateAddFreeDate()
-                val intent = requireActivity().intent
-                requireActivity().finish()
-                startActivity(intent)
+                activity?.run {
+                    finish()
+                    startActivity(intent)
+                }
             }
         }).toUnit()
 
@@ -123,10 +124,10 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() = showRewardedAd()
-            override fun onRewardedAdFailedToLoad(errorCode: Int) = Toast.show(
-                requireContext(),
-                R.string.error_text_unknown
-            )
+            override fun onRewardedAdFailedToLoad(errorCode: Int) =
+                context?.let {
+                    Toast.show(it, R.string.error_text_unknown)
+                }.toUnit()
         })
     }
 
