@@ -91,11 +91,11 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                         R.id.currenciesFragment,
                         CurrenciesFragmentDirections.actionCurrenciesFragmentToCalculatorFragment()
                     )
-                    requireView().hideKeyboard()
+                    view?.run { hideKeyboard() }
                 }
                 BackEffect -> {
                     getBaseActivity()?.onBackPressed()
-                    requireView().hideKeyboard()
+                    view?.run { hideKeyboard() }
                 }
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(R.id.calculatorFragment, viewEffect.newBase, KEY_BASE_CURRENCY)
