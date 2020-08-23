@@ -8,7 +8,6 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.util.Toast.show
 import com.github.mustafaozhan.basemob.util.reObserve
@@ -77,13 +76,13 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
             adapter = currenciesAdapter
         }
 
-        currenciesViewModel.state.currencyList.reObserve(viewLifecycleOwner, Observer {
+        currenciesViewModel.state.currencyList.reObserve(viewLifecycleOwner, {
             currenciesAdapter.submitList(it)
         })
     }
 
     private fun observeEffect() = currenciesViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> {
@@ -91,11 +90,11 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                         R.id.currenciesFragment,
                         CurrenciesFragmentDirections.actionCurrenciesFragmentToCalculatorFragment()
                     )
-                    requireView().hideKeyboard()
+                    view?.run { hideKeyboard() }
                 }
                 BackEffect -> {
                     getBaseActivity()?.onBackPressed()
-                    requireView().hideKeyboard()
+                    view?.run { hideKeyboard() }
                 }
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(R.id.calculatorFragment, viewEffect.newBase, KEY_BASE_CURRENCY)

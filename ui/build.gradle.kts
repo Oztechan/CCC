@@ -2,10 +2,12 @@
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 plugins {
-    id("com.android.library")
-    id("androidx.navigation.safeargs")
-    kotlin("android")
-    kotlin("kapt")
+    with(Plugins) {
+        id(library)
+        id(safeargs)
+        kotlin(android)
+        kotlin(kapt)
+    }
 }
 
 android {

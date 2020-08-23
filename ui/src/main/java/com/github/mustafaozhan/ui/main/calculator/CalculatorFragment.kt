@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ui.main.calculator
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.getNavigationResult
 import com.github.mustafaozhan.basemob.util.reObserve
@@ -53,12 +52,12 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
-        ?.reObserve(viewLifecycleOwner, Observer {
+        ?.reObserve(viewLifecycleOwner, {
             calculatorViewModel.verifyCurrentBase(it)
         })
 
     private fun observeEffect() = calculatorViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> Toast.show(requireContext(), R.string.error_text_unknown)
                 FewCurrencyEffect -> showSnack(requireView(), R.string.choose_at_least_two_currency, R.string.select) {
@@ -88,7 +87,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         binding.recyclerViewMain.adapter = calculatorAdapter
 
         with(calculatorViewModel) {
-            state.currencyList.reObserve(viewLifecycleOwner, Observer {
+            state.currencyList.reObserve(viewLifecycleOwner, {
                 calculatorAdapter.submitList(it, data.currentBase)
             })
         }

@@ -3,11 +3,14 @@
  */
 
 plugins {
-    id("com.android.application")
-    id("com.google.firebase.crashlytics")
-    id("com.google.gms.google-services")
-    kotlin("android")
-    kotlin("kapt")
+    with(Plugins) {
+        id(application)
+        id(crashlytics)
+        id(googleServices)
+        id(versions) version Versions.versionsVersion
+        kotlin(android)
+        kotlin(kapt)
+    }
 }
 
 android {

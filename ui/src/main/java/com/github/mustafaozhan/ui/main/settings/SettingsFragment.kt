@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Observer
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
@@ -30,6 +29,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
@@ -58,7 +58,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun observeEffect() = settingsViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, { viewEffect ->
             when (viewEffect) {
                 BackEffect -> getBaseActivity()?.onBackPressed()
                 CurrenciesEffect -> navigate(
@@ -66,22 +66,20 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
                 FeedBackEffect -> sendFeedBack()
+                ShareEffect -> share()
                 SupportUsEffect -> showDialog(
                     requireActivity(),
                     R.string.support_us,
                     R.string.rate_and_support,
                     R.string.rate
-                ) {
-                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
-                }
+                ) { startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link)))) }
                 OnGitHubEffect -> startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
                 RemoveAdsEffect -> showDialog(
                     requireActivity(),
                     R.string.remove_ads,
                     R.string.remove_ads_text,
-                    R.string.watch) {
-                    prepareRewardedAd()
-                }
+                    R.string.watch
+                ) { prepareRewardedAd() }
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
@@ -103,19 +101,20 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun showRewardedAd() = rewardedAd
-        .whether { isLoaded }?.show(requireActivity(), object : RewardedAdCallback() {
+        .whether { isLoaded }
+        ?.show(requireActivity(), object : RewardedAdCallback() {
             override fun onRewardedAdOpened() = Unit
             override fun onRewardedAdClosed() = Unit
-            override fun onRewardedAdFailedToShow(errorCode: Int) = Toast.show(
-                requireContext(),
-                R.string.error_text_unknown
-            )
+            override fun onRewardedAdFailedToShow(errorCode: Int) = context?.let {
+                Toast.show(it, R.string.error_text_unknown)
+            }.toUnit()
 
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
                 settingsViewModel.updateAddFreeDate()
-                val intent = requireActivity().intent
-                requireActivity().finish()
-                startActivity(intent)
+                activity?.run {
+                    finish()
+                    startActivity(intent)
+                }
             }
         }).toUnit()
 
@@ -123,10 +122,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() = showRewardedAd()
-            override fun onRewardedAdFailedToLoad(errorCode: Int) = Toast.show(
-                requireContext(),
-                R.string.error_text_unknown
-            )
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = context?.let {
+                Toast.show(it, R.string.error_text_unknown)
+            }.toUnit()
         })
     }
 
@@ -135,6 +133,12 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             intent.resolveActivity(it)?.let { startActivity(intent) }
         }
     }
+
+    private fun share() = Intent(Intent.ACTION_SEND).apply {
+        type = MainData.TEXT_TYPE
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.app_market_link))
+        startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
+    }.toUnit()
 
     private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
         type = MainData.TEXT_EMAIL_TYPE

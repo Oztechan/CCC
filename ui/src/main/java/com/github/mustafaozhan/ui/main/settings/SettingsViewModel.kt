@@ -76,6 +76,8 @@ class SettingsViewModel
 
     override fun onFeedBackClick() = _effect.postValue(FeedBackEffect)
 
+    override fun onShareClick() = _effect.postValue(ShareEffect)
+
     override fun onSupportUsClick() = _effect.postValue(SupportUsEffect)
 
     override fun onOnGitHubClick() = _effect.postValue(OnGitHubEffect)
