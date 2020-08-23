@@ -37,11 +37,15 @@ fun TextView.dataState(state: DataState) = when (state) {
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
     }
     is Offline -> {
-        text = context.getString(R.string.text_offline_last_updated, state.lastUpdate)
+        text = if (state.lastUpdate.isNullOrEmpty()) {
+            context.getString(R.string.text_offline)
+        } else {
+            context.getString(R.string.text_offline_last_updated, state.lastUpdate)
+        }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
     }
     Error -> {
-        text = context.getString(R.string.text_offline)
+        text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
     }
 }
