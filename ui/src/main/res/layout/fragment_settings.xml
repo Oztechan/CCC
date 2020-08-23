@@ -49,7 +49,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.core.widget.NestedScrollView
-            style="@style/FitStyle"
+            style="@style/SettingsScrollViewStyle"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

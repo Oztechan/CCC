@@ -76,6 +76,7 @@
     </style>
 
     <style name="BaseToolbarStyle">
+        <item name="android:layout_marginTop">@dimen/margin_twelve</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
@@ -333,6 +334,10 @@
 
     <!-- Settings -->
     <style name="SettingsLayoutStyle" parent="MatchStyle">
+        <item name="android:background">@color/color_background_strong</item>
+    </style>
+
+    <style name="SettingsScrollViewStyle" parent="FitStyle">
         <item name="android:background">@color/color_background</item>
     </style>
 

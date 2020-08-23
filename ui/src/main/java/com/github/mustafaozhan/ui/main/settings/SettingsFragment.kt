@@ -71,17 +71,14 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     R.string.support_us,
                     R.string.rate_and_support,
                     R.string.rate
-                ) {
-                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
-                }
+                ) { startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link)))) }
                 OnGitHubEffect -> startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
                 RemoveAdsEffect -> showDialog(
                     requireActivity(),
                     R.string.remove_ads,
                     R.string.remove_ads_text,
-                    R.string.watch) {
-                    prepareRewardedAd()
-                }
+                    R.string.watch
+                ) { prepareRewardedAd() }
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
@@ -124,10 +121,9 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onRewardedAdLoaded() = showRewardedAd()
-            override fun onRewardedAdFailedToLoad(errorCode: Int) =
-                context?.let {
-                    Toast.show(it, R.string.error_text_unknown)
-                }.toUnit()
+            override fun onRewardedAdFailedToLoad(errorCode: Int) = context?.let {
+                Toast.show(it, R.string.error_text_unknown)
+            }.toUnit()
         })
     }
 
