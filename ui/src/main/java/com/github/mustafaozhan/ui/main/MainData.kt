@@ -16,6 +16,7 @@ open class MainData(
         internal const val AD_INITIAL_DELAY: Long = 45000
         internal const val AD_PERIOD: Long = 180000
         internal const val TEXT_EMAIL_TYPE = "text/email"
+        internal const val TEXT_TYPE = "text/plain"
         internal const val KEY_BASE_CURRENCY = "base_currency"
         internal const val DAY = (24 * 60 * 60 * 1000).toLong()
     }

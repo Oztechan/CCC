@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Observer
 import com.github.mustafaozhan.basemob.util.Toast
 import com.github.mustafaozhan.basemob.util.reObserve
 import com.github.mustafaozhan.basemob.util.showDialog
@@ -30,6 +29,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     @Inject
     lateinit var settingsViewModel: SettingsViewModel
@@ -58,7 +58,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun observeEffect() = settingsViewModel.effect
-        .reObserve(viewLifecycleOwner, Observer { viewEffect ->
+        .reObserve(viewLifecycleOwner, { viewEffect ->
             when (viewEffect) {
                 BackEffect -> getBaseActivity()?.onBackPressed()
                 CurrenciesEffect -> navigate(
@@ -66,6 +66,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
                 FeedBackEffect -> sendFeedBack()
+                ShareEffect -> share()
                 SupportUsEffect -> showDialog(
                     requireActivity(),
                     R.string.support_us,
@@ -132,6 +133,12 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
             intent.resolveActivity(it)?.let { startActivity(intent) }
         }
     }
+
+    private fun share() = Intent(Intent.ACTION_SEND).apply {
+        type = MainData.TEXT_TYPE
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.app_market_link))
+        startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
+    }.toUnit()
 
     private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
         type = MainData.TEXT_EMAIL_TYPE

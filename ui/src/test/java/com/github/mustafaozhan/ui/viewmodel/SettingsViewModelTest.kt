@@ -17,6 +17,7 @@ import com.github.mustafaozhan.ui.main.settings.FeedBackEffect
 import com.github.mustafaozhan.ui.main.settings.OnGitHubEffect
 import com.github.mustafaozhan.ui.main.settings.RemoveAdsEffect
 import com.github.mustafaozhan.ui.main.settings.SettingsViewModel
+import com.github.mustafaozhan.ui.main.settings.ShareEffect
 import com.github.mustafaozhan.ui.main.settings.SupportUsEffect
 import com.github.mustafaozhan.ui.main.settings.ThemeDialogEffect
 import io.mockk.MockKAnnotations
@@ -88,6 +89,12 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `feedback click`() = with(viewModel) {
         getEvent().onFeedBackClick()
         assertEquals(FeedBackEffect, effect.value)
+    }
+
+    @Test
+    fun `share click`() = with(viewModel) {
+        getEvent().onShareClick()
+        assertEquals(ShareEffect, effect.value)
     }
 
     @Test

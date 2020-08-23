@@ -123,6 +123,9 @@
     <string name="settings_item_feedback_title">Feedback</string>
     <string name="settings_item_feedback_sub_title">Write email to us</string>
 
+    <string name="settings_item_share_title">Share</string>
+    <string name="settings_item_share_sub_title">Suggest us to your friends</string>
+
     <string name="settings_item_support_us_title">Support Us</string>
     <string name="settings_item_support_us_sub_title">Give review or star in market</string>
 

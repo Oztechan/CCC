@@ -134,6 +134,18 @@
                     app:title="@{@string/settings_item_feedback_title}" />
 
                 <include
+                    android:id="@+id/item_share"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onShareClick()}"
+                    app:iconRes="@{@drawable/ic_share}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_feedback"
+                    app:subTitle="@{@string/settings_item_share_sub_title}"
+                    app:title="@{@string/settings_item_share_title}" />
+
+                <include
                     android:id="@+id/item_on_github"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
@@ -141,7 +153,7 @@
                     app:iconRes="@{@drawable/ic_on_github}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_feedback"
+                    app:layout_constraintTop_toBottomOf="@+id/item_share"
                     app:subTitle="@{@string/settings_item_on_github_sub_title}"
                     app:title="@{@string/settings_item_on_github_title}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
