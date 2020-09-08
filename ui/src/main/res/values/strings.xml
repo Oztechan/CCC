@@ -50,11 +50,8 @@
     <string name="error_text_unknown">Check your connection or try again later.</string>
 
     <!--Dialog-->
-    <string name="rate_and_support">Please rate us and review the app on Google Play Store :)</string>
-    <string name="rate">RATE</string>
     <string name="update">Update</string>
     <string name="github_url">https://github.com/CurrencyConverterCalculator/androidCCC</string>
-    <string name="support_us">Support Us !</string>
 
     <!--Mail-->
     <string name="mail_developer">mr.mustafa.ozhan@gmail.com\</string>
@@ -125,9 +122,6 @@
 
     <string name="settings_item_share_title">Share</string>
     <string name="settings_item_share_sub_title">Suggest us to your friends</string>
-
-    <string name="settings_item_support_us_title">Support Us</string>
-    <string name="settings_item_support_us_sub_title">Give review or star in market</string>
 
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>

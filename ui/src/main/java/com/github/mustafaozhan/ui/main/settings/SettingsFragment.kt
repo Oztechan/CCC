@@ -67,12 +67,6 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 )
                 FeedBackEffect -> sendFeedBack()
                 ShareEffect -> share()
-                SupportUsEffect -> showDialog(
-                    requireActivity(),
-                    R.string.support_us,
-                    R.string.rate_and_support,
-                    R.string.rate
-                ) { startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link)))) }
                 OnGitHubEffect -> startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url))))
                 RemoveAdsEffect -> showDialog(
                     requireActivity(),
