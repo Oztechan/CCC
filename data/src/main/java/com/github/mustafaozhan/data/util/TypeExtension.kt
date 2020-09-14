@@ -17,6 +17,7 @@ import java.util.Date
 import java.util.Locale
 
 private const val DATE_FORMAT = "HH:mm MM.dd.yyyy"
+private const val MAXIMUM_FLOATING_POINT = 15
 
 fun String.toStandardDigits(): String {
     val builder = StringBuilder()
@@ -40,9 +41,19 @@ fun String.toSupportedCharacters() =
 fun String.toPercent() = replace("%", "/100*")
 
 fun Double.getFormatted(): String {
+
+    var decimalFormat = "###,###.###"
     val symbols = DecimalFormatSymbols.getInstance()
     symbols.groupingSeparator = ' '
-    return DecimalFormat("###,###.###", symbols).format(this)
+
+    // increasing floating digits for too small numbers
+    for (i in 0..MAXIMUM_FLOATING_POINT) {
+        if (DecimalFormat(decimalFormat, symbols).format(this) == "0") {
+            decimalFormat = "$decimalFormat#"
+        }
+    }
+
+    return DecimalFormat(decimalFormat, symbols).format(this)
 }
 
 fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
