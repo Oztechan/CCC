@@ -65,7 +65,7 @@ data class CalculatorData(
 ) : MainData(preferencesRepository) {
 
     companion object {
-        internal const val MAXIMUM_INPUT = 15
+        internal const val MAXIMUM_INPUT = 18
         internal const val KEY_DEL = "DEL"
         internal const val KEY_AC = "AC"
         internal const val CHAR_DOT = '.'
