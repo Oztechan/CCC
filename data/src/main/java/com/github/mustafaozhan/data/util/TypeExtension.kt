@@ -52,7 +52,7 @@ fun Double.getFormatted(): String {
             decimalFormat = "$decimalFormat#"
         }
     }
-
+    decimalFormat = "$decimalFormat#"
     return DecimalFormat(decimalFormat, symbols).format(this)
 }
 
