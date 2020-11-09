@@ -78,6 +78,8 @@ class SettingsViewModel
 
     override fun onShareClick() = _effect.postValue(ShareEffect)
 
+    override fun onSupportUsClick() = _effect.postValue(SupportUsEffect)
+
     override fun onOnGitHubClick() = _effect.postValue(OnGitHubEffect)
 
     override fun onRemoveAdsClick() = _effect.postValue(RemoveAdsEffect)

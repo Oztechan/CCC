@@ -110,6 +110,18 @@
                     app:title="@{@string/settings_item_sync_title}" />
 
                 <include
+                    android:id="@+id/item_support_us"
+                    style="@style/WideFitStyle"
+                    layout="@layout/item_settings"
+                    android:onClick="@{()->event.onSupportUsClick()}"
+                    app:iconRes="@{@drawable/ic_store}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_sync"
+                    app:subTitle="@{@string/settings_item_support_us_sub_title}"
+                    app:title="@{@string/settings_item_support_us_title}" />
+
+                <include
                     android:id="@+id/item_feedback"
                     style="@style/WideFitStyle"
                     layout="@layout/item_settings"
@@ -117,7 +129,7 @@
                     app:iconRes="@{@drawable/ic_email}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/item_sync"
+                    app:layout_constraintTop_toBottomOf="@+id/item_support_us"
                     app:subTitle="@{@string/settings_item_feedback_sub_title}"
                     app:title="@{@string/settings_item_feedback_title}" />
 
