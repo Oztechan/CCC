@@ -86,7 +86,7 @@ open class MainActivity : BaseActivity() {
     private fun checkReview() {
         ReviewManagerFactory.create(this).apply {
             requestReviewFlow().addOnCompleteListener { request ->
-                if (request.isSuccessful && mainViewModel.data.shouldReviewShow) {
+                if (request.isSuccessful && mainViewModel.data.shouldRequestReview) {
                     launchReviewFlow(this@MainActivity, request.result)
                 }
             }

@@ -27,6 +27,7 @@ open class MainData(
     var firstRun
         get() = preferencesRepository.firstRun
         set(value) {
+            if (!value) preferencesRepository.firstRunDate = System.currentTimeMillis()
             preferencesRepository.firstRun = value
         }
 
@@ -48,9 +49,6 @@ open class MainData(
             preferencesRepository.adFreeActivatedDate = value
         }
 
-    var shouldReviewShow
+    val shouldRequestReview
         get() = (System.currentTimeMillis() - preferencesRepository.firstRunDate) >= DAY
-        set(_) {
-            preferencesRepository.firstRunDate = System.currentTimeMillis()
-        }
 }
