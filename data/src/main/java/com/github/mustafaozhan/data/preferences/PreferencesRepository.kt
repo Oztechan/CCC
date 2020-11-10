@@ -20,6 +20,7 @@ class PreferencesRepository
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
         private const val KEY_APP_THEME = "app_theme"
+        private const val KEY_FIRST_RUN_DATE = "first_run_date"
     }
 
     override val preferencesName: String
@@ -40,4 +41,8 @@ class PreferencesRepository
     var adFreeActivatedDate
         get() = getValue(KEY_AD_FREE_DATE, 0.toLong())
         set(value) = setValue(KEY_AD_FREE_DATE, value)
+
+    var firstRunDate: Long
+        get() = getValue(KEY_FIRST_RUN_DATE, System.currentTimeMillis())
+        set(value) = setValue(KEY_FIRST_RUN_DATE, value)
 }

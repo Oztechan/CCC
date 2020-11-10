@@ -44,7 +44,6 @@ dependencies {
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
-        implementation(playCoreKtx)
     }
     with(Annotations) {
         kapt(daggerCompiler)

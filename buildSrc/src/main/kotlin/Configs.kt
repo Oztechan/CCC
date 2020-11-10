@@ -29,7 +29,6 @@ object Versions {
     const val okhttpInterceptorVersion = "4.8.1"
     const val versionsVersion = "0.29.0"
     const val playCoreVersion = "1.8.0"
-    const val playCoreKtxVersion = "1.8.1"
 }
 
 object Dependencies {
@@ -51,7 +50,6 @@ object Dependencies {
     const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverterVersion}"
     const val okhttpInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpInterceptorVersion}"
     const val playCore = "com.google.android.play:core:${Versions.playCoreVersion}"
-    const val playCoreKtx = "com.google.android.play:core-ktx:${Versions.playCoreKtxVersion}"
 }
 
 object TestDependencies {

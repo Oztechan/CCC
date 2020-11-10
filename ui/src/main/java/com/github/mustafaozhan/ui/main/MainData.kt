@@ -47,4 +47,10 @@ open class MainData(
         set(value) {
             preferencesRepository.adFreeActivatedDate = value
         }
+
+    var shouldReviewShow
+        get() = (System.currentTimeMillis() - preferencesRepository.firstRunDate) >= DAY
+        set(_) {
+            preferencesRepository.firstRunDate = System.currentTimeMillis()
+        }
 }

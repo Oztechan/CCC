@@ -117,6 +117,7 @@ class CurrenciesViewModel
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
         ?: run {
+            data.shouldReviewShow = false
             data.firstRun = false
             _effect.postValue(CalculatorEffect)
         }

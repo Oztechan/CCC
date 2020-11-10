@@ -17,10 +17,12 @@ import com.github.mustafaozhan.ui.main.MainData.Companion.BACK_DELAY
 import com.github.mustafaozhan.ui.util.updateBaseContextLocale
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 open class MainActivity : BaseActivity() {
@@ -38,6 +40,7 @@ open class MainActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
         setContentView(R.layout.activity_main)
         checkDestination()
+        checkReview()
         prepareInterstitialAd()
     }
 
@@ -57,6 +60,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun setupInterstitialAd() {
+        Timber.d("MainActivity setupInterstitialAd")
         adVisibility = true
 
         adJob = lifecycle.coroutineScope.launch {
@@ -77,6 +81,16 @@ open class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         setupInterstitialAd()
+    }
+
+    private fun checkReview() {
+        ReviewManagerFactory.create(this).apply {
+            requestReviewFlow().addOnCompleteListener { request ->
+                if (request.isSuccessful && mainViewModel.data.shouldReviewShow) {
+                    launchReviewFlow(this@MainActivity, request.result)
+                }
+            }
+        }
     }
 
     override fun onPause() {
