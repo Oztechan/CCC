@@ -85,13 +85,15 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun checkReview() {
-        lifecycle.coroutineScope.launch {
-            delay(REVIEW_DELAY)
+        if (mainViewModel.data.shouldRequestReview) {
+            lifecycle.coroutineScope.launch {
+                delay(REVIEW_DELAY)
 
-            ReviewManagerFactory.create(this@MainActivity).apply {
-                requestReviewFlow().addOnCompleteListener { request ->
-                    if (request.isSuccessful && mainViewModel.data.shouldRequestReview) {
-                        launchReviewFlow(this@MainActivity, request.result)
+                ReviewManagerFactory.create(this@MainActivity).apply {
+                    requestReviewFlow().addOnCompleteListener { request ->
+                        if (request.isSuccessful) {
+                            launchReviewFlow(this@MainActivity, request.result)
+                        }
                     }
                 }
             }
