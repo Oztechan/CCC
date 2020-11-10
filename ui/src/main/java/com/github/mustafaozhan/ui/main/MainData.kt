@@ -20,6 +20,7 @@ open class MainData(
         internal const val TEXT_TYPE = "text/plain"
         internal const val KEY_BASE_CURRENCY = "base_currency"
         internal const val DAY = (24 * 60 * 60 * 1000).toLong()
+        internal const val WEEK = 7 * DAY
     }
 
     val isRewardExpired
@@ -51,5 +52,5 @@ open class MainData(
         }
 
     val shouldRequestReview
-        get() = (System.currentTimeMillis() - preferencesRepository.firstRunDate) >= DAY
+        get() = (System.currentTimeMillis() - preferencesRepository.firstRunDate) >= WEEK
 }
