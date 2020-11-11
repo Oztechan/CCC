@@ -9,17 +9,17 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.github.mustafaozhan.basemob.util.Toast.show
-import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentCurrenciesBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.main.currencies.CurrenciesData.Companion.SPAN_LANDSCAPE
 import com.github.mustafaozhan.ui.main.currencies.CurrenciesData.Companion.SPAN_PORTRAIT
+import com.github.mustafaozhan.ui.util.Toast.show
 import com.github.mustafaozhan.ui.util.hideKeyboard
+import com.github.mustafaozhan.ui.util.reObserve
 import com.github.mustafaozhan.ui.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ui.util.setNavigationResult
 import javax.inject.Inject
 
 class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {

@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ui.main.currencies
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
@@ -17,6 +16,7 @@ import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import com.github.mustafaozhan.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ui.util.toUnit
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
