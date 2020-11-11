@@ -43,6 +43,7 @@ dependencies {
         implementation(timber)
         implementation(admob)
         implementation(navigation)
+        implementation(playCore)
     }
     with(Annotations) {
         kapt(daggerCompiler)

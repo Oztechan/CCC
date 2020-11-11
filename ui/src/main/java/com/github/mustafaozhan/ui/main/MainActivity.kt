@@ -14,9 +14,11 @@ import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.main.MainData.Companion.AD_INITIAL_DELAY
 import com.github.mustafaozhan.ui.main.MainData.Companion.AD_PERIOD
 import com.github.mustafaozhan.ui.main.MainData.Companion.BACK_DELAY
+import com.github.mustafaozhan.ui.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ui.util.updateBaseContextLocale
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -38,6 +40,7 @@ open class MainActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
         setContentView(R.layout.activity_main)
         checkDestination()
+        checkReview()
         prepareInterstitialAd()
     }
 
@@ -77,6 +80,22 @@ open class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         setupInterstitialAd()
+    }
+
+    private fun checkReview() {
+        if (mainViewModel.data.shouldRequestReview) {
+            lifecycle.coroutineScope.launch {
+                delay(REVIEW_DELAY)
+
+                ReviewManagerFactory.create(this@MainActivity).apply {
+                    requestReviewFlow().addOnCompleteListener { request ->
+                        if (request.isSuccessful) {
+                            launchReviewFlow(this@MainActivity, request.result)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onPause() {
