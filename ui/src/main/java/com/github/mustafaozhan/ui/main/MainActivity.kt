@@ -23,7 +23,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 open class MainActivity : BaseActivity() {
@@ -61,7 +60,6 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun setupInterstitialAd() {
-        Timber.d("MainActivity setupInterstitialAd")
         adVisibility = true
 
         adJob = lifecycle.coroutineScope.launch {
