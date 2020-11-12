@@ -6,12 +6,12 @@ package com.github.mustafaozhan.ui.main.bar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.util.reObserve
-import com.github.mustafaozhan.basemob.util.setNavigationResult
 import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import com.github.mustafaozhan.ui.R
 import com.github.mustafaozhan.ui.databinding.FragmentBottomSheetBarBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ui.util.reObserve
+import com.github.mustafaozhan.ui.util.setNavigationResult
 import javax.inject.Inject
 
 class BarBottomSheetDialogFragment : BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {

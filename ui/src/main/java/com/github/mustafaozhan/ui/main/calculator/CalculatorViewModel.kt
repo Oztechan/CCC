@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ui.main.calculator
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
 import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
@@ -30,6 +29,7 @@ import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.CHAR_
 import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ui.main.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import com.github.mustafaozhan.ui.util.toUnit
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

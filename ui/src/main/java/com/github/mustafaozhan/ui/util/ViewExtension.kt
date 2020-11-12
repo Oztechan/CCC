@@ -8,7 +8,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.github.mustafaozhan.basemob.util.toUnit
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.ui.R
 import com.google.android.gms.ads.AdRequest
