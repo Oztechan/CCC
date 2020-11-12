@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.github.mustafaozhan.ui.R
 
 @Suppress("unused")
 object Toast {

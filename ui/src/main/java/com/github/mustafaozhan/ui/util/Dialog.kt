@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ui.util
 
 import android.app.Activity
 import android.app.AlertDialog
+import com.github.mustafaozhan.ui.R
 
 @Suppress("LongParameterList")
 fun showDialog(

@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.github.mustafaozhan.ui.R
 import com.google.android.material.snackbar.Snackbar
 
 private const val IMAGE_PADDING = 24

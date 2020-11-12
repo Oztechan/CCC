@@ -23,6 +23,40 @@
 
     <style name="AppTheme" parent="BaseAppTheme" />
 
+    <!-- Dialog -->
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/color_background_dialog</item>
+        <item name="android:textColorPrimary">@color/color_text_message_dialog</item>
+        <item name="android:textColorAlertDialogListItem">@color/color_text_message_dialog</item>
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:windowTitleStyle">@style/AlertDialogTitleStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/AlertDialogPositiveStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AlertDialogNegativeStyle</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/AlertDialogNeutralStyle</item>
+    </style>
+
+    <style name="AlertDialogTitleStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">@color/color_text_title_dialog</item>
+        <item name="android:fontFamily">@font/news_cycle_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AlertDialogPositiveStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_text_positive_button_dialog</item>
+    </style>
+
+    <style name="AlertDialogNegativeStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_text_neutral_button_dialog</item>
+    </style>
+
+    <style name="AlertDialogNeutralStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_text_neutral_button_dialog</item>
+    </style>
+
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/color_text</item>
     </style>
