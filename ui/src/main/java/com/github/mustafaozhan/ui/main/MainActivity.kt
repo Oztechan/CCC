@@ -83,7 +83,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun checkReview() {
-        if (mainViewModel.data.shouldRequestReview) {
+        if (mainViewModel.shouldShowReview()) {
             lifecycle.coroutineScope.launch {
                 delay(REVIEW_DELAY)
 
@@ -91,6 +91,7 @@ open class MainActivity : BaseActivity() {
                     requestReviewFlow().addOnCompleteListener { request ->
                         if (request.isSuccessful) {
                             launchReviewFlow(this@MainActivity, request.result)
+                            mainViewModel.setLastReview()
                         }
                     }
                 }
