@@ -3,6 +3,6 @@
  */
 package com.github.mustafaozhan.data.model
 
-import com.github.mustafaozhan.basemob.error.NetworkException
+import com.github.mustafaozhan.data.error.NetworkException
 
 class NullBaseException : NetworkException(Exception("Base currency can not be null"))
