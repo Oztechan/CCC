@@ -26,7 +26,6 @@ object Versions {
     const val firebaseCrashlyticsVersion = "17.1.1"
     const val anrWatchDogVersion = "1.4.0"
     const val moshiConverterVersion = "2.9.0"
-    const val okhttpInterceptorVersion = "4.8.1"
     const val versionsVersion = "0.29.0"
     const val playCoreVersion = "1.8.0"
 }
@@ -48,7 +47,6 @@ object Dependencies {
     const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCoreVersion}"
     const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDogVersion}"
     const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverterVersion}"
-    const val okhttpInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpInterceptorVersion}"
     const val playCore = "com.google.android.play:core:${Versions.playCoreVersion}"
 }
 
@@ -75,7 +73,6 @@ object Classpaths {
 }
 
 object Modules {
-    const val ui = ":ui"
     const val data = ":data"
     const val logmob = ":logmob"
     const val scopemob = ":scopemob"
