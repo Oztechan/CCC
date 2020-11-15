@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ui.base.activity.BaseActivity
 import com.github.mustafaozhan.ui.main.MainActivity
 import com.github.mustafaozhan.ui.slider.SliderActivity
 import javax.inject.Inject

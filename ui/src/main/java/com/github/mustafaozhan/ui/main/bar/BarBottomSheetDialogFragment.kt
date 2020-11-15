@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ui.main.bar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.view.bottomsheet.BaseDBBottomSheetDialogFragment
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.bottomsheet.BaseDBBottomSheetDialogFragment
 import com.github.mustafaozhan.ui.databinding.FragmentBottomSheetBarBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.util.reObserve

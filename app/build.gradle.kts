@@ -54,7 +54,6 @@ dependencies {
 
         implementation(project(data))
 
-        implementation(project(basemob))
         implementation(project(logmob))
     }
 }

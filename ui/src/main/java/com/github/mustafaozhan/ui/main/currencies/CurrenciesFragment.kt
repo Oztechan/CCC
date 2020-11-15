@@ -9,8 +9,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.databinding.FragmentCurrenciesBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.main.currencies.CurrenciesData.Companion.SPAN_LANDSCAPE
