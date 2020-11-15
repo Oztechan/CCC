@@ -3,8 +3,7 @@
  */
 rootProject.name = "androidCCC"
 include(
-    ":app",
-    ":ui",
+    ":android",
     ":data",
     ":scopemob", ":logmob"
 )
