@@ -3,7 +3,6 @@
  */
 package com.github.mustafaozhan.data.api
 
-import com.github.mustafaozhan.basemob.model.Result
 import com.github.mustafaozhan.data.error.EmptyParameterException
 import com.github.mustafaozhan.data.error.InternetConnectionException
 import com.github.mustafaozhan.data.error.ModelMappingException
@@ -12,6 +11,7 @@ import com.github.mustafaozhan.data.error.RetrofitException
 import com.github.mustafaozhan.data.error.UnknownNetworkException
 import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.model.NullBaseException
+import com.github.mustafaozhan.data.model.Result
 import com.squareup.moshi.JsonDataException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers

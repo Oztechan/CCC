@@ -6,10 +6,6 @@ package com.github.mustafaozhan.ui.main.calculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.basemob.model.BaseEffect
-import com.github.mustafaozhan.basemob.model.BaseEvent
-import com.github.mustafaozhan.basemob.model.BaseState
-import com.github.mustafaozhan.basemob.model.MutableBaseState
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
@@ -19,7 +15,7 @@ import com.github.mustafaozhan.ui.main.MainData
 @Suppress("ConstructorParameterNaming")
 data class CalculatorState(
     private val _state: MutableCalculatorState
-) : BaseState() {
+) {
     val input: LiveData<String> = _state._input
     val base: LiveData<String> = _state._base
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
@@ -38,10 +34,10 @@ data class MutableCalculatorState(
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
     val _dataState: MutableLiveData<DataState> = MutableLiveData(Error)
-) : MutableBaseState()
+)
 
 // Event
-interface CalculatorEvent : BaseEvent {
+interface CalculatorEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency, conversion: String)
     fun onItemLongClick(currency: Currency): Boolean
@@ -51,7 +47,7 @@ interface CalculatorEvent : BaseEvent {
 }
 
 // Effect
-sealed class CalculatorEffect : BaseEffect()
+sealed class CalculatorEffect
 object ErrorEffect : CalculatorEffect()
 object FewCurrencyEffect : CalculatorEffect()
 object OpenBarEffect : CalculatorEffect()

@@ -3,16 +3,16 @@
  */
 package com.github.mustafaozhan.ui.main.calculator
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.CurrencyResponse
+import com.github.mustafaozhan.data.model.MutableSingleLiveData
 import com.github.mustafaozhan.data.model.Rates
+import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
@@ -44,7 +44,7 @@ class CalculatorViewModel
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), CalculatorEvent {
+) : ViewModel(), CalculatorEvent {
 
     // region SEED
     private val _state = MutableCalculatorState()

@@ -32,6 +32,7 @@ class PreferencesRepository
 
     var currentBase
         get() = preferences.getString(KEY_CURRENT_BASE, CurrencyType.NULL.toString())
+            ?: CurrencyType.NULL.toString()
         set(value) = setValue(KEY_CURRENT_BASE, value)
 
     var appTheme

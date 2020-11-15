@@ -3,13 +3,13 @@
  */
 package com.github.mustafaozhan.ui.main.currencies
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.CurrencyType
+import com.github.mustafaozhan.data.model.MutableSingleLiveData
+import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.scopemob.either
@@ -26,7 +26,7 @@ class CurrenciesViewModel
 @Inject constructor(
     preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), CurrenciesEvent {
+) : ViewModel(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableCurrenciesState()

@@ -5,10 +5,6 @@ package com.github.mustafaozhan.ui.main.currencies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.basemob.model.BaseEffect
-import com.github.mustafaozhan.basemob.model.BaseEvent
-import com.github.mustafaozhan.basemob.model.BaseState
-import com.github.mustafaozhan.basemob.model.MutableBaseState
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.ui.main.MainData
@@ -17,7 +13,7 @@ import com.github.mustafaozhan.ui.main.MainData
 @Suppress("ConstructorParameterNaming")
 data class CurrenciesState(
     private val _state: MutableCurrenciesState
-) : BaseState() {
+) {
     val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
     val loading: LiveData<Boolean> = _state._loading
     val selectionVisibility: LiveData<Boolean> = _state._selectionVisibility
@@ -28,10 +24,10 @@ data class MutableCurrenciesState(
     val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
     val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-) : MutableBaseState()
+)
 
 // Event
-interface CurrenciesEvent : BaseEvent {
+interface CurrenciesEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
@@ -40,7 +36,7 @@ interface CurrenciesEvent : BaseEvent {
 }
 
 // Effect
-sealed class CurrenciesEffect : BaseEffect()
+sealed class CurrenciesEffect
 object FewCurrencyEffect : CurrenciesEffect()
 object CalculatorEffect : CurrenciesEffect()
 object BackEffect : CurrenciesEffect()
