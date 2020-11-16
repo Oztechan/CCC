@@ -7,7 +7,6 @@ plugins {
         id(crashlytics)
         id(googleServices)
         id(safeargs)
-        id(versions) version Versions.versionsVersion
         kotlin(android)
         kotlin(kapt)
     }

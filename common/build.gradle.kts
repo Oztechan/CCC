@@ -21,14 +21,15 @@ repositories {
 }
 
 kotlin {
+
+    jvm()
+
     android()
 
     ios {
         binaries {
             framework {
-                baseName = "client"
-                export(Dependencies.Common.kermit)
-                transitiveExport = true
+                baseName = "common"
             }
         }
     }
@@ -50,8 +51,6 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Modules.common))
-                    implementation(multiplatformSettings)
                     api(koinCore)
                     api(kermit)
                 }
@@ -65,21 +64,28 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
-                    implementation(androidMaterial)
-                    implementation(koinAndroidViewModel)
-                }
-            }
+            val androidMain by getting
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)
+
+                    // to run tests in common
+                    implementation(kotlin(Dependencies.JVM.testJUnit))
                 }
             }
         }
 
         val iosMain by getting
         val iosTest by getting
+
+        with(Dependencies.JVM) {
+            val jvmMain by getting
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin(testJUnit))
+                }
+            }
+        }
 
         with(Dependencies.JS) {
             val jsMain by getting

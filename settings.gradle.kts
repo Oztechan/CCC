@@ -23,7 +23,10 @@ rootProject.name = "Currency Converter Calculator"
 
 include(
     ":android",
+    ":backend",
+    ":web",
     ":client",
+    ":common",
     ":data",
     ":scopemob", ":logmob"
 )
