@@ -9,12 +9,12 @@ import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import timber.log.Timber
 
 private const val DATE_FORMAT = "HH:mm MM.dd.yyyy"
 private const val MAXIMUM_FLOATING_POINT = 15
@@ -62,7 +62,8 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
         ?: run { nonEmpty }
 }
 
-fun Date.dateStringToFormattedString(): String = SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(this)
+fun Date.dateStringToFormattedString(): String =
+    SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(this)
 
 fun CurrencyResponse.toRate(): Rates {
     val rate = rates

@@ -9,11 +9,11 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesViewModel" />
+            type="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ui.main.currencies.CurrenciesEvent" />
+            type="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesEvent" />
     </data>
 
     <androidx.appcompat.widget.Toolbar

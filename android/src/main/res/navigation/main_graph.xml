@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.github.mustafaozhan.ui.main.calculator.CalculatorFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment"
         android:label="CalculatorFragment"
         tools:layout="@layout/fragment_calculator">
         <action
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.github.mustafaozhan.ui.main.settings.SettingsFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/currenciesFragment"
-        android:name="com.github.mustafaozhan.ui.main.currencies.CurrenciesFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesFragment"
         android:label="CurrenciesFragment"
         tools:layout="@layout/fragment_currencies">
 
@@ -46,7 +46,7 @@
 
     <dialog
         android:id="@+id/barBottomSheetDialogFragment"
-        android:name="com.github.mustafaozhan.ui.main.bar.BarBottomSheetDialogFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.bar.BarBottomSheetDialogFragment"
         android:label="BarBottomSheetDialogFragment"
         tools:layout="@layout/fragment_bottom_sheet_bar">
         <action

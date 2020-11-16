@@ -6,11 +6,11 @@ package com.github.mustafaozhan.data.api
 import android.content.Context
 import com.github.mustafaozhan.data.R
 import com.squareup.moshi.Moshi
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 class ApiFactory
 @Inject constructor(context: Context) {

@@ -15,7 +15,7 @@
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ui.main.bar.BarEvent" />
+            type="com.github.mustafaozhan.ccc.android.ui.bar.BarEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

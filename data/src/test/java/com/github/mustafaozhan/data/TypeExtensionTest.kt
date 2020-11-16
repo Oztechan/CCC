@@ -12,11 +12,11 @@ import com.github.mustafaozhan.data.util.toPercent
 import com.github.mustafaozhan.data.util.toRate
 import com.github.mustafaozhan.data.util.toStandardDigits
 import com.github.mustafaozhan.data.util.toSupportedCharacters
-import org.junit.Assert.assertEquals
-import org.junit.Test
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class TypeExtensionTest {
 
