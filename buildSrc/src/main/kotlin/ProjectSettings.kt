@@ -1,17 +1,17 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-import org.gradle.api.Project
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import org.gradle.api.Project
 
 object ProjectSettings {
 
     private const val mayorVersion = 2
     private const val minorVersion = 0
 
-    const val applicationId = "mustafaozhan.github.com.mycurrencies"
+    const val projectId = "mustafaozhan.github.com.mycurrencies"
     const val projectCompileSdkVersion = 29
     const val projectMinSdkVersion = 21
     const val projectTargetSdkVersion = 29

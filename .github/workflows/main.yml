@@ -26,10 +26,18 @@ jobs:
       - name: Decode google-services.json
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-        run: echo $FIREBASE_CONFIG > app/google-services.json
+        run: echo $FIREBASE_CONFIG > android/google-services.json
 
       - name: Gradle Build
         run: ./gradlew build --parallel
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+
+      - name: Xcode build
+        run: xcodebuild build -project ios/ios.xcodeproj/ -sdk iphonesimulator -destination "OS=14.0" ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO EXCLUDED_ARCHS=arm64
 
       - name: Notify slack success
         if: success()

@@ -20,16 +20,16 @@ fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
     this?.filterNot { (name) ->
         name == CurrencyType.BYR.toString() ||
-            name == CurrencyType.LVL.toString() ||
-            name == CurrencyType.LTL.toString() ||
-            name == CurrencyType.ZMK.toString() ||
-            name == CurrencyType.CRYPTO_BTC.toString()
+                name == CurrencyType.LVL.toString() ||
+                name == CurrencyType.LTL.toString() ||
+                name == CurrencyType.ZMK.toString() ||
+                name == CurrencyType.CRYPTO_BTC.toString()
     }?.toMutableList()
 
 fun MutableList<Currency>?.toValidList(currentBase: String) =
     this?.filter {
         it.name != currentBase &&
-            it.isActive &&
-            it.rate.toString() != "NaN" &&
-            it.rate.toString() != "0.0"
+                it.isActive &&
+                it.rate.toString() != "NaN" &&
+                it.rate.toString() != "0.0"
     } ?: mutableListOf()

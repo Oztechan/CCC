@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.github.mustafaozhan.data.model.Currency" />
+
+        <variable
+            name="event"
+            type="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/BaseItemLayout"
+        android:onClick="@{() -> event.onItemClick(item)}"
+        android:onLongClick="@{() -> event.onItemLongClick()}">
+
+        <ImageView
+            android:id="@+id/img_icon"
+            style="@style/CurrenciesItemImageView"
+            app:backgroundByName="@{item.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/txt_setting_item"
+            style="@style/CurrenciesItemText"
+            android:text="@{item.variablesOneLine}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/checkBox"
+            app:layout_constraintStart_toEndOf="@+id/img_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            style="@style/CurrenciesItemCheckBoxStyle"
+            android:checked="@{item.isActive}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

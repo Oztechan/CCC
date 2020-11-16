@@ -13,10 +13,6 @@ import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.model.NullBaseException
 import com.github.mustafaozhan.data.model.Result
 import com.squareup.moshi.JsonDataException
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -24,6 +20,10 @@ import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
 import javax.net.ssl.SSLException
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 @Singleton
 class ApiRepository

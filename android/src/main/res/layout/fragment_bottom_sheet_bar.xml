@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.github.mustafaozhan.ccc.android.ui.bar.BarViewModel" />
+
+        <variable
+            name="event"
+            type="com.github.mustafaozhan.ccc.android.ui.bar.BarEvent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background_weak">
+
+        <TextView
+            android:id="@+id/txt_current_base"
+            style="@style/CurrentBaseStyle"
+            android:text="@{@string/txt_current_base}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/loading_view"
+            style="@style/ProgressBarStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
+            app:visibility="@{vm.state.loading}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_bar"
+            style="@style/BottomSheetDialogRecyclerViewStyle"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
+            app:visibility="@{vm.state.enoughCurrency}" />
+
+        <TextView
+            android:id="@+id/txt_no_enough_currency"
+            style="@style/SelectAtLeastTwoCurrenciesStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_select"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_select"
+            app:visibility="@{!vm.state.enoughCurrency}" />
+
+        <Button
+            android:id="@+id/btn_select"
+            style="@style/SelectButtonStyle"
+            android:onClick="@{()->event.onSelectClick()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_bar"
+            app:visibility="@{!vm.state.enoughCurrency}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

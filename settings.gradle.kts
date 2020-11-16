@@ -1,10 +1,31 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-rootProject.name = "androidCCC"
+
+enableFeaturePreview("GRADLE_METADATA")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        jcenter()
+        mavenCentral()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace == "com.android" || requested.id.name == "kotlin-android-extensions") {
+                useModule("com.android.tools.build:gradle:4.0.1")
+            }
+        }
+    }
+}
+
 include(
-    ":app",
-    ":ui",
+    ":android",
+    ":backend",
+    ":web",
+    ":client",
+    ":common",
     ":data",
     ":scopemob", ":logmob"
 )
