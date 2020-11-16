@@ -11,17 +11,21 @@ import com.github.mustafaozhan.bookbarter.web.app.kermit
 import react.RProps
 import react.child
 import react.dom.h1
+import react.dom.tr
 import react.functionalComponent
+import react.useContext
 
-//private val mainViewModel: MainViewModel by lazy {
-//    useContext(AppDependenciesContext).koin.getForJs(MainViewModel::class)
-//}
+private val mainViewModel: MainViewModel by lazy {
+    useContext(AppDependenciesContext).koin.getForJs(MainViewModel::class)
+}
 
 val MainView = functionalComponent<RProps> {
     kermit.d { "MainView" }
     child(
         functionalComponent {
-            h1 { +"CCC" }
+            h1 { +mainViewModel.getAppName() }
+            tr { +mainViewModel.getPlatformName() }
+            tr { +"${mainViewModel.runCounter} times ran" }
         }
     )
 }

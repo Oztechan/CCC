@@ -29,6 +29,7 @@ version = ProjectSettings.getVersionName(project)
 allprojects {
     repositories {
         mavenCentral()
+        google()
         jcenter()
         maven(url = "https://dl.bintray.com/ekito/koin")
     }

@@ -24,5 +24,5 @@ dependencies {
 
 application {
     @Suppress("UnstableApiUsage")
-    mainClass.set("${ProjectSettings.projectId}.backend.BackendAppKt")
+    mainClass.set("com.github.mustafaozhan.bookbarter.backend.BackendAppKt")
 }

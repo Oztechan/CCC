@@ -129,19 +129,14 @@ object Annotations {
 
 object Classpaths {
     const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
-    const val kotlinGradlePlugin =
-        "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+
     const val gsmGoogle = "com.google.gms:google-services:${Versions.gsmVersion}"
     const val crashlytics =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsVersion}"
     const val navigation =
         "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationVersion}"
-
-
-    // KMP
-//    const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
-//    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
 }
 
 object Modules {
@@ -158,11 +153,9 @@ object Libs {
 
 object Plugins {
     // Id
-    const val application = "com.android.application"
     const val library = "com.android.library"
     const val crashlytics = "com.google.firebase.crashlytics"
     const val googleServices = "com.google.gms.google-services"
-    const val versions = "com.github.ben-manes.versions"
     const val safeargs = "androidx.navigation.safeargs"
 
     // Kapt
@@ -180,5 +173,3 @@ object Plugins {
     const val js = "js"
     const val versionChecker = "com.github.ben-manes.versions"
 }
-
-

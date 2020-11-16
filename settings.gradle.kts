@@ -19,7 +19,6 @@ pluginManagement {
         }
     }
 }
-rootProject.name = "Currency Converter Calculator"
 
 include(
     ":android",

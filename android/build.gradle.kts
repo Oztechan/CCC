@@ -3,7 +3,7 @@
  */
 plugins {
     with(Plugins) {
-        id(application)
+        id(androidApplication)
         id(crashlytics)
         id(googleServices)
         id(safeargs)
