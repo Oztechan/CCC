@@ -3,12 +3,11 @@
  */
 package com.github.mustafaozhan.ui.main
 
-import com.github.mustafaozhan.basemob.model.BaseData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 
 open class MainData(
     private val preferencesRepository: PreferencesRepository
-) : BaseData() {
+) {
 
     companion object {
         internal const val MINIMUM_ACTIVE_CURRENCY = 2

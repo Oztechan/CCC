@@ -3,13 +3,13 @@
  */
 package com.github.mustafaozhan.ui.main.settings
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
+import com.github.mustafaozhan.data.model.MutableSingleLiveData
+import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import com.github.mustafaozhan.data.util.toRate
@@ -30,7 +30,7 @@ class SettingsViewModel
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), SettingsEvent {
+) : ViewModel(), SettingsEvent {
 
     // region SEED
     private val _state = MutableSettingsState()

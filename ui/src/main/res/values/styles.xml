@@ -57,6 +57,18 @@
         <item name="android:textColor">@color/color_text_neutral_button_dialog</item>
     </style>
 
+    <style name="BottomSheetDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:src">@drawable/rounded_dialog</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/color_text</item>
     </style>

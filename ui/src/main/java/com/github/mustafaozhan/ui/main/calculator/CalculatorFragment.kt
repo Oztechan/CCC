@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ui.main.calculator
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.databinding.FragmentCalculatorBinding
 import com.github.mustafaozhan.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ui.util.Toast

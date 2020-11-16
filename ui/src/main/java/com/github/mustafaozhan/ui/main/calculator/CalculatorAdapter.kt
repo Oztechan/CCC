@@ -6,9 +6,9 @@ package com.github.mustafaozhan.ui.main.calculator
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.util.toValidList
+import com.github.mustafaozhan.ui.base.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.ui.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(

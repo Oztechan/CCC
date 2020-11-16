@@ -7,9 +7,9 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.coroutineScope
-import com.github.mustafaozhan.basemob.view.activity.BaseActivity
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.activity.BaseActivity
 import com.github.mustafaozhan.ui.main.MainData.Companion.AD_INITIAL_DELAY
 import com.github.mustafaozhan.ui.main.MainData.Companion.AD_PERIOD
 import com.github.mustafaozhan.ui.main.MainData.Companion.BACK_DELAY

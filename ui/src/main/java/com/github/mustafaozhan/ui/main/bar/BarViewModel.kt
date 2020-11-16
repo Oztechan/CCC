@@ -3,12 +3,12 @@
  */
 package com.github.mustafaozhan.ui.main.bar
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.basemob.model.MutableSingleLiveData
-import com.github.mustafaozhan.basemob.model.SingleLiveData
-import com.github.mustafaozhan.basemob.viewmodel.BaseViewModel
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.data.model.MutableSingleLiveData
+import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import kotlinx.coroutines.flow.collect
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class BarViewModel
 @Inject constructor(
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), BarEvent {
+) : ViewModel(), BarEvent {
     // region SEED
     private val _state = MutableBarState()
     val state = BarState(_state)

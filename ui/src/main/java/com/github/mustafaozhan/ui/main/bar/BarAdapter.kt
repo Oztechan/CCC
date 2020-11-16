@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ui.main.bar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.view.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ui.base.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.ui.databinding.ItemBarBinding
 
 class BarAdapter(

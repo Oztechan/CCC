@@ -3,6 +3,11 @@
 <p align="center"><a href="https://www.codacy.com/gh/CurrencyConverterCalculator/androidCCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/androidCCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <img src="https://travis-ci.com/CurrencyConverterCalculator/androidCCC.svg?branch=master">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/androidCCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/androidCCC.svg">  <img src="https://img.shields.io/github/license/CurrencyConverterCalculator/androidCCC.svg"></p>
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
+## Branches
+-   [master](https://github.com/CurrencyConverterCalculator/androidCCC/tree/master) is Kotlin Multi Platform branch currently in progress.
+-   [android](https://github.com/CurrencyConverterCalculator/androidCCC/tree/android) is Android branch which is in market currently.
+-   [minsdk16](https://github.com/CurrencyConverterCalculator/androidCCC/tree/minsdk16) -> is Android branch with min sdk 16 support, current app is min sdk 21.
+
 ## Features
 
 -   168 Currencies !

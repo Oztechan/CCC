@@ -6,9 +6,8 @@ include(
     ":app",
     ":ui",
     ":data",
-    ":scopemob", ":basemob", ":logmob"
+    ":scopemob", ":logmob"
 )
 
-project(":basemob").projectDir = file("basemob/submob")
 project(":scopemob").projectDir = file("scopemob/submob")
 project(":logmob").projectDir = file("logmob/submob")

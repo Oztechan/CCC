@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import com.github.mustafaozhan.basemob.view.fragment.BaseDBFragment
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.fragment.BaseDBFragment
 import com.github.mustafaozhan.ui.databinding.FragmentSettingsBinding
 import com.github.mustafaozhan.ui.main.MainData
 import com.github.mustafaozhan.ui.main.model.AppTheme

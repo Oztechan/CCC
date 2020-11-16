@@ -14,9 +14,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
-import com.github.mustafaozhan.basemob.view.activity.BaseVBActivity
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.ui.R
+import com.github.mustafaozhan.ui.base.activity.BaseVBActivity
 import com.github.mustafaozhan.ui.databinding.ActivitySliderBinding
 import com.github.mustafaozhan.ui.main.MainActivity
 
