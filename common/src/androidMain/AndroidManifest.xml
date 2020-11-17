@@ -2,4 +2,10 @@
   ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 
-<manifest package="com.github.mustafaozhan.ccc.common" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.mustafaozhan.ccc.common">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

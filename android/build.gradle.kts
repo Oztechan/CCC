@@ -73,8 +73,6 @@ dependencies {
         implementation(project(data))
 
         implementation(project(scopemob))
-
-        implementation(project(logmob))
     }
 
     implementation(files(Libs.mxParser))

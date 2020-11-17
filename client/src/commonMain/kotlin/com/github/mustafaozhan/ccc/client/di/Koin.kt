@@ -6,10 +6,11 @@ package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.di.initKoin
+import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-fun initKoin(appModule: Module? = null) = initKoin(
+fun initKoin(appModule: Module? = null): KoinApplication = initKoin(
     appModule,
     platformClientModule,
     commonClientModule

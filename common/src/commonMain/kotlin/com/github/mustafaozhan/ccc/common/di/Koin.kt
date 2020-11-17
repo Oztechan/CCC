@@ -6,11 +6,12 @@ package com.github.mustafaozhan.ccc.common.di
 
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
+import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-fun initKoin(vararg modules: Module?) = startKoin {
+fun initKoin(vararg modules: Module?): KoinApplication = startKoin {
     kermit.d { "Koin initKoin" }
     modules.forEach { it?.let { modules(it) } }
     modules(commonModule)

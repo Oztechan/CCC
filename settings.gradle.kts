@@ -27,8 +27,7 @@ include(
     ":client",
     ":common",
     ":data",
-    ":scopemob", ":logmob"
+    ":scopemob"
 )
 
 project(":scopemob").projectDir = file("scopemob/submob")
-project(":logmob").projectDir = file("logmob/submob")

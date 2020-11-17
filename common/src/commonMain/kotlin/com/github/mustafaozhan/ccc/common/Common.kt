@@ -4,7 +4,6 @@
 
 package com.github.mustafaozhan.ccc.common
 
-import co.touchlab.kermit.CommonLogger
 import co.touchlab.kermit.Kermit
 
-val kermit = Kermit(CommonLogger())
+val kermit = Kermit(PlatformLogger())
