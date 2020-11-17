@@ -64,13 +64,7 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
-                    implementation(crashlytics)
-                    implementation(anrWatchDog)
-                    implementation(firebaseCore)
-                }
-            }
+            val androidMain by getting
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)

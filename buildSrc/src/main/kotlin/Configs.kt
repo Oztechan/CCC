@@ -20,7 +20,11 @@ object Versions {
     const val multidexVersion = "2.0.1"
     const val timberVersion = "4.7.1"
     const val navigationVersion = "2.3.0"
+    const val firebaseCoreVersion = "17.4.4"
+    const val firebaseCrashlyticsVersion = "17.1.1"
+    const val anrWatchDogVersion = "1.4.0"
     const val moshiConverterVersion = "2.9.0"
+    const val versionsVersion = "0.29.0"
     const val playCoreVersion = "1.8.0"
 
     // KMP
@@ -37,9 +41,6 @@ object Versions {
     const val koin = "3.0.0-alpha-4"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.6.3"
-    const val firebaseCore = "17.4.4"
-    const val crashlytics = "17.1.1"
-    const val anrWatchDog = "1.4.0"
 }
 
 object Dependencies {
@@ -58,6 +59,10 @@ object Dependencies {
         "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
     const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
     const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
+    const val firebaseCrashlytics =
+        "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlyticsVersion}"
+    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCoreVersion}"
+    const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDogVersion}"
     const val moshiConverter =
         "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverterVersion}"
     const val playCore = "com.google.android.play:core:${Versions.playCoreVersion}"
@@ -80,10 +85,6 @@ object Dependencies {
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
         const val koinAndroidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
-
-        const val crashlytics = "com.google.firebase:firebase-crashlytics:${Versions.crashlytics}"
-        const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
-        const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
         const val jUnit = "junit:junit:${Versions.jUnit}"
     }
@@ -142,6 +143,7 @@ object Modules {
     const val client = ":client"
     const val common = ":common"
     const val data = ":data"
+    const val logmob = ":logmob"
     const val scopemob = ":scopemob"
 }
 
