@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.web.ui
 
 import com.github.mustafaozhan.ccc.client.di.getForJs
 import com.github.mustafaozhan.ccc.client.main.MainViewModel
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
-import com.github.mustafaozhan.ccc.web.app.kermit
 import react.RProps
 import react.child
 import react.dom.h1

@@ -15,10 +15,7 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(
-                mainViewModel: koin.getMainViewModel(),
-                kermit: koin.getKermit()
-            )
+            MainView(mainViewModel: koin.getMainViewModel())
         }
     }
 }
