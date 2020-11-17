@@ -67,6 +67,9 @@ dependencies {
     }
 
     with(Modules) {
+        implementation(project(client))
+        implementation(project(common))
+
         implementation(project(data))
 
         implementation(project(scopemob))

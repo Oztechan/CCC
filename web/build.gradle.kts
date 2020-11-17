@@ -16,7 +16,10 @@ dependencies {
         implementation(kotlinReact)
         implementation(kotlinReactDom)
     }
-    implementation(project(Modules.client))
+    with(Modules) {
+        implementation(project(client))
+        implementation(project(common))
+    }
 }
 
 kotlin {
