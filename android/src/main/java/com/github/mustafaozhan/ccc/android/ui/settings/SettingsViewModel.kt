@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.main.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
@@ -21,7 +22,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel
@@ -94,7 +94,7 @@ class SettingsViewModel
                     delay(SYNC_DELAY)
                     apiRepository.getRatesByBase(name).execute(
                         { viewModelScope.launch { offlineRatesDao.insertOfflineRates(it.toRate()) } },
-                        { error -> Timber.e(error) }
+                        { error -> kermit.e(error) { error.message.toString() } }
                     )
                 }
                 data.synced = true

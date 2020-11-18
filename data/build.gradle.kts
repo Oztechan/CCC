@@ -44,7 +44,6 @@ dependencies {
         implementation(dagger)
         implementation(moshi)
         implementation(moshiConverter)
-        implementation(timber)
         implementation(retrofit)
         implementation(roomKtx)
 
@@ -58,6 +57,7 @@ dependencies {
     }
 
     with(Modules) {
+        implementation(project(common))
         implementation(project(scopemob))
     }
 }

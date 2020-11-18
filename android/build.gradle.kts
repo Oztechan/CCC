@@ -47,7 +47,6 @@ dependencies {
         implementation(androidMaterial)
         implementation(constraintLayout)
         implementation(dagger)
-        implementation(timber)
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
@@ -69,9 +68,8 @@ dependencies {
 
         implementation(project(data))
 
-        implementation(project(scopemob))
-
         implementation(project(logmob))
+        implementation(project(scopemob))
     }
 
     implementation(files(Libs.mxParser))

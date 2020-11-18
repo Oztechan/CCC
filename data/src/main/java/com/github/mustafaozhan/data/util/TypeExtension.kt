@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.data.util
 
 import android.annotation.SuppressLint
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.model.CurrencyResponse
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
@@ -14,11 +15,11 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import timber.log.Timber
 
 private const val DATE_FORMAT = "HH:mm MM.dd.yyyy"
 private const val MAXIMUM_FLOATING_POINT = 15
 
+// todo check append
 fun String.toStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
@@ -79,7 +80,7 @@ inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
     return try {
         javaClass.getMethod(getterName).invoke(this) as? T
     } catch (e: NoSuchMethodException) {
-        Timber.e(e)
+        kermit.e(e) { e.message.toString() }
         null
     }
 }

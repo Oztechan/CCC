@@ -27,8 +27,6 @@ kotlin {
         binaries {
             framework {
                 baseName = "client"
-                export(Dependencies.Common.kermit)
-                transitiveExport = true
             }
         }
     }

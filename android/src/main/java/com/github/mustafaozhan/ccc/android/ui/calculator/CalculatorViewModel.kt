@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companio
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.toUnit
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
@@ -35,7 +36,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.mariuszgromada.math.mxparser.Expression
-import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel
@@ -101,7 +101,7 @@ class CalculatorViewModel
     }.toUnit()
 
     private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
-        Timber.w(t, "rate download failed.")
+        kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
             data.currentBase
@@ -109,7 +109,7 @@ class CalculatorViewModel
             calculateConversions(offlineRates)
             _state._dataState.value = Offline(offlineRates.date)
         } ?: run {
-            Timber.w(t, "no offline rate found")
+            kermit.w(t) { "no offline rate found" }
             state.currencyList.value?.size
                 ?.whether { it > 1 }
                 ?.let { _effect.postValue(ErrorEffect) }
