@@ -11,6 +11,8 @@
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* MainView.swift */; };
+		5CE3B52425642FE500B9AA2D /* common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5CE3B5252564302700B9AA2D /* common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FFB2242A642300829871 /* client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* client.framework */; };
@@ -24,6 +26,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5CE3B52425642FE500B9AA2D /* common.framework in Embed Frameworks */,
 				7555FFB3242A642300829871 /* client.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -36,6 +39,7 @@
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		5CE3B52325642FE500B9AA2D /* common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = common.framework; path = "../common/build/xcode-frameworks/common.framework"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -48,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CE3B5252564302700B9AA2D /* common.framework in Frameworks */,
 				7555FFB2242A642300829871 /* client.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +142,7 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CE3B52325642FE500B9AA2D /* common.framework */,
 				7555FFB1242A642300829871 /* client.framework */,
 			);
 			name = Frameworks;
@@ -367,7 +373,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../client/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../client/build/xcode-frameworks",
+					"$(SRCROOT)/../common/build/xcode-frameworks",
+				);
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -387,7 +396,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../client/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../client/build/xcode-frameworks",
+					"$(SRCROOT)/../common/build/xcode-frameworks",
+				);
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

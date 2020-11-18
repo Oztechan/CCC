@@ -4,9 +4,9 @@
 
 package com.github.mustafaozhan.ccc.backend
 
-import co.touchlab.kermit.Kermit
 import com.github.mustafaozhan.ccc.common.di.getForJvm
 import com.github.mustafaozhan.ccc.common.di.initKoin
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
 import io.ktor.application.call
 import io.ktor.application.install
@@ -31,7 +31,6 @@ private const val INDEX_HTML = "index.html"
 val app = initKoin()
 
 private val platformRepository: PlatformRepository by lazy { app.koin.getForJvm(PlatformRepository::class) }
-private val kermit: Kermit by lazy { app.koin.getForJvm(Kermit::class) }
 
 fun main() {
     embeddedServer(

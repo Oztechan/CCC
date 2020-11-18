@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -16,7 +17,6 @@ import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
 import java.util.Locale
 import mustafaozhan.github.com.mycurrencies.R
-import timber.log.Timber
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
@@ -28,7 +28,7 @@ fun Context.getImageResourceByName(name: String): Int = try {
         packageName
     )
 } catch (e: FileNotFoundException) {
-    Timber.w(e)
+    kermit.w(e) { e.message.toString() }
     R.drawable.transparent
 }
 

@@ -4,8 +4,7 @@
 
 package com.github.mustafaozhan.ccc.common.di
 
-import co.touchlab.kermit.CommonLogger
-import co.touchlab.kermit.Kermit
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -17,9 +16,6 @@ fun initKoin(vararg modules: Module?) = startKoin {
     modules(commonModule)
 }
 
-val kermit = Kermit(CommonLogger()).apply { d { "Kermit initialised" } }
-
 var commonModule: Module = module {
     single { PlatformRepository() }
-    factory { kermit }
 }

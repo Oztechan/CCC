@@ -4,68 +4,39 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val gsmVersion = "4.3.3"
-    const val crashlyticsVersion = "2.1.0"
-    const val daggerVersion = "2.28.3"
-    const val androidMaterialVersion = "1.2.0"
-    const val constraintLayoutVersion = "2.0.1"
-    const val jUnitVersion = "4.13"
-    const val mockKVersion = "1.10.0"
-    const val archTestingVersion = "1.1.1"
-    const val retrofitVersion = "2.9.0"
-    const val moshiVersion = "1.9.3"
-    const val roomVersion = "2.2.5"
-    const val coroutinesVersion = "1.3.7"
-    const val admobVersion = "19.3.0"
-    const val multidexVersion = "2.0.1"
-    const val timberVersion = "4.7.1"
-    const val navigationVersion = "2.3.0"
-    const val firebaseCoreVersion = "17.4.4"
-    const val firebaseCrashlyticsVersion = "17.1.1"
-    const val anrWatchDogVersion = "1.4.0"
-    const val moshiConverterVersion = "2.9.0"
-    const val versionsVersion = "0.29.0"
-    const val playCoreVersion = "1.8.0"
-
-    // KMP
     const val kotlin = "1.4.20-RC"
     const val androidPlugin = "4.2.0-alpha16"
     const val androidMaterial = "1.3.0-alpha03"
     const val constraintLayout = "2.0.4"
     const val jUnit = "4.13.1"
-    const val ktor = "1.4.1"
+    const val ktor = "1.4.2"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
-    const val versionChecker = "0.35.0"
+    const val versionChecker = "0.36.0"
     const val react = "17.0.0-pre.129-kotlin-1.4.10"
     const val koin = "3.0.0-alpha-4"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.6.3"
+    const val coroutines = "1.4.1"
+    const val mockK = "1.10.2"
+    const val archTesting = "1.1.1"
+    const val firebaseCore = "18.0.0"
+    const val firebaseCrashlytics = "17.3.0"
+    const val anrWatchDog = "1.4.0"
+    const val gsm = "4.3.4"
+    const val crashlytics = "2.4.1"
+    const val dagger = "2.29.1"
+    const val retrofit = "2.9.0"
+    const val moshi = "1.11.0"
+    const val room = "2.3.0-alpha03"
+    const val admob = "19.5.0"
+    const val multidex = "2.0.1"
+    const val navigation = "2.3.1"
+    const val moshiConverter = "2.9.0"
+    const val playCore = "1.8.3"
 }
 
 object Dependencies {
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    const val androidMaterial =
-        "com.google.android.material:material:${Versions.androidMaterialVersion}"
-    const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayoutVersion}"
-    const val dagger = "com.google.dagger:dagger-android-support:${Versions.daggerVersion}"
-    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
-    const val moshi = "com.squareup.moshi:moshi:${Versions.moshiVersion}"
-    const val multiDex = "androidx.multidex:multidex:${Versions.multidexVersion}"
-    const val timber = "com.jakewharton.timber:timber:${Versions.timberVersion}"
-    const val admob = "com.google.android.gms:play-services-ads:${Versions.admobVersion}"
-    const val navigation =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationVersion}"
-    const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
-    const val roomKtx = "androidx.room:room-ktx:${Versions.roomVersion}"
-    const val firebaseCrashlytics =
-        "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlyticsVersion}"
-    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCoreVersion}"
-    const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDogVersion}"
-    const val moshiConverter =
-        "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverterVersion}"
-    const val playCore = "com.google.android.play:core:${Versions.playCoreVersion}"
 
     // KMP
     object Common {
@@ -86,7 +57,29 @@ object Dependencies {
 
         const val koinAndroidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 
+        const val firebaseCrashlytics =
+            "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
+        const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+        const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
+
+        const val dagger = "com.google.dagger:dagger-android-support:${Versions.dagger}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+        const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
+        const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
+        const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
+        const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+        const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+        const val moshiConverter =
+            "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverter}"
+        const val playCore = "com.google.android.play:core:${Versions.playCore}"
+
+        // Test
         const val jUnit = "junit:junit:${Versions.jUnit}"
+        const val mockK = "io.mockk:mockk:${Versions.mockK}"
+        const val archTesting = "android.arch.core:core-testing:${Versions.archTesting}"
+        const val coroutinesTest =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     }
 
     @Suppress("unused")
@@ -111,20 +104,11 @@ object Dependencies {
     }
 }
 
-object TestDependencies {
-    const val jUnit = "junit:junit:${Versions.jUnitVersion}"
-    const val mockK = "io.mockk:mockk:${Versions.mockKVersion}"
-    const val archTesting = "android.arch.core:core-testing:${Versions.archTestingVersion}"
-    const val coroutinesTest =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesVersion}"
-}
-
 object Annotations {
-    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.daggerVersion}"
-    const val daggerProcessor =
-        "com.google.dagger:dagger-android-processor:${Versions.daggerVersion}"
-    const val moshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshiVersion}"
-    const val room = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+    const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
+    const val moshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+    const val room = "androidx.room:room-compiler:${Versions.room}"
 }
 
 object Classpaths {
@@ -132,18 +116,17 @@ object Classpaths {
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
 
-    const val gsmGoogle = "com.google.gms:google-services:${Versions.gsmVersion}"
+    const val gsmGoogle = "com.google.gms:google-services:${Versions.gsm}"
     const val crashlytics =
-        "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsVersion}"
+        "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics}"
     const val navigation =
-        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationVersion}"
+        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 }
 
 object Modules {
     const val client = ":client"
     const val common = ":common"
     const val data = ":data"
-    const val logmob = ":logmob"
     const val scopemob = ":scopemob"
 }
 

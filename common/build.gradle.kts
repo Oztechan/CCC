@@ -64,7 +64,13 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation(firebaseCrashlytics)
+                    implementation(firebaseCore)
+                    implementation(anrWatchDog)
+                }
+            }
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)
@@ -100,7 +106,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
-        compileSdkVersion(projectTargetSdkVersion)
+        compileSdkVersion(projectCompileSdkVersion)
 
         defaultConfig {
             minSdkVersion(projectMinSdkVersion)

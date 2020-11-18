@@ -37,7 +37,4 @@ extension Koin {
     func getMainViewModel() -> MainViewModel {
         return koin.getForIOS(objCClass: MainViewModel.self) as! MainViewModel
     }
-    func getKermit() -> Kermit {
-        return koin.getForIOS(objCClass: Kermit.self) as! Kermit
-    }
 }

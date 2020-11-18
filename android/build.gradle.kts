@@ -32,6 +32,10 @@ android {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+
         buildFeatures {
             viewBinding = true
             dataBinding = true
@@ -40,38 +44,33 @@ android {
 }
 
 dependencies {
-    with(Dependencies) {
-        implementation(kotlin)
+    with(Dependencies.Android) {
         implementation(multiDex)
         implementation(androidMaterial)
         implementation(constraintLayout)
         implementation(dagger)
-        implementation(timber)
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
         implementation(roomRuntime)
+
+        testImplementation(jUnit)
+        testImplementation(mockK)
+        testImplementation(archTesting)
+        testImplementation(coroutinesTest)
     }
     with(Annotations) {
         kapt(daggerCompiler)
         kapt(daggerProcessor)
     }
 
-    kapt(Annotations.daggerCompiler)
-
-    with(TestDependencies) {
-        testImplementation(jUnit)
-        testImplementation(mockK)
-        testImplementation(archTesting)
-        testImplementation(coroutinesTest)
-    }
-
     with(Modules) {
+        implementation(project(client))
+        implementation(project(common))
+
         implementation(project(data))
 
         implementation(project(scopemob))
-
-        implementation(project(logmob))
     }
 
     implementation(files(Libs.mxParser))

@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.client.main
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.ccc.common.di.kermit
+import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
 
 class MainViewModel(

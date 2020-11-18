@@ -7,7 +7,6 @@
 .externalNativeBuild
 /.idea
 /scopemob
-/logmob
 
 .idea
 /.idea/caches
