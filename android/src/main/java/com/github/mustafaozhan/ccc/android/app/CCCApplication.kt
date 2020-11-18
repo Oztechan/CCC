@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.app
 
 import androidx.multidex.MultiDexApplication
 import com.github.mustafaozhan.ccc.android.di.DaggerApplicationComponent
-import com.github.mustafaozhan.logmob.initLogMob
+import com.github.mustafaozhan.ccc.common.initFirebase
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -24,7 +24,7 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
             .build()
             .inject(this)
 
-        initLogMob(this, enableAnalytics = true)
+        initFirebase(this, enableAnalytics = true)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector

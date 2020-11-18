@@ -127,7 +127,6 @@ object Modules {
     const val client = ":client"
     const val common = ":common"
     const val data = ":data"
-    const val logmob = ":logmob"
     const val scopemob = ":scopemob"
 }
 

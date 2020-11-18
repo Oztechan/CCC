@@ -51,7 +51,6 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Modules.logmob))
                     api(koinCore)
                     api(kermit)
                 }
@@ -65,7 +64,13 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation(firebaseCrashlytics)
+                    implementation(firebaseCore)
+                    implementation(anrWatchDog)
+                }
+            }
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)
@@ -111,10 +116,6 @@ android {
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 
