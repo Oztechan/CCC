@@ -128,6 +128,7 @@ object Modules {
     const val common = ":common"
     const val data = ":data"
     const val scopemob = ":scopemob"
+    const val logmob = ":logmob"
 }
 
 object Libs {

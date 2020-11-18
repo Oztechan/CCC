@@ -3,7 +3,6 @@
  */
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     with(Plugins) {
@@ -51,6 +50,7 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
+                    implementation(project(Modules.logmob))
                     api(koinCore)
                     api(kermit)
                 }
@@ -64,13 +64,7 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
-                    implementation(firebaseCrashlytics)
-                    implementation(firebaseCore)
-                    implementation(anrWatchDog)
-                }
-            }
+            val androidMain by getting
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)
@@ -134,9 +128,3 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
