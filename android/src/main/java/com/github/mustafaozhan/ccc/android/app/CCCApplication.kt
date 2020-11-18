@@ -24,11 +24,7 @@ class CCCApplication : MultiDexApplication(), HasAndroidInjector {
             .build()
             .inject(this)
 
-        initLogMob(
-            this,
-            enableCrashlytics = true,
-            enableAnalytics = true
-        )
+        initLogMob(this, enableAnalytics = true)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector

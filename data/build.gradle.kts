@@ -24,32 +24,32 @@ android {
                 javaCompileOptions {
                     annotationProcessorOptions {
                         argument("room.schemaLocation", "$projectDir/schemas")
-//                        arguments = mapOf("room.schemaLocation" to "$projectDir/schemas")
                     }
                 }
             }
         }
-
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
 
-    with(Dependencies) {
-        implementation(kotlin)
+    with(Dependencies.Android) {
         implementation(dagger)
         implementation(moshi)
         implementation(moshiConverter)
         implementation(timber)
         implementation(retrofit)
         implementation(roomKtx)
-    }
 
-    testImplementation(TestDependencies.jUnit)
+        testImplementation(jUnit)
+    }
 
     with(Annotations) {
         kapt(daggerCompiler)
