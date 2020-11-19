@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.main.model.AppTheme
+import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.common.kermit

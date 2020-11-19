@@ -37,8 +37,6 @@ object Versions {
 }
 
 object Dependencies {
-
-    // KMP
     object Common {
         const val test = "test-common"
         const val testAnnotations = "test-annotations-common"
@@ -127,7 +125,9 @@ object Modules {
     const val client = ":client"
     const val common = ":common"
     const val data = ":data"
+    const val basemob = ":basemob"
     const val scopemob = ":scopemob"
+    const val logmob = ":logmob"
 }
 
 object Libs {

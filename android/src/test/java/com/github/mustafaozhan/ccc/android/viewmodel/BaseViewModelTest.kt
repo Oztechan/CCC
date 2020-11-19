@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.viewmodel
+package com.github.mustafaozhan.ccc.android.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.github.mustafaozhan.ccc.android.ui.rule.TestCoroutineRule
+import com.github.mustafaozhan.ccc.android.rule.TestCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 

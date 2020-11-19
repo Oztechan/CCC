@@ -3,13 +3,15 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.bar
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import com.github.mustafaozhan.ccc.android.base.bottomsheet.BaseDBBottomSheetDialogFragment
+import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
@@ -24,6 +26,11 @@ class BarBottomSheetDialogFragment :
 
     override fun bind(container: ViewGroup?): FragmentBottomSheetBarBinding =
         FragmentBottomSheetBarBinding.inflate(layoutInflater, container, false)
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onBinding(dataBinding: FragmentBottomSheetBarBinding) {
         binding.vm = barViewModel

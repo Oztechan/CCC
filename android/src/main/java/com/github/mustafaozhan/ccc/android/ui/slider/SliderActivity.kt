@@ -14,9 +14,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
-import com.github.mustafaozhan.ccc.android.base.activity.BaseVBActivity
+import com.github.mustafaozhan.basemob.activity.BaseVBActivity
 import com.github.mustafaozhan.ccc.android.ui.main.MainActivity
 import com.github.mustafaozhan.scopemob.whether
+import dagger.android.AndroidInjection
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.ActivitySliderBinding
 
@@ -38,6 +39,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

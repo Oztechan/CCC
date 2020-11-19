@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.main.model
+package com.github.mustafaozhan.ccc.android.model
 
 import androidx.appcompat.app.AppCompatDelegate
 
