@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.viewmodel
+package com.github.mustafaozhan.ccc.android.viewmodel
 
 import com.github.mustafaozhan.ccc.android.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel

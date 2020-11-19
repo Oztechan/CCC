@@ -4,3 +4,6 @@
 [submodule "logmob"]
 	path = logmob
 	url = https://github.com/SUB-MOB/logmob
+[submodule "basemob"]
+	path = basemob
+	url = https://github.com/SUB-MOB/basemob

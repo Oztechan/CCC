@@ -66,6 +66,7 @@ dependencies {
 
         implementation(project(data))
 
+        implementation(project(basemob))
         implementation(project(scopemob))
         implementation(project(logmob))
     }

@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.viewmodel
+package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.main.model.AppTheme
+import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ChangeThemeEffect

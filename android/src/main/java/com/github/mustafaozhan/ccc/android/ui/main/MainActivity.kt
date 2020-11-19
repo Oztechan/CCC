@@ -7,7 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.coroutineScope
-import com.github.mustafaozhan.ccc.android.base.activity.BaseActivity
+import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.AD_INITIAL_DELAY
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.AD_PERIOD
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.BACK_DELAY
@@ -18,6 +18,7 @@ import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.play.core.review.ReviewManagerFactory
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -36,6 +37,7 @@ open class MainActivity : BaseActivity() {
     private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
         setContentView(R.layout.activity_main)

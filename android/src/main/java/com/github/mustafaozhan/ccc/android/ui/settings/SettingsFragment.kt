@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.settings
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
-import com.github.mustafaozhan.ccc.android.base.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.main.model.AppTheme
+import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
+import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.reObserve
@@ -25,6 +26,7 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
@@ -38,6 +40,11 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     override fun bind(container: ViewGroup?): FragmentSettingsBinding =
         FragmentSettingsBinding.inflate(layoutInflater, container, false)
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onBinding(dataBinding: FragmentSettingsBinding) {
         binding.vm = settingsViewModel
