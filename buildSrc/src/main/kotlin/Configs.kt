@@ -25,7 +25,6 @@ object Versions {
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
-    const val dagger = "2.29.1"
     const val retrofit = "2.9.0"
     const val moshi = "1.11.0"
     const val room = "2.3.0-alpha03"
@@ -60,7 +59,6 @@ object Dependencies {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
-        const val dagger = "com.google.dagger:dagger-android-support:${Versions.dagger}"
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
         const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
@@ -103,8 +101,6 @@ object Dependencies {
 }
 
 object Annotations {
-    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
-    const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     const val moshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val room = "androidx.room:room-compiler:${Versions.room}"
 }

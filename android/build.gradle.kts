@@ -44,20 +44,16 @@ dependencies {
         implementation(multiDex)
         implementation(androidMaterial)
         implementation(constraintLayout)
-        implementation(dagger)
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
         implementation(roomRuntime)
+        implementation(koinAndroidViewModel)
 
         testImplementation(jUnit)
         testImplementation(mockK)
         testImplementation(archTesting)
         testImplementation(coroutinesTest)
-    }
-    with(Annotations) {
-        kapt(daggerCompiler)
-        kapt(daggerProcessor)
     }
 
     with(Modules) {

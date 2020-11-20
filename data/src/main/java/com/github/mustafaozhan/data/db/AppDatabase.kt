@@ -28,7 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) = database.execSQL2To3()
         }
 
-        internal fun createAppDatabase(
+        fun createAppDatabase(
             context: Context
         ): AppDatabase = Room.databaseBuilder(
             context,
