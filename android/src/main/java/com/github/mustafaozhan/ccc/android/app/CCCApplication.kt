@@ -19,6 +19,7 @@ import com.github.mustafaozhan.logmob.initLogMob
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@Suppress("unused")
 class CCCApplication : MultiDexApplication() {
 
     override fun onCreate() {
@@ -42,7 +43,6 @@ class CCCApplication : MultiDexApplication() {
                 viewModel { CurrenciesViewModel(get(), get()) }
                 viewModel { CalculatorViewModel(get(), get(), get(), get()) }
                 viewModel { BarViewModel(get()) }
-                viewModel { MainViewModel(get()) }
             }
         )
 

@@ -3,7 +3,6 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.currencies
 
-import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
@@ -19,25 +18,18 @@ import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
 
-    @Inject
-    lateinit var currenciesViewModel: CurrenciesViewModel
+    private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
     override fun bind(container: ViewGroup?): FragmentCurrenciesBinding =
         FragmentCurrenciesBinding.inflate(layoutInflater, container, false)
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onBinding(dataBinding: FragmentCurrenciesBinding) {
         binding.vm = currenciesViewModel

@@ -7,13 +7,11 @@ import android.content.Context
 import com.github.mustafaozhan.data.R
 import com.squareup.moshi.Moshi
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ApiFactory
-@Inject constructor(context: Context) {
+class ApiFactory(context: Context) {
 
     companion object {
         private const val TIME_OUT: Long = 3

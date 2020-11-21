@@ -17,17 +17,13 @@ import java.io.IOException
 import java.net.ConnectException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
-import javax.inject.Inject
-import javax.inject.Singleton
 import javax.net.ssl.SSLException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-@Singleton
-class ApiRepository
-@Inject constructor(private val apiFactory: ApiFactory) {
+class ApiRepository(private val apiFactory: ApiFactory) {
 
     @Suppress("ThrowsCount", "TooGenericExceptionCaught")
     suspend fun <T> apiRequest(suspendBlock: suspend () -> T) =

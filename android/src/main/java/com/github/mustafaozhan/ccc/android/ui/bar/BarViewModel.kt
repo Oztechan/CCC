@@ -6,20 +6,16 @@ package com.github.mustafaozhan.ccc.android.ui.bar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
-import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class BarViewModel
-@Inject constructor(
-    private val currencyDao: CurrencyDao
-) : ViewModel(), BarEvent {
+class BarViewModel(private val currencyDao: CurrencyDao) : ViewModel(), BarEvent {
     // region SEED
     private val _state = MutableBarState()
     val state = BarState(_state)

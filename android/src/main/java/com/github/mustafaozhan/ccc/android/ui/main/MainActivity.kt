@@ -18,18 +18,16 @@ import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.play.core.review.ReviewManagerFactory
-import dagger.android.AndroidInjection
-import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import mustafaozhan.github.com.mycurrencies.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class MainActivity : BaseActivity() {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModel()
 
     private lateinit var interstitialAd: InterstitialAd
     private lateinit var adJob: Job
@@ -37,7 +35,6 @@ open class MainActivity : BaseActivity() {
     private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
         setContentView(R.layout.activity_main)

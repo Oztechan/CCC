@@ -10,16 +10,13 @@ import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.ui.main.MainActivity
 import com.github.mustafaozhan.ccc.android.ui.slider.SliderActivity
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class SplashActivity : BaseActivity() {
 
-    @Inject
-    lateinit var preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         AppCompatDelegate.setDefaultNightMode(preferencesRepository.appTheme)

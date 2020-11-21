@@ -6,12 +6,8 @@ package com.github.mustafaozhan.data.preferences
 import android.content.Context
 import com.github.mustafaozhan.data.error.SharedPreferencesException
 import com.github.mustafaozhan.data.model.CurrencyType
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class PreferencesRepository
-@Inject constructor(context: Context) {
+class PreferencesRepository(context: Context) {
     companion object {
         private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
         private const val KEY_FIRST_RUN = "firs_run"

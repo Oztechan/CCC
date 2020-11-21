@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.data.model
+package com.github.mustafaozhan.ccc.android.util
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
@@ -20,7 +20,7 @@ open class SingleLiveData<T> : LiveData<T>() {
 //            throw SingleLiveDataException()
 //        }
 
-        super.observe(owner, Observer {
+        super.observe(owner, {
             if (pending.compareAndSet(true, false)) {
                 observer.onChanged(it)
             }

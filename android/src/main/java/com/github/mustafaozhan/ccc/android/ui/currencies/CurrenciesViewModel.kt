@@ -6,24 +6,22 @@ package com.github.mustafaozhan.ccc.android.ui.currencies
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.CurrencyType
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
-import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class CurrenciesViewModel
-@Inject constructor(
+class CurrenciesViewModel(
     preferencesRepository: PreferencesRepository,
     private val currencyDao: CurrencyDao
 ) : ViewModel(), CurrenciesEvent {

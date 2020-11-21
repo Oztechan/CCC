@@ -8,24 +8,22 @@ import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
-import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import com.github.mustafaozhan.data.util.toRate
 import java.util.Date
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
-class SettingsViewModel
-@Inject constructor(
+class SettingsViewModel(
     preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,

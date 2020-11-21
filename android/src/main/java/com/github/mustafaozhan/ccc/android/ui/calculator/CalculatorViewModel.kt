@@ -10,6 +10,8 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companio
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
@@ -17,9 +19,7 @@ import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.CurrencyResponse
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.data.model.SingleLiveData
 import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
@@ -31,15 +31,13 @@ import com.github.mustafaozhan.data.util.toSupportedCharacters
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.mariuszgromada.math.mxparser.Expression
 
 @Suppress("TooManyFunctions")
-class CalculatorViewModel
-@Inject constructor(
+class CalculatorViewModel(
     preferencesRepository: PreferencesRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
