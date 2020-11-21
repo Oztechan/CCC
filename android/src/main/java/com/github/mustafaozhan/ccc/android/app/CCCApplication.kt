@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.android.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.android.ui.splash.SplashViewModel
 import com.github.mustafaozhan.ccc.client.di.initKoin
 import com.github.mustafaozhan.data.api.ApiFactory
 import com.github.mustafaozhan.data.api.ApiRepository
@@ -43,6 +44,7 @@ class CCCApplication : MultiDexApplication() {
                 viewModel { CurrenciesViewModel(get(), get()) }
                 viewModel { CalculatorViewModel(get(), get(), get(), get()) }
                 viewModel { BarViewModel(get()) }
+                viewModel { SplashViewModel(get()) }
             }
         )
 
