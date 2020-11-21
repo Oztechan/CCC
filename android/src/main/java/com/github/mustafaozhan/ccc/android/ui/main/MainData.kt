@@ -3,10 +3,10 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.main
 
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
 open class MainData(
-    private val preferencesRepository: PreferencesRepository
+    private val settingsRepository: SettingsRepository
 ) {
 
     companion object {
@@ -26,32 +26,32 @@ open class MainData(
         get() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
 
     var firstRun
-        get() = preferencesRepository.firstRun
+        get() = settingsRepository.firstRun
         set(value) {
-            preferencesRepository.firstRun = value
+            settingsRepository.firstRun = value
         }
 
     var currentBase
-        get() = preferencesRepository.currentBase
+        get() = settingsRepository.currentBase
         set(value) {
-            preferencesRepository.currentBase = value
+            settingsRepository.currentBase = value
         }
 
     var appTheme
-        get() = preferencesRepository.appTheme
+        get() = settingsRepository.appTheme
         set(value) {
-            preferencesRepository.appTheme = value
+            settingsRepository.appTheme = value
         }
 
     var adFreeActivatedDate
-        get() = preferencesRepository.adFreeActivatedDate
+        get() = settingsRepository.adFreeActivatedDate
         set(value) {
-            preferencesRepository.adFreeActivatedDate = value
+            settingsRepository.adFreeActivatedDate = value
         }
 
     var lastReviewRequest
-        get() = preferencesRepository.lastReviewRequest
+        get() = settingsRepository.lastReviewRequest
         set(value) {
-            preferencesRepository.lastReviewRequest = value
+            settingsRepository.lastReviewRequest = value
         }
 }

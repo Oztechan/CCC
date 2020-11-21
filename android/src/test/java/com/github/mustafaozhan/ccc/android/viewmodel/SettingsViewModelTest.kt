@@ -15,10 +15,10 @@ import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.android.ui.settings.ShareEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ThemeDialogEffect
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -36,7 +36,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     lateinit var apiRepository: ApiRepository
 
     @RelaxedMockK
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var settingsRepository: SettingsRepository
 
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
@@ -48,7 +48,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = SettingsViewModel(
-            preferencesRepository,
+            settingsRepository,
             apiRepository,
             currencyDao,
             offlineRatesDao

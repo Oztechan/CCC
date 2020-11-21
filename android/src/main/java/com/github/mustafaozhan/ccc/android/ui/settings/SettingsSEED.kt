@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.ui.main.MainData
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
 // State
 @Suppress("ConstructorParameterNaming")
@@ -55,8 +55,8 @@ data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
 
 // Data
 data class SettingsData(
-    private val preferencesRepository: PreferencesRepository
-) : MainData(preferencesRepository) {
+    private val settingsRepository: SettingsRepository
+) : MainData(settingsRepository) {
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
     }

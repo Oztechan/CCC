@@ -5,11 +5,11 @@
 package com.github.mustafaozhan.ccc.android.ui.splash
 
 import androidx.lifecycle.ViewModel
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
-class SplashViewModel(private val preferencesRepository: PreferencesRepository) : ViewModel() {
+class SplashViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
-    fun getAppTheme() = preferencesRepository.appTheme
+    fun getAppTheme() = settingsRepository.appTheme
 
-    fun isFirstRun() = preferencesRepository.firstRun
+    fun isFirstRun() = settingsRepository.firstRun
 }

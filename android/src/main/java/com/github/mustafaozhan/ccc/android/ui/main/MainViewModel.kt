@@ -5,10 +5,10 @@ package com.github.mustafaozhan.ccc.android.ui.main
 
 import androidx.lifecycle.ViewModel
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.WEEK
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
-class MainViewModel(preferencesRepository: PreferencesRepository) : ViewModel() {
-    val data = MainData(preferencesRepository)
+class MainViewModel(settingsRepository: SettingsRepository) : ViewModel() {
+    val data = MainData(settingsRepository)
 
     fun shouldShowReview() = System.currentTimeMillis() - data.lastReviewRequest >= WEEK
 

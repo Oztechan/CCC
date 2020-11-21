@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.ui.main.MainData
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 
 // State
 @Suppress("ConstructorParameterNaming")
@@ -57,8 +57,8 @@ data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect
 
 // Data
 data class CalculatorData(
-    private val preferencesRepository: PreferencesRepository
-) : MainData(preferencesRepository) {
+    private val settingsRepository: SettingsRepository
+) : MainData(settingsRepository) {
 
     companion object {
         internal const val MAXIMUM_INPUT = 18

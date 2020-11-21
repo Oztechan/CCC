@@ -13,6 +13,7 @@ import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_AC
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.toUnit
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
@@ -20,7 +21,6 @@ import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.CurrencyResponse
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.data.util.getFormatted
@@ -38,7 +38,7 @@ import org.mariuszgromada.math.mxparser.Expression
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    preferencesRepository: PreferencesRepository,
+    settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
@@ -51,7 +51,7 @@ class CalculatorViewModel(
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    val data = CalculatorData(preferencesRepository)
+    val data = CalculatorData(settingsRepository)
 
     fun getEvent() = this as CalculatorEvent
     // endregion

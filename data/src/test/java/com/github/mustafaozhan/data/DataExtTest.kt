@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.data
 
+import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.CurrencyType
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate

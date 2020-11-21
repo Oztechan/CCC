@@ -9,10 +9,10 @@ import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_AC
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.toUnit
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.CurrencyType
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class CurrenciesViewModel(
-    preferencesRepository: PreferencesRepository,
+    settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
 ) : ViewModel(), CurrenciesEvent {
 
@@ -33,7 +33,7 @@ class CurrenciesViewModel(
     private val _effect = MutableSingleLiveData<CurrenciesEffect>()
     val effect: SingleLiveData<CurrenciesEffect> = _effect
 
-    val data = CurrenciesData(preferencesRepository)
+    val data = CurrenciesData(settingsRepository)
 
     fun getEvent() = this as CurrenciesEvent
     // endregion

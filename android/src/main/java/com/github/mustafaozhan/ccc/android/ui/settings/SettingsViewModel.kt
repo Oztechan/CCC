@@ -10,11 +10,11 @@ import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import com.github.mustafaozhan.data.util.toRate
 import java.util.Date
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
-    preferencesRepository: PreferencesRepository,
+    settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
@@ -37,7 +37,7 @@ class SettingsViewModel(
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
 
-    val data = SettingsData(preferencesRepository)
+    val data = SettingsData(settingsRepository)
 
     fun getEvent() = this as SettingsEvent
     // endregion
@@ -45,7 +45,7 @@ class SettingsViewModel(
     init {
         _state._appThemeType.value = AppTheme.getThemeByValue(data.appTheme)
         _state._addFreeDate.value =
-            Date(preferencesRepository.adFreeActivatedDate).dateStringToFormattedString()
+            Date(settingsRepository.adFreeActivatedDate).dateStringToFormattedString()
 
         viewModelScope.launch {
             currencyDao.collectActiveCurrencies()
