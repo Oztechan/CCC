@@ -52,7 +52,7 @@
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_currencies"
-            app:visibility="@{vm.data.firstRun}" />
+            app:visibility="@{vm.isFirstRun()}" />
 
         <TextView
             android:id="@+id/btn_done"
@@ -60,7 +60,7 @@
             android:onClick="@{()->event.onDoneClick()}"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:visibility="@{vm.data.firstRun}" />
+            app:visibility="@{vm.isFirstRun()}" />
 
         <FrameLayout
             android:id="@+id/ad_view_container"

@@ -71,6 +71,8 @@ class SettingsViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
 
+    fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
+
     fun getAppTheme() = settingsRepository.appTheme
 
     // region Event

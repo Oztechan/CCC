@@ -105,6 +105,8 @@ class CurrenciesViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
 
+    fun isFirstRun() = settingsRepository.firstRun
+
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
         currencyDao.updateAllCurrencyState(state)
