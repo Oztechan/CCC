@@ -26,7 +26,7 @@ import java.io.FileNotFoundException
 import java.util.Locale
 import mustafaozhan.github.com.mycurrencies.R
 
-private const val DAY = (24 * 60 * 60 * 1000).toLong()
+const val DAY = (24 * 60 * 60 * 1000).toLong()
 private const val WEEK = 7 * DAY
 
 fun ImageView.setBackgroundByName(name: String) =

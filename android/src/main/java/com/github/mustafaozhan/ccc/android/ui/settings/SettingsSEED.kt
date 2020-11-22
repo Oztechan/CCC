@@ -6,8 +6,6 @@ package com.github.mustafaozhan.ccc.android.ui.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
 // State
 @Suppress("ConstructorParameterNaming")
@@ -54,12 +52,8 @@ object OnlyOneTimeSyncEffect : SettingsEffect()
 data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
 
 // Data
-data class SettingsData(
-    private val settingsRepository: SettingsRepository
-) : MainData(settingsRepository) {
+data class SettingsData(var synced: Boolean = false) {
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
     }
-
-    var synced = false
 }

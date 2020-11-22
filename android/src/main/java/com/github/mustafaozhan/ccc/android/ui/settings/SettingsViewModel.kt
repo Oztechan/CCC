@@ -6,10 +6,11 @@ package com.github.mustafaozhan.ccc.android.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
+import com.github.mustafaozhan.ccc.android.util.DAY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
@@ -37,13 +38,13 @@ class SettingsViewModel(
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
 
-    val data = SettingsData(settingsRepository)
+    private val data = SettingsData()
 
     fun getEvent() = this as SettingsEvent
     // endregion
 
     init {
-        _state._appThemeType.value = AppTheme.getThemeByValue(data.appTheme)
+        _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
         _state._addFreeDate.value =
             Date(settingsRepository.adFreeActivatedDate).dateStringToFormattedString()
 
@@ -59,14 +60,18 @@ class SettingsViewModel(
 
     fun updateAddFreeDate() = System.currentTimeMillis().let {
         _state._addFreeDate.value = Date(it + DAY).dateStringToFormattedString()
-        data.adFreeActivatedDate = it
+        settingsRepository.adFreeActivatedDate = it
     }
 
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
-        data.appTheme = theme.themeValue
+        settingsRepository.appTheme = theme.themeValue
         _effect.postValue(ChangeThemeEffect(theme.themeValue))
     }
+
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
+
+    fun getAppTheme() = settingsRepository.appTheme
 
     // region Event
     override fun onBackClick() = _effect.postValue(BackEffect)

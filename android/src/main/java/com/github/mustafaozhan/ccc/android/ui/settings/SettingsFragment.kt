@@ -53,7 +53,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_settings),
-            settingsViewModel.data.isRewardExpired
+            settingsViewModel.isRewardExpired()
         )
     }
 
@@ -100,7 +100,7 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         })
 
     private fun changeTheme() {
-        AppTheme.getThemeByValue(settingsViewModel.data.appTheme)?.let { currentThemeType ->
+        AppTheme.getThemeByValue(settingsViewModel.getAppTheme())?.let { currentThemeType ->
             showSingleChoiceDialog(
                 requireActivity(),
                 getString(R.string.title_dialog_choose_theme),
