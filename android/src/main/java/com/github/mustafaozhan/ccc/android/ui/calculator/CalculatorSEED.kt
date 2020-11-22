@@ -6,8 +6,7 @@ package com.github.mustafaozhan.ccc.android.ui.calculator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.ccc.android.ui.main.MainData
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.android.model.DataState
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.Rates
 
@@ -33,7 +32,7 @@ data class MutableCalculatorState(
     val _output: MutableLiveData<String> = MutableLiveData(""),
     val _symbol: MutableLiveData<String> = MutableLiveData(""),
     val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
-    val _dataState: MutableLiveData<DataState> = MutableLiveData(Error)
+    val _dataState: MutableLiveData<DataState> = MutableLiveData(DataState.Error)
 )
 
 // Event
@@ -56,23 +55,11 @@ object OpenSettingsEffect : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
 // Data
-data class CalculatorData(
-    private val settingsRepository: SettingsRepository
-) : MainData(settingsRepository) {
-
+data class CalculatorData(var rates: Rates? = null) {
     companion object {
         internal const val MAXIMUM_INPUT = 18
         internal const val KEY_DEL = "DEL"
         internal const val KEY_AC = "AC"
         internal const val CHAR_DOT = '.'
     }
-
-    var rates: Rates? = null
 }
-
-// Others
-sealed class DataState
-data class Online(val lastUpdate: String?) : DataState()
-data class Cached(val lastUpdate: String?) : DataState()
-data class Offline(val lastUpdate: String?) : DataState()
-object Error : DataState()

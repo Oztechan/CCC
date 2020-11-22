@@ -9,11 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.SearchViewBindingAdapter.OnQueryTextChange
-import com.github.mustafaozhan.ccc.android.ui.calculator.Cached
-import com.github.mustafaozhan.ccc.android.ui.calculator.DataState
-import com.github.mustafaozhan.ccc.android.ui.calculator.Error
-import com.github.mustafaozhan.ccc.android.ui.calculator.Offline
-import com.github.mustafaozhan.ccc.android.ui.calculator.Online
+import com.github.mustafaozhan.ccc.android.model.DataState
 import mustafaozhan.github.com.mycurrencies.R
 
 @BindingAdapter("visibility")
@@ -28,15 +24,15 @@ fun View.visibility(visible: Boolean) {
 
 @BindingAdapter("dataState")
 fun TextView.dataState(state: DataState) = when (state) {
-    is Online -> {
+    is DataState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
     }
-    is Cached -> {
+    is DataState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
     }
-    is Offline -> {
+    is DataState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
             context.getString(R.string.text_offline)
         } else {
@@ -44,7 +40,7 @@ fun TextView.dataState(state: DataState) = when (state) {
         }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
     }
-    Error -> {
+    DataState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
     }

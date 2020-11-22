@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.main
 
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
 open class MainData(
@@ -18,12 +19,10 @@ open class MainData(
         internal const val TEXT_EMAIL_TYPE = "text/email"
         internal const val TEXT_TYPE = "text/plain"
         internal const val KEY_BASE_CURRENCY = "base_currency"
-        internal const val DAY = (24 * 60 * 60 * 1000).toLong()
-        internal const val WEEK = 7 * DAY
     }
 
     val isRewardExpired
-        get() = System.currentTimeMillis() - adFreeActivatedDate >= DAY
+        get() = adFreeActivatedDate.isDayPassed()
 
     var firstRun
         get() = settingsRepository.firstRun

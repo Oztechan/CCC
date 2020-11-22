@@ -26,6 +26,9 @@ import java.io.FileNotFoundException
 import java.util.Locale
 import mustafaozhan.github.com.mycurrencies.R
 
+private const val DAY = (24 * 60 * 60 * 1000).toLong()
+private const val WEEK = 7 * DAY
+
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
 
@@ -87,3 +90,11 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
 
 @Suppress("unused")
 fun Any?.toUnit() = Unit
+
+fun Long.isDayPassed(): Boolean {
+    return System.currentTimeMillis() - this >= DAY
+}
+
+fun Long.isWeekPassed(): Boolean {
+    return System.currentTimeMillis() - this >= WEEK
+}

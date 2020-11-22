@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ccc.android.ui.calculator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.mustafaozhan.ccc.android.model.DataState
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_DEL
@@ -12,6 +13,7 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companio
 import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
@@ -38,7 +40,7 @@ import org.mariuszgromada.math.mxparser.Expression
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
@@ -51,14 +53,14 @@ class CalculatorViewModel(
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    val data = CalculatorData(settingsRepository)
+    private val data = CalculatorData()
 
     fun getEvent() = this as CalculatorEvent
     // endregion
 
     init {
         with(_state) {
-            _base.value = data.currentBase
+            _base.value = settingsRepository.currentBase
             _input.value = ""
 
             _base.addSource(state.base) {
@@ -79,10 +81,10 @@ class CalculatorViewModel(
 
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
-        _state._dataState.value = Cached(rates.date)
+        _state._dataState.value = DataState.Cached(rates.date)
     } ?: viewModelScope.launch {
         apiRepository
-            .getRatesByBase(data.currentBase)
+            .getRatesByBase(settingsRepository.currentBase)
             .execute(
                 ::rateDownloadSuccess,
                 ::rateDownloadFail
@@ -93,7 +95,7 @@ class CalculatorViewModel(
         currencyResponse.toRate().let {
             data.rates = it
             calculateConversions(it)
-            _state._dataState.value = Online(it.date)
+            _state._dataState.value = DataState.Online(it.date)
             offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
@@ -102,16 +104,16 @@ class CalculatorViewModel(
         kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
-            data.currentBase
+            settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _state._dataState.value = Offline(offlineRates.date)
+            _state._dataState.value = DataState.Offline(offlineRates.date)
         } ?: run {
             kermit.w(t) { "no offline rate found" }
             state.currencyList.value?.size
                 ?.whether { it > 1 }
                 ?.let { _effect.postValue(ErrorEffect) }
-            _state._dataState.value = Error
+            _state._dataState.value = DataState.Error
         }
     }.toUnit()
 
@@ -142,7 +144,7 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
-        data.currentBase = newBase
+        settingsRepository.currentBase = newBase
 
         _state._input.value = _state._input.value
 
@@ -154,6 +156,10 @@ class CalculatorViewModel(
     fun verifyCurrentBase(it: String) {
         _state._base.postValue(it)
     }
+
+    fun getCurrentBase() = settingsRepository.currentBase
+
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
 
     // region Event
     override fun onKeyPress(key: String) {
@@ -190,7 +196,7 @@ class CalculatorViewModel(
     override fun onItemLongClick(currency: Currency): Boolean {
         _effect.postValue(
             ShowRateEffect(
-                currency.getCurrencyConversionByRate(data.currentBase, data.rates),
+                currency.getCurrencyConversionByRate(settingsRepository.currentBase, data.rates),
                 currency.name
             )
         )
