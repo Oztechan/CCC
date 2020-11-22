@@ -49,7 +49,7 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
-            currenciesViewModel.data.isRewardExpired
+            currenciesViewModel.isRewardExpired()
         )
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.filterList("")

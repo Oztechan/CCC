@@ -5,8 +5,6 @@ package com.github.mustafaozhan.ccc.android.ui.currencies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.ccc.android.ui.main.MainData
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.model.Currency
 
 // State
@@ -44,13 +42,11 @@ data class ChangeBaseNavResultEffect(val newBase: String) : CurrenciesEffect()
 
 // Data
 data class CurrenciesData(
-    private val settingsRepository: SettingsRepository
-) : MainData(settingsRepository) {
+    var unFilteredList: MutableList<Currency>? = mutableListOf(),
+    var query: String = ""
+) {
     companion object {
         internal const val SPAN_PORTRAIT = 1
         internal const val SPAN_LANDSCAPE = 3
     }
-
-    var unFilteredList: MutableList<Currency>? = mutableListOf()
-    lateinit var query: String
 }
