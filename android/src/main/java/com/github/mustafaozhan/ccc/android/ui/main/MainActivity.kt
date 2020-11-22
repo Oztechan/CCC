@@ -8,10 +8,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.coroutineScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.AD_INITIAL_DELAY
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.AD_PERIOD
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.BACK_DELAY
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.scopemob.whether
@@ -27,6 +23,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class MainActivity : BaseActivity() {
 
+    companion object {
+        private const val BACK_DELAY: Long = 2000
+        private const val AD_INITIAL_DELAY: Long = 45000
+        private const val REVIEW_DELAY: Long = 10000
+        private const val AD_PERIOD: Long = 180000
+    }
+
     private val mainViewModel: MainViewModel by viewModel()
 
     private lateinit var interstitialAd: InterstitialAd
@@ -36,7 +39,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(mainViewModel.data.appTheme)
+        AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
         checkReview()
@@ -44,7 +47,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun checkDestination() = with(getNavigationController()) {
-        if (mainViewModel.data.firstRun) {
+        if (mainViewModel.isFistRun()) {
             graph = navInflater.inflate(R.navigation.main_graph)
                 .apply {
                     startDestination = R.id.currenciesFragment
@@ -68,7 +71,7 @@ open class MainActivity : BaseActivity() {
                 interstitialAd.whether(
                     { isLoaded },
                     { adVisibility },
-                    { mainViewModel.data.isRewardExpired }
+                    { mainViewModel.isRewardExpired() }
                 )?.apply { show() }
                     ?: prepareInterstitialAd()
                 delay(AD_PERIOD)

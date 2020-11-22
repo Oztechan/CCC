@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.ui.bar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.data.db.CurrencyDao

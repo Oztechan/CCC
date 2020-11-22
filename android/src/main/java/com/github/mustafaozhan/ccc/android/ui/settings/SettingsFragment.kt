@@ -12,7 +12,6 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
@@ -31,6 +30,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
 class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
+
+    companion object {
+        private const val TEXT_EMAIL_TYPE = "text/email"
+        private const val TEXT_TYPE = "text/plain"
+    }
 
     private val settingsViewModel: SettingsViewModel by viewModel()
 
@@ -147,13 +151,13 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
     }
 
     private fun share() = Intent(Intent.ACTION_SEND).apply {
-        type = MainData.TEXT_TYPE
+        type = TEXT_TYPE
         putExtra(Intent.EXTRA_TEXT, getString(R.string.app_market_link))
         startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
     }.toUnit()
 
     private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
-        type = MainData.TEXT_EMAIL_TYPE
+        type = TEXT_EMAIL_TYPE
         putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail_developer)))
         putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
         putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")

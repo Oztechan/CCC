@@ -52,8 +52,4 @@ object OnlyOneTimeSyncEffect : SettingsEffect()
 data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
 
 // Data
-data class SettingsData(var synced: Boolean = false) {
-    companion object {
-        internal const val SYNC_DELAY = 10.toLong()
-    }
-}
+data class SettingsData(var synced: Boolean = false)

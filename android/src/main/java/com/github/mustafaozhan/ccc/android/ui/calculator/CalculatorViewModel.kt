@@ -6,11 +6,7 @@ package com.github.mustafaozhan.ccc.android.ui.calculator
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.DataState
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.CHAR_DOT
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_DEL
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.MAXIMUM_INPUT
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.isDayPassed
@@ -46,6 +42,13 @@ class CalculatorViewModel(
     private val offlineRatesDao: OfflineRatesDao
 ) : ViewModel(), CalculatorEvent {
 
+    companion object {
+        private const val MAXIMUM_INPUT = 18
+        private const val CHAR_DOT = '.'
+        const val KEY_DEL = "DEL"
+        const val KEY_AC = "AC"
+    }
+
     // region SEED
     private val _state = MutableCalculatorState()
     val state = CalculatorState(_state)
@@ -53,7 +56,7 @@ class CalculatorViewModel(
     private val _effect = MutableSingleLiveData<CalculatorEffect>()
     val effect: SingleLiveData<CalculatorEffect> = _effect
 
-    private val data = CalculatorData()
+    val data = CalculatorData()
 
     fun getEvent() = this as CalculatorEvent
     // endregion

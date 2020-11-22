@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import mustafaozhan.github.com.mycurrencies.R

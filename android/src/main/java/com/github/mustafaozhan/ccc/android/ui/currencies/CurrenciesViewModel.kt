@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.ui.currencies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.isDayPassed
@@ -35,7 +35,7 @@ class CurrenciesViewModel(
     private val _effect = MutableSingleLiveData<CurrenciesEffect>()
     val effect: SingleLiveData<CurrenciesEffect> = _effect
 
-    private val data = CurrenciesData()
+    val data = CurrenciesData()
 
     fun getEvent() = this as CurrenciesEvent
     // endregion

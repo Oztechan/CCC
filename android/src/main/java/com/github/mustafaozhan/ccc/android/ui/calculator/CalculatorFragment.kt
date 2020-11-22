@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult

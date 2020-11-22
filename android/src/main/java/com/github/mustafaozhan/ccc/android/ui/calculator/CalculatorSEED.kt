@@ -55,11 +55,4 @@ object OpenSettingsEffect : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
 // Data
-data class CalculatorData(var rates: Rates? = null) {
-    companion object {
-        internal const val MAXIMUM_INPUT = 18
-        internal const val KEY_DEL = "DEL"
-        internal const val KEY_AC = "AC"
-        internal const val CHAR_DOT = '.'
-    }
-}
+data class CalculatorData(var rates: Rates? = null)

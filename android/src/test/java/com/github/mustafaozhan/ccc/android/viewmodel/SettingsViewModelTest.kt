@@ -4,7 +4,6 @@
 package com.github.mustafaozhan.ccc.android.viewmodel
 
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ChangeThemeEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.CurrenciesEffect
@@ -15,6 +14,7 @@ import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.android.ui.settings.ShareEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ThemeDialogEffect
+import com.github.mustafaozhan.ccc.android.util.DAY
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao

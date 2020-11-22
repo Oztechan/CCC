@@ -10,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesData.Companion.SPAN_LANDSCAPE
-import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesData.Companion.SPAN_PORTRAIT
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.reObserve
@@ -23,6 +21,11 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBindin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
+
+    companion object {
+        internal const val SPAN_PORTRAIT = 1
+        internal const val SPAN_LANDSCAPE = 3
+    }
 
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 

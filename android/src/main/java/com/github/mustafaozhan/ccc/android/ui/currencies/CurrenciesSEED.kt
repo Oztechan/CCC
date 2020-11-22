@@ -44,9 +44,4 @@ data class ChangeBaseNavResultEffect(val newBase: String) : CurrenciesEffect()
 data class CurrenciesData(
     var unFilteredList: MutableList<Currency>? = mutableListOf(),
     var query: String = ""
-) {
-    companion object {
-        internal const val SPAN_PORTRAIT = 1
-        internal const val SPAN_LANDSCAPE = 3
-    }
-}
+)

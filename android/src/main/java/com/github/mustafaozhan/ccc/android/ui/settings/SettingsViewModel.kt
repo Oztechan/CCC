@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ccc.android.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.android.util.DAY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
@@ -30,6 +29,10 @@ class SettingsViewModel(
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : ViewModel(), SettingsEvent {
+
+    companion object {
+        internal const val SYNC_DELAY = 10.toLong()
+    }
 
     // region SEED
     private val _state = MutableSettingsState()

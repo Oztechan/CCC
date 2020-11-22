@@ -3,9 +3,9 @@
  */
 package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.android.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.android.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.android.ui.calculator.ShowRateEffect
@@ -97,7 +97,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
         assertEquals(
             ShowRateEffect(
-                currency.getCurrencyConversionByRate(data.currentBase, data.rates),
+                currency.getCurrencyConversionByRate(settingsRepository.currentBase, data.rates),
                 currency.name
             ),
             effect.value
