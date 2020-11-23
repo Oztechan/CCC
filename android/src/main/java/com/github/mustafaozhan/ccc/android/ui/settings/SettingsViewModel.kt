@@ -21,6 +21,7 @@ import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
@@ -61,7 +62,7 @@ class SettingsViewModel(
         }
     }
 
-    fun updateAddFreeDate() = System.currentTimeMillis().let {
+    fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
         _state._addFreeDate.value = Date(it + DAY).dateStringToFormattedString()
         settingsRepository.adFreeActivatedDate = it
     }

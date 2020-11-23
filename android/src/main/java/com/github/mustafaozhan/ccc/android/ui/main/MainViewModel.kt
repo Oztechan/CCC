@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.github.mustafaozhan.ccc.android.util.isDayPassed
 import com.github.mustafaozhan.ccc.android.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import kotlinx.datetime.Clock
 
 class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
     fun shouldShowReview() = settingsRepository.lastReviewRequest.isWeekPassed()
 
     fun setLastReview() {
-        settingsRepository.lastReviewRequest = System.currentTimeMillis()
+        settingsRepository.lastReviewRequest = Clock.System.now().toEpochMilliseconds()
     }
 
     fun isFistRun() = settingsRepository.firstRun

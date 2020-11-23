@@ -24,6 +24,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import java.util.Date
+import kotlinx.datetime.Clock
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -68,7 +69,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         updateAddFreeDate()
         assertEquals(
             state.addFreeDate.value,
-            Date(System.currentTimeMillis() + DAY).dateStringToFormattedString()
+            Date(Clock.System.now().toEpochMilliseconds() + DAY).dateStringToFormattedString()
         )
     }
 

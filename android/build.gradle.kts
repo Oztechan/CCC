@@ -56,6 +56,8 @@ dependencies {
         testImplementation(coroutinesTest)
     }
 
+    implementation(Dependencies.Common.dateTime)
+
     with(Modules) {
         implementation(project(client))
         implementation(project(common))

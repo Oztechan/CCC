@@ -24,6 +24,7 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
 import java.util.Locale
+import kotlinx.datetime.Clock
 import mustafaozhan.github.com.mycurrencies.R
 
 const val DAY = (24 * 60 * 60 * 1000).toLong()
@@ -92,9 +93,9 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
 fun Any?.toUnit() = Unit
 
 fun Long.isDayPassed(): Boolean {
-    return System.currentTimeMillis() - this >= DAY
+    return Clock.System.now().toEpochMilliseconds() - this >= DAY
 }
 
 fun Long.isWeekPassed(): Boolean {
-    return System.currentTimeMillis() - this >= WEEK
+    return Clock.System.now().toEpochMilliseconds() - this >= WEEK
 }

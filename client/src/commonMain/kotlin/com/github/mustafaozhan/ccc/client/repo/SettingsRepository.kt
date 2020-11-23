@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ccc.client.repo
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.russhwolf.settings.Settings
+import kotlinx.datetime.Clock
 
 class SettingsRepository(private val settings: Settings) {
     companion object {
@@ -38,7 +39,6 @@ class SettingsRepository(private val settings: Settings) {
         set(value) = settings.putLong(KEY_AD_FREE_DATE, value)
 
     var lastReviewRequest: Long
-        // todo use datetime instead of System.currentTimeMillis()
-        get() = settings.getLong(KEY_LAST_REVIEW_REQUEST, 0)
+        get() = settings.getLong(KEY_LAST_REVIEW_REQUEST, Clock.System.now().toEpochMilliseconds())
         set(value) = settings.putLong(KEY_LAST_REVIEW_REQUEST, value)
 }
