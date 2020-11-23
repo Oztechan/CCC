@@ -33,6 +33,7 @@ object Versions {
     const val navigation = "2.3.1"
     const val moshiConverter = "2.9.0"
     const val playCore = "1.8.3"
+    const val dateTime = "0.1.0"
 }
 
 object Dependencies {
@@ -44,6 +45,7 @@ object Dependencies {
         const val kermit = "co.touchlab:kermit:${Versions.kermit}"
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+        const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
     }
 
     object Android {
