@@ -4,10 +4,10 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val kotlin = "1.4.20-RC"
+    const val kotlin = "1.4.20"
     const val androidPlugin = "4.2.0-alpha16"
     const val androidMaterial = "1.3.0-alpha03"
-    const val constraintLayout = "2.0.4"
+    const val constraintLayout = "2.1.0-alpha1"
     const val jUnit = "4.13.1"
     const val ktor = "1.4.2"
     const val logBack = "1.3.0-alpha5"
