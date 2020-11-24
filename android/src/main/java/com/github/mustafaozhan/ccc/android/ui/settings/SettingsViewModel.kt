@@ -49,8 +49,9 @@ class SettingsViewModel(
 
     init {
         _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
-        _state._addFreeDate.value =
-            Date(settingsRepository.adFreeActivatedDate).dateStringToFormattedString()
+        _state._addFreeDate.value = Date(
+            settingsRepository.adFreeActivatedDate + DAY
+        ).dateStringToFormattedString()
 
         viewModelScope.launch {
             currencyDao.collectActiveCurrencies()

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-private const val DATE_FORMAT = "HH:mm MM.dd.yyyy"
+private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
 private const val MAXIMUM_FLOATING_POINT = 15
 
 // todo check append
