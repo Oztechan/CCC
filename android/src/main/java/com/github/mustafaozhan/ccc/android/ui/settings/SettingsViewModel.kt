@@ -6,31 +6,34 @@ package com.github.mustafaozhan.ccc.android.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
-import com.github.mustafaozhan.ccc.android.ui.settings.SettingsData.Companion.SYNC_DELAY
+import com.github.mustafaozhan.ccc.android.util.DAY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
-import com.github.mustafaozhan.data.model.SingleLiveData
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import com.github.mustafaozhan.data.util.toRate
 import java.util.Date
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 @Suppress("TooManyFunctions")
-class SettingsViewModel
-@Inject constructor(
-    preferencesRepository: PreferencesRepository,
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : ViewModel(), SettingsEvent {
+
+    companion object {
+        internal const val SYNC_DELAY = 10.toLong()
+    }
 
     // region SEED
     private val _state = MutableSettingsState()
@@ -39,15 +42,16 @@ class SettingsViewModel
     private val _effect = MutableSingleLiveData<SettingsEffect>()
     val effect: SingleLiveData<SettingsEffect> = _effect
 
-    val data = SettingsData(preferencesRepository)
+    private val data = SettingsData()
 
     fun getEvent() = this as SettingsEvent
     // endregion
 
     init {
-        _state._appThemeType.value = AppTheme.getThemeByValue(data.appTheme)
-        _state._addFreeDate.value =
-            Date(preferencesRepository.adFreeActivatedDate).dateStringToFormattedString()
+        _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
+        _state._addFreeDate.value = Date(
+            settingsRepository.adFreeActivatedDate + DAY
+        ).dateStringToFormattedString()
 
         viewModelScope.launch {
             currencyDao.collectActiveCurrencies()
@@ -59,16 +63,22 @@ class SettingsViewModel
         }
     }
 
-    fun updateAddFreeDate() = System.currentTimeMillis().let {
+    fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
         _state._addFreeDate.value = Date(it + DAY).dateStringToFormattedString()
-        data.adFreeActivatedDate = it
+        settingsRepository.adFreeActivatedDate = it
     }
 
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
-        data.appTheme = theme.themeValue
+        settingsRepository.appTheme = theme.themeValue
         _effect.postValue(ChangeThemeEffect(theme.themeValue))
     }
+
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
+
+    fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
+
+    fun getAppTheme() = settingsRepository.appTheme
 
     // region Event
     override fun onBackClick() = _effect.postValue(BackEffect)

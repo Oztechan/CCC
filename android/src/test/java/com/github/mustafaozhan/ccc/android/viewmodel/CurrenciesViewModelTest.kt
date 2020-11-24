@@ -6,9 +6,9 @@ package com.github.mustafaozhan.ccc.android.viewmodel
 import com.github.mustafaozhan.ccc.android.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.android.ui.currencies.FewCurrencyEffect
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -26,7 +26,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     override lateinit var viewModel: CurrenciesViewModel
 
     @RelaxedMockK
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var settingsRepository: SettingsRepository
 
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
@@ -34,7 +34,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = CurrenciesViewModel(preferencesRepository, currencyDao)
+        viewModel = CurrenciesViewModel(settingsRepository, currencyDao)
     }
 
     @Test

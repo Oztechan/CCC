@@ -31,7 +31,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{!vm.data.firstRun||vm.state.selectionVisibility}"
+                app:visibility="@{!vm.isFirstRun()||vm.state.selectionVisibility}"
                 tools:ignore="ContentDescription" />
 
             <TextView

@@ -4,10 +4,10 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val kotlin = "1.4.20-RC"
+    const val kotlin = "1.4.20"
     const val androidPlugin = "4.2.0-alpha16"
     const val androidMaterial = "1.3.0-alpha03"
-    const val constraintLayout = "2.0.4"
+    const val constraintLayout = "2.1.0-alpha1"
     const val jUnit = "4.13.1"
     const val ktor = "1.4.2"
     const val logBack = "1.3.0-alpha5"
@@ -25,7 +25,6 @@ object Versions {
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
-    const val dagger = "2.29.1"
     const val retrofit = "2.9.0"
     const val moshi = "1.11.0"
     const val room = "2.3.0-alpha03"
@@ -34,6 +33,7 @@ object Versions {
     const val navigation = "2.3.1"
     const val moshiConverter = "2.9.0"
     const val playCore = "1.8.3"
+    const val dateTime = "0.1.0"
 }
 
 object Dependencies {
@@ -45,6 +45,7 @@ object Dependencies {
         const val kermit = "co.touchlab:kermit:${Versions.kermit}"
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+        const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
     }
 
     object Android {
@@ -60,7 +61,6 @@ object Dependencies {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
-        const val dagger = "com.google.dagger:dagger-android-support:${Versions.dagger}"
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
         const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
@@ -103,8 +103,6 @@ object Dependencies {
 }
 
 object Annotations {
-    const val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
-    const val daggerProcessor = "com.google.dagger:dagger-android-processor:${Versions.dagger}"
     const val moshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val room = "androidx.room:room-compiler:${Versions.room}"
 }

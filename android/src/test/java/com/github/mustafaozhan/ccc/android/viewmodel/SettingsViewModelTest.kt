@@ -4,7 +4,6 @@
 package com.github.mustafaozhan.ccc.android.viewmodel
 
 import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.DAY
 import com.github.mustafaozhan.ccc.android.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ChangeThemeEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.CurrenciesEffect
@@ -15,15 +14,17 @@ import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.android.ui.settings.ShareEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.android.ui.settings.ThemeDialogEffect
+import com.github.mustafaozhan.ccc.android.util.DAY
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.dateStringToFormattedString
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import java.util.Date
+import kotlinx.datetime.Clock
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -36,7 +37,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     lateinit var apiRepository: ApiRepository
 
     @RelaxedMockK
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var settingsRepository: SettingsRepository
 
     @RelaxedMockK
     lateinit var currencyDao: CurrencyDao
@@ -48,7 +49,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = SettingsViewModel(
-            preferencesRepository,
+            settingsRepository,
             apiRepository,
             currencyDao,
             offlineRatesDao
@@ -68,7 +69,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         updateAddFreeDate()
         assertEquals(
             state.addFreeDate.value,
-            Date(System.currentTimeMillis() + DAY).dateStringToFormattedString()
+            Date(Clock.System.now().toEpochMilliseconds() + DAY).dateStringToFormattedString()
         )
     }
 

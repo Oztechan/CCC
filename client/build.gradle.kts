@@ -49,6 +49,7 @@ kotlin {
                 dependencies {
                     implementation(project(Modules.common))
                     implementation(multiplatformSettings)
+                    implementation(dateTime)
                     api(koinCore)
                     api(kermit)
                 }

@@ -3,37 +3,29 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.calculator
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
-    @Inject
-    lateinit var calculatorViewModel: CalculatorViewModel
+    private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
 
     override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
         FragmentCalculatorBinding.inflate(layoutInflater, container, false)
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onBinding(dataBinding: FragmentCalculatorBinding) {
         binding.vm = calculatorViewModel
@@ -54,7 +46,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.data.isRewardExpired
+            calculatorViewModel.isRewardExpired()
         )
     }
 
@@ -99,7 +91,7 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
 
         with(calculatorViewModel) {
             state.currencyList.reObserve(viewLifecycleOwner, {
-                calculatorAdapter.submitList(it, data.currentBase)
+                calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
             })
         }
     }

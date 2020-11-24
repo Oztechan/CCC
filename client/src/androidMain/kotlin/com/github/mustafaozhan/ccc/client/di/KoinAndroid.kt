@@ -15,10 +15,11 @@ import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
-fun initAndroid(sharedPreferences: SharedPreferences) = initKoin(
+fun initAndroid(sharedPreferences: SharedPreferences, module: Module) = initKoin(
     module {
         single<Settings> { AndroidSettings(sharedPreferences) }
-    }
+    },
+    module
 )
 
 actual val platformClientModule: Module = module {

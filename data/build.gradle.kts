@@ -39,7 +39,6 @@ android {
 dependencies {
 
     with(Dependencies.Android) {
-        implementation(dagger)
         implementation(moshi)
         implementation(moshiConverter)
         implementation(retrofit)
@@ -49,7 +48,6 @@ dependencies {
     }
 
     with(Annotations) {
-        kapt(daggerCompiler)
         kapt(moshi)
         kapt(room)
     }

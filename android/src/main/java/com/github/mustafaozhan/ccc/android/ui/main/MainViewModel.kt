@@ -4,17 +4,22 @@
 package com.github.mustafaozhan.ccc.android.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.WEEK
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
-import javax.inject.Inject
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
+import com.github.mustafaozhan.ccc.android.util.isWeekPassed
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import kotlinx.datetime.Clock
 
-class MainViewModel
-@Inject constructor(preferencesRepository: PreferencesRepository) : ViewModel() {
-    val data = MainData(preferencesRepository)
+class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
-    fun shouldShowReview() = System.currentTimeMillis() - data.lastReviewRequest >= WEEK
+    fun shouldShowReview() = settingsRepository.lastReviewRequest.isWeekPassed()
 
     fun setLastReview() {
-        data.lastReviewRequest = System.currentTimeMillis()
+        settingsRepository.lastReviewRequest = Clock.System.now().toEpochMilliseconds()
     }
+
+    fun isFistRun() = settingsRepository.firstRun
+
+    fun getAppTheme() = settingsRepository.appTheme
+
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
 }

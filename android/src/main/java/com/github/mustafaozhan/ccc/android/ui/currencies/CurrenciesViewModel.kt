@@ -5,26 +5,26 @@ package com.github.mustafaozhan.ccc.android.ui.currencies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.ui.main.MainData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
+import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.isDayPassed
 import com.github.mustafaozhan.ccc.android.util.toUnit
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.CurrencyType
-import com.github.mustafaozhan.data.model.MutableSingleLiveData
-import com.github.mustafaozhan.data.model.SingleLiveData
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class CurrenciesViewModel
-@Inject constructor(
-    preferencesRepository: PreferencesRepository,
+@Suppress("TooManyFunctions")
+class CurrenciesViewModel(
+    private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
 ) : ViewModel(), CurrenciesEvent {
 
@@ -35,7 +35,7 @@ class CurrenciesViewModel
     private val _effect = MutableSingleLiveData<CurrenciesEffect>()
     val effect: SingleLiveData<CurrenciesEffect> = _effect
 
-    val data = CurrenciesData(preferencesRepository)
+    val data = CurrenciesData()
 
     fun getEvent() = this as CurrenciesEvent
     // endregion
@@ -54,7 +54,7 @@ class CurrenciesViewModel
                     currencyList
                         ?.filter { it.isActive }?.size
                         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                        ?.whetherNot { data.firstRun }
+                        ?.whetherNot { settingsRepository.firstRun }
                         ?.let { _effect.postValue(FewCurrencyEffect) }
 
                     verifyCurrentBase()
@@ -65,7 +65,7 @@ class CurrenciesViewModel
         filterList("")
     }
 
-    private fun verifyCurrentBase() = data.currentBase.either(
+    private fun verifyCurrentBase() = settingsRepository.currentBase.either(
         { equals(CurrencyType.NULL.toString()) },
         { base ->
             state.currencyList.value
@@ -81,7 +81,7 @@ class CurrenciesViewModel
     }
 
     private fun updateCurrentBase(newBase: String) {
-        data.currentBase = newBase
+        settingsRepository.currentBase = newBase
         _effect.postValue(ChangeBaseNavResultEffect(newBase))
     }
 
@@ -103,6 +103,10 @@ class CurrenciesViewModel
             true
         }
 
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
+
+    fun isFirstRun() = settingsRepository.firstRun
+
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
         currencyDao.updateAllCurrencyState(state)
@@ -117,7 +121,7 @@ class CurrenciesViewModel
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
         ?: run {
-            data.firstRun = false
+            settingsRepository.firstRun = false
             _effect.postValue(CalculatorEffect)
         }
 

@@ -12,7 +12,7 @@ import client
 
 struct Koin {
     let koin = KoinIOSKt.doInitIOS(
-        userDefaults: UserDefaults(suiteName: SettingsRepository.Companion().SETTINGS_NAME)!
+        userDefaults: UserDefaults(suiteName: "application_user_defaults")!
     ).koin
 }
 

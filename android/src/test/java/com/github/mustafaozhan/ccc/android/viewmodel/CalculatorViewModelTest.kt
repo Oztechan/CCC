@@ -3,17 +3,17 @@
  */
 package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.android.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.android.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.android.ui.calculator.ShowRateEffect
+import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.preferences.PreferencesRepository
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -32,7 +32,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     override lateinit var viewModel: CalculatorViewModel
 
     @RelaxedMockK
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var settingsRepository: SettingsRepository
 
     @MockK
     lateinit var apiRepository: ApiRepository
@@ -47,7 +47,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = CalculatorViewModel(
-            preferencesRepository,
+            settingsRepository,
             apiRepository,
             currencyDao,
             offlineRatesDao
@@ -97,7 +97,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
         assertEquals(
             ShowRateEffect(
-                currency.getCurrencyConversionByRate(data.currentBase, data.rates),
+                currency.getCurrencyConversionByRate(settingsRepository.currentBase, data.rates),
                 currency.name
             ),
             effect.value
