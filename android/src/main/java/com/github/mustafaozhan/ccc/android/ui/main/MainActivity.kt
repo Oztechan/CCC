@@ -25,7 +25,7 @@ open class MainActivity : BaseActivity() {
 
     companion object {
         private const val BACK_DELAY: Long = 2000
-        private const val AD_INITIAL_DELAY: Long = 45000
+        private const val AD_INITIAL_DELAY: Long = 60000
         private const val REVIEW_DELAY: Long = 10000
         private const val AD_PERIOD: Long = 180000
     }
