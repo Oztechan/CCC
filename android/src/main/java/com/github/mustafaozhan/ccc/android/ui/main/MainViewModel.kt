@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.ccc.android.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.github.mustafaozhan.ccc.android.util.isDayPassed
+import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import kotlinx.datetime.Clock
@@ -21,5 +21,5 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : ViewMo
 
     fun getAppTheme() = settingsRepository.appTheme
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 }

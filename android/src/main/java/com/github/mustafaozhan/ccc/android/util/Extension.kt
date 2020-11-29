@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-@file:Suppress("unused")
+@file:Suppress("unused", "TooManyFunctions")
 
 package com.github.mustafaozhan.ccc.android.util
 
@@ -26,9 +26,6 @@ import java.io.FileNotFoundException
 import java.util.Locale
 import kotlinx.datetime.Clock
 import mustafaozhan.github.com.mycurrencies.R
-
-const val DAY = (24 * 60 * 60 * 1000).toLong()
-private const val WEEK = 7 * DAY
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
@@ -92,10 +89,10 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
 @Suppress("unused")
 fun Any?.toUnit() = Unit
 
-fun Long.isDayPassed(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= DAY
-}
-
 fun Long.isWeekPassed(): Boolean {
     return Clock.System.now().toEpochMilliseconds() - this >= WEEK
+}
+
+fun Long.isRewardExpired(): Boolean {
+    return Clock.System.now().toEpochMilliseconds() - this >= AD_EXPIRATION
 }

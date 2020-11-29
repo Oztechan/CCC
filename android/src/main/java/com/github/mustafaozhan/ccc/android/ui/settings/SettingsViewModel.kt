@@ -9,7 +9,7 @@ import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.util.DAY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
-import com.github.mustafaozhan.ccc.android.util.isDayPassed
+import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.api.ApiRepository
@@ -74,7 +74,7 @@ class SettingsViewModel(
         _effect.postValue(ChangeThemeEffect(theme.themeValue))
     }
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isDayPassed()
+    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
     fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
 
