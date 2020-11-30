@@ -6,18 +6,18 @@
 object Versions {
     const val kotlin = "1.4.20"
     const val androidPlugin = "4.2.0-alpha16"
-    const val androidMaterial = "1.3.0-alpha03"
+    const val androidMaterial = "1.3.0-alpha04"
     const val constraintLayout = "2.1.0-alpha1"
     const val jUnit = "4.13.1"
     const val ktor = "1.4.2"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val versionChecker = "0.36.0"
-    const val react = "17.0.0-pre.129-kotlin-1.4.10"
+    const val react = "17.0.0-pre.129-kotlin-1.4.20"
     const val koin = "3.0.0-alpha-4"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.6.3"
-    const val coroutines = "1.4.1"
+    const val coroutines = "1.4.2"
     const val mockK = "1.10.2"
     const val archTesting = "1.1.1"
     const val firebaseCore = "18.0.0"
@@ -33,7 +33,7 @@ object Versions {
     const val navigation = "2.3.1"
     const val moshiConverter = "2.9.0"
     const val playCore = "1.8.3"
-    const val dateTime = "0.1.0"
+    const val dateTime = "0.1.1"
 }
 
 object Dependencies {
