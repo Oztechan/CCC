@@ -5,16 +5,18 @@ package com.github.mustafaozhan.data.api
 
 import android.content.Context
 import com.github.mustafaozhan.data.R
-import com.squareup.moshi.Moshi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ApiFactory(context: Context) {
 
     companion object {
         private const val TIME_OUT: Long = 3
+        private const val MEDIA_TYPE = "application/json"
     }
 
     val endpoint = context.getString(R.string.backend_endpoint)
@@ -27,7 +29,7 @@ class ApiFactory(context: Context) {
     private fun createRetrofit(httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(endpoint)
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
+            .addConverterFactory(Json.asConverterFactory(MediaType.get(MEDIA_TYPE)))
             .client(httpClient)
             .build()
     }

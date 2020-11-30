@@ -3,12 +3,12 @@
  */
 package com.github.mustafaozhan.data.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class CurrencyResponse(
-    @Json(name = "base") var base: String,
-    @Json(name = "date") var date: String? = null,
-    @Json(name = "rates") var rates: Rates
+    @SerialName("base") var base: String,
+    @SerialName("date") var date: String? = null,
+    @SerialName("rates") var rates: Rates
 )

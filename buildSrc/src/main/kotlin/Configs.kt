@@ -26,14 +26,13 @@ object Versions {
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
     const val retrofit = "2.9.0"
-    const val moshi = "1.11.0"
     const val room = "2.3.0-alpha03"
     const val admob = "19.5.0"
     const val multidex = "2.0.1"
     const val navigation = "2.3.1"
-    const val moshiConverter = "2.9.0"
     const val playCore = "1.8.3"
     const val dateTime = "0.1.1"
+    const val serialization = "1.0.1"
 }
 
 object Dependencies {
@@ -46,6 +45,8 @@ object Dependencies {
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
+        const val serialization =
+            "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}"
     }
 
     object Android {
@@ -62,14 +63,11 @@ object Dependencies {
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-        const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
-        const val moshiConverter =
-            "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverter}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
 
         // Test
@@ -103,7 +101,6 @@ object Dependencies {
 }
 
 object Annotations {
-    const val moshi = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val room = "androidx.room:room-compiler:${Versions.room}"
 }
 
@@ -150,6 +147,7 @@ object Plugins {
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
     const val platformJvm = "jvm"
+    const val kotlinXSerialization = "kotlinx-serialization"
     const val serializationPlugin = "plugin.serialization"
     const val js = "js"
     const val versionChecker = "com.github.ben-manes.versions"

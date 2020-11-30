@@ -4,6 +4,7 @@
 plugins {
     with(Plugins) {
         id(library)
+        id(kotlinXSerialization)
         kotlin(android)
         kotlin(kapt)
     }
@@ -39,18 +40,17 @@ android {
 dependencies {
 
     with(Dependencies.Android) {
-        implementation(moshi)
-        implementation(moshiConverter)
         implementation(retrofit)
         implementation(roomKtx)
 
         testImplementation(jUnit)
     }
 
-    with(Annotations) {
-        kapt(moshi)
-        kapt(room)
-    }
+    implementation(Dependencies.Common.serialization)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+
+    kapt(Annotations.room)
 
     with(Modules) {
         implementation(project(common))

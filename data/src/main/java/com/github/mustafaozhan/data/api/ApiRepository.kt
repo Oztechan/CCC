@@ -12,7 +12,6 @@ import com.github.mustafaozhan.data.error.RetrofitException
 import com.github.mustafaozhan.data.error.UnknownNetworkException
 import com.github.mustafaozhan.data.model.NullBaseException
 import com.github.mustafaozhan.data.model.Result
-import com.squareup.moshi.JsonDataException
 import java.io.IOException
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -21,35 +20,35 @@ import javax.net.ssl.SSLException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerializationException
 import retrofit2.HttpException
 
 class ApiRepository(private val apiFactory: ApiFactory) {
 
     @Suppress("ThrowsCount", "TooGenericExceptionCaught")
-    suspend fun <T> apiRequest(suspendBlock: suspend () -> T) =
-        withContext(Dispatchers.IO) {
-            try {
-                Result.Success(suspendBlock.invoke())
-            } catch (e: Throwable) {
-                Result.Error(
-                    when (e) {
-                        is CancellationException -> e
-                        is UnknownHostException,
-                        is TimeoutException,
-                        is IOException,
-                        is SSLException -> NetworkException(e)
-                        is ConnectException -> InternetConnectionException(e)
-                        is JsonDataException -> ModelMappingException(e)
-                        is HttpException -> RetrofitException(
-                            e.response()?.code().toString() + " " + e.response()?.message(),
-                            e.response(),
-                            e
-                        )
-                        else -> UnknownNetworkException(e)
-                    }
-                )
-            }
+    suspend fun <T> apiRequest(suspendBlock: suspend () -> T) = withContext(Dispatchers.IO) {
+        try {
+            Result.Success(suspendBlock.invoke())
+        } catch (e: Throwable) {
+            Result.Error(
+                when (e) {
+                    is CancellationException -> e
+                    is UnknownHostException,
+                    is TimeoutException,
+                    is IOException,
+                    is SSLException -> NetworkException(e)
+                    is ConnectException -> InternetConnectionException(e)
+                    is SerializationException -> ModelMappingException(e)
+                    is HttpException -> RetrofitException(
+                        e.response()?.code().toString() + " " + e.response()?.message(),
+                        e.response(),
+                        e
+                    )
+                    else -> UnknownNetworkException(e)
+                }
+            )
         }
+    }
 
     suspend fun getRatesByBase(base: String) = apiRequest {
         when {
