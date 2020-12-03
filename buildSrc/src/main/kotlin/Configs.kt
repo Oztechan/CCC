@@ -5,7 +5,7 @@
 
 object Versions {
     const val kotlin = "1.4.20"
-    const val androidPlugin = "7.0.0-alpha01"
+    const val androidPlugin = "7.0.0-alpha02"
     const val androidMaterial = "1.3.0-alpha04"
     const val constraintLayout = "2.1.0-alpha1"
     const val jUnit = "4.13.1"
