@@ -49,7 +49,11 @@ kotlin {
     sourceSets {
 
         with(Dependencies.Common) {
-            val commonMain by getting
+            val commonMain by getting {
+                dependencies {
+                    implementation(serialization)
+                }
+            }
             val commonTest by getting
         }
 
