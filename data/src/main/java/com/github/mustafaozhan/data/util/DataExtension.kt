@@ -5,16 +5,16 @@ package com.github.mustafaozhan.data.util
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.mustafaozhan.temp.model.RatesV2
 
-fun Rates?.calculateResult(name: String, value: String?) =
+fun RatesV2?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }
         ?.getThroughReflection<Double>(name)
         ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
         ?: 0.0
 
-fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
+fun Currency.getCurrencyConversionByRate(base: String, rate: RatesV2?) =
     "1 $base = " + "${rate?.getThroughReflection<Double>(name)} ${getVariablesOneLine()}"
 
 fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =

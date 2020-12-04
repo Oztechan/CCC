@@ -67,6 +67,8 @@ dependencies {
         implementation(project(basemob))
         implementation(project(scopemob))
         implementation(project(logmob))
+
+        implementation(project(":temp"))
     }
 
     implementation(files(Libs.mxParser))

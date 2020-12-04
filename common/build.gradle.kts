@@ -70,7 +70,11 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation(Ktor.clientAndroid)
+                }
+            }
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)

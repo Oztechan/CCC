@@ -10,6 +10,8 @@ import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
+import com.github.mustafaozhan.ccc.android.util.toRates
+import com.github.mustafaozhan.ccc.android.util.toRatesV2
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
@@ -17,18 +19,18 @@ import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.CurrencyResponse
-import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.data.util.calculateResult
 import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.data.util.getFormatted
 import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.data.util.toPercent
-import com.github.mustafaozhan.data.util.toRate
+import com.github.mustafaozhan.data.util.toRateV2
 import com.github.mustafaozhan.data.util.toSupportedCharacters
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.mustafaozhan.temp.model.CurrencyResponseV2
+import com.github.mustafaozhan.temp.model.RatesV2
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -94,12 +96,12 @@ class CalculatorViewModel(
             )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
-        currencyResponse.toRate().let {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponseV2) = viewModelScope.launch {
+        currencyResponse.toRateV2().let {
             data.rates = it
             calculateConversions(it)
             _state._dataState.value = DataState.Online(it.date)
-            offlineRatesDao.insertOfflineRates(it)
+            offlineRatesDao.insertOfflineRates(it.toRates())
         }
     }.toUnit()
 
@@ -109,7 +111,7 @@ class CalculatorViewModel(
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
-            calculateConversions(offlineRates)
+            calculateConversions(offlineRates.toRatesV2())
             _state._dataState.value = DataState.Offline(offlineRates.date)
         } ?: run {
             kermit.w(t) { "no offline rate found" }
@@ -138,7 +140,7 @@ class CalculatorViewModel(
             _state._loading.value = false
         }
 
-    private fun calculateConversions(rates: Rates?) = with(_state) {
+    private fun calculateConversions(rates: RatesV2?) = with(_state) {
         _currencyList.value = _currencyList.value?.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
         }
