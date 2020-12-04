@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.ccc.android.util.toValidList
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.util.toValidList
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(

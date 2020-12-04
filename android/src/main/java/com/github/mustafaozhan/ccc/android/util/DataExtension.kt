@@ -1,7 +1,7 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.data.util
+package com.github.mustafaozhan.ccc.android.util
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.model.Currency

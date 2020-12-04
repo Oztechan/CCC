@@ -1,17 +1,17 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.data
+package com.github.mustafaozhan.ccc.android.extensions
 
+import com.github.mustafaozhan.ccc.android.util.dropDecimal
+import com.github.mustafaozhan.ccc.android.util.getFormatted
+import com.github.mustafaozhan.ccc.android.util.getThroughReflection
+import com.github.mustafaozhan.ccc.android.util.toPercent
+import com.github.mustafaozhan.ccc.android.util.toRate
+import com.github.mustafaozhan.ccc.android.util.toStandardDigits
+import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.data.model.CurrencyResponse
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.data.util.dropDecimal
-import com.github.mustafaozhan.data.util.getFormatted
-import com.github.mustafaozhan.data.util.getThroughReflection
-import com.github.mustafaozhan.data.util.toPercent
-import com.github.mustafaozhan.data.util.toRate
-import com.github.mustafaozhan.data.util.toStandardDigits
-import com.github.mustafaozhan.data.util.toSupportedCharacters
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

@@ -1,15 +1,16 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.data
+package com.github.mustafaozhan.ccc.android.extensions
 
+import com.github.mustafaozhan.ccc.android.util.calculateResult
+import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
+import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
+import com.github.mustafaozhan.ccc.android.util.toRatesV2
+import com.github.mustafaozhan.ccc.android.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.data.util.calculateResult
-import com.github.mustafaozhan.data.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.data.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.data.util.toValidList
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +27,7 @@ class DataExtTest {
         val rates = Rates(base, date, uSD = 5.0)
 
         assertEquals(
-            rates.calculateResult(target, "5.0"),
+            rates.toRatesV2().calculateResult(target, "5.0"),
             25.0,
             0.001
         )
@@ -40,7 +41,7 @@ class DataExtTest {
 
         assertEquals(
             "1 EUR = 5.0 USD Dollar \$",
-            currency.getCurrencyConversionByRate(base, rates)
+            currency.getCurrencyConversionByRate(base, rates.toRatesV2())
         )
     }
 

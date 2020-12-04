@@ -17,7 +17,3 @@ data class Currency(
 ) {
     fun getVariablesOneLine() = "$name $longName $symbol"
 }
-
-data class CurrencyJson(
-    var currencies: List<Currency>
-)

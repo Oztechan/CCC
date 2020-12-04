@@ -7,7 +7,7 @@
 
     <data>
 
-        <import type="com.github.mustafaozhan.data.util.TypeExtensionKt" />
+        <import type="com.github.mustafaozhan.ccc.android.util.TypeExtensionKt" />
 
         <variable
             name="item"
