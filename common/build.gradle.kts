@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     with(Plugins) {
         kotlin(multiplatform)
+        id(kotlinXSerialization)
         id(androidLibrary)
     }
 }
@@ -51,8 +52,13 @@ kotlin {
             val commonMain by getting {
                 dependencies {
                     implementation(project(Modules.logmob))
+                    implementation(project(":temp"))
+
                     api(koinCore)
                     api(kermit)
+                    implementation(Ktor.clientLogging)
+                    implementation(Ktor.clientSerialization)
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
                 }
             }
             val commonTest by getting {

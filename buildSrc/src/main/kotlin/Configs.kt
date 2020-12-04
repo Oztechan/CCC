@@ -33,6 +33,7 @@ object Versions {
     const val playCore = "1.9.0"
     const val dateTime = "0.1.1"
     const val serialization = "1.0.1"
+    const val kotlinCoroutines = "1.4.2"
 }
 
 object Dependencies {
@@ -151,4 +152,18 @@ object Plugins {
     const val serializationPlugin = "plugin.serialization"
     const val js = "js"
     const val versionChecker = "com.github.ben-manes.versions"
+}
+
+object Ktor {
+    val clientCore = "io.ktor:ktor-client-core:${Versions.ktor}"
+    val clientJson = "io.ktor:ktor-client-json:${Versions.ktor}"
+    val clientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
+    val clientSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+
+    val clientAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
+    val clientApache = "io.ktor:ktor-client-apache:${Versions.ktor}"
+
+    //    val slf4j = "org.slf4j:slf4j-simple:${Versions.slf4j}"
+    val clientIos = "io.ktor:ktor-client-ios:${Versions.ktor}"
+    val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
 }
