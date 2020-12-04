@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.temp
+package com.github.mustafaozhan.temp.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
