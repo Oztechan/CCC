@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
 import io.ktor.client.HttpClient
+import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.logging.LogLevel
@@ -21,6 +22,7 @@ import kotlinx.serialization.json.Json
 class ApiFactory : ApiService {
 
     companion object {
+        private const val TIME_OUT: Long = 3000
         private const val QUERY_KEY_BASE = "base"
         private const val PATH_CURRENCY_BY_BASE = "currency/byBase/"
     }
@@ -34,6 +36,11 @@ class ApiFactory : ApiService {
         HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(json)
+            }
+            install(HttpTimeout) {
+                connectTimeoutMillis = TIME_OUT
+                socketTimeoutMillis = TIME_OUT
+                requestTimeoutMillis = TIME_OUT
             }
             install(Logging) {
                 logger = object : Logger {
