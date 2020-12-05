@@ -31,7 +31,7 @@ jobs:
       - name: Decode Common Secrets
         env:
           COMMON_SECRETS: ${{ secrets.COMMON_SECRETS }}
-        run: echo $COMMON_SECRETS > common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret/Secrets.kt
+        run: mkdir common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret; echo $COMMON_SECRETS > common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret/Secrets.kt
 
       - name: Gradle Build
         run: ./gradlew build --parallel
