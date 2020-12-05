@@ -5,13 +5,13 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.annotation.SuppressLint
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
+import com.github.mustafaozhan.ccc.common.model.RatesV2
 import com.github.mustafaozhan.data.model.CurrencyResponse
 import com.github.mustafaozhan.data.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import com.github.mustafaozhan.temp.model.CurrencyResponseV2
-import com.github.mustafaozhan.temp.model.RatesV2
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat

@@ -52,7 +52,6 @@ kotlin {
             val commonMain by getting {
                 dependencies {
                     implementation(project(Modules.logmob))
-                    implementation(project(":temp"))
 
                     api(koinCore)
                     api(kermit)

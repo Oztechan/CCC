@@ -4,9 +4,9 @@
 package com.github.mustafaozhan.ccc.android.util
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
+import com.github.mustafaozhan.ccc.common.model.RatesV2
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.scopemob.whetherNot
-import com.github.mustafaozhan.temp.model.RatesV2
 
 fun RatesV2?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }

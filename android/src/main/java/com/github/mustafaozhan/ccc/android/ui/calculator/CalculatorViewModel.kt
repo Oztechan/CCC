@@ -23,14 +23,14 @@ import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
+import com.github.mustafaozhan.ccc.common.model.RatesV2
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import com.github.mustafaozhan.temp.model.CurrencyResponseV2
-import com.github.mustafaozhan.temp.model.RatesV2
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

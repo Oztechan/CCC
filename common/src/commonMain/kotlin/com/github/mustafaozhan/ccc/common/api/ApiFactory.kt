@@ -5,8 +5,8 @@
 package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
-import com.github.mustafaozhan.temp.model.CurrencyResponseV2
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer

@@ -4,10 +4,10 @@
 
 package com.github.mustafaozhan.ccc.android.util
 
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
+import com.github.mustafaozhan.ccc.common.model.RatesV2
 import com.github.mustafaozhan.data.model.CurrencyResponse
 import com.github.mustafaozhan.data.model.Rates
-import com.github.mustafaozhan.temp.model.CurrencyResponseV2
-import com.github.mustafaozhan.temp.model.RatesV2
 
 fun CurrencyResponseV2.toCurrencyResponse() = CurrencyResponse(
         base,
