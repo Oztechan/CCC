@@ -14,16 +14,26 @@ import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.http.takeFrom
 import kotlinx.serialization.json.Json
 
 class ApiFactory : ApiService {
 
-    private val nonStrictJson = Json { isLenient = true; ignoreUnknownKeys = true }
+    companion object {
+        private const val QUERY_KEY_BASE = "base"
+        private const val PATH_CURRENCY_BY_BASE = "currency/byBase/"
+    }
+
+    private val json = Json {
+        isLenient = true
+        ignoreUnknownKeys = true
+    }
 
     private val client by lazy {
         HttpClient {
             install(JsonFeature) {
-                serializer = KotlinxSerializer(nonStrictJson)
+                serializer = KotlinxSerializer(json)
             }
             install(Logging) {
                 logger = object : Logger {
@@ -36,6 +46,11 @@ class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesByBase(base: String) =
-        client.get<CurrencyResponseV2>("${BASE_URL}currency/byBase/?base=$base")
+    override suspend fun getRatesByBase(base: String): CurrencyResponseV2 = client.get {
+        url {
+            takeFrom(BASE_URL)
+            path(PATH_CURRENCY_BY_BASE)
+            parameter(QUERY_KEY_BASE, base)
+        }
+    }
 }
