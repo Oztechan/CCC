@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
@@ -46,7 +46,7 @@ class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesByBase(base: String): CurrencyResponseV2 = client.get {
+    override suspend fun getRatesByBase(base: String): CurrencyResponse = client.get {
         url {
             takeFrom(BASE_URL_BACKEND)
             path(PATH_CURRENCY_BY_BASE)

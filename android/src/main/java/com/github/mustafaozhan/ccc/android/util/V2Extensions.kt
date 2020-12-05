@@ -4,19 +4,11 @@
 
 package com.github.mustafaozhan.ccc.android.util
 
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
-import com.github.mustafaozhan.ccc.common.model.RatesV2
-import com.github.mustafaozhan.data.model.CurrencyResponse
-import com.github.mustafaozhan.data.model.Rates
-
-fun CurrencyResponseV2.toCurrencyResponse() = CurrencyResponse(
-        base,
-        date,
-        rates.toRates()
-)
+import com.github.mustafaozhan.ccc.common.model.Rates
+import com.github.mustafaozhan.data.model.OfflineRates
 
 @Suppress("LongMethod")
-fun RatesV2.toRates() = Rates(
+fun Rates.toOfflineRates() = OfflineRates(
         base,
         date,
         aED,
@@ -191,7 +183,7 @@ fun RatesV2.toRates() = Rates(
 )
 
 @Suppress("LongMethod")
-fun Rates.toRatesV2() = RatesV2(
+fun OfflineRates.toOfflineRates() = Rates(
         base,
         date,
         aED,

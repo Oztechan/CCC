@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.ccc.common.api
 
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 
 interface ApiService {
-    suspend fun getRatesByBase(base: String): CurrencyResponseV2
+    suspend fun getRatesByBase(base: String): CurrencyResponse
 }

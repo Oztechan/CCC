@@ -8,7 +8,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "offline_rates")
-data class Rates(
+data class OfflineRates(
     @PrimaryKey
     @ColumnInfo(name = "base") var base: String = "",
     @ColumnInfo(name = "date") var date: String? = null,

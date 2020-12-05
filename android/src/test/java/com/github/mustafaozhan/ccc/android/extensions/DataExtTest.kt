@@ -6,11 +6,11 @@ package com.github.mustafaozhan.ccc.android.extensions
 import com.github.mustafaozhan.ccc.android.util.calculateResult
 import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.android.util.toRatesV2
+import com.github.mustafaozhan.ccc.android.util.toOfflineRates
 import com.github.mustafaozhan.ccc.android.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.Rates
+import com.github.mustafaozhan.data.model.OfflineRates
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,10 +24,10 @@ class DataExtTest {
         val date = "12:34:56 01.01.2020"
         val base = "EUR"
         val target = "USD"
-        val rates = Rates(base, date, uSD = 5.0)
+        val rates = OfflineRates(base, date, uSD = 5.0)
 
         assertEquals(
-            rates.toRatesV2().calculateResult(target, "5.0"),
+            rates.toOfflineRates().calculateResult(target, "5.0"),
             25.0,
             0.001
         )
@@ -37,11 +37,11 @@ class DataExtTest {
     fun `get currency conversion by rate`() {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val base = "EUR"
-        val rates = Rates(base, null, uSD = 5.0)
+        val rates = OfflineRates(base, null, uSD = 5.0)
 
         assertEquals(
             "1 EUR = 5.0 USD Dollar \$",
-            currency.getCurrencyConversionByRate(base, rates.toRatesV2())
+            currency.getCurrencyConversionByRate(base, rates.toOfflineRates())
         )
     }
 

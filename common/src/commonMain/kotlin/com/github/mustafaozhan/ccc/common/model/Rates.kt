@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RatesV2(
+data class Rates(
     @SerialName("base") var base: String = "",
     @SerialName("date") var date: String? = null,
     @SerialName("aed") var aED: Double? = null,

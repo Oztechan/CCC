@@ -5,10 +5,8 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.annotation.SuppressLint
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponseV2
-import com.github.mustafaozhan.ccc.common.model.RatesV2
-import com.github.mustafaozhan.data.model.CurrencyResponse
-import com.github.mustafaozhan.data.model.Rates
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -68,15 +66,7 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
 fun Date.dateStringToFormattedString(): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(this)
 
-fun CurrencyResponse.toRate(): Rates {
-    val rate = rates
-    rate.base = base
-    // todo need to change to CurrencyResponse.date when BE return date
-    rate.date = Date().dateStringToFormattedString()
-    return rate
-}
-
-fun CurrencyResponseV2.toRateV2(): RatesV2 {
+fun CurrencyResponse.toRates(): Rates {
     val rate = rates
     rate.base = base
     // todo need to change to CurrencyResponse.date when BE return date

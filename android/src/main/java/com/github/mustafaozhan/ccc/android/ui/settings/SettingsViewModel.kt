@@ -11,7 +11,7 @@ import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.dateStringToFormattedString
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
-import com.github.mustafaozhan.ccc.android.util.toRateV2
+import com.github.mustafaozhan.ccc.android.util.toOfflineRates
 import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
@@ -107,7 +107,7 @@ class SettingsViewModel(
                         {
                             viewModelScope.launch {
                                 offlineRatesDao.insertOfflineRates(
-                                    it.toRateV2().toRates()
+                                    it.toRates().toOfflineRates()
                                 )
                             }
                         },

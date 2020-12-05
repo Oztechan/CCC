@@ -7,11 +7,11 @@ import com.github.mustafaozhan.ccc.android.util.dropDecimal
 import com.github.mustafaozhan.ccc.android.util.getFormatted
 import com.github.mustafaozhan.ccc.android.util.getThroughReflection
 import com.github.mustafaozhan.ccc.android.util.toPercent
-import com.github.mustafaozhan.ccc.android.util.toRate
+import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toStandardDigits
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
-import com.github.mustafaozhan.data.model.CurrencyResponse
-import com.github.mustafaozhan.data.model.Rates
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.model.Rates
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -101,7 +101,7 @@ class TypeExtensionTest {
         val currencyResponse = CurrencyResponse(base, date, rates)
         assertEquals(
             rates,
-            currencyResponse.toRate()
+            currencyResponse.toRates()
         )
     }
 }
