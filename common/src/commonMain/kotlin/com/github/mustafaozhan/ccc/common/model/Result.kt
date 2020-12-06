@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.data.model
+package com.github.mustafaozhan.ccc.common.model
 
 sealed class Result<T> {
     data class Success<T>(val data: T) : Result<T>()

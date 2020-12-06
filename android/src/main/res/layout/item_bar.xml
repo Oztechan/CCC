@@ -7,8 +7,6 @@
 
     <data>
 
-        <import type="com.github.mustafaozhan.data.util.TypeExtensionKt" />
-
         <variable
             name="item"
             type="com.github.mustafaozhan.data.model.Currency" />

@@ -39,18 +39,13 @@ android {
 dependencies {
 
     with(Dependencies.Android) {
-        implementation(moshi)
-        implementation(moshiConverter)
         implementation(retrofit)
         implementation(roomKtx)
 
         testImplementation(jUnit)
     }
 
-    with(Annotations) {
-        kapt(moshi)
-        kapt(room)
-    }
+    kapt(Annotations.room)
 
     with(Modules) {
         implementation(project(common))

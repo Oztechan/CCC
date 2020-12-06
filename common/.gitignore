@@ -1,2 +1,3 @@
 build
 .gradle
+src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret/

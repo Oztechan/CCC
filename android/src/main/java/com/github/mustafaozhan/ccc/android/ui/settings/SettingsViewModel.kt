@@ -9,14 +9,15 @@ import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.util.DAY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.dateStringToFormattedString
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
+import com.github.mustafaozhan.ccc.android.util.toOfflineRates
+import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.data.api.ApiRepository
 import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.util.dateStringToFormattedString
-import com.github.mustafaozhan.data.util.toRate
 import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -102,11 +103,14 @@ class SettingsViewModel(
             viewModelScope.launch {
                 currencyDao.getActiveCurrencies()?.forEach { (name) ->
                     delay(SYNC_DELAY)
-                    apiRepository.getRatesByBase(name).execute(
-                        { viewModelScope.launch { offlineRatesDao.insertOfflineRates(it.toRate()) } },
-                        { error -> kermit.e(error) { error.message.toString() } }
-                    )
+
+                    apiRepository.getRatesByBase(name).execute({
+                        viewModelScope.launch {
+                            offlineRatesDao.insertOfflineRates(it.toRates().toOfflineRates())
+                        }
+                    }, { error -> kermit.e(error) { error.message.toString() } })
                 }
+
                 data.synced = true
                 _effect.postValue(SynchronisedEffect)
             }

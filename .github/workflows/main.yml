@@ -18,15 +18,20 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
-      - name: set up JDK 1.8
+      - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
 
       - name: Decode google-services.json
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: echo $FIREBASE_CONFIG > android/google-services.json
+
+      - name: Decode Common Secrets
+        env:
+          COMMON_SECRETS: ${{ secrets.COMMON_SECRETS }}
+        run: mkdir common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret; echo $COMMON_SECRETS > common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/secret/Secrets.kt
 
       - name: Gradle Build
         run: ./gradlew build --parallel

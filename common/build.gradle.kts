@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     with(Plugins) {
         kotlin(multiplatform)
+        id(kotlinXSerialization)
         id(androidLibrary)
     }
 }
@@ -51,8 +52,13 @@ kotlin {
             val commonMain by getting {
                 dependencies {
                     implementation(project(Modules.logmob))
+
                     api(koinCore)
                     api(kermit)
+
+                    implementation(ktorLogging)
+                    implementation(ktorSerialization)
+                    implementation(coroutines)
                 }
             }
             val commonTest by getting {
@@ -64,7 +70,11 @@ kotlin {
         }
 
         with(Dependencies.Android) {
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation(ktor)
+                }
+            }
             val androidTest by getting {
                 dependencies {
                     implementation(jUnit)

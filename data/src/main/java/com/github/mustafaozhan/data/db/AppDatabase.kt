@@ -10,12 +10,12 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.github.mustafaozhan.data.model.Currency
-import com.github.mustafaozhan.data.model.Rates
+import com.github.mustafaozhan.data.model.OfflineRates
 import com.github.mustafaozhan.data.util.execSQL1To2
 import com.github.mustafaozhan.data.util.execSQL2To3
 
 @Suppress("MagicNumber")
-@Database(entities = [(Currency::class), (Rates::class)], version = 3, exportSchema = false)
+@Database(entities = [(Currency::class), (OfflineRates::class)], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {

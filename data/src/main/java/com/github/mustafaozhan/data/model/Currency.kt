@@ -6,10 +6,8 @@ package com.github.mustafaozhan.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "currency")
-@JsonClass(generateAdapter = true)
 data class Currency(
     @PrimaryKey @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "longName") var longName: String,
@@ -19,8 +17,3 @@ data class Currency(
 ) {
     fun getVariablesOneLine() = "$name $longName $symbol"
 }
-
-@JsonClass(generateAdapter = true)
-data class CurrencyJson(
-    var currencies: List<Currency>
-)
