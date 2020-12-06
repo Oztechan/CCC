@@ -27,7 +27,7 @@ object Versions {
     const val crashlytics = "2.4.1"
     const val retrofit = "2.9.0"
     const val room = "2.3.0-alpha03"
-    const val admob = "19.5.0"
+    const val admob = "19.6.0"
     const val multidex = "2.0.1"
     const val navigation = "2.3.2"
     const val playCore = "1.9.0"
@@ -48,6 +48,10 @@ object Dependencies {
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
         const val serialization =
             "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}"
+        const val ktorLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
+        const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+        const val coroutines =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     }
 
     object Android {
@@ -70,6 +74,7 @@ object Dependencies {
         const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
+        const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
 
         // Test
         const val jUnit = "junit:junit:${Versions.jUnit}"
@@ -80,7 +85,9 @@ object Dependencies {
     }
 
     @Suppress("unused")
-    object IOS
+    object IOS {
+        const val ktor = "io.ktor:ktor-client-ios:${Versions.ktor}"
+    }
 
     object JVM {
         const val testJUnit = "test-junit"
@@ -90,6 +97,7 @@ object Dependencies {
         const val ktorWebSockets = "io.ktor:ktor-websockets:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-serialization:${Versions.ktor}"
         const val logBack = "ch.qos.logback:logback-classic:${Versions.logBack}"
+        const val ktor = "io.ktor:ktor-client-jvm:${Versions.ktor}"
     }
 
     object JS {
@@ -98,6 +106,7 @@ object Dependencies {
         const val kotlinXHtml = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.kotlinXHtml}"
         const val kotlinReact = "org.jetbrains:kotlin-react:${Versions.react}"
         const val kotlinReactDom = "org.jetbrains:kotlin-react-dom:${Versions.react}"
+        const val ktor = "io.ktor:ktor-client-js:${Versions.ktor}"
     }
 }
 
@@ -152,18 +161,4 @@ object Plugins {
     const val serializationPlugin = "plugin.serialization"
     const val js = "js"
     const val versionChecker = "com.github.ben-manes.versions"
-}
-
-object Ktor {
-    val clientCore = "io.ktor:ktor-client-core:${Versions.ktor}"
-    val clientJson = "io.ktor:ktor-client-json:${Versions.ktor}"
-    val clientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
-    val clientSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-
-    val clientAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
-    val clientApache = "io.ktor:ktor-client-apache:${Versions.ktor}"
-
-    //    val slf4j = "org.slf4j:slf4j-simple:${Versions.slf4j}"
-    val clientIos = "io.ktor:ktor-client-ios:${Versions.ktor}"
-    val clientJs = "io.ktor:ktor-client-js:${Versions.ktor}"
 }

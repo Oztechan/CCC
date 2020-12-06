@@ -55,9 +55,10 @@ kotlin {
 
                     api(koinCore)
                     api(kermit)
-                    implementation(Ktor.clientLogging)
-                    implementation(Ktor.clientSerialization)
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+
+                    implementation(ktorLogging)
+                    implementation(ktorSerialization)
+                    implementation(coroutines)
                 }
             }
             val commonTest by getting {
@@ -71,7 +72,7 @@ kotlin {
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
-                    implementation(Ktor.clientAndroid)
+                    implementation(ktor)
                 }
             }
             val androidTest by getting {
