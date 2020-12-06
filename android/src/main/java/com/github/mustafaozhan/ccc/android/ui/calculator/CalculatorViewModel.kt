@@ -110,7 +110,7 @@ class CalculatorViewModel(
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
-            calculateConversions(offlineRates.toOfflineRates())
+            calculateConversions(offlineRates.toRates())
             _state._dataState.value = DataState.Offline(offlineRates.date)
         } ?: run {
             kermit.w(t) { "no offline rate found" }

@@ -7,8 +7,6 @@
 
     <data>
 
-        <import type="com.github.mustafaozhan.ccc.android.util.TypeExtensionKt" />
-
         <variable
             name="item"
             type="com.github.mustafaozhan.data.model.Currency" />
