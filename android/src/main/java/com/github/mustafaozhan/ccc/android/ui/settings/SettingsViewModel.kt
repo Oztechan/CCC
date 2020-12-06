@@ -103,17 +103,14 @@ class SettingsViewModel(
             viewModelScope.launch {
                 currencyDao.getActiveCurrencies()?.forEach { (name) ->
                     delay(SYNC_DELAY)
-                    apiRepository.getRatesByBase(name).execute(
-                        {
-                            viewModelScope.launch {
-                                offlineRatesDao.insertOfflineRates(
-                                    it.toRates().toOfflineRates()
-                                )
-                            }
-                        },
-                        { error -> kermit.e(error) { error.message.toString() } }
-                    )
+
+                    apiRepository.getRatesByBase(name).execute({
+                        viewModelScope.launch {
+                            offlineRatesDao.insertOfflineRates(it.toRates().toOfflineRates())
+                        }
+                    }, { error -> kermit.e(error) { error.message.toString() } })
                 }
+
                 data.synced = true
                 _effect.postValue(SynchronisedEffect)
             }

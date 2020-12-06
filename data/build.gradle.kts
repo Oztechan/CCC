@@ -4,7 +4,6 @@
 plugins {
     with(Plugins) {
         id(library)
-        id(kotlinXSerialization)
         kotlin(android)
         kotlin(kapt)
     }
@@ -45,8 +44,6 @@ dependencies {
 
         testImplementation(jUnit)
     }
-
-    implementation(Dependencies.Common.serialization)
 
     kapt(Annotations.room)
 
