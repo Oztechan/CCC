@@ -22,15 +22,10 @@ import org.koin.dsl.module
 @Suppress("unused")
 class CCCApplication : MultiDexApplication() {
 
-    companion object {
-        private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
-    }
-
     override fun onCreate() {
         super.onCreate()
 
         initAndroid(
-            getSharedPreferences(KEY_APPLICATION_PREFERENCES, Context.MODE_PRIVATE),
             module {
                 single<Context> { this@CCCApplication }
 
