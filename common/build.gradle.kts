@@ -73,6 +73,7 @@ kotlin {
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
+                    implementation(SqlDelight.androidDriver)
                     implementation(ktor)
                 }
             }
@@ -86,11 +87,20 @@ kotlin {
             }
         }
 
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(SqlDelight.nativeDriver)
+            }
+        }
         val iosTest by getting
 
         with(Dependencies.JVM) {
-            val jvmMain by getting
+            val jvmMain by getting {
+                dependencies {
+                    implementation(SqlDelight.jdbcDriver)
+                    implementation(SqlDelight.sqlliteDriver)
+                }
+            }
             val jvmTest by getting {
                 dependencies {
                     implementation(kotlin(testJUnit))
@@ -99,7 +109,13 @@ kotlin {
         }
 
         with(Dependencies.JS) {
-            val jsMain by getting
+            val jsMain by getting {
+                dependencies {
+                    implementation(SqlDelight.jdbcDriver)
+                    implementation(SqlDelight.sqlJS)
+                    implementation(SqlDelight.sqlJSRuntime)
+                }
+            }
             val jsTest by getting {
                 dependencies {
                     implementation(kotlin(test))
