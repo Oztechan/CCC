@@ -9,6 +9,7 @@ plugins {
         kotlin(multiplatform)
         id(kotlinXSerialization)
         id(androidLibrary)
+        id(sqldelight)
     }
 }
 
@@ -138,3 +139,10 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
+
+sqldelight {
+    database(Database.name) {
+        packageName = Database.packageName
+        sourceFolders = listOf(Database.sourceFolders)
+    }
+}

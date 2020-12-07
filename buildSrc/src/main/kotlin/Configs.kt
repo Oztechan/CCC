@@ -34,6 +34,7 @@ object Versions {
     const val dateTime = "0.1.1"
     const val serialization = "1.0.1"
     const val kotlinCoroutines = "1.4.2"
+    const val sqlDelight = "1.4.2"
 }
 
 object Dependencies {
@@ -118,6 +119,7 @@ object Classpaths {
     const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+    const val sqldelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
 
     const val gsmGoogle = "com.google.gms:google-services:${Versions.gsm}"
     const val crashlytics =
@@ -153,6 +155,8 @@ object Plugins {
     // KMP
     const val androidApplication = "com.android.application"
 
+    const val sqldelight = "com.squareup.sqldelight"
+
     //    const val android = "android"
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
@@ -161,4 +165,14 @@ object Plugins {
     const val serializationPlugin = "plugin.serialization"
     const val js = "js"
     const val versionChecker = "com.github.ben-manes.versions"
+}
+
+object SqlDelight {
+    val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
+    val coroutineExtensions = "com.squareup.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
+    val androidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
+
+    val nativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
+    val nativeDriverMacos = "com.squareup.sqldelight:native-driver-macosx64:${Versions.sqlDelight}"
+    val sqlliteDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
 }

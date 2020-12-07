@@ -19,6 +19,7 @@ buildscript {
             classpath(crashlytics)
             classpath(navigation)
             classpath(kotlinSerialization)
+            classpath(sqldelight)
         }
     }
 }
