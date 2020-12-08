@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.android.viewmodel
 import com.github.mustafaozhan.ccc.android.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.android.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.android.ui.bar.OpenCurrenciesEffect
-import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals
@@ -33,7 +33,7 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     // Event
     @Test
     fun `on item click`() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
         getEvent().onItemClick(currency)
 
         assertEquals(

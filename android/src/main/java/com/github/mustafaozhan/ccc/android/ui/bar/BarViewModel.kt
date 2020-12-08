@@ -9,8 +9,8 @@ import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

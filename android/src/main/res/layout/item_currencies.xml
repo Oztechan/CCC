@@ -7,11 +7,9 @@
 
     <data>
 
-        <import type="com.github.mustafaozhan.ccc.android.util.ExtensionKt" />
-
         <variable
             name="item"
-            type="com.github.mustafaozhan.ccc.common.Currency" />
+            type="com.github.mustafaozhan.ccc.common.model.Currency" />
 
         <variable
             name="event"
@@ -35,7 +33,7 @@
         <TextView
             android:id="@+id/txt_setting_item"
             style="@style/CurrenciesItemText"
-            android:text="@{ExtensionKt.getVariablesOneLine(item)}"
+            android:text="@{item.variablesOneLine}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/checkBox"
             app:layout_constraintStart_toEndOf="@+id/img_icon"
@@ -44,7 +42,7 @@
         <CheckBox
             android:id="@+id/checkBox"
             style="@style/CurrenciesItemCheckBoxStyle"
-            android:checked="@{ExtensionKt.isActive(item)}"
+            android:checked="@{item.isActive}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"

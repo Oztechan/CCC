@@ -58,7 +58,7 @@ class SettingsViewModel(
             currencyDao.collectActiveCurrencies()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
-                        currency.isActive == 1.toLong()
+                        currency.isActive
                     }.size
                 }
         }

@@ -20,10 +20,10 @@ import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.data.db.OfflineRatesDao
@@ -140,15 +140,8 @@ class CalculatorViewModel(
         }
 
     private fun calculateConversions(rates: Rates?) = with(_state) {
-        val tempList = _currencyList.value
-        _currencyList.value?.clear()
-        tempList?.forEach {
-            _currencyList.value?.add(
-                Currency(
-                    it.name, it.longName, it.symbol,
-                    rates.calculateResult(it.name, _output.value), it.isActive
-                )
-            )
+        _currencyList.value = _currencyList.value?.onEach {
+            it.rate = rates.calculateResult(it.name, _output.value)
         }
         _loading.value = false
     }
