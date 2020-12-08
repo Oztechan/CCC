@@ -25,14 +25,12 @@ object Versions {
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
-    const val retrofit = "2.9.0"
     const val room = "2.3.0-alpha03"
     const val admob = "19.6.0"
     const val multidex = "2.0.1"
     const val navigation = "2.3.2"
     const val playCore = "1.9.0"
     const val dateTime = "0.1.1"
-    const val serialization = "1.0.1"
     const val kotlinCoroutines = "1.4.2"
     const val sqlDelight = "1.4.4"
     const val sqliteJdbcDriver = "3.32.3.2"
@@ -48,8 +46,6 @@ object Dependencies {
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
-        const val serialization =
-            "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}"
         const val ktorLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
         const val coroutines =
@@ -69,12 +65,10 @@ object Dependencies {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
-        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
-        const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
 
@@ -112,10 +106,6 @@ object Dependencies {
     }
 }
 
-object Annotations {
-    const val room = "androidx.room:room-compiler:${Versions.room}"
-}
-
 object Classpaths {
     const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
@@ -132,7 +122,7 @@ object Classpaths {
 object Modules {
     const val client = ":client"
     const val common = ":common"
-    const val data = ":data"
+
     const val basemob = ":basemob"
     const val scopemob = ":scopemob"
     const val logmob = ":logmob"
@@ -158,7 +148,6 @@ object Plugins {
 
     const val sqldelight = "com.squareup.sqldelight"
 
-    //    const val android = "android"
     const val androidLibrary = "com.android.library"
     const val multiplatform = "multiplatform"
     const val platformJvm = "jvm"
