@@ -1,4 +1,4 @@
-CREATE TABLE Currency(
+CREATE TABLE IF NOT EXISTS currency(
 name TEXT NOT NULL PRIMARY KEY,
 longName TEXT NOT NULL,
 symbol TEXT NOT NULL,
@@ -7,19 +7,19 @@ isActive INTEGER NOT NULL DEFAULT 0
 );
 
 collectAllCurrencies:
-SELECT * FROM Currency;
+SELECT * FROM currency;
 
 collectActiveCurrencies:
-SELECT * FROM Currency WHERE isActive=1;
+SELECT * FROM currency WHERE isActive=1;
 
 getActiveCurrencies:
-SELECT * FROM Currency WHERE isActive=1;
+SELECT * FROM currency WHERE isActive=1;
 
 updateCurrencyStateByName:
-UPDATE Currency SET isActive=? WHERE name=?;
+UPDATE currency SET isActive=? WHERE name=?;
 
 updateAllCurrencyState:
-UPDATE Currency SET isActive=?;
+UPDATE currency SET isActive=?;
 
 getCurrencyByName:
-SELECT * FROM Currency WHERE name=?;
+SELECT * FROM currency WHERE name=?;

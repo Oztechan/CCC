@@ -14,7 +14,6 @@ import com.github.mustafaozhan.ccc.android.ui.splash.SplashViewModel
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.ccc.common.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.data.db.AppDatabase
 import com.github.mustafaozhan.logmob.initLogMob
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -28,9 +27,6 @@ class CCCApplication : MultiDexApplication() {
         initAndroid(
             module {
                 single<Context> { this@CCCApplication }
-
-                single { AppDatabase.createAppDatabase(get()) }
-                single { get<AppDatabase>().offlineRatesDao() }
 
                 factory { ApiFactory() }
                 single { ApiRepository(get()) }
