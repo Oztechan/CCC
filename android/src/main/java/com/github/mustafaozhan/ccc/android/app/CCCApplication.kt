@@ -30,7 +30,6 @@ class CCCApplication : MultiDexApplication() {
                 single<Context> { this@CCCApplication }
 
                 single { AppDatabase.createAppDatabase(get()) }
-                single { get<AppDatabase>().currencyDao() }
                 single { get<AppDatabase>().offlineRatesDao() }
 
                 factory { ApiFactory() }

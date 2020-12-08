@@ -15,8 +15,8 @@ import com.github.mustafaozhan.ccc.android.util.toOfflineRates
 import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.data.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
 import java.util.Date
 import kotlinx.coroutines.delay
@@ -57,9 +57,9 @@ class SettingsViewModel(
         viewModelScope.launch {
             currencyDao.collectActiveCurrencies()
                 .collect {
-                    _state._activeCurrencyCount.value = it?.filter { currency ->
-                        currency.isActive
-                    }?.size ?: 0
+                    _state._activeCurrencyCount.value = it.filter { currency ->
+                        currency.isActive == 1.toLong()
+                    }.size
                 }
         }
     }
@@ -101,7 +101,7 @@ class SettingsViewModel(
     override fun onSyncClick() {
         if (!data.synced) {
             viewModelScope.launch {
-                currencyDao.getActiveCurrencies()?.forEach { (name) ->
+                currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
                     apiRepository.getRatesByBase(name).execute({

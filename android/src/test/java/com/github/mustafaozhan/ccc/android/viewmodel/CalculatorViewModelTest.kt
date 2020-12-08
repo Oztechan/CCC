@@ -11,10 +11,10 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.android.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.data.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -76,7 +76,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun `on item click`() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
         val conversion = "123.456"
         getEvent().onItemClick(currency, conversion)
 
@@ -91,7 +91,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun `on item long click`() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0, 1)
 
         getEvent().onItemLongClick(currency)
 

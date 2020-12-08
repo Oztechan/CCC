@@ -16,11 +16,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.data.model.OfflineRates
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.mapTo
@@ -121,7 +121,7 @@ fun Rates?.calculateResult(name: String, value: String?) =
 fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
     "1 $base = " + "${rate?.getThroughReflection<Double>(name)} ${getVariablesOneLine()}"
 
-fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
+fun List<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
     this?.filterNot { (name) ->
         name == CurrencyType.BYR.toString() ||
                 name == CurrencyType.LVL.toString() ||
@@ -133,7 +133,7 @@ fun MutableList<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
 fun MutableList<Currency>?.toValidList(currentBase: String) =
     this?.filter {
         it.name != currentBase &&
-                it.isActive &&
+                it.isActive() &&
                 it.rate.toString() != "NaN" &&
                 it.rate.toString() != "0.0"
     } ?: mutableListOf()
@@ -228,3 +228,7 @@ fun OfflineRates.toRates() = Rates(
     sTD, sVC, sYP, sZL, tHB, tJS, tMT, tND, tOP, tRY, tTD, tWD, tZS, uAH, uGX, uSD, uYU,
     uZS, vEF, vES, vND, vUV, wST, xAF, xAG, xAU, xCD, xDR, xOF, xPF, yER, zAR, zMK, zMW, zWL
 )
+
+fun Currency.getVariablesOneLine() = "$name $longName $symbol"
+
+fun Currency.isActive() = isActive == 1.toLong()

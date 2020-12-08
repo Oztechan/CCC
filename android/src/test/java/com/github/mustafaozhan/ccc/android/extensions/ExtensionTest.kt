@@ -14,10 +14,10 @@ import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toStandardDigits
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.android.util.toValidList
+import com.github.mustafaozhan.ccc.common.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.data.model.Currency
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -51,7 +51,7 @@ class ExtensionTest {
 
     @Test
     fun `get currency conversion by rate`() {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0, 0)
         val base = "EUR"
         val rates = Rates(base, null, uSD = 5.0)
 
@@ -65,11 +65,11 @@ class ExtensionTest {
     fun `remove unused currencies from currency list`() {
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(CurrencyType.BYR.toString(), "", ""))
-            add(Currency(CurrencyType.LVL.toString(), "", ""))
-            add(Currency(CurrencyType.LTL.toString(), "", ""))
-            add(Currency(CurrencyType.ZMK.toString(), "", ""))
-            add(Currency(CurrencyType.CRYPTO_BTC.toString(), "", ""))
+            add(Currency(CurrencyType.BYR.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.LVL.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.LTL.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.ZMK.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.CRYPTO_BTC.toString(), "", "", 0.0, 1))
         }
         assertEquals(
             mutableListOf<Currency>(),
@@ -83,10 +83,10 @@ class ExtensionTest {
 
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(CurrencyType.EUR.toString(), "", ""))
-            add(Currency(CurrencyType.LVL.toString(), "", "", isActive = true))
-            add(Currency(CurrencyType.LTL.toString(), "", "", rate = Double.NaN))
-            add(Currency(CurrencyType.LTL.toString(), "", "", rate = 0.0))
+            add(Currency(CurrencyType.EUR.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.LVL.toString(), "", "", 0.0, 1))
+            add(Currency(CurrencyType.LTL.toString(), "", "", rate = Double.NaN, 1))
+            add(Currency(CurrencyType.LTL.toString(), "", "", 0.0, 1))
         }
         assertEquals(
             mutableListOf<Currency>(),

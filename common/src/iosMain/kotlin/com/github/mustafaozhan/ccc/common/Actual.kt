@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common
 
-import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
+import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
@@ -20,7 +20,10 @@ actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 actual val platformCommonModule: Module = module {
     single {
         CurrencyConverterCalculatorDatabase(
-            NativeSqliteDrive(CurrencyConverterCalculatorDatabase.Schema, DATABASE_NAME)
+            NativeSqliteDriver(
+                CurrencyConverterCalculatorDatabase.Schema,
+                DATABASE_NAME
+            )
         )
     }
 }

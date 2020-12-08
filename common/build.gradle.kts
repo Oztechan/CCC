@@ -60,6 +60,9 @@ kotlin {
                     implementation(ktorLogging)
                     implementation(ktorSerialization)
                     implementation(coroutines)
+
+                    implementation(SqlDelight.runtime)
+                    implementation(SqlDelight.coroutineExtensions)
                 }
             }
             val commonTest by getting {
@@ -112,8 +115,7 @@ kotlin {
             val jsMain by getting {
                 dependencies {
                     implementation(SqlDelight.jdbcDriver)
-                    implementation(SqlDelight.sqlJS)
-                    implementation(SqlDelight.sqlJSRuntime)
+                    implementation(SqlDelight.jsRuntimeDriver)
                 }
             }
             val jsTest by getting {

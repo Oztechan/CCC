@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.github.mustafaozhan.data.model.Currency" />
+            type="com.github.mustafaozhan.ccc.common.Currency" />
 
         <variable
             name="event"

@@ -1,0 +1,25 @@
+CREATE TABLE Currency(
+name TEXT NOT NULL PRIMARY KEY,
+longName TEXT NOT NULL,
+symbol TEXT NOT NULL,
+rate REAL NOT NULL DEFAULT 0.0,
+isActive INTEGER NOT NULL DEFAULT 0
+);
+
+collectAllCurrencies:
+SELECT * FROM Currency;
+
+collectActiveCurrencies:
+SELECT * FROM Currency WHERE isActive=1;
+
+getActiveCurrencies:
+SELECT * FROM Currency WHERE isActive=1;
+
+updateCurrencyStateByName:
+UPDATE Currency SET isActive=? WHERE name=?;
+
+updateAllCurrencyState:
+UPDATE Currency SET isActive=?;
+
+getCurrencyByName:
+SELECT * FROM Currency WHERE name=?;

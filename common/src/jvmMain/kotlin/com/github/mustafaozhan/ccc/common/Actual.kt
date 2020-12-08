@@ -4,7 +4,6 @@
 
 package com.github.mustafaozhan.ccc.common
 
-import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers

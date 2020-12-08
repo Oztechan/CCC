@@ -14,4 +14,6 @@ actual val platformVersion = KotlinVersion.CURRENT.toString()
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
-actual val platformCommonModule: Module = module {}
+actual val platformCommonModule: Module = module {
+    TODO("JS SqlDelight is not ready yet.")
+}

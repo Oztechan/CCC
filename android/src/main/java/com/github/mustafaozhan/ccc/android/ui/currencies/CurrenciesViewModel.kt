@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
 import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.android.util.isActive
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.Currency
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -52,7 +53,7 @@ class CurrenciesViewModel(
                     data.unFilteredList = currencyList
 
                     currencyList
-                        ?.filter { it.isActive }?.size
+                        ?.filter { it.isActive() }?.size
                         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
                         ?.whetherNot { settingsRepository.firstRun }
                         ?.let { _effect.postValue(FewCurrencyEffect) }
@@ -70,12 +71,12 @@ class CurrenciesViewModel(
         { base ->
             state.currencyList.value
                 ?.filter { it.name == base }
-                ?.toList()?.firstOrNull()?.isActive == false
+                ?.toList()?.firstOrNull()?.isActive() == false
         }
     )?.let {
         updateCurrentBase(
             state.currencyList.value
-                ?.firstOrNull { it.isActive }?.name
+                ?.firstOrNull { it.isActive() }?.name
                 ?: CurrencyType.NULL.toString()
         )
     }
@@ -113,11 +114,11 @@ class CurrenciesViewModel(
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = viewModelScope.launch {
-        currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
+        currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive())
     }.toUnit()
 
     override fun onDoneClick() = _state._currencyList.value
-        ?.filter { it.isActive }?.size
+        ?.filter { it.isActive() }?.size
         ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.let { _effect.postValue(FewCurrencyEffect) }
         ?: run {

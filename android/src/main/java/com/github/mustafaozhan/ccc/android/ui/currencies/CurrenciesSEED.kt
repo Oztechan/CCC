@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.ui.currencies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ccc.common.Currency
 
 // State
 @Suppress("ConstructorParameterNaming")

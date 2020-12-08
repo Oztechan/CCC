@@ -7,8 +7,8 @@ import com.github.mustafaozhan.ccc.android.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.android.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ccc.common.Currency
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -39,8 +39,8 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     @Test
     fun `filter list`() {
-        val euro = Currency("EUR", "Euro", "€")
-        val dollar = Currency("USD", "American Dollar", "$")
+        val euro = Currency("EUR", "Euro", "€", 0.0, 1)
+        val dollar = Currency("USD", "American Dollar", "$", 0.0, 1)
 
         viewModel.data.unFilteredList = mutableListOf<Currency>().apply {
             add(euro)
@@ -94,7 +94,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     @Test
     fun `on item click`() {
-        val currency = Currency("EUR", "Euro", "€")
+        val currency = Currency("EUR", "Euro", "€", 0.0, 1)
         assertEquals(Unit, viewModel.getEvent().onItemClick(currency))
     }
 
