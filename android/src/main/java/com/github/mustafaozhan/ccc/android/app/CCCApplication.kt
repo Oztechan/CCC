@@ -12,8 +12,6 @@ import com.github.mustafaozhan.ccc.android.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.android.ui.splash.SplashViewModel
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.ccc.common.api.ApiFactory
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.logmob.initLogMob
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -27,9 +25,6 @@ class CCCApplication : MultiDexApplication() {
         initAndroid(
             module {
                 single<Context> { this@CCCApplication }
-
-                factory { ApiFactory() }
-                single { ApiRepository(get()) }
 
                 viewModel { MainViewModel(get()) }
                 viewModel { SettingsViewModel(get(), get(), get(), get()) }

@@ -25,7 +25,6 @@ object Versions {
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
-    const val room = "2.3.0-alpha03"
     const val admob = "19.6.0"
     const val multidex = "2.0.1"
     const val navigation = "2.3.2"
@@ -70,7 +69,6 @@ object Dependencies {
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-        const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
 
@@ -83,7 +81,6 @@ object Dependencies {
         const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 
-    @Suppress("unused")
     object IOS {
         const val ktor = "io.ktor:ktor-client-ios:${Versions.ktor}"
         const val sqlliteDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"

@@ -5,6 +5,8 @@
 package com.github.mustafaozhan.ccc.common.di
 
 import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
+import com.github.mustafaozhan.ccc.common.api.ApiFactory
+import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
@@ -27,6 +29,10 @@ fun initKoin(vararg modules: Module?) = startKoin {
 
 var commonModule: Module = module {
     single { PlatformRepository() }
+
+    factory { ApiFactory() }
+    single { ApiRepository(get()) }
+
     single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { CurrencyDao(get()) }

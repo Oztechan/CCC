@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 plugins {
     with(Plugins) {
@@ -47,7 +47,6 @@ dependencies {
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
-        implementation(roomRuntime)
         implementation(koinAndroidViewModel)
 
         testImplementation(jUnit)
