@@ -32,7 +32,7 @@ object Versions {
     const val playCore = "1.9.0"
     const val dateTime = "0.1.1"
     const val kotlinCoroutines = "1.4.2"
-    const val sqlDelight = "1.4.4"
+    const val sqlDelight = "1.4.3"
     const val sqliteJdbcDriver = "3.32.3.2"
 }
 
