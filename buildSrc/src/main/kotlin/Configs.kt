@@ -1,10 +1,10 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val kotlin = "1.4.20"
+    const val kotlin = "1.4.21"
     const val androidPlugin = "7.0.0-alpha02"
     const val androidMaterial = "1.3.0-alpha04"
     const val constraintLayout = "2.1.0-alpha1"
@@ -13,7 +13,7 @@ object Versions {
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val versionChecker = "0.36.0"
-    const val react = "17.0.0-pre.129-kotlin-1.4.20"
+    const val react = "17.0.0-pre.129-kotlin-1.4.21"
     const val koin = "3.0.0-alpha-4"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.6.3"
@@ -33,7 +33,6 @@ object Versions {
     const val dateTime = "0.1.1"
     const val kotlinCoroutines = "1.4.2"
     const val sqlDelight = "1.4.3"
-    const val sqliteJdbcDriver = "3.32.3.2"
 }
 
 object Dependencies {
@@ -50,6 +49,9 @@ object Dependencies {
         const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
         const val coroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+        const val sqldelightRuntime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
+        const val sqldelightCoroutineExtensions =
+            "com.squareup.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
     }
 
     object Android {
@@ -78,11 +80,13 @@ object Dependencies {
         const val archTesting = "android.arch.core:core-testing:${Versions.archTesting}"
         const val coroutinesTest =
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+        const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 
     @Suppress("unused")
     object IOS {
         const val ktor = "io.ktor:ktor-client-ios:${Versions.ktor}"
+        const val sqlliteDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
     }
 
     object JVM {
@@ -94,6 +98,7 @@ object Dependencies {
         const val ktorSerialization = "io.ktor:ktor-serialization:${Versions.ktor}"
         const val logBack = "ch.qos.logback:logback-classic:${Versions.logBack}"
         const val ktor = "io.ktor:ktor-client-jvm:${Versions.ktor}"
+        const val sqlliteDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
     }
 
     object JS {
@@ -133,39 +138,19 @@ object Libs {
 }
 
 object Plugins {
-    // Id
-    const val library = "com.android.library"
+    const val multiplatform = "multiplatform"
+    const val android = "android"
+    const val platformJvm = "jvm"
+    const val js = "js"
+    const val kapt = "kapt"
+    const val androidApplication = "com.android.application"
+    const val androidLibrary = "com.android.library"
+
     const val crashlytics = "com.google.firebase.crashlytics"
     const val googleServices = "com.google.gms.google-services"
     const val safeargs = "androidx.navigation.safeargs"
-
-    // Kapt
-    const val android = "android"
-    const val kapt = "kapt"
-
-    // KMP
-    const val androidApplication = "com.android.application"
-
-    const val sqldelight = "com.squareup.sqldelight"
-
-    const val androidLibrary = "com.android.library"
-    const val multiplatform = "multiplatform"
-    const val platformJvm = "jvm"
     const val kotlinXSerialization = "kotlinx-serialization"
     const val serializationPlugin = "plugin.serialization"
-    const val js = "js"
+    const val sqldelight = "com.squareup.sqldelight"
     const val versionChecker = "com.github.ben-manes.versions"
-}
-
-object SqlDelight {
-    const val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
-    const val coroutineExtensions =
-        "com.squareup.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
-    const val androidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
-    const val nativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
-    const val sqlliteDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
-    const val jdbcDriver = "org.xerial:sqlite-jdbc:${Versions.sqliteJdbcDriver}"
-
-    //    const val jsDriver = "com.squareup.sqldelight:sqljs-driver:${Versions.sqlDelight}"
-    const val jsRuntimeDriver = "com.squareup.sqldelight:runtime-js:${Versions.sqlDelight}"
 }

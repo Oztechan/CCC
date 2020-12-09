@@ -61,8 +61,8 @@ kotlin {
                     implementation(ktorSerialization)
                     implementation(coroutines)
 
-                    implementation(SqlDelight.runtime)
-                    implementation(SqlDelight.coroutineExtensions)
+                    implementation(sqldelightRuntime)
+                    implementation(sqldelightCoroutineExtensions)
                 }
             }
             val commonTest by getting {
@@ -76,7 +76,7 @@ kotlin {
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
-                    implementation(SqlDelight.androidDriver)
+                    implementation(sqlliteDriver)
                     implementation(ktor)
                 }
             }
@@ -90,18 +90,21 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
-            dependencies {
-                implementation(SqlDelight.nativeDriver)
+        with(Dependencies.IOS) {
+            val iosMain by getting {
+                dependencies {
+                    implementation(ktor)
+                    implementation(sqlliteDriver)
+                }
             }
+            val iosTest by getting
         }
-        val iosTest by getting
 
         with(Dependencies.JVM) {
             val jvmMain by getting {
                 dependencies {
-                    implementation(SqlDelight.jdbcDriver)
-                    implementation(SqlDelight.sqlliteDriver)
+                    implementation(ktor)
+                    implementation(sqlliteDriver)
                 }
             }
             val jvmTest by getting {
@@ -114,8 +117,7 @@ kotlin {
         with(Dependencies.JS) {
             val jsMain by getting {
                 dependencies {
-                    implementation(SqlDelight.jdbcDriver)
-                    implementation(SqlDelight.jsRuntimeDriver)
+                    implementation(ktor)
                 }
             }
             val jsTest by getting {
