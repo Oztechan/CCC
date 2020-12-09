@@ -103,7 +103,6 @@ kotlin {
         with(Dependencies.JVM) {
             val jvmMain by getting {
                 dependencies {
-                    implementation(ktor)
                     implementation(sqlliteDriver)
                 }
             }

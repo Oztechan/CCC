@@ -29,6 +29,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+@Suppress("TooManyFunctions")
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     override lateinit var viewModel: SettingsViewModel

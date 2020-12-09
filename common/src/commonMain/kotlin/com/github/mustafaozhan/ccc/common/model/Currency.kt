@@ -35,14 +35,10 @@ fun List<com.github.mustafaozhan.ccc.common.Currency>.toModelList(): List<Curren
 
 fun Flow<List<com.github.mustafaozhan.ccc.common.Currency>>.mapToModel(): Flow<List<Currency>> {
     return this.map {
-        val temp = mutableListOf<Currency>()
-        it.forEach {
-            temp.add(
-                Currency(
-                    it.name, it.longName, it.symbol, it.rate, it.isActive == 1.toLong()
-                )
-            )
-        }
-        return@map temp.toList()
+        mutableListOf<Currency>().apply {
+            it.forEach {
+                add(Currency(it.name, it.longName, it.symbol, it.rate, it.isActive == 1.toLong()))
+            }
+        }.toList()
     }
 }

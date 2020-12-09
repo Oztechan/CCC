@@ -29,6 +29,5 @@
 
 [![currencies.png](https://i.postimg.cc/tJDKkj1y/currencies.png)](https://postimg.cc/p5hcV3Y1)
 
-
 ### License
 Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
