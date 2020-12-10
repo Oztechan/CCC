@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -12,7 +12,7 @@ buildscript {
         google()
     }
     dependencies {
-        with(Classpaths) {
+        with(ClassPaths) {
             classpath(androidBuildTools)
             classpath(kotlinGradlePlugin)
             classpath(gsmGoogle)

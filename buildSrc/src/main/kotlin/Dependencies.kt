@@ -1,39 +1,8 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-@file:Suppress("SpellCheckingInspection")
 
-object Versions {
-    const val kotlin = "1.4.21"
-    const val androidPlugin = "7.0.0-alpha02"
-    const val androidMaterial = "1.3.0-alpha04"
-    const val constraintLayout = "2.1.0-alpha1"
-    const val jUnit = "4.13.1"
-    const val ktor = "1.4.3"
-    const val logBack = "1.3.0-alpha5"
-    const val kotlinXHtml = "0.7.2"
-    const val versionChecker = "0.36.0"
-    const val react = "17.0.0-pre.129-kotlin-1.4.21"
-    const val koin = "3.0.0-alpha-4"
-    const val kermit = "0.1.8"
-    const val multiplatformSettings = "0.6.3"
-    const val coroutines = "1.4.2"
-    const val mockK = "1.10.3"
-    const val archTesting = "1.1.1"
-    const val firebaseCore = "18.0.0"
-    const val firebaseCrashlytics = "17.3.0"
-    const val anrWatchDog = "1.4.0"
-    const val gsm = "4.3.4"
-    const val crashlytics = "2.4.1"
-    const val admob = "19.6.0"
-    const val multidex = "2.0.1"
-    const val navigation = "2.3.2"
-    const val playCore = "1.9.0"
-    const val dateTime = "0.1.1"
-    const val kotlinCoroutines = "1.4.2"
-    const val sqlDelight = "1.4.3"
-}
-
+@Suppress("SpellCheckingInspection")
 object Dependencies {
     object Common {
         const val test = "test-common"
@@ -105,48 +74,4 @@ object Dependencies {
         const val kotlinReactDom = "org.jetbrains:kotlin-react-dom:${Versions.react}"
         const val ktor = "io.ktor:ktor-client-js:${Versions.ktor}"
     }
-}
-
-object Classpaths {
-    const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
-    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
-    const val sqldelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
-
-    const val gsmGoogle = "com.google.gms:google-services:${Versions.gsm}"
-    const val crashlytics =
-        "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics}"
-    const val navigation =
-        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-}
-
-object Modules {
-    const val client = ":client"
-    const val common = ":common"
-
-    const val basemob = ":basemob"
-    const val scopemob = ":scopemob"
-    const val logmob = ":logmob"
-}
-
-object Libs {
-    const val mxParser = "libs/MathParser.org-mXparser-v.4.2.0-jdk.1.7.jar"
-}
-
-object Plugins {
-    const val multiplatform = "multiplatform"
-    const val android = "android"
-    const val platformJvm = "jvm"
-    const val js = "js"
-    const val kapt = "kapt"
-    const val androidApplication = "com.android.application"
-    const val androidLibrary = "com.android.library"
-
-    const val crashlytics = "com.google.firebase.crashlytics"
-    const val googleServices = "com.google.gms.google-services"
-    const val safeargs = "androidx.navigation.safeargs"
-    const val kotlinXSerialization = "kotlinx-serialization"
-    const val serializationPlugin = "plugin.serialization"
-    const val sqldelight = "com.squareup.sqldelight"
-    const val versionChecker = "com.github.ben-manes.versions"
 }
