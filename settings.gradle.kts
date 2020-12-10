@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
 enableFeaturePreview("GRADLE_METADATA")
@@ -19,6 +19,7 @@ include(
     ":web",
     ":client",
     ":common",
+    ":calculator",
     ":basemob", ":scopemob", ":logmob"
 )
 
