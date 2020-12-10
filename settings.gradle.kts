@@ -19,7 +19,6 @@ include(
     ":web",
     ":client",
     ":common",
-    ":data",
     ":basemob", ":scopemob", ":logmob"
 )
 

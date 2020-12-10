@@ -14,19 +14,18 @@ import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.getFormatted
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.android.util.toOfflineRates
 import com.github.mustafaozhan.ccc.android.util.toPercent
 import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -100,7 +99,7 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it)
             _state._dataState.value = DataState.Online(it.date)
-            offlineRatesDao.insertOfflineRates(it.toOfflineRates())
+            offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
 
@@ -110,7 +109,7 @@ class CalculatorViewModel(
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
-            calculateConversions(offlineRates.toRates())
+            calculateConversions(offlineRates)
             _state._dataState.value = DataState.Offline(offlineRates.date)
         } ?: run {
             kermit.w(t) { "no offline rate found" }

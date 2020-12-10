@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.android.viewmodel
 import com.github.mustafaozhan.ccc.android.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.android.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.android.ui.bar.OpenCurrenciesEffect
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Assert.assertEquals

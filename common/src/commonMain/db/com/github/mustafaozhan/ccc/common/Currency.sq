@@ -1,0 +1,195 @@
+CREATE TABLE IF NOT EXISTS currency(
+name TEXT NOT NULL PRIMARY KEY,
+longName TEXT NOT NULL,
+symbol TEXT NOT NULL,
+rate REAL NOT NULL DEFAULT 0.0,
+isActive INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO "currency" VALUES ('AED','United Arab Emirates dirham','د.إ',0.0,1);
+INSERT INTO "currency" VALUES ('AFN','Afghan afghani','؋',0.0,1);
+INSERT INTO "currency" VALUES ('ALL','Albanian lek','Lek',0.0,1);
+INSERT INTO "currency" VALUES ('AMD','Armenian dram','֏',0.0,1);
+INSERT INTO "currency" VALUES ('ANG','Netherlands Antillean guilder','ƒ',0.0,1);
+INSERT INTO "currency" VALUES ('AOA','Angolan kwanza','Kz',0.0,1);
+INSERT INTO "currency" VALUES ('ARS','Argentine peso','N$',0.0,1);
+INSERT INTO "currency" VALUES ('AUD','Australian dollar','AU$',0.0,1);
+INSERT INTO "currency" VALUES ('AWG','Aruban florin','ƒ',0.0,1);
+INSERT INTO "currency" VALUES ('AZN','Azerbaijani manat','₼',0.0,1);
+INSERT INTO "currency" VALUES ('BAM','Bosnia and Herzegovina convertible mark','KM',0.0,1);
+INSERT INTO "currency" VALUES ('BBD','Barbadian dollar','Bds$',0.0,1);
+INSERT INTO "currency" VALUES ('BDT','Bangladeshi taka','৳',0.0,1);
+INSERT INTO "currency" VALUES ('BGN','Bulgarian lev','лв',0.0,1);
+INSERT INTO "currency" VALUES ('BHD','Bahraini dinar','د.ب',0.0,1);
+INSERT INTO "currency" VALUES ('BIF','Burundian franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('BMD','Bermudian dollar','BD$',0.0,1);
+INSERT INTO "currency" VALUES ('BND','Brunei dollar','B$',0.0,1);
+INSERT INTO "currency" VALUES ('BOB','Bolivian boliviano','$b',0.0,1);
+INSERT INTO "currency" VALUES ('BRL','Brazilian real','R$',0.0,1);
+INSERT INTO "currency" VALUES ('BSD','Bahamian dollar','B$',0.0,1);
+INSERT INTO "currency" VALUES ('BTN','Bhutanese ngultrum','Nu.',0.0,1);
+INSERT INTO "currency" VALUES ('BWP','Botswana pula','P',0.0,1);
+INSERT INTO "currency" VALUES ('BYN','Belarusian ruble','Br',0.0,1);
+INSERT INTO "currency" VALUES ('BYR','Belarusian ruble','Br',0.0,1);
+INSERT INTO "currency" VALUES ('BZD','Belize dollar','BZ$',0.0,1);
+INSERT INTO "currency" VALUES ('CAD','Canadian dollar','C$',0.0,1);
+INSERT INTO "currency" VALUES ('CDF','Congolese franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('CHF','Swiss franc','CHF',0.0,1);
+INSERT INTO "currency" VALUES ('CLF','Chilean Unit of Account','UF',0.0,1);
+INSERT INTO "currency" VALUES ('CLP','Chilean peso','CLP$',0.0,1);
+INSERT INTO "currency" VALUES ('CNY','Chinese yuan','元',0.0,1);
+INSERT INTO "currency" VALUES ('COP','Colombian peso','COL$',0.0,1);
+INSERT INTO "currency" VALUES ('CRC','Costa Rican colón','₡',0.0,1);
+INSERT INTO "currency" VALUES ('BTC','Bitcoin','฿',0.0,1);
+INSERT INTO "currency" VALUES ('CUC','Cuban convertible peso','CUC$',0.0,1);
+INSERT INTO "currency" VALUES ('CUP','Cuban peso','$MN',0.0,1);
+INSERT INTO "currency" VALUES ('CVE','Cape Verdean escudo','Esc',0.0,1);
+INSERT INTO "currency" VALUES ('CZK','Czech koruna','Kč',0.0,1);
+INSERT INTO "currency" VALUES ('DJF','Djiboutian franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('DKK','Danish krone','kr',0.0,1);
+INSERT INTO "currency" VALUES ('DOP','Dominican peso','RD$',0.0,1);
+INSERT INTO "currency" VALUES ('DZD','Algerian dinar','د.ج',0.0,1);
+INSERT INTO "currency" VALUES ('EGP','Egyptian pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('ERN','Eritrean nakfa','Nfk',0.0,1);
+INSERT INTO "currency" VALUES ('ETB','Ethiopian birr','Br',0.0,1);
+INSERT INTO "currency" VALUES ('EUR','Euro','€',0.0,1);
+INSERT INTO "currency" VALUES ('FJD','Fijian dollar','FJ$',0.0,1);
+INSERT INTO "currency" VALUES ('FKP','Falkland Islands pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('GBP','British pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('GEL','Georgian lari','₾',0.0,1);
+INSERT INTO "currency" VALUES ('GGP','Guernsey pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('GHS','Ghanaian cedi','₵',0.0,1);
+INSERT INTO "currency" VALUES ('GIP','Gibraltar pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('GMD','Gambian dalasi','D',0.0,1);
+INSERT INTO "currency" VALUES ('GNF','Guinean franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('GTQ','Guatemalan quetzal','Q',0.0,1);
+INSERT INTO "currency" VALUES ('GYD','Guyanese dollar','GY$',0.0,1);
+INSERT INTO "currency" VALUES ('HKD','Hong Kong dollar','HK$',0.0,1);
+INSERT INTO "currency" VALUES ('HNL','Honduran lempira','L',0.0,1);
+INSERT INTO "currency" VALUES ('HRK','Croatian kuna','kn',0.0,1);
+INSERT INTO "currency" VALUES ('HTG','Haitian gourde','G',0.0,1);
+INSERT INTO "currency" VALUES ('HUF','Hungarian forint','Ft',0.0,1);
+INSERT INTO "currency" VALUES ('IDR','Indonesian rupiah','Rp',0.0,1);
+INSERT INTO "currency" VALUES ('ILS','Israeli new shekel','₪',0.0,1);
+INSERT INTO "currency" VALUES ('IMP','Manx pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('INR','Indian rupee','₹',0.0,1);
+INSERT INTO "currency" VALUES ('IQD','Iraqi dinar','ع.د',0.0,1);
+INSERT INTO "currency" VALUES ('IRR','Iranian rial','﷼',0.0,1);
+INSERT INTO "currency" VALUES ('ISK','Icelandic króna','kr',0.0,1);
+INSERT INTO "currency" VALUES ('JEP','Jersey pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('JMD','Jamaican dollar','J$',0.0,1);
+INSERT INTO "currency" VALUES ('JOD','Jordanian dinar','د.ا',0.0,1);
+INSERT INTO "currency" VALUES ('JPY','Japanese yen','¥',0.0,1);
+INSERT INTO "currency" VALUES ('KES','Kenyan shilling','Sh',0.0,1);
+INSERT INTO "currency" VALUES ('KGS','Kyrgyzstani som','с',0.0,1);
+INSERT INTO "currency" VALUES ('KHR','Cambodian riel','៛',0.0,1);
+INSERT INTO "currency" VALUES ('KMF','Comorian franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('KPW','North Korean won','₩',0.0,1);
+INSERT INTO "currency" VALUES ('KRW','South Korean won','₩',0.0,1);
+INSERT INTO "currency" VALUES ('KWD','Kuwaiti dinar','د.ك',0.0,1);
+INSERT INTO "currency" VALUES ('KYD','Cayman Islands dollar','CI$',0.0,1);
+INSERT INTO "currency" VALUES ('KZT','Kazakhstani tenge','₸',0.0,1);
+INSERT INTO "currency" VALUES ('LAK','Lao kip','₭',0.0,1);
+INSERT INTO "currency" VALUES ('LBP','Lebanese pound','ل.ل',0.0,1);
+INSERT INTO "currency" VALUES ('LKR','Sri Lankan rupee','Rs',0.0,1);
+INSERT INTO "currency" VALUES ('LRD','Liberian dollar','LD$',0.0,1);
+INSERT INTO "currency" VALUES ('LSL','Lesotho loti','L',0.0,1);
+INSERT INTO "currency" VALUES ('LTL','Lithuania Litas','Lt',0.0,1);
+INSERT INTO "currency" VALUES ('LVL','Latvia Lat','‎Ls',0.0,1);
+INSERT INTO "currency" VALUES ('LYD','Libyan dinar','ل.د',0.0,1);
+INSERT INTO "currency" VALUES ('MAD','Moroccan dirham','د.م.',0.0,1);
+INSERT INTO "currency" VALUES ('MDL','Moldovan leu','L',0.0,1);
+INSERT INTO "currency" VALUES ('MGA','Malagasy ariary','Ar',0.0,1);
+INSERT INTO "currency" VALUES ('MKD','Macedonian denar','ден',0.0,1);
+INSERT INTO "currency" VALUES ('MMK','Burmese kyat','Ks',0.0,1);
+INSERT INTO "currency" VALUES ('MNT','Mongolian tögrög','₮',0.0,1);
+INSERT INTO "currency" VALUES ('MOP','Macanese pataca','P',0.0,1);
+INSERT INTO "currency" VALUES ('MRO','Mauritanian ouguiya','UM',0.0,1);
+INSERT INTO "currency" VALUES ('MUR','Mauritian rupee','₨',0.0,1);
+INSERT INTO "currency" VALUES ('MVR','Maldivian rufiyaa','.ރ',0.0,1);
+INSERT INTO "currency" VALUES ('MWK','Malawian kwacha','MK',0.0,1);
+INSERT INTO "currency" VALUES ('MXN','Mexican peso','Mex$',0.0,1);
+INSERT INTO "currency" VALUES ('MYR','Malaysian ringgit','RM',0.0,1);
+INSERT INTO "currency" VALUES ('MZN','Mozambican metical','MT',0.0,1);
+INSERT INTO "currency" VALUES ('NAD','Namibian dollar','N$',0.0,1);
+INSERT INTO "currency" VALUES ('NGN','Nigerian naira','₦',0.0,1);
+INSERT INTO "currency" VALUES ('NIO','Nicaraguan córdoba','C',0.0,1);
+INSERT INTO "currency" VALUES ('NOK','Norwegian krone','kr',0.0,1);
+INSERT INTO "currency" VALUES ('NPR','Nepalese rupee','₨',0.0,1);
+INSERT INTO "currency" VALUES ('NZD','New Zealand dollar','NZ$',0.0,1);
+INSERT INTO "currency" VALUES ('OMR','Omani rial','﷼',0.0,1);
+INSERT INTO "currency" VALUES ('PAB','Panamanian balboa','B\/.',0.0,1);
+INSERT INTO "currency" VALUES ('PEN','Peruvian sol','S\/',0.0,1);
+INSERT INTO "currency" VALUES ('PGK','Papua New Guinean kina','K',0.0,1);
+INSERT INTO "currency" VALUES ('PHP','Philippine piso','₱',0.0,1);
+INSERT INTO "currency" VALUES ('PKR','Pakistani rupee','₨',0.0,1);
+INSERT INTO "currency" VALUES ('PLN','Polish złoty','zł',0.0,1);
+INSERT INTO "currency" VALUES ('PYG','Paraguayan guaraní','₲',0.0,1);
+INSERT INTO "currency" VALUES ('QAR','Qatari riyal','﷼',0.0,1);
+INSERT INTO "currency" VALUES ('RON','Romanian leu','lei',0.0,1);
+INSERT INTO "currency" VALUES ('RSD','Serbian dinar','дин.',0.0,1);
+INSERT INTO "currency" VALUES ('RUB','Russian ruble','₽',0.0,1);
+INSERT INTO "currency" VALUES ('RWF','Rwandan franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('SAR','Saudi riyal','ر.س',0.0,1);
+INSERT INTO "currency" VALUES ('SBD','Solomon Islands dollar','SI$',0.0,1);
+INSERT INTO "currency" VALUES ('SCR','Seychellois rupee','₨',0.0,1);
+INSERT INTO "currency" VALUES ('SDG','Sudanese pound','‫ج.س.‬',0.0,1);
+INSERT INTO "currency" VALUES ('SEK','Swedish krona','kr',0.0,1);
+INSERT INTO "currency" VALUES ('SGD','Singapore dollar','S$',0.0,1);
+INSERT INTO "currency" VALUES ('SHP','Saint Helena pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('SLL','Sierra Leonean leone','Le',0.0,1);
+INSERT INTO "currency" VALUES ('SOS','Somali shilling','Sh',0.0,1);
+INSERT INTO "currency" VALUES ('SRD','Surinamese dollar','Sr$',0.0,1);
+INSERT INTO "currency" VALUES ('STD','South Sudanese pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('SVC','São Tomé and Príncipe dobra','Db',0.0,1);
+INSERT INTO "currency" VALUES ('SYP','Syrian pound','£',0.0,1);
+INSERT INTO "currency" VALUES ('SZL','Swazi lilangeni','L',0.0,1);
+INSERT INTO "currency" VALUES ('THB','Thai baht','฿',0.0,1);
+INSERT INTO "currency" VALUES ('TJS','Tajikistani somoni','ЅМ',0.0,1);
+INSERT INTO "currency" VALUES ('TMT','Turkmenistan manat','m',0.0,1);
+INSERT INTO "currency" VALUES ('TND','Tunisian dinar','د.ت',0.0,1);
+INSERT INTO "currency" VALUES ('TOP','Tongan paʻanga','T',0.0,1);
+INSERT INTO "currency" VALUES ('TRY','Turkish lira','₺',0.0,1);
+INSERT INTO "currency" VALUES ('TTD','Trinidad and Tobago dollar','TT$',0.0,1);
+INSERT INTO "currency" VALUES ('TWD','New Taiwan dollar','NT$',0.0,1);
+INSERT INTO "currency" VALUES ('TZS','Tanzanian shilling','Sh',0.0,1);
+INSERT INTO "currency" VALUES ('UAH','Ukrainian hryvnia','₴',0.0,1);
+INSERT INTO "currency" VALUES ('UGX','Ugandan shilling','Sh',0.0,1);
+INSERT INTO "currency" VALUES ('USD','United States dollar','$',0.0,1);
+INSERT INTO "currency" VALUES ('UYU','Uruguayan peso','$U',0.0,1);
+INSERT INTO "currency" VALUES ('UZS','Uzbekistani soʻm','сўм',0.0,1);
+INSERT INTO "currency" VALUES ('VEF','Venezuelan bolívar soberano','Bs.',0.0,1);
+INSERT INTO "currency" VALUES ('VES','Venezuelan bolívar soberano','Bs.',0.0,1);
+INSERT INTO "currency" VALUES ('VND','Vietnamese đồng','₫',0.0,1);
+INSERT INTO "currency" VALUES ('VUV','Vanuatu vatu','Vt',0.0,1);
+INSERT INTO "currency" VALUES ('WST','Samoan tālā','T',0.0,1);
+INSERT INTO "currency" VALUES ('XAF','Central African CFA franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('XAG','Silver Ounce','oz',0.0,1);
+INSERT INTO "currency" VALUES ('XAU','Gold Ounce','oz',0.0,1);
+INSERT INTO "currency" VALUES ('XCD','Eastern Caribbean dollar','EC$',0.0,1);
+INSERT INTO "currency" VALUES ('XDR','IMF Special Drawing Rights','SDR',0.0,1);
+INSERT INTO "currency" VALUES ('XOF','West African CFA franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('XPF','CFP franc','Fr',0.0,1);
+INSERT INTO "currency" VALUES ('YER','Yemeni rial','﷼',0.0,1);
+INSERT INTO "currency" VALUES ('ZAR','South African rand','R',0.0,1);
+INSERT INTO "currency" VALUES ('ZMK','Zambian Kwacha','ZK',0.0,1);
+INSERT INTO "currency" VALUES ('ZMW','Zambian kwacha','ZK',0.0,1);
+INSERT INTO "currency" VALUES ('ZWL','Zimbabwean dollar','Z$',0.0,1);
+
+collectAllCurrencies:
+SELECT * FROM currency;
+
+collectActiveCurrencies:
+SELECT * FROM currency WHERE isActive=1;
+
+getActiveCurrencies:
+SELECT * FROM currency WHERE isActive=1;
+
+updateCurrencyStateByName:
+UPDATE currency SET isActive=? WHERE name=?;
+
+updateAllCurrencyState:
+UPDATE currency SET isActive=?;
+
+getCurrencyByName:
+SELECT * FROM currency WHERE name=?;

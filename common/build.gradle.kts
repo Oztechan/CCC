@@ -9,6 +9,7 @@ plugins {
         kotlin(multiplatform)
         id(kotlinXSerialization)
         id(androidLibrary)
+        id(sqldelight)
     }
 }
 
@@ -59,6 +60,9 @@ kotlin {
                     implementation(ktorLogging)
                     implementation(ktorSerialization)
                     implementation(coroutines)
+
+                    implementation(sqldelightRuntime)
+                    implementation(sqldelightCoroutineExtensions)
                 }
             }
             val commonTest by getting {
@@ -72,6 +76,7 @@ kotlin {
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
+                    implementation(sqlliteDriver)
                     implementation(ktor)
                 }
             }
@@ -85,11 +90,22 @@ kotlin {
             }
         }
 
-        val iosMain by getting
-        val iosTest by getting
+        with(Dependencies.IOS) {
+            val iosMain by getting {
+                dependencies {
+                    implementation(ktor)
+                    implementation(sqlliteDriver)
+                }
+            }
+            val iosTest by getting
+        }
 
         with(Dependencies.JVM) {
-            val jvmMain by getting
+            val jvmMain by getting {
+                dependencies {
+                    implementation(sqlliteDriver)
+                }
+            }
             val jvmTest by getting {
                 dependencies {
                     implementation(kotlin(testJUnit))
@@ -98,7 +114,11 @@ kotlin {
         }
 
         with(Dependencies.JS) {
-            val jsMain by getting
+            val jsMain by getting {
+                dependencies {
+                    implementation(ktor)
+                }
+            }
             val jsTest by getting {
                 dependencies {
                     implementation(kotlin(test))
@@ -138,3 +158,10 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
+
+sqldelight {
+    database(Database.name) {
+        packageName = Database.packageName
+        sourceFolders = listOf(Database.sourceFolders)
+    }
+}

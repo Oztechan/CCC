@@ -12,9 +12,9 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.db.OfflineRatesDao
-import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK

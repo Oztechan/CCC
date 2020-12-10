@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.github.mustafaozhan.data.model.Currency" />
+            type="com.github.mustafaozhan.ccc.common.model.Currency" />
 
         <variable
             name="event"

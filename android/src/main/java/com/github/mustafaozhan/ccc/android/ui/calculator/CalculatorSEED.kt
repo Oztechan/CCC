@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.model.DataState
+import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.data.model.Currency
 
 // State
 @Suppress("ConstructorParameterNaming")

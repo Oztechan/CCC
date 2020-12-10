@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.ccc.common.api
 
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 
 interface ApiService {
-    suspend fun getRatesByBase(base: String): CurrencyResponse
+    suspend fun getRatesByBase(base: String): CurrencyResponseEntity
 }

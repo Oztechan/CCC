@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.common.api
 
+import com.github.mustafaozhan.ccc.common.entity.toModel
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.error.NetworkException
@@ -43,7 +44,7 @@ class ApiRepository(private val apiFactory: ApiFactory) {
         when {
             base.isEmpty() -> throw EmptyParameterException()
             base == CurrencyType.NULL.toString() -> throw NullBaseException()
-            else -> apiFactory.getRatesByBase(base)
+            else -> apiFactory.getRatesByBase(base).toModel()
         }
     }
 }

@@ -8,6 +8,7 @@ plugins {
     with(Plugins) {
         kotlin(multiplatform)
         id(androidLibrary)
+        id(sqldelight)
     }
 }
 

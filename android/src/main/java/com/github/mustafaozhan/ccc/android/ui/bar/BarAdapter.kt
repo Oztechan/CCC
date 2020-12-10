@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
-import com.github.mustafaozhan.data.model.Currency
+import com.github.mustafaozhan.ccc.common.model.Currency
 import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
 
 class BarAdapter(

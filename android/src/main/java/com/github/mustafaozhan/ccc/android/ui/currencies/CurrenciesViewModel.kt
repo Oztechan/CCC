@@ -12,9 +12,9 @@ import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
-import com.github.mustafaozhan.data.db.CurrencyDao
-import com.github.mustafaozhan.data.model.Currency
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
