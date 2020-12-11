@@ -49,7 +49,7 @@ dependencies {
         implementation(playCore)
         implementation(koinAndroidViewModel)
 
-        testImplementation(jUnit)
+        testImplementation(jUnit) // todo remove when viewModels moved
         testImplementation(mockK)
         testImplementation(archTesting)
         testImplementation(coroutinesTest)
