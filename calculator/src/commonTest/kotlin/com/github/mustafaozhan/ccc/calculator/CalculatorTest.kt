@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.calculator
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@Suppress("TooManyFunctions")
 class CalculatorTest {
     private val calculator = Calculator()
 

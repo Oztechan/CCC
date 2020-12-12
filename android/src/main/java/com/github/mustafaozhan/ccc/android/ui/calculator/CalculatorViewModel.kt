@@ -14,7 +14,6 @@ import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.getFormatted
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.android.util.toPercent
 import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.android.util.toUnit
@@ -32,7 +31,6 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.mariuszgromada.math.mxparser.Expression
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
@@ -120,23 +118,22 @@ class CalculatorViewModel(
         }
     }.toUnit()
 
-    private fun calculateOutput(input: String) =
-        Expression(input.toSupportedCharacters().toPercent())
-            .calculate()
-            .mapTo { if (isNaN()) "" else getFormatted() }
-            .whether { length <= MAXIMUM_INPUT }
-            ?.let { output ->
-                _state._output.value = output
-                state.currencyList.value?.size
-                    ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.whetherNot { state.input.value.isNullOrEmpty() }
-                    ?.let { _effect.postValue(FewCurrencyEffect) }
-                    ?: run { getRates() }
-            } ?: run {
-            _effect.postValue(MaximumInputEffect)
-            _state._input.value = input.dropLast(1)
-            _state._loading.value = false
-        }
+    private fun calculateOutput(input: String) = data.calculator
+        .calculate(input.toSupportedCharacters())
+        .mapTo { if (isFinite()) getFormatted() else "" }
+        .whether { length <= MAXIMUM_INPUT }
+        ?.let { output ->
+            _state._output.value = output
+            state.currencyList.value?.size
+                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                ?.whetherNot { state.input.value.isNullOrEmpty() }
+                ?.let { _effect.postValue(FewCurrencyEffect) }
+                ?: run { getRates() }
+        } ?: run {
+        _effect.postValue(MaximumInputEffect)
+        _state._input.value = input.dropLast(1)
+        _state._loading.value = false
+    }
 
     private fun calculateConversions(rates: Rates?) = with(_state) {
         _currencyList.value = _currencyList.value?.onEach {

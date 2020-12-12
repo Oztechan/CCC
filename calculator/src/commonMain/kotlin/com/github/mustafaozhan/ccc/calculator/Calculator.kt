@@ -4,8 +4,7 @@
 
 package com.github.mustafaozhan.ccc.calculator
 
-import com.github.mustafaozhan.ccc.calculator.error.BadSyntaxException
-import com.github.mustafaozhan.ccc.calculator.error.DivisionByZeroException
+import com.github.mustafaozhan.ccc.calculator.error.BadFormatException
 import com.github.mustafaozhan.ccc.calculator.model.Operators
 import com.github.mustafaozhan.ccc.calculator.util.Stack
 import com.github.mustafaozhan.ccc.calculator.util.isIn
@@ -13,17 +12,7 @@ import com.github.mustafaozhan.ccc.calculator.util.notIn
 import kotlin.math.pow
 import kotlin.math.round
 
-@Suppress(
-    "TooManyFunctions",
-    "NestedBlockDepth",
-    "MagicNumber",
-    "TooGenericExceptionCaught",
-    "TooGenericExceptionThrown",
-    "ComplexMethod",
-    "LongMethod",
-    "ComplexCondition",
-    "ThrowsCount"
-)
+@Suppress("NestedBlockDepth", "MagicNumber", "TooGenericExceptionCaught", "ComplexMethod")
 class Calculator {
 
     private val numStack = Stack<Double>()
@@ -36,9 +25,7 @@ class Calculator {
         val uExpression = convertToUExpression(expression.replace("%", "/100*"))
         val res = evaluateExpression(uExpression)
         roundToPrecision(res, precision)
-    } catch (e: BadSyntaxException) {
-        Double.NaN
-    } catch (e: DivisionByZeroException) {
+    } catch (e: BadFormatException) {
         Double.NaN
     }
 
@@ -103,11 +90,9 @@ class Calculator {
             }
         } catch (es: IndexOutOfBoundsException) {
             clearStacks()
-            throw BadSyntaxException()
+            throw BadFormatException()
         } catch (ae: ArithmeticException) {
-            // division by zero
             clearStacks()
-            throw DivisionByZeroException()
         }
     }
 
@@ -168,7 +153,7 @@ class Calculator {
             numStack.pop()
         } catch (ie: IndexOutOfBoundsException) {
             clearStacks()
-            throw BadSyntaxException()
+            throw BadFormatException()
         }
     }
 

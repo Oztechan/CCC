@@ -61,10 +61,10 @@ dependencies {
         implementation(project(client))
         implementation(project(common))
 
+        implementation(project(calculator))
+
         implementation(project(basemob))
         implementation(project(scopemob))
         implementation(project(logmob))
     }
-
-    implementation(files(Libs.mxParser))
 }
