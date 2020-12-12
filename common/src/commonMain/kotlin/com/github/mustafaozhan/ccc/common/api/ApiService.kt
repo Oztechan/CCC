@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.data.api
+package com.github.mustafaozhan.ccc.common.api
 
-import com.github.mustafaozhan.ccc.common.data.api.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 
 interface ApiService {
     suspend fun getRatesByBaseViaApi(base: String): CurrencyResponseEntity

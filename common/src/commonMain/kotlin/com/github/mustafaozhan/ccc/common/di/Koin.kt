@@ -5,12 +5,12 @@
 package com.github.mustafaozhan.ccc.common.di
 
 import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
-import com.github.mustafaozhan.ccc.common.data.api.ApiFactory
-import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
-import com.github.mustafaozhan.ccc.common.data.platform.PlatformRepository
+import com.github.mustafaozhan.ccc.common.api.ApiFactory
+import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.platform.PlatformRepository
 import com.github.mustafaozhan.ccc.common.platformCommonModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module

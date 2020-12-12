@@ -4,7 +4,7 @@
 
 package com.github.mustafaozhan.ccc.backend
 
-import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.di.getForJvm
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -39,7 +39,7 @@ fun Application.setupRooting() = routing {
 
     get(PATH_BY_BASE) {
         call.parameters[PARAMETER_BASE]?.let { base ->
-            offlineRatesDao.getOfflineCurrencyResponse(base).let {
+            offlineRatesDao.getOfflineCurrencyResponseByBase(base)?.let {
                 call.respond(it)
             }
         }
