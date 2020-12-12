@@ -82,9 +82,6 @@ kotlin {
             }
             val androidTest by getting {
                 dependencies {
-                    implementation(jUnit)
-
-                    // to run tests in common
                     implementation(kotlin(Dependencies.JVM.testJUnit))
                 }
             }

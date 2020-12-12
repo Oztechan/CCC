@@ -42,17 +42,20 @@ kotlin {
         }
     }
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Modules.common))
                     implementation(multiplatformSettings)
                     implementation(dateTime)
                     api(koinCore)
                     api(kermit)
+
+                    with(Modules) {
+                        implementation(project(common))
+                        implementation(project(calculator))
+                    }
                 }
             }
             val commonTest by getting {
@@ -72,7 +75,7 @@ kotlin {
             }
             val androidTest by getting {
                 dependencies {
-                    implementation(jUnit)
+                    implementation(kotlin(Dependencies.JVM.testJUnit))
                 }
             }
         }

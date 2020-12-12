@@ -156,8 +156,6 @@ fun String.toSupportedCharacters() =
         .replace(" ", "")
         .replace("−", "-")
 
-fun String.toPercent() = replace("%", "/100*")
-
 fun Double.getFormatted(): String {
 
     var decimalFormat = "###,###.###"

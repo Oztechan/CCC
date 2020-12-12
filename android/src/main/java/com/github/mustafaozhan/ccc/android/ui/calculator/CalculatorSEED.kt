@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.model.DataState
+import com.github.mustafaozhan.ccc.calculator.Calculator
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.Rates
 
@@ -55,4 +56,7 @@ object OpenSettingsEffect : CalculatorEffect()
 data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
 
 // Data
-data class CalculatorData(var rates: Rates? = null)
+data class CalculatorData(
+    var calculator: Calculator = Calculator(),
+    var rates: Rates? = null
+)

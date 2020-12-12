@@ -9,7 +9,6 @@ import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.getFormatted
 import com.github.mustafaozhan.ccc.android.util.getThroughReflection
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.android.util.toPercent
 import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toStandardDigits
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
@@ -136,11 +135,6 @@ class ExtensionTest {
         assertEquals("1234.567".dropDecimal(), "1234")
         assertEquals("7 972.932".dropDecimal(), "7972")
         assertEquals("1 2 3434 432.432 .4334".dropDecimal(), "123434432")
-    }
-
-    @Test
-    fun `to percent`() {
-        assertEquals("200/100*5", ("200%5").toPercent())
     }
 
     @Test
