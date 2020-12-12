@@ -31,6 +31,8 @@ fun main() {
             json()
         }
 
+        checkApi()
+
         setupRooting()
 
     }.start(wait = true)

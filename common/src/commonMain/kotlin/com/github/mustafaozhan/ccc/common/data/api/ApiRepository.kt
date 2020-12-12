@@ -39,11 +39,19 @@ class ApiRepository(private val apiFactory: ApiFactory) {
         }
     }
 
-    suspend fun getRatesByBase(base: String) = apiRequest {
+    suspend fun getRatesByBaseViaBackend(base: String) = apiRequest {
         when {
             base.isEmpty() -> throw EmptyParameterException()
             base == CurrencyType.NULL.toString() -> throw NullBaseException()
-            else -> apiFactory.getRatesByBase(base).toModel()
+            else -> apiFactory.getRatesByBaseViaBackend(base).toModel()
+        }
+    }
+
+    suspend fun getRatesByBaseViaApi(base: String) = apiRequest {
+        when {
+            base.isEmpty() -> throw EmptyParameterException()
+            base == CurrencyType.NULL.toString() -> throw NullBaseException()
+            else -> apiFactory.getRatesByBaseViaApi(base).toModel()
         }
     }
 }

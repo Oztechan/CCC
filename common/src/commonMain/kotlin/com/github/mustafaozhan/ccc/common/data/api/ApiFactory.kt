@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ccc.common.data.api
 
 import com.github.mustafaozhan.ccc.common.data.api.entity.CurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.secret.BASE_URL_API
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
@@ -24,7 +25,8 @@ class ApiFactory : ApiService {
     companion object {
         private const val TIME_OUT: Long = 3000
         private const val QUERY_KEY_BASE = "base"
-        private const val PATH_CURRENCY_BY_BASE = "currency/byBase/"
+        private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
+        private const val PATH_CURRENCY_BY_BASE_API = "latest/"
     }
 
     private val json = Json {
@@ -53,10 +55,19 @@ class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesByBase(base: String): CurrencyResponseEntity = client.get {
+    override suspend fun getRatesByBaseViaBackend(base: String): CurrencyResponseEntity =
+        client.get {
+            url {
+                takeFrom(BASE_URL_BACKEND)
+                path(PATH_CURRENCY_BY_BASE_BACKEND)
+                parameter(QUERY_KEY_BASE, base)
+            }
+        }
+
+    override suspend fun getRatesByBaseViaApi(base: String): CurrencyResponseEntity = client.get {
         url {
-            takeFrom(BASE_URL_BACKEND)
-            path(PATH_CURRENCY_BY_BASE)
+            takeFrom(BASE_URL_API)
+            path(PATH_CURRENCY_BY_BASE_API)
             parameter(QUERY_KEY_BASE, base)
         }
     }

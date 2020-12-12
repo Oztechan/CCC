@@ -6,5 +6,6 @@ package com.github.mustafaozhan.ccc.common.data.api
 import com.github.mustafaozhan.ccc.common.data.api.entity.CurrencyResponseEntity
 
 interface ApiService {
-    suspend fun getRatesByBase(base: String): CurrencyResponseEntity
+    suspend fun getRatesByBaseViaApi(base: String): CurrencyResponseEntity
+    suspend fun getRatesByBaseViaBackend(base: String): CurrencyResponseEntity
 }
