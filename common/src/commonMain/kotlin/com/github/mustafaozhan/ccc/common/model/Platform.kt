@@ -8,5 +8,3 @@ data class Platform(
     val name: String,
     val version: String
 )
-
-const val APP_NAME = "Currency Converter Calculator"

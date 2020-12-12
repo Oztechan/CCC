@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.data.platform.PlatformRepository
 import com.github.mustafaozhan.ccc.common.di.initKoin
-import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
 import kotlin.test.BeforeTest
 import org.koin.core.KoinApplication
 

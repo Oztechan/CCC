@@ -1,15 +1,14 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.api
+package com.github.mustafaozhan.ccc.common.data.api
 
-import com.github.mustafaozhan.ccc.common.entity.toModel
+import com.github.mustafaozhan.ccc.common.data.api.entity.toModel
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.error.NetworkException
 import com.github.mustafaozhan.ccc.common.error.NullBaseException
 import com.github.mustafaozhan.ccc.common.error.TimeoutException
-import com.github.mustafaozhan.ccc.common.error.UnknownNetworkException
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Result
 import com.github.mustafaozhan.ccc.common.platformCoroutineContext
@@ -34,7 +33,7 @@ class ApiRepository(private val apiFactory: ApiFactory) {
                     is IOException -> NetworkException(e)
                     is ConnectTimeoutException -> TimeoutException(e)
                     is SerializationException -> ModelMappingException(e)
-                    else -> UnknownNetworkException(e)
+                    else -> e
                 }
             )
         }
