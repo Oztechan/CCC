@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -68,7 +68,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:subTitle="@{@string/settings_item_currencies_sub_title}"
                     app:title="@{@string/settings_item_currencies_title}"
-                    app:value="@{@plurals/settings_item_currencies_value(vm.state.activeCurrencyCount,vm.state.activeCurrencyCount)}" />
+                    app:value="@{@plurals/settings_item_currencies_value(vm.state.activeCurrencyCount.value,vm.state.activeCurrencyCount.value)}" />
 
                 <include
                     android:id="@+id/item_theme"
@@ -81,7 +81,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/item_currencies"
                     app:subTitle="@{@string/settings_item_theme_sub_title}"
                     app:title="@{@string/settings_item_theme_title}"
-                    app:value="@{vm.state.appThemeType.typeName}"
+                    app:value="@{vm.state.appThemeType.value.typeName}"
                     app:visibility="@{VERSION.SDK_INT>=29}" />
 
                 <include
@@ -95,7 +95,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/item_theme"
                     app:subTitle="@{@string/settings_item_remove_ads_sub_title}"
                     app:title="@{@string/settings_item_remove_ads_title}"
-                    app:value="@{vm.getAdFreeActivatedDate() == 0 ?`` : (vm.isRewardExpired() ? `Expired\n` : `Will expire\n`)+vm.state.addFreeDate}" />
+                    app:value="@{vm.getAdFreeActivatedDate() == 0 ?`` : (vm.isRewardExpired() ? `Expired\n` : `Will expire\n`)+vm.state.addFreeDate.value}" />
 
                 <include
                     android:id="@+id/item_sync"

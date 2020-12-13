@@ -10,10 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.util.Toast
-import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
@@ -24,6 +24,7 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,8 +62,8 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
         )
     }
 
-    private fun observeEffect() = settingsViewModel.effect
-        .reObserve(viewLifecycleOwner, { viewEffect ->
+    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+        settingsViewModel.effect.collect { viewEffect ->
             when (viewEffect) {
                 BackEffect -> getBaseActivity()?.onBackPressed()
                 CurrenciesEffect -> navigate(
@@ -99,9 +100,13 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
-                OnlyOneTimeSyncEffect -> Toast.show(requireContext(), R.string.txt_already_synced)
+                OnlyOneTimeSyncEffect -> Toast.show(
+                    requireContext(),
+                    R.string.txt_already_synced
+                )
             }
-        })
+        }
+    }.toUnit()
 
     private fun changeTheme() {
         AppTheme.getThemeByValue(settingsViewModel.getAppTheme())?.let { currentThemeType ->

@@ -36,6 +36,17 @@ android {
             viewBinding = true
             dataBinding = true
         }
+
+        kotlin {
+            sourceSets {
+                all {
+                    languageSettings.apply {
+                        useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+                        useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -5,7 +5,6 @@ package com.github.mustafaozhan.ccc.android.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.mustafaozhan.ccc.android.rule.TestCoroutineRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 
 abstract class BaseViewModelTest<ViewModelType> {
@@ -13,7 +12,6 @@ abstract class BaseViewModelTest<ViewModelType> {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     val testCoroutineRule = TestCoroutineRule()
 

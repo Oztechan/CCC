@@ -7,18 +7,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mustafaozhan.ccc.android.model.AppTheme
 import com.github.mustafaozhan.ccc.android.util.DAY
-import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
-import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.dateStringToFormattedString
 import com.github.mustafaozhan.ccc.android.util.isRewardExpired
 import com.github.mustafaozhan.ccc.android.util.toRates
+import com.github.mustafaozhan.ccc.android.util.toUnit
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
 import java.util.Date
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -39,8 +41,8 @@ class SettingsViewModel(
     private val _state = MutableSettingsState()
     val state = SettingsState(_state)
 
-    private val _effect = MutableSingleLiveData<SettingsEffect>()
-    val effect: SingleLiveData<SettingsEffect> = _effect
+    private val _effect = BroadcastChannel<SettingsEffect>(Channel.BUFFERED)
+    val effect = _effect.asFlow()
 
     private val data = SettingsData()
 
@@ -49,6 +51,7 @@ class SettingsViewModel(
 
     init {
         _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
+            ?: AppTheme.SYSTEM_DEFAULT
         _state._addFreeDate.value = Date(
             settingsRepository.adFreeActivatedDate + DAY
         ).dateStringToFormattedString()
@@ -71,7 +74,9 @@ class SettingsViewModel(
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
         settingsRepository.appTheme = theme.themeValue
-        _effect.postValue(ChangeThemeEffect(theme.themeValue))
+        viewModelScope.launch {
+            _effect.send(ChangeThemeEffect(theme.themeValue))
+        }
     }
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
@@ -81,25 +86,42 @@ class SettingsViewModel(
     fun getAppTheme() = settingsRepository.appTheme
 
     // region Event
-    override fun onBackClick() = _effect.postValue(BackEffect)
+    override fun onBackClick() = viewModelScope.launch {
+        _effect.send(BackEffect)
+    }.toUnit()
 
-    override fun onCurrenciesClick() = _effect.postValue(CurrenciesEffect)
+    override fun onCurrenciesClick() = viewModelScope.launch {
+        _effect.send(CurrenciesEffect)
+    }.toUnit()
 
-    override fun onFeedBackClick() = _effect.postValue(FeedBackEffect)
+    override fun onFeedBackClick() = viewModelScope.launch {
+        _effect.send(FeedBackEffect)
+    }.toUnit()
 
-    override fun onShareClick() = _effect.postValue(ShareEffect)
+    override fun onShareClick() = viewModelScope.launch {
+        _effect.send(ShareEffect)
+    }.toUnit()
 
-    override fun onSupportUsClick() = _effect.postValue(SupportUsEffect)
+    override fun onSupportUsClick() = viewModelScope.launch {
+        _effect.send(SupportUsEffect)
+    }.toUnit()
 
-    override fun onOnGitHubClick() = _effect.postValue(OnGitHubEffect)
+    override fun onOnGitHubClick() = viewModelScope.launch {
+        _effect.send(OnGitHubEffect)
+    }.toUnit()
 
-    override fun onRemoveAdsClick() = _effect.postValue(RemoveAdsEffect)
+    override fun onRemoveAdsClick() = viewModelScope.launch {
+        _effect.send(RemoveAdsEffect)
+    }.toUnit()
 
-    override fun onThemeClick() = _effect.postValue(ThemeDialogEffect)
+    override fun onThemeClick() = viewModelScope.launch {
+        _effect.send(ThemeDialogEffect)
+    }.toUnit()
 
     override fun onSyncClick() {
-        if (!data.synced) {
-            viewModelScope.launch {
+
+        viewModelScope.launch {
+            if (!data.synced) {
                 currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
@@ -111,10 +133,11 @@ class SettingsViewModel(
                 }
 
                 data.synced = true
-                _effect.postValue(SynchronisedEffect)
+                _effect.send(SynchronisedEffect)
+            } else {
+                _effect.send(OnlyOneTimeSyncEffect)
             }
-        } else _effect.postValue(OnlyOneTimeSyncEffect)
+        }
     }
-
     // endregion
 }

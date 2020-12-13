@@ -24,6 +24,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import java.util.Date
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.datetime.Clock
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -58,11 +61,15 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `update theme`() = with(viewModel) {
-        val appTheme = AppTheme.DARK
-        updateTheme(appTheme)
-        assertEquals(appTheme, state.appThemeType.value)
-        assertEquals(ChangeThemeEffect(appTheme.themeValue), effect.value)
+    fun `update theme`() = runBlockingTest {
+        launch {
+            val appTheme = AppTheme.DARK
+            viewModel.updateTheme(appTheme)
+            assertEquals(appTheme, viewModel.state.appThemeType.value)
+
+            viewModel.getEvent().onCurrenciesClick()
+            assertEquals(ChangeThemeEffect(appTheme.themeValue), viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
@@ -76,50 +83,66 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     // Event
     @Test
-    fun `back click`() = with(viewModel) {
-        getEvent().onBackClick()
-        assertEquals(BackEffect, effect.value)
+    fun `back click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onBackClick()
+            assertEquals(BackEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `currencies click`() = with(viewModel) {
-        getEvent().onCurrenciesClick()
-        assertEquals(CurrenciesEffect, effect.value)
+    fun `currencies click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onCurrenciesClick()
+            assertEquals(CurrenciesEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `feedback click`() = with(viewModel) {
-        getEvent().onFeedBackClick()
-        assertEquals(FeedBackEffect, effect.value)
+    fun `feedback click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onFeedBackClick()
+            assertEquals(FeedBackEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `share click`() = with(viewModel) {
-        getEvent().onShareClick()
-        assertEquals(ShareEffect, effect.value)
+    fun `share click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onShareClick()
+            assertEquals(ShareEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `support us click`() = with(viewModel) {
-        getEvent().onSupportUsClick()
-        assertEquals(SupportUsEffect, effect.value)
+    fun `support us click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onSupportUsClick()
+            assertEquals(SupportUsEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `on github click`() = with(viewModel) {
-        getEvent().onOnGitHubClick()
-        assertEquals(OnGitHubEffect, effect.value)
+    fun `on github click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onOnGitHubClick()
+            assertEquals(OnGitHubEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `on remove ad click`() = with(viewModel) {
-        getEvent().onRemoveAdsClick()
-        assertEquals(RemoveAdsEffect, effect.value)
+    fun `on remove ad click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onRemoveAdsClick()
+            assertEquals(RemoveAdsEffect, viewModel.effect.single())
+        }.cancel()
     }
 
     @Test
-    fun `on theme click`() = with(viewModel) {
-        getEvent().onThemeClick()
-        assertEquals(ThemeDialogEffect, effect.value)
+    fun `on theme click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onThemeClick()
+            assertEquals(ThemeDialogEffect, viewModel.effect.single())
+        }.cancel()
     }
 }

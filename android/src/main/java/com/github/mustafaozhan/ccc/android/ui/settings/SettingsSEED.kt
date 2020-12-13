@@ -3,25 +3,25 @@
  */
 package com.github.mustafaozhan.ccc.android.ui.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.android.model.AppTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 // State
 @Suppress("ConstructorParameterNaming")
 data class SettingsState(
     private val _state: MutableSettingsState
 ) {
-    val activeCurrencyCount: LiveData<Int> = _state._activeCurrencyCount
-    val appThemeType: LiveData<AppTheme> = _state._appThemeType
-    val addFreeDate: LiveData<String> = _state._addFreeDate
+    val activeCurrencyCount: StateFlow<Int> = _state._activeCurrencyCount
+    val appThemeType: StateFlow<AppTheme> = _state._appThemeType
+    val addFreeDate: StateFlow<String> = _state._addFreeDate
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableSettingsState(
-    val _activeCurrencyCount: MutableLiveData<Int> = MutableLiveData(0),
-    val _appThemeType: MutableLiveData<AppTheme> = MutableLiveData(),
-    val _addFreeDate: MutableLiveData<String> = MutableLiveData()
+    val _activeCurrencyCount: MutableStateFlow<Int> = MutableStateFlow(0),
+    val _appThemeType: MutableStateFlow<AppTheme> = MutableStateFlow(AppTheme.SYSTEM_DEFAULT),
+    val _addFreeDate: MutableStateFlow<String> = MutableStateFlow("")
 )
 
 // Event
