@@ -191,14 +191,9 @@ class Calculator {
         }
     }
 
-    private fun getBinaryOperatorPrecedence(currOp: String) = when (currOp) {
-        Operators.PLUS.sign -> Operators.PLUS.precedence
-        Operators.MINUS.sign -> Operators.MINUS.precedence
-        Operators.MULTIPLY.sign -> Operators.MULTIPLY.precedence
-        Operators.DIVISION.sign -> Operators.DIVISION.precedence
-        Operators.UNARY.sign -> Operators.UNARY.precedence
-        else -> -1
-    }
+    private fun getBinaryOperatorPrecedence(currOp: String) =
+        Operators.values().firstOrNull { it.sign == currOp }
+            ?.precedence ?: -1
 
     private fun computeBracket(numString: StringBuilder) {
         if (numString.isNotEmpty()) {

@@ -19,7 +19,7 @@ fun CurrencyResponseEntity.toModel() = CurrencyResponse(
     base, date, ratesEntity.toModel()
 )
 
-fun Offline_rates.toEntity() = RatesEntity(
+fun Offline_rates.toRatesEntity() = RatesEntity(
     base, date, AED, AFN, ALLL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD,
     BDT, BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BYR, BZD,
     CAD, CDF, CHF, CLF, CLP, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP,
@@ -35,4 +35,4 @@ fun Offline_rates.toEntity() = RatesEntity(
 )
 
 fun Offline_rates?.toCurrencyResponseEntity() =
-    this?.run { CurrencyResponseEntity(base, date, toEntity()) }
+    this?.run { CurrencyResponseEntity(base, date, toRatesEntity()) }
