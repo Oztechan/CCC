@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.settings
+package com.github.mustafaozhan.ccc.client.settings
 
-import com.github.mustafaozhan.ccc.android.model.AppTheme
+import com.github.mustafaozhan.ccc.client.model.AppTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

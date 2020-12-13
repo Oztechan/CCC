@@ -1,22 +1,20 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.settings
+package com.github.mustafaozhan.ccc.client.settings
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.util.DAY
-import com.github.mustafaozhan.ccc.android.util.dateStringToFormattedString
-import com.github.mustafaozhan.ccc.android.util.isRewardExpired
-import com.github.mustafaozhan.ccc.android.util.toRates
-import com.github.mustafaozhan.ccc.android.util.toUnit
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.util.DAY
+import com.github.mustafaozhan.ccc.client.util.formatToString
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.toRates
+import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
-import java.util.Date
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -24,6 +22,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
@@ -31,7 +30,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : ViewModel(), SettingsEvent {
+) : BaseViewModel(), SettingsEvent {
 
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
@@ -52,11 +51,11 @@ class SettingsViewModel(
     init {
         _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
             ?: AppTheme.SYSTEM_DEFAULT
-        _state._addFreeDate.value = Date(
+        _state._addFreeDate.value = Instant.fromEpochMilliseconds(
             settingsRepository.adFreeActivatedDate + DAY
-        ).dateStringToFormattedString()
+        ).formatToString()
 
-        viewModelScope.launch {
+        clientScope.launch {
             currencyDao.collectActiveCurrencies()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
@@ -67,14 +66,14 @@ class SettingsViewModel(
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state._addFreeDate.value = Date(it + DAY).dateStringToFormattedString()
+        _state._addFreeDate.value = Instant.fromEpochMilliseconds(it + DAY).formatToString()
         settingsRepository.adFreeActivatedDate = it
     }
 
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
         settingsRepository.appTheme = theme.themeValue
-        viewModelScope.launch {
+        clientScope.launch {
             _effect.send(ChangeThemeEffect(theme.themeValue))
         }
     }
@@ -86,47 +85,47 @@ class SettingsViewModel(
     fun getAppTheme() = settingsRepository.appTheme
 
     // region Event
-    override fun onBackClick() = viewModelScope.launch {
+    override fun onBackClick() = clientScope.launch {
         _effect.send(BackEffect)
     }.toUnit()
 
-    override fun onCurrenciesClick() = viewModelScope.launch {
+    override fun onCurrenciesClick() = clientScope.launch {
         _effect.send(CurrenciesEffect)
     }.toUnit()
 
-    override fun onFeedBackClick() = viewModelScope.launch {
+    override fun onFeedBackClick() = clientScope.launch {
         _effect.send(FeedBackEffect)
     }.toUnit()
 
-    override fun onShareClick() = viewModelScope.launch {
+    override fun onShareClick() = clientScope.launch {
         _effect.send(ShareEffect)
     }.toUnit()
 
-    override fun onSupportUsClick() = viewModelScope.launch {
+    override fun onSupportUsClick() = clientScope.launch {
         _effect.send(SupportUsEffect)
     }.toUnit()
 
-    override fun onOnGitHubClick() = viewModelScope.launch {
+    override fun onOnGitHubClick() = clientScope.launch {
         _effect.send(OnGitHubEffect)
     }.toUnit()
 
-    override fun onRemoveAdsClick() = viewModelScope.launch {
+    override fun onRemoveAdsClick() = clientScope.launch {
         _effect.send(RemoveAdsEffect)
     }.toUnit()
 
-    override fun onThemeClick() = viewModelScope.launch {
+    override fun onThemeClick() = clientScope.launch {
         _effect.send(ThemeDialogEffect)
     }.toUnit()
 
     override fun onSyncClick() {
 
-        viewModelScope.launch {
+        clientScope.launch {
             if (!data.synced) {
                 currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
                     apiRepository.getRatesByBaseViaBackend(name).execute({
-                        viewModelScope.launch {
+                        clientScope.launch {
                             offlineRatesDao.insertOfflineRates(it.toRates())
                         }
                     }, { error -> kermit.e(error) { error.message.toString() } })

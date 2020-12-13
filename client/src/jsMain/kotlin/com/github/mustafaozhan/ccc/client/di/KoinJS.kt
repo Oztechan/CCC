@@ -4,6 +4,7 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
+import com.github.mustafaozhan.ccc.client.settings.SettingsViewModel
 import com.russhwolf.settings.JsSettings
 import com.russhwolf.settings.Settings
 import kotlin.reflect.KClass
@@ -20,6 +21,7 @@ fun initJS(storage: Storage) = initKoin(
 )
 
 actual val platformClientModule: Module = module {
+    single { SettingsViewModel(get(), get(), get(), get()) }
 }
 
 fun <T> Koin.getForJs(clazz: KClass<*>): T {

@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel

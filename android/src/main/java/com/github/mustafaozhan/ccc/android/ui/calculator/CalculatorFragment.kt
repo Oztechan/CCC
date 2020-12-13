@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
-import com.github.mustafaozhan.ccc.android.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showSnack
+import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel

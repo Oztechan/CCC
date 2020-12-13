@@ -4,9 +4,9 @@
 package com.github.mustafaozhan.ccc.android.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.github.mustafaozhan.ccc.android.util.isRewardExpired
-import com.github.mustafaozhan.ccc.android.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import kotlinx.datetime.Clock
 
 class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {

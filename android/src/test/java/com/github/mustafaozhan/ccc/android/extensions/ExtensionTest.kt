@@ -9,10 +9,10 @@ import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.getFormatted
 import com.github.mustafaozhan.ccc.android.util.getThroughReflection
 import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
-import com.github.mustafaozhan.ccc.android.util.toRates
 import com.github.mustafaozhan.ccc.android.util.toStandardDigits
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.android.util.toValidList
+import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType

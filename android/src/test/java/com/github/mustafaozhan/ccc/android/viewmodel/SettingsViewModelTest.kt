@@ -3,31 +3,31 @@
  */
 package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.model.AppTheme
-import com.github.mustafaozhan.ccc.android.ui.settings.BackEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.ChangeThemeEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.CurrenciesEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.FeedBackEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.OnGitHubEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.RemoveAdsEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.android.ui.settings.ShareEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.SupportUsEffect
-import com.github.mustafaozhan.ccc.android.ui.settings.ThemeDialogEffect
-import com.github.mustafaozhan.ccc.android.util.DAY
-import com.github.mustafaozhan.ccc.android.util.dateStringToFormattedString
+import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.settings.BackEffect
+import com.github.mustafaozhan.ccc.client.settings.ChangeThemeEffect
+import com.github.mustafaozhan.ccc.client.settings.CurrenciesEffect
+import com.github.mustafaozhan.ccc.client.settings.FeedBackEffect
+import com.github.mustafaozhan.ccc.client.settings.OnGitHubEffect
+import com.github.mustafaozhan.ccc.client.settings.RemoveAdsEffect
+import com.github.mustafaozhan.ccc.client.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.settings.ShareEffect
+import com.github.mustafaozhan.ccc.client.settings.SupportUsEffect
+import com.github.mustafaozhan.ccc.client.settings.ThemeDialogEffect
+import com.github.mustafaozhan.ccc.client.util.DAY
+import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import java.util.Date
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -77,7 +77,9 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         updateAddFreeDate()
         assertEquals(
             state.addFreeDate.value,
-            Date(Clock.System.now().toEpochMilliseconds() + DAY).dateStringToFormattedString()
+            Instant.fromEpochMilliseconds(
+                Clock.System.now().toEpochMilliseconds() + DAY
+            ).formatToString()
         )
     }
 

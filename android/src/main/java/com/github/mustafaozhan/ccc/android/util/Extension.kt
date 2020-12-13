@@ -16,9 +16,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.castTo
@@ -32,10 +32,7 @@ import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
-import kotlinx.datetime.Clock
 import mustafaozhan.github.com.mycurrencies.R
 
 private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
@@ -98,17 +95,6 @@ fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String)
 fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     removeObserver(observer)
     observe(owner, observer)
-}
-
-@Suppress("unused")
-fun Any?.toUnit() = Unit
-
-fun Long.isWeekPassed(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= WEEK
-}
-
-fun Long.isRewardExpired(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= AD_EXPIRATION
 }
 
 fun Rates?.calculateResult(name: String, value: String?) =
@@ -176,17 +162,6 @@ fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
     nonEmpty.whether { contains(".") }
         ?.substring(0, nonEmpty.indexOf("."))
         ?: run { nonEmpty }
-}
-
-fun Date.dateStringToFormattedString(): String =
-    SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH).format(this)
-
-fun CurrencyResponse.toRates(): Rates {
-    val rate = rates
-    rate.base = base
-    // todo need to change to CurrencyResponse.date when BE return date
-    rate.date = Date().dateStringToFormattedString()
-    return rate
 }
 
 @SuppressLint("DefaultLocale")

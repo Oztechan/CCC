@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.android.util
+package com.github.mustafaozhan.ccc.client.util
 
 const val DAY = (24 * 60 * 60 * 1000).toLong()
 const val WEEK = 7 * DAY

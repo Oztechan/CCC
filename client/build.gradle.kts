@@ -42,13 +42,22 @@ kotlin {
         }
     }
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
+
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
 
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
                     implementation(multiplatformSettings)
                     implementation(dateTime)
+                    implementation(coroutines)
                     api(koinCore)
                     api(kermit)
 
@@ -71,6 +80,7 @@ kotlin {
                 dependencies {
                     implementation(androidMaterial)
                     implementation(koinAndroidViewModel)
+                    implementation(viewModelExt)
                 }
             }
             val androidTest by getting {
