@@ -10,8 +10,8 @@ import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.platform.PlatformRepository
 import com.github.mustafaozhan.ccc.common.platformCommonModule
-import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module

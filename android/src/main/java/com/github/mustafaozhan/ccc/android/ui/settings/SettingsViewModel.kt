@@ -103,7 +103,7 @@ class SettingsViewModel(
                 currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
-                    apiRepository.getRatesByBase(name).execute({
+                    apiRepository.getRatesByBaseViaBackend(name).execute({
                         viewModelScope.launch {
                             offlineRatesDao.insertOfflineRates(it.toRates())
                         }

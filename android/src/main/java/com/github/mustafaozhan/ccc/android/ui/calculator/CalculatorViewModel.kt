@@ -85,7 +85,7 @@ class CalculatorViewModel(
         _state._dataState.value = DataState.Cached(rates.date)
     } ?: viewModelScope.launch {
         apiRepository
-            .getRatesByBase(settingsRepository.currentBase)
+            .getRatesByBaseViaBackend(settingsRepository.currentBase)
             .execute(
                 ::rateDownloadSuccess,
                 ::rateDownloadFail

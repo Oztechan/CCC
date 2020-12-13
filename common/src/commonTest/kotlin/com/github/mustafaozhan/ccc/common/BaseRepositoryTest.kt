@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.initKoin
-import com.github.mustafaozhan.ccc.common.repository.PlatformRepository
+import com.github.mustafaozhan.ccc.common.platform.PlatformRepository
 import kotlin.test.BeforeTest
 import org.koin.core.KoinApplication
 

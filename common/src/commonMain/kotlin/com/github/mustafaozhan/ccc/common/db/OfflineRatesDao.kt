@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ccc.common.db
 
 import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel
 
@@ -26,4 +27,8 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
 
     fun getOfflineRatesByBase(base: String) =
         offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()?.toModel()
+
+    fun getOfflineCurrencyResponseByBase(base: String) =
+        offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()
+            ?.toCurrencyResponseEntity()
 }
