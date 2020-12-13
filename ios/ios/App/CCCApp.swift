@@ -15,7 +15,7 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(mainViewModel: koin.getMainViewModel())
+            MainView(settingsRepository: koin.getSettingsRepository())
         }
     }
 }

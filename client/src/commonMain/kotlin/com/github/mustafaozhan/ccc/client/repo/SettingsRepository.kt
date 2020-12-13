@@ -10,17 +10,12 @@ import kotlinx.datetime.Clock
 
 class SettingsRepository(private val settings: Settings) {
     companion object {
-        private const val KEY_FIRST_RUN_COUNTER = "key_run_counter"
         private const val KEY_FIRST_RUN = "firs_run"
         private const val KEY_CURRENT_BASE = "current_base"
         private const val KEY_AD_FREE_DATE = "ad_free_date"
         private const val KEY_APP_THEME = "app_theme"
         private const val KEY_LAST_REVIEW_REQUEST = "last_review_request"
     }
-
-    var runCounter
-        get() = settings.getInt(KEY_FIRST_RUN_COUNTER, 0)
-        set(value) = settings.putInt(KEY_FIRST_RUN_COUNTER, value)
 
     var firstRun
         get() = settings.getBoolean(KEY_FIRST_RUN, true)

@@ -6,7 +6,6 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
-import com.github.mustafaozhan.ccc.client.main.MainViewModel
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import kotlinx.cinterop.ObjCClass
@@ -25,7 +24,6 @@ fun initIOS(userDefaults: NSUserDefaults) = initKoin(
 )
 
 actual val platformClientModule: Module = module {
-    single { MainViewModel(get(), get()) }
 }
 
 fun Koin.getForIOS(objCClass: ObjCClass): Any {

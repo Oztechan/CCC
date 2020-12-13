@@ -12,11 +12,11 @@ import org.koin.dsl.module
 fun initKoin(appModule: Module? = null) = initKoin(
     appModule,
     platformClientModule,
-    commonClientModule
+    clientModule
 )
 
 expect val platformClientModule: Module
 
-val commonClientModule = module {
+val clientModule = module {
     single { SettingsRepository(get()) }
 }

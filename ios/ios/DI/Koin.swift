@@ -34,7 +34,7 @@ extension EnvironmentValues {
 
 // swiftlint:disable force_cast
 extension Koin {
-    func getMainViewModel() -> MainViewModel {
-        return koin.getForIOS(objCClass: MainViewModel.self) as! MainViewModel
+    func getSettingsRepository() -> SettingsRepository {
+        return koin.getForIOS(objCClass: SettingsRepository.self) as! SettingsRepository
     }
 }

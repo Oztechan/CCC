@@ -11,17 +11,19 @@ import client
 import common
 
 struct MainView: View {
-    var mainViewModel: MainViewModel
+    var settingsRepository: SettingsRepository
 
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
+    init(settingsRepository: SettingsRepository) {
+        self.settingsRepository = settingsRepository
         CommonKt.kermit.d(withMessage: {"MainView"})
     }
 
     var body: some View {
-        Text(mainViewModel.getAppName())
-        Text(mainViewModel.getPlatformName())
-        Text("\(mainViewModel.runCounter) times ran")
+        if(settingsRepository.firstRun){
+            Text("First run")
+        } else {
+            Text("Not first run")
+        }
     }
 }
 
@@ -30,7 +32,7 @@ struct MainViewPreviews: PreviewProvider {
     @Environment(\.koin) static var koin: Koin
 
     static var previews: some View {
-        MainView(mainViewModel: koin.getMainViewModel())
+        MainView(settingsRepository: koin.getSettingsRepository())
             .makeForPreviewProvider()
     }
 }
