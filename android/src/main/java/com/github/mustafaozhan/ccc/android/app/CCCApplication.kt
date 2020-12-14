@@ -5,9 +5,9 @@ package com.github.mustafaozhan.ccc.android.app
 
 import android.content.Context
 import androidx.multidex.MultiDexApplication
-import com.github.mustafaozhan.ccc.android.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.di.initAndroid
+import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.logmob.initLogMob
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
