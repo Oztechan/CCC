@@ -7,7 +7,6 @@ import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.github.mustafaozhan.ccc.android.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initLogMob
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -23,7 +22,6 @@ class CCCApplication : MultiDexApplication() {
             module {
                 single<Context> { this@CCCApplication }
 
-                viewModel { CurrenciesViewModel(get(), get()) }
                 viewModel { CalculatorViewModel(get(), get(), get(), get()) }
                 viewModel { BarViewModel(get()) }
             }

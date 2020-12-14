@@ -3,17 +3,16 @@
  */
 package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.ui.currencies.BackEffect
-import com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.android.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,19 +47,19 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         }
 
         viewModel.filterList("USD")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
+        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("Euro")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(euro))
+        assertEquals(true, viewModel.state.currencyList.value.contains(euro))
 
         viewModel.filterList("$")
-        assertEquals(true, viewModel.state.currencyList.value?.contains(dollar))
+        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("asdasd")
-        assertEquals(true, viewModel.state.currencyList.value?.isEmpty())
+        assertEquals(true, viewModel.state.currencyList.value.isEmpty())
 
         viewModel.filterList("o")
-        assertEquals(2, viewModel.state.currencyList.value?.size)
+        assertEquals(2, viewModel.state.currencyList.value.size)
     }
 
     @Test
@@ -81,9 +80,9 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     fun `on long click`() = with(viewModel) {
         val currentValue = viewModel.state.selectionVisibility.value
         getEvent().onItemLongClick()
-        currentValue?.let {
+        currentValue.let {
             assertEquals(!it, viewModel.state.selectionVisibility.value)
-        } ?: fail()
+        }
     }
 
     @Test

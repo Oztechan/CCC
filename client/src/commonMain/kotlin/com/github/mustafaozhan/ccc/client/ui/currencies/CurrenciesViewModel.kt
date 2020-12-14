@@ -1,16 +1,13 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.currencies
+package com.github.mustafaozhan.ccc.client.ui.currencies
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
-import com.github.mustafaozhan.ccc.android.util.SingleLiveData
-import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
@@ -18,6 +15,9 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -26,14 +26,14 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
-) : ViewModel(), CurrenciesEvent {
+) : BaseViewModel(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableCurrenciesState()
     val state = CurrenciesState(_state)
 
-    private val _effect = MutableSingleLiveData<CurrenciesEffect>()
-    val effect: SingleLiveData<CurrenciesEffect> = _effect
+    private val _effect = BroadcastChannel<CurrenciesEffect>(Channel.BUFFERED)
+    val effect = _effect.asFlow()
 
     val data = CurrenciesData()
 
@@ -43,7 +43,7 @@ class CurrenciesViewModel(
     init {
         _state._loading.value = true
 
-        viewModelScope.launch {
+        clientScope.launch {
             currencyDao.collectAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
@@ -52,10 +52,10 @@ class CurrenciesViewModel(
                     data.unFilteredList = currencyList
 
                     currencyList
-                        ?.filter { it.isActive }?.size
-                        ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
+                        .filter { it.isActive }.size
+                        .whether { it < MINIMUM_ACTIVE_CURRENCY }
                         ?.whetherNot { settingsRepository.firstRun }
-                        ?.let { _effect.postValue(FewCurrencyEffect) }
+                        ?.let { _effect.send(FewCurrencyEffect) }
 
                     verifyCurrentBase()
                     filterList(data.query)
@@ -69,21 +69,21 @@ class CurrenciesViewModel(
         { equals(CurrencyType.NULL.toString()) },
         { base ->
             state.currencyList.value
-                ?.filter { it.name == base }
-                ?.toList()?.firstOrNull()?.isActive == false
+                .filter { it.name == base }
+                .toList().firstOrNull()?.isActive == false
         }
     )?.let {
         updateCurrentBase(
             state.currencyList.value
-                ?.firstOrNull { it.isActive }?.name
+                .firstOrNull { it.isActive }?.name
                 ?: CurrencyType.NULL.toString()
         )
     }
 
-    private fun updateCurrentBase(newBase: String) {
+    private fun updateCurrentBase(newBase: String) = clientScope.launch {
         settingsRepository.currentBase = newBase
-        _effect.postValue(ChangeBaseNavResultEffect(newBase))
-    }
+        _effect.send(ChangeBaseNavResultEffect(newBase))
+    }.toUnit()
 
     fun hideSelectionVisibility() {
         _state._selectionVisibility.value = false
@@ -108,34 +108,38 @@ class CurrenciesViewModel(
     fun isFirstRun() = settingsRepository.firstRun
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launch {
+    override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
         currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
-    override fun onItemClick(currency: Currency) = viewModelScope.launch {
+    override fun onItemClick(currency: Currency) = clientScope.launch {
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = _state._currencyList.value
-        ?.filter { it.isActive }?.size
-        ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-        ?.let { _effect.postValue(FewCurrencyEffect) }
-        ?: run {
-            settingsRepository.firstRun = false
-            _effect.postValue(CalculatorEffect)
-        }
+    override fun onDoneClick() = clientScope.launch {
+        _state._currencyList.value
+            .filter { it.isActive }.size
+            .whether { it < MINIMUM_ACTIVE_CURRENCY }
+            ?.let { _effect.send(FewCurrencyEffect) }
+            ?: run {
+                settingsRepository.firstRun = false
+                _effect.send(CalculatorEffect)
+            }
+    }.toUnit()
 
-    override fun onItemLongClick() = _state._selectionVisibility.value?.let {
+    override fun onItemLongClick() = _state._selectionVisibility.value.let {
         _state._selectionVisibility.value = !it
         true
-    } ?: false
+    }
 
-    override fun onCloseClick() = if (_state._selectionVisibility.value == true) {
-        _state._selectionVisibility.value = false
-    } else {
-        _effect.postValue(BackEffect)
-    }.run {
-        filterList("")
+    override fun onCloseClick() = clientScope.launch {
+        if (_state._selectionVisibility.value) {
+            _state._selectionVisibility.value = false
+        } else {
+            _effect.send(BackEffect)
+        }.run {
+            filterList("")
+        }
     }.toUnit()
     // endregion
 }

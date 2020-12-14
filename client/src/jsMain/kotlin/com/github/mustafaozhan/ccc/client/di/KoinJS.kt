@@ -4,6 +4,7 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
@@ -26,6 +27,7 @@ actual val platformClientModule: Module = module {
     single { SettingsViewModel(get(), get(), get(), get()) }
     single { SplashViewModel(get()) }
     single { MainViewModel(get()) }
+    single { CurrenciesViewModel(get(), get()) }
 }
 
 fun <T> Koin.getForJs(clazz: KClass<*>): T {

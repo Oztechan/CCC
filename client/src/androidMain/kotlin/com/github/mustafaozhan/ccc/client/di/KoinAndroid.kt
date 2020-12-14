@@ -5,6 +5,7 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import android.content.Context
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
@@ -35,6 +36,7 @@ actual val platformClientModule: Module = module {
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { MainViewModel(get()) }
+    viewModel { CurrenciesViewModel(get(), get()) }
 }
 
 fun <T> Koin.getForAndroid(clazz: KClass<*>): T =

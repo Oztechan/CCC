@@ -19,7 +19,6 @@ import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.mapTo
@@ -105,15 +104,6 @@ fun Rates?.calculateResult(name: String, value: String?) =
 
 fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
     "1 $base = " + "${rate?.getThroughReflection<Double>(name)} ${getVariablesOneLine()}"
-
-fun List<Currency>?.removeUnUsedCurrencies(): MutableList<Currency>? =
-    this?.filterNot { (name) ->
-        name == CurrencyType.BYR.toString() ||
-                name == CurrencyType.LVL.toString() ||
-                name == CurrencyType.LTL.toString() ||
-                name == CurrencyType.ZMK.toString() ||
-                name == CurrencyType.CRYPTO_BTC.toString()
-    }?.toMutableList()
 
 fun MutableList<Currency>?.toValidList(currentBase: String) =
     this?.filter {

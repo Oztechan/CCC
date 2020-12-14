@@ -8,14 +8,20 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
-import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.CalculatorEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -78,13 +84,15 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
             adapter = currenciesAdapter
         }
 
-        currenciesViewModel.state.currencyList.reObserve(viewLifecycleOwner, {
-            currenciesAdapter.submitList(it)
-        })
+        lifecycleScope.launchWhenStarted {
+            currenciesViewModel.state.currencyList.collect {
+                currenciesAdapter.submitList(it)
+            }
+        }
     }
 
-    private fun observeEffect() = currenciesViewModel.effect
-        .reObserve(viewLifecycleOwner, { viewEffect ->
+    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+        currenciesViewModel.effect.collect { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> {
@@ -106,5 +114,6 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                     )
                 }
             }
-        })
+        }
+    }
 }

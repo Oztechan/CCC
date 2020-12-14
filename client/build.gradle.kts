@@ -64,6 +64,7 @@ kotlin {
                     with(Modules) {
                         implementation(project(common))
                         implementation(project(calculator))
+                        implementation(project(scopemob))
                     }
                 }
             }

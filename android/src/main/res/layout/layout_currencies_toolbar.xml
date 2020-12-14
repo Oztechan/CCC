@@ -9,11 +9,11 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesViewModel" />
+            type="com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesEvent" />
+            type="com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesEvent" />
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -51,7 +51,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_select_all"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{vm.state.selectionVisibility}" />
+                app:visibility="@{vm.state.selectionVisibility.value}" />
 
             <Button
                 android:id="@+id/btn_select_all"
@@ -61,7 +61,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search_view"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{vm.state.selectionVisibility}" />
+                app:visibility="@{vm.state.selectionVisibility.value}" />
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"

@@ -4,7 +4,9 @@
 
 package com.github.mustafaozhan.ccc.client.util
 
+import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -32,3 +34,12 @@ fun CurrencyResponse.toRates(): Rates {
     rate.date = Clock.System.now().formatToString()
     return rate
 }
+
+fun List<Currency>.removeUnUsedCurrencies(): MutableList<Currency> =
+    this.filterNot { (name) ->
+        name == CurrencyType.BYR.toString() ||
+                name == CurrencyType.LVL.toString() ||
+                name == CurrencyType.LTL.toString() ||
+                name == CurrencyType.ZMK.toString() ||
+                name == CurrencyType.CRYPTO_BTC.toString()
+    }.toMutableList()

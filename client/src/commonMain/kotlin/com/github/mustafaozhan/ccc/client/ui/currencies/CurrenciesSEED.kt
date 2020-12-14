@@ -1,27 +1,27 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.currencies
+package com.github.mustafaozhan.ccc.client.ui.currencies
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.mustafaozhan.ccc.common.model.Currency
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 // State
 @Suppress("ConstructorParameterNaming")
 data class CurrenciesState(
     private val _state: MutableCurrenciesState
 ) {
-    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
-    val loading: LiveData<Boolean> = _state._loading
-    val selectionVisibility: LiveData<Boolean> = _state._selectionVisibility
+    val currencyList: StateFlow<MutableList<Currency>> = _state._currencyList
+    val loading: StateFlow<Boolean> = _state._loading
+    val selectionVisibility: StateFlow<Boolean> = _state._selectionVisibility
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableCurrenciesState(
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(false),
-    val _selectionVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _currencyList: MutableStateFlow<MutableList<Currency>> = MutableStateFlow(mutableListOf()),
+    val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false),
+    val _selectionVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
 )
 
 // Event
