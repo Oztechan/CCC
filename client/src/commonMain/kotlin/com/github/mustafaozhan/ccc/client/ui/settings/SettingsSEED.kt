@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.settings
+package com.github.mustafaozhan.ccc.client.ui.settings
 
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import kotlinx.coroutines.flow.MutableStateFlow

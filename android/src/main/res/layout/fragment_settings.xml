@@ -11,11 +11,11 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ccc.client.settings.SettingsViewModel" />
+            type="com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ccc.client.settings.SettingsEvent" />
+            type="com.github.mustafaozhan.ccc.client.ui.settings.SettingsEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsLayoutStyle">

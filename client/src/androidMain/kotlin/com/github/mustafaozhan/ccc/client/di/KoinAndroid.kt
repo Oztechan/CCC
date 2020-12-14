@@ -5,7 +5,8 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import android.content.Context
-import com.github.mustafaozhan.ccc.client.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import kotlin.reflect.KClass
@@ -31,6 +32,7 @@ actual val platformClientModule: Module = module {
     }
 
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
+    viewModel { SplashViewModel(get()) }
 }
 
 fun <T> Koin.getForAndroid(clazz: KClass<*>): T =

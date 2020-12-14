@@ -2,12 +2,12 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.android.ui.splash
+package com.github.mustafaozhan.ccc.client.ui.splash
 
-import androidx.lifecycle.ViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 
-class SplashViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
+class SplashViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel() {
 
     fun getAppTheme() = settingsRepository.appTheme
 

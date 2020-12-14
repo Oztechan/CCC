@@ -5,16 +5,16 @@ package com.github.mustafaozhan.ccc.android.viewmodel
 
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.ccc.client.settings.BackEffect
-import com.github.mustafaozhan.ccc.client.settings.ChangeThemeEffect
-import com.github.mustafaozhan.ccc.client.settings.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.settings.FeedBackEffect
-import com.github.mustafaozhan.ccc.client.settings.OnGitHubEffect
-import com.github.mustafaozhan.ccc.client.settings.RemoveAdsEffect
-import com.github.mustafaozhan.ccc.client.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.settings.ShareEffect
-import com.github.mustafaozhan.ccc.client.settings.SupportUsEffect
-import com.github.mustafaozhan.ccc.client.settings.ThemeDialogEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.CurrenciesEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.FeedBackEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.OnGitHubEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.RemoveAdsEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.ui.settings.ShareEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
+import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
