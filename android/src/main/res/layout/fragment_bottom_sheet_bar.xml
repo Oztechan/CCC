@@ -34,7 +34,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
-            app:visibility="@{vm.state.loading}" />
+            app:visibility="@{vm.state.loading.value}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_bar"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_current_base"
-            app:visibility="@{vm.state.enoughCurrency}" />
+            app:visibility="@{vm.state.enoughCurrency.value}" />
 
         <TextView
             android:id="@+id/txt_no_enough_currency"
@@ -51,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/btn_select"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_select"
-            app:visibility="@{!vm.state.enoughCurrency}" />
+            app:visibility="@{!vm.state.enoughCurrency.value}" />
 
         <Button
             android:id="@+id/btn_select"
@@ -59,6 +59,6 @@
             android:onClick="@{()->event.onSelectClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_bar"
-            app:visibility="@{!vm.state.enoughCurrency}" />
+            app:visibility="@{!vm.state.enoughCurrency.value}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

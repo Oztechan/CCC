@@ -6,13 +6,14 @@ package com.github.mustafaozhan.ccc.android.ui.bar
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,8 +42,8 @@ class BarBottomSheetDialogFragment :
         observeEffect()
     }
 
-    private fun observeEffect() = barViewModel.effect
-        .reObserve(viewLifecycleOwner, { viewEffect ->
+    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+        barViewModel.effect.collect { viewEffect ->
             when (viewEffect) {
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(
@@ -58,13 +59,16 @@ class BarBottomSheetDialogFragment :
                     dismiss = false
                 )
             }
-        })
+        }
+    }
 
     private fun initView() {
         binding.recyclerViewBar.adapter = barAdapter
 
-        barViewModel.state.currencyList.reObserve(viewLifecycleOwner, {
-            barAdapter.submitList(it)
-        })
+        lifecycleScope.launchWhenStarted {
+            barViewModel.state.currencyList.collect {
+                barAdapter.submitList(it)
+            }
+        }
     }
 }

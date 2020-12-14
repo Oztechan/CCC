@@ -10,6 +10,9 @@ import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -32,19 +35,23 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
 
     // Event
     @Test
-    fun `on item click`() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
-        getEvent().onItemClick(currency)
+    fun `on item click`() = runBlockingTest {
+        launch {
+            val currency = Currency("USD", "Dollar", "$", 0.0, true)
+            viewModel.getEvent().onItemClick(currency)
 
-        assertEquals(
-            ChangeBaseNavResultEffect(currency.name),
-            effect.value
-        )
+            assertEquals(
+                ChangeBaseNavResultEffect(currency.name),
+                viewModel.effect.single()
+            )
+        }.cancel()
     }
 
     @Test
-    fun `on select click`() = with(viewModel) {
-        getEvent().onSelectClick()
-        assertEquals(OpenCurrenciesEffect, effect.value)
+    fun `on select click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onSelectClick()
+            assertEquals(OpenCurrenciesEffect, viewModel.effect.single())
+        }.cancel()
     }
 }
