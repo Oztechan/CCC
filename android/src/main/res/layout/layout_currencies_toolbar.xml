@@ -19,7 +19,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_fragment_currencies"
         style="@style/WideStyle"
-        android:background="@{vm.state.selectionVisibility ? @color/color_background_weak : @color/color_background_strong}">
+        android:background="@{vm.state.selectionVisibility.value ? @color/color_background_weak : @color/color_background_strong}">
 
         <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
 
@@ -27,11 +27,11 @@
                 android:id="@+id/back_button"
                 style="@style/CurrenciesBackButtonStyle"
                 android:onClick="@{()->event.onCloseClick()}"
-                android:src="@{vm.state.selectionVisibility ?  @drawable/ic_close : @drawable/ic_back}"
+                android:src="@{vm.state.selectionVisibility.value ?  @drawable/ic_close : @drawable/ic_back}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{!vm.isFirstRun()||vm.state.selectionVisibility}"
+                app:visibility="@{!vm.isFirstRun()||vm.state.selectionVisibility.value}"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn_de_select_all"
                 app:layout_constraintStart_toEndOf="@+id/back_button"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibility="@{!vm.state.selectionVisibility}" />
+                app:visibility="@{!vm.state.selectionVisibility.value}" />
 
             <Button
                 android:id="@+id/btn_de_select_all"
@@ -70,7 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:onQueryTextChange="@{(query) -> vm.filterList(query)}"
-                app:visibility="@{!vm.state.selectionVisibility}" />
+                app:visibility="@{!vm.state.selectionVisibility.value}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 </layout>

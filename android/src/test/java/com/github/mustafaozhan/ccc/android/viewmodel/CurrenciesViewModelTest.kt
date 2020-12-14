@@ -12,6 +12,8 @@ import com.github.mustafaozhan.ccc.common.model.Currency
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -80,9 +82,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     fun `on long click`() = with(viewModel) {
         val currentValue = viewModel.state.selectionVisibility.value
         getEvent().onItemLongClick()
-        currentValue.let {
-            assertEquals(!it, viewModel.state.selectionVisibility.value)
-        }
+        assertEquals(!currentValue, viewModel.state.selectionVisibility.value)
     }
 
     @Test
@@ -98,15 +98,19 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun `on close click`() {
-        viewModel.getEvent().onCloseClick()
-        assertEquals(BackEffect, viewModel.effect.value)
-        assertEquals("", viewModel.data.query)
+    fun `on close click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onCloseClick()
+            assertEquals(BackEffect, viewModel.effect.single())
+            assertEquals("", viewModel.data.query)
+        }.cancel()
     }
 
     @Test
-    fun `on done click`() {
-        viewModel.getEvent().onDoneClick()
-        assertEquals(FewCurrencyEffect, viewModel.effect.value)
+    fun `on done click`() = runBlockingTest {
+        launch {
+            viewModel.getEvent().onDoneClick()
+            assertEquals(FewCurrencyEffect, viewModel.effect.single())
+        }.cancel()
     }
 }

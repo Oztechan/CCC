@@ -11,11 +11,11 @@ import com.github.mustafaozhan.ccc.android.util.SingleLiveData
 import com.github.mustafaozhan.ccc.android.util.calculateResult
 import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.android.util.getFormatted
-import com.github.mustafaozhan.ccc.android.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
