@@ -6,6 +6,7 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
+import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
 import com.russhwolf.settings.AppleSettings
@@ -28,6 +29,7 @@ fun initIOS(userDefaults: NSUserDefaults) = initKoin(
 actual val platformClientModule: Module = module {
     single { SettingsViewModel(get(), get(), get(), get()) }
     single { SplashViewModel(get()) }
+    single { MainViewModel(get()) }
 }
 
 fun Koin.getForIOS(objCClass: ObjCClass): Any {

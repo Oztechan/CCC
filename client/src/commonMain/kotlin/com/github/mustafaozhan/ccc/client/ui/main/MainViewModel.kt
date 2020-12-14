@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.main
+package com.github.mustafaozhan.ccc.client.ui.main
 
-import androidx.lifecycle.ViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import kotlinx.datetime.Clock
 
-class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
+class MainViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel() {
 
     fun shouldShowReview() = settingsRepository.lastReviewRequest.isWeekPassed()
 
