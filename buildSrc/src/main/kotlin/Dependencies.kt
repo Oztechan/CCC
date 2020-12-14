@@ -37,7 +37,8 @@ object Dependencies {
 
         const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
-        const val viewModelExt = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+        const val viewModelExt =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelExt}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
