@@ -18,24 +18,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.castTo
-import com.github.mustafaozhan.scopemob.mapTo
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.util.Locale
 import mustafaozhan.github.com.mycurrencies.R
-
-private const val DATE_FORMAT = "HH:mm dd.MM.yyyy"
-private const val MAXIMUM_FLOATING_POINT = 15
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
@@ -94,73 +84,4 @@ fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String)
 fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     removeObserver(observer)
     observe(owner, observer)
-}
-
-fun Rates?.calculateResult(name: String, value: String?) =
-    this?.whetherNot { value.isNullOrEmpty() }
-        ?.getThroughReflection<Double>(name)
-        ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
-        ?: 0.0
-
-fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
-    "1 $base = " + "${rate?.getThroughReflection<Double>(name)} ${getVariablesOneLine()}"
-
-fun MutableList<Currency>?.toValidList(currentBase: String) =
-    this?.filter {
-        it.name != currentBase &&
-                it.isActive &&
-                it.rate.toString() != "NaN" &&
-                it.rate.toString() != "0.0"
-    } ?: mutableListOf()
-
-fun String.toStandardDigits(): String {
-    val builder = StringBuilder()
-    forEach { char ->
-        char.whether { Character.isDigit(it) }
-            ?.whetherNot { it in '0'..'9' }
-            ?.mapTo { Character.getNumericValue(it) }
-            ?.whether { it >= 0 }
-            ?.let { builder.append(it) }
-            ?: run { builder.append(char) }
-    }
-    return builder.toString()
-}
-
-fun String.toSupportedCharacters() =
-    replace(",", ".")
-        .replace("٫", ".")
-        .replace(" ", "")
-        .replace("−", "-")
-
-fun Double.getFormatted(): String {
-
-    var decimalFormat = "###,###.###"
-    val symbols = DecimalFormatSymbols.getInstance()
-    symbols.groupingSeparator = ' '
-
-    // increasing floating digits for too small numbers
-    for (i in 0..MAXIMUM_FLOATING_POINT) {
-        if (DecimalFormat(decimalFormat, symbols).format(this) == "0") {
-            decimalFormat = "$decimalFormat#"
-        }
-    }
-    decimalFormat = "$decimalFormat#"
-    return DecimalFormat(decimalFormat, symbols).format(this)
-}
-
-fun String.dropDecimal() = replace(" ", "").let { nonEmpty ->
-    nonEmpty.whether { contains(".") }
-        ?.substring(0, nonEmpty.indexOf("."))
-        ?: run { nonEmpty }
-}
-
-@SuppressLint("DefaultLocale")
-inline fun <reified T> Any.getThroughReflection(propertyName: String): T? {
-    val getterName = "get" + propertyName.capitalize()
-    return try {
-        javaClass.getMethod(getterName).invoke(this) as? T
-    } catch (e: NoSuchMethodException) {
-        kermit.e(e) { e.message.toString() }
-        null
-    }
 }

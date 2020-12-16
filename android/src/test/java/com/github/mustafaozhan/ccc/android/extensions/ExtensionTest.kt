@@ -3,16 +3,15 @@
  */
 package com.github.mustafaozhan.ccc.android.extensions
 
-import com.github.mustafaozhan.ccc.android.util.calculateResult
-import com.github.mustafaozhan.ccc.android.util.dropDecimal
-import com.github.mustafaozhan.ccc.android.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.android.util.getFormatted
-import com.github.mustafaozhan.ccc.android.util.getThroughReflection
-import com.github.mustafaozhan.ccc.android.util.toStandardDigits
-import com.github.mustafaozhan.ccc.android.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.android.util.toValidList
+import com.github.mustafaozhan.ccc.client.util.calculateResult
+import com.github.mustafaozhan.ccc.client.util.getConversionByName
+import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
+import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toRates
+import com.github.mustafaozhan.ccc.client.util.toStandardDigits
+import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
+import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
@@ -28,11 +27,6 @@ import org.junit.runners.JUnit4
 @Suppress("TooManyFunctions")
 @RunWith(JUnit4::class)
 class ExtensionTest {
-
-    inner class SubjectModel {
-        var someInt = 1
-        var someString = "Some String"
-    }
 
     @Test
     fun `calculate results by base`() {
@@ -131,25 +125,11 @@ class ExtensionTest {
     }
 
     @Test
-    fun `drop decimal point from string`() {
-        assertEquals("1234.567".dropDecimal(), "1234")
-        assertEquals("7 972.932".dropDecimal(), "7972")
-        assertEquals("1 2 3434 432.432 .4334".dropDecimal(), "123434432")
-    }
+    fun `get property by name`() {
+        val rates = Rates("EUR", "", uSD = 5.0, eUR = 12.2)
 
-    @Test
-    fun `get through reflection`() {
-        val c = SubjectModel()
-
-        assertEquals(
-            c.someString,
-            c.getThroughReflection<String>("someString")
-        )
-
-        assertEquals(
-            c.someInt,
-            c.getThroughReflection<Int>("someInt")
-        )
+        assertEquals(rates.eUR, rates.getConversionByName("EUR"))
+        assertEquals(rates.uSD, rates.getConversionByName("USD"))
     }
 
     @Test
