@@ -77,30 +77,35 @@ class BarBottomSheetDialogFragment :
             }
         }
     }
+}
 
-    inner class BarAdapter(private val barEvent: BarEvent) :
-        BaseDBRecyclerViewAdapter<Currency, ItemBarBinding>(BarAdapter(barEvent).CalculatorDiffer()) {
+class BarAdapter(
+    private val barEvent: BarEvent
+) : BaseDBRecyclerViewAdapter<Currency, ItemBarBinding>(CalculatorDiffer()) {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CalculatorDBViewHolder(
-            ItemBarBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = CalculatorDBViewHolder(
+        ItemBarBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+    )
 
-        inner class CalculatorDBViewHolder(itemBinding: ItemBarBinding) :
-            BaseDBViewHolder<Currency, ItemBarBinding>(itemBinding) {
+    inner class CalculatorDBViewHolder(itemBinding: ItemBarBinding) :
+        BaseDBViewHolder<Currency, ItemBarBinding>(itemBinding) {
 
-            override fun onItemBind(item: Currency) = with(itemBinding) {
-                this.item = item
-                this.event = barEvent
-            }
+        override fun onItemBind(item: Currency) = with(itemBinding) {
+            this.item = item
+            this.event = barEvent
         }
+    }
 
-        inner class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
-            override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = false
-            override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
-        }
+    class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = false
+
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }

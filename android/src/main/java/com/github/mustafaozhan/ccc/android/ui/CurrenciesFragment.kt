@@ -123,52 +123,54 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
             }
         }
     }
+}
 
-    inner class CurrenciesAdapter(
-        private val currenciesEvent: CurrenciesEvent
-    ) : BaseDBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(
-        CurrenciesAdapter(currenciesEvent).CurrenciesDiffer()
+class CurrenciesAdapter(
+    private val currenciesEvent: CurrenciesEvent
+) : BaseDBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = RatesDBViewHolder(
+        ItemCurrenciesBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    override fun onBindViewHolder(
+        holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>,
+        position: Int
     ) {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RatesDBViewHolder(
-            ItemCurrenciesBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+        holder.itemView.startAnimation(
+            AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.fall_down
             )
         )
+        super.onBindViewHolder(holder, position)
+    }
 
-        override fun onBindViewHolder(
-            holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>,
-            position: Int
-        ) {
-            holder.itemView.startAnimation(
-                AnimationUtils.loadAnimation(
-                    holder.itemView.context,
-                    R.anim.fall_down
-                )
-            )
-            super.onBindViewHolder(holder, position)
+    override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
+
+    inner class RatesDBViewHolder(itemBinding: ItemCurrenciesBinding) :
+        BaseDBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
+
+        override fun onItemBind(item: Currency) = with(itemBinding) {
+            this.item = item
+            this.event = currenciesEvent
         }
+    }
 
-        override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>) {
-            super.onViewDetachedFromWindow(holder)
-            holder.itemView.clearAnimation()
-        }
+    class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
 
-        inner class RatesDBViewHolder(itemBinding: ItemCurrenciesBinding) :
-            BaseDBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
-
-            override fun onItemBind(item: Currency) = with(itemBinding) {
-                this.item = item
-                this.event = currenciesEvent
-            }
-        }
-
-        inner class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
-            override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
-            override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-                oldItem.isActive == newItem.isActive
-        }
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+            oldItem.isActive == newItem.isActive
     }
 }

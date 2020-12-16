@@ -141,23 +141,25 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
             window.statusBarColor = Color.TRANSPARENT
         }
     }
+}
 
-    inner class SliderPagerAdapter(var context: Context, private var layouts: ArrayList<Int>) :
-        PagerAdapter() {
+class SliderPagerAdapter(
+    var context: Context,
+    private var layouts: ArrayList<Int>
+) : PagerAdapter() {
 
-        override fun instantiateItem(container: ViewGroup, position: Int): View {
-            val view = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-                ?.castTo<LayoutInflater>()
-                ?.inflate(layouts[position], container, false)
-            container.addView(view)
-            return view ?: View(context)
-        }
-
-        override fun getCount() = layouts.size
-
-        override fun isViewFromObject(view: View, obj: Any) = view == obj
-
-        override fun destroyItem(container: ViewGroup, position: Int, obj: Any) =
-            container.removeView(obj.castTo<View>())
+    override fun instantiateItem(container: ViewGroup, position: Int): View {
+        val view = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+            ?.castTo<LayoutInflater>()
+            ?.inflate(layouts[position], container, false)
+        container.addView(view)
+        return view ?: View(context)
     }
+
+    override fun getCount() = layouts.size
+
+    override fun isViewFromObject(view: View, obj: Any) = view == obj
+
+    override fun destroyItem(container: ViewGroup, position: Int, obj: Any) =
+        container.removeView(obj.castTo<View>())
 }
