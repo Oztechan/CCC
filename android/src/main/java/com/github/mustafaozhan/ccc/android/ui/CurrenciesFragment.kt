@@ -1,15 +1,19 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.currencies
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
@@ -18,12 +22,15 @@ import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
@@ -114,6 +121,54 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                     )
                 }
             }
+        }
+    }
+
+    inner class CurrenciesAdapter(
+        private val currenciesEvent: CurrenciesEvent
+    ) : BaseDBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(
+        CurrenciesAdapter(currenciesEvent).CurrenciesDiffer()
+    ) {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RatesDBViewHolder(
+            ItemCurrenciesBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+        override fun onBindViewHolder(
+            holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>,
+            position: Int
+        ) {
+            holder.itemView.startAnimation(
+                AnimationUtils.loadAnimation(
+                    holder.itemView.context,
+                    R.anim.fall_down
+                )
+            )
+            super.onBindViewHolder(holder, position)
+        }
+
+        override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>) {
+            super.onViewDetachedFromWindow(holder)
+            holder.itemView.clearAnimation()
+        }
+
+        inner class RatesDBViewHolder(itemBinding: ItemCurrenciesBinding) :
+            BaseDBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
+
+            override fun onItemBind(item: Currency) = with(itemBinding) {
+                this.item = item
+                this.event = currenciesEvent
+            }
+        }
+
+        inner class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
+            override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+                oldItem.isActive == newItem.isActive
         }
     }
 }

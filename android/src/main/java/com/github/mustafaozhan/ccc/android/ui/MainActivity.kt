@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.main
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.Context
 import android.os.Bundle
