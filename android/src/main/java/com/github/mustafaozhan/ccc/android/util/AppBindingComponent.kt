@@ -8,9 +8,40 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingComponent
 import androidx.databinding.adapters.SearchViewBindingAdapter.OnQueryTextChange
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.github.mustafaozhan.ccc.android.model.DataState
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
+
+
+class AppBindingComponent(private val scope: LifecycleCoroutineScope) : DataBindingComponent {
+    @BindingAdapter("visibleIf")
+    fun View.visibleIf(condition: StateFlow<Boolean>) = scope.launchWhenStarted {
+        condition.collect {
+            visibility = if (it) {
+                bringToFront()
+                View.VISIBLE
+            } else View.GONE
+        }
+    }
+
+    @BindingAdapter("goneIf")
+    fun View.goneIf(condition: StateFlow<Boolean>) = scope.launchWhenStarted {
+        condition.collect {
+            visibility = if (it) View.GONE else {
+                bringToFront()
+                View.VISIBLE
+            }
+        }
+    }
+
+    override fun getAppBindingComponent(): AppBindingComponent {
+        return AppBindingComponent(scope)
+    }
+}
 
 @BindingAdapter("visibility")
 fun View.visibility(visible: Boolean) {
