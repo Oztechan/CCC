@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.android.util.AppBindingComponent
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
@@ -33,12 +32,7 @@ class BarBottomSheetDialogFragment :
     private lateinit var barAdapter: BarAdapter
 
     override fun bind(container: ViewGroup?): FragmentBottomSheetBarBinding =
-        FragmentBottomSheetBarBinding.inflate(
-            layoutInflater,
-            container,
-            false,
-            AppBindingComponent(lifecycleScope)
-        )
+        FragmentBottomSheetBarBinding.inflate(layoutInflater, container, false)
 
     override fun onBinding(dataBinding: FragmentBottomSheetBarBinding) {
         binding.vm = barViewModel
