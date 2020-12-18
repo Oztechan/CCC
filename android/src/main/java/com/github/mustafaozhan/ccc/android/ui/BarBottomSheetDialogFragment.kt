@@ -9,8 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
+import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
@@ -93,12 +94,12 @@ class BarBottomSheetDialogFragment :
 
 class BarAdapter(
     private val barEvent: BarEvent
-) : BaseDBRecyclerViewAdapter<Currency, ItemBarBinding>(CalculatorDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency, ItemBarBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = CalculatorDBViewHolder(
+    ) = CalculatorVBViewHolder(
         ItemBarBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -106,12 +107,13 @@ class BarAdapter(
         )
     )
 
-    inner class CalculatorDBViewHolder(itemBinding: ItemBarBinding) :
-        BaseDBViewHolder<Currency, ItemBarBinding>(itemBinding) {
+    inner class CalculatorVBViewHolder(private val itemBinding: ItemBarBinding) :
+        BaseVBViewHolder<Currency, ItemBarBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            this.item = item
-            this.event = barEvent
+            imgIcon.setBackgroundByName(item.name)
+            txtSettingItem.text = item.getVariablesOneLine()
+            root.setOnClickListener { barEvent.onItemClick(item) }
         }
     }
 
