@@ -11,15 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.ChangeBaseNavResultEffect
@@ -34,7 +36,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBindin
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
+class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     companion object {
         internal const val SPAN_PORTRAIT = 1
@@ -45,15 +47,8 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
-    override fun bind(container: ViewGroup?): FragmentCurrenciesBinding =
-        FragmentCurrenciesBinding.inflate(layoutInflater, container, false)
-
-    override fun onBinding(dataBinding: FragmentCurrenciesBinding) {
-        binding.vm = currenciesViewModel
-        currenciesViewModel.getEvent().let {
-            binding.event = it
-            currenciesAdapter = CurrenciesAdapter(it)
-        }
+    override fun bind() {
+        binding = FragmentCurrenciesBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,17 +80,43 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
         )
     }
 
-    private fun initView() {
+    private fun initView() = with(binding) {
+        currenciesAdapter = CurrenciesAdapter(currenciesViewModel.getEvent())
         setSpanByOrientation(resources.configuration.orientation)
 
-        with(binding.recyclerViewCurrencies) {
+        with(recyclerViewCurrencies) {
             setHasFixedSize(true)
             adapter = currenciesAdapter
         }
 
+        btnDone.visibleIf(currenciesViewModel.isFirstRun())
+        txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
+
         lifecycleScope.launchWhenStarted {
-            currenciesViewModel.state.currencyList.collect {
-                currenciesAdapter.submitList(it)
+            with(currenciesViewModel.state) {
+                currencyList.collect {
+                    currenciesAdapter.submitList(it)
+                }
+                loading.collect {
+                    loadingView.visibleIf(it)
+                }
+                selectionVisibility.collect {
+                    with(layoutCurrenciesToolbar) {
+                        searchView.visibleIf(!it)
+                        txtCurrenciesToolbar.visibleIf(!it)
+                        btnSelectAll.visibleIf(it)
+                        btnDeSelectAll.visibleIf(it)
+                        backButton.visibleIf(!currenciesViewModel.isFirstRun() || it)
+
+                        backButton.setBackgroundResource(if (it) R.drawable.ic_close else R.drawable.ic_back)
+                        toolbarFragmentCurrencies.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                if (it) R.color.color_background_weak else R.color.color_background_strong
+                            )
+                        )
+                    }
+                }
             }
         }
     }
