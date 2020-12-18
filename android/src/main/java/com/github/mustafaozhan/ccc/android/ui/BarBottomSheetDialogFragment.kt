@@ -107,7 +107,7 @@ class BarAdapter(
         )
     )
 
-    inner class CalculatorVBViewHolder(private val itemBinding: ItemBarBinding) :
+    inner class CalculatorVBViewHolder(itemBinding: ItemBarBinding) :
         BaseVBViewHolder<Currency, ItemBarBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {

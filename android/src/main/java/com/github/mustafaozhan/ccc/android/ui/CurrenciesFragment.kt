@@ -15,9 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
+import com.github.mustafaozhan.ccc.android.util.backgroundByName
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
@@ -171,12 +172,12 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
 class CurrenciesAdapter(
     private val currenciesEvent: CurrenciesEvent
-) : BaseDBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = RatesDBViewHolder(
+    ) = RatesVBViewHolder(
         ItemCurrenciesBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -185,7 +186,7 @@ class CurrenciesAdapter(
     )
 
     override fun onBindViewHolder(
-        holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>,
+        holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>,
         position: Int
     ) {
         holder.itemView.startAnimation(
@@ -197,17 +198,20 @@ class CurrenciesAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    override fun onViewDetachedFromWindow(holder: BaseDBViewHolder<Currency, ItemCurrenciesBinding>) {
+    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.clearAnimation()
     }
 
-    inner class RatesDBViewHolder(itemBinding: ItemCurrenciesBinding) :
-        BaseDBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
+    inner class RatesVBViewHolder(itemBinding: ItemCurrenciesBinding) :
+        BaseVBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            this.item = item
-            this.event = currenciesEvent
+            imgIcon.backgroundByName(item.name)
+            txtSettingItem.text = item.getVariablesOneLine()
+            checkBox.isChecked = item.isActive
+            root.setOnClickListener { currenciesEvent.onItemClick(item) }
+            root.setOnLongClickListener { currenciesEvent.onItemLongClick() }
         }
     }
 
