@@ -10,8 +10,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.bottomsheet.BaseDBBottomSheetDialogFragment
+import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
@@ -25,27 +26,21 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BarBottomSheetDialogFragment :
-    BaseDBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
+    BaseVBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
 
     private val barViewModel: BarViewModel by viewModel()
 
     private lateinit var barAdapter: BarAdapter
 
-    override fun bind(container: ViewGroup?): FragmentBottomSheetBarBinding =
-        FragmentBottomSheetBarBinding.inflate(layoutInflater, container, false)
-
-    override fun onBinding(dataBinding: FragmentBottomSheetBarBinding) {
-        binding.vm = barViewModel
-        barViewModel.getEvent().let {
-            binding.event = it
-            barAdapter = BarAdapter(it)
-        }
+    override fun bind() {
+        binding = FragmentBottomSheetBarBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         observeEffect()
+        setListeners()
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
@@ -69,12 +64,29 @@ class BarBottomSheetDialogFragment :
     }
 
     private fun initView() {
+        barAdapter = BarAdapter(barViewModel.getEvent())
         binding.recyclerViewBar.adapter = barAdapter
 
-        lifecycleScope.launchWhenStarted {
-            barViewModel.state.currencyList.collect {
-                barAdapter.submitList(it)
+        with(barViewModel.state) {
+            lifecycleScope.launchWhenStarted {
+                currencyList.collect {
+                    barAdapter.submitList(it)
+                }
+                loading.collect {
+                    binding.loadingView.visibleIf(it)
+                }
+                enoughCurrency.collect {
+                    binding.recyclerViewBar.visibleIf(it)
+                    binding.txtNoEnoughCurrency.visibleIf(!it)
+                    binding.btnSelect.visibleIf(!it)
+                }
             }
+        }
+    }
+
+    private fun setListeners() {
+        binding.btnSelect.setOnClickListener {
+            barViewModel.getEvent().onSelectClick()
         }
     }
 }

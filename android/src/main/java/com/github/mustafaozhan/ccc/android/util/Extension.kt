@@ -85,3 +85,12 @@ fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     removeObserver(observer)
     observe(owner, observer)
 }
+
+fun View.visibleIf(visible: Boolean) {
+    visibility = if (visible) {
+        bringToFront()
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
