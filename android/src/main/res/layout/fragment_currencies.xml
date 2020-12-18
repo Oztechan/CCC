@@ -57,7 +57,6 @@
         <TextView
             android:id="@+id/btn_done"
             style="@style/DoneButtonStyle"
-            android:onClick="@{()->event.onDoneClick()}"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:visibility="@{vm.isFirstRun()}" />

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -59,6 +60,7 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         observeEffect()
+        setListeners()
     }
 
     override fun onResume() {
@@ -121,6 +123,27 @@ class CurrenciesFragment : BaseDBFragment<FragmentCurrenciesBinding>() {
                     )
                 }
             }
+        }
+    }
+
+    private fun setListeners() = with(binding) {
+        btnDone.setOnClickListener { currenciesViewModel.getEvent().onDoneClick() }
+
+        with(layoutCurrenciesToolbar) {
+            backButton.setOnClickListener {
+                currenciesViewModel.getEvent().onCloseClick()
+            }
+            btnSelectAll.setOnClickListener {
+                currenciesViewModel.getEvent().updateAllCurrenciesState(true)
+            }
+            btnDeSelectAll.setOnClickListener {
+                currenciesViewModel.getEvent().updateAllCurrenciesState(false)
+            }
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String) = false
+                override fun onQueryTextChange(newText: String) =
+                    currenciesViewModel.filterList(newText)
+            })
         }
     }
 }
