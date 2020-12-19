@@ -143,8 +143,11 @@ class CalculatorViewModel(
     }
 
     private fun calculateConversions(rates: Rates?) = with(_state) {
-        _currencyList.value = _currencyList.value.onEach {
+        _currencyList.value.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
+        }.let {
+            _currencyList.value = mutableListOf()
+            _currencyList.value = it
         }
         _loading.value = false
     }

@@ -7,16 +7,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
-import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
+import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
+import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
@@ -28,48 +32,77 @@ import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
+class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
 
-    override fun bind(container: ViewGroup?): FragmentCalculatorBinding =
-        FragmentCalculatorBinding.inflate(layoutInflater, container, false)
-
-    override fun onBinding(dataBinding: FragmentCalculatorBinding) {
-        binding.vm = calculatorViewModel
-        calculatorViewModel.getEvent().let {
-            binding.event = it
-            calculatorAdapter = CalculatorAdapter(it)
-        }
+    override fun bind() {
+        binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initViews()
+        observeStates()
         observeEffect()
+        setListeners()
         observeNavigationResult()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.isRewardExpired()
-        )
+    private fun initViews() = with(binding) {
+        calculatorAdapter = CalculatorAdapter(calculatorViewModel.getEvent())
+        recyclerViewMain.adapter = calculatorAdapter
     }
 
-    private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
-        ?.reObserve(viewLifecycleOwner, {
-            calculatorViewModel.verifyCurrentBase(it)
-        })
+    private fun observeStates() = with(calculatorViewModel.state) {
+        lifecycleScope.launchWhenStarted {
+            currencyList.collect {
+                calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            input.collect {
+                binding.txtInput.text = it
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            base.collect {
+                with(binding.layoutBar) {
+                    ivBase.setBackgroundByName(it)
+                    txtBase.text = if (it == CurrencyType.NULL.toString()) "" else "  $it"
+                }
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            output.collect {
+                binding.layoutBar.txtOutput.text = if (it.isNotEmpty()) " = $it" else ""
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            symbol.collect {
+                binding.layoutBar.txtSymbol.text = " $it"
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            loading.collect {
+                binding.loadingView.visibleIf(it)
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            dataState.collect {
+                binding.txtAppStatus.dataState(it)
+            }
+        }
+    }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         calculatorViewModel.effect.collect { viewEffect ->
@@ -103,16 +136,54 @@ class CalculatorFragment : BaseDBFragment<FragmentCalculatorBinding>() {
         }
     }
 
-    private fun initView() {
-        binding.recyclerViewMain.adapter = calculatorAdapter
+    private fun setListeners() = with(binding) {
+        with(calculatorViewModel.getEvent()) {
+            btnSettings.setOnClickListener { onSettingsClicked() }
+            layoutBar.root.setOnClickListener { onBarClick() }
 
-        with(calculatorViewModel) {
-            lifecycleScope.launchWhenStarted {
-                state.currencyList.collect {
-                    calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
-                }
+            with(layoutKeyboard) {
+                one.setKeyboardListener()
+                two.setKeyboardListener()
+                three.setKeyboardListener()
+                four.setKeyboardListener()
+                five.setKeyboardListener()
+                six.setKeyboardListener()
+                seven.setKeyboardListener()
+                eight.setKeyboardListener()
+                nine.setKeyboardListener()
+                zero.setKeyboardListener()
+                tripleZero.setKeyboardListener()
+                multiply.setKeyboardListener()
+                divide.setKeyboardListener()
+                minus.setKeyboardListener()
+                plus.setKeyboardListener()
+                percent.setKeyboardListener()
+                dot.setKeyboardListener()
+                openParentheses.setKeyboardListener()
+                closeParentheses.setKeyboardListener()
+                ac.setKeyboardListener()
+                del.setKeyboardListener()
             }
         }
+    }
+
+    private fun Button.setKeyboardListener() {
+        setOnClickListener {
+            calculatorViewModel.onKeyPress(text.toString())
+        }
+    }
+
+    private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
+        ?.reObserve(viewLifecycleOwner, {
+            calculatorViewModel.verifyCurrentBase(it)
+        })
+
+    override fun onResume() {
+        super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            calculatorViewModel.isRewardExpired()
+        )
     }
 }
 

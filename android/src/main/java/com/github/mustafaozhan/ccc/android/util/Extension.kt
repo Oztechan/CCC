@@ -11,11 +11,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.scopemob.castTo
@@ -92,5 +94,28 @@ fun View.visibleIf(visible: Boolean) {
         View.VISIBLE
     } else {
         View.GONE
+    }
+}
+
+fun TextView.dataState(state: DataState) = when (state) {
+    is DataState.Online -> {
+        text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
+        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
+    }
+    is DataState.Cached -> {
+        text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
+        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
+    }
+    is DataState.Offline -> {
+        text = if (state.lastUpdate.isNullOrEmpty()) {
+            context.getString(R.string.text_offline)
+        } else {
+            context.getString(R.string.text_offline_last_updated, state.lastUpdate)
+        }
+        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
+    }
+    DataState.Error -> {
+        text = context.getString(R.string.text_no_data)
+        setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
     }
 }

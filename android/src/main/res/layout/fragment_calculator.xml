@@ -1,113 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BaseLayoutStyle">
 
-    <data>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_fragment_main"
+        style="@style/BaseToolbarStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <variable
-            name="vm"
-            type="com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <variable
-            name="event"
-            type="com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent" />
-    </data>
+            <TextView
+                android:id="@+id/txt_input"
+                style="@style/CalculatorToolbarTextStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_settings"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
+            <ImageView
+                android:id="@+id/btn_settings"
+                style="@style/SettingsButtonStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_fragment_main"
-            style="@style/BaseToolbarStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    </androidx.appcompat.widget.Toolbar>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <include
+        android:id="@+id/layout_bar"
+        layout="@layout/layout_bar"
+        android:layout_width="@dimen/fit"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main" />
 
-                <TextView
-                    android:id="@+id/txt_input"
-                    style="@style/CalculatorToolbarTextStyle"
-                    android:text="@{vm.state.input.value}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_settings"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar
+        android:id="@+id/loading_view"
+        style="@style/ProgressBarStyle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bar" />
 
-                <ImageView
-                    android:id="@+id/btn_settings"
-                    style="@style/SettingsButtonStyle"
-                    android:onClick="@{() -> event.onSettingsClicked()}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_main"
+        style="@style/BaseRecyclerViewStyle"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_bar"
+        tools:listitem="@layout/item_calculator" />
 
-        </androidx.appcompat.widget.Toolbar>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        style="@style/WrapStyle"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
 
-        <include
-            android:id="@+id/layout_bar"
-            layout="@layout/layout_bar"
-            android:layout_width="@dimen/fit"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> event.onBarClick()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main"
-            app:vm="@{vm}" />
+    <include
+        android:id="@+id/layout_keyboard"
+        style="@style/FitStyle"
+        layout="@layout/layout_keyboard"
+        app:layout_constraintBottom_toTopOf="@+id/txt_app_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-        <ProgressBar
-            android:id="@+id/loading_view"
-            style="@style/ProgressBarStyle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar"
-            app:visibility="@{vm.state.loading.value}" />
+    <TextView
+        android:id="@+id/txt_app_status"
+        style="@style/DataStateStyle"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_main"
-            style="@style/BaseRecyclerViewStyle"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_bar"
-            tools:listitem="@layout/item_calculator" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            style="@style/WrapStyle"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
-
-        <include
-            android:id="@+id/layout_keyboard"
-            style="@style/FitStyle"
-            layout="@layout/layout_keyboard"
-            app:event="@{event}"
-            app:layout_constraintBottom_toTopOf="@+id/txt_app_status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-        <TextView
-            android:id="@+id/txt_app_status"
-            style="@style/DataStateStyle"
-            app:dataState="@{vm.state.dataState.value}"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/ad_view_container"
-            style="@style/BaseBannerAdStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        style="@style/BaseBannerAdStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
