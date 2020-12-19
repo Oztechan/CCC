@@ -39,9 +39,37 @@ class BarBottomSheetDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initViews()
+        observeStates()
         observeEffect()
         setListeners()
+    }
+
+    private fun initViews() {
+        barAdapter = BarAdapter(barViewModel.getEvent())
+        binding.recyclerViewBar.adapter = barAdapter
+    }
+
+    private fun observeStates() = with(barViewModel.state) {
+        lifecycleScope.launchWhenStarted {
+            currencyList.collect {
+                barAdapter.submitList(it)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            loading.collect {
+                binding.loadingView.visibleIf(it)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            enoughCurrency.collect {
+                binding.recyclerViewBar.visibleIf(it)
+                binding.txtNoEnoughCurrency.visibleIf(!it)
+                binding.btnSelect.visibleIf(!it)
+            }
+        }
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
@@ -60,27 +88,6 @@ class BarBottomSheetDialogFragment :
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment(),
                     dismiss = false
                 )
-            }
-        }
-    }
-
-    private fun initView() {
-        barAdapter = BarAdapter(barViewModel.getEvent())
-        binding.recyclerViewBar.adapter = barAdapter
-
-        with(barViewModel.state) {
-            lifecycleScope.launchWhenStarted {
-                currencyList.collect {
-                    barAdapter.submitList(it)
-                }
-                loading.collect {
-                    binding.loadingView.visibleIf(it)
-                }
-                enoughCurrency.collect {
-                    binding.recyclerViewBar.visibleIf(it)
-                    binding.txtNoEnoughCurrency.visibleIf(!it)
-                    binding.btnSelect.visibleIf(!it)
-                }
             }
         }
     }
