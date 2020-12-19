@@ -5,17 +5,18 @@ package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
-import com.github.mustafaozhan.basemob.fragment.BaseDBFragment
+import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
+import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
@@ -42,7 +43,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
-class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
+class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     companion object {
         private const val TEXT_EMAIL_TYPE = "text/email"
@@ -53,25 +54,95 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
 
     private lateinit var rewardedAd: RewardedAd
 
-    override fun bind(container: ViewGroup?): FragmentSettingsBinding =
-        FragmentSettingsBinding.inflate(layoutInflater, container, false)
-
-    override fun onBinding(dataBinding: FragmentSettingsBinding) {
-        binding.vm = settingsViewModel
-        binding.event = settingsViewModel.getEvent()
+    override fun bind() {
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+        observeStates()
         observeEffect()
+        setListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
-            settingsViewModel.isRewardExpired()
-        )
+    private fun initViews() = with(binding) {
+        with(itemCurrencies) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
+            settingsItemTitle.text = getString(R.string.settings_item_currencies_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_currencies_sub_title)
+        }
+
+        with(itemTheme) {
+            root.visibleIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_dark_mode)
+            settingsItemTitle.text = getString(R.string.settings_item_theme_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_theme_sub_title)
+        }
+        with(itemDisableAds) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
+            settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+        }
+        with(itemSync) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_sync)
+            settingsItemTitle.text = getString(R.string.settings_item_sync_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_sync_sub_title)
+        }
+        with(itemSupportUs) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_store)
+            settingsItemTitle.text = getString(R.string.settings_item_support_us_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_support_us_sub_title)
+        }
+        with(itemFeedback) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_email)
+            settingsItemTitle.text = getString(R.string.settings_item_feedback_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_feedback_sub_title)
+        }
+        with(itemShare) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_share)
+            settingsItemTitle.text = getString(R.string.settings_item_share_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_share_sub_title)
+        }
+        with(itemOnGithub) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_on_github)
+            settingsItemTitle.text = getString(R.string.settings_item_on_github_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_on_github_sub_title)
+        }
+    }
+
+    private fun observeStates() = with(settingsViewModel.state) {
+        lifecycleScope.launchWhenStarted {
+            activeCurrencyCount.collect {
+                binding.itemCurrencies.settingsItemValue.text = requireContext().resources
+                    .getQuantityString(
+                        R.plurals.settings_item_currencies_value,
+                        it,
+                        it
+                    )
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            appThemeType.collect {
+                binding.itemTheme.settingsItemValue.text = it.typeName
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            addFreeDate.collect {
+                binding.itemDisableAds.settingsItemValue.text =
+                    if (settingsViewModel.getAdFreeActivatedDate() == 0.toLong()) {
+                        ""
+                    } else {
+                        if (settingsViewModel.isRewardExpired()) {
+                            "Expired\n"
+                        } else {
+                            "Will expire\n$it"
+                        }
+                    }
+            }
+        }
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
@@ -112,13 +183,33 @@ class SettingsFragment : BaseDBFragment<FragmentSettingsBinding>() {
                 ThemeDialogEffect -> changeTheme()
                 is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
-                OnlyOneTimeSyncEffect -> Toast.show(
-                    requireContext(),
-                    R.string.txt_already_synced
-                )
+                OnlyOneTimeSyncEffect -> Toast.show(requireContext(), R.string.txt_already_synced)
             }
         }
     }.toUnit()
+
+    private fun setListeners() = with(binding) {
+        with(settingsViewModel.getEvent()) {
+            backButton.setOnClickListener { onBackClick() }
+
+            itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
+            itemTheme.root.setOnClickListener { onThemeClick() }
+            itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
+            itemSync.root.setOnClickListener { onSyncClick() }
+            itemSupportUs.root.setOnClickListener { onSupportUsClick() }
+            itemFeedback.root.setOnClickListener { onFeedBackClick() }
+            itemShare.root.setOnClickListener { onShareClick() }
+            itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            settingsViewModel.isRewardExpired()
+        )
+    }
 
     private fun changeTheme() {
         AppTheme.getThemeByValue(settingsViewModel.getAppTheme())?.let { currentThemeType ->

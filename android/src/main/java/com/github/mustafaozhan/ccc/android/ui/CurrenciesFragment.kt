@@ -134,23 +134,22 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        btnDone.setOnClickListener { currenciesViewModel.getEvent().onDoneClick() }
+        with(currenciesViewModel.getEvent()) {
 
-        with(layoutCurrenciesToolbar) {
-            backButton.setOnClickListener {
-                currenciesViewModel.getEvent().onCloseClick()
+            btnDone.setOnClickListener { onDoneClick() }
+
+            with(layoutCurrenciesToolbar) {
+
+                backButton.setOnClickListener { onCloseClick() }
+                btnSelectAll.setOnClickListener { updateAllCurrenciesState(true) }
+                btnDeSelectAll.setOnClickListener { updateAllCurrenciesState(false) }
+
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String) = false
+                    override fun onQueryTextChange(newText: String) =
+                        currenciesViewModel.filterList(newText)
+                })
             }
-            btnSelectAll.setOnClickListener {
-                currenciesViewModel.getEvent().updateAllCurrenciesState(true)
-            }
-            btnDeSelectAll.setOnClickListener {
-                currenciesViewModel.getEvent().updateAllCurrenciesState(false)
-            }
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String) = false
-                override fun onQueryTextChange(newText: String) =
-                    currenciesViewModel.filterList(newText)
-            })
         }
     }
 
