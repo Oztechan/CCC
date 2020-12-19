@@ -20,7 +20,6 @@ android {
             minSdkVersion(projectMinSdkVersion)
             targetSdkVersion(projectTargetSdkVersion)
 
-            multiDexEnabled = true
             applicationId = applicationId
 
             versionCode = getVersionCode(project)
@@ -35,23 +34,11 @@ android {
         buildFeatures {
             viewBinding = true
         }
-
-        kotlin {
-            sourceSets {
-                all {
-                    languageSettings.apply {
-                        useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
-                        useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-                    }
-                }
-            }
-        }
     }
 }
 
 dependencies {
     with(Dependencies.Android) {
-        implementation(multiDex)
         implementation(androidMaterial)
         implementation(constraintLayout)
         implementation(admob)
@@ -65,13 +52,11 @@ dependencies {
         testImplementation(coroutinesTest)
     }
 
-    implementation(Dependencies.Common.dateTime)
+    implementation(Dependencies.Common.dateTime) // todo remove after test removed
 
     with(Modules) {
         implementation(project(client))
         implementation(project(common))
-
-        implementation(project(calculator))
 
         implementation(project(basemob))
         implementation(project(scopemob))

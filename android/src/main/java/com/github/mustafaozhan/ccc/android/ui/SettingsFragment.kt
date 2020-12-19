@@ -128,13 +128,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         lifecycleScope.launchWhenStarted {
             addFreeDate.collect {
                 binding.itemDisableAds.settingsItemValue.text =
-                    if (settingsViewModel.getAdFreeActivatedDate() == 0.toLong()) {
-                        ""
-                    } else {
+                    if (settingsViewModel.getAdFreeActivatedDate() == 0.toLong()) "" else {
                         if (settingsViewModel.isRewardExpired()) {
-                            "Expired\n"
+                            getString(R.string.settings_item_remove_ads_value_expired)
                         } else {
-                            "Will expire\n$it"
+                            getString(R.string.settings_item_remove_ads_value_will_expire, it)
                         }
                     }
             }

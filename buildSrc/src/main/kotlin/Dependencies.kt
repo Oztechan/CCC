@@ -35,7 +35,6 @@ object Dependencies {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
-        const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
         const val viewModelExt =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelExt}"

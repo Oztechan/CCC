@@ -25,7 +25,6 @@ object Versions {
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
     const val admob = "19.6.0"
-    const val multidex = "2.0.1"
     const val navigation = "2.3.2"
     const val playCore = "1.9.0"
     const val dateTime = "0.1.1"

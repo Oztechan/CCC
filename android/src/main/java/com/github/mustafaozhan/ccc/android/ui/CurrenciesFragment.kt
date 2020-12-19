@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
-import com.github.mustafaozhan.ccc.android.util.backgroundByName
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
@@ -213,7 +213,7 @@ class CurrenciesAdapter(
         BaseVBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            imgIcon.backgroundByName(item.name)
+            imgIcon.setBackgroundByName(item.name)
             txtSettingItem.text = item.getVariablesOneLine()
             checkBox.isChecked = item.isActive
             root.setOnClickListener { currenciesEvent.onItemClick(item) }

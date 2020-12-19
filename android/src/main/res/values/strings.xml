@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
     <string name="app_name">CC&amp;C</string>
@@ -112,6 +112,8 @@
 
     <string name="settings_item_remove_ads_title">Remove Ads</string>
     <string name="settings_item_remove_ads_sub_title">Disable ads 48 hours</string>
+    <string name="settings_item_remove_ads_value_expired">Expired\n</string>
+    <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
     <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
 

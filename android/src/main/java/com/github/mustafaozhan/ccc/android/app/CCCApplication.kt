@@ -3,17 +3,14 @@
  */
 package com.github.mustafaozhan.ccc.android.app
 
+import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDexApplication
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.logmob.initLogMob
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 @Suppress("unused")
-class CCCApplication : MultiDexApplication() {
+class CCCApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -21,9 +18,6 @@ class CCCApplication : MultiDexApplication() {
         initAndroid(
             module {
                 single<Context> { this@CCCApplication }
-
-                viewModel { CalculatorViewModel(get(), get(), get(), get()) }
-                viewModel { BarViewModel(get()) }
             }
         )
 
