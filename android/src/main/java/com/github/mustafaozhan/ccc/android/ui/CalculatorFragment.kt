@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseDBRecyclerViewAdapter
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
@@ -30,6 +30,8 @@ import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.client.util.getFormatted
+import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
@@ -189,12 +191,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent
-) : BaseDBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = CalculatorDBViewHolder(
+    ) = CalculatorVBViewHolder(
         ItemCalculatorBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -205,12 +207,21 @@ class CalculatorAdapter(
     fun submitList(list: MutableList<Currency>?, currentBase: String) =
         submitList(list.toValidList(currentBase))
 
-    inner class CalculatorDBViewHolder(itemBinding: ItemCalculatorBinding) :
-        BaseDBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
+    inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
+        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            this.item = item
-            this.event = calculatorEvent
+            txtAmount.text = item.rate.getFormatted().toStandardDigits()
+            txtSymbol.text = item.symbol
+            txtType.text = item.name
+            imgItem.setBackgroundByName(item.name)
+            root.setOnClickListener {
+                calculatorEvent.onItemClick(
+                    item,
+                    item.rate.getFormatted().toStandardDigits()
+                )
+            }
+            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
         }
     }
 
