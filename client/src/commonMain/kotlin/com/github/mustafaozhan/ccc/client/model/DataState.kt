@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.android.model
+package com.github.mustafaozhan.ccc.client.model
 
 sealed class DataState {
     data class Online(val lastUpdate: String?) : DataState()

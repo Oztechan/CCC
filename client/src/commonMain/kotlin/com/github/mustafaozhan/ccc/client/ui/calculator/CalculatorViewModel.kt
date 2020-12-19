@@ -1,13 +1,10 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.calculator
+package com.github.mustafaozhan.ccc.client.ui.calculator
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.model.DataState
-import com.github.mustafaozhan.ccc.android.util.MutableSingleLiveData
-import com.github.mustafaozhan.ccc.android.util.SingleLiveData
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
@@ -28,6 +25,9 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -38,7 +38,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : ViewModel(), CalculatorEvent {
+) : BaseViewModel(), CalculatorEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 18
@@ -51,8 +51,8 @@ class CalculatorViewModel(
     private val _state = MutableCalculatorState()
     val state = CalculatorState(_state)
 
-    private val _effect = MutableSingleLiveData<CalculatorEffect>()
-    val effect: SingleLiveData<CalculatorEffect> = _effect
+    private val _effect = BroadcastChannel<CalculatorEffect>(Channel.BUFFERED)
+    val effect = _effect.asFlow()
 
     val data = CalculatorData()
 
@@ -64,15 +64,20 @@ class CalculatorViewModel(
             _base.value = settingsRepository.currentBase
             _input.value = ""
 
-            _base.addSource(state.base) {
-                currentBaseChanged(it)
-            }
-            _input.addSource(state.input) { input ->
-                _loading.value = true
-                calculateOutput(input)
+            clientScope.launch {
+                _base.collect {
+                    currentBaseChanged(it)
+                }
             }
 
-            viewModelScope.launch {
+            clientScope.launch {
+                _input.collect { input ->
+                    _loading.value = true
+                    calculateOutput(input)
+                }
+            }
+
+            clientScope.launch {
                 currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
@@ -83,7 +88,7 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
         _state._dataState.value = DataState.Cached(rates.date)
-    } ?: viewModelScope.launch {
+    } ?: clientScope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
             .execute(
@@ -92,7 +97,7 @@ class CalculatorViewModel(
             )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = viewModelScope.launch {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = clientScope.launch {
         currencyResponse.toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -101,7 +106,7 @@ class CalculatorViewModel(
         }
     }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) = viewModelScope.launch {
+    private fun rateDownloadFail(t: Throwable) = clientScope.launch {
         kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
@@ -111,32 +116,34 @@ class CalculatorViewModel(
             _state._dataState.value = DataState.Offline(offlineRates.date)
         } ?: run {
             kermit.w(t) { "no offline rate found" }
-            state.currencyList.value?.size
-                ?.whether { it > 1 }
-                ?.let { _effect.postValue(ErrorEffect) }
+            state.currencyList.value.size
+                .whether { it > 1 }
+                ?.let { _effect.send(ErrorEffect) }
             _state._dataState.value = DataState.Error
         }
     }.toUnit()
 
-    private fun calculateOutput(input: String) = data.calculator
-        .calculate(input.toSupportedCharacters())
-        .mapTo { if (isFinite()) getFormatted() else "" }
-        .whether { length <= MAXIMUM_INPUT }
-        ?.let { output ->
-            _state._output.value = output
-            state.currencyList.value?.size
-                ?.whether { it < MINIMUM_ACTIVE_CURRENCY }
-                ?.whetherNot { state.input.value.isNullOrEmpty() }
-                ?.let { _effect.postValue(FewCurrencyEffect) }
-                ?: run { getRates() }
-        } ?: run {
-        _effect.postValue(MaximumInputEffect)
-        _state._input.value = input.dropLast(1)
-        _state._loading.value = false
+    private fun calculateOutput(input: String) = clientScope.launch {
+        data.calculator
+            .calculate(input.toSupportedCharacters())
+            .mapTo { if (isFinite()) getFormatted() else "" }
+            .whether { length <= MAXIMUM_INPUT }
+            ?.let { output ->
+                _state._output.value = output
+                state.currencyList.value.size
+                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    ?.whetherNot { state.input.value.isEmpty() }
+                    ?.let { _effect.send(FewCurrencyEffect) }
+                    ?: run { getRates() }
+            } ?: run {
+            _effect.send(MaximumInputEffect)
+            _state._input.value = input.dropLast(1)
+            _state._loading.value = false
+        }
     }
 
     private fun calculateConversions(rates: Rates?) = with(_state) {
-        _currencyList.value = _currencyList.value?.onEach {
+        _currencyList.value = _currencyList.value.onEach {
             it.rate = rates.calculateResult(it.name, _output.value)
         }
         _loading.value = false
@@ -148,13 +155,15 @@ class CalculatorViewModel(
 
         _state._input.value = _state._input.value
 
-        viewModelScope.launch {
+        clientScope.launch {
             _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
         }
     }
 
     fun verifyCurrentBase(it: String) {
-        _state._base.postValue(it)
+        clientScope.launch {
+            _state._base.emit(it)
+        }
     }
 
     fun getCurrentBase() = settingsRepository.currentBase
@@ -169,12 +178,11 @@ class CalculatorViewModel(
                 _state._output.value = ""
             }
             KEY_DEL -> state.input.value
-                ?.whetherNot { isEmpty() }
+                .whetherNot { isEmpty() }
                 ?.apply {
                     _state._input.value = substring(0, length - 1)
                 }
-            else -> _state._input.value =
-                if (key.isEmpty()) "" else state.input.value.toString() + key
+            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value + key
         }
     }
 
@@ -194,21 +202,30 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        _effect.postValue(
-            ShowRateEffect(
-                currency.getCurrencyConversionByRate(settingsRepository.currentBase, data.rates),
-                currency.name
+        clientScope.launch {
+            _effect.send(
+                ShowRateEffect(
+                    currency.getCurrencyConversionByRate(
+                        settingsRepository.currentBase,
+                        data.rates
+                    ),
+                    currency.name
+                )
             )
-        )
+        }
         return true
     }
 
-    override fun onBarClick() = _effect.postValue(OpenBarEffect)
+    override fun onBarClick() = clientScope.launch {
+        _effect.send(OpenBarEffect)
+    }.toUnit()
 
     override fun onSpinnerItemSelected(base: String) {
         _state._base.value = base
     }
 
-    override fun onSettingsClicked() = _effect.postValue(OpenSettingsEffect)
+    override fun onSettingsClicked() = clientScope.launch {
+        _effect.send(OpenSettingsEffect)
+    }.toUnit()
     // endregion
 }

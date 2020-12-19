@@ -21,7 +21,7 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     private val _state = MutableBarState()
     val state = BarState(_state)
 
-    private val _effect = BroadcastChannel<BarEffect>(Channel.CONFLATED)
+    private val _effect = BroadcastChannel<BarEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
 
     fun getEvent() = this as BarEvent

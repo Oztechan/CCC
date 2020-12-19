@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,11 +9,11 @@
 
         <variable
             name="vm"
-            type="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel" />
+            type="com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel" />
 
         <variable
             name="event"
-            type="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorEvent" />
+            type="com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/BaseLayoutStyle">
@@ -52,7 +52,7 @@
                     android:id="@+id/txt_input"
                     style="@style/CalculatorToolbarTextStyle"
                     android:onClick="@{() -> event.onBarClick()}"
-                    android:text="@{vm.state.input}"
+                    android:text="@{vm.state.input.value}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_settings"
                     app:layout_constraintStart_toStartOf="@+id/guideline_bar"
@@ -77,7 +77,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_main"
-            app:visibility="@{vm.state.loading}" />
+            app:visibility="@{vm.state.loading.value}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_main"
@@ -112,7 +112,7 @@
             style="@style/DataStateStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dataState="@{vm.state.dataState}"
+            app:dataState="@{vm.state.dataState.value}"
             app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline" />

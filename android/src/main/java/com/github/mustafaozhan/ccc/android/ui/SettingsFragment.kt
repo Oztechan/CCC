@@ -115,11 +115,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         lifecycleScope.launchWhenStarted {
             activeCurrencyCount.collect {
                 binding.itemCurrencies.settingsItemValue.text = requireContext().resources
-                    .getQuantityString(
-                        R.plurals.settings_item_currencies_value,
-                        it,
-                        it
-                    )
+                    .getQuantityString(R.plurals.settings_item_currencies_value, it, it)
             }
         }
 

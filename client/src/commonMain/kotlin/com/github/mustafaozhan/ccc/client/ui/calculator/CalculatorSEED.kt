@@ -1,39 +1,38 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.calculator
+package com.github.mustafaozhan.ccc.client.ui.calculator
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import com.github.mustafaozhan.ccc.android.model.DataState
 import com.github.mustafaozhan.ccc.calculator.Calculator
+import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.Rates
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 // State
 @Suppress("ConstructorParameterNaming")
 data class CalculatorState(
     private val _state: MutableCalculatorState
 ) {
-    val input: LiveData<String> = _state._input
-    val base: LiveData<String> = _state._base
-    val currencyList: LiveData<MutableList<Currency>> = _state._currencyList
-    val output: LiveData<String> = _state._output
-    val symbol: LiveData<String> = _state._symbol
-    val loading: LiveData<Boolean> = _state._loading
-    val dataState: LiveData<DataState> = _state._dataState
+    val input: StateFlow<String> = _state._input
+    val base: StateFlow<String> = _state._base
+    val currencyList: StateFlow<MutableList<Currency>> = _state._currencyList
+    val output: StateFlow<String> = _state._output
+    val symbol: StateFlow<String> = _state._symbol
+    val loading: StateFlow<Boolean> = _state._loading
+    val dataState: StateFlow<DataState> = _state._dataState
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableCalculatorState(
-    val _input: MediatorLiveData<String> = MediatorLiveData(),
-    val _base: MediatorLiveData<String> = MediatorLiveData(),
-    val _currencyList: MutableLiveData<MutableList<Currency>> = MutableLiveData(),
-    val _output: MutableLiveData<String> = MutableLiveData(""),
-    val _symbol: MutableLiveData<String> = MutableLiveData(""),
-    val _loading: MutableLiveData<Boolean> = MutableLiveData(true),
-    val _dataState: MutableLiveData<DataState> = MutableLiveData(DataState.Error)
+    val _input: MutableStateFlow<String> = MutableStateFlow(""),
+    val _base: MutableStateFlow<String> = MutableStateFlow(""),
+    val _currencyList: MutableStateFlow<MutableList<Currency>> = MutableStateFlow(mutableListOf()),
+    val _output: MutableStateFlow<String> = MutableStateFlow(""),
+    val _symbol: MutableStateFlow<String> = MutableStateFlow(""),
+    val _loading: MutableStateFlow<Boolean> = MutableStateFlow(true),
+    val _dataState: MutableStateFlow<DataState> = MutableStateFlow(DataState.Error)
 )
 
 // Event

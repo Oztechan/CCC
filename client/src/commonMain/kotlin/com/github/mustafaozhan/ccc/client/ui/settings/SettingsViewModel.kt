@@ -40,7 +40,7 @@ class SettingsViewModel(
     private val _state = MutableSettingsState()
     val state = SettingsState(_state)
 
-    private val _effect = BroadcastChannel<SettingsEffect>(Channel.CONFLATED)
+    private val _effect = BroadcastChannel<SettingsEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
 
     private val data = SettingsData()

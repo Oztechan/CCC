@@ -32,7 +32,7 @@ class CurrenciesViewModel(
     private val _state = MutableCurrenciesState()
     val state = CurrenciesState(_state)
 
-    private val _effect = BroadcastChannel<CurrenciesEffect>(Channel.CONFLATED)
+    private val _effect = BroadcastChannel<CurrenciesEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
 
     val data = CurrenciesData()

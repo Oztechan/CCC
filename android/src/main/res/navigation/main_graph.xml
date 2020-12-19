@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.CalculatorFragment"
         android:label="CalculatorFragment"
         tools:layout="@layout/fragment_calculator">
         <action

@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.SearchViewBindingAdapter.OnQueryTextChange
-import com.github.mustafaozhan.ccc.android.model.DataState
+import com.github.mustafaozhan.ccc.client.model.DataState
 import mustafaozhan.github.com.mycurrencies.R
 
 @BindingAdapter("visibility")

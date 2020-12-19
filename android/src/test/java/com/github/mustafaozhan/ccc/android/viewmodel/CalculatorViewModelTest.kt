@@ -3,13 +3,13 @@
  */
 package com.github.mustafaozhan.ccc.android.viewmodel
 
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
-import com.github.mustafaozhan.ccc.android.ui.calculator.OpenBarEffect
-import com.github.mustafaozhan.ccc.android.ui.calculator.OpenSettingsEffect
-import com.github.mustafaozhan.ccc.android.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
+import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
+import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
+import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
