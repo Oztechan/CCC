@@ -54,34 +54,13 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initViews()
+        observeStates()
         observeEffect()
         setListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            currenciesViewModel.isRewardExpired()
-        )
-        currenciesViewModel.hideSelectionVisibility()
-        currenciesViewModel.filterList("")
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        setSpanByOrientation(newConfig.orientation)
-    }
-
-    private fun setSpanByOrientation(orientation: Int) {
-        binding.recyclerViewCurrencies.layoutManager = GridLayoutManager(
-            requireContext(),
-            if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
-        )
-    }
-
-    private fun initView() = with(binding) {
+    private fun initViews() = with(binding) {
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.getEvent())
         setSpanByOrientation(resources.configuration.orientation)
 
@@ -92,31 +71,37 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
         btnDone.visibleIf(currenciesViewModel.isFirstRun())
         txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
+    }
+
+    private fun observeStates() = with(currenciesViewModel.state) {
+        lifecycleScope.launchWhenStarted {
+            currencyList.collect {
+                currenciesAdapter.submitList(it)
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
-            with(currenciesViewModel.state) {
-                currencyList.collect {
-                    currenciesAdapter.submitList(it)
-                }
-                loading.collect {
-                    loadingView.visibleIf(it)
-                }
-                selectionVisibility.collect {
-                    with(layoutCurrenciesToolbar) {
-                        searchView.visibleIf(!it)
-                        txtCurrenciesToolbar.visibleIf(!it)
-                        btnSelectAll.visibleIf(it)
-                        btnDeSelectAll.visibleIf(it)
-                        backButton.visibleIf(!currenciesViewModel.isFirstRun() || it)
+            loading.collect {
+                binding.loadingView.visibleIf(it)
+            }
+        }
 
-                        backButton.setBackgroundResource(if (it) R.drawable.ic_close else R.drawable.ic_back)
-                        toolbarFragmentCurrencies.setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                if (it) R.color.color_background_weak else R.color.color_background_strong
-                            )
+        lifecycleScope.launchWhenStarted {
+            selectionVisibility.collect {
+                with(binding.layoutCurrenciesToolbar) {
+                    searchView.visibleIf(!it)
+                    txtCurrenciesToolbar.visibleIf(!it)
+                    btnSelectAll.visibleIf(it)
+                    btnDeSelectAll.visibleIf(it)
+                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || it)
+
+                    backButton.setBackgroundResource(if (it) R.drawable.ic_close else R.drawable.ic_back)
+                    toolbarFragmentCurrencies.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (it) R.color.color_background_weak else R.color.color_background_strong
                         )
-                    }
+                    )
                 }
             }
         }
@@ -167,6 +152,28 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     currenciesViewModel.filterList(newText)
             })
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            currenciesViewModel.isRewardExpired()
+        )
+        currenciesViewModel.hideSelectionVisibility()
+        currenciesViewModel.filterList("")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setSpanByOrientation(newConfig.orientation)
+    }
+
+    private fun setSpanByOrientation(orientation: Int) {
+        binding.recyclerViewCurrencies.layoutManager = GridLayoutManager(
+            requireContext(),
+            if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
+        )
     }
 }
 
