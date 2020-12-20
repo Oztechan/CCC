@@ -11,6 +11,7 @@ import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
 
+@Suppress("TooManyFunctions", "StringLiteralDuplication")
 object FakeCurrencyDao : CurrencyQueries {
 
     fun getCurrencyDao() = CurrencyDao(this)

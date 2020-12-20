@@ -49,7 +49,6 @@ kotlin {
 
                     implementation(ktorLogging)
                     implementation(ktorSerialization)
-                    implementation(coroutines)
 
                     implementation(sqldelightRuntime)
                     implementation(sqldelightCoroutineExtensions)

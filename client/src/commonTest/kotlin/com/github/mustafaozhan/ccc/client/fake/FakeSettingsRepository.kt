@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.client.fake
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.russhwolf.settings.Settings
 
+@Suppress("TooManyFunctions", "StringLiteralDuplication")
 object FakeSettingsRepository : Settings {
 
     fun getSettingsRepository() = SettingsRepository(this)
