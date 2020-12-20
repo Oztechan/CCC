@@ -20,7 +20,6 @@ android {
             minSdkVersion(projectMinSdkVersion)
             targetSdkVersion(projectTargetSdkVersion)
 
-            multiDexEnabled = true
             applicationId = applicationId
 
             versionCode = getVersionCode(project)
@@ -34,34 +33,27 @@ android {
 
         buildFeatures {
             viewBinding = true
-            dataBinding = true
         }
     }
 }
 
 dependencies {
     with(Dependencies.Android) {
-        implementation(multiDex)
         implementation(androidMaterial)
         implementation(constraintLayout)
         implementation(admob)
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroidViewModel)
-
-        testImplementation(jUnit) // todo remove when viewModels moved
-        testImplementation(mockK)
-        testImplementation(archTesting)
-        testImplementation(coroutinesTest)
     }
 
-    implementation(Dependencies.Common.dateTime)
+    with(Dependencies.Common) {
+        implementation(kermit)
+    }
 
     with(Modules) {
         implementation(project(client))
         implementation(project(common))
-
-        implementation(project(calculator))
 
         implementation(project(basemob))
         implementation(project(scopemob))

@@ -12,14 +12,6 @@ plugins {
     }
 }
 
-group = ProjectSettings.projectId
-version = ProjectSettings.getVersionName(project)
-
-repositories {
-    gradlePluginPortal()
-    google()
-}
-
 kotlin {
     android()
 
@@ -31,8 +23,6 @@ kotlin {
         }
     }
 
-    // todo need to revert when Koin supports IR
-    // https://github.com/InsertKoinIO/koin/issues/929
     js {
         browser {
             binaries.executable()
@@ -42,19 +32,29 @@ kotlin {
         }
     }
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
+
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
 
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
                     implementation(multiplatformSettings)
                     implementation(dateTime)
-                    api(koinCore)
-                    api(kermit)
+                    implementation(coroutines)
+                    implementation(koinCore)
+                    implementation(kermit)
 
                     with(Modules) {
                         implementation(project(common))
                         implementation(project(calculator))
+                        implementation(project(scopemob))
                     }
                 }
             }
@@ -71,6 +71,7 @@ kotlin {
                 dependencies {
                     implementation(androidMaterial)
                     implementation(koinAndroidViewModel)
+                    implementation(viewModelExt)
                 }
             }
             val androidTest by getting {

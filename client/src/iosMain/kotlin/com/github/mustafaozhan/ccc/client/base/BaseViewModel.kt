@@ -4,4 +4,22 @@
 
 package com.github.mustafaozhan.ccc.client.base
 
-actual open class BaseViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+
+@Suppress("EmptyDefaultConstructor")
+actual open class BaseViewModel actual constructor() {
+
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope: CoroutineScope = CoroutineScope(
+        Dispatchers.Main + viewModelJob
+    )
+
+    protected actual val clientScope: CoroutineScope = viewModelScope
+
+    protected actual open fun onCleared() {
+        viewModelJob.cancelChildren()
+    }
+}

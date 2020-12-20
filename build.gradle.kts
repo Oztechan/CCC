@@ -33,6 +33,6 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://dl.bintray.com/ekito/koin")
-        maven(url = "https://kotlin.bintray.com/kotlinx/") // soon will be just jcenter()
+        maven(url = "https://kotlin.bintray.com/kotlinx/") // todo soon will be just jcenter()
     }
 }

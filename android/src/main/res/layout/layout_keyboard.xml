@@ -1,139 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchStyle">
 
-    <data>
+    <TableRow style="@style/SubKeyboardTableRowStyle">
 
-        <variable
-            name="event"
-            type="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorEvent" />
-    </data>
+        <Button
+            android:id="@+id/seven"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/seven" />
 
-    <TableLayout style="@style/MatchStyle">
+        <Button
+            android:id="@+id/eight"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/eight" />
 
-        <TableRow style="@style/SubKeyboardTableRowStyle">
+        <Button
+            android:id="@+id/nine"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/nine" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/seven)}"
-                android:text="@string/seven" />
+        <Button
+            android:id="@+id/multiply"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/multiply" />
+    </TableRow>
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/eight)}"
-                android:text="@string/eight" />
+    <TableRow style="@style/SubKeyboardTableRowStyle">
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/nine)}"
-                android:text="@string/nine" />
+        <Button
+            android:id="@+id/four"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/four" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/multiply)}"
-                android:text="@string/multiply" />
-        </TableRow>
+        <Button
+            android:id="@+id/five"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/five" />
 
-        <TableRow style="@style/SubKeyboardTableRowStyle">
+        <Button
+            android:id="@+id/six"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/six" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/four)}"
-                android:text="@string/four" />
+        <Button
+            android:id="@+id/divide"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/divide" />
+    </TableRow>
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/five)}"
-                android:text="@string/five" />
+    <TableRow style="@style/SubKeyboardTableRowStyle">
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/six)}"
-                android:text="@string/six" />
+        <Button
+            android:id="@+id/one"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/one" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/divide)}"
-                android:text="@string/divide" />
-        </TableRow>
+        <Button
+            android:id="@+id/two"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/two" />
 
-        <TableRow style="@style/SubKeyboardTableRowStyle">
+        <Button
+            android:id="@+id/three"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/three" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/one)}"
-                android:text="@string/one" />
+        <Button
+            android:id="@+id/minus"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/minus" />
+    </TableRow>
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/two)}"
-                android:text="@string/two" />
+    <TableRow style="@style/SubKeyboardTableRowStyle">
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/three)}"
-                android:text="@string/three" />
+        <Button
+            android:id="@+id/dot"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/dot" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/minus)}"
-                android:text="@string/minus" />
-        </TableRow>
+        <Button
+            android:id="@+id/zero"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/zero" />
 
-        <TableRow style="@style/SubKeyboardTableRowStyle">
+        <Button
+            android:id="@+id/percent"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/percent" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/dot)}"
-                android:text="@string/dot" />
+        <Button
+            android:id="@+id/plus"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/plus" />
+    </TableRow>
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/zero)}"
-                android:text="@string/zero" />
+    <TableRow style="@style/SubKeyboardTableRowStyle">
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/percent)}"
-                android:text="@string/percent" />
+        <Button
+            android:id="@+id/open_parentheses"
+            style="@style/KeyboardTextStyle"
+            android:paddingStart="@dimen/margin_sixteen"
+            android:paddingEnd="@dimen/margin_zero"
+            android:text="@string/open_parentheses" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/plus)}"
-                android:text="@string/plus" />
-        </TableRow>
+        <Button
+            android:id="@+id/triple_zero"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/triple_zero" />
 
-        <TableRow style="@style/SubKeyboardTableRowStyle">
+        <Button
+            android:id="@+id/ac"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/ac" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/open_parentheses)}"
-                android:paddingStart="@dimen/margin_sixteen"
-                android:paddingEnd="@dimen/margin_zero"
-                android:text="@string/open_parentheses" />
+        <Button
+            android:id="@+id/del"
+            style="@style/KeyboardTextStyle"
+            android:text="@string/delete" />
 
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/triple_zero)}"
-                android:text="@string/triple_zero" />
-
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/ac)}"
-                android:text="@string/ac" />
-
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/delete)}"
-                android:text="@string/delete" />
-
-            <Button
-                style="@style/KeyboardTextStyle"
-                android:onClick="@{() -> event.onKeyPress(@string/close_parentheses)}"
-                android:paddingStart="@dimen/margin_zero"
-                android:paddingEnd="@dimen/margin_sixteen"
-                android:text="@string/close_parentheses" />
-        </TableRow>
-    </TableLayout>
-</layout>
+        <Button
+            android:id="@+id/close_parentheses"
+            style="@style/KeyboardTextStyle"
+            android:paddingStart="@dimen/margin_zero"
+            android:paddingEnd="@dimen/margin_sixteen"
+            android:text="@string/close_parentheses" />
+    </TableRow>
+</TableLayout>

@@ -4,12 +4,15 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.model.PlatformType
 import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 import org.koin.core.module.Module
 
-expect val platformName: String
-expect val platformVersion: String
+expect val platform: PlatformType
 
 expect val platformCoroutineContext: CoroutineContext
 
 expect val platformCommonModule: Module
+
+expect fun runTest(block: suspend (scope: CoroutineScope) -> Unit)

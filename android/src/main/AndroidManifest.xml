@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,7 +20,7 @@
         tools:ignore="AllowBackup"
         tools:targetApi="m">
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.splash.SplashActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme"
             tools:ignore="AllowBackup">
@@ -33,11 +33,11 @@
         </activity>
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.main.MainActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.MainActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.slider.SliderActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.SliderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

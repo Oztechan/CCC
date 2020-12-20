@@ -35,18 +35,12 @@ object Dependencies {
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
-        const val multiDex = "androidx.multidex:multidex:${Versions.multidex}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
+        const val viewModelExt =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelExt}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
-
-        // Test
-        const val jUnit = "junit:junit:${Versions.jUnit}"
-        const val mockK = "io.mockk:mockk:${Versions.mockK}"
-        const val archTesting = "android.arch.core:core-testing:${Versions.archTesting}"
-        const val coroutinesTest =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
     }
 

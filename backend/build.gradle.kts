@@ -11,14 +11,21 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.common))
-
     with(Dependencies.JVM) {
         implementation(ktorCore)
         implementation(ktorNetty)
         implementation(ktorWebSockets)
         implementation(ktorSerialization)
         implementation(logBack)
+    }
+
+    with(Dependencies.Common) {
+        implementation(koinCore)
+        implementation(kermit)
+    }
+
+    with(Modules) {
+        implementation(project(common))
     }
 }
 
