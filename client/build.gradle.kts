@@ -32,6 +32,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
@@ -88,6 +90,15 @@ kotlin {
             val jsTest by getting {
                 dependencies {
                     implementation(kotlin(test))
+                }
+            }
+        }
+
+        with(Dependencies.JVM) {
+            val jvmMain by getting
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin(testJUnit))
                 }
             }
         }
