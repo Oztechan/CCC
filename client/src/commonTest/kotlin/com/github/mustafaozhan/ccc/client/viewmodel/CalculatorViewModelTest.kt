@@ -3,8 +3,10 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.ccc.client.runTest
+import com.github.mustafaozhan.ccc.client.fake.FakeApiRepository
+import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
+import com.github.mustafaozhan.ccc.client.fake.FakeOfflineRatesDao
+import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
@@ -12,28 +14,25 @@ import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.common.api.ApiFactory
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
+class CalculatorViewModelTest {
 
-    override lateinit var viewModel: CalculatorViewModel
+    private lateinit var viewModel: CalculatorViewModel
 
     @BeforeTest
     fun setup() {
         viewModel = CalculatorViewModel(
-            SettingsRepository(this),
-            ApiRepository(ApiFactory()),
-            CurrencyDao(this),
-            OfflineRatesDao(this)
+            FakeSettingsRepository.getSettingsRepository(),
+            FakeApiRepository.getApiRepository(),
+            FakeCurrencyDao.getCurrencyDao(),
+            FakeOfflineRatesDao.getOfflineRatesDao()
         )
     }
 

@@ -3,26 +3,25 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.runTest
+import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
-import com.github.mustafaozhan.ccc.common.CurrencyQueries
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class BarViewModelTest : BaseViewModelTest<BarViewModel>(), CurrencyQueries {
+class BarViewModelTest {
 
-    override lateinit var viewModel: BarViewModel
+    private lateinit var viewModel: BarViewModel
 
     @BeforeTest
     fun setup() {
-        viewModel = BarViewModel(CurrencyDao(this))
+        viewModel = BarViewModel(FakeCurrencyDao.getCurrencyDao())
     }
 
     @Test

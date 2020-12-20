@@ -1,10 +1,8 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.extensions
+package com.github.mustafaozhan.ccc.client.extension
 
-import com.github.mustafaozhan.ccc.client.clientPlatformType
-import com.github.mustafaozhan.ccc.client.model.ClientPlatformType
 import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
@@ -23,7 +21,9 @@ import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
+import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
+import com.github.mustafaozhan.ccc.common.platform
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.datetime.Clock
@@ -90,7 +90,7 @@ class ExtensionsTest {
     @Test
     fun getFormatted() {
         val actualDouble = 123456.7890
-        if (clientPlatformType == ClientPlatformType.ANDROID) {
+        if (platform == PlatformType.ANDROID) {
             assertEquals("123 456.789", actualDouble.getFormatted())
         } else {
             assertEquals(actualDouble.toString(), actualDouble.getFormatted())

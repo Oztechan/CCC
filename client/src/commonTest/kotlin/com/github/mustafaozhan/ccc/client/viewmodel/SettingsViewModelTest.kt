@@ -3,9 +3,11 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.fake.FakeApiRepository
+import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
+import com.github.mustafaozhan.ccc.client.fake.FakeOfflineRatesDao
+import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
-import com.github.mustafaozhan.ccc.client.runTest
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.CurrenciesEffect
@@ -18,11 +20,7 @@ import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
-import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.api.ApiFactory
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -32,17 +30,17 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>(), OfflineRatesQueries {
+class SettingsViewModelTest {
 
-    override lateinit var viewModel: SettingsViewModel
+    private lateinit var viewModel: SettingsViewModel
 
     @BeforeTest
     fun setup() {
         viewModel = SettingsViewModel(
-            SettingsRepository(this),
-            ApiRepository(ApiFactory()),
-            CurrencyDao(this),
-            OfflineRatesDao(this)
+            FakeSettingsRepository.getSettingsRepository(),
+            FakeApiRepository.getApiRepository(),
+            FakeCurrencyDao.getCurrencyDao(),
+            FakeOfflineRatesDao.getOfflineRatesDao()
         )
     }
 
@@ -133,5 +131,4 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>(), OfflineRat
             assertEquals(ThemeDialogEffect, viewModel.effect.single())
         }.cancel()
     }
-
 }
