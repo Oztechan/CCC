@@ -14,7 +14,7 @@ actual open class BaseViewModel actual constructor() {
 
     private val viewModelJob = SupervisorJob()
     private val viewModelScope: CoroutineScope = CoroutineScope(
-        Dispatchers.Main.immediate + viewModelJob
+        Dispatchers.Main + viewModelJob
     )
 
     protected actual val clientScope: CoroutineScope = viewModelScope
