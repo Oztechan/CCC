@@ -47,6 +47,10 @@ dependencies {
         implementation(koinAndroidViewModel)
     }
 
+    with(Dependencies.Common) {
+        implementation(kermit)
+    }
+
     with(Modules) {
         implementation(project(client))
         implementation(project(common))

@@ -13,14 +13,6 @@ plugins {
     }
 }
 
-group = ProjectSettings.projectId
-version = ProjectSettings.getVersionName(project)
-
-repositories {
-    gradlePluginPortal()
-    google()
-}
-
 kotlin {
 
     jvm()
@@ -35,8 +27,6 @@ kotlin {
         }
     }
 
-    // todo need to revert when Koin supports IR
-    // https://github.com/InsertKoinIO/koin/issues/929
     js {
         browser {
             binaries.executable()
@@ -54,8 +44,8 @@ kotlin {
                 dependencies {
                     implementation(project(Modules.logmob))
 
-                    api(koinCore)
-                    api(kermit)
+                    implementation(koinCore)
+                    implementation(kermit)
 
                     implementation(ktorLogging)
                     implementation(ktorSerialization)

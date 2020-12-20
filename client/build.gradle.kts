@@ -12,14 +12,6 @@ plugins {
     }
 }
 
-group = ProjectSettings.projectId
-version = ProjectSettings.getVersionName(project)
-
-repositories {
-    gradlePluginPortal()
-    google()
-}
-
 kotlin {
     android()
 
@@ -31,8 +23,6 @@ kotlin {
         }
     }
 
-    // todo need to revert when Koin supports IR
-    // https://github.com/InsertKoinIO/koin/issues/929
     js {
         browser {
             binaries.executable()
@@ -58,8 +48,8 @@ kotlin {
                     implementation(multiplatformSettings)
                     implementation(dateTime)
                     implementation(coroutines)
-                    api(koinCore)
-                    api(kermit)
+                    implementation(koinCore)
+                    implementation(kermit)
 
                     with(Modules) {
                         implementation(project(common))
