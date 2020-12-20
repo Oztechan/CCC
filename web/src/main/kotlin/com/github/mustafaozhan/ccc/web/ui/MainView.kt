@@ -5,8 +5,8 @@
 package com.github.mustafaozhan.ccc.web.ui
 
 import com.github.mustafaozhan.ccc.client.di.getForJs
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
 import react.RProps
 import react.child

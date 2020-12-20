@@ -12,8 +12,6 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import com.russhwolf.settings.AppleSettings
-import com.russhwolf.settings.Settings
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
@@ -23,13 +21,10 @@ import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 fun initIOS(userDefaults: NSUserDefaults) = initKoin(
-    module {
-        // todo fix AppleSettings
-        single<Settings> { AppleSettings(userDefaults) }
-    }
+    module { single { userDefaults } }
 )
 
-actual val platformClientModule: Module = module {
+actual val clientModule: Module = module {
     single { SettingsViewModel(get(), get(), get(), get()) }
     single { SplashViewModel(get()) }
     single { MainViewModel(get()) }

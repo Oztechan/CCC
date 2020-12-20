@@ -5,6 +5,8 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.model.PlatformType
+import com.russhwolf.settings.JsSettings
+import com.russhwolf.settings.Settings
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ actual val platform = PlatformType.JS
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
 actual val platformCommonModule: Module = module {
+    single<Settings> { JsSettings(get()) }
     TODO("JS SqlDelight is not ready yet.")
 }
 

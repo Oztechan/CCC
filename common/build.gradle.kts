@@ -44,6 +44,9 @@ kotlin {
                 dependencies {
                     implementation(project(Modules.logmob))
 
+                    implementation(multiplatformSettings)
+                    implementation(dateTime)
+
                     implementation(koinCore)
                     implementation(kermit)
 

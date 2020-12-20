@@ -6,6 +6,8 @@ package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
 import com.github.mustafaozhan.ccc.common.model.PlatformType
+import com.russhwolf.settings.AppleSettings
+import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +21,7 @@ actual val platform = PlatformType.IOS
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
 actual val platformCommonModule: Module = module {
+    single<Settings> { AppleSettings(get()) }
     single {
         CurrencyConverterCalculatorDatabase(
             NativeSqliteDriver(

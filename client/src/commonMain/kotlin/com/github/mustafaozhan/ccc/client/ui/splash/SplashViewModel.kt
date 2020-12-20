@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.client.ui.splash
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 
 class SplashViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel() {
 

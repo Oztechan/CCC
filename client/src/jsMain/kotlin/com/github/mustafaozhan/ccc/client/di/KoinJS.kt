@@ -10,8 +10,6 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import com.russhwolf.settings.JsSettings
-import com.russhwolf.settings.Settings
 import kotlin.reflect.KClass
 import org.koin.core.Koin
 import org.koin.core.module.Module
@@ -20,12 +18,10 @@ import org.koin.dsl.module
 import org.w3c.dom.Storage
 
 fun initJS(storage: Storage) = initKoin(
-    module {
-        single<Settings> { JsSettings(storage) }
-    }
+    module { single { storage } }
 )
 
-actual val platformClientModule: Module = module {
+actual val clientModule: Module = module {
     single { SettingsViewModel(get(), get(), get(), get()) }
     single { SplashViewModel(get()) }
     single { MainViewModel(get()) }

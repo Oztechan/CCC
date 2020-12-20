@@ -45,7 +45,6 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(multiplatformSettings)
                     implementation(dateTime)
                     implementation(coroutines)
                     implementation(koinCore)

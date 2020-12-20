@@ -4,7 +4,6 @@
 package com.github.mustafaozhan.ccc.client.ui.currencies
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
-import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
@@ -12,6 +11,7 @@ import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot

@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.kermit
 import com.github.mustafaozhan.ccc.common.platformCommonModule
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -27,6 +28,8 @@ fun initKoin(vararg modules: Module?) = startKoin {
 }
 
 var commonModule: Module = module {
+    single { SettingsRepository(get()) }
+
     factory { ApiFactory() }
     single { ApiRepository(get()) }
 
