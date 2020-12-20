@@ -1,46 +1,35 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.runTest
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.model.Currency
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
-@ObsoleteCoroutinesApi
-@RunWith(JUnit4::class)
 class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     override lateinit var viewModel: CurrenciesViewModel
 
-    @RelaxedMockK
-    lateinit var settingsRepository: SettingsRepository
-
-    @RelaxedMockK
-    lateinit var currencyDao: CurrencyDao
-
-    @Before
+    @BeforeTest
     fun setup() {
-        MockKAnnotations.init(this)
-        viewModel = CurrenciesViewModel(settingsRepository, currencyDao)
+        viewModel = CurrenciesViewModel(
+            SettingsRepository(this),
+            CurrencyDao(this)
+        )
     }
 
     @Test
-    fun `filter list`() {
+    fun filterList() {
         val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
@@ -66,13 +55,13 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun `hide selection visibility`() {
+    fun hideSelectionVisibility() {
         viewModel.hideSelectionVisibility()
         assertEquals(false, viewModel.state.selectionVisibility.value)
     }
 
     @Test
-    fun `query get updated on filtering list`() {
+    fun queryGetUpdatedOnFilteringList() {
         val query = "query"
         viewModel.filterList(query)
         assertEquals(query, viewModel.data.query)
@@ -80,27 +69,27 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     // Event
     @Test
-    fun `on long click`() = with(viewModel) {
+    fun onItemLongClick() = with(viewModel) {
         val currentValue = viewModel.state.selectionVisibility.value
         getEvent().onItemLongClick()
         assertEquals(!currentValue, viewModel.state.selectionVisibility.value)
     }
 
     @Test
-    fun `update all currencies state`() {
+    fun updateAllCurrenciesState() {
         assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(true))
         assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(false))
     }
 
     @Test
-    fun `on item click`() {
+    fun onItemClick() {
         val currency = Currency("EUR", "Euro", "€")
         assertEquals(Unit, viewModel.getEvent().onItemClick(currency))
     }
 
     @Test
-    fun `on close click`() = runBlockingTest {
-        launch {
+    fun onCloseClick() = runTest {
+        it.launch {
             viewModel.getEvent().onCloseClick()
             assertEquals(BackEffect, viewModel.effect.single())
             assertEquals("", viewModel.data.query)
@@ -108,8 +97,8 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun `on done click`() = runBlockingTest {
-        launch {
+    fun onDoneClick() = runTest {
+        it.launch {
             viewModel.getEvent().onDoneClick()
             assertEquals(FewCurrencyEffect, viewModel.effect.single())
         }.cancel()
