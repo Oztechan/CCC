@@ -45,14 +45,7 @@ dependencies {
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroidViewModel)
-
-        testImplementation(jUnit) // todo remove when viewModels moved
-        testImplementation(mockK)
-        testImplementation(archTesting)
-        testImplementation(coroutinesTest)
     }
-
-    implementation(Dependencies.Common.dateTime) // todo remove after test removed
 
     with(Modules) {
         implementation(project(client))

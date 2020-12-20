@@ -127,7 +127,8 @@ abstract class BaseViewModelTest<ViewModelType> : CurrencyQueries, OfflineRatesQ
     }
 
     override fun getString(key: String, defaultValue: String): String {
-        TODO("Not yet implemented")
+        // todo faked
+        return ""
     }
 
     override fun getStringOrNull(key: String): String? {
