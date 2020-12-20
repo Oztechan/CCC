@@ -5,14 +5,16 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
-import com.github.mustafaozhan.ccc.common.model.CommonPlatformType
+import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val commonPlatformType = CommonPlatformType.ANDROID
+actual val platform = PlatformType.ANDROID
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 
@@ -27,3 +29,5 @@ actual val platformCommonModule: Module = module {
         )
     }
 }
+
+actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit) = runBlocking { block(this) }

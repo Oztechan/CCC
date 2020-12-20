@@ -4,7 +4,7 @@
 
 package com.github.mustafaozhan.ccc.common.model
 
-enum class CommonPlatformType {
+enum class PlatformType {
     ANDROID,
     IOS,
     JVM,
