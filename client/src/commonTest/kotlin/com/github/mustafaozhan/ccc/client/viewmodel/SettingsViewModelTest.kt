@@ -1,10 +1,11 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.repo.SettingsRepository
+import com.github.mustafaozhan.ccc.client.runTest
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.CurrenciesEffect
@@ -17,52 +18,37 @@ import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
+import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
+class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>(), OfflineRatesQueries {
 
     override lateinit var viewModel: SettingsViewModel
 
-    @MockK
-    lateinit var apiRepository: ApiRepository
-
-    @RelaxedMockK
-    lateinit var settingsRepository: SettingsRepository
-
-    @RelaxedMockK
-    lateinit var currencyDao: CurrencyDao
-
-    @MockK
-    lateinit var offlineRatesDao: OfflineRatesDao
-
-    @Before
+    @BeforeTest
     fun setup() {
-        MockKAnnotations.init(this)
         viewModel = SettingsViewModel(
-            settingsRepository,
-            apiRepository,
-            currencyDao,
-            offlineRatesDao
+            SettingsRepository(this),
+            ApiRepository(ApiFactory()),
+            CurrencyDao(this),
+            OfflineRatesDao(this)
         )
     }
 
     @Test
-    fun `update theme`() = runBlockingTest {
-        launch {
+    fun updateTheme() = runTest {
+        it.launch {
             val appTheme = AppTheme.DARK
             viewModel.updateTheme(appTheme)
             assertEquals(appTheme, viewModel.state.appThemeType.value)
@@ -73,7 +59,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `update ad expiration date`() = with(viewModel) {
+    fun updateAddFreeDate() = with(viewModel) {
         updateAddFreeDate()
         assertEquals(
             state.addFreeDate.value,
@@ -85,66 +71,67 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     // Event
     @Test
-    fun `back click`() = runBlockingTest {
-        launch {
+    fun onBackClick() = runTest {
+        it.launch {
             viewModel.getEvent().onBackClick()
             assertEquals(BackEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `currencies click`() = runBlockingTest {
-        launch {
+    fun onCurrenciesClick() = runTest {
+        it.launch {
             viewModel.getEvent().onCurrenciesClick()
             assertEquals(CurrenciesEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `feedback click`() = runBlockingTest {
-        launch {
+    fun onFeedBackClick() = runTest {
+        it.launch {
             viewModel.getEvent().onFeedBackClick()
             assertEquals(FeedBackEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `share click`() = runBlockingTest {
-        launch {
+    fun onShareClick() = runTest {
+        it.launch {
             viewModel.getEvent().onShareClick()
             assertEquals(ShareEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `support us click`() = runBlockingTest {
-        launch {
+    fun onSupportUsClick() = runTest {
+        it.launch {
             viewModel.getEvent().onSupportUsClick()
             assertEquals(SupportUsEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `on github click`() = runBlockingTest {
-        launch {
+    fun onOnGitHubClick() = runTest {
+        it.launch {
             viewModel.getEvent().onOnGitHubClick()
             assertEquals(OnGitHubEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `on remove ad click`() = runBlockingTest {
-        launch {
+    fun onRemoveAdsClick() = runTest {
+        it.launch {
             viewModel.getEvent().onRemoveAdsClick()
             assertEquals(RemoveAdsEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun `on theme click`() = runBlockingTest {
-        launch {
+    fun onThemeClick() = runTest {
+        it.launch {
             viewModel.getEvent().onThemeClick()
             assertEquals(ThemeDialogEffect, viewModel.effect.single())
         }.cancel()
     }
+
 }
