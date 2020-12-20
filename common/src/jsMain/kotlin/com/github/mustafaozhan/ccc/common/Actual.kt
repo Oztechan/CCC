@@ -4,13 +4,13 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.model.CommonPlatformType
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val platformName by lazy { "JS" }
-actual val platformVersion = KotlinVersion.CURRENT.toString()
+actual val commonPlatformType = CommonPlatformType.JS
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 

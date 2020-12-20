@@ -4,11 +4,11 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.model.CommonPlatformType
 import kotlin.coroutines.CoroutineContext
 import org.koin.core.module.Module
 
-expect val platformName: String
-expect val platformVersion: String
+expect val commonPlatformType: CommonPlatformType
 
 expect val platformCoroutineContext: CoroutineContext
 

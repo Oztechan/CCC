@@ -29,7 +29,9 @@ fun Long.isRewardExpired(): Boolean {
     return Clock.System.now().toEpochMilliseconds() - this >= AD_EXPIRATION
 }
 
-fun Instant.formatToString() = toLocalDateTime(TimeZone.currentSystemDefault()).run {
+fun Instant.formatToString(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+) = toLocalDateTime(timeZone).run {
     "$hour:$minute $dayOfMonth.$monthNumber.$year"
 }
 

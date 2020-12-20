@@ -1,49 +1,50 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.extensions
+package com.github.mustafaozhan.ccc.client.extensions
 
+import com.github.mustafaozhan.ccc.client.clientPlatformType
+import com.github.mustafaozhan.ccc.client.model.ClientPlatformType
+import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
+import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
+import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.getConversionByName
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
+import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
 
 @Suppress("TooManyFunctions")
-@RunWith(JUnit4::class)
-class ExtensionTest {
+class ExtensionsTest {
 
     @Test
-    fun `calculate results by base`() {
+    fun calculateResult() {
         val date = "12:34:56 01.01.2020"
         val base = "EUR"
         val target = "USD"
         val rates = Rates(base, date, uSD = 5.0)
 
-        assertEquals(
-            rates.calculateResult(target, "5.0"),
-            25.0,
-            0.001
-        )
+        assertEquals(25.0, rates.calculateResult(target, "5.0"))
     }
 
     @Test
-    fun `get currency conversion by rate`() {
+    fun getCurrencyConversionByRate() {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val base = "EUR"
         val rates = Rates(base, null, uSD = 5.0)
@@ -55,7 +56,7 @@ class ExtensionTest {
     }
 
     @Test
-    fun `remove unused currencies from currency list`() {
+    fun removeUnUsedCurrencies() {
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
             add(Currency(CurrencyType.BYR.toString(), "", ""))
@@ -64,14 +65,11 @@ class ExtensionTest {
             add(Currency(CurrencyType.ZMK.toString(), "", ""))
             add(Currency(CurrencyType.CRYPTO_BTC.toString(), "", ""))
         }
-        assertEquals(
-            mutableListOf<Currency>(),
-            list.removeUnUsedCurrencies()
-        )
+        assertEquals(mutableListOf(), list.removeUnUsedCurrencies())
     }
 
     @Test
-    fun `currency list to valid list`() {
+    fun toValidList() {
         val base = "EUR"
 
         val list: MutableList<Currency> = mutableListOf()
@@ -81,24 +79,26 @@ class ExtensionTest {
             add(Currency(CurrencyType.LTL.toString(), "", "", rate = Double.NaN))
             add(Currency(CurrencyType.LTL.toString(), "", "", rate = 0.0))
         }
-        assertEquals(
-            mutableListOf<Currency>(),
-            list.toValidList(base)
-        )
+        assertEquals(mutableListOf(), list.toValidList(base))
     }
 
     @Test
-    fun `replace unsupported characters`() {
-        assertEquals(",٫ −".toSupportedCharacters(), "..-")
+    fun toSupportedCharacters() {
+        assertEquals("..-", ",٫ −".toSupportedCharacters())
     }
 
     @Test
-    fun `get formatted string from double`() {
-        assertEquals(123456.7890.getFormatted(), "123 456.789")
+    fun getFormatted() {
+        val actualDouble = 123456.7890
+        if (clientPlatformType == ClientPlatformType.ANDROID) {
+            assertEquals("123 456.789", actualDouble.getFormatted())
+        } else {
+            assertEquals(actualDouble.toString(), actualDouble.getFormatted())
+        }
     }
 
     @Test
-    fun `replace localized numbers with numeric ones`() {
+    fun toStandardDigits() {
         // https://en.wikipedia.org/w/index.php?title=Hindu%E2%80%93Arabic_numeral_system
         listOf(
             "०१२३४५६७८९",
@@ -109,7 +109,6 @@ class ExtensionTest {
             "೦೧೨೩೪೫೬೭೮೯",
             "୦୧୨୩୪୫୬୭୮୯",
             "൦൧൨൩൪൫൬൭൮൯",
-            "௦௧௨௩௪௫௬௭௮௯",
             "౦౧౨౩౪౫౬౭౮౯",
             "០១២៣៤៥៦៧៨៩",
             "๐๑๒๓๔๕๖๗๘๙",
@@ -120,12 +119,12 @@ class ExtensionTest {
             "۰۱۲۳۴۵۶۷۸۹",
             "᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"
         ).forEach {
-            assertEquals(it.toStandardDigits(), "0123456789")
+            assertEquals("0123456789", it.toStandardDigits(), "actual string $it")
         }
     }
 
     @Test
-    fun `get property by name`() {
+    fun getConversionByName() {
         val rates = Rates("EUR", "", uSD = 5.0, eUR = 12.2)
 
         assertEquals(rates.eUR, rates.getConversionByName("EUR"))
@@ -133,18 +132,51 @@ class ExtensionTest {
     }
 
     @Test
-    fun `currency response to rate`() {
+    fun currencyResponseToRates() {
         val base = "EUR"
-        val date = SimpleDateFormat(
-            "HH:mm:ss MM.dd.yyyy",
-            Locale.ENGLISH
-        ).format(Date())
+        val rates = Rates(base, "", uSD = 5.0)
+        val currencyResponse = CurrencyResponse(base, "", rates)
+        assertEquals(rates, currencyResponse.toRates())
+    }
 
-        val rates = Rates(base, date, uSD = 5.0)
-        val currencyResponse = CurrencyResponse(base, date, rates)
+    @Test
+    fun toUnit() {
+        assertEquals(Unit, 1.toUnit())
+        assertEquals(Unit, 1.0.toUnit())
+        assertEquals(Unit, "some text".toUnit())
+        assertEquals(Unit, Rates().toUnit())
+        assertEquals(Unit, CurrencyResponse("EUR", "", Rates()).toUnit())
+        assertEquals(Unit, true.toUnit())
+    }
+
+    @Test
+    fun isWeekPassed() {
+        assertEquals(true, (Clock.System.now().toEpochMilliseconds() - 1 - WEEK).isWeekPassed())
+        assertEquals(true, (Clock.System.now().toEpochMilliseconds() - WEEK).isWeekPassed())
+        assertEquals(false, (Clock.System.now().toEpochMilliseconds() + 1 - WEEK).isWeekPassed())
+    }
+
+    @Test
+    fun isRewardExpired() {
         assertEquals(
-            rates,
-            currencyResponse.toRates()
+            true,
+            (Clock.System.now().toEpochMilliseconds() - 1 - AD_EXPIRATION).isRewardExpired()
+        )
+        assertEquals(
+            true,
+            (Clock.System.now().toEpochMilliseconds() - AD_EXPIRATION).isRewardExpired()
+        )
+        assertEquals(
+            false,
+            (Clock.System.now().toEpochMilliseconds() + 1 - AD_EXPIRATION).isRewardExpired()
+        )
+    }
+
+    @Test
+    fun formatToString() {
+        assertEquals(
+            "9:12 20.12.2020",
+            Instant.parse("2020-12-20T09:12:28Z").formatToString(TimeZone.UTC)
         )
     }
 }
