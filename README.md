@@ -4,9 +4,16 @@
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 ## Branches
--   [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) is Kotlin Multi Platform branch currently in progress.
+-   [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) is Kotlin Multi Platform branch.
+    - android, compeletelly moved to KMP
+    - ios, In progress
+    - backend, compeletelly moved to KMP, (In Production)
+    - web, In progress
+    - desktop, In progress
 -   [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) is Android branch which is in market currently.
--   [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) -> is Android branch with min sdk 16 support, current app is min sdk 21.
+    -  In Production
+-   [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) is Android branch with min sdk 16 support, current app is min sdk 21.
+    -  In production for SDK16 - SDK21.
 
 ## Features
 
