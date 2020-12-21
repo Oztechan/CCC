@@ -10,16 +10,16 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import com.github.mustafaozhan.ccc.common.di.getForJvm
+import com.github.mustafaozhan.ccc.common.kermit
 import java.util.prefs.Preferences
-import kotlin.reflect.KClass
-import org.koin.core.Koin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-fun initJVM(delegate: Preferences) = initKoin(
+fun initJVM(delegate: Preferences) = initClient(
     module { single { delegate } }
-)
+).also {
+    kermit.d { "KoinJVM initJVM" }
+}
 
 actual val clientModule: Module = module {
     single { SettingsViewModel(get(), get(), get(), get()) }
@@ -29,5 +29,3 @@ actual val clientModule: Module = module {
     single { CalculatorViewModel(get(), get(), get(), get()) }
     single { BarViewModel(get()) }
 }
-
-fun <T> Koin.getForJVM(clazz: KClass<*>) = getForJvm<T>(clazz)

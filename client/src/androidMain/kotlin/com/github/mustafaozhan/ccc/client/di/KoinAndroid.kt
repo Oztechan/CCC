@@ -12,28 +12,28 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import kotlin.reflect.KClass
+import com.github.mustafaozhan.ccc.common.kermit
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.Koin
+import org.koin.core.KoinApplication
 import org.koin.core.module.Module
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
 
-fun initAndroid(context: Context) = initKoin(
-    module { single { context } }
-)
+fun initAndroid(context: Context): KoinApplication = initClient(
+    module {
+        single<SharedPreferences> {
+            context.getSharedPreferences(
+                KEY_APPLICATION_PREFERENCES,
+                Context.MODE_PRIVATE
+            )
+        }
+    }
+).also {
+    kermit.d { "KoinAndroid initAndroid" }
+}
 
 actual val clientModule: Module = module {
-
-    single<SharedPreferences> {
-        get<Context>().getSharedPreferences(
-            KEY_APPLICATION_PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-    }
-
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { MainViewModel(get()) }
@@ -41,6 +41,3 @@ actual val clientModule: Module = module {
     viewModel { CalculatorViewModel(get(), get(), get(), get()) }
     viewModel { BarViewModel(get()) }
 }
-
-fun <T> Koin.getForAndroid(clazz: KClass<*>): T =
-    get(clazz, null) { parametersOf(clazz.simpleName) } as T

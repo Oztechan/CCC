@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.backend
 
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
-import com.github.mustafaozhan.ccc.common.di.getForJvm
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.http.ContentType
@@ -14,7 +14,7 @@ import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
 
-private val offlineRatesDao: OfflineRatesDao by lazy { app.koin.getForJvm(OfflineRatesDao::class) }
+private val offlineRatesDao: OfflineRatesDao by lazy { app.koin.getDependency(OfflineRatesDao::class) }
 
 // Paths
 private const val PATH_ROOT = "/"
@@ -39,7 +39,7 @@ fun Application.setupRooting() = routing {
 
     get(PATH_BY_BASE) {
         call.parameters[PARAMETER_BASE]?.let { base ->
-            offlineRatesDao.getOfflineCurrencyResponseByBase(base)?.let {
+            offlineRatesDao.getOfflineCurrencyResponseByBase(base).let {
                 call.respond(it)
             }
         }

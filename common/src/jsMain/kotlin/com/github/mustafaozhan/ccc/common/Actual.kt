@@ -21,7 +21,7 @@ actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
 actual val platformCommonModule: Module = module {
     single<Settings> { JsSettings(get()) }
-    TODO("JS SqlDelight is not ready yet.")
+    // todo JS SqlDelight is not ready yet.
 }
 
 actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit): dynamic =
