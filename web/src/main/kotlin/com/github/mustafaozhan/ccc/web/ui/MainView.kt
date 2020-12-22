@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.web.ui
 
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
 import react.RProps

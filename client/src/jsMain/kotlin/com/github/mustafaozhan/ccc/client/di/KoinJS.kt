@@ -10,7 +10,7 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.w3c.dom.Storage

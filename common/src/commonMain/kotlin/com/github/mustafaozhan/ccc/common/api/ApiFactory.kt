@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_API
 import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
 import io.ktor.client.HttpClient

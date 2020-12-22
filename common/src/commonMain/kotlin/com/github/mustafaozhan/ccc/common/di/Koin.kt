@@ -4,6 +4,7 @@
 
 package com.github.mustafaozhan.ccc.common.di
 
+import co.touchlab.kermit.Kermit
 import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
@@ -12,8 +13,9 @@ import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.getPlatformCommonModule
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.logmob.LogMobLogger
 import kotlin.reflect.KClass
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
@@ -33,10 +35,12 @@ fun initCommon(
         getCommonModule(useFakes)
     )
 }.also {
+    kermit = it.koin.getDependency(Kermit::class)
     kermit.d { "Koin initCommon" }
 }
 
 fun getCommonModule(useFakes: Boolean): Module = module {
+    single { Kermit(LogMobLogger()) }
     single { SettingsRepository(get()) }
 
     factory { ApiFactory() }

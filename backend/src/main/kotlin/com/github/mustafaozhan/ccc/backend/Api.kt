@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.backend
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

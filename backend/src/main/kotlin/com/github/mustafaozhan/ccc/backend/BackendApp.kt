@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.backend
 
 import com.github.mustafaozhan.ccc.common.di.initCommon
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.serialization.json

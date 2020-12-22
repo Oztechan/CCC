@@ -39,7 +39,7 @@ fun Application.setupRooting() = routing {
 
     get(PATH_BY_BASE) {
         call.parameters[PARAMETER_BASE]?.let { base ->
-            offlineRatesDao.getOfflineCurrencyResponseByBase(base).let {
+            offlineRatesDao.getOfflineCurrencyResponseByBase(base)?.let {
                 call.respond(it)
             }
         }

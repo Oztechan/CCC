@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.common.di.initCommon
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.log.kermit
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 
