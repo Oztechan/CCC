@@ -22,6 +22,7 @@ private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
 
 fun initAndroid(context: Context): KoinApplication = initClient(
     module {
+        single { context }
         single<SharedPreferences> {
             context.getSharedPreferences(
                 KEY_APPLICATION_PREFERENCES,

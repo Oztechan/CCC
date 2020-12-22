@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.client.base
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 
@@ -13,9 +13,7 @@ import kotlinx.coroutines.cancelChildren
 actual open class BaseViewModel actual constructor() {
 
     private val viewModelJob = SupervisorJob()
-    private val viewModelScope: CoroutineScope = CoroutineScope(
-        Dispatchers.Main.immediate + viewModelJob
-    )
+    private val viewModelScope: CoroutineScope = GlobalScope
 
     protected actual val clientScope: CoroutineScope = viewModelScope
 

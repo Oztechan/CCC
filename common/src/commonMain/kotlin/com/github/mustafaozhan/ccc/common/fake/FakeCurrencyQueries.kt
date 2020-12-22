@@ -10,68 +10,104 @@ import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
 
-@Suppress("TooManyFunctions", "StringLiteralDuplication")
+@Suppress("TooManyFunctions", "UNCHECKED_CAST")
 object FakeCurrencyQueries : CurrencyQueries {
+
+    private val fakeCurrency = Currency("EUR", "Euro", "sad", 0.0, 0.toLong())
 
     fun getCurrencyQueries(): CurrencyQueries = this
 
-    override fun transaction(noEnclosing: Boolean, body: TransactionWithoutReturn.() -> Unit) {
-        TODO("Not yet implemented")
-    }
+    override fun transaction(noEnclosing: Boolean, body: TransactionWithoutReturn.() -> Unit) = Unit
 
     override fun <R> transactionWithResult(
         noEnclosing: Boolean,
         bodyWithReturn: TransactionWithReturn<R>.() -> R
     ): R {
-        TODO("Not yet implemented")
+        TODO("Fake method Not yet implemented")
     }
 
     override fun <T : Any> collectAllCurrencies(
         mapper: (name: String, longName: String, symbol: String, rate: Double, isActive: Long) -> T
-    ): Query<T> {
-        TODO("Not yet implemented")
-    }
+    ) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
+    } as Query<T>
 
-    override fun collectAllCurrencies(): Query<Currency> {
-        TODO("Not yet implemented")
+    override fun collectAllCurrencies(): Query<Currency> = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
     }
 
     override fun <T : Any> collectActiveCurrencies(
         mapper: (name: String, longName: String, symbol: String, rate: Double, isActive: Long) -> T
-    ): Query<T> {
-        TODO("Not yet implemented")
-    }
+    ) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
+    } as Query<T>
 
-    override fun collectActiveCurrencies(): Query<Currency> {
-        TODO("Not yet implemented")
+    override fun collectActiveCurrencies() = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
     }
 
     override fun <T : Any> getActiveCurrencies(
         mapper: (name: String, longName: String, symbol: String, rate: Double, isActive: Long) -> T
-    ): Query<T> {
-        TODO("Not yet implemented")
-    }
+    ) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
+    } as Query<T>
 
-    override fun getActiveCurrencies(): Query<Currency> {
-        TODO("Not yet implemented")
+    override fun getActiveCurrencies(): Query<Currency> = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
     }
 
     override fun <T : Any> getCurrencyByName(
         name: String,
         mapper: (name: String, longName: String, symbol: String, rate: Double, isActive: Long) -> T
-    ): Query<T> {
-        TODO("Not yet implemented")
+    ) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
+    } as Query<T>
+
+    override fun getCurrencyByName(name: String) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeCurrency
     }
 
-    override fun getCurrencyByName(name: String): Query<Currency> {
-        TODO("Not yet implemented")
-    }
+    override fun updateCurrencyStateByName(isActive: Long, name: String) = Unit
 
-    override fun updateCurrencyStateByName(isActive: Long, name: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateAllCurrencyState(isActive: Long) {
-        TODO("Not yet implemented")
-    }
+    override fun updateAllCurrencyState(isActive: Long) = Unit
 }

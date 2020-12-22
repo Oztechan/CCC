@@ -10,20 +10,40 @@ import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
 
-@Suppress("StringLiteralDuplication")
+@Suppress("StringLiteralDuplication", "UNCHECKED_CAST")
 object FakeOfflineRatesQueries : OfflineRatesQueries {
+
+    private val fakeOfflineRates = Offline_rates(
+        "EUR", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+    )
 
     fun getOfflineRatesQueries(): OfflineRatesQueries = this
 
-    override fun transaction(noEnclosing: Boolean, body: TransactionWithoutReturn.() -> Unit) {
-        TODO("Not yet implemented")
-    }
+    override fun transaction(noEnclosing: Boolean, body: TransactionWithoutReturn.() -> Unit) = Unit
 
     override fun <R> transactionWithResult(
         noEnclosing: Boolean,
         bodyWithReturn: TransactionWithReturn<R>.() -> R
     ): R {
-        TODO("Not yet implemented")
+        TODO("Fake method Not yet implemented")
     }
 
     override fun <T : Any> getOfflineRatesByBase(
@@ -201,12 +221,22 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             ZMW: Double?,
             ZWL: Double?
         ) -> T
-    ): Query<T> {
-        TODO("Not yet implemented")
-    }
+    ) = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeOfflineRates
+    } as Query<T>
 
-    override fun getOfflineRatesByBase(base: String): Query<Offline_rates> {
-        TODO("Not yet implemented")
+    override fun getOfflineRatesByBase(base: String): Query<Offline_rates> = Query(
+        -1,
+        mutableListOf(),
+        FakeDriver.getDriver(),
+        "query"
+    ) {
+        fakeOfflineRates
     }
 
     override fun insertOfflineRates(
@@ -381,7 +411,5 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         ZMK: Double?,
         ZMW: Double?,
         ZWL: Double?
-    ) {
-        TODO("Not yet implemented")
-    }
+    ) = Unit
 }

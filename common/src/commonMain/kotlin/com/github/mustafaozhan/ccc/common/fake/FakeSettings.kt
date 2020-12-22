@@ -12,9 +12,10 @@ object FakeSettings : Settings {
     fun getSettings() = this as Settings
 
     override val keys: Set<String>
-        get() = TODO("Not yet implemented")
+        get() = TODO("Fake method Not yet implemented")
+
     override val size: Int
-        get() = TODO("Not yet implemented")
+        get() = TODO("Fake method Not yet implemented")
 
     override fun clear() = Unit
 
