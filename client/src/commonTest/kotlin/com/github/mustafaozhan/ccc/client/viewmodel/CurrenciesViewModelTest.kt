@@ -3,29 +3,23 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
-import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class CurrenciesViewModelTest {
+class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
-    private lateinit var viewModel: CurrenciesViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = CurrenciesViewModel(
-            FakeSettingsRepository.getSettingsRepository(),
-            FakeCurrencyDao.getCurrencyDao()
-        )
+    override val viewModel: CurrenciesViewModel by lazy {
+        koin.getDependency(CalculatorViewModel::class)
     }
 
     @Test

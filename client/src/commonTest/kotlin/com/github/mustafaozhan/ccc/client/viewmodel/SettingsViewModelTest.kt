@@ -3,10 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.fake.FakeApiRepository
-import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
-import com.github.mustafaozhan.ccc.client.fake.FakeOfflineRatesDao
-import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
@@ -20,8 +17,8 @@ import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
@@ -30,18 +27,10 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest {
+class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
-    private lateinit var viewModel: SettingsViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = SettingsViewModel(
-            FakeSettingsRepository.getSettingsRepository(),
-            FakeApiRepository.getApiRepository(),
-            FakeCurrencyDao.getCurrencyDao(),
-            FakeOfflineRatesDao.getOfflineRatesDao()
-        )
+    override val viewModel: SettingsViewModel by lazy {
+        koin.getDependency(SettingsViewModel::class)
     }
 
     @Test

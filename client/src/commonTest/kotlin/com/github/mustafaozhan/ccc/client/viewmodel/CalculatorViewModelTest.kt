@@ -3,10 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.fake.FakeApiRepository
-import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
-import com.github.mustafaozhan.ccc.client.fake.FakeOfflineRatesDao
-import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
@@ -14,26 +11,18 @@ import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class CalculatorViewModelTest {
+class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
-    private lateinit var viewModel: CalculatorViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = CalculatorViewModel(
-            FakeSettingsRepository.getSettingsRepository(),
-            FakeApiRepository.getApiRepository(),
-            FakeCurrencyDao.getCurrencyDao(),
-            FakeOfflineRatesDao.getOfflineRatesDao()
-        )
+    override val viewModel: CalculatorViewModel by lazy {
+        koin.getDependency(CalculatorViewModel::class)
     }
 
     // Event
