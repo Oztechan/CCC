@@ -3,25 +3,23 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlin.test.BeforeTest
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class BarViewModelTest {
+class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
 
-    private lateinit var viewModel: BarViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = BarViewModel(FakeCurrencyDao.getCurrencyDao())
+    override val viewModel: BarViewModel by lazy {
+        koin.getDependency(SettingsRepository::class)
     }
 
     @Test

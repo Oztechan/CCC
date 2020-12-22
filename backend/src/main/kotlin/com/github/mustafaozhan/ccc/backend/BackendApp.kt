@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.backend
 
-import com.github.mustafaozhan.ccc.common.di.initKoin
-import com.github.mustafaozhan.ccc.common.kermit
+import com.github.mustafaozhan.ccc.common.di.initCommon
+import com.github.mustafaozhan.ccc.common.log.kermit
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.serialization.json
@@ -16,7 +16,7 @@ import io.ktor.server.netty.Netty
 private const val PORT = 8080
 private const val HOST = "127.0.0.1"
 
-val app = initKoin()
+val app = initCommon()
 
 fun main() {
     embeddedServer(
@@ -34,6 +34,5 @@ fun main() {
         checkApi()
 
         setupRooting()
-
     }.start(wait = true)
 }

@@ -3,29 +3,23 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.fake.FakeCurrencyDao
-import com.github.mustafaozhan.ccc.client.fake.FakeSettingsRepository
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class CurrenciesViewModelTest {
+class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
-    private lateinit var viewModel: CurrenciesViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = CurrenciesViewModel(
-            FakeSettingsRepository.getSettingsRepository(),
-            FakeCurrencyDao.getCurrencyDao()
-        )
+    override val viewModel: CurrenciesViewModel by lazy {
+        koin.getDependency(CurrenciesViewModel::class)
     }
 
     @Test
@@ -39,16 +33,16 @@ class CurrenciesViewModelTest {
         }
 
         viewModel.filterList("USD")
-        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
+        assertTrue(viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("Euro")
-        assertEquals(true, viewModel.state.currencyList.value.contains(euro))
+        assertTrue(viewModel.state.currencyList.value.contains(euro))
 
         viewModel.filterList("$")
-        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
+        assertTrue(viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("asdasd")
-        assertEquals(true, viewModel.state.currencyList.value.isEmpty())
+        assertTrue(viewModel.state.currencyList.value.isEmpty())
 
         viewModel.filterList("o")
         assertEquals(2, viewModel.state.currencyList.value.size)

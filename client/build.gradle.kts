@@ -32,6 +32,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
@@ -45,7 +47,6 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(multiplatformSettings)
                     implementation(dateTime)
                     implementation(coroutines)
                     implementation(koinCore)
@@ -89,6 +90,15 @@ kotlin {
             val jsTest by getting {
                 dependencies {
                     implementation(kotlin(test))
+                }
+            }
+        }
+
+        with(Dependencies.JVM) {
+            val jvmMain by getting
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin(testJUnit))
                 }
             }
         }

@@ -44,6 +44,9 @@ kotlin {
                 dependencies {
                     implementation(project(Modules.logmob))
 
+                    implementation(multiplatformSettings)
+                    implementation(dateTime)
+
                     implementation(koinCore)
                     implementation(kermit)
 
@@ -52,6 +55,12 @@ kotlin {
 
                     implementation(sqldelightRuntime)
                     implementation(sqldelightCoroutineExtensions)
+                }
+            }
+            val commonTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
+                    implementation(kotlin(testAnnotations))
                 }
             }
         }
@@ -63,6 +72,11 @@ kotlin {
                     implementation(ktor)
                 }
             }
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin(Dependencies.JVM.testJUnit))
+                }
+            }
         }
 
         with(Dependencies.IOS) {
@@ -72,6 +86,7 @@ kotlin {
                     implementation(sqlliteDriver)
                 }
             }
+            val iosTest by getting
         }
 
         with(Dependencies.JVM) {
@@ -81,12 +96,22 @@ kotlin {
                     implementation(sqlliteDriver)
                 }
             }
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin(testJUnit))
+                }
+            }
         }
 
         with(Dependencies.JS) {
             val jsMain by getting {
                 dependencies {
                     implementation(ktor)
+                }
+            }
+            val jsTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
                 }
             }
         }

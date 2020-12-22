@@ -15,7 +15,7 @@ struct MainView: View {
 
     init(settingsRepository: SettingsRepository) {
         self.settingsRepository = settingsRepository
-        CommonKt.kermit.d(withMessage: {"MainView"})
+        LoggerKt.kermit.d(withMessage: {"MainView"})
     }
 
     var body: some View {
