@@ -10,7 +10,7 @@ import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
 
-@Suppress("TooManyFunctions", "UNCHECKED_CAST")
+@Suppress("TooManyFunctions", "StringLiteralDuplication", "UNCHECKED_CAST")
 object FakeCurrencyQueries : CurrencyQueries {
 
     private val fakeCurrency = Currency("EUR", "Euro", "sad", 0.0, 0.toLong())

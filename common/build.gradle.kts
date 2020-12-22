@@ -57,6 +57,12 @@ kotlin {
                     implementation(sqldelightCoroutineExtensions)
                 }
             }
+            val commonTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
+                    implementation(kotlin(testAnnotations))
+                }
+            }
         }
 
         with(Dependencies.Android) {
@@ -64,6 +70,11 @@ kotlin {
                 dependencies {
                     implementation(sqlliteDriver)
                     implementation(ktor)
+                }
+            }
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin(Dependencies.JVM.testJUnit))
                 }
             }
         }
@@ -75,6 +86,7 @@ kotlin {
                     implementation(sqlliteDriver)
                 }
             }
+            val iosTest by getting
         }
 
         with(Dependencies.JVM) {
@@ -84,12 +96,22 @@ kotlin {
                     implementation(sqlliteDriver)
                 }
             }
+            val jvmTest by getting {
+                dependencies {
+                    implementation(kotlin(testJUnit))
+                }
+            }
         }
 
         with(Dependencies.JS) {
             val jsMain by getting {
                 dependencies {
                     implementation(ktor)
+                }
+            }
+            val jsTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
                 }
             }
         }

@@ -12,6 +12,7 @@ import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
@@ -32,16 +33,16 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         }
 
         viewModel.filterList("USD")
-        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
+        assertTrue(viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("Euro")
-        assertEquals(true, viewModel.state.currencyList.value.contains(euro))
+        assertTrue(viewModel.state.currencyList.value.contains(euro))
 
         viewModel.filterList("$")
-        assertEquals(true, viewModel.state.currencyList.value.contains(dollar))
+        assertTrue(viewModel.state.currencyList.value.contains(dollar))
 
         viewModel.filterList("asdasd")
-        assertEquals(true, viewModel.state.currencyList.value.isEmpty())
+        assertTrue(viewModel.state.currencyList.value.isEmpty())
 
         viewModel.filterList("o")
         assertEquals(2, viewModel.state.currencyList.value.size)
