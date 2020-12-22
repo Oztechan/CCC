@@ -9,8 +9,8 @@ import com.github.mustafaozhan.ccc.common.kermit
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 
-fun initClient(appModule: Module): KoinApplication = initCommon(
-    appModule.plus(clientModule)
+fun initClient(appModule: Module, useFakes: Boolean = false): KoinApplication = initCommon(
+    appModule.plus(clientModule), useFakes
 ).also {
     kermit.d { "Koin initClient" }
 }

@@ -9,8 +9,10 @@ import com.github.mustafaozhan.ccc.common.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
+import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.getPlatformCommonModule
 import com.github.mustafaozhan.ccc.common.kermit
-import com.github.mustafaozhan.ccc.common.platformCommonModule
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlin.reflect.KClass
 import org.koin.core.Koin
@@ -21,21 +23,33 @@ import org.koin.dsl.module
 
 const val DATABASE_NAME = "application_database.sqlite"
 
-fun initCommon(clientModule: List<Module> = emptyList()) = startKoin {
+fun initCommon(
+    clientModule: List<Module> = emptyList(),
+    useFakes: Boolean = false
+) = startKoin {
     modules(clientModule)
-    modules(platformCommonModule, commonModule)
+    modules(
+        getPlatformCommonModule(useFakes),
+        getCommonModule(useFakes)
+    )
 }.also {
     kermit.d { "Koin initCommon" }
 }
 
-var commonModule: Module = module {
+fun getCommonModule(useFakes: Boolean): Module = module {
     single { SettingsRepository(get()) }
 
     factory { ApiFactory() }
     single { ApiRepository(get()) }
 
-    single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
-    single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
+    if (useFakes) {
+        single { FakeCurrencyQueries.getCurrencyQueries() }
+        single { FakeOfflineRatesQueries.getOfflineRatesQueries() }
+    } else {
+        single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
+        single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
+    }
+
     single { CurrencyDao(get()) }
     single { OfflineRatesDao(get()) }
 }

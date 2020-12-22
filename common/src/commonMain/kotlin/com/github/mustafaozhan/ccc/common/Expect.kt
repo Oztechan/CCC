@@ -13,6 +13,6 @@ expect val platform: PlatformType
 
 expect val platformCoroutineContext: CoroutineContext
 
-expect val platformCommonModule: Module
+expect fun getPlatformCommonModule(useFakes: Boolean): Module
 
 expect fun runTest(block: suspend (scope: CoroutineScope) -> Unit)
