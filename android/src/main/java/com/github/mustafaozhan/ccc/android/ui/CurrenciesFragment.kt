@@ -27,7 +27,7 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesEvent
-import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesUseCase
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.common.model.Currency
@@ -44,7 +44,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         internal const val SPAN_LANDSCAPE = 3
     }
 
-    private val currenciesViewModel: CurrenciesViewModel by viewModel()
+    private val currenciesViewModel: CurrenciesUseCase by viewModel()
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 

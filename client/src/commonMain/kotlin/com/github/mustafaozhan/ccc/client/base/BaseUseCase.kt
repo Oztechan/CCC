@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.client.base
 
 import kotlinx.coroutines.CoroutineScope
 
-@Suppress("EmptyDefaultConstructor")
-expect open class BaseViewModel() {
-    protected val clientScope: CoroutineScope
-    protected open fun onCleared()
+abstract class BaseUseCase {
+    lateinit var clientScope: CoroutineScope
+
+    abstract fun onDestroy()
 }

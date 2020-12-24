@@ -10,9 +10,9 @@ import org.koin.core.Koin
 import org.koin.core.context.KoinContextHandler
 import org.koin.dsl.module
 
-abstract class BaseViewModelTest<ViewModelType> {
+abstract class BaseUseCaseTest<UseCaseType> {
     protected lateinit var koin: Koin
-    protected abstract val viewModel: ViewModelType
+    protected abstract val useCase: UseCaseType
 
     @BeforeTest
     fun setup() {

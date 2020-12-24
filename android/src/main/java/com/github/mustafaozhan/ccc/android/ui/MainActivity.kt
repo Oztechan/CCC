@@ -10,7 +10,7 @@ import androidx.lifecycle.coroutineScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
-import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
+import com.github.mustafaozhan.ccc.client.ui.main.MainUseCase
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -31,7 +31,7 @@ open class MainActivity : BaseActivity() {
         private const val AD_PERIOD: Long = 180000
     }
 
-    private val mainViewModel: MainViewModel by viewModel()
+    private val mainViewModel: MainUseCase by viewModel()
 
     private lateinit var interstitialAd: InterstitialAd
     private lateinit var adJob: Job

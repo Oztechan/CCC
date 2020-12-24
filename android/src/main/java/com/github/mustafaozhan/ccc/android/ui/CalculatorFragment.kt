@@ -23,7 +23,7 @@ import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase
 import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.MaximumInputEffect
@@ -44,7 +44,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
-    private val calculatorViewModel: CalculatorViewModel by viewModel()
+    private val calculatorViewModel: CalculatorUseCase by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
 

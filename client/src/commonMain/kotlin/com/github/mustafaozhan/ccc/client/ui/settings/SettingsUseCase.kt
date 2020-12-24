@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.settings
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseUseCase
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
@@ -25,12 +25,12 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
-class SettingsViewModel(
+class SettingsUseCase(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), SettingsEvent {
+) : BaseUseCase(), SettingsEvent {
 
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
@@ -83,6 +83,10 @@ class SettingsViewModel(
     fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
 
     fun getAppTheme() = settingsRepository.appTheme
+
+    override fun onDestroy() {
+        TODO("Not yet implemented")
+    }
 
     // region Event
     override fun onBackClick() = clientScope.launch {
