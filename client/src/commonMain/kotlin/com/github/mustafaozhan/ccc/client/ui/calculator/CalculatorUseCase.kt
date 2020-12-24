@@ -173,10 +173,6 @@ class CalculatorUseCase(
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
-
     // region Event
     override fun onKeyPress(key: String) {
         when (key) {

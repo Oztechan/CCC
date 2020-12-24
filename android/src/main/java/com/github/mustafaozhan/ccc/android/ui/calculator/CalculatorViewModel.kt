@@ -4,18 +4,14 @@
 
 package com.github.mustafaozhan.ccc.android.ui.calculator
 
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase
 
 class CalculatorViewModel(
     val useCase: CalculatorUseCase
-) : BaseViewModel() {
-    override fun onStart() {
-        useCase.scope = viewModelScope
-    }
-
-    override fun onDestroy() {
+) : ViewModel() {
+    override fun onCleared() {
         useCase.onDestroy()
+        super.onCleared()
     }
 }

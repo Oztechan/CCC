@@ -4,18 +4,14 @@
 
 package com.github.mustafaozhan.ccc.android.ui.bar
 
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.BarUseCase
 
 class BarViewModel(
     val useCase: BarUseCase
-) : BaseViewModel() {
-    override fun onStart() {
-        useCase.scope = viewModelScope
-    }
-
-    override fun onDestroy() {
+) : ViewModel() {
+    override fun onCleared() {
         useCase.onDestroy()
+        super.onCleared()
     }
 }

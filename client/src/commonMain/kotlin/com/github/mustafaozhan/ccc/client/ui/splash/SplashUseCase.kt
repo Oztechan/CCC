@@ -12,8 +12,4 @@ class SplashUseCase(private val settingsRepository: SettingsRepository) : BaseUs
     fun getAppTheme() = settingsRepository.appTheme
 
     fun isFirstRun() = settingsRepository.firstRun
-
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
 }

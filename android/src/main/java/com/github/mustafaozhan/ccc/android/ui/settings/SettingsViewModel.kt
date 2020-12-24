@@ -4,18 +4,14 @@
 
 package com.github.mustafaozhan.ccc.android.ui.settings
 
-import androidx.lifecycle.viewModelScope
-import com.github.mustafaozhan.ccc.android.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsUseCase
 
 class SettingsViewModel(
     val useCase: SettingsUseCase
-) : BaseViewModel() {
-    override fun onStart() {
-        useCase.scope = viewModelScope
-    }
-
-    override fun onDestroy() {
+) : ViewModel() {
+    override fun onCleared() {
         useCase.onDestroy()
+        super.onCleared()
     }
 }

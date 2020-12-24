@@ -22,8 +22,4 @@ class MainUseCase(private val settingsRepository: SettingsRepository) : BaseUseC
     fun getAppTheme() = settingsRepository.appTheme
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
-
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
 }

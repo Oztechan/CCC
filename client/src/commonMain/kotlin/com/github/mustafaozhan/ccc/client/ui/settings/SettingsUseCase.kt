@@ -84,10 +84,6 @@ class SettingsUseCase(
 
     fun getAppTheme() = settingsRepository.appTheme
 
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
-
     // region Event
     override fun onBackClick() = scope.launch {
         _effect.send(BackEffect)
