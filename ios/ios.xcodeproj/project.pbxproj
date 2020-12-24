@@ -11,6 +11,8 @@
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
+		5C621654259539AD00B8C8B2 /* CalculatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C621653259539AD00B8C8B2 /* CalculatorViewModel.swift */; };
+		5C62165725953CEF00B8C8B2 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C62165625953CEF00B8C8B2 /* BaseViewModel.swift */; };
 		5CE3B52425642FE500B9AA2D /* common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5CE3B5252564302700B9AA2D /* common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
@@ -39,6 +41,8 @@
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
+		5C621653259539AD00B8C8B2 /* CalculatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewModel.swift; sourceTree = "<group>"; };
+		5C62165625953CEF00B8C8B2 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		5CE3B52325642FE500B9AA2D /* common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = common.framework; path = "../common/build/xcode-frameworks/common.framework"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
+				5C621653259539AD00B8C8B2 /* CalculatorViewModel.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -99,6 +104,14 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		5C62165525953CDD00B8C8B2 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				5C62165625953CEF00B8C8B2 /* BaseViewModel.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -121,6 +134,7 @@
 		7555FF7D242A565900829871 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				5C62165525953CDD00B8C8B2 /* Base */,
 				5C5D09312562EB8700DA9C4A /* App */,
 				5C5D09342562EBCA00DA9C4A /* DI */,
 				5C5D093A2562EC1300DA9C4A /* UI */,
@@ -244,6 +258,8 @@
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* CCCApp.swift in Sources */,
+				5C621654259539AD00B8C8B2 /* CalculatorViewModel.swift in Sources */,
+				5C62165725953CEF00B8C8B2 /* BaseViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

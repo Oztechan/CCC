@@ -35,7 +35,7 @@ extension EnvironmentValues {
 
 // swiftlint:disable force_cast
 extension Koin {
-    func getCalculatorViewModel() -> CalculatorViewModel {
-        return koin.getForIOS(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+    func getCalculatorUseCase() -> CalculatorUseCase {
+        return koin.getForIOS(objCClass: CalculatorUseCase.self) as! CalculatorUseCase
     }
 }

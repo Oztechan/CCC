@@ -11,20 +11,31 @@ import client
 import common
 
 struct CalculatorView: View {
-
-    var calculatorViewModel: CalculatorViewModel
-
+    
+    @ObservedObject var vm: CalculatorViewModel
+    
+    init(vm: CalculatorViewModel) {
+        self.vm = vm
+    }
+    
     var body: some View {
+        Text("test")
+            .onAppear {
+                self.vm.startObserving()
+            }.onDisappear {
+                self.vm.stopObserving()
+            }
     }
 }
 
 #if DEBUG
 struct MainViewPreviews: PreviewProvider {
     @Environment(\.koin) static var koin: Koin
-
+    
     static var previews: some View {
-        CalculatorView(calculatorViewModel: koin.getCalculatorViewModel())
-            .makeForPreviewProvider()
+        CalculatorView(
+            vm: CalculatorViewModel(useCase: koin.getCalculatorUseCase())
+        ).makeForPreviewProvider()
     }
 }
 #endif
