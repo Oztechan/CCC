@@ -12,17 +12,21 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.common.nsUserDefaults
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
 import org.koin.core.module.Module
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 fun initIOS(userDefaults: NSUserDefaults) = initClient(
-    module { single { userDefaults } }
+    module {
+        // todo koin doesn't support to have it as single then use with get() for Objective-C classes
+        nsUserDefaults = userDefaults
+    }
 ).also {
     kermit.d { "KoinIOS initIOS" }
 }
@@ -36,7 +40,6 @@ actual val clientModule: Module = module {
     single { BarViewModel(get()) }
 }
 
-fun Koin.getForIOS(objCClass: ObjCClass): Any {
-    val kClazz = getOriginalKotlinClass(objCClass)!!
-    return get(kClazz, null) { parametersOf(objCClass::class.simpleName) }
+fun <T> Koin.getForIOS(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
+    getDependency(it)
 }
