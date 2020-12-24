@@ -15,6 +15,7 @@ struct CalculatorView: View {
     var calculatorViewModel: CalculatorViewModel
 
     var body: some View {
+        KeyboardView(keyPressEvent: { key in calculatorViewModel.onKeyPress(key: key) })
     }
 }
 

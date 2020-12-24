@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C3CD1A82594F7B100419205 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3CD1A72594F7B100419205 /* KeyboardView.swift */; };
 		5C5D09332562EB9E00DA9C4A /* CCCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* CCCApp.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C3CD1A72594F7B100419205 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* CCCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCCApp.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
+				5C3CD1A72594F7B100419205 /* KeyboardView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
+				5C3CD1A82594F7B100419205 /* KeyboardView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* CCCApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
