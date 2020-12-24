@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.client.base
 import kotlinx.coroutines.CoroutineScope
 
 abstract class BaseUseCase {
-    lateinit var clientScope: CoroutineScope
+    lateinit var scope: CoroutineScope
 
     abstract fun onDestroy()
 }

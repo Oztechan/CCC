@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.main
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,6 @@ import androidx.lifecycle.coroutineScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
-import com.github.mustafaozhan.ccc.client.ui.main.MainUseCase
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -31,7 +30,7 @@ open class MainActivity : BaseActivity() {
         private const val AD_PERIOD: Long = 180000
     }
 
-    private val mainViewModel: MainUseCase by viewModel()
+    private val vm: MainViewModel by viewModel()
 
     private lateinit var interstitialAd: InterstitialAd
     private lateinit var adJob: Job
@@ -40,7 +39,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
+        AppCompatDelegate.setDefaultNightMode(vm.useCase.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
         checkReview()
@@ -48,7 +47,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun checkDestination() = with(getNavigationController()) {
-        if (mainViewModel.isFistRun()) {
+        if (vm.useCase.isFistRun()) {
             graph = navInflater.inflate(R.navigation.main_graph)
                 .apply {
                     startDestination = R.id.currenciesFragment
@@ -72,7 +71,7 @@ open class MainActivity : BaseActivity() {
                 interstitialAd.whether(
                     { isLoaded },
                     { adVisibility },
-                    { mainViewModel.isRewardExpired() }
+                    { vm.useCase.isRewardExpired() }
                 )?.apply { show() }
                     ?: prepareInterstitialAd()
                 delay(AD_PERIOD)
@@ -86,7 +85,7 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun checkReview() {
-        if (mainViewModel.shouldShowReview()) {
+        if (vm.useCase.shouldShowReview()) {
             lifecycle.coroutineScope.launch {
                 delay(REVIEW_DELAY)
 
@@ -94,7 +93,7 @@ open class MainActivity : BaseActivity() {
                     requestReviewFlow().addOnCompleteListener { request ->
                         if (request.isSuccessful) {
                             launchReviewFlow(this@MainActivity, request.result)
-                            mainViewModel.setLastReview()
+                            vm.useCase.setLastReview()
                         }
                     }
                 }

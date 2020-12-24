@@ -1,17 +1,13 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.calculator
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
@@ -22,8 +18,6 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase
 import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.MaximumInputEffect
@@ -31,20 +25,15 @@ import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ccc.client.util.getFormatted
-import com.github.mustafaozhan.ccc.client.util.toStandardDigits
-import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
-    private val calculatorViewModel: CalculatorUseCase by viewModel()
+    private val vm: CalculatorViewModel by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
 
@@ -62,15 +51,15 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.getEvent())
+        calculatorAdapter = CalculatorAdapter(vm.useCase.getEvent())
         recyclerViewMain.adapter = calculatorAdapter
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = with(calculatorViewModel.state) {
+    private fun observeStates() = with(vm.useCase.state) {
         lifecycleScope.launchWhenStarted {
             currencyList.collect {
-                calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
+                calculatorAdapter.submitList(it, vm.useCase.getCurrentBase())
             }
         }
         lifecycleScope.launchWhenStarted {
@@ -109,7 +98,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
-        calculatorViewModel.effect.collect { viewEffect ->
+        vm.useCase.effect.collect { viewEffect ->
             when (viewEffect) {
                 ErrorEffect -> Toast.show(requireContext(), R.string.error_text_unknown)
                 FewCurrencyEffect -> showSnack(
@@ -141,7 +130,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        with(calculatorViewModel.getEvent()) {
+        with(vm.useCase.getEvent()) {
             btnSettings.setOnClickListener { onSettingsClicked() }
             layoutBar.root.setOnClickListener { onBarClick() }
 
@@ -173,63 +162,20 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun Button.setKeyboardListener() {
         setOnClickListener {
-            calculatorViewModel.onKeyPress(text.toString())
+            vm.useCase.onKeyPress(text.toString())
         }
     }
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
         ?.reObserve(viewLifecycleOwner, {
-            calculatorViewModel.verifyCurrentBase(it)
+            vm.useCase.verifyCurrentBase(it)
         })
 
     override fun onResume() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.isRewardExpired()
+            vm.useCase.isRewardExpired()
         )
-    }
-}
-
-class CalculatorAdapter(
-    private val calculatorEvent: CalculatorEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ) = CalculatorVBViewHolder(
-        ItemCalculatorBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    fun submitList(list: MutableList<Currency>?, currentBase: String) =
-        submitList(list.toValidList(currentBase))
-
-    inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
-        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
-
-        override fun onItemBind(item: Currency) = with(itemBinding) {
-            txtAmount.text = item.rate.getFormatted().toStandardDigits()
-            txtSymbol.text = item.symbol
-            txtType.text = item.name
-            imgItem.setBackgroundByName(item.name)
-            root.setOnClickListener {
-                calculatorEvent.onItemClick(
-                    item,
-                    item.rate.getFormatted().toStandardDigits()
-                )
-            }
-            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
-        }
-    }
-
-    class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
-
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }

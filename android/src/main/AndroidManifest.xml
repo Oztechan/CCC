@@ -20,7 +20,7 @@
         tools:ignore="AllowBackup"
         tools:targetApi="m">
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.SplashActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme"
             tools:ignore="AllowBackup">
@@ -33,11 +33,11 @@
         </activity>
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.MainActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.main.MainActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.SliderActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.slider.SliderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

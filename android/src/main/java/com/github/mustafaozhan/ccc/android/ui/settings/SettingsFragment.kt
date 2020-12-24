@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -25,7 +25,6 @@ import com.github.mustafaozhan.ccc.client.ui.settings.FeedBackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.OnGitHubEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.OnlyOneTimeSyncEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.RemoveAdsEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.SettingsUseCase
 import com.github.mustafaozhan.ccc.client.ui.settings.ShareEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.SynchronisedEffect
@@ -50,7 +49,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         private const val TEXT_TYPE = "text/plain"
     }
 
-    private val settingsUseCase: SettingsUseCase by viewModel()
+    private val vm: SettingsViewModel by viewModel()
 
     private lateinit var rewardedAd: RewardedAd
 
@@ -111,7 +110,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = with(settingsUseCase.state) {
+    private fun observeStates() = with(vm.useCase.state) {
         lifecycleScope.launchWhenStarted {
             activeCurrencyCount.collect {
                 binding.itemCurrencies.settingsItemValue.text = requireContext().resources
@@ -128,8 +127,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         lifecycleScope.launchWhenStarted {
             addFreeDate.collect {
                 binding.itemDisableAds.settingsItemValue.text =
-                    if (settingsUseCase.getAdFreeActivatedDate() == 0.toLong()) "" else {
-                        if (settingsUseCase.isRewardExpired()) {
+                    if (vm.useCase.getAdFreeActivatedDate() == 0.toLong()) "" else {
+                        if (vm.useCase.isRewardExpired()) {
                             getString(R.string.settings_item_remove_ads_value_expired)
                         } else {
                             getString(R.string.settings_item_remove_ads_value_will_expire, it)
@@ -140,7 +139,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
-        settingsUseCase.effect.collect { viewEffect ->
+        vm.useCase.effect.collect { viewEffect ->
             when (viewEffect) {
                 BackEffect -> getBaseActivity()?.onBackPressed()
                 CurrenciesEffect -> navigate(
@@ -183,7 +182,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }.toUnit()
 
     private fun setListeners() = with(binding) {
-        with(settingsUseCase.getEvent()) {
+        with(vm.useCase.getEvent()) {
             backButton.setOnClickListener { onBackClick() }
 
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
@@ -201,19 +200,19 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_settings),
-            settingsUseCase.isRewardExpired()
+            vm.useCase.isRewardExpired()
         )
     }
 
     private fun changeTheme() {
-        AppTheme.getThemeByValue(settingsUseCase.getAppTheme())?.let { currentThemeType ->
+        AppTheme.getThemeByValue(vm.useCase.getAppTheme())?.let { currentThemeType ->
             showSingleChoiceDialog(
                 requireActivity(),
                 getString(R.string.title_dialog_choose_theme),
                 AppTheme.values().map { it.typeName }.toTypedArray(),
                 currentThemeType.order
             ) { index ->
-                AppTheme.getThemeByOrder(index)?.let { settingsUseCase.updateTheme(it) }
+                AppTheme.getThemeByOrder(index)?.let { vm.useCase.updateTheme(it) }
             }
         }
     }
@@ -228,7 +227,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }.toUnit()
 
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-                settingsUseCase.updateAddFreeDate()
+                vm.useCase.updateAddFreeDate()
                 activity?.run {
                     finish()
                     startActivity(intent)

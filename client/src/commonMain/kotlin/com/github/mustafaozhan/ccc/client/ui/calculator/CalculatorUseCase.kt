@@ -64,20 +64,20 @@ class CalculatorUseCase(
             _base.value = settingsRepository.currentBase
             _input.value = ""
 
-            clientScope.launch {
+            scope.launch {
                 _base.collect {
                     currentBaseChanged(it)
                 }
             }
 
-            clientScope.launch {
+            scope.launch {
                 _input.collect { input ->
                     _loading.value = true
                     calculateOutput(input)
                 }
             }
 
-            clientScope.launch {
+            scope.launch {
                 currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
@@ -88,7 +88,7 @@ class CalculatorUseCase(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
         _state._dataState.value = DataState.Cached(rates.date)
-    } ?: clientScope.launch {
+    } ?: scope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
             .execute(
@@ -97,7 +97,7 @@ class CalculatorUseCase(
             )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = clientScope.launch {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = scope.launch {
         currencyResponse.toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -106,7 +106,7 @@ class CalculatorUseCase(
         }
     }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) = clientScope.launch {
+    private fun rateDownloadFail(t: Throwable) = scope.launch {
         kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
@@ -123,7 +123,7 @@ class CalculatorUseCase(
         }
     }.toUnit()
 
-    private fun calculateOutput(input: String) = clientScope.launch {
+    private fun calculateOutput(input: String) = scope.launch {
         data.calculator
             .calculate(input.toSupportedCharacters())
             .mapTo { if (isFinite()) getFormatted() else "" }
@@ -158,13 +158,13 @@ class CalculatorUseCase(
 
         _state._input.value = _state._input.value
 
-        clientScope.launch {
+        scope.launch {
             _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
         }
     }
 
     fun verifyCurrentBase(it: String) {
-        clientScope.launch {
+        scope.launch {
             _state._base.emit(it)
         }
     }
@@ -209,7 +209,7 @@ class CalculatorUseCase(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        clientScope.launch {
+        scope.launch {
             _effect.send(
                 ShowRateEffect(
                     currency.getCurrencyConversionByRate(
@@ -223,7 +223,7 @@ class CalculatorUseCase(
         return true
     }
 
-    override fun onBarClick() = clientScope.launch {
+    override fun onBarClick() = scope.launch {
         _effect.send(OpenBarEffect)
     }.toUnit()
 
@@ -231,7 +231,7 @@ class CalculatorUseCase(
         _state._base.value = base
     }
 
-    override fun onSettingsClicked() = clientScope.launch {
+    override fun onSettingsClicked() = scope.launch {
         _effect.send(OpenSettingsEffect)
     }.toUnit()
     // endregion

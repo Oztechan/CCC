@@ -55,7 +55,7 @@ class SettingsUseCase(
             settingsRepository.adFreeActivatedDate + DAY
         ).formatToString()
 
-        clientScope.launch {
+        scope.launch {
             currencyDao.collectActiveCurrencies()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
@@ -73,7 +73,7 @@ class SettingsUseCase(
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
         settingsRepository.appTheme = theme.themeValue
-        clientScope.launch {
+        scope.launch {
             _effect.send(ChangeThemeEffect(theme.themeValue))
         }
     }
@@ -89,47 +89,47 @@ class SettingsUseCase(
     }
 
     // region Event
-    override fun onBackClick() = clientScope.launch {
+    override fun onBackClick() = scope.launch {
         _effect.send(BackEffect)
     }.toUnit()
 
-    override fun onCurrenciesClick() = clientScope.launch {
+    override fun onCurrenciesClick() = scope.launch {
         _effect.send(CurrenciesEffect)
     }.toUnit()
 
-    override fun onFeedBackClick() = clientScope.launch {
+    override fun onFeedBackClick() = scope.launch {
         _effect.send(FeedBackEffect)
     }.toUnit()
 
-    override fun onShareClick() = clientScope.launch {
+    override fun onShareClick() = scope.launch {
         _effect.send(ShareEffect)
     }.toUnit()
 
-    override fun onSupportUsClick() = clientScope.launch {
+    override fun onSupportUsClick() = scope.launch {
         _effect.send(SupportUsEffect)
     }.toUnit()
 
-    override fun onOnGitHubClick() = clientScope.launch {
+    override fun onOnGitHubClick() = scope.launch {
         _effect.send(OnGitHubEffect)
     }.toUnit()
 
-    override fun onRemoveAdsClick() = clientScope.launch {
+    override fun onRemoveAdsClick() = scope.launch {
         _effect.send(RemoveAdsEffect)
     }.toUnit()
 
-    override fun onThemeClick() = clientScope.launch {
+    override fun onThemeClick() = scope.launch {
         _effect.send(ThemeDialogEffect)
     }.toUnit()
 
     override fun onSyncClick() {
 
-        clientScope.launch {
+        scope.launch {
             if (!data.synced) {
                 currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
                     apiRepository.getRatesByBaseViaBackend(name).execute({
-                        clientScope.launch {
+                        scope.launch {
                             offlineRatesDao.insertOfflineRates(it.toRates())
                         }
                     }, { error -> kermit.e(error) { error.message.toString() } })
