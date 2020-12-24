@@ -12,7 +12,6 @@ import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
@@ -33,16 +32,16 @@ class CurrenciesUseCaseTest : BaseUseCaseTest<CurrenciesUseCase>() {
         }
 
         useCase.filterList("USD")
-        assertTrue(useCase.state.currencyList.value.contains(dollar))
+        assertEquals(true, useCase.state.currencyList.value.contains(dollar))
 
         useCase.filterList("Euro")
-        assertTrue(useCase.state.currencyList.value.contains(euro))
+        assertEquals(true, useCase.state.currencyList.value.contains(euro))
 
         useCase.filterList("$")
-        assertTrue(useCase.state.currencyList.value.contains(dollar))
+        assertEquals(true, useCase.state.currencyList.value.contains(dollar))
 
         useCase.filterList("asdasd")
-        assertTrue(useCase.state.currencyList.value.isEmpty())
+        assertEquals(true, useCase.state.currencyList.value.isEmpty())
 
         useCase.filterList("o")
         assertEquals(2, useCase.state.currencyList.value.size)

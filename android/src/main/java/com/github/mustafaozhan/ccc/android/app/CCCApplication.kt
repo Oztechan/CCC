@@ -24,22 +24,18 @@ class CCCApplication : Application() {
     }
 
     private val androidModule = module {
-        module {
-            single<Context> { this@CCCApplication }
-            single<SharedPreferences> {
-                this@CCCApplication.getSharedPreferences(
-                    KEY_APPLICATION_PREFERENCES,
-                    Context.MODE_PRIVATE
-                )
-            }
+        single<Context> { this@CCCApplication }
 
-            viewModel { BarViewModel(get()) }
-            viewModel { CalculatorViewModel(get()) }
-            viewModel { CurrenciesViewModel(get()) }
-            viewModel { MainViewModel(get()) }
-            viewModel { SettingsViewModel(get()) }
-            viewModel { SplashViewModel(get()) }
+        single<SharedPreferences> {
+            getSharedPreferences(KEY_APPLICATION_PREFERENCES, Context.MODE_PRIVATE)
         }
+
+        viewModel { BarViewModel(get()) }
+        viewModel { CalculatorViewModel(get()) }
+        viewModel { CurrenciesViewModel(get()) }
+        viewModel { MainViewModel(get()) }
+        viewModel { SettingsViewModel(get()) }
+        viewModel { SplashViewModel(get()) }
     }
 
     override fun onCreate() {

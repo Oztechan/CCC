@@ -107,10 +107,6 @@ class CurrenciesUseCase(
 
     fun isFirstRun() = settingsRepository.firstRun
 
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
-
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = scope.launch {
         currencyDao.updateAllCurrencyState(state)

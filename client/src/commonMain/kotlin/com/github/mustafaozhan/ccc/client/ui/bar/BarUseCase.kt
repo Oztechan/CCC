@@ -41,10 +41,6 @@ class BarUseCase(private val currencyDao: CurrencyDao) : BaseUseCase(), BarEvent
         }
     }
 
-    override fun onDestroy() {
-        TODO("Not yet implemented")
-    }
-
     // region Event
     override fun onItemClick(currency: Currency) = scope.launch {
         _effect.send(ChangeBaseNavResultEffect(currency.name))

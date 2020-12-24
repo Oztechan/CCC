@@ -17,7 +17,8 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 fun initClient(appModule: Module, useFakes: Boolean = false): KoinApplication = initCommon(
-    appModule.plus(clientModule), useFakes
+    appModule.plus(clientModule),
+    useFakes
 ).also {
     kermit.d { "Koin initClient" }
 }
