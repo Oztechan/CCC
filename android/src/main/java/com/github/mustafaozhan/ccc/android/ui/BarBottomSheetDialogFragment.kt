@@ -15,7 +15,7 @@ import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
-import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.ui.bar.BarUseCase
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BarBottomSheetDialogFragment :
     BaseVBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
 
-    private val barViewModel: BarViewModel by viewModel()
+    private val barViewModel: BarUseCase by viewModel()
 
     private lateinit var barAdapter: BarAdapter
 

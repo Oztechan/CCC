@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.calculator
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseUseCase
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
@@ -33,12 +33,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
-class CalculatorViewModel(
+class CalculatorUseCase(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), CalculatorEvent {
+) : BaseUseCase(), CalculatorEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 18
@@ -172,6 +172,10 @@ class CalculatorViewModel(
     fun getCurrentBase() = settingsRepository.currentBase
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+
+    override fun onDestroy() {
+        TODO("Not yet implemented")
+    }
 
     // region Event
     override fun onKeyPress(key: String) {

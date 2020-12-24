@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.currencies
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseUseCase
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
@@ -23,10 +23,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
-class CurrenciesViewModel(
+class CurrenciesUseCase(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), CurrenciesEvent {
+) : BaseUseCase(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableCurrenciesState()
@@ -106,6 +106,10 @@ class CurrenciesViewModel(
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
     fun isFirstRun() = settingsRepository.firstRun
+
+    override fun onDestroy() {
+        TODO("Not yet implemented")
+    }
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {

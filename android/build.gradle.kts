@@ -45,6 +45,7 @@ dependencies {
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroidViewModel)
+        implementation(viewModelExt)
     }
 
     with(Dependencies.Common) {
