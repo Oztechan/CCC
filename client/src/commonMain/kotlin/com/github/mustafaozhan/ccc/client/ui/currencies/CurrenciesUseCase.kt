@@ -43,7 +43,7 @@ class CurrenciesUseCase(
     init {
         _state._loading.value = true
 
-        clientScope.launch {
+        scope.launch {
             currencyDao.collectAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
@@ -80,7 +80,7 @@ class CurrenciesUseCase(
         )
     }
 
-    private fun updateCurrentBase(newBase: String) = clientScope.launch {
+    private fun updateCurrentBase(newBase: String) = scope.launch {
         settingsRepository.currentBase = newBase
         _effect.send(ChangeBaseNavResultEffect(newBase))
     }.toUnit()
@@ -112,15 +112,15 @@ class CurrenciesUseCase(
     }
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
+    override fun updateAllCurrenciesState(state: Boolean) = scope.launch {
         currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
-    override fun onItemClick(currency: Currency) = clientScope.launch {
+    override fun onItemClick(currency: Currency) = scope.launch {
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = clientScope.launch {
+    override fun onDoneClick() = scope.launch {
         _state._currencyList.value
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -136,7 +136,7 @@ class CurrenciesUseCase(
         true
     }
 
-    override fun onCloseClick() = clientScope.launch {
+    override fun onCloseClick() = scope.launch {
         if (_state._selectionVisibility.value) {
             _state._selectionVisibility.value = false
         } else {

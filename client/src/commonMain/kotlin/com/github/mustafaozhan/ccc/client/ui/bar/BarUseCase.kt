@@ -29,7 +29,7 @@ class BarUseCase(private val currencyDao: CurrencyDao) : BaseUseCase(), BarEvent
 
     init {
         with(_state) {
-            clientScope.launch {
+            scope.launch {
                 currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect {
@@ -46,11 +46,11 @@ class BarUseCase(private val currencyDao: CurrencyDao) : BaseUseCase(), BarEvent
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) = clientScope.launch {
+    override fun onItemClick(currency: Currency) = scope.launch {
         _effect.send(ChangeBaseNavResultEffect(currency.name))
     }.toUnit()
 
-    override fun onSelectClick() = clientScope.launch {
+    override fun onSelectClick() = scope.launch {
         _effect.send(OpenCurrenciesEffect)
     }.toUnit()
     // endregion
