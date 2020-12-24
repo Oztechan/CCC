@@ -16,16 +16,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import platform.Foundation.NSUserDefaults
 
 actual val platform = PlatformType.IOS
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
+lateinit var nsUserDefaults: NSUserDefaults
 actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
     if (useFakes) {
         single { FakeSettings.getSettings() }
     } else {
-        single<Settings> { AppleSettings(get()) }
+        single<Settings> { AppleSettings(nsUserDefaults) }
     }
     single {
         CurrencyConverterCalculatorDatabase(
