@@ -1,30 +1,40 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.currencies
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesEvent
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
@@ -34,7 +44,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         internal const val SPAN_LANDSCAPE = 3
     }
 
-    private val vm: CurrenciesViewModel by viewModel()
+    private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
@@ -51,7 +61,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        currenciesAdapter = CurrenciesAdapter(vm.useCase.getEvent())
+        currenciesAdapter = CurrenciesAdapter(currenciesViewModel.getEvent())
         setSpanByOrientation(resources.configuration.orientation)
 
         with(recyclerViewCurrencies) {
@@ -59,11 +69,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             adapter = currenciesAdapter
         }
 
-        btnDone.visibleIf(vm.useCase.isFirstRun())
-        txtSelectCurrencies.visibleIf(vm.useCase.isFirstRun())
+        btnDone.visibleIf(currenciesViewModel.isFirstRun())
+        txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
-    private fun observeStates() = with(vm.useCase.state) {
+    private fun observeStates() = with(currenciesViewModel.state) {
         lifecycleScope.launchWhenStarted {
             currencyList.collect {
                 currenciesAdapter.submitList(it)
@@ -83,7 +93,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     txtCurrenciesToolbar.visibleIf(!it)
                     btnSelectAll.visibleIf(it)
                     btnDeSelectAll.visibleIf(it)
-                    backButton.visibleIf(!vm.useCase.isFirstRun() || it)
+                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || it)
 
                     backButton.setBackgroundResource(if (it) R.drawable.ic_close else R.drawable.ic_back)
                     toolbarFragmentCurrencies.setBackgroundColor(
@@ -98,7 +108,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
-        vm.useCase.effect.collect { viewEffect ->
+        currenciesViewModel.effect.collect { viewEffect ->
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> {
@@ -124,7 +134,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        with(vm.useCase.getEvent()) {
+        with(currenciesViewModel.getEvent()) {
 
             btnDone.setOnClickListener { onDoneClick() }
 
@@ -137,7 +147,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String) = false
                     override fun onQueryTextChange(newText: String) =
-                        vm.useCase.filterList(newText)
+                        currenciesViewModel.filterList(newText)
                 })
             }
         }
@@ -147,10 +157,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         super.onResume()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
-            vm.useCase.isRewardExpired()
+            currenciesViewModel.isRewardExpired()
         )
-        vm.useCase.hideSelectionVisibility()
-        vm.useCase.filterList("")
+        currenciesViewModel.hideSelectionVisibility()
+        currenciesViewModel.filterList("")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -163,5 +173,58 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             requireContext(),
             if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
         )
+    }
+}
+
+class CurrenciesAdapter(
+    private val currenciesEvent: CurrenciesEvent
+) : BaseVBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = RatesVBViewHolder(
+        ItemCurrenciesBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    override fun onBindViewHolder(
+        holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>,
+        position: Int
+    ) {
+        holder.itemView.startAnimation(
+            AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.fall_down
+            )
+        )
+        super.onBindViewHolder(holder, position)
+    }
+
+    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
+
+    inner class RatesVBViewHolder(itemBinding: ItemCurrenciesBinding) :
+        BaseVBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
+
+        override fun onItemBind(item: Currency) = with(itemBinding) {
+            imgIcon.setBackgroundByName(item.name)
+            txtSettingItem.text = item.getVariablesOneLine()
+            checkBox.isChecked = item.isActive
+            root.setOnClickListener { currenciesEvent.onItemClick(item) }
+            root.setOnLongClickListener { currenciesEvent.onItemLongClick() }
+        }
+    }
+
+    class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
+            oldItem.isActive == newItem.isActive
     }
 }

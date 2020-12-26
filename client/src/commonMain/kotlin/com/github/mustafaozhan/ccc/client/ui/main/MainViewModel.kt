@@ -3,13 +3,13 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.main
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlinx.datetime.Clock
 
-class MainUseCase(private val settingsRepository: SettingsRepository) : BaseUseCase() {
+class MainViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel() {
 
     fun shouldShowReview() = settingsRepository.lastReviewRequest.isWeekPassed()
 

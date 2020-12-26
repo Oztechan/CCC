@@ -4,10 +4,10 @@
 
 package com.github.mustafaozhan.ccc.client.ui.splash
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 
-class SplashUseCase(private val settingsRepository: SettingsRepository) : BaseUseCase() {
+class SplashViewModel(private val settingsRepository: SettingsRepository) : BaseViewModel() {
 
     fun getAppTheme() = settingsRepository.appTheme
 

@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCaseTest
-import com.github.mustafaozhan.ccc.client.ui.bar.BarUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
@@ -16,9 +16,9 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class BarUseCaseTest : BaseUseCaseTest<BarUseCase>() {
+class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
 
-    override val useCase: BarUseCase by lazy {
+    override val viewModel: BarViewModel by lazy {
         koin.getDependency(SettingsRepository::class)
     }
 
@@ -26,11 +26,11 @@ class BarUseCaseTest : BaseUseCaseTest<BarUseCase>() {
     fun onItemClick() = runTest {
         it.launch {
             val currency = Currency("USD", "Dollar", "$", 0.0, true)
-            useCase.getEvent().onItemClick(currency)
+            viewModel.getEvent().onItemClick(currency)
 
             assertEquals(
                 ChangeBaseNavResultEffect(currency.name),
-                useCase.effect.single()
+                viewModel.effect.single()
             )
         }.cancel()
     }
@@ -38,8 +38,8 @@ class BarUseCaseTest : BaseUseCaseTest<BarUseCase>() {
     @Test
     fun onSelectClick() = runTest {
         it.launch {
-            useCase.getEvent().onSelectClick()
-            assertEquals(OpenCurrenciesEffect, useCase.effect.single())
+            viewModel.getEvent().onSelectClick()
+            assertEquals(OpenCurrenciesEffect, viewModel.effect.single())
         }.cancel()
     }
 }

@@ -71,6 +71,7 @@ kotlin {
             val androidMain by getting {
                 dependencies {
                     implementation(androidMaterial)
+                    implementation(koinAndroidViewModel)
                     implementation(viewModelExt)
                 }
             }

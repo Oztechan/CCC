@@ -5,21 +5,19 @@
 package com.github.mustafaozhan.ccc.client.base
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 
 @Suppress("EmptyDefaultConstructor")
-actual open class BaseUseCase actual constructor() {
+actual open class BaseViewModel actual constructor() {
 
     private val viewModelJob = SupervisorJob()
-    private val viewModelScope: CoroutineScope = CoroutineScope(
-        Dispatchers.Main.immediate + viewModelJob
-    )
+    private val viewModelScope: CoroutineScope = GlobalScope
 
-    protected actual val scope: CoroutineScope = viewModelScope
+    protected actual val clientScope: CoroutineScope = viewModelScope
 
-    actual open fun onDestroy() {
+    protected actual open fun onCleared() {
         viewModelJob.cancelChildren()
     }
 }

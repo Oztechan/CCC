@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.currencies
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
@@ -23,10 +23,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
-class CurrenciesUseCase(
+class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
-) : BaseUseCase(), CurrenciesEvent {
+) : BaseViewModel(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableCurrenciesState()
@@ -43,7 +43,7 @@ class CurrenciesUseCase(
     init {
         _state._loading.value = true
 
-        scope.launch {
+        clientScope.launch {
             currencyDao.collectAllCurrencies()
                 .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
@@ -80,7 +80,7 @@ class CurrenciesUseCase(
         )
     }
 
-    private fun updateCurrentBase(newBase: String) = scope.launch {
+    private fun updateCurrentBase(newBase: String) = clientScope.launch {
         settingsRepository.currentBase = newBase
         _effect.send(ChangeBaseNavResultEffect(newBase))
     }.toUnit()
@@ -108,15 +108,15 @@ class CurrenciesUseCase(
     fun isFirstRun() = settingsRepository.firstRun
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) = scope.launch {
+    override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
         currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
-    override fun onItemClick(currency: Currency) = scope.launch {
+    override fun onItemClick(currency: Currency) = clientScope.launch {
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
-    override fun onDoneClick() = scope.launch {
+    override fun onDoneClick() = clientScope.launch {
         _state._currencyList.value
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -132,7 +132,7 @@ class CurrenciesUseCase(
         true
     }
 
-    override fun onCloseClick() = scope.launch {
+    override fun onCloseClick() = clientScope.launch {
         if (_state._selectionVisibility.value) {
             _state._selectionVisibility.value = false
         } else {

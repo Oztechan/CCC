@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCaseTest
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
@@ -11,7 +11,7 @@ import com.github.mustafaozhan.ccc.client.ui.settings.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.FeedBackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.OnGitHubEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.RemoveAdsEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.SettingsUseCase
+import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.ShareEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
@@ -27,26 +27,26 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
-class SettingsUseCaseTest : BaseUseCaseTest<SettingsUseCase>() {
+class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
-    override val useCase: SettingsUseCase by lazy {
-        koin.getDependency(SettingsUseCase::class)
+    override val viewModel: SettingsViewModel by lazy {
+        koin.getDependency(SettingsViewModel::class)
     }
 
     @Test
     fun updateTheme() = runTest {
         it.launch {
             val appTheme = AppTheme.DARK
-            useCase.updateTheme(appTheme)
-            assertEquals(appTheme, useCase.state.appThemeType.value)
+            viewModel.updateTheme(appTheme)
+            assertEquals(appTheme, viewModel.state.appThemeType.value)
 
-            useCase.getEvent().onCurrenciesClick()
-            assertEquals(ChangeThemeEffect(appTheme.themeValue), useCase.effect.single())
+            viewModel.getEvent().onCurrenciesClick()
+            assertEquals(ChangeThemeEffect(appTheme.themeValue), viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun updateAddFreeDate() = with(useCase) {
+    fun updateAddFreeDate() = with(viewModel) {
         updateAddFreeDate()
         assertEquals(
             state.addFreeDate.value,
@@ -60,64 +60,64 @@ class SettingsUseCaseTest : BaseUseCaseTest<SettingsUseCase>() {
     @Test
     fun onBackClick() = runTest {
         it.launch {
-            useCase.getEvent().onBackClick()
-            assertEquals(BackEffect, useCase.effect.single())
+            viewModel.getEvent().onBackClick()
+            assertEquals(BackEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onCurrenciesClick() = runTest {
         it.launch {
-            useCase.getEvent().onCurrenciesClick()
-            assertEquals(CurrenciesEffect, useCase.effect.single())
+            viewModel.getEvent().onCurrenciesClick()
+            assertEquals(CurrenciesEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onFeedBackClick() = runTest {
         it.launch {
-            useCase.getEvent().onFeedBackClick()
-            assertEquals(FeedBackEffect, useCase.effect.single())
+            viewModel.getEvent().onFeedBackClick()
+            assertEquals(FeedBackEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onShareClick() = runTest {
         it.launch {
-            useCase.getEvent().onShareClick()
-            assertEquals(ShareEffect, useCase.effect.single())
+            viewModel.getEvent().onShareClick()
+            assertEquals(ShareEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onSupportUsClick() = runTest {
         it.launch {
-            useCase.getEvent().onSupportUsClick()
-            assertEquals(SupportUsEffect, useCase.effect.single())
+            viewModel.getEvent().onSupportUsClick()
+            assertEquals(SupportUsEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onOnGitHubClick() = runTest {
         it.launch {
-            useCase.getEvent().onOnGitHubClick()
-            assertEquals(OnGitHubEffect, useCase.effect.single())
+            viewModel.getEvent().onOnGitHubClick()
+            assertEquals(OnGitHubEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onRemoveAdsClick() = runTest {
         it.launch {
-            useCase.getEvent().onRemoveAdsClick()
-            assertEquals(RemoveAdsEffect, useCase.effect.single())
+            viewModel.getEvent().onRemoveAdsClick()
+            assertEquals(RemoveAdsEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onThemeClick() = runTest {
         it.launch {
-            useCase.getEvent().onThemeClick()
-            assertEquals(ThemeDialogEffect, useCase.effect.single())
+            viewModel.getEvent().onThemeClick()
+            assertEquals(ThemeDialogEffect, viewModel.effect.single())
         }.cancel()
     }
 }

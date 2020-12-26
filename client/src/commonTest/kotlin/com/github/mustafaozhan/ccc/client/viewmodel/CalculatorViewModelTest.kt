@@ -3,10 +3,10 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCaseTest
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorUseCase.Companion.KEY_DEL
+import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
 import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
@@ -19,15 +19,15 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class CalculatorUseCaseTest : BaseUseCaseTest<CalculatorUseCase>() {
+class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
-    override val useCase: CalculatorUseCase by lazy {
-        koin.getDependency(CalculatorUseCase::class)
+    override val viewModel: CalculatorViewModel by lazy {
+        koin.getDependency(CalculatorViewModel::class)
     }
 
     // Event
     @Test
-    fun onSpinnerItemSelected() = with(useCase) {
+    fun onSpinnerItemSelected() = with(viewModel) {
         val clickedItem = "asd"
         getEvent().onSpinnerItemSelected(clickedItem)
         assertEquals(clickedItem, state.base.value)
@@ -36,22 +36,22 @@ class CalculatorUseCaseTest : BaseUseCaseTest<CalculatorUseCase>() {
     @Test
     fun onBarClick() = runTest {
         it.launch {
-            useCase.getEvent().onBarClick()
+            viewModel.getEvent().onBarClick()
 
-            assertEquals(OpenBarEffect, useCase.effect.single())
+            assertEquals(OpenBarEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onSettingsClicked() = runTest {
         it.launch {
-            useCase.getEvent().onSettingsClicked()
-            assertEquals(OpenSettingsEffect, useCase.effect.single())
+            viewModel.getEvent().onSettingsClicked()
+            assertEquals(OpenSettingsEffect, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
-    fun onItemClick() = with(useCase) {
+    fun onItemClick() = with(viewModel) {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val conversion = "123.456"
         getEvent().onItemClick(currency, conversion)
@@ -70,23 +70,23 @@ class CalculatorUseCaseTest : BaseUseCaseTest<CalculatorUseCase>() {
         it.launch {
             val currency = Currency("USD", "Dollar", "$", 0.0, true)
 
-            useCase.getEvent().onItemLongClick(currency)
+            viewModel.getEvent().onItemLongClick(currency)
 
             assertEquals(
                 ShowRateEffect(
                     currency.getCurrencyConversionByRate(
-                        useCase.getCurrentBase(),
-                        useCase.data.rates
+                        viewModel.getCurrentBase(),
+                        viewModel.data.rates
                     ),
                     currency.name
                 ),
-                useCase.effect.single()
+                viewModel.effect.single()
             )
         }.cancel()
     }
 
     @Test
-    fun onKeyPress() = with(useCase) {
+    fun onKeyPress() = with(viewModel) {
         val oldValue = state.input.value
         val key = "1"
         getEvent().onKeyPress(key)

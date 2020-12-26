@@ -9,9 +9,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 
 @Suppress("EmptyDefaultConstructor")
-actual open class BaseUseCase actual constructor() : ViewModel() {
-    protected actual val scope: CoroutineScope = viewModelScope
-    actual fun onDestroy() {
-        onCleared()
+actual open class BaseViewModel actual constructor() : ViewModel() {
+
+    protected actual val clientScope: CoroutineScope = viewModelScope
+    actual override fun onCleared() {
+        super.onCleared()
     }
 }

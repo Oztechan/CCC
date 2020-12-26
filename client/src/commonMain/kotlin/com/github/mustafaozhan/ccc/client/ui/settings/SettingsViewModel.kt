@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.settings
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
@@ -25,12 +25,12 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
-class SettingsUseCase(
+class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseUseCase(), SettingsEvent {
+) : BaseViewModel(), SettingsEvent {
 
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
@@ -55,7 +55,7 @@ class SettingsUseCase(
             settingsRepository.adFreeActivatedDate + DAY
         ).formatToString()
 
-        scope.launch {
+        clientScope.launch {
             currencyDao.collectActiveCurrencies()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
@@ -73,7 +73,7 @@ class SettingsUseCase(
     fun updateTheme(theme: AppTheme) {
         _state._appThemeType.value = theme
         settingsRepository.appTheme = theme.themeValue
-        scope.launch {
+        clientScope.launch {
             _effect.send(ChangeThemeEffect(theme.themeValue))
         }
     }
@@ -85,47 +85,47 @@ class SettingsUseCase(
     fun getAppTheme() = settingsRepository.appTheme
 
     // region Event
-    override fun onBackClick() = scope.launch {
+    override fun onBackClick() = clientScope.launch {
         _effect.send(BackEffect)
     }.toUnit()
 
-    override fun onCurrenciesClick() = scope.launch {
+    override fun onCurrenciesClick() = clientScope.launch {
         _effect.send(CurrenciesEffect)
     }.toUnit()
 
-    override fun onFeedBackClick() = scope.launch {
+    override fun onFeedBackClick() = clientScope.launch {
         _effect.send(FeedBackEffect)
     }.toUnit()
 
-    override fun onShareClick() = scope.launch {
+    override fun onShareClick() = clientScope.launch {
         _effect.send(ShareEffect)
     }.toUnit()
 
-    override fun onSupportUsClick() = scope.launch {
+    override fun onSupportUsClick() = clientScope.launch {
         _effect.send(SupportUsEffect)
     }.toUnit()
 
-    override fun onOnGitHubClick() = scope.launch {
+    override fun onOnGitHubClick() = clientScope.launch {
         _effect.send(OnGitHubEffect)
     }.toUnit()
 
-    override fun onRemoveAdsClick() = scope.launch {
+    override fun onRemoveAdsClick() = clientScope.launch {
         _effect.send(RemoveAdsEffect)
     }.toUnit()
 
-    override fun onThemeClick() = scope.launch {
+    override fun onThemeClick() = clientScope.launch {
         _effect.send(ThemeDialogEffect)
     }.toUnit()
 
     override fun onSyncClick() {
 
-        scope.launch {
+        clientScope.launch {
             if (!data.synced) {
                 currencyDao.getActiveCurrencies().forEach { (name) ->
                     delay(SYNC_DELAY)
 
                     apiRepository.getRatesByBaseViaBackend(name).execute({
-                        scope.launch {
+                        clientScope.launch {
                             offlineRatesDao.insertOfflineRates(it.toRates())
                         }
                     }, { error -> kermit.e(error) { error.message.toString() } })

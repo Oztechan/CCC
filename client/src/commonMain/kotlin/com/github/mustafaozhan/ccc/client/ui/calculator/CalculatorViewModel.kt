@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.calculator
 
-import com.github.mustafaozhan.ccc.client.base.BaseUseCase
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
@@ -33,12 +33,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
-class CalculatorUseCase(
+class CalculatorViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseUseCase(), CalculatorEvent {
+) : BaseViewModel(), CalculatorEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 18
@@ -64,20 +64,20 @@ class CalculatorUseCase(
             _base.value = settingsRepository.currentBase
             _input.value = ""
 
-            scope.launch {
+            clientScope.launch {
                 _base.collect {
                     currentBaseChanged(it)
                 }
             }
 
-            scope.launch {
+            clientScope.launch {
                 _input.collect { input ->
                     _loading.value = true
                     calculateOutput(input)
                 }
             }
 
-            scope.launch {
+            clientScope.launch {
                 currencyDao.collectActiveCurrencies()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
@@ -88,7 +88,7 @@ class CalculatorUseCase(
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
         _state._dataState.value = DataState.Cached(rates.date)
-    } ?: scope.launch {
+    } ?: clientScope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
             .execute(
@@ -97,7 +97,7 @@ class CalculatorUseCase(
             )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = scope.launch {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = clientScope.launch {
         currencyResponse.toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -106,7 +106,7 @@ class CalculatorUseCase(
         }
     }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) = scope.launch {
+    private fun rateDownloadFail(t: Throwable) = clientScope.launch {
         kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
@@ -123,7 +123,7 @@ class CalculatorUseCase(
         }
     }.toUnit()
 
-    private fun calculateOutput(input: String) = scope.launch {
+    private fun calculateOutput(input: String) = clientScope.launch {
         data.calculator
             .calculate(input.toSupportedCharacters())
             .mapTo { if (isFinite()) getFormatted() else "" }
@@ -158,13 +158,13 @@ class CalculatorUseCase(
 
         _state._input.value = _state._input.value
 
-        scope.launch {
+        clientScope.launch {
             _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
         }
     }
 
     fun verifyCurrentBase(it: String) {
-        scope.launch {
+        clientScope.launch {
             _state._base.emit(it)
         }
     }
@@ -205,7 +205,7 @@ class CalculatorUseCase(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        scope.launch {
+        clientScope.launch {
             _effect.send(
                 ShowRateEffect(
                     currency.getCurrencyConversionByRate(
@@ -219,7 +219,7 @@ class CalculatorUseCase(
         return true
     }
 
-    override fun onBarClick() = scope.launch {
+    override fun onBarClick() = clientScope.launch {
         _effect.send(OpenBarEffect)
     }.toUnit()
 
@@ -227,7 +227,7 @@ class CalculatorUseCase(
         _state._base.value = base
     }
 
-    override fun onSettingsClicked() = scope.launch {
+    override fun onSettingsClicked() = clientScope.launch {
         _effect.send(OpenSettingsEffect)
     }.toUnit()
     // endregion

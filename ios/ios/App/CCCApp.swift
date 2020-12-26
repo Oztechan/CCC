@@ -15,7 +15,7 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalculatorView(vm: CalculatorViewModel(useCase: koin.getCalculatorUseCase()))
+            CalculatorView(calculatorViewModel: koin.getCalculatorViewModel())
         }
     }
 }
