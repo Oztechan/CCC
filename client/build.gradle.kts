@@ -116,6 +116,18 @@ android {
             versionName = getVersionName(project)
         }
 
+        // todo remove after https://github.com/touchlab/Kermit/issues/67
+        testOptions {
+            unitTests.isReturnDefaultValues = true
+        }
+
+        // todo remove after androidPlugin = "7.0.0-alpha03" fixed
+        configurations {
+            create("testApi") {}
+            create("testDebugApi") {}
+            create("testReleaseApi") {}
+        }
+
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

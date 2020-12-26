@@ -27,25 +27,32 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
-        viewModel.data.unFilteredList = mutableListOf<Currency>().apply {
+        val originalList = mutableListOf<Currency>().apply {
             add(euro)
             add(dollar)
         }
 
-        viewModel.filterList("USD")
-        assertTrue(viewModel.state.currencyList.value.contains(dollar))
+        with(viewModel) {
+            data.unFilteredList = originalList
+            filterList("USD")
+            assertTrue(state.currencyList.value.contains(dollar))
 
-        viewModel.filterList("Euro")
-        assertTrue(viewModel.state.currencyList.value.contains(euro))
+            data.unFilteredList = originalList
+            filterList("Euro")
+            assertTrue(state.currencyList.value.contains(euro))
 
-        viewModel.filterList("$")
-        assertTrue(viewModel.state.currencyList.value.contains(dollar))
+            data.unFilteredList = originalList
+            filterList("$")
+            assertTrue(state.currencyList.value.contains(dollar))
 
-        viewModel.filterList("asdasd")
-        assertTrue(viewModel.state.currencyList.value.isEmpty())
+            data.unFilteredList = originalList
+            filterList("asdasd")
+            assertTrue(state.currencyList.value.isEmpty())
 
-        viewModel.filterList("o")
-        assertEquals(2, viewModel.state.currencyList.value.size)
+            data.unFilteredList = originalList
+            filterList("o")
+            assertEquals(2, state.currencyList.value.size)
+        }
     }
 
     @Test
