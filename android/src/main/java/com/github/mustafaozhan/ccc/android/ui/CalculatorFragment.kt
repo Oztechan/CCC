@@ -22,7 +22,6 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.resources.Strings
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
@@ -65,30 +64,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun initViews() = with(binding) {
         calculatorAdapter = CalculatorAdapter(calculatorViewModel.getEvent())
         recyclerViewMain.adapter = calculatorAdapter
-
-        with(layoutKeyboard) {
-            one.text = Strings.one
-            two.text = Strings.two
-            three.text = Strings.three
-            four.text = Strings.four
-            five.text = Strings.five
-            six.text = Strings.six
-            seven.text = Strings.seven
-            eight.text = Strings.eight
-            nine.text = Strings.nine
-            zero.text = Strings.zero
-            tripleZero.text = Strings.tripleZero
-            multiply.text = Strings.multiply
-            divide.text = Strings.divide
-            minus.text = Strings.minus
-            plus.text = Strings.plus
-            percent.text = Strings.percent
-            dot.text = Strings.dot
-            openParentheses.text = Strings.openParentheses
-            closeParentheses.text = Strings.closeParentheses
-            ac.text = Strings.ac
-            del.text = Strings.del
-        }
     }
 
     @SuppressLint("SetTextI18n")

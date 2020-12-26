@@ -2,7 +2,6 @@
   ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
   -->
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchStyle">
 
     <TableRow style="@style/SubKeyboardTableRowStyle">
@@ -10,22 +9,22 @@
         <Button
             android:id="@+id/seven"
             style="@style/KeyboardTextStyle"
-            tools:text="7" />
+            android:text="@string/seven" />
 
         <Button
             android:id="@+id/eight"
             style="@style/KeyboardTextStyle"
-            tools:text="8" />
+            android:text="@string/eight" />
 
         <Button
             android:id="@+id/nine"
             style="@style/KeyboardTextStyle"
-            tools:text="9" />
+            android:text="@string/nine" />
 
         <Button
             android:id="@+id/multiply"
             style="@style/KeyboardTextStyle"
-            tools:text="*" />
+            android:text="@string/multiply" />
     </TableRow>
 
     <TableRow style="@style/SubKeyboardTableRowStyle">
@@ -33,22 +32,22 @@
         <Button
             android:id="@+id/four"
             style="@style/KeyboardTextStyle"
-            tools:text="4" />
+            android:text="@string/four" />
 
         <Button
             android:id="@+id/five"
             style="@style/KeyboardTextStyle"
-            tools:text="5" />
+            android:text="@string/five" />
 
         <Button
             android:id="@+id/six"
             style="@style/KeyboardTextStyle"
-            tools:text="6" />
+            android:text="@string/six" />
 
         <Button
             android:id="@+id/divide"
             style="@style/KeyboardTextStyle"
-            tools:text="/" />
+            android:text="@string/divide" />
     </TableRow>
 
     <TableRow style="@style/SubKeyboardTableRowStyle">
@@ -56,22 +55,22 @@
         <Button
             android:id="@+id/one"
             style="@style/KeyboardTextStyle"
-            tools:text="1" />
+            android:text="@string/one" />
 
         <Button
             android:id="@+id/two"
             style="@style/KeyboardTextStyle"
-            tools:text="2" />
+            android:text="@string/two" />
 
         <Button
             android:id="@+id/three"
             style="@style/KeyboardTextStyle"
-            tools:text="3" />
+            android:text="@string/three" />
 
         <Button
             android:id="@+id/minus"
             style="@style/KeyboardTextStyle"
-            tools:text="-" />
+            android:text="@string/minus" />
     </TableRow>
 
     <TableRow style="@style/SubKeyboardTableRowStyle">
@@ -79,22 +78,22 @@
         <Button
             android:id="@+id/dot"
             style="@style/KeyboardTextStyle"
-            tools:text="." />
+            android:text="@string/dot" />
 
         <Button
             android:id="@+id/zero"
             style="@style/KeyboardTextStyle"
-            tools:text="0" />
+            android:text="@string/zero" />
 
         <Button
             android:id="@+id/percent"
             style="@style/KeyboardTextStyle"
-            tools:text="%" />
+            android:text="@string/percent" />
 
         <Button
             android:id="@+id/plus"
             style="@style/KeyboardTextStyle"
-            tools:text="+" />
+            android:text="@string/plus" />
     </TableRow>
 
     <TableRow style="@style/SubKeyboardTableRowStyle">
@@ -104,28 +103,28 @@
             style="@style/KeyboardTextStyle"
             android:paddingStart="@dimen/margin_sixteen"
             android:paddingEnd="@dimen/margin_zero"
-            tools:text="(" />
+            android:text="@string/open_parentheses" />
 
         <Button
             android:id="@+id/triple_zero"
             style="@style/KeyboardTextStyle"
-            tools:text="000" />
+            android:text="@string/triple_zero" />
 
         <Button
             android:id="@+id/ac"
             style="@style/KeyboardTextStyle"
-            tools:text="AC" />
+            android:text="@string/ac" />
 
         <Button
             android:id="@+id/del"
             style="@style/KeyboardTextStyle"
-            tools:text="DEL" />
+            android:text="@string/delete" />
 
         <Button
             android:id="@+id/close_parentheses"
             style="@style/KeyboardTextStyle"
             android:paddingStart="@dimen/margin_zero"
             android:paddingEnd="@dimen/margin_sixteen"
-            tools:text=")" />
+            android:text="@string/close_parentheses" />
     </TableRow>
 </TableLayout>
