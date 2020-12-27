@@ -24,18 +24,19 @@ struct KoinKey: EnvironmentKey {
 
 extension EnvironmentValues {
     var koin: Koin {
-        get {
-            return self[KoinKey.self]
-        }
         set {
             self[KoinKey.self] = newValue
+        }
+        // swiftlint:disable implicit_getter
+        get {
+            return self[KoinKey.self]
         }
     }
 }
 
 // swiftlint:disable force_cast
 extension Koin {
-    func getSettingsRepository() -> SettingsRepository {
-        return koin.getForIOS(objCClass: SettingsRepository.self) as! SettingsRepository
+    func getCalculatorViewModel() -> CalculatorViewModel {
+        return koin.getForIOS(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
     }
 }
