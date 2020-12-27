@@ -7,7 +7,6 @@ package com.github.mustafaozhan.ccc.client.util
 
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -42,15 +41,6 @@ fun CurrencyResponse.toRates(): Rates {
     return rate
 }
 
-fun List<Currency>.removeUnUsedCurrencies(): MutableList<Currency> =
-    this.filterNot { (name) ->
-        name == CurrencyType.BYR.toString() ||
-                name == CurrencyType.LVL.toString() ||
-                name == CurrencyType.LTL.toString() ||
-                name == CurrencyType.ZMK.toString() ||
-                name == CurrencyType.CRYPTO_BTC.toString()
-    }.toMutableList()
-
 fun Rates?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }
         ?.getConversionByName(name)
@@ -77,7 +67,7 @@ fun String.toStandardDigits(): String {
 fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
     "1 $base = " + "${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
 
-fun MutableList<Currency>?.toValidList(currentBase: String) =
+fun List<Currency>?.toValidList(currentBase: String) =
     this?.filter {
         it.name != currentBase &&
                 it.isActive &&

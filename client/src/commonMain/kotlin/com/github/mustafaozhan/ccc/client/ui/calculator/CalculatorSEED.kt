@@ -17,7 +17,7 @@ data class CalculatorState(
 ) {
     val input: StateFlow<String> = _state._input
     val base: StateFlow<String> = _state._base
-    val currencyList: StateFlow<MutableList<Currency>> = _state._currencyList
+    val currencyList: StateFlow<List<Currency>> = _state._currencyList
     val output: StateFlow<String> = _state._output
     val symbol: StateFlow<String> = _state._symbol
     val loading: StateFlow<Boolean> = _state._loading
@@ -28,7 +28,7 @@ data class CalculatorState(
 data class MutableCalculatorState(
     val _input: MutableStateFlow<String> = MutableStateFlow(""),
     val _base: MutableStateFlow<String> = MutableStateFlow(""),
-    val _currencyList: MutableStateFlow<MutableList<Currency>> = MutableStateFlow(mutableListOf()),
+    val _currencyList: MutableStateFlow<List<Currency>> = MutableStateFlow(mutableListOf()),
     val _output: MutableStateFlow<String> = MutableStateFlow(""),
     val _symbol: MutableStateFlow<String> = MutableStateFlow(""),
     val _loading: MutableStateFlow<Boolean> = MutableStateFlow(true),

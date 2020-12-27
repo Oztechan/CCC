@@ -8,7 +8,6 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.log.kermit
@@ -21,7 +20,6 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -49,11 +47,10 @@ class CurrenciesViewModel(
         clientScope.launch {
             currencyDao.collectAllCurrencies()
                 .mapToModel()
-                .map { it.removeUnUsedCurrencies() }
                 .collect { currencyList ->
 
                     _state._currencyList.value = currencyList
-                    data.unFilteredList = currencyList
+                    data.unFilteredList = currencyList.toMutableList()
 
                     currencyList
                         .filter { it.isActive }.size

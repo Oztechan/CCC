@@ -13,7 +13,6 @@ import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
-import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
@@ -53,19 +52,6 @@ class ExtensionsTest {
             "1 EUR = 5.0 USD Dollar \$",
             currency.getCurrencyConversionByRate(base, rates)
         )
-    }
-
-    @Test
-    fun removeUnUsedCurrencies() {
-        val list: MutableList<Currency> = mutableListOf()
-        list.apply {
-            add(Currency(CurrencyType.BYR.toString(), "", ""))
-            add(Currency(CurrencyType.LVL.toString(), "", ""))
-            add(Currency(CurrencyType.LTL.toString(), "", ""))
-            add(Currency(CurrencyType.ZMK.toString(), "", ""))
-            add(Currency(CurrencyType.CRYPTO_BTC.toString(), "", ""))
-        }
-        assertEquals(mutableListOf(), list.removeUnUsedCurrencies())
     }
 
     @Test

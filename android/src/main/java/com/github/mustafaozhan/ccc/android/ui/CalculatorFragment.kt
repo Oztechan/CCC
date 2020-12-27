@@ -210,7 +210,7 @@ class CalculatorAdapter(
         )
     )
 
-    fun submitList(list: MutableList<Currency>?, currentBase: String) =
+    fun submitList(list: List<Currency>?, currentBase: String) =
         submitList(list.toValidList(currentBase))
 
     inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :

@@ -12,14 +12,14 @@ import kotlinx.coroutines.flow.StateFlow
 data class BarState(
     private val _state: MutableBarState
 ) {
-    val currencyList: StateFlow<MutableList<Currency>> = _state._currencyList
+    val currencyList: StateFlow<List<Currency>> = _state._currencyList
     val loading: StateFlow<Boolean> = _state._loading
     val enoughCurrency: StateFlow<Boolean> = _state._enoughCurrency
 }
 
 @Suppress("ConstructorParameterNaming")
 data class MutableBarState(
-    val _currencyList: MutableStateFlow<MutableList<Currency>> = MutableStateFlow(mutableListOf()),
+    val _currencyList: MutableStateFlow<List<Currency>> = MutableStateFlow(mutableListOf()),
     val _loading: MutableStateFlow<Boolean> = MutableStateFlow(true),
     val _enoughCurrency: MutableStateFlow<Boolean> = MutableStateFlow(false)
 )
