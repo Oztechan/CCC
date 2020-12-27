@@ -23,7 +23,6 @@ dependencies {
 
     with(Modules) {
         implementation(project(client))
-        implementation(project(common))
     }
 }
 

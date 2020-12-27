@@ -5,7 +5,6 @@ package com.github.mustafaozhan.ccc.common.repo
 
 import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,10 +25,7 @@ class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
     )
 
     @Test
-    fun currentBase() = assertEquals(
-        CurrencyType.NULL.toString(),
-        repository.currentBase
-    )
+    fun currentBase() = assertTrue { repository.currentBase.isEmpty() }
 
     @Test
     fun appTheme() = assertEquals(

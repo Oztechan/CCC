@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.ui.settings
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import com.github.mustafaozhan.ccc.client.model.mapToModel
+import com.github.mustafaozhan.ccc.client.model.toModelList
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
@@ -49,6 +51,7 @@ class SettingsViewModel(
     // endregion
 
     init {
+        kermit.d { "SettingsViewModel init" }
         _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
             ?: AppTheme.SYSTEM_DEFAULT
         _state._addFreeDate.value = Instant.fromEpochMilliseconds(
@@ -57,6 +60,7 @@ class SettingsViewModel(
 
         clientScope.launch {
             currencyDao.collectActiveCurrencies()
+                .mapToModel()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
                         currency.isActive
@@ -84,52 +88,67 @@ class SettingsViewModel(
 
     fun getAppTheme() = settingsRepository.appTheme
 
+    override fun onCleared() {
+        kermit.d { "SettingsViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun onBackClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onBackClick" }
         _effect.send(BackEffect)
     }.toUnit()
 
     override fun onCurrenciesClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onCurrenciesClick" }
         _effect.send(CurrenciesEffect)
     }.toUnit()
 
     override fun onFeedBackClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onFeedBackClick" }
         _effect.send(FeedBackEffect)
     }.toUnit()
 
     override fun onShareClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onShareClick" }
         _effect.send(ShareEffect)
     }.toUnit()
 
     override fun onSupportUsClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onSupportUsClick" }
         _effect.send(SupportUsEffect)
     }.toUnit()
 
     override fun onOnGitHubClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onOnGitHubClick" }
         _effect.send(OnGitHubEffect)
     }.toUnit()
 
     override fun onRemoveAdsClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onRemoveAdsClick" }
         _effect.send(RemoveAdsEffect)
     }.toUnit()
 
     override fun onThemeClick() = clientScope.launch {
+        kermit.d { "SettingsViewModel onThemeClick" }
         _effect.send(ThemeDialogEffect)
     }.toUnit()
 
     override fun onSyncClick() {
-
+        kermit.d { "SettingsViewModel onSyncClick" }
         clientScope.launch {
             if (!data.synced) {
-                currencyDao.getActiveCurrencies().forEach { (name) ->
-                    delay(SYNC_DELAY)
+                currencyDao.getActiveCurrencies()
+                    .toModelList()
+                    .forEach { (name) ->
+                        delay(SYNC_DELAY)
 
-                    apiRepository.getRatesByBaseViaBackend(name).execute({
-                        clientScope.launch {
-                            offlineRatesDao.insertOfflineRates(it.toRates())
-                        }
-                    }, { error -> kermit.e(error) { error.message.toString() } })
-                }
+                        apiRepository.getRatesByBaseViaBackend(name).execute({
+                            clientScope.launch {
+                                offlineRatesDao.insertOfflineRates(it.toRates())
+                            }
+                        }, { error -> kermit.e(error) { error.message.toString() } })
+                    }
 
                 data.synced = true
                 _effect.send(SynchronisedEffect)

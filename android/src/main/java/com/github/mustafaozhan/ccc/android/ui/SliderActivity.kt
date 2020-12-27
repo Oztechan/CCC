@@ -19,6 +19,7 @@ import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.activity.BaseVBActivity
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
@@ -43,6 +44,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        kermit.d { "SliderActivity onCreate" }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -75,6 +77,7 @@ class SliderActivity : BaseVBActivity<ActivitySliderBinding>() {
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
+                    kermit.d { "SliderActivity onPageSelected" }
                     addBottomDots(position)
 
                     binding.btnNext.text = if (position == SLIDE_SIZE - 1) {

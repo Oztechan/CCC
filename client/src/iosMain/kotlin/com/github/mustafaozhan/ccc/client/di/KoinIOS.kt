@@ -12,7 +12,6 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
-import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.nsUserDefaults
 import kotlinx.cinterop.ObjCClass
@@ -40,6 +39,6 @@ actual val clientModule: Module = module {
     single { BarViewModel(get()) }
 }
 
-fun <T> Koin.getForIOS(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
+fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
     getDependency(it)
 }

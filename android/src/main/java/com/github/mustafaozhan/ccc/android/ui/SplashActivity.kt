@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.ui.splash.SplashViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -16,6 +17,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        kermit.d { "SplashActivity onCreate" }
 
         AppCompatDelegate.setDefaultNightMode(splashViewModel.getAppTheme())
 

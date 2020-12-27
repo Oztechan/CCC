@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.app.Activity
 import android.app.AlertDialog
+import com.github.mustafaozhan.ccc.client.log.kermit
 import mustafaozhan.github.com.mycurrencies.R
 
 @Suppress("LongParameterList")
@@ -24,7 +25,10 @@ fun showDialog(
             .setIcon(R.drawable.ic_dialog_and_snackbar)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(positiveButton) { _, _ -> function?.invoke() }
+            .setPositiveButton(positiveButton) { _, _ ->
+                kermit.d { "Dialog positive button click" }
+                function?.invoke()
+            }
 
         if (cancelable) {
             dialog
@@ -51,7 +55,10 @@ fun showDialog(
             .setIcon(R.drawable.ic_dialog_and_snackbar)
             .setTitle(activity.getString(title))
             .setMessage(activity.getString(message))
-            .setPositiveButton(activity.getText(positiveButton)) { _, _ -> function?.invoke() }
+            .setPositiveButton(activity.getText(positiveButton)) { _, _ ->
+                kermit.d { "Dialog positive button click" }
+                function?.invoke()
+            }
 
         if (cancelable) {
             dialog
@@ -76,6 +83,7 @@ fun showSingleChoiceDialog(
             .setIcon(R.drawable.ic_dialog_and_snackbar)
             .setTitle(title)
             .setSingleChoiceItems(items, selectedIndex) { _, which ->
+                kermit.d { "Dialog choice click $which" }
                 choiceAction?.invoke(which)
             }.show()
     }
@@ -95,6 +103,7 @@ fun showSingleChoiceDialog(
             .setIcon(R.drawable.ic_dialog_and_snackbar)
             .setTitle(activity.getString(title))
             .setSingleChoiceItems(items, selectedIndex) { _, which ->
+                kermit.d { "Dialog choice click $which" }
                 choiceAction?.invoke(which)
             }.show()
     }

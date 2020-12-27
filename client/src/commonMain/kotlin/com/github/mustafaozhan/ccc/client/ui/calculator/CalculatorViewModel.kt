@@ -4,13 +4,15 @@
 package com.github.mustafaozhan.ccc.client.ui.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.mapToModel
+import com.github.mustafaozhan.ccc.client.model.toModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
@@ -18,7 +20,6 @@ import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -29,7 +30,6 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -60,6 +60,7 @@ class CalculatorViewModel(
     // endregion
 
     init {
+        kermit.d { "CalculatorViewModel init" }
         with(_state) {
             _base.value = settingsRepository.currentBase
             _input.value = ""
@@ -79,7 +80,7 @@ class CalculatorViewModel(
 
             clientScope.launch {
                 currencyDao.collectActiveCurrencies()
-                    .map { it.removeUnUsedCurrencies() }
+                    .mapToModel()
                     .collect { _currencyList.value = it }
             }
         }
@@ -159,7 +160,7 @@ class CalculatorViewModel(
         _state._input.value = _state._input.value
 
         clientScope.launch {
-            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
+            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
         }
     }
 
@@ -173,8 +174,14 @@ class CalculatorViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
+    override fun onCleared() {
+        kermit.d { "CalculatorViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun onKeyPress(key: String) {
+        kermit.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
             KEY_AC -> {
                 _state._input.value = ""
@@ -190,6 +197,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+        kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
         var finalResult = conversion
 
         while (finalResult.length > MAXIMUM_INPUT) {
@@ -205,6 +213,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
+        kermit.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
         clientScope.launch {
             _effect.send(
                 ShowRateEffect(
@@ -220,14 +229,17 @@ class CalculatorViewModel(
     }
 
     override fun onBarClick() = clientScope.launch {
+        kermit.d { "CalculatorViewModel onBarClick" }
         _effect.send(OpenBarEffect)
     }.toUnit()
 
     override fun onSpinnerItemSelected(base: String) {
+        kermit.d { "CalculatorViewModel onSpinnerItemSelected $base" }
         _state._base.value = base
     }
 
     override fun onSettingsClicked() = clientScope.launch {
+        kermit.d { "CalculatorViewModel onSettingsClicked" }
         _effect.send(OpenSettingsEffect)
     }.toUnit()
     // endregion

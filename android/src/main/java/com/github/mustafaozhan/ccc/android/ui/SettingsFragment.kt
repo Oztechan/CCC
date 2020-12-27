@@ -17,6 +17,7 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
@@ -60,6 +61,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        kermit.d { "SettingsFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffect()
@@ -141,6 +143,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         settingsViewModel.effect.collect { viewEffect ->
+            kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BackEffect -> getBaseActivity()?.onBackPressed()
                 CurrenciesEffect -> navigate(
@@ -199,6 +202,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
+        kermit.d { "SettingsFragment onResume" }
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_settings),
             settingsViewModel.isRewardExpired()
@@ -221,13 +225,17 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun showRewardedAd() = rewardedAd
         .whether { isLoaded }
         ?.show(requireActivity(), object : RewardedAdCallback() {
-            override fun onRewardedAdOpened() = Unit
-            override fun onRewardedAdClosed() = Unit
+            override fun onRewardedAdOpened() = kermit.d { "SettingsFragment onRewardedAdOpened" }
+
+            override fun onRewardedAdClosed() = kermit.d { "SettingsFragment onRewardedAdClosed" }
+
             override fun onRewardedAdFailedToShow(errorCode: Int) = context?.let {
+                kermit.d { "SettingsFragment onRewardedAdFailedToShow" }
                 Toast.show(it, R.string.error_text_unknown)
             }.toUnit()
 
             override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                kermit.d { "SettingsFragment onUserEarnedReward" }
                 settingsViewModel.updateAddFreeDate()
                 activity?.run {
                     finish()
@@ -239,8 +247,13 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun prepareRewardedAd() {
         rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
         rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onRewardedAdLoaded() = showRewardedAd()
+            override fun onRewardedAdLoaded() {
+                kermit.d { "SettingsFragment onRewardedAdLoaded" }
+                showRewardedAd()
+            }
+
             override fun onRewardedAdFailedToLoad(errorCode: Int) = context?.let {
+                kermit.d { "SettingsFragment onRewardedAdFailedToLoad" }
                 Toast.show(it, R.string.error_text_unknown)
             }.toUnit()
         })

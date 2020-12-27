@@ -20,8 +20,10 @@ private const val DAY = (12 * 60 * 60 * SECOND)
 private val apiRepository: ApiRepository by lazy { app.koin.getDependency(ApiRepository::class) }
 private val offlineRatesDao: OfflineRatesDao by lazy { app.koin.getDependency(OfflineRatesDao::class) }
 
-fun checkApi() = GlobalScope.launch {
+fun refreshApi() = GlobalScope.launch {
+    kermit.d { "Api refreshApi" }
     while (isActive) {
+        kermit.d { "refreshing" }
         updateCurrencies()
 
         delay(DAY)

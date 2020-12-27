@@ -8,12 +8,16 @@
 
 import SwiftUI
 import client
-import common
 
 struct CalculatorView: View {
 
     @ObservedObject
     var manager: CalculatorManager
+
+    init(manager: CalculatorManager) {
+        self.manager = manager
+        LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
+    }
 
     var body: some View {
         VStack {

@@ -10,6 +10,7 @@ import androidx.lifecycle.coroutineScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
@@ -40,6 +41,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        kermit.d { "MainActivity onCreate" }
         AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
@@ -82,6 +84,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        kermit.d { "MainActivity onResume" }
         setupInterstitialAd()
     }
 
@@ -104,11 +107,13 @@ open class MainActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
+        kermit.d { "MainActivity onPause" }
         adJob.cancel()
         adVisibility = false
     }
 
     override fun onBackPressed() {
+        kermit.d { "MainActivity onBackPressed" }
         if (getNavigationController().currentDestination?.id == R.id.calculatorFragment) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()

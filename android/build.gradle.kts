@@ -53,7 +53,6 @@ dependencies {
 
     with(Modules) {
         implementation(project(client))
-        implementation(project(common))
 
         implementation(project(basemob))
         implementation(project(scopemob))

@@ -14,12 +14,13 @@ import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragme
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
 import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
 import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
@@ -39,6 +40,7 @@ class BarBottomSheetDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        kermit.d { "BarBottomSheetDialogFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffect()
@@ -74,6 +76,7 @@ class BarBottomSheetDialogFragment :
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         barViewModel.effect.collect { viewEffect ->
+            kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is ChangeBaseNavResultEffect -> {
                     setNavigationResult(

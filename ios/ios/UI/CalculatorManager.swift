@@ -9,7 +9,6 @@
 import Foundation
 import Combine
 import client
-import common
 
 final class CalculatorManager: BaseManager {
 
@@ -20,8 +19,7 @@ final class CalculatorManager: BaseManager {
 
     init(viewModel: CalculatorViewModel) {
         self.viewModel = viewModel
-        LoggerKt.kermit.d(withMessage: {"init CalculatorManager"})
-
+        LoggerKt.kermit.d(withMessage: {"CalculatorManager init"})
     }
 
     func observeEffect() {
@@ -33,16 +31,13 @@ final class CalculatorManager: BaseManager {
     }
 
     func observeStates() {
-
-        LoggerKt.kermit.d(withMessage: {"observeStates"})
-
         self.viewModel.observeState(viewModel.state.base, provideNewState: { newState in
             if let state = newState as? String {
                 self.state.base = state
             }
         })
         self.viewModel.observeState(viewModel.state.currencyList, provideNewState: { newState in
-            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? CommonCurrency }) {
+            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? Currency }) {
                 self.state.currencyList = state
             }
         })
@@ -74,13 +69,12 @@ final class CalculatorManager: BaseManager {
     }
 
     func stopObserving() {
-        LoggerKt.kermit.d {"stopObserving"}
         self.viewModel.onCleared()
     }
 
     struct State {
         var base = ""
-        var currencyList = [CommonCurrency]()
+        var currencyList = [Currency]()
         var dataState: DataState = DataState.Error()
         var input = ""
         var loading = true

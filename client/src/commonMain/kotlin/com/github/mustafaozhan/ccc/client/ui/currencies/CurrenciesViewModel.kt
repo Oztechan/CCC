@@ -4,13 +4,13 @@
 package com.github.mustafaozhan.ccc.client.ui.currencies
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
@@ -19,7 +19,6 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -41,15 +40,16 @@ class CurrenciesViewModel(
     // endregion
 
     init {
+        kermit.d { "CurrenciesViewModel init" }
         _state._loading.value = true
 
         clientScope.launch {
             currencyDao.collectAllCurrencies()
-                .map { it.removeUnUsedCurrencies() }
+                .mapToModel()
                 .collect { currencyList ->
 
                     _state._currencyList.value = currencyList
-                    data.unFilteredList = currencyList
+                    data.unFilteredList = currencyList.toMutableList()
 
                     currencyList
                         .filter { it.isActive }.size
@@ -66,7 +66,7 @@ class CurrenciesViewModel(
     }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
-        { equals(CurrencyType.NULL.toString()) },
+        { isEmpty() },
         { base ->
             state.currencyList.value
                 .filter { it.name == base }
@@ -75,8 +75,7 @@ class CurrenciesViewModel(
     )?.let {
         updateCurrentBase(
             state.currencyList.value
-                .firstOrNull { it.isActive }?.name
-                ?: CurrencyType.NULL.toString()
+                .firstOrNull { it.isActive }?.name ?: ""
         )
     }
 
@@ -107,16 +106,24 @@ class CurrenciesViewModel(
 
     fun isFirstRun() = settingsRepository.firstRun
 
+    override fun onCleared() {
+        kermit.d { "CurrenciesViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
+        kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
         currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
     override fun onDoneClick() = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onDoneClick" }
         _state._currencyList.value
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -128,11 +135,13 @@ class CurrenciesViewModel(
     }.toUnit()
 
     override fun onItemLongClick() = _state._selectionVisibility.value.let {
+        kermit.d { "CurrenciesViewModel onItemLongClick" }
         _state._selectionVisibility.value = !it
         true
     }
 
     override fun onCloseClick() = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onCloseClick" }
         if (_state._selectionVisibility.value) {
             _state._selectionVisibility.value = false
         } else {

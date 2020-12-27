@@ -8,14 +8,13 @@
 
 import SwiftUI
 import client
-import common
 
 @main
 struct CCCApp: App {
     @Environment(\.koin) var koin: Koin
 
     init() {
-        LoggerKt.kermit.d(withMessage: {"init app"})
+        LoggerKt.kermit.d(withMessage: {"CCCApp init"})
     }
 
     var body: some Scene {

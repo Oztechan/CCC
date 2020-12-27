@@ -4,11 +4,11 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.ui.currencies.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
