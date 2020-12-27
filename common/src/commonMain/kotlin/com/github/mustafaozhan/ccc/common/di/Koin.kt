@@ -35,7 +35,6 @@ fun initCommon(
         getCommonModule(useFakes)
     )
 }.also {
-    kermit = it.koin.getDependency(Kermit::class)
     kermit.d { "Koin initCommon" }
 }
 

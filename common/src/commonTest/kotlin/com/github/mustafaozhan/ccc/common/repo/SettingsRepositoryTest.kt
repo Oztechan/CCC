@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinx.datetime.Clock
 
 class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
@@ -43,8 +44,7 @@ class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
     )
 
     @Test
-    fun lastReviewRequest() = assertEquals(
-        Clock.System.now().toEpochMilliseconds(),
-        repository.lastReviewRequest
-    )
+    fun lastReviewRequest() = assertTrue {
+        repository.lastReviewRequest <= Clock.System.now().toEpochMilliseconds()
+    }
 }

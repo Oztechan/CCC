@@ -5,5 +5,6 @@
 package com.github.mustafaozhan.ccc.common.log
 
 import co.touchlab.kermit.Kermit
+import com.github.mustafaozhan.logmob.LogMobLogger
 
-lateinit var kermit: Kermit
+val kermit = Kermit(LogMobLogger())
