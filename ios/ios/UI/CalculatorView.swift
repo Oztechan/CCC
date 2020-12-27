@@ -11,21 +11,22 @@ import client
 import common
 
 struct CalculatorView: View {
-    
+
     @ObservedObject
     var manager: CalculatorManager
-    
+
     var body: some View {
-        VStack{
+        VStack {
+            Text("Test")
         }
         .onAppear {
             manager.observeStates()
             manager.observeEffect()
         }
         .onReceive(manager.effect) { onEffect(effect: $0) }
-        .onDisappear() { manager.stopObserving() }
+        .onDisappear { manager.stopObserving() }
     }
-    
+
     private func onEffect(effect: CalculatorEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
@@ -41,7 +42,7 @@ struct MainViewPreviews: PreviewProvider {
 
     static var previews: some View {
         CalculatorView(
-            manager: CalculatorManager(vm: koin.getCalculatorViewModel())
+            manager: CalculatorManager(viewModel: koin.getCalculatorViewModel())
         ).makeForPreviewProvider()
     }
 }

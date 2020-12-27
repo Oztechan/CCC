@@ -12,57 +12,72 @@ import client
 import common
 
 final class CalculatorManager: BaseManager {
-    let vm: CalculatorViewModel
-    
+
+    let viewModel: CalculatorViewModel
+
     @Published var state = State()
     var effect = PassthroughSubject<CalculatorEffect, Never>()
-    
-    
-    init(vm: CalculatorViewModel) {
-        self.vm = vm
+
+    init(viewModel: CalculatorViewModel) {
+        self.viewModel = viewModel
         LoggerKt.kermit.d(withMessage: {"init CalculatorManager"})
 
     }
 
     func observeEffect() {
-        self.vm.observeEffect(vm.effect, provideNewEffect: { newEffect in
-            self.effect.send(newEffect as! CalculatorEffect)
+        self.viewModel.observeEffect(viewModel.effect, provideNewEffect: { newEffect in
+            if let effect = newEffect as? CalculatorEffect {
+                self.effect.send(effect)
+            }
         })
     }
-    
+
     func observeStates() {
-        
+
         LoggerKt.kermit.d(withMessage: {"observeStates"})
-        
-        self.vm.observeState(vm.state.base, provideNewState: { newState in
-            self.state.base = newState as! String
+
+        self.viewModel.observeState(viewModel.state.base, provideNewState: { newState in
+            if let state = newState as? String {
+                self.state.base = state
+            }
         })
-        self.vm.observeState(vm.state.currencyList, provideNewState: { newState in
-            self.state.currencyList = (newState as! NSMutableArray).compactMap { $0 as? CommonCurrency }
+        self.viewModel.observeState(viewModel.state.currencyList, provideNewState: { newState in
+            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? CommonCurrency }) {
+                self.state.currencyList = state
+            }
         })
-        self.vm.observeState(vm.state.dataState, provideNewState: { newState in
-            self.state.dataState = newState as! DataState
+        self.viewModel.observeState(viewModel.state.dataState, provideNewState: { newState in
+            if let state = newState as? DataState {
+                self.state.dataState = state
+            }
         })
-        self.vm.observeState(vm.state.input, provideNewState: { newState in
-            self.state.input = newState as! String
+        self.viewModel.observeState(viewModel.state.input, provideNewState: { newState in
+            if let state = newState as? String {
+                self.state.input = state
+            }
         })
-        self.vm.observeState(vm.state.loading, provideNewState: { newState in
-            self.state.loading = newState as! Bool
+        self.viewModel.observeState(viewModel.state.loading, provideNewState: { newState in
+            if let state = newState as? Bool {
+                self.state.loading = state
+            }
         })
-        self.vm.observeState(vm.state.output, provideNewState: { newState in
-            self.state.output = newState as! String
+        self.viewModel.observeState(viewModel.state.output, provideNewState: { newState in
+            if let state = newState as? String {
+                self.state.output = state
+            }
         })
-        self.vm.observeState(vm.state.symbol, provideNewState: { newState in
-            self.state.symbol = newState as! String
+        self.viewModel.observeState(viewModel.state.symbol, provideNewState: { newState in
+            if let state = newState as? String {
+                self.state.symbol = state
+            }
         })
     }
-    
+
     func stopObserving() {
         LoggerKt.kermit.d {"stopObserving"}
-        self.vm.onCleared()
+        self.viewModel.onCleared()
     }
-    
-    
+
     struct State {
         var base = ""
         var currencyList = [CommonCurrency]()
@@ -72,5 +87,4 @@ final class CalculatorManager: BaseManager {
         var output = ""
         var symbol = ""
     }
-    
 }

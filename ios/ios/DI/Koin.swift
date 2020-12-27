@@ -24,11 +24,12 @@ struct KoinKey: EnvironmentKey {
 
 extension EnvironmentValues {
     var koin: Koin {
-        get {
-            return self[KoinKey.self]
-        }
         set {
             self[KoinKey.self] = newValue
+        }
+        // swiftlint:disable implicit_getter
+        get {
+            return self[KoinKey.self]
         }
     }
 }
