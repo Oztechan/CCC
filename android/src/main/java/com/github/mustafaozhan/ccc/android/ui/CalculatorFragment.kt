@@ -83,7 +83,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             base.collect {
                 with(binding.layoutBar) {
                     ivBase.setBackgroundByName(it)
-                    txtBase.text = if (it == "NULL") "" else "  $it"
+                    txtBase.text = if (it.isEmpty()) it else "  $it"
                 }
             }
         }

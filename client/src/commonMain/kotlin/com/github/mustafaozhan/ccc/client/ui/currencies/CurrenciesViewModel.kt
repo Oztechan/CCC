@@ -11,7 +11,6 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
@@ -67,7 +66,7 @@ class CurrenciesViewModel(
     }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
-        { equals(CurrencyType.NULL.toString()) },
+        { isEmpty() },
         { base ->
             state.currencyList.value
                 .filter { it.name == base }
@@ -76,8 +75,7 @@ class CurrenciesViewModel(
     )?.let {
         updateCurrentBase(
             state.currencyList.value
-                .firstOrNull { it.isActive }?.name
-                ?: CurrencyType.NULL.toString()
+                .firstOrNull { it.isActive }?.name ?: ""
         )
     }
 

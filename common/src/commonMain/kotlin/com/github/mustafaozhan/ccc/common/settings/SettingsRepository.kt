@@ -4,7 +4,6 @@
 
 package com.github.mustafaozhan.ccc.common.settings
 
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.russhwolf.settings.Settings
 import kotlinx.datetime.Clock
 
@@ -22,7 +21,7 @@ class SettingsRepository(private val settings: Settings) {
         set(value) = settings.putBoolean(KEY_FIRST_RUN, value)
 
     var currentBase
-        get() = settings.getString(KEY_CURRENT_BASE, CurrencyType.NULL.toString())
+        get() = settings.getString(KEY_CURRENT_BASE, "")
         set(value) = settings.putString(KEY_CURRENT_BASE, value)
 
     var appTheme
