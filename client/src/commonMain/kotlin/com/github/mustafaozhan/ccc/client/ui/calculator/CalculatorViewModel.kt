@@ -60,6 +60,7 @@ class CalculatorViewModel(
     // endregion
 
     init {
+        kermit.d { "CalculatorViewModel init" }
         with(_state) {
             _base.value = settingsRepository.currentBase
             _input.value = ""
@@ -175,6 +176,7 @@ class CalculatorViewModel(
 
     // region Event
     override fun onKeyPress(key: String) {
+        kermit.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
             KEY_AC -> {
                 _state._input.value = ""
@@ -190,6 +192,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+        kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
         var finalResult = conversion
 
         while (finalResult.length > MAXIMUM_INPUT) {
@@ -205,6 +208,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
+        kermit.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
         clientScope.launch {
             _effect.send(
                 ShowRateEffect(
@@ -220,14 +224,17 @@ class CalculatorViewModel(
     }
 
     override fun onBarClick() = clientScope.launch {
+        kermit.d { "CalculatorViewModel onBarClick" }
         _effect.send(OpenBarEffect)
     }.toUnit()
 
     override fun onSpinnerItemSelected(base: String) {
+        kermit.d { "CalculatorViewModel onSpinnerItemSelected $base" }
         _state._base.value = base
     }
 
     override fun onSettingsClicked() = clientScope.launch {
+        kermit.d { "CalculatorViewModel onSettingsClicked" }
         _effect.send(OpenSettingsEffect)
     }.toUnit()
     // endregion

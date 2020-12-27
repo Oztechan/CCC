@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -41,6 +42,7 @@ class CurrenciesViewModel(
     // endregion
 
     init {
+        kermit.d { "CurrenciesViewModel init" }
         _state._loading.value = true
 
         clientScope.launch {
@@ -109,14 +111,17 @@ class CurrenciesViewModel(
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
+        kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
         currencyDao.updateAllCurrencyState(state)
     }.toUnit()
 
     override fun onItemClick(currency: Currency) = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
     }.toUnit()
 
     override fun onDoneClick() = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onDoneClick" }
         _state._currencyList.value
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -128,11 +133,13 @@ class CurrenciesViewModel(
     }.toUnit()
 
     override fun onItemLongClick() = _state._selectionVisibility.value.let {
+        kermit.d { "CurrenciesViewModel onItemLongClick" }
         _state._selectionVisibility.value = !it
         true
     }
 
     override fun onCloseClick() = clientScope.launch {
+        kermit.d { "CurrenciesViewModel onCloseClick" }
         if (_state._selectionVisibility.value) {
             _state._selectionVisibility.value = false
         } else {

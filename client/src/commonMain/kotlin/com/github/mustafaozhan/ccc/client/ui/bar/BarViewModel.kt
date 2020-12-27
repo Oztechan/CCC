@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.removeUnUsedCurrencies
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
@@ -28,6 +29,7 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     // endregion
 
     init {
+        kermit.d { "BarViewModel init" }
         with(_state) {
             clientScope.launch {
                 currencyDao.collectActiveCurrencies()
@@ -43,10 +45,12 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
 
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launch {
+        kermit.d { "BarViewModel onItemClick ${currency.name}" }
         _effect.send(ChangeBaseNavResultEffect(currency.name))
     }.toUnit()
 
     override fun onSelectClick() = clientScope.launch {
+        kermit.d { "BarViewModel onSelectClick" }
         _effect.send(OpenCurrenciesEffect)
     }.toUnit()
     // endregion
