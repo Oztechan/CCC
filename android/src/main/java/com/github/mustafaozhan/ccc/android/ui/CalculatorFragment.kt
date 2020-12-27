@@ -34,6 +34,7 @@ import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import kotlinx.coroutines.flow.collect
@@ -54,6 +55,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        kermit.d { "CalculatorFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffect()
@@ -110,6 +112,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         calculatorViewModel.effect.collect { viewEffect ->
+            kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 ErrorEffect -> Toast.show(requireContext(), R.string.error_text_unknown)
                 FewCurrencyEffect -> showSnack(
@@ -179,11 +182,13 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
         ?.reObserve(viewLifecycleOwner, {
+            kermit.d { "CalculatorFragment observeNavigationResult $it" }
             calculatorViewModel.verifyCurrentBase(it)
         })
 
     override fun onResume() {
         super.onResume()
+        kermit.d { "CalculatorFragment onResume" }
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
             calculatorViewModel.isRewardExpired()

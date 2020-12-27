@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.google.android.material.snackbar.Snackbar
 import mustafaozhan.github.com.mycurrencies.R
 
@@ -26,7 +27,10 @@ fun showSnack(
     text?.let { view.context?.getString(it) } ?: "",
     if (isIndefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
 ).apply {
-    setAction(actionText?.let { context.getString(it) } ?: "") { action?.invoke() }
+    setAction(actionText?.let { context.getString(it) } ?: "") {
+        kermit.d { "Snackbar action click" }
+        action?.invoke()
+    }
     this.view.apply {
         setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
         findViewById<TextView>(R.id.snackbar_text)?.apply {
@@ -57,7 +61,10 @@ fun showSnack(
     text,
     if (isIndefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
 ).apply {
-    setAction(actionText) { action?.invoke() }
+    setAction(actionText) {
+        kermit.d { "Snackbar action click" }
+        action?.invoke()
+    }
     this.view.apply {
         setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
         findViewById<TextView>(R.id.snackbar_text)?.apply {

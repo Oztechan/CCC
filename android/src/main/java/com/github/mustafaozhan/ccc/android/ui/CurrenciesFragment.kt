@@ -30,6 +30,7 @@ import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.ui.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
@@ -54,6 +55,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        kermit.d { "CurrenciesFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffect()
@@ -109,6 +111,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         currenciesViewModel.effect.collect { viewEffect ->
+            kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
                 CalculatorEffect -> {
@@ -155,6 +158,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
+        kermit.d { "CurrenciesFragment onResume" }
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
             currenciesViewModel.isRewardExpired()
@@ -165,6 +169,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        kermit.d { "CurrenciesFragment onConfigurationChanged" }
         setSpanByOrientation(newConfig.orientation)
     }
 
