@@ -4,7 +4,6 @@
 
 package com.github.mustafaozhan.ccc.client.base
 
-import com.github.mustafaozhan.ccc.common.log.kermit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -21,7 +20,6 @@ actual open class BaseViewModel actual constructor() {
     protected actual val clientScope: CoroutineScope = viewModelScope
 
     protected actual open fun onCleared() {
-        kermit.d { "BaseViewModel onCleared" }
         viewModelJob.cancelChildren()
     }
 }

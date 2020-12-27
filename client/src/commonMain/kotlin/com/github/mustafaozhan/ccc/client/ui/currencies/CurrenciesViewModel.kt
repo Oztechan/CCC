@@ -109,6 +109,11 @@ class CurrenciesViewModel(
 
     fun isFirstRun() = settingsRepository.firstRun
 
+    override fun onCleared() {
+        kermit.d { "CurrenciesViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
         kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }

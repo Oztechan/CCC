@@ -27,4 +27,9 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseVi
     fun getAppTheme() = settingsRepository.appTheme
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+
+    override fun onCleared() {
+        kermit.d { "MainViewModel onCleared" }
+        super.onCleared()
+    }
 }

@@ -85,6 +85,11 @@ class SettingsViewModel(
 
     fun getAppTheme() = settingsRepository.appTheme
 
+    override fun onCleared() {
+        kermit.d { "SettingsViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun onBackClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onBackClick" }

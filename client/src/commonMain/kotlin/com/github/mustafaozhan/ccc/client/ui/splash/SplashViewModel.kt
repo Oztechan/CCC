@@ -17,4 +17,9 @@ class SplashViewModel(private val settingsRepository: SettingsRepository) : Base
     fun getAppTheme() = settingsRepository.appTheme
 
     fun isFirstRun() = settingsRepository.firstRun
+
+    override fun onCleared() {
+        kermit.d { "SplashViewModel onCleared" }
+        super.onCleared()
+    }
 }

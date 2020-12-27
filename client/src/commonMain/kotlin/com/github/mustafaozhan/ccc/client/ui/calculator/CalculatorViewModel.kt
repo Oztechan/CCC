@@ -174,6 +174,11 @@ class CalculatorViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
+    override fun onCleared() {
+        kermit.d { "CalculatorViewModel onCleared" }
+        super.onCleared()
+    }
+
     // region Event
     override fun onKeyPress(key: String) {
         kermit.d { "CalculatorViewModel onKeyPress $key" }

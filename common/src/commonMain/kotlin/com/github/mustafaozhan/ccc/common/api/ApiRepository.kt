@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.error.NetworkException
 import com.github.mustafaozhan.ccc.common.error.NullBaseException
 import com.github.mustafaozhan.ccc.common.error.TimeoutException
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Result
 import com.github.mustafaozhan.ccc.common.platformCoroutineContext
@@ -45,6 +46,8 @@ class ApiRepository(private val apiFactory: ApiFactory) {
             base == CurrencyType.NULL.toString() -> throw NullBaseException()
             else -> apiFactory.getRatesByBaseViaBackend(base).toModel()
         }
+    }.also {
+        kermit.d { "ApiRepository getRatesByBaseViaBackend $base" }
     }
 
     suspend fun getRatesByBaseViaApi(base: String) = apiRequest {
@@ -53,5 +56,7 @@ class ApiRepository(private val apiFactory: ApiFactory) {
             base == CurrencyType.NULL.toString() -> throw NullBaseException()
             else -> apiFactory.getRatesByBaseViaApi(base).toModel()
         }
+    }.also {
+        kermit.d { "ApiRepository getRatesByBaseViaApi $base" }
     }
 }

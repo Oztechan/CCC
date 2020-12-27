@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ccc.common.db
 
 import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel
 
@@ -22,13 +23,19 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
             pLN, pYG, qAR, rON, rSD, rUB, rWF, sAR, sBD, sCR, sDG, sEK, sGD, sHP, sLL, sOS, sRD,
             sTD, sVC, sYP, sZL, tHB, tJS, tMT, tND, tOP, tRY, tTD, tWD, tZS, uAH, uGX, uSD, uYU,
             uZS, vEF, vES, vND, vUV, wST, xAF, xAG, xAU, xCD, xDR, xOF, xPF, yER, zAR, zMK, zMW, zWL
-        )
+        ).also {
+            kermit.d { "OfflineRatesDao insertOfflineRates ${rates.base}" }
+        }
     }
 
     fun getOfflineRatesByBase(base: String) =
-        offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()?.toModel()
+        offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()?.toModel().also {
+            kermit.d { "OfflineRatesDao getOfflineRatesByBase $base" }
+        }
 
     fun getOfflineCurrencyResponseByBase(base: String) =
         offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()
-            ?.toCurrencyResponseEntity()
+            ?.toCurrencyResponseEntity().also {
+                kermit.d { "OfflineRatesDao getOfflineCurrencyResponseByBase $base" }
+            }
 }
