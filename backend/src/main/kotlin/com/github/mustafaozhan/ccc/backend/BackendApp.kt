@@ -25,13 +25,13 @@ fun main() {
         host = HOST
     ) {
 
-        kermit.d { "App initialised" }
+        kermit.d { "BackendApp main" }
 
         install(ContentNegotiation) {
             json()
         }
 
-        checkApi()
+        refreshApi()
 
         setupRooting()
     }.start(wait = true)

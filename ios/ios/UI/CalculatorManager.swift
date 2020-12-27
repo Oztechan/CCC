@@ -20,8 +20,7 @@ final class CalculatorManager: BaseManager {
 
     init(viewModel: CalculatorViewModel) {
         self.viewModel = viewModel
-        LoggerKt.kermit.d(withMessage: {"init CalculatorManager"})
-
+        LoggerKt.kermit.d(withMessage: {"CalculatorManager init"})
     }
 
     func observeEffect() {
@@ -33,9 +32,6 @@ final class CalculatorManager: BaseManager {
     }
 
     func observeStates() {
-
-        LoggerKt.kermit.d(withMessage: {"observeStates"})
-
         self.viewModel.observeState(viewModel.state.base, provideNewState: { newState in
             if let state = newState as? String {
                 self.state.base = state
@@ -74,7 +70,6 @@ final class CalculatorManager: BaseManager {
     }
 
     func stopObserving() {
-        LoggerKt.kermit.d {"stopObserving"}
         self.viewModel.onCleared()
     }
 
