@@ -4,8 +4,8 @@
 package com.github.mustafaozhan.ccc.client.ui.calculator
 
 import com.github.mustafaozhan.ccc.calculator.Calculator
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.Rates
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

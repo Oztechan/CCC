@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.extension
 
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
@@ -18,7 +19,6 @@ import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType

@@ -5,7 +5,7 @@
 
 package com.github.mustafaozhan.ccc.client.util
 
-import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates

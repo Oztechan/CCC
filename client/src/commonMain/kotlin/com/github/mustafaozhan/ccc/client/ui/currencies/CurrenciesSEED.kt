@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.ui.currencies
 
-import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.client.model.Currency
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

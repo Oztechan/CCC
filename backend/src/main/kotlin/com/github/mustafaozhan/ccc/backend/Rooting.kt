@@ -44,7 +44,7 @@ fun Application.setupRooting() = routing {
     get(PATH_BY_BASE) {
         call.parameters[PARAMETER_BASE]?.let { base ->
             kermit.d { "GET Request  $PARAMETER_BASE $base" }
-            offlineRatesDao.getOfflineCurrencyResponseByBase(base).let {
+            offlineRatesDao.getOfflineCurrencyResponseByBase(base)?.let {
                 call.respond(it)
             }
         } ?: run {

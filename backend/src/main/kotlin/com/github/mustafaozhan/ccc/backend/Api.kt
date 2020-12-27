@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-private const val SECOND: Long = 1000 * 5
+private const val SECOND: Long = 1000
 private const val DAY = (12 * 60 * 60 * SECOND)
 
 private val apiRepository: ApiRepository by lazy { app.koin.getDependency(ApiRepository::class) }

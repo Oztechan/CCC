@@ -17,6 +17,7 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
@@ -31,7 +32,6 @@ import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.SynchronisedEffect
 import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem

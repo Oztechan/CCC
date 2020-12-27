@@ -4,7 +4,10 @@
 package com.github.mustafaozhan.ccc.client.ui.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.mapToModel
+import com.github.mustafaozhan.ccc.client.model.toModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
@@ -18,7 +21,6 @@ import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -80,6 +82,7 @@ class CalculatorViewModel(
 
             clientScope.launch {
                 currencyDao.collectActiveCurrencies()
+                    .mapToModel()
                     .map { it.removeUnUsedCurrencies() }
                     .collect { _currencyList.value = it }
             }
@@ -160,7 +163,7 @@ class CalculatorViewModel(
         _state._input.value = _state._input.value
 
         clientScope.launch {
-            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.symbol ?: ""
+            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
         }
     }
 

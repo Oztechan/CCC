@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.ui.settings
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import com.github.mustafaozhan.ccc.client.model.mapToModel
+import com.github.mustafaozhan.ccc.client.model.toModelList
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
@@ -58,6 +60,7 @@ class SettingsViewModel(
 
         clientScope.launch {
             currencyDao.collectActiveCurrencies()
+                .mapToModel()
                 .collect {
                     _state._activeCurrencyCount.value = it.filter { currency ->
                         currency.isActive
@@ -135,15 +138,17 @@ class SettingsViewModel(
         kermit.d { "SettingsViewModel onSyncClick" }
         clientScope.launch {
             if (!data.synced) {
-                currencyDao.getActiveCurrencies().forEach { (name) ->
-                    delay(SYNC_DELAY)
+                currencyDao.getActiveCurrencies()
+                    .toModelList()
+                    .forEach { (name) ->
+                        delay(SYNC_DELAY)
 
-                    apiRepository.getRatesByBaseViaBackend(name).execute({
-                        clientScope.launch {
-                            offlineRatesDao.insertOfflineRates(it.toRates())
-                        }
-                    }, { error -> kermit.e(error) { error.message.toString() } })
-                }
+                        apiRepository.getRatesByBaseViaBackend(name).execute({
+                            clientScope.launch {
+                                offlineRatesDao.insertOfflineRates(it.toRates())
+                            }
+                        }, { error -> kermit.e(error) { error.message.toString() } })
+                    }
 
                 data.synced = true
                 _effect.send(SynchronisedEffect)

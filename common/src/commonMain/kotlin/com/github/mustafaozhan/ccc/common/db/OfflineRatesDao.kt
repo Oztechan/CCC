@@ -28,14 +28,14 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
         }
     }
 
-    fun getOfflineRatesByBase(base: String) =
-        offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()?.toModel().also {
+    fun getOfflineRatesByBase(base: String) = offlineRatesQueries.getOfflineRatesByBase(base)
+        .executeAsOneOrNull()?.toModel().also {
             kermit.d { "OfflineRatesDao getOfflineRatesByBase $base" }
         }
 
     fun getOfflineCurrencyResponseByBase(base: String) =
-        offlineRatesQueries.getOfflineRatesByBase(base).executeAsOneOrNull()
-            ?.toCurrencyResponseEntity().also {
+        offlineRatesQueries.getOfflineRatesByBase(base)
+            .executeAsOneOrNull()?.toCurrencyResponseEntity().also {
                 kermit.d { "OfflineRatesDao getOfflineCurrencyResponseByBase $base" }
             }
 }

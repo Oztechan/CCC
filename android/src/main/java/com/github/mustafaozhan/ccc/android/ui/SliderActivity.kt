@@ -19,7 +19,7 @@ import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.activity.BaseVBActivity
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R

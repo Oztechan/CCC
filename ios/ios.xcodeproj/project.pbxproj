@@ -13,8 +13,6 @@
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
 		5C9791A5259743DA00577946 /* CalculatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A4259743DA00577946 /* CalculatorManager.swift */; };
 		5C9791A8259743F000577946 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A7259743F000577946 /* BaseManager.swift */; };
-		5CE3B52425642FE500B9AA2D /* common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5CE3B5252564302700B9AA2D /* common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE3B52325642FE500B9AA2D /* common.framework */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FFB2242A642300829871 /* client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* client.framework */; };
@@ -28,7 +26,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5CE3B52425642FE500B9AA2D /* common.framework in Embed Frameworks */,
 				7555FFB3242A642300829871 /* client.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -43,7 +40,6 @@
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C9791A4259743DA00577946 /* CalculatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorManager.swift; sourceTree = "<group>"; };
 		5C9791A7259743F000577946 /* BaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
-		5CE3B52325642FE500B9AA2D /* common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = common.framework; path = "../common/build/xcode-frameworks/common.framework"; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -56,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CE3B5252564302700B9AA2D /* common.framework in Frameworks */,
 				7555FFB2242A642300829871 /* client.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,7 +151,6 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5CE3B52325642FE500B9AA2D /* common.framework */,
 				7555FFB1242A642300829871 /* client.framework */,
 			);
 			name = Frameworks;
@@ -245,7 +239,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :client:packForXCode -PXCODE_CONFIGURATION=${CONFIGURATION}\n./gradlew :common:packForXCode -PXCODE_CONFIGURATION=${CONFIGURATION}\n\nif which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :client:packForXCode -PXCODE_CONFIGURATION=${CONFIGURATION}\n\nif which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -389,10 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../client/build/xcode-frameworks",
-					"$(SRCROOT)/../common/build/xcode-frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../client/build/xcode-frameworks";
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -412,10 +403,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../client/build/xcode-frameworks",
-					"$(SRCROOT)/../common/build/xcode-frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../client/build/xcode-frameworks";
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

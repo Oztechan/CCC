@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.app.Activity
 import android.app.AlertDialog
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.client.log.kermit
 import mustafaozhan.github.com.mycurrencies.R
 
 @Suppress("LongParameterList")

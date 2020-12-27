@@ -22,6 +22,8 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
@@ -34,9 +36,6 @@ import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
@@ -84,7 +83,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             base.collect {
                 with(binding.layoutBar) {
                     ivBase.setBackgroundByName(it)
-                    txtBase.text = if (it == CurrencyType.NULL.toString()) "" else "  $it"
+                    txtBase.text = if (it == "NULL") "" else "  $it"
                 }
             }
         }

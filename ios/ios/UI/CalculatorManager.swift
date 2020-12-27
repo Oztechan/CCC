@@ -9,7 +9,6 @@
 import Foundation
 import Combine
 import client
-import common
 
 final class CalculatorManager: BaseManager {
 
@@ -38,7 +37,7 @@ final class CalculatorManager: BaseManager {
             }
         })
         self.viewModel.observeState(viewModel.state.currencyList, provideNewState: { newState in
-            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? CommonCurrency }) {
+            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? Currency }) {
                 self.state.currencyList = state
             }
         })
@@ -75,7 +74,7 @@ final class CalculatorManager: BaseManager {
 
     struct State {
         var base = ""
-        var currencyList = [CommonCurrency]()
+        var currencyList = [Currency]()
         var dataState: DataState = DataState.Error()
         var input = ""
         var loading = true

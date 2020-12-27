@@ -17,9 +17,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize

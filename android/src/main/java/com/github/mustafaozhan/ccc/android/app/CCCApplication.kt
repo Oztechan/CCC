@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.logmob.initLogMob
 
 @Suppress("unused")

@@ -4,9 +4,9 @@
 
 package com.github.mustafaozhan.ccc.web.ui
 
-import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.client.di.getDependency
+import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.ccc.client.ui.main.MainViewModel
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
 import react.RProps
 import react.child
@@ -14,15 +14,15 @@ import react.dom.tr
 import react.functionalComponent
 import react.useContext
 
-private val settingsRepository: SettingsRepository by lazy {
-    useContext(AppDependenciesContext).koin.getDependency(SettingsRepository::class)
+private val mainViewModel: MainViewModel by lazy {
+    useContext(AppDependenciesContext).koin.getDependency(MainViewModel::class)
 }
 
 val MainView = functionalComponent<RProps> {
     kermit.d { "MainView" }
     child(
         functionalComponent {
-            if (settingsRepository.firstRun) {
+            if (mainViewModel.isFistRun()) {
                 tr { +"First Run" }
             } else {
                 tr { +"Not first run" }

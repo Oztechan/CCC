@@ -8,7 +8,6 @@
 
 import SwiftUI
 import client
-import common
 
 struct CalculatorView: View {
 

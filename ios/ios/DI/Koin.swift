@@ -9,7 +9,6 @@
 import Foundation
 import SwiftUI
 import client
-import common
 
 struct Koin {
     let koin = KoinIOSKt.doInitIOS(
@@ -37,6 +36,6 @@ extension EnvironmentValues {
 // swiftlint:disable force_cast
 extension Koin {
     func getCalculatorViewModel() -> CalculatorViewModel {
-        return koin.getForIOS(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+        return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
     }
 }
