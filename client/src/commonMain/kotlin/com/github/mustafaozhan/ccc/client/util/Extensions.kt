@@ -103,20 +103,20 @@ fun Rates.getConversionByName(name: String) = when (name.capitalize()) {
     "BOB" -> bOB
     "BRL" -> bRL
     "BSD" -> bSD
-    "BTN" -> bTC
-    "BWP" -> bTN
-    "BYN" -> bWP
-    "BYR" -> bYN
-    "BZD" -> bYR
-    "CAD" -> bZD
-    "CDF" -> cAD
-    "CHF" -> cDF
-    "CLF" -> cHF
-    "CLP" -> cLF
-    "CNY" -> cLP
-    "COP" -> cNY
-    "CRC" -> cOP
-    "BTC" -> cRC
+    "BTC" -> bTC
+    "BTN" -> bTN
+    "BWP" -> bWP
+    "BYN" -> bYN
+    "BYR" -> bYR
+    "BZD" -> bZD
+    "CAD" -> cAD
+    "CDF" -> cDF
+    "CHF" -> cHF
+    "CLF" -> cLF
+    "CLP" -> cLP
+    "CNY" -> cNY
+    "COP" -> cOP
+    "CRC" -> cRC
     "CUC" -> cUC
     "CUP" -> cUP
     "CVE" -> cVE
