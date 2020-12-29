@@ -52,24 +52,18 @@ class BarBottomSheetDialogFragment :
         binding.recyclerViewBar.adapter = barAdapter
     }
 
-    private fun observeStates() = with(barViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            currencyList.collect {
-                barAdapter.submitList(it)
-            }
-        }
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        barViewModel.state.collect {
+            with(it) {
+                barAdapter.submitList(currencyList)
 
-        lifecycleScope.launchWhenStarted {
-            loading.collect {
-                binding.loadingView.visibleIf(it)
-            }
-        }
+                with(binding) {
+                    loadingView.visibleIf(loading)
 
-        lifecycleScope.launchWhenStarted {
-            enoughCurrency.collect {
-                binding.recyclerViewBar.visibleIf(it)
-                binding.txtNoEnoughCurrency.visibleIf(!it)
-                binding.btnSelect.visibleIf(!it)
+                    recyclerViewBar.visibleIf(enoughCurrency)
+                    txtNoEnoughCurrency.visibleIf(!enoughCurrency)
+                    btnSelect.visibleIf(!enoughCurrency)
+                }
             }
         }
     }
