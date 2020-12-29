@@ -6,7 +6,6 @@ package com.github.mustafaozhan.ccc.client.ui.settings
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 
 // State
-@Suppress("ConstructorParameterNaming")
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,

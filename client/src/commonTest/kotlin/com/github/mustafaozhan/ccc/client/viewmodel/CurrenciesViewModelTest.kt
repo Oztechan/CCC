@@ -35,30 +35,30 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         with(viewModel) {
             data.unFilteredList = originalList
             filterList("USD")
-            assertTrue(state.currencyList.value.contains(dollar))
+            assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
             filterList("Euro")
-            assertTrue(state.currencyList.value.contains(euro))
+            assertTrue(state.value.currencyList.contains(euro))
 
             data.unFilteredList = originalList
             filterList("$")
-            assertTrue(state.currencyList.value.contains(dollar))
+            assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
             filterList("asdasd")
-            assertTrue(state.currencyList.value.isEmpty())
+            assertTrue(state.value.currencyList.isEmpty())
 
             data.unFilteredList = originalList
             filterList("o")
-            assertEquals(2, state.currencyList.value.size)
+            assertEquals(2, state.value.currencyList.size)
         }
     }
 
     @Test
     fun hideSelectionVisibility() {
         viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.selectionVisibility.value)
+        assertEquals(false, viewModel.state.value.selectionVisibility)
     }
 
     @Test
@@ -71,9 +71,9 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     // Event
     @Test
     fun onItemLongClick() = with(viewModel) {
-        val currentValue = viewModel.state.selectionVisibility.value
+        val currentValue = viewModel.state.value.selectionVisibility
         getEvent().onItemLongClick()
-        assertEquals(!currentValue, viewModel.state.selectionVisibility.value)
+        assertEquals(!currentValue, viewModel.state.value.selectionVisibility)
     }
 
     @Test

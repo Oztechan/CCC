@@ -5,24 +5,27 @@ package com.github.mustafaozhan.ccc.client.ui.currencies
 
 import com.github.mustafaozhan.ccc.client.model.Currency
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 // State
-@Suppress("ConstructorParameterNaming")
 data class CurrenciesState(
-    private val _state: MutableCurrenciesState
+    val currencyList: List<Currency> = listOf(),
+    val loading: Boolean = false,
+    val selectionVisibility: Boolean = false
 ) {
-    val currencyList: StateFlow<List<Currency>> = _state._currencyList
-    val loading: StateFlow<Boolean> = _state._loading
-    val selectionVisibility: StateFlow<Boolean> = _state._selectionVisibility
+    companion object {
+        fun MutableStateFlow<CurrenciesState>.update(
+            currencyList: List<Currency> = value.currencyList,
+            loading: Boolean = value.loading,
+            selectionVisibility: Boolean = value.selectionVisibility
+        ) {
+            value = value.copy(
+                currencyList = currencyList,
+                loading = loading,
+                selectionVisibility = selectionVisibility
+            )
+        }
+    }
 }
-
-@Suppress("ConstructorParameterNaming")
-data class MutableCurrenciesState(
-    val _currencyList: MutableStateFlow<List<Currency>> = MutableStateFlow(mutableListOf()),
-    val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false),
-    val _selectionVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
-)
 
 // Event
 interface CurrenciesEvent {

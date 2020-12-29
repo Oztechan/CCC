@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ccc.client.ui.currencies
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
+import com.github.mustafaozhan.ccc.client.ui.currencies.CurrenciesState.Companion.update
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
@@ -17,6 +18,8 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,8 +31,8 @@ class CurrenciesViewModel(
 ) : BaseViewModel(), CurrenciesEvent {
 
     // region SEED
-    private val _state = MutableCurrenciesState()
-    val state = CurrenciesState(_state)
+    private val _state = MutableStateFlow(CurrenciesState())
+    val state: StateFlow<CurrenciesState> = _state
 
     private val _effect = BroadcastChannel<CurrenciesEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
@@ -41,14 +44,14 @@ class CurrenciesViewModel(
 
     init {
         kermit.d { "CurrenciesViewModel init" }
-        _state._loading.value = true
+        _state.update(loading = true)
 
         clientScope.launch {
             currencyDao.collectAllCurrencies()
                 .mapToModel()
                 .collect { currencyList ->
 
-                    _state._currencyList.value = currencyList
+                    _state.update(currencyList = currencyList)
                     data.unFilteredList = currencyList.toMutableList()
 
                     currencyList
@@ -59,7 +62,7 @@ class CurrenciesViewModel(
 
                     verifyCurrentBase()
                     filterList(data.query)
-                    _state._selectionVisibility.value = false
+                    _state.update(selectionVisibility = false)
                 }
         }
         filterList("")
@@ -68,13 +71,13 @@ class CurrenciesViewModel(
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
         { isEmpty() },
         { base ->
-            state.currencyList.value
+            state.value.currencyList
                 .filter { it.name == base }
                 .toList().firstOrNull()?.isActive == false
         }
     )?.let {
         updateCurrentBase(
-            state.currencyList.value
+            state.value.currencyList
                 .firstOrNull { it.isActive }?.name ?: ""
         )
     }
@@ -85,7 +88,7 @@ class CurrenciesViewModel(
     }.toUnit()
 
     fun hideSelectionVisibility() {
-        _state._selectionVisibility.value = false
+        _state.update(selectionVisibility = false)
     }
 
     fun filterList(txt: String) = data.unFilteredList
@@ -95,8 +98,10 @@ class CurrenciesViewModel(
                     symbol.contains(txt, true)
         }?.toMutableList()
         ?.let {
-            _state._currencyList.value = it
-            _state._loading.value = false
+            _state.update(
+                currencyList = it,
+                loading = false
+            )
         }.run {
             data.query = txt
             true
@@ -124,7 +129,7 @@ class CurrenciesViewModel(
 
     override fun onDoneClick() = clientScope.launch {
         kermit.d { "CurrenciesViewModel onDoneClick" }
-        _state._currencyList.value
+        _state.value.currencyList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.send(FewCurrencyEffect) }
@@ -134,16 +139,16 @@ class CurrenciesViewModel(
             }
     }.toUnit()
 
-    override fun onItemLongClick() = _state._selectionVisibility.value.let {
+    override fun onItemLongClick() = _state.value.selectionVisibility.let {
         kermit.d { "CurrenciesViewModel onItemLongClick" }
-        _state._selectionVisibility.value = !it
+        _state.update(selectionVisibility = !it)
         true
     }
 
     override fun onCloseClick() = clientScope.launch {
         kermit.d { "CurrenciesViewModel onCloseClick" }
-        if (_state._selectionVisibility.value) {
-            _state._selectionVisibility.value = false
+        if (_state.value.selectionVisibility) {
+            _state.update(selectionVisibility = false)
         } else {
             _effect.send(BackEffect)
         }.run {
