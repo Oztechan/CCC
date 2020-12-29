@@ -38,7 +38,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         it.launch {
             val appTheme = AppTheme.DARK
             viewModel.updateTheme(appTheme)
-            assertEquals(appTheme, viewModel.state.appThemeType.value)
+            assertEquals(appTheme, viewModel.state.value.appThemeType)
 
             viewModel.getEvent().onCurrenciesClick()
             assertEquals(ChangeThemeEffect(appTheme.themeValue), viewModel.effect.single())
@@ -49,7 +49,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun updateAddFreeDate() = with(viewModel) {
         updateAddFreeDate()
         assertEquals(
-            state.addFreeDate.value,
+            state.value.addFreeDate,
             Instant.fromEpochMilliseconds(
                 Clock.System.now().toEpochMilliseconds() + DAY
             ).formatToString()

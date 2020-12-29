@@ -20,6 +20,8 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -39,8 +41,8 @@ class SettingsViewModel(
     }
 
     // region SEED
-    private val _state = MutableSettingsState()
-    val state = SettingsState(_state)
+    private val _state = MutableStateFlow(SettingsState())
+    val state: StateFlow<SettingsState> = _state
 
     private val _effect = BroadcastChannel<SettingsEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
@@ -52,35 +54,38 @@ class SettingsViewModel(
 
     init {
         kermit.d { "SettingsViewModel init" }
-        _state._appThemeType.value = AppTheme.getThemeByValue(settingsRepository.appTheme)
-            ?: AppTheme.SYSTEM_DEFAULT
-        _state._addFreeDate.value = Instant.fromEpochMilliseconds(
-            settingsRepository.adFreeActivatedDate + DAY
-        ).formatToString()
+
+        _state.value = _state.value.copy(
+            appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
+                ?: AppTheme.SYSTEM_DEFAULT,
+            addFreeDate = Instant.fromEpochMilliseconds(
+                settingsRepository.adFreeActivatedDate + DAY
+            ).formatToString()
+        )
 
         clientScope.launch {
             currencyDao.collectActiveCurrencies()
                 .mapToModel()
                 .collect {
-                    _state._activeCurrencyCount.value = it.filter { currency ->
-                        currency.isActive
-                    }.size
+                    _state.value = _state.value.copy(
+                        activeCurrencyCount = it.size
+                    )
                 }
         }
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state._addFreeDate.value = Instant.fromEpochMilliseconds(it + DAY).formatToString()
+        _state.value = _state.value.copy(
+            addFreeDate = Instant.fromEpochMilliseconds(it + DAY).formatToString()
+        )
         settingsRepository.adFreeActivatedDate = it
     }
 
-    fun updateTheme(theme: AppTheme) {
-        _state._appThemeType.value = theme
+    fun updateTheme(theme: AppTheme) = clientScope.launch {
+        _state.value = _state.value.copy(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
-        clientScope.launch {
-            _effect.send(ChangeThemeEffect(theme.themeValue))
-        }
-    }
+        _effect.send(ChangeThemeEffect(theme.themeValue))
+    }.toUnit()
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
@@ -134,28 +139,27 @@ class SettingsViewModel(
         _effect.send(ThemeDialogEffect)
     }.toUnit()
 
-    override fun onSyncClick() {
+    override fun onSyncClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSyncClick" }
-        clientScope.launch {
-            if (!data.synced) {
-                currencyDao.getActiveCurrencies()
-                    .toModelList()
-                    .forEach { (name) ->
-                        delay(SYNC_DELAY)
 
-                        apiRepository.getRatesByBaseViaBackend(name).execute({
-                            clientScope.launch {
-                                offlineRatesDao.insertOfflineRates(it.toRates())
-                            }
-                        }, { error -> kermit.e(error) { error.message.toString() } })
-                    }
+        if (!data.synced) {
+            currencyDao.getActiveCurrencies()
+                .toModelList()
+                .forEach { (name) ->
+                    delay(SYNC_DELAY)
 
-                data.synced = true
-                _effect.send(SynchronisedEffect)
-            } else {
-                _effect.send(OnlyOneTimeSyncEffect)
-            }
+                    apiRepository.getRatesByBaseViaBackend(name).execute({
+                        clientScope.launch {
+                            offlineRatesDao.insertOfflineRates(it.toRates())
+                        }
+                    }, { error -> kermit.e(error) { error.message.toString() } })
+                }
+
+            data.synced = true
+            _effect.send(SynchronisedEffect)
+        } else {
+            _effect.send(OnlyOneTimeSyncEffect)
         }
-    }
+    }.toUnit()
     // endregion
 }
