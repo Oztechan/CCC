@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModel
+import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
@@ -28,8 +29,12 @@ import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -48,8 +53,8 @@ class CalculatorViewModel(
     }
 
     // region SEED
-    private val _state = MutableCalculatorState()
-    val state = CalculatorState(_state)
+    private val _state = MutableStateFlow(CalculatorState())
+    val state: StateFlow<CalculatorState> = _state
 
     private val _effect = BroadcastChannel<CalculatorEffect>(Channel.BUFFERED)
     val effect = _effect.asFlow()
@@ -62,33 +67,34 @@ class CalculatorViewModel(
     init {
         kermit.d { "CalculatorViewModel init" }
         with(_state) {
-            _base.value = settingsRepository.currentBase
-            _input.value = ""
+            update(base = settingsRepository.currentBase, input = "")
 
             clientScope.launch {
-                _base.collect {
-                    currentBaseChanged(it)
-                }
+                state.map { it.base }
+                    .distinctUntilChanged()
+                    .collect { currentBaseChanged(it) }
             }
 
             clientScope.launch {
-                _input.collect { input ->
-                    _loading.value = true
-                    calculateOutput(input)
-                }
+                state.map { it.input }
+                    .distinctUntilChanged()
+                    .collect { input ->
+                        update(loading = true)
+                        calculateOutput(input)
+                    }
             }
 
             clientScope.launch {
                 currencyDao.collectActiveCurrencies()
                     .mapToModel()
-                    .collect { _currencyList.value = it }
+                    .collect { update(currencyList = it) }
             }
         }
     }
 
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
-        _state._dataState.value = DataState.Cached(rates.date)
+        _state.update(dataState = DataState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
@@ -102,7 +108,7 @@ class CalculatorViewModel(
         currencyResponse.toRates().let {
             data.rates = it
             calculateConversions(it)
-            _state._dataState.value = DataState.Online(it.date)
+            _state.update(dataState = DataState.Online(it.date))
             offlineRatesDao.insertOfflineRates(it)
         }
     }.toUnit()
@@ -114,13 +120,13 @@ class CalculatorViewModel(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _state._dataState.value = DataState.Offline(offlineRates.date)
+            _state.update(dataState = DataState.Offline(offlineRates.date))
         } ?: run {
             kermit.w(t) { "no offline rate found" }
-            state.currencyList.value.size
+            state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.send(ErrorEffect) }
-            _state._dataState.value = DataState.Error
+            _state.update(dataState = DataState.Error)
         }
     }.toUnit()
 
@@ -130,44 +136,40 @@ class CalculatorViewModel(
             .mapTo { if (isFinite()) getFormatted() else "" }
             .whether { length <= MAXIMUM_INPUT }
             ?.let { output ->
-                _state._output.value = output
-                state.currencyList.value.size
+                _state.update(output = output)
+                state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.whetherNot { state.input.value.isEmpty() }
+                    ?.whetherNot { state.value.input.isEmpty() }
                     ?.let { _effect.send(FewCurrencyEffect) }
                     ?: run { getRates() }
             } ?: run {
             _effect.send(MaximumInputEffect)
-            _state._input.value = input.dropLast(1)
-            _state._loading.value = false
+            _state.update(
+                input = input.dropLast(1),
+                loading = false
+            )
         }
     }
 
-    private fun calculateConversions(rates: Rates?) = with(_state) {
-        _currencyList.value.onEach {
-            it.rate = rates.calculateResult(it.name, _output.value)
-        }.let {
-            _currencyList.value = mutableListOf()
-            _currencyList.value = it
-        }
-        _loading.value = false
-    }
+    private fun calculateConversions(rates: Rates?) = _state.update(
+        currencyList = _state.value.currencyList.onEach {
+            it.rate = rates.calculateResult(it.name, _state.value.output)
+        },
+        loading = false
+    )
+
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         settingsRepository.currentBase = newBase
-
-        _state._input.value = _state._input.value
-
-        clientScope.launch {
-            _state._symbol.value = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
-        }
+        _state.update(
+            input = _state.value.input,
+            symbol = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
+        )
     }
 
     fun verifyCurrentBase(it: String) {
-        clientScope.launch {
-            _state._base.emit(it)
-        }
+        _state.update(base = it)
     }
 
     fun getCurrentBase() = settingsRepository.currentBase
@@ -183,16 +185,13 @@ class CalculatorViewModel(
     override fun onKeyPress(key: String) {
         kermit.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
-            KEY_AC -> {
-                _state._input.value = ""
-                _state._output.value = ""
-            }
-            KEY_DEL -> state.input.value
+            KEY_AC -> _state.update(input = "", output = "")
+            KEY_DEL -> state.value.input
                 .whetherNot { isEmpty() }
                 ?.apply {
-                    _state._input.value = substring(0, length - 1)
+                    _state.update(input = substring(0, length - 1))
                 }
-            else -> _state._input.value = if (key.isEmpty()) "" else state.input.value + key
+            else -> _state.update(input = if (key.isEmpty()) "" else state.value.input + key)
         }
     }
 
@@ -208,8 +207,7 @@ class CalculatorViewModel(
             finalResult = finalResult.dropLast(1)
         }
 
-        _base.value = currency.name
-        _input.value = finalResult
+        _state.update(base = currency.name, input = finalResult)
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
@@ -235,7 +233,7 @@ class CalculatorViewModel(
 
     override fun onSpinnerItemSelected(base: String) {
         kermit.d { "CalculatorViewModel onSpinnerItemSelected $base" }
-        _state._base.value = base
+        _state.update(base = base)
     }
 
     override fun onSettingsClicked() = clientScope.launch {

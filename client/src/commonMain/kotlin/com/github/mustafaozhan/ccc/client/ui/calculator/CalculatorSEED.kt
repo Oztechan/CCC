@@ -8,32 +8,40 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.common.model.Rates
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 // State
-@Suppress("ConstructorParameterNaming")
 data class CalculatorState(
-    private val _state: MutableCalculatorState
+    val input: String = "",
+    val base: String = "",
+    val currencyList: List<Currency> = listOf(),
+    val output: String = "",
+    val symbol: String = "",
+    val loading: Boolean = true,
+    val dataState: DataState = DataState.Error,
 ) {
-    val input: StateFlow<String> = _state._input
-    val base: StateFlow<String> = _state._base
-    val currencyList: StateFlow<List<Currency>> = _state._currencyList
-    val output: StateFlow<String> = _state._output
-    val symbol: StateFlow<String> = _state._symbol
-    val loading: StateFlow<Boolean> = _state._loading
-    val dataState: StateFlow<DataState> = _state._dataState
+    companion object {
+        @Suppress("LongParameterList")
+        fun MutableStateFlow<CalculatorState>.update(
+            input: String = value.input,
+            base: String = value.base,
+            currencyList: List<Currency> = value.currencyList,
+            output: String = value.output,
+            symbol: String = value.symbol,
+            loading: Boolean = value.loading,
+            dataState: DataState = value.dataState
+        ) {
+            value = value.copy(
+                input = input,
+                base = base,
+                currencyList = currencyList,
+                output = output,
+                symbol = symbol,
+                loading = loading,
+                dataState = dataState
+            )
+        }
+    }
 }
-
-@Suppress("ConstructorParameterNaming")
-data class MutableCalculatorState(
-    val _input: MutableStateFlow<String> = MutableStateFlow(""),
-    val _base: MutableStateFlow<String> = MutableStateFlow(""),
-    val _currencyList: MutableStateFlow<List<Currency>> = MutableStateFlow(mutableListOf()),
-    val _output: MutableStateFlow<String> = MutableStateFlow(""),
-    val _symbol: MutableStateFlow<String> = MutableStateFlow(""),
-    val _loading: MutableStateFlow<Boolean> = MutableStateFlow(true),
-    val _dataState: MutableStateFlow<DataState> = MutableStateFlow(DataState.Error)
-)
 
 // Event
 interface CalculatorEvent {

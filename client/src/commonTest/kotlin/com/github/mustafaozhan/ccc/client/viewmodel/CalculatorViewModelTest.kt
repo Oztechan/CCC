@@ -30,7 +30,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun onSpinnerItemSelected() = with(viewModel) {
         val clickedItem = "asd"
         getEvent().onSpinnerItemSelected(clickedItem)
-        assertEquals(clickedItem, state.base.value)
+        assertEquals(clickedItem, state.value.base)
     }
 
     @Test
@@ -56,13 +56,13 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         val conversion = "123.456"
         getEvent().onItemClick(currency, conversion)
 
-        assertEquals(currency.name, state.base.value)
-        assertEquals(conversion, state.input.value)
+        assertEquals(currency.name, state.value.base)
+        assertEquals(conversion, state.value.input)
 
         val unValidConversion = "123."
         val validConversion = "123"
         getEvent().onItemClick(currency, unValidConversion)
-        assertEquals(validConversion, state.input.value)
+        assertEquals(validConversion, state.value.input)
     }
 
     @Test
@@ -87,17 +87,17 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onKeyPress() = with(viewModel) {
-        val oldValue = state.input.value
+        val oldValue = state.value.input
         val key = "1"
         getEvent().onKeyPress(key)
-        assertEquals(oldValue + key, state.input.value)
+        assertEquals(oldValue + key, state.value.input)
 
         getEvent().onKeyPress(KEY_AC)
-        assertEquals("", state.input.value)
+        assertEquals("", state.value.input)
 
         val currentInput = "12345"
         getEvent().onKeyPress(currentInput)
         getEvent().onKeyPress(KEY_DEL)
-        assertEquals(currentInput.dropLast(1), state.input.value)
+        assertEquals(currentInput.dropLast(1), state.value.input)
     }
 }
