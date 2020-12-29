@@ -75,33 +75,27 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
-    private fun observeStates() = with(currenciesViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            currencyList.collect {
-                currenciesAdapter.submitList(it)
-            }
-        }
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        currenciesViewModel.state.collect {
+            with(it) {
+                currenciesAdapter.submitList(currencyList)
 
-        lifecycleScope.launchWhenStarted {
-            loading.collect {
-                binding.loadingView.visibleIf(it)
-            }
-        }
+                binding.loadingView.visibleIf(loading)
 
-        lifecycleScope.launchWhenStarted {
-            selectionVisibility.collect {
                 with(binding.layoutCurrenciesToolbar) {
-                    searchView.visibleIf(!it)
-                    txtCurrenciesToolbar.visibleIf(!it)
-                    btnSelectAll.visibleIf(it)
-                    btnDeSelectAll.visibleIf(it)
-                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || it)
+                    searchView.visibleIf(!selectionVisibility)
+                    txtCurrenciesToolbar.visibleIf(!selectionVisibility)
+                    btnSelectAll.visibleIf(selectionVisibility)
+                    btnDeSelectAll.visibleIf(selectionVisibility)
+                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || selectionVisibility)
 
-                    backButton.setBackgroundResource(if (it) R.drawable.ic_close else R.drawable.ic_back)
+                    backButton.setBackgroundResource(
+                        if (selectionVisibility) R.drawable.ic_close else R.drawable.ic_back
+                    )
                     toolbarFragmentCurrencies.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            if (it) R.color.color_background_weak else R.color.color_background_strong
+                            if (selectionVisibility) R.color.color_background_weak else R.color.color_background_strong
                         )
                     )
                 }

@@ -113,28 +113,26 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = with(settingsViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            activeCurrencyCount.collect {
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        settingsViewModel.state.collect {
+            with(it) {
                 binding.itemCurrencies.settingsItemValue.text = requireContext().resources
-                    .getQuantityString(R.plurals.settings_item_currencies_value, it, it)
-            }
-        }
+                    .getQuantityString(
+                        R.plurals.settings_item_currencies_value,
+                        activeCurrencyCount,
+                        activeCurrencyCount
+                    )
+                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
 
-        lifecycleScope.launchWhenStarted {
-            appThemeType.collect {
-                binding.itemTheme.settingsItemValue.text = it.typeName
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            addFreeDate.collect {
                 binding.itemDisableAds.settingsItemValue.text =
                     if (settingsViewModel.getAdFreeActivatedDate() == 0.toLong()) "" else {
                         if (settingsViewModel.isRewardExpired()) {
                             getString(R.string.settings_item_remove_ads_value_expired)
                         } else {
-                            getString(R.string.settings_item_remove_ads_value_will_expire, it)
+                            getString(
+                                R.string.settings_item_remove_ads_value_will_expire,
+                                addFreeDate
+                            )
                         }
                     }
             }
