@@ -7,6 +7,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
+import com.github.mustafaozhan.ccc.client.ui.settings.SettingsState.Companion.update
 import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
@@ -55,7 +56,7 @@ class SettingsViewModel(
     init {
         kermit.d { "SettingsViewModel init" }
 
-        _state.value = _state.value.copy(
+        _state.update(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
             addFreeDate = Instant.fromEpochMilliseconds(
@@ -67,22 +68,18 @@ class SettingsViewModel(
             currencyDao.collectActiveCurrencies()
                 .mapToModel()
                 .collect {
-                    _state.value = _state.value.copy(
-                        activeCurrencyCount = it.size
-                    )
+                    _state.update(activeCurrencyCount = it.size)
                 }
         }
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state.value = _state.value.copy(
-            addFreeDate = Instant.fromEpochMilliseconds(it + DAY).formatToString()
-        )
+        _state.update(addFreeDate = Instant.fromEpochMilliseconds(it + DAY).formatToString())
         settingsRepository.adFreeActivatedDate = it
     }
 
     fun updateTheme(theme: AppTheme) = clientScope.launch {
-        _state.value = _state.value.copy(appThemeType = theme)
+        _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
         _effect.send(ChangeThemeEffect(theme.themeValue))
     }.toUnit()

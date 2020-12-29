@@ -4,13 +4,28 @@
 package com.github.mustafaozhan.ccc.client.ui.settings
 
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeDate: String = ""
-)
+) {
+    companion object {
+        fun MutableStateFlow<SettingsState>.update(
+            activeCurrencyCount: Int = value.activeCurrencyCount,
+            appThemeType: AppTheme = value.appThemeType,
+            addFreeDate: String = value.addFreeDate
+        ) {
+            value = value.copy(
+                activeCurrencyCount = activeCurrencyCount,
+                appThemeType = appThemeType,
+                addFreeDate = addFreeDate
+            )
+        }
+    }
+}
 
 // Event
 interface SettingsEvent {
