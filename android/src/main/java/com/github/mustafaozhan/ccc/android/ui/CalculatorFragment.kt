@@ -68,43 +68,21 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = with(calculatorViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            currencyList.collect {
-                calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            input.collect {
-                binding.txtInput.text = it
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            base.collect {
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        calculatorViewModel.state.collect {
+            with(it) {
+                calculatorAdapter.submitList(currencyList, calculatorViewModel.getCurrentBase())
+
+                binding.txtInput.text = input
                 with(binding.layoutBar) {
-                    ivBase.setBackgroundByName(it)
-                    txtBase.text = if (it.isEmpty()) it else "  $it"
+                    ivBase.setBackgroundByName(base)
+                    txtBase.text = if (base.isEmpty()) base else "  $base"
+                    txtOutput.text = if (output.isNotEmpty()) " = $output" else ""
+                    txtSymbol.text = " $symbol"
                 }
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            output.collect {
-                binding.layoutBar.txtOutput.text = if (it.isNotEmpty()) " = $it" else ""
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            symbol.collect {
-                binding.layoutBar.txtSymbol.text = " $it"
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            loading.collect {
-                binding.loadingView.visibleIf(it)
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            dataState.collect {
-                binding.txtAppStatus.dataState(it)
+
+                binding.loadingView.visibleIf(loading)
+                binding.txtAppStatus.dataState(dataState)
             }
         }
     }
