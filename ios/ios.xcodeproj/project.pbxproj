@@ -11,8 +11,8 @@
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
-		5C9791A5259743DA00577946 /* CalculatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A4259743DA00577946 /* CalculatorManager.swift */; };
-		5C9791A8259743F000577946 /* BaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A7259743F000577946 /* BaseManager.swift */; };
+		5C9791A5259743DA00577946 /* CalculatorVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */; };
+		5C9791A8259743F000577946 /* VMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A7259743F000577946 /* VMWrapper.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FFB2242A642300829871 /* client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* client.framework */; };
@@ -38,8 +38,8 @@
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
-		5C9791A4259743DA00577946 /* CalculatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorManager.swift; sourceTree = "<group>"; };
-		5C9791A7259743F000577946 /* BaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseManager.swift; sourceTree = "<group>"; };
+		5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorVMWrapper.swift; sourceTree = "<group>"; };
+		5C9791A7259743F000577946 /* VMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMWrapper.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
-				5C9791A4259743DA00577946 /* CalculatorManager.swift */,
+				5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -104,7 +104,7 @@
 		5C9791A6259743E000577946 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				5C9791A7259743F000577946 /* BaseManager.swift */,
+				5C9791A7259743F000577946 /* VMWrapper.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -248,10 +248,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C9791A8259743F000577946 /* BaseManager.swift in Sources */,
+				5C9791A8259743F000577946 /* VMWrapper.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
-				5C9791A5259743DA00577946 /* CalculatorManager.swift in Sources */,
+				5C9791A5259743DA00577946 /* CalculatorVMWrapper.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* CCCApp.swift in Sources */,
 			);

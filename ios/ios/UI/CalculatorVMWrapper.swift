@@ -1,5 +1,5 @@
 //
-//  CalculatorManager.swift
+//  CalculatorVMWrapper.swift
 //  ios
 //
 //  Created by Mustafa Ozhan on 26/12/2020.
@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import client
 
-final class CalculatorManager: BaseManager {
+final class CalculatorVMWrapper: VMWrapper {
 
     let viewModel: CalculatorViewModel
 
@@ -28,7 +28,7 @@ final class CalculatorManager: BaseManager {
 
     init(viewModel: CalculatorViewModel) {
         self.viewModel = viewModel
-        LoggerKt.kermit.d(withMessage: {"CalculatorManager init"})
+        LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
     }
 
     func observeEffect() {

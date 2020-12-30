@@ -12,10 +12,10 @@ import client
 struct CalculatorView: View {
 
     @ObservedObject
-    var manager: CalculatorManager
+    var calculatorVMWrapper: CalculatorVMWrapper
 
-    init(manager: CalculatorManager) {
-        self.manager = manager
+    init(calculatorVMWrapper: CalculatorVMWrapper) {
+        self.calculatorVMWrapper = calculatorVMWrapper
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
     }
 
@@ -24,11 +24,11 @@ struct CalculatorView: View {
             Text("Test")
         }
         .onAppear {
-            manager.observeStates()
-            manager.observeEffect()
+            calculatorVMWrapper.observeStates()
+            calculatorVMWrapper.observeEffect()
         }
-        .onReceive(manager.effect) { onEffect(effect: $0) }
-        .onDisappear { manager.stopObserving() }
+        .onReceive(calculatorVMWrapper.effect) { onEffect(effect: $0) }
+        .onDisappear { calculatorVMWrapper.stopObserving() }
     }
 
     private func onEffect(effect: CalculatorEffect) {
@@ -46,7 +46,7 @@ struct MainViewPreviews: PreviewProvider {
 
     static var previews: some View {
         CalculatorView(
-            manager: CalculatorManager(viewModel: koin.getCalculatorViewModel())
+            calculatorVMWrapper: CalculatorVMWrapper(viewModel: koin.get())
         ).makeForPreviewProvider()
     }
 }

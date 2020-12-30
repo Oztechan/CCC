@@ -19,7 +19,7 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalculatorView(manager: CalculatorManager(viewModel: koin.getCalculatorViewModel()))
+            CalculatorView(calculatorVMWrapper: CalculatorVMWrapper(viewModel: koin.get()))
         }
     }
 }

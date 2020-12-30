@@ -1,5 +1,5 @@
 //
-//  BaseManager.swift
+//  VMWrapper.swift
 //  ios
 //
 //  Created by Mustafa Ozhan on 26/12/2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol BaseManager: ObservableObject {
+protocol VMWrapper: ObservableObject {
     func observeEffect()
     func observeStates()
     func stopObserving()
