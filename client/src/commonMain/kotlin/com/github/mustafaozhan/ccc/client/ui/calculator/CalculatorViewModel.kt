@@ -66,29 +66,27 @@ class CalculatorViewModel(
 
     init {
         kermit.d { "CalculatorViewModel init" }
-        with(_state) {
-            update(base = settingsRepository.currentBase, input = "")
+        _state.update(base = settingsRepository.currentBase, input = "")
 
-            clientScope.launch {
-                state.map { it.base }
-                    .distinctUntilChanged()
-                    .collect { currentBaseChanged(it) }
-            }
+        clientScope.launch {
+            state.map { it.base }
+                .distinctUntilChanged()
+                .collect { currentBaseChanged(it) }
+        }
 
-            clientScope.launch {
-                state.map { it.input }
-                    .distinctUntilChanged()
-                    .collect { input ->
-                        update(loading = true)
-                        calculateOutput(input)
-                    }
-            }
+        clientScope.launch {
+            state.map { it.input }
+                .distinctUntilChanged()
+                .collect { input ->
+                    _state.update(loading = true)
+                    calculateOutput(input)
+                }
+        }
 
-            clientScope.launch {
-                currencyDao.collectActiveCurrencies()
-                    .mapToModel()
-                    .collect { update(currencyList = it) }
-            }
+        clientScope.launch {
+            currencyDao.collectActiveCurrencies()
+                .mapToModel()
+                .collect { _state.update(currencyList = it) }
         }
     }
 
@@ -104,16 +102,15 @@ class CalculatorViewModel(
             )
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = clientScope.launch {
-        currencyResponse.toRates().let {
+    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+        .toRates().let {
             data.rates = it
             calculateConversions(it)
             _state.update(dataState = DataState.Online(it.date))
             offlineRatesDao.insertOfflineRates(it)
         }
-    }.toUnit()
 
-    private fun rateDownloadFail(t: Throwable) = clientScope.launch {
+    private fun rateDownloadFail(t: Throwable) {
         kermit.w(t) { "rate download failed." }
 
         offlineRatesDao.getOfflineRatesByBase(
@@ -121,14 +118,14 @@ class CalculatorViewModel(
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _state.update(dataState = DataState.Offline(offlineRates.date))
-        } ?: run {
+        } ?: clientScope.launch {
             kermit.w(t) { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.send(ErrorEffect) }
             _state.update(dataState = DataState.Error)
         }
-    }.toUnit()
+    }
 
     private fun calculateOutput(input: String) = clientScope.launch {
         data.calculator
@@ -194,7 +191,7 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) = with(_state) {
+    override fun onItemClick(currency: Currency, conversion: String) {
         kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
         var finalResult = conversion
 

@@ -117,15 +117,15 @@ class CurrenciesViewModel(
     }
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) = clientScope.launch {
+    override fun updateAllCurrenciesState(state: Boolean) {
         kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
         currencyDao.updateAllCurrencyState(state)
-    }.toUnit()
+    }
 
-    override fun onItemClick(currency: Currency) = clientScope.launch {
+    override fun onItemClick(currency: Currency) {
         kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
         currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
-    }.toUnit()
+    }
 
     override fun onDoneClick() = clientScope.launch {
         kermit.d { "CurrenciesViewModel onDoneClick" }
