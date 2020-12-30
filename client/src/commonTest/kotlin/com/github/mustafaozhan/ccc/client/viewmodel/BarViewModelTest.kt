@@ -5,12 +5,12 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.OpenCurrenciesEffect
+import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.single

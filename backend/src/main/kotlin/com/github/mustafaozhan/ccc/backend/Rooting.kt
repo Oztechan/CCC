@@ -4,7 +4,7 @@
 
 package com.github.mustafaozhan.ccc.backend
 
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.log.kermit
 import io.ktor.application.Application

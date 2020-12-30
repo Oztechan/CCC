@@ -16,11 +16,11 @@ import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
-import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.OpenCurrenciesEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
@@ -52,24 +52,18 @@ class BarBottomSheetDialogFragment :
         binding.recyclerViewBar.adapter = barAdapter
     }
 
-    private fun observeStates() = with(barViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            currencyList.collect {
-                barAdapter.submitList(it)
-            }
-        }
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        barViewModel.state.collect {
+            with(it) {
+                barAdapter.submitList(currencyList)
 
-        lifecycleScope.launchWhenStarted {
-            loading.collect {
-                binding.loadingView.visibleIf(it)
-            }
-        }
+                with(binding) {
+                    loadingView.visibleIf(loading)
 
-        lifecycleScope.launchWhenStarted {
-            enoughCurrency.collect {
-                binding.recyclerViewBar.visibleIf(it)
-                binding.txtNoEnoughCurrency.visibleIf(!it)
-                binding.btnSelect.visibleIf(!it)
+                    recyclerViewBar.visibleIf(enoughCurrency)
+                    txtNoEnoughCurrency.visibleIf(!enoughCurrency)
+                    btnSelect.visibleIf(!enoughCurrency)
+                }
             }
         }
     }

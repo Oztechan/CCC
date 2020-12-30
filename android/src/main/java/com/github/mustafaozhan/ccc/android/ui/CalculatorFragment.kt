@@ -24,18 +24,18 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorEvent
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.ui.calculator.ErrorEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.FewCurrencyEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.MaximumInputEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ErrorEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.FewCurrencyEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.MaximumInputEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenBarEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenSettingsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ShowRateEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
@@ -68,43 +68,21 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = with(calculatorViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            currencyList.collect {
-                calculatorAdapter.submitList(it, calculatorViewModel.getCurrentBase())
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            input.collect {
-                binding.txtInput.text = it
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            base.collect {
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        calculatorViewModel.state.collect {
+            with(it) {
+                calculatorAdapter.submitList(currencyList, calculatorViewModel.getCurrentBase())
+
+                binding.txtInput.text = input
                 with(binding.layoutBar) {
-                    ivBase.setBackgroundByName(it)
-                    txtBase.text = if (it.isEmpty()) it else "  $it"
+                    ivBase.setBackgroundByName(base)
+                    txtBase.text = if (base.isEmpty()) base else "  $base"
+                    txtOutput.text = if (output.isNotEmpty()) " = $output" else ""
+                    txtSymbol.text = " $symbol"
                 }
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            output.collect {
-                binding.layoutBar.txtOutput.text = if (it.isNotEmpty()) " = $it" else ""
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            symbol.collect {
-                binding.layoutBar.txtSymbol.text = " $it"
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            loading.collect {
-                binding.loadingView.visibleIf(it)
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            dataState.collect {
-                binding.txtAppStatus.dataState(it)
+
+                binding.loadingView.visibleIf(loading)
+                binding.txtAppStatus.dataState(dataState)
             }
         }
     }

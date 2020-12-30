@@ -19,19 +19,19 @@ import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.ui.settings.BackEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.ChangeThemeEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.FeedBackEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.OnGitHubEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.OnlyOneTimeSyncEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.RemoveAdsEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.ui.settings.ShareEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.SupportUsEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.SynchronisedEffect
-import com.github.mustafaozhan.ccc.client.ui.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.BackEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.ChangeThemeEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.CurrenciesEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.FeedBackEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.OnGitHubEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.OnlyOneTimeSyncEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.RemoveAdsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.ShareEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SupportUsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SynchronisedEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.ThemeDialogEffect
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -113,28 +113,26 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = with(settingsViewModel.state) {
-        lifecycleScope.launchWhenStarted {
-            activeCurrencyCount.collect {
+    private fun observeStates() = lifecycleScope.launchWhenStarted {
+        settingsViewModel.state.collect {
+            with(it) {
                 binding.itemCurrencies.settingsItemValue.text = requireContext().resources
-                    .getQuantityString(R.plurals.settings_item_currencies_value, it, it)
-            }
-        }
+                    .getQuantityString(
+                        R.plurals.settings_item_currencies_value,
+                        activeCurrencyCount,
+                        activeCurrencyCount
+                    )
+                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
 
-        lifecycleScope.launchWhenStarted {
-            appThemeType.collect {
-                binding.itemTheme.settingsItemValue.text = it.typeName
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            addFreeDate.collect {
                 binding.itemDisableAds.settingsItemValue.text =
                     if (settingsViewModel.getAdFreeActivatedDate() == 0.toLong()) "" else {
                         if (settingsViewModel.isRewardExpired()) {
                             getString(R.string.settings_item_remove_ads_value_expired)
                         } else {
-                            getString(R.string.settings_item_remove_ads_value_will_expire, it)
+                            getString(
+                                R.string.settings_item_remove_ads_value_will_expire,
+                                addFreeDate
+                            )
                         }
                     }
             }
