@@ -158,7 +158,6 @@ class CalculatorViewModel(
         loading = false
     )
 
-
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         settingsRepository.currentBase = newBase

@@ -14,7 +14,16 @@ final class CalculatorManager: BaseManager {
 
     let viewModel: CalculatorViewModel
 
-    @Published var state = State()
+    @Published var state = CalculatorState(
+        input: "",
+        base: "",
+        currencyList: [Currency](),
+        output: "",
+        symbol: "",
+        loading: true,
+        dataState: DataState.Error()
+    )
+
     var effect = PassthroughSubject<CalculatorEffect, Never>()
 
     init(viewModel: CalculatorViewModel) {
@@ -31,54 +40,14 @@ final class CalculatorManager: BaseManager {
     }
 
     func observeStates() {
-        self.viewModel.observeState(viewModel.state.base, provideNewState: { newState in
-            if let state = newState as? String {
-                self.state.base = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.currencyList, provideNewState: { newState in
-            if let state = (newState as? NSMutableArray)?.compactMap({ $0 as? Currency }) {
-                self.state.currencyList = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.dataState, provideNewState: { newState in
-            if let state = newState as? DataState {
-                self.state.dataState = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.input, provideNewState: { newState in
-            if let state = newState as? String {
-                self.state.input = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.loading, provideNewState: { newState in
-            if let state = newState as? Bool {
-                self.state.loading = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.output, provideNewState: { newState in
-            if let state = newState as? String {
-                self.state.output = state
-            }
-        })
-        self.viewModel.observeState(viewModel.state.symbol, provideNewState: { newState in
-            if let state = newState as? String {
-                self.state.symbol = state
+        self.viewModel.observeState(viewModel.state, provideNewState: { newState in
+            if let state = newState as? CalculatorState {
+                self.state = state
             }
         })
     }
 
     func stopObserving() {
         self.viewModel.onCleared()
-    }
-
-    struct State {
-        var base = ""
-        var currencyList = [Currency]()
-        var dataState: DataState = DataState.Error()
-        var input = ""
-        var loading = true
-        var output = ""
-        var symbol = ""
     }
 }
