@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.db
+package com.github.mustafaozhan.ccc.common.data.db
 
 import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.data.entity.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.db
+package com.github.mustafaozhan.ccc.common.data.db
 
 import com.github.mustafaozhan.ccc.common.CurrencyQueries
 import com.github.mustafaozhan.ccc.common.log.kermit

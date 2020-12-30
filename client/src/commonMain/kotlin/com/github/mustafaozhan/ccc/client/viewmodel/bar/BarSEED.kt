@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.ui.bar
+package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
 import com.github.mustafaozhan.ccc.client.model.Currency
 import kotlinx.coroutines.flow.MutableStateFlow

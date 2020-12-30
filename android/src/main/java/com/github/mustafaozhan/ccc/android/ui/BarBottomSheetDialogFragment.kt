@@ -16,11 +16,11 @@ import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.ui.bar.BarEvent
-import com.github.mustafaozhan.ccc.client.ui.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.ui.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ccc.client.ui.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.OpenCurrenciesEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding

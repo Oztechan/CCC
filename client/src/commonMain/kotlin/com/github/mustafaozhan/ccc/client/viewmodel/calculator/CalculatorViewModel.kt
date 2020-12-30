@@ -1,14 +1,13 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.ui.calculator
+package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModel
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
@@ -17,13 +16,14 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
+import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot

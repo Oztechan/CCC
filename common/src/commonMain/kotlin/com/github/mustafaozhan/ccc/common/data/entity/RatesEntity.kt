@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.entity
+package com.github.mustafaozhan.ccc.common.data.entity
 
 import com.github.mustafaozhan.ccc.common.model.Rates
 import kotlinx.serialization.SerialName

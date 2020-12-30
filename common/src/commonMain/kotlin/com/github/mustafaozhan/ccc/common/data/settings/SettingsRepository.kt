@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.common.settings
+package com.github.mustafaozhan.ccc.common.data.settings
 
 import com.russhwolf.settings.Settings
 import kotlinx.datetime.Clock

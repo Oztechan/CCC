@@ -5,13 +5,13 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_AC
-import com.github.mustafaozhan.ccc.client.ui.calculator.CalculatorViewModel.Companion.KEY_DEL
-import com.github.mustafaozhan.ccc.client.ui.calculator.OpenBarEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.OpenSettingsEffect
-import com.github.mustafaozhan.ccc.client.ui.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel.Companion.KEY_DEL
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenBarEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenSettingsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test

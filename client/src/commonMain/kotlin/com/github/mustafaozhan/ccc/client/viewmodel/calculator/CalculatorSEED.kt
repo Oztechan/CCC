@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.ui.calculator
+package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.calculator.Calculator
 import com.github.mustafaozhan.ccc.client.model.Currency

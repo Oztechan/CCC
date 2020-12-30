@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.ui.bar
+package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
-import com.github.mustafaozhan.ccc.client.ui.bar.BarState.Companion.update
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
+import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.log.kermit
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
