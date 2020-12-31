@@ -16,12 +16,12 @@ import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -34,8 +34,8 @@ class CurrenciesViewModel(
     private val _state = MutableStateFlow(CurrenciesState())
     val state: StateFlow<CurrenciesState> = _state
 
-    private val _effect = BroadcastChannel<CurrenciesEffect>(Channel.BUFFERED)
-    val effect = _effect.asFlow()
+    private val _effect = Channel<CurrenciesEffect>(1)
+    val effect = _effect.receiveAsFlow().conflate()
 
     val data = CurrenciesData()
 

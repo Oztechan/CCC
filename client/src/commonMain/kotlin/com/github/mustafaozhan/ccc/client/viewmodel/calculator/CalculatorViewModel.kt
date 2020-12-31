@@ -27,14 +27,14 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -56,8 +56,8 @@ class CalculatorViewModel(
     private val _state = MutableStateFlow(CalculatorState())
     val state: StateFlow<CalculatorState> = _state
 
-    private val _effect = BroadcastChannel<CalculatorEffect>(Channel.BUFFERED)
-    val effect = _effect.asFlow()
+    private val _effect = Channel<CalculatorEffect>(1)
+    val effect = _effect.receiveAsFlow().conflate()
 
     val data = CalculatorData()
 

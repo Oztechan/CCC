@@ -18,13 +18,13 @@ import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -45,8 +45,8 @@ class SettingsViewModel(
     private val _state = MutableStateFlow(SettingsState())
     val state: StateFlow<SettingsState> = _state
 
-    private val _effect = BroadcastChannel<SettingsEffect>(Channel.BUFFERED)
-    val effect = _effect.asFlow()
+    private val _effect = Channel<SettingsEffect>(1)
+    val effect = _effect.receiveAsFlow().conflate()
 
     private val data = SettingsData()
 

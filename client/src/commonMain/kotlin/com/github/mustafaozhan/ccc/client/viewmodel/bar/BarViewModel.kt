@@ -11,12 +11,12 @@ import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.log.kermit
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarEvent {
@@ -24,8 +24,8 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     private val _state = MutableStateFlow(BarState())
     val state: StateFlow<BarState> = _state
 
-    private val _effect = BroadcastChannel<BarEffect>(Channel.BUFFERED)
-    val effect = _effect.asFlow()
+    private val _effect = Channel<BarEffect>(1)
+    val effect = _effect.receiveAsFlow().conflate()
 
     fun getEvent() = this as BarEvent
     // endregion
