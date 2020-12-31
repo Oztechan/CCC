@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import java.io.File
 import java.io.IOException
@@ -9,7 +9,7 @@ import org.gradle.api.Project
 object ProjectSettings {
 
     private const val mayorVersion = 2
-    private const val minorVersion = 0
+    private const val minorVersion = 1
 
     const val projectId = "mustafaozhan.github.com.mycurrencies"
     const val projectCompileSdkVersion = 29
