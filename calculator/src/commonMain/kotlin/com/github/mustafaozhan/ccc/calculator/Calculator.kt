@@ -201,10 +201,17 @@ class Calculator {
             numStack.push(number)
             numString.clear()
         }
-        var operator = opStack.pop()
-        while (operator != "(") {
-            computeNormalOperation(operator)
-            operator = opStack.pop()
+
+        if (numString.toString().contains("(")) {
+            var operator = opStack.pop()
+
+            while (operator != "(") {
+                computeNormalOperation(operator)
+                operator = opStack.pop()
+            }
+        } else {
+            clearStacks()
+            throw BadFormatException()
         }
     }
 
