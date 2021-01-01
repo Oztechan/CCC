@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 plugins {
     with(Plugins) {
@@ -27,6 +27,8 @@ android {
         }
 
         compileOptions {
+            isCoreLibraryDesugaringEnabled = true
+
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
         }
@@ -45,6 +47,7 @@ dependencies {
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroidViewModel)
+        coreLibraryDesugaring(desugar)
     }
 
     with(Dependencies.Common) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 @Suppress("SpellCheckingInspection")
@@ -33,6 +33,7 @@ object Dependencies {
         const val firebaseCrashlytics =
             "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+        const val desugar = "com.android.tools:desugar_jdk_libs:${Versions.desugar}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
