@@ -27,6 +27,8 @@ class Calculator {
         roundToPrecision(res, precision)
     } catch (e: BadFormatException) {
         Double.NaN
+    } catch (e: NumberFormatException) {
+        Double.NaN
     }
 
     private fun convertToUExpression(expression: String): String {
