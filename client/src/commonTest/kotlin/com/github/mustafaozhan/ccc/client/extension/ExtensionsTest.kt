@@ -162,7 +162,7 @@ class ExtensionsTest {
     @Test
     fun formatToString() {
         assertEquals(
-            "9:12 20.12.2020",
+            "09:12 20.12.2020",
             Instant.parse("2020-12-20T09:12:28Z").formatToString(TimeZone.UTC)
         )
     }
