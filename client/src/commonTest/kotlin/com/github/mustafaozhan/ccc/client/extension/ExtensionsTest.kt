@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.extension
 
@@ -7,6 +7,7 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
+import com.github.mustafaozhan.ccc.client.util.doubleDigits
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.getConversionByName
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
@@ -164,5 +165,13 @@ class ExtensionsTest {
             "9:12 20.12.2020",
             Instant.parse("2020-12-20T09:12:28Z").formatToString(TimeZone.UTC)
         )
+    }
+
+    @Test
+    fun doubleDigits() {
+        assertEquals("01", 1.doubleDigits())
+        assertEquals("05", 5.doubleDigits())
+        assertEquals("09", 9.doubleDigits())
+        assertEquals("10", 10.doubleDigits())
     }
 }

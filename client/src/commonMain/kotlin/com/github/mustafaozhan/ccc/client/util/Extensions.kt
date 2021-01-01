@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 @file:Suppress("TooManyFunctions")
 
@@ -14,6 +14,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+
+private const val BIGGEST_DIGIT = 9
 
 expect fun Double.getFormatted(): String
 
@@ -31,8 +33,11 @@ fun Long.isRewardExpired(): Boolean {
 fun Instant.formatToString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
-    "$hour:$minute $dayOfMonth.$monthNumber.$year"
+    "${hour.doubleDigits()}:${minute.doubleDigits()} " +
+            "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
 }
+
+fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun CurrencyResponse.toRates(): Rates {
     val rate = rates
