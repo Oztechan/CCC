@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.calculator
@@ -202,17 +202,18 @@ class Calculator {
             numString.clear()
         }
 
-        if (numString.toString().contains("(")) {
-            var operator = opStack.pop()
-
-            while (operator != "(") {
-                computeNormalOperation(operator)
-                operator = opStack.pop()
-            }
-        } else {
-            clearStacks()
-            throw BadFormatException()
+        var operator = popForBracket()
+        while (operator != "(") {
+            computeNormalOperation(operator)
+            operator = popForBracket()
         }
+    }
+
+    private fun popForBracket() = try {
+        opStack.pop()
+    } catch (e: IndexOutOfBoundsException) {
+        clearStacks()
+        throw BadFormatException()
     }
 
     private fun clearStacks() {
