@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
@@ -7,7 +7,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
-import com.github.mustafaozhan.ccc.client.util.DAY
+import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
@@ -60,7 +60,7 @@ class SettingsViewModel(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
             addFreeDate = Instant.fromEpochMilliseconds(
-                settingsRepository.adFreeActivatedDate + DAY
+                settingsRepository.adFreeActivatedDate + AD_EXPIRATION
             ).formatToString()
         )
 
@@ -74,7 +74,9 @@ class SettingsViewModel(
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state.update(addFreeDate = Instant.fromEpochMilliseconds(it + DAY).formatToString())
+        _state.update(
+            addFreeDate = Instant.fromEpochMilliseconds(it + AD_EXPIRATION).formatToString()
+        )
         settingsRepository.adFreeActivatedDate = it
     }
 

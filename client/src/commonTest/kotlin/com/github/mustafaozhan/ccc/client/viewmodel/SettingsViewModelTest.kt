@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.util.DAY
+import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.BackEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.ChangeThemeEffect
@@ -51,7 +51,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         assertEquals(
             state.value.addFreeDate,
             Instant.fromEpochMilliseconds(
-                Clock.System.now().toEpochMilliseconds() + DAY
+                Clock.System.now().toEpochMilliseconds() + AD_EXPIRATION
             ).formatToString()
         )
     }
