@@ -45,11 +45,6 @@ kotlin {
         }
 
         with(Dependencies.Common) {
-
-            dependencies {
-                coreLibraryDesugaring(desugaring)
-            }
-
             val commonMain by getting {
                 dependencies {
                     implementation(dateTime)
@@ -134,7 +129,8 @@ android {
         }
 
         compileOptions {
-            isCoreLibraryDesugaringEnabled = true
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
