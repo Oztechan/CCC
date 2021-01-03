@@ -38,6 +38,11 @@ kotlin {
     sourceSets {
 
         with(Dependencies.Common) {
+
+            dependencies {
+                coreLibraryDesugaring(desugaring)
+            }
+
             val commonMain by getting {
                 dependencies {
                     implementation(project(Modules.logmob))

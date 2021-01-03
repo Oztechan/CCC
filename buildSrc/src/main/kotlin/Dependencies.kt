@@ -13,6 +13,7 @@ object Dependencies {
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
+        const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
         const val ktorLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
         const val coroutines =

@@ -45,6 +45,11 @@ kotlin {
         }
 
         with(Dependencies.Common) {
+
+            dependencies {
+                coreLibraryDesugaring(desugaring)
+            }
+
             val commonMain by getting {
                 dependencies {
                     implementation(dateTime)

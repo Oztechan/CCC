@@ -17,6 +17,7 @@ object Versions {
     const val multiplatformSettings = "0.6.3"
     const val firebaseCore = "18.0.0"
     const val firebaseCrashlytics = "17.3.0"
+    const val desugaring = "1.0.9"
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.4"
     const val crashlytics = "2.4.1"
