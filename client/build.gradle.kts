@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -126,6 +126,10 @@ android {
             create("testApi") {}
             create("testDebugApi") {}
             create("testReleaseApi") {}
+        }
+
+        compileOptions {
+            isCoreLibraryDesugaringEnabled = true
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -139,6 +139,9 @@ android {
             create("testReleaseApi") {}
         }
 
+        compileOptions {
+            isCoreLibraryDesugaringEnabled = true
+        }
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }
