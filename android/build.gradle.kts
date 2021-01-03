@@ -20,7 +20,7 @@ android {
             minSdkVersion(projectMinSdkVersion)
             targetSdkVersion(projectTargetSdkVersion)
 
-            applicationId = applicationId
+            applicationId = projectId
 
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
