@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 import Client
 
 struct CalculatorView: View {
@@ -22,6 +23,13 @@ struct CalculatorView: View {
     var body: some View {
         VStack {
             Text("Test")
+        VStack{
+
+            Text(MR.strings().nsBundle.localizedString(forKey: "app_name_ccc", value: nil, table: nil))
+                .background(MR.colors().asd.)
+//                .background(MR.colors().asd.getC)
+//            Text(MR.colors().themedCo)
+
         }
         .onAppear {
             calculatorVMWrapper.observeStates()
@@ -30,6 +38,16 @@ struct CalculatorView: View {
         .onReceive(calculatorVMWrapper.effect) { onEffect(effect: $0) }
         .onDisappear { calculatorVMWrapper.stopObserving() }
     }
+
+    private func getColor() -> Color {
+        let c = MR.colors().asd.color
+
+        return Color(UIColor(red: CGFloat(Int(c.red)), green: CGFloat(Int(c.green)), blue: CGFloat(Int(c.blue)), alpha: CGFloat(Int(c.alpha))))
+
+        return UIColor(
+    }
+
+
 
     private func onEffect(effect: CalculatorEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})

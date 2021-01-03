@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 @Suppress("SpellCheckingInspection")
@@ -19,4 +19,5 @@ object Plugins {
     const val serializationPlugin = "plugin.serialization"
     const val sqldelight = "com.squareup.sqldelight"
     const val versionChecker = "com.github.ben-manes.versions"
+    const val mokoResources = "dev.icerock.mobile.multiplatform-resources"
 }
