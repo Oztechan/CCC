@@ -45,9 +45,6 @@ kotlin {
         }
 
         with(Dependencies.Common) {
-            dependencies {
-                coreLibraryDesugaring(desugaring)
-            }
             val commonMain by getting {
                 dependencies {
                     implementation(dateTime)
@@ -129,12 +126,6 @@ android {
             create("testApi") {}
             create("testDebugApi") {}
             create("testReleaseApi") {}
-        }
-
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-            isCoreLibraryDesugaringEnabled = true
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

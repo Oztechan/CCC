@@ -24,6 +24,7 @@ android {
 
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
+            multiDexEnabled = true
         }
 
         compileOptions {
