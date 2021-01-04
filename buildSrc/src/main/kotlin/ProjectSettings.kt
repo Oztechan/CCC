@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 import java.io.File
 import java.io.IOException
@@ -12,9 +12,9 @@ object ProjectSettings {
     private const val minorVersion = 1
 
     const val projectId = "mustafaozhan.github.com.mycurrencies"
-    const val projectCompileSdkVersion = 29
+    const val projectCompileSdkVersion = 30
     const val projectMinSdkVersion = 21
-    const val projectTargetSdkVersion = 29
+    const val projectTargetSdkVersion = 30
 
     fun getVersionCode(project: Project) = gitCommitCount(project).let {
         if (it.isEmpty()) 1 else it.toInt()

@@ -13,7 +13,6 @@ object Dependencies {
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
-        const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
         const val ktorLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
         const val coroutines =
@@ -34,6 +33,7 @@ object Dependencies {
         const val firebaseCrashlytics =
             "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+        const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
 
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"

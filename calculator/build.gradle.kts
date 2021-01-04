@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -15,13 +15,7 @@ kotlin {
 
     android()
 
-    ios {
-        binaries {
-            framework {
-                baseName = "calculator"
-            }
-        }
-    }
+    ios()
 
     js {
         browser {

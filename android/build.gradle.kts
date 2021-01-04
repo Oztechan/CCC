@@ -27,9 +27,9 @@ android {
         }
 
         compileOptions {
+            isCoreLibraryDesugaringEnabled = true
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
-            isCoreLibraryDesugaringEnabled = true
         }
 
         kotlinOptions {
@@ -50,11 +50,11 @@ dependencies {
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroidViewModel)
+        coreLibraryDesugaring(desugaring)
     }
 
     with(Dependencies.Common) {
         implementation(kermit)
-        coreLibraryDesugaring(desugaring)
     }
 
     with(Modules) {

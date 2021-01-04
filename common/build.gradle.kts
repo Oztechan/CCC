@@ -17,13 +17,7 @@ kotlin {
 
     android()
 
-    ios {
-        binaries {
-            framework {
-                baseName = "common"
-            }
-        }
-    }
+    ios()
 
     js {
         browser {

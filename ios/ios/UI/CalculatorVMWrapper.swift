@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-import client
+import Client
 
 final class CalculatorVMWrapper: VMWrapper {
 
