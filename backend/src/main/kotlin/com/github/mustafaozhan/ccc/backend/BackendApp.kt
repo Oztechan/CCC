@@ -4,7 +4,7 @@
 
 package com.github.mustafaozhan.ccc.backend
 
-import com.github.mustafaozhan.ccc.common.di.initCommon
+import com.github.mustafaozhan.ccc.backend.di.Koin
 import com.github.mustafaozhan.ccc.common.log.kermit
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -15,8 +15,6 @@ import io.ktor.server.netty.Netty
 // Configs
 private const val PORT = 8080
 private const val HOST = "127.0.0.1"
-
-val app = initCommon()
 
 fun main() {
     embeddedServer(
