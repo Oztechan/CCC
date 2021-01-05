@@ -17,7 +17,7 @@ private const val PARAMETER_BASE = "base"
 fun Route.getCurrencyByName(rootingController: RootingController) = get(PATH_BY_BASE) {
     call.parameters[PARAMETER_BASE]?.let { base ->
         kermit.d { "GET Request  $PARAMETER_BASE $base" }
-        rootingController.getOfflineCurrencyResponseByBase(base).let {
+        rootingController.getOfflineCurrencyResponseByBase(base)?.let {
             call.respond(it)
         }
     } ?: run {
