@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -30,6 +30,5 @@ dependencies {
 }
 
 application {
-    @Suppress("UnstableApiUsage")
     mainClass.set("com.github.mustafaozhan.ccc.backend.BackendAppKt")
 }

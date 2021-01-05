@@ -14,11 +14,11 @@ import com.github.mustafaozhan.ccc.common.di.initCommon
 object Koin {
     private val koinApp = initCommon()
 
-    private val apiRepository: ApiRepository by lazy { koinApp.koin.getDependency(ApiRepository::class) }
+    private val apiRepository: ApiRepository by lazy {
+        koinApp.koin.getDependency(ApiRepository::class)
+    }
     private val offlineRatesDao: OfflineRatesDao by lazy {
-        koinApp.koin.getDependency(
-            OfflineRatesDao::class
-        )
+        koinApp.koin.getDependency(OfflineRatesDao::class)
     }
 
     fun getApiController() = ApiController(apiRepository, offlineRatesDao)
