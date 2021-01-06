@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.common.data.entity
 
-import com.github.mustafaozhan.ccc.common.Offline_rates
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.sql.Offline_rates
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

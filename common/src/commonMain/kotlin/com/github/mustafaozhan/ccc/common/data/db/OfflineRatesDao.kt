@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.common.data.db
 
-import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.data.entity.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel
+import com.github.mustafaozhan.ccc.common.sql.OfflineRatesQueries
 
 class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
 

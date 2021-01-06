@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common.di
 
 import co.touchlab.kermit.Kermit
-import com.github.mustafaozhan.ccc.common.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.data.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
@@ -15,6 +14,7 @@ import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.getPlatformCommonModule
 import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.logmob.LogMobLogger
 import kotlin.reflect.KClass
 import org.koin.core.Koin

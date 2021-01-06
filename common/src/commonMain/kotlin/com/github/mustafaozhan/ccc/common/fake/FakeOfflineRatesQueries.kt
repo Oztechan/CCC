@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common.fake
 
-import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.Offline_rates
+import com.github.mustafaozhan.ccc.common.sql.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.sql.Offline_rates
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
