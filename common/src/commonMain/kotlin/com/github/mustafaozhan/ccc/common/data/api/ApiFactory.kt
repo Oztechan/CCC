@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common.data.api
 
 import com.github.mustafaozhan.ccc.common.data.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.key.BASE_URL_API
+import com.github.mustafaozhan.ccc.common.key.BASE_URL_BACKEND
 import com.github.mustafaozhan.ccc.common.log.kermit
-import com.github.mustafaozhan.ccc.common.secret.BASE_URL_API
-import com.github.mustafaozhan.ccc.common.secret.BASE_URL_BACKEND
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
