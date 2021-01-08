@@ -8,7 +8,7 @@ isActive INTEGER NOT NULL DEFAULT 0
 
 INSERT INTO "currency" VALUES ('AED','United Arab Emirates dirham','د.إ',0.0,0);
 INSERT INTO "currency" VALUES ('AFN','Afghan afghani','؋',0.0,0);
-INSERT INTO "currency" VALUES ('ALL','Albanian lek','Lek',0.0,0);
+INSERT INTO "currency" VALUES ('ALLL','Albanian lek','Lek',0.0,0);
 INSERT INTO "currency" VALUES ('AMD','Armenian dram','֏',0.0,0);
 INSERT INTO "currency" VALUES ('ANG','Netherlands Antillean guilder','ƒ',0.0,0);
 INSERT INTO "currency" VALUES ('AOA','Angolan kwanza','Kz',0.0,0);
