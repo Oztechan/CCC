@@ -11,7 +11,7 @@ object Versions {
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val versionChecker = "0.36.0"
-    const val react = "17.0.0-pre.133-kotlin-1.4.21"
+    const val react = "17.0.1-pre.136-kotlin-1.4.21"
     const val koin = "3.0.0-alpha-4"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.6.3"
