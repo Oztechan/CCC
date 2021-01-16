@@ -1,5 +1,5 @@
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('CNH','Chinese Yuan (Offshore)','元',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('MRU','Mauritanian Ouguiya','MRU',0.0,0);
+INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('CNH','Chinese Yuan (Offshore)','¥',0.0,0);
+INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('MRU','Mauritanian Ouguiya','UM',0.0,0);
 INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('SSP','South Sudanese Pound','£',0.0,0);
 INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('STN','São Tomé and Príncipe Dobra','Db',0.0,0);
 INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('XPD','Palladium Ounce','oz',0.0,0);
