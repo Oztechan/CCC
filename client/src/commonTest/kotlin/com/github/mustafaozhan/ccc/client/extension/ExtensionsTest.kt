@@ -57,14 +57,14 @@ class ExtensionsTest {
 
     @Test
     fun toValidList() {
-        val base = "EUR"
+        val base = CurrencyType.EUR.toString()
 
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(CurrencyType.EUR.toString(), "", ""))
-            add(Currency(CurrencyType.LVL.toString(), "", "", isActive = true))
-            add(Currency(CurrencyType.LTL.toString(), "", "", rate = Double.NaN))
-            add(Currency(CurrencyType.LTL.toString(), "", "", rate = 0.0))
+            add(Currency(CurrencyType.EUR.toString(), "", "", 1.2, true))
+            add(Currency(CurrencyType.USD.toString(), "", "", 1.2, false))
+            add(Currency(CurrencyType.TRY.toString(), "", "", Double.NaN, true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", 0.0, true))
         }
         assertEquals(mutableListOf(), list.toValidList(base))
     }

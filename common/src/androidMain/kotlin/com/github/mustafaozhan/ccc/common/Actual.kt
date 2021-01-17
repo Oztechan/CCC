@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common
@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.common
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
 import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.model.PlatformType
+import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.android.AndroidSqliteDriver

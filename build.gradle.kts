@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -33,6 +33,7 @@ allprojects {
         google()
         jcenter()
         maven(url = "https://dl.bintray.com/ekito/koin")
-        maven(url = "https://kotlin.bintray.com/kotlinx/") // todo soon will be just jcenter()
+        // todo soon will be just jcenter() https://github.com/Kotlin/kotlinx-datetime/issues/40
+        maven(url = "https://kotlin.bintray.com/kotlinx/")
     }
 }

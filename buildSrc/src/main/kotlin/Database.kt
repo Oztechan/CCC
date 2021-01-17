@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 object Database {
     const val name = "CurrencyConverterCalculatorDatabase"
-    const val packageName = "com.github.mustafaozhan.ccc.common"
-    const val sourceFolders = "db"
+    const val packageName = "com.github.mustafaozhan.ccc.common.sql"
+    const val sourceFolders = "database"
 }

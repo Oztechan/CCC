@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common.fake
 
-import com.github.mustafaozhan.ccc.common.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.Offline_rates
+import com.github.mustafaozhan.ccc.common.sql.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.sql.Offline_rates
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn
@@ -21,7 +21,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -53,7 +53,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             date: String?,
             AED: Double?,
             AFN: Double?,
-            ALLL: Double?,
+            ALL: Double?,
             AMD: Double?,
             ANG: Double?,
             AOA: Double?,
@@ -76,13 +76,13 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             BTN: Double?,
             BWP: Double?,
             BYN: Double?,
-            BYR: Double?,
             BZD: Double?,
             CAD: Double?,
             CDF: Double?,
             CHF: Double?,
             CLF: Double?,
             CLP: Double?,
+            CNH: Double?,
             CNY: Double?,
             COP: Double?,
             CRC: Double?,
@@ -139,8 +139,6 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             LKR: Double?,
             LRD: Double?,
             LSL: Double?,
-            LTL: Double?,
-            LVL: Double?,
             LYD: Double?,
             MAD: Double?,
             MDL: Double?,
@@ -150,6 +148,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             MNT: Double?,
             MOP: Double?,
             MRO: Double?,
+            MRU: Double?,
             MUR: Double?,
             MVR: Double?,
             MWK: Double?,
@@ -185,7 +184,9 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             SLL: Double?,
             SOS: Double?,
             SRD: Double?,
+            SSP: Double?,
             STD: Double?,
+            STN: Double?,
             SVC: Double?,
             SYP: Double?,
             SZL: Double?,
@@ -203,7 +204,6 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             USD: Double?,
             UYU: Double?,
             UZS: Double?,
-            VEF: Double?,
             VES: Double?,
             VND: Double?,
             VUV: Double?,
@@ -214,10 +214,11 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
             XCD: Double?,
             XDR: Double?,
             XOF: Double?,
+            XPD: Double?,
             XPF: Double?,
+            XPT: Double?,
             YER: Double?,
             ZAR: Double?,
-            ZMK: Double?,
             ZMW: Double?,
             ZWL: Double?
         ) -> T
@@ -244,7 +245,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         date: String?,
         AED: Double?,
         AFN: Double?,
-        ALLL: Double?,
+        ALL: Double?,
         AMD: Double?,
         ANG: Double?,
         AOA: Double?,
@@ -267,13 +268,13 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         BTN: Double?,
         BWP: Double?,
         BYN: Double?,
-        BYR: Double?,
         BZD: Double?,
         CAD: Double?,
         CDF: Double?,
         CHF: Double?,
         CLF: Double?,
         CLP: Double?,
+        CNH: Double?,
         CNY: Double?,
         COP: Double?,
         CRC: Double?,
@@ -330,8 +331,6 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         LKR: Double?,
         LRD: Double?,
         LSL: Double?,
-        LTL: Double?,
-        LVL: Double?,
         LYD: Double?,
         MAD: Double?,
         MDL: Double?,
@@ -341,6 +340,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         MNT: Double?,
         MOP: Double?,
         MRO: Double?,
+        MRU: Double?,
         MUR: Double?,
         MVR: Double?,
         MWK: Double?,
@@ -376,7 +376,9 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         SLL: Double?,
         SOS: Double?,
         SRD: Double?,
+        SSP: Double?,
         STD: Double?,
+        STN: Double?,
         SVC: Double?,
         SYP: Double?,
         SZL: Double?,
@@ -394,7 +396,6 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         USD: Double?,
         UYU: Double?,
         UZS: Double?,
-        VEF: Double?,
         VES: Double?,
         VND: Double?,
         VUV: Double?,
@@ -405,10 +406,11 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         XCD: Double?,
         XDR: Double?,
         XOF: Double?,
+        XPD: Double?,
         XPF: Double?,
+        XPT: Double?,
         YER: Double?,
         ZAR: Double?,
-        ZMK: Double?,
         ZMW: Double?,
         ZWL: Double?
     ) = Unit

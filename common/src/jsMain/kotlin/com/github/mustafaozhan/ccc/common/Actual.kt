@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common
@@ -26,7 +26,7 @@ actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
     } else {
         single<Settings> { JsSettings(get()) }
     }
-    // todo JS SqlDelight is not ready yet.
+    // todo JS SqlDelight is not ready yet. https://github.com/cashapp/sqldelight/issues/1667
 }
 
 actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit): dynamic =

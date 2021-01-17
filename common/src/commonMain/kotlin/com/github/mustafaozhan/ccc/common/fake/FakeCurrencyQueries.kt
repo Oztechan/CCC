@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.common.fake
 
-import com.github.mustafaozhan.ccc.common.Currency
-import com.github.mustafaozhan.ccc.common.CurrencyQueries
+import com.github.mustafaozhan.ccc.common.sql.Currency
+import com.github.mustafaozhan.ccc.common.sql.CurrencyQueries
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn

@@ -121,7 +121,7 @@ android {
             unitTests.isReturnDefaultValues = true
         }
 
-        // todo remove after androidPlugin = "7.0.0-alpha03" fixed
+        // todo remove after androidPlugin = "7.0.0-alpha04" fixed
         configurations {
             create("testApi") {}
             create("testDebugApi") {}
