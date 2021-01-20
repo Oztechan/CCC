@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
+  -->
+<resources>
+    <color name="color_primary_client">
+        <light>#00bcd4ff</light>
+        <dark>#80deeaff</dark>
+    </color>
+    <color name="color_primary_dark_client">
+        <light>#ffffffff</light>
+        <dark>#101d25ff</dark>
+    </color>
+    <color name="color_accent_client">
+        <light>#009688ff</light>
+        <dark>#80cbc4ff</dark>
+    </color>
+
+    <color name="color_text_weak_client">
+        <light>#757575ff</light>
+        <dark>#86888aff</dark>
+    </color>
+    <color name="color_text_client">
+        <light>#212121ff</light>
+        <dark>#e0e0e0ff</dark>
+    </color>
+
+    <color name="color_background_weak_client">
+        <light>#e0e0e0ff</light>
+        <dark>#414a51ff</dark>
+    </color>
+    <color name="color_background_client">
+        <light>#f2f2f2ff</light>
+        <dark>#1c272dff</dark>
+    </color>
+    <color name="color_background_strong_client">
+        <light>#ffffffff</light>
+        <dark>#101d25ff</dark>
+    </color>
+
+    <color name="color_online_client">
+        <light>#4caf50ff</light>
+        <dark>#a5d6a7ff</dark>
+    </color>
+    <color name="color_cached_client">
+        <light>#2196f3ff</light>
+        <dark>#90caf9ff</dark>
+    </color>
+    <color name="color_offline_client">
+        <light>#ff9800ff</light>
+        <dark>#ffcc80ff</dark>
+    </color>
+    <color name="color_error_client">
+        <light>#f44336ff</light>
+        <dark>#ef9a9aff</dark>
+    </color>
+
+    <color name="color_transparent">#00000000</color>
+</resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
     <color name="color_primary">#80deea</color>
@@ -12,8 +12,6 @@
     <color name="color_background_weak">#414a51</color>
     <color name="color_background">#1c272d</color>
     <color name="color_background_strong">#101d25</color>
-
-    <color name="color_transparent">#00000000</color>
 
     <color name="color_online">#a5d6a7</color>
     <color name="color_cached">#90caf9</color>
@@ -38,5 +36,4 @@
     <!-- Snack Bar -->
     <color name="color_text_action_snack_bar">@color/color_accent</color>
     <color name="color_background_snack_bar">@color/color_background_weak</color>
-
 </resources>
