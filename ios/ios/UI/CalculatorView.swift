@@ -22,12 +22,14 @@ struct CalculatorView: View {
 
     var body: some View {
         VStack {
-            Text(MR.strings().nsBundle.localizedString(forKey: "app_name", value: nil, table: nil))
-            Text(MR.strings().app_name.bundle.localizedString(forKey: "app_name", value: nil, table: nil))
-            Text(StringsKt.getStringDesc().localized())
-            Text(StringsKt.getResourceStringDesc().localized())
-            Text(MR.strings().app_name.localize())
-            Text(LocalizedStringKey(MR.strings().app_name.resourceId))
+
+            Text(getString(stringResource: MR.strings().app_name))
+
+            HStack {
+                Image(uiImage: getImage(imageResource: MR.images().tryy))
+                Image(uiImage: getImageByName(name: "aed"))
+            }
+
         }
         .onAppear {
             calculatorVMWrapper.observeStates()
@@ -43,12 +45,6 @@ struct CalculatorView: View {
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
-    }
-}
-
-extension ResourcesStringResource {
-    func localize() -> String {
-        return ResourcesResourceStringDesc(stringRes: self).localized()
     }
 }
 

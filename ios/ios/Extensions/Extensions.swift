@@ -7,6 +7,19 @@
 //
 
 import SwiftUI
+import client
+
+extension View {
+    func getString(stringResource: ResourcesStringResource) -> String {
+        return ResourcesKt.getString(stringResource: stringResource).localized()
+    }
+    func getImageByName(name: String) -> UIImage {
+        return ResourcesKt.getDrawableByFileName(name: name).toUIImage()!
+    }
+    func getImage(imageResource: ResourcesImageResource) -> UIImage {
+        return imageResource.toUIImage()!
+    }
+}
 
 #if DEBUG
 struct PreviewProviderModifier: ViewModifier {

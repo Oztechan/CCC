@@ -15,7 +15,9 @@ import dev.icerock.moko.resources.getImageByFileName
  */
 
 fun getDrawableByFileName(name: String): ImageResource {
-    return MR.images.getImageByFileName(name) ?: MR.images.transparent
+    return MR.images.getImageByFileName(
+        name.toLowerCase().replace("try", "tryy")
+    ) ?: MR.images.transparent
 }
 
 fun getString(stringResource: StringResource): StringDesc {
