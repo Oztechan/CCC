@@ -136,6 +136,8 @@
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
 
     <!-- Currencies -->
-    <string name="txt_currencies">Currencies</string>
+    <!--    todo string resource is too long for the library -->
+    <!--    https://github.com/icerockdev/moko-resources/issues/156 -->
+    <!--    <string name="txt_currencies">Currencies</string>-->
 
 </resources>
