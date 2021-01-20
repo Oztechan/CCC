@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
+
 <resources>
     <string name="app_name">CC&amp;C</string>
 
@@ -37,7 +39,7 @@
     <!--Snacky Text-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="select">Select</string>
-    <string name="cancel">@android:string/cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
 
     <!--Toasty Text-->
@@ -58,7 +60,7 @@
     <string name="support_us">Support Us !</string>
 
     <!--Mail-->
-    <string name="mail_developer">mr.mustafa.ozhan@gmail.com\</string>
+    <string name="mail_developer">mr.mustafa.ozhan@gmail.com</string>
     <string name="mail_feedback_subject">Feedback for My Currencies</string>
     <string name="mail_extra_text">Dear Developer,</string>
     <string name="mail_intent_title">Send Feedback:</string>

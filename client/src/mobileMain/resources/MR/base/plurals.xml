@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
+
 <resources>
     <plural name="settings_item_currencies_value">
         <item quantity="zero">@strings/settings_item_no_currency_selected</item>

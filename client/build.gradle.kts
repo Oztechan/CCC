@@ -19,7 +19,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "Client"
+                baseName = "client"
             }
         }
     }

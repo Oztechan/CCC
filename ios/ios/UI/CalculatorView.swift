@@ -8,7 +8,7 @@
 
 import SwiftUI
 import UIKit
-import Client
+import client
 
 struct CalculatorView: View {
 
@@ -22,14 +22,12 @@ struct CalculatorView: View {
 
     var body: some View {
         VStack {
-            Text("Test")
-        VStack{
-
-            Text(MR.strings().nsBundle.localizedString(forKey: "app_name_ccc", value: nil, table: nil))
-                .background(MR.colors().asd.)
-//                .background(MR.colors().asd.getC)
-//            Text(MR.colors().themedCo)
-
+            Text(MR.strings().nsBundle.localizedString(forKey: "app_name", value: nil, table: nil))
+            Text(MR.strings().app_name.bundle.localizedString(forKey: "app_name", value: nil, table: nil))
+            Text(StringsKt.getStringDesc().localized())
+            Text(StringsKt.getResourceStringDesc().localized())
+            Text(MR.strings().app_name.localize())
+            Text(LocalizedStringKey(MR.strings().app_name.resourceId))
         }
         .onAppear {
             calculatorVMWrapper.observeStates()
@@ -39,22 +37,18 @@ struct CalculatorView: View {
         .onDisappear { calculatorVMWrapper.stopObserving() }
     }
 
-    private func getColor() -> Color {
-        let c = MR.colors().asd.color
-
-        return Color(UIColor(red: CGFloat(Int(c.red)), green: CGFloat(Int(c.green)), blue: CGFloat(Int(c.blue)), alpha: CGFloat(Int(c.alpha))))
-
-        return UIColor(
-    }
-
-
-
     private func onEffect(effect: CalculatorEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
+    }
+}
+
+extension ResourcesStringResource {
+    func localize() -> String {
+        return ResourcesResourceStringDesc(stringRes: self).localized()
     }
 }
 

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import client
 
 @main
 struct CCCApp: App {
