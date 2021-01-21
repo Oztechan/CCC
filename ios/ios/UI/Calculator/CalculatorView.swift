@@ -15,10 +15,10 @@ struct CalculatorView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @ObservedObject
-    var calculatorVMWrapper: CalculatorVMWrapper
+    var vmWrapper: CalculatorVMWrapper
 
     init(viewModel: CalculatorViewModel) {
-        self.calculatorVMWrapper = CalculatorVMWrapper(viewModel: viewModel)
+        self.vmWrapper = CalculatorVMWrapper(viewModel: viewModel)
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
     }
 
@@ -34,9 +34,9 @@ struct CalculatorView: View {
             }
 
         }
-        .onAppear { calculatorVMWrapper.startObserving() }
-        .onReceive(calculatorVMWrapper.effect) { onEffect(effect: $0) }
-        .onDisappear { calculatorVMWrapper.stopObserving() }
+        .onAppear { vmWrapper.startObserving() }
+        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onDisappear { vmWrapper.stopObserving() }
     }
 
     private func onEffect(effect: CalculatorEffect) {

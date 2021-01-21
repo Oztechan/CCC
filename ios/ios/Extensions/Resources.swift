@@ -19,6 +19,9 @@ extension ResourcesColorResource {
     func get() -> Color {
         return Color(ResourcesKt.getColor(colorResource: self))
     }
+    func get() -> UIColor {
+        return ResourcesKt.getColor(colorResource: self)
+    }
 }
 
 extension ResourcesImageResource {

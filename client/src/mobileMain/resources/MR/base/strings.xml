@@ -33,6 +33,7 @@
     <string name="btn_select_all">Select All</string>
     <string name="btn_de_select_all">Deselect All</string>
     <string name="btn_done">Done</string>
+    <string name="txt_back">Back</string>
     <string name="txt_select_currencies">Please select your favorite currencies</string>
 
     <!--Snacky Text-->
