@@ -23,12 +23,12 @@ struct CalculatorView: View {
     var body: some View {
         VStack {
 
-            Text(getString(resource: MR.strings().app_name))
-                .background(getColor(resource: MR.colors().color_background_client))
+            Text(MR.strings().app_name.get())
+                .background(MR.colors().background.get())
 
             HStack {
-                Image(uiImage: getImage(resource: MR.images().tryy))
-                Image(uiImage: getImageByName(name: "aed"))
+                Image(uiImage: MR.images().tryy.get())
+                Image(uiImage: "aed".getImage())
             }
 
         }

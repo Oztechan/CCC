@@ -2,57 +2,57 @@
   ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
 <resources>
-    <color name="color_primary_client">
+    <color name="primary">
         <light>#00bcd4ff</light>
         <dark>#80deeaff</dark>
     </color>
-    <color name="color_primary_dark_client">
+    <color name="primary_dark">
         <light>#ffffffff</light>
         <dark>#101d25ff</dark>
     </color>
-    <color name="color_accent_client">
+    <color name="accent">
         <light>#009688ff</light>
         <dark>#80cbc4ff</dark>
     </color>
 
-    <color name="color_text_weak_client">
+    <color name="text_weak">
         <light>#757575ff</light>
         <dark>#86888aff</dark>
     </color>
-    <color name="color_text_client">
+    <color name="text">
         <light>#212121ff</light>
         <dark>#e0e0e0ff</dark>
     </color>
 
-    <color name="color_background_weak_client">
+    <color name="background_weak">
         <light>#e0e0e0ff</light>
         <dark>#414a51ff</dark>
     </color>
-    <color name="color_background_client">
+    <color name="background">
         <light>#f2f2f2ff</light>
         <dark>#1c272dff</dark>
     </color>
-    <color name="color_background_strong_client">
+    <color name="background_strong">
         <light>#ffffffff</light>
         <dark>#101d25ff</dark>
     </color>
 
-    <color name="color_online_client">
+    <color name="online">
         <light>#4caf50ff</light>
         <dark>#a5d6a7ff</dark>
     </color>
-    <color name="color_cached_client">
+    <color name="cached">
         <light>#2196f3ff</light>
         <dark>#90caf9ff</dark>
     </color>
-    <color name="color_offline_client">
+    <color name="offline">
         <light>#ff9800ff</light>
         <dark>#ffcc80ff</dark>
     </color>
-    <color name="color_error_client">
+    <color name="error">
         <light>#f44336ff</light>
         <dark>#ef9a9aff</dark>
     </color>
 
-    <color name="color_transparent">#00000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
