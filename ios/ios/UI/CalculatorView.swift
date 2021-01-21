@@ -12,6 +12,8 @@ import client
 
 struct CalculatorView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+
     @ObservedObject
     var calculatorVMWrapper: CalculatorVMWrapper
 
