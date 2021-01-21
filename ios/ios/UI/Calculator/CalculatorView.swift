@@ -17,8 +17,8 @@ struct CalculatorView: View {
     @ObservedObject
     var calculatorVMWrapper: CalculatorVMWrapper
 
-    init(calculatorVMWrapper: CalculatorVMWrapper) {
-        self.calculatorVMWrapper = calculatorVMWrapper
+    init(viewModel: CalculatorViewModel) {
+        self.calculatorVMWrapper = CalculatorVMWrapper(viewModel: viewModel)
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
     }
 
@@ -34,10 +34,7 @@ struct CalculatorView: View {
             }
 
         }
-        .onAppear {
-            calculatorVMWrapper.observeStates()
-            calculatorVMWrapper.observeEffect()
-        }
+        .onAppear { calculatorVMWrapper.startObserving() }
         .onReceive(calculatorVMWrapper.effect) { onEffect(effect: $0) }
         .onDisappear { calculatorVMWrapper.stopObserving() }
     }
@@ -56,9 +53,7 @@ struct MainViewPreviews: PreviewProvider {
     @Environment(\.koin) static var koin: Koin
 
     static var previews: some View {
-        CalculatorView(
-            calculatorVMWrapper: CalculatorVMWrapper(viewModel: koin.get())
-        ).makeForPreviewProvider()
+        CalculatorView(viewModel: koin.get()).makeForPreviewProvider()
     }
 }
 #endif

@@ -9,7 +9,6 @@
 import Foundation
 
 protocol VMWrapper: ObservableObject {
-    func observeEffect()
-    func observeStates()
+    func startObserving()
     func stopObserving()
 }

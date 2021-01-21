@@ -35,7 +35,15 @@ extension EnvironmentValues {
 
 // swiftlint:disable force_cast
 extension Koin {
+    func get() -> MainViewModel {
+        return koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
+    }
+
     func get() -> CalculatorViewModel {
         return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+    }
+
+    func get() -> CurrenciesViewModel {
+        return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
     }
 }

@@ -31,18 +31,15 @@ final class CalculatorVMWrapper: VMWrapper {
         LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
     }
 
-    func observeEffect() {
-        self.viewModel.observeEffect(viewModel.effect, provideNewEffect: { newEffect in
-            if let effect = newEffect as? CalculatorEffect {
-                self.effect.send(effect)
-            }
-        })
-    }
-
-    func observeStates() {
+    func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
             if let state = newState as? CalculatorState {
                 self.state = state
+            }
+        })
+        self.viewModel.observeEffect(viewModel.effect, provideNewEffect: { newEffect in
+            if let effect = newEffect as? CalculatorEffect {
+                self.effect.send(effect)
             }
         })
     }
