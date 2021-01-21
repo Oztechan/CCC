@@ -20,6 +20,7 @@ object Dependencies {
         const val sqldelightRuntime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
         const val sqldelightCoroutineExtensions =
             "com.squareup.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
+        const val mokoResources = "dev.icerock.moko:resources:${Versions.mokoResources}"
     }
 
     object Android {

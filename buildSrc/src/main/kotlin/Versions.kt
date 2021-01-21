@@ -30,4 +30,5 @@ object Versions {
     // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
     const val sqlDelight = "1.4.3"
     const val viewModelExt = "2.3.0-rc01"
+    const val mokoResources = "0.14.0"
 }

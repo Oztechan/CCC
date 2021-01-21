@@ -9,6 +9,7 @@ plugins {
         kotlin(multiplatform)
         id(androidLibrary)
         id(sqldelight)
+        id(mokoResources)
     }
 }
 
@@ -18,7 +19,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "Client"
+                baseName = "client"
             }
         }
     }
@@ -67,9 +68,17 @@ kotlin {
             }
         }
 
+        val mobileMain by creating {
+            dependencies {
+                dependsOn(commonMain.get())
+                implementation(Dependencies.Common.mokoResources)
+            }
+        }
+
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
+                    dependsOn(mobileMain)
                     implementation(androidMaterial)
                     implementation(koinAndroidViewModel)
                     implementation(viewModelExt)
@@ -82,7 +91,11 @@ kotlin {
             }
         }
 
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                dependsOn(mobileMain)
+            }
+        }
         val iosTest by getting
 
         with(Dependencies.JS) {
@@ -147,3 +160,8 @@ val packForXcode by tasks.creating(Sync::class) {
 }
 
 tasks.getByName("build").dependsOn(packForXcode)
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.github.mustafaozhan.ccc.client"
+    multiplatformResourcesSourceSet = "mobileMain"
+}

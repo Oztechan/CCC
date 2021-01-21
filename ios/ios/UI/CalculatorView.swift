@@ -7,9 +7,12 @@
 //
 
 import SwiftUI
-import Client
+import UIKit
+import client
 
 struct CalculatorView: View {
+
+    @Environment(\.colorScheme) var colorScheme
 
     @ObservedObject
     var calculatorVMWrapper: CalculatorVMWrapper
@@ -21,7 +24,15 @@ struct CalculatorView: View {
 
     var body: some View {
         VStack {
-            Text("Test")
+
+            Text(MR.strings().app_name.get())
+                .background(MR.colors().background.get())
+
+            HStack {
+                Image(uiImage: MR.images().tryy.get())
+                Image(uiImage: "aed".getImage())
+            }
+
         }
         .onAppear {
             calculatorVMWrapper.observeStates()

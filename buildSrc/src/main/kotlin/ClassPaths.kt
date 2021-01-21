@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 @Suppress("SpellCheckingInspection")
@@ -14,4 +14,5 @@ object ClassPaths {
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics}"
     const val navigation =
         "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+    const val mokoResoruces = "dev.icerock.moko:resources-generator:${Versions.mokoResources}"
 }

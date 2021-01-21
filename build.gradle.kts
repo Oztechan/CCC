@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
 plugins {
@@ -10,6 +10,7 @@ buildscript {
     repositories {
         gradlePluginPortal()
         google()
+        maven(url = "https://dl.bintray.com/icerockdev/plugins")
     }
     dependencies {
         with(ClassPaths) {
@@ -20,6 +21,7 @@ buildscript {
             classpath(navigation)
             classpath(kotlinSerialization)
             classpath(sqldelight)
+            classpath(mokoResoruces)
         }
     }
 }
@@ -35,5 +37,6 @@ allprojects {
         maven(url = "https://dl.bintray.com/ekito/koin")
         // todo soon will be just jcenter() https://github.com/Kotlin/kotlinx-datetime/issues/40
         maven(url = "https://kotlin.bintray.com/kotlinx/")
+        maven(url = "https://dl.bintray.com/icerockdev/moko")
     }
 }

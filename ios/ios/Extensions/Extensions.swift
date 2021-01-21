@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import client
 
 #if DEBUG
 struct PreviewProviderModifier: ViewModifier {

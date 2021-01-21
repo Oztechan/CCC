@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-import Client
+import client
 
 struct Koin {
     let koin = KoinIOSKt.doInitIOS(
