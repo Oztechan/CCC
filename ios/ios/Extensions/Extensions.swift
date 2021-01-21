@@ -8,16 +8,30 @@
 
 import SwiftUI
 import client
+import UIKit
 
 extension View {
-    func getString(stringResource: ResourcesStringResource) -> String {
-        return ResourcesKt.getString(stringResource: stringResource).localized()
+
+    func getString(resource: ResourcesStringResource) -> String {
+        return ResourcesKt.getString(stringResource: resource).localized()
     }
+
     func getImageByName(name: String) -> UIImage {
         return ResourcesKt.getDrawableByFileName(name: name).toUIImage()!
     }
-    func getImage(imageResource: ResourcesImageResource) -> UIImage {
-        return imageResource.toUIImage()!
+
+    func getImage(resource: ResourcesImageResource) -> UIImage {
+        return resource.toUIImage()!
+    }
+
+    func getColor(
+        resource: ResourcesColorResource,
+        scheme: ColorScheme
+    ) -> Color {
+        return Color(ResourcesKt.getColor(
+            colorResource: resource,
+            isDark: scheme == .dark
+        ))
     }
 }
 
