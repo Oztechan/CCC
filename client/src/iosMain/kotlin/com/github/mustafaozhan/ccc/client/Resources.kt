@@ -8,14 +8,10 @@ import dev.icerock.moko.graphics.toUIColor
 import dev.icerock.moko.resources.ColorResource
 import dev.icerock.moko.resources.getColor
 import platform.UIKit.UIColor
-import platform.UIKit.UIUserInterfaceStyle
+import platform.UIKit.UIScreen
 
-fun getColor(
-    colorResource: ColorResource,
-    isDark: Boolean
-): UIColor {
+fun getColor(colorResource: ColorResource): UIColor {
     return colorResource.getColor(
-        if (isDark) UIUserInterfaceStyle.UIUserInterfaceStyleDark
-        else UIUserInterfaceStyle.UIUserInterfaceStyleLight
+        UIScreen.mainScreen.traitCollection.userInterfaceStyle
     ).toUIColor()
 }

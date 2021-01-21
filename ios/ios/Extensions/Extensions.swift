@@ -24,14 +24,8 @@ extension View {
         return resource.toUIImage()!
     }
 
-    func getColor(
-        resource: ResourcesColorResource,
-        scheme: ColorScheme
-    ) -> Color {
-        return Color(ResourcesKt.getColor(
-            colorResource: resource,
-            isDark: scheme == .dark
-        ))
+    func getColor(resource: ResourcesColorResource) -> Color {
+        return Color(ResourcesKt.getColor(colorResource: resource))
     }
 }
 

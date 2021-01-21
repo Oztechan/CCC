@@ -12,8 +12,6 @@ import client
 
 struct CalculatorView: View {
 
-    @Environment(\.colorScheme) var colorScheme
-
     @ObservedObject
     var calculatorVMWrapper: CalculatorVMWrapper
 
@@ -26,10 +24,7 @@ struct CalculatorView: View {
         VStack {
 
             Text(getString(resource: MR.strings().app_name))
-                .background(getColor(
-                    resource: MR.colors().color_background_client,
-                    scheme: colorScheme
-                ))
+                .background(getColor(resource: MR.colors().color_background_client))
 
             HStack {
                 Image(uiImage: getImage(resource: MR.images().tryy))
