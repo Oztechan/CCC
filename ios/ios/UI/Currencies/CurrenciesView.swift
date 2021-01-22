@@ -11,6 +11,8 @@ import client
 
 struct CurrenciesView: View {
 
+    @Environment(\.koin) var koin: Koin
+
     @Environment(\.colorScheme) var colorScheme
 
     @ObservedObject
@@ -102,6 +104,10 @@ struct CurrenciesView: View {
         switch effect {
         case is FewCurrencyEffect:
             isAlertShown = true
+        case is CalculatorEffect:
+            UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
+                rootView: CalculatorView(viewModel: koin.get())
+            )
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
