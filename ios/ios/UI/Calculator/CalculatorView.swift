@@ -23,7 +23,7 @@ struct CalculatorView: View {
     init(viewModel: CalculatorViewModel) {
         self.vmWrapper = CalculatorVMWrapper(viewModel: viewModel)
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
-        
+
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
             y: 0,
@@ -37,40 +37,47 @@ struct CalculatorView: View {
         NavigationView {
             ZStack {
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
-                
+
                 VStack {
-                    
+
 //                    CalculationInputView(
-//                        input: vm.state.input,
+//                        input: vmWrapper.state.input,
 //                        destinationView: CurrenciesView(baseCurrencyChangeEffect: { newBase in
 //                            vm.event.baseCurrencyChangeEvent(newBase: newBase)
 //                        })
 //                    )
-//
-//                    CalculationOutputView(
-//                        baseCurrency: vm.state.baseCurrency,
-//                        output: vm.state.output,
-//                        barClickEvent: {vm.event.barClickEvent()}
-//                    )
-                    
+
+                    CalculationOutputView(
+                        baseCurrency: vmWrapper.state.base,
+                        output: vmWrapper.state.output,
+                        barClickEvent: {vmWrapper.viewModel.event.onBarClick()}
+                    )
+
                     if vmWrapper.state.loading {
                         ProgressView()
                     }
-                    
-//                    Form {
-//                        List(
-//                            vm.state.currencyList.filterResults(baseCurrency: vm.state.baseCurrency),
-//                            id: \.value
-//                        ) {
-//                            CalculatorItemView(
-//                                item: $0,
-//                                itemClickEvent: { item in vm.event.itemClickEvent(item: item) }
-//                            )
-//                        }.listRowBackground(Color("ColorBackground"))
-//                    }
-                    
+
+                    Form {
+                        List(
+                            ExtensionsKt.toValidList(vmWrapper.state.currencyList, currentBase: vmWrapper.state.base),
+                            id: \.rate
+                        ) {
+                            CalculatorItemView(
+                                item: $0,
+                                itemClickEvent: { item in
+                                    vmWrapper.viewModel.event.onItemClick(
+                                        currency: item,
+                                        conversion: ExtensionsKt.toStandardDigits(
+                                            IOSExtensionsKt.getFormatted(item.rate)
+                                        )
+                                    )
+                                }
+                            )
+                        }.listRowBackground(MR.colors().background.get())
+                    }
+
                     KeyboardView(keyPressEvent: { key in vmWrapper.viewModel.event.onKeyPress(key: key) })
-                    
+
                 }
             }
             .navigationBarHidden(true)
@@ -99,9 +106,9 @@ struct CalculatorView: View {
     private func onEffect(effect: CalculatorEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
-        case is OpenBarEffect:
+        case is CalculatorEffect.OpenBar:
             isBarShown = true
-        case is MaximumInputEffect, is FewCurrencyEffect:
+        case is CalculatorEffect.MaximumInput, is CalculatorEffect.FewCurrency:
             isAlertShown = true
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})

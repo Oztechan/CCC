@@ -102,9 +102,9 @@ struct CurrenciesView: View {
     private func onEffect(effect: CurrenciesEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
-        case is FewCurrencyEffect:
+        case is CurrenciesEffect.FewCurrency:
             isAlertShown = true
-        case is CalculatorEffect:
+        case is CurrenciesEffect.OpenCalculator:
             UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
                 rootView: CalculatorView(viewModel: koin.get())
             )

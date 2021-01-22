@@ -54,12 +54,12 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launch {
         kermit.d { "BarViewModel onItemClick ${currency.name}" }
-        _effect.send(ChangeBaseNavResultEffect(currency.name))
+        _effect.send(BarEffect.ChangeBaseNavResult(currency.name))
     }.toUnit()
 
     override fun onSelectClick() = clientScope.launch {
         kermit.d { "BarViewModel onSelectClick" }
-        _effect.send(OpenCurrenciesEffect)
+        _effect.send(BarEffect.OpenCurrencies)
     }.toUnit()
     // endregion
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
@@ -34,6 +34,7 @@ interface BarEvent {
 }
 
 // Effect
-sealed class BarEffect
-data class ChangeBaseNavResultEffect(val newBase: String) : BarEffect()
-object OpenCurrenciesEffect : BarEffect()
+sealed class BarEffect {
+    data class ChangeBaseNavResult(val newBase: String) : BarEffect()
+    object OpenCurrencies : BarEffect()
+}

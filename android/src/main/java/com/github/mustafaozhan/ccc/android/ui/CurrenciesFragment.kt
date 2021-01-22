@@ -26,12 +26,9 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.BackEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CalculatorEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.ChangeBaseNavResultEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.FewCurrencyEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
@@ -107,19 +104,22 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         currenciesViewModel.effect.collect { viewEffect ->
             kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                FewCurrencyEffect -> show(requireContext(), R.string.choose_at_least_two_currency)
-                CalculatorEffect -> {
+                CurrenciesEffect.FewCurrency -> show(
+                    requireContext(),
+                    R.string.choose_at_least_two_currency
+                )
+                CurrenciesEffect.OpenCalculator -> {
                     navigate(
                         R.id.currenciesFragment,
                         CurrenciesFragmentDirections.actionCurrenciesFragmentToCalculatorFragment()
                     )
                     view?.run { hideKeyboard() }
                 }
-                BackEffect -> {
+                CurrenciesEffect.Back -> {
                     getBaseActivity()?.onBackPressed()
                     view?.run { hideKeyboard() }
                 }
-                is ChangeBaseNavResultEffect -> {
+                is CurrenciesEffect.ChangeBaseNavResult -> {
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,

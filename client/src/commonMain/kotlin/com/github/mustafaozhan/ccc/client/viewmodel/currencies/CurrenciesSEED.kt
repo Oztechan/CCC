@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
@@ -37,11 +37,12 @@ interface CurrenciesEvent {
 }
 
 // Effect
-sealed class CurrenciesEffect
-object FewCurrencyEffect : CurrenciesEffect()
-object CalculatorEffect : CurrenciesEffect()
-object BackEffect : CurrenciesEffect()
-data class ChangeBaseNavResultEffect(val newBase: String) : CurrenciesEffect()
+sealed class CurrenciesEffect {
+    object FewCurrency : CurrenciesEffect()
+    object OpenCalculator : CurrenciesEffect()
+    object Back : CurrenciesEffect()
+    data class ChangeBaseNavResult(val newBase: String) : CurrenciesEffect()
+}
 
 // Data
 data class CurrenciesData(

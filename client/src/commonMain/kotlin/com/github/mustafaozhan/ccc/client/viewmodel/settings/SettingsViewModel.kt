@@ -83,7 +83,7 @@ class SettingsViewModel(
     fun updateTheme(theme: AppTheme) = clientScope.launch {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
-        _effect.send(ChangeThemeEffect(theme.themeValue))
+        _effect.send(SettingsEffect.ChangeTheme(theme.themeValue))
     }.toUnit()
 
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
@@ -100,42 +100,42 @@ class SettingsViewModel(
     // region Event
     override fun onBackClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onBackClick" }
-        _effect.send(BackEffect)
+        _effect.send(SettingsEffect.Back)
     }.toUnit()
 
     override fun onCurrenciesClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onCurrenciesClick" }
-        _effect.send(CurrenciesEffect)
+        _effect.send(SettingsEffect.OpenCurrencies)
     }.toUnit()
 
     override fun onFeedBackClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onFeedBackClick" }
-        _effect.send(FeedBackEffect)
+        _effect.send(SettingsEffect.FeedBack)
     }.toUnit()
 
     override fun onShareClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onShareClick" }
-        _effect.send(ShareEffect)
+        _effect.send(SettingsEffect.Share)
     }.toUnit()
 
     override fun onSupportUsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSupportUsClick" }
-        _effect.send(SupportUsEffect)
+        _effect.send(SettingsEffect.SupportUs)
     }.toUnit()
 
     override fun onOnGitHubClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onOnGitHubClick" }
-        _effect.send(OnGitHubEffect)
+        _effect.send(SettingsEffect.OnGitHub)
     }.toUnit()
 
     override fun onRemoveAdsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onRemoveAdsClick" }
-        _effect.send(RemoveAdsEffect)
+        _effect.send(SettingsEffect.RemoveAds)
     }.toUnit()
 
     override fun onThemeClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onThemeClick" }
-        _effect.send(ThemeDialogEffect)
+        _effect.send(SettingsEffect.ThemeDialog)
     }.toUnit()
 
     override fun onSyncClick() = clientScope.launch {
@@ -155,9 +155,9 @@ class SettingsViewModel(
                 }
 
             data.synced = true
-            _effect.send(SynchronisedEffect)
+            _effect.send(SettingsEffect.Synchronised)
         } else {
-            _effect.send(OnlyOneTimeSyncEffect)
+            _effect.send(SettingsEffect.OnlyOneTimeSync)
         }
     }.toUnit()
     // endregion

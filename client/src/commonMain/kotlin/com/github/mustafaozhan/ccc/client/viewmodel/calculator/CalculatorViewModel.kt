@@ -122,7 +122,7 @@ class CalculatorViewModel(
             kermit.w(t) { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
-                ?.let { _effect.send(ErrorEffect) }
+                ?.let { _effect.send(CalculatorEffect.Error) }
             _state.update(dataState = DataState.Error)
         }
     }
@@ -137,10 +137,10 @@ class CalculatorViewModel(
                 state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { state.value.input.isEmpty() }
-                    ?.let { _effect.send(FewCurrencyEffect) }
+                    ?.let { _effect.send(CalculatorEffect.FewCurrency) }
                     ?: run { getRates() }
             } ?: run {
-            _effect.send(MaximumInputEffect)
+            _effect.send(CalculatorEffect.MaximumInput)
             _state.update(
                 input = input.dropLast(1),
                 loading = false
@@ -210,7 +210,7 @@ class CalculatorViewModel(
         kermit.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
         clientScope.launch {
             _effect.send(
-                ShowRateEffect(
+                CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
                         settingsRepository.currentBase,
                         data.rates
@@ -224,7 +224,7 @@ class CalculatorViewModel(
 
     override fun onBarClick() = clientScope.launch {
         kermit.d { "CalculatorViewModel onBarClick" }
-        _effect.send(OpenBarEffect)
+        _effect.send(CalculatorEffect.OpenBar)
     }.toUnit()
 
     override fun onSpinnerItemSelected(base: String) {
@@ -234,7 +234,7 @@ class CalculatorViewModel(
 
     override fun onSettingsClicked() = clientScope.launch {
         kermit.d { "CalculatorViewModel onSettingsClicked" }
-        _effect.send(OpenSettingsEffect)
+        _effect.send(CalculatorEffect.OpenSettings)
     }.toUnit()
     // endregion
 }

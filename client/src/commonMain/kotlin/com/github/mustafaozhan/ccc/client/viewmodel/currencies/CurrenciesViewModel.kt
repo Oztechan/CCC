@@ -58,7 +58,7 @@ class CurrenciesViewModel(
                         .filter { it.isActive }.size
                         .whether { it < MINIMUM_ACTIVE_CURRENCY }
                         ?.whetherNot { settingsRepository.firstRun }
-                        ?.let { _effect.send(FewCurrencyEffect) }
+                        ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
 
                     verifyCurrentBase()
                     filterList(data.query)
@@ -84,7 +84,7 @@ class CurrenciesViewModel(
 
     private fun updateCurrentBase(newBase: String) = clientScope.launch {
         settingsRepository.currentBase = newBase
-        _effect.send(ChangeBaseNavResultEffect(newBase))
+        _effect.send(CurrenciesEffect.ChangeBaseNavResult(newBase))
     }.toUnit()
 
     fun hideSelectionVisibility() {
@@ -132,10 +132,10 @@ class CurrenciesViewModel(
         _state.value.currencyList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
-            ?.let { _effect.send(FewCurrencyEffect) }
+            ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
             ?: run {
                 settingsRepository.firstRun = false
-                _effect.send(CalculatorEffect)
+                _effect.send(CurrenciesEffect.OpenCalculator)
             }
     }.toUnit()
 
@@ -150,7 +150,7 @@ class CurrenciesViewModel(
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)
         } else {
-            _effect.send(BackEffect)
+            _effect.send(CurrenciesEffect.Back)
         }.run {
             filterList("")
         }

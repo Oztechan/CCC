@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
@@ -41,18 +41,19 @@ interface SettingsEvent {
 }
 
 // Effect
-sealed class SettingsEffect
-object BackEffect : SettingsEffect()
-object CurrenciesEffect : SettingsEffect()
-object FeedBackEffect : SettingsEffect()
-object ShareEffect : SettingsEffect()
-object SupportUsEffect : SettingsEffect()
-object OnGitHubEffect : SettingsEffect()
-object RemoveAdsEffect : SettingsEffect()
-object ThemeDialogEffect : SettingsEffect()
-object SynchronisedEffect : SettingsEffect()
-object OnlyOneTimeSyncEffect : SettingsEffect()
-data class ChangeThemeEffect(val themeValue: Int) : SettingsEffect()
+sealed class SettingsEffect {
+    object Back : SettingsEffect()
+    object OpenCurrencies : SettingsEffect()
+    object FeedBack : SettingsEffect()
+    object Share : SettingsEffect()
+    object SupportUs : SettingsEffect()
+    object OnGitHub : SettingsEffect()
+    object RemoveAds : SettingsEffect()
+    object ThemeDialog : SettingsEffect()
+    object Synchronised : SettingsEffect()
+    object OnlyOneTimeSync : SettingsEffect()
+    data class ChangeTheme(val themeValue: Int) : SettingsEffect()
+}
 
 // Data
 data class SettingsData(var synced: Boolean = false)
