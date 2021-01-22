@@ -69,7 +69,7 @@ struct CalculatorView: View {
 //                        }.listRowBackground(Color("ColorBackground"))
 //                    }
                     
-//                    KeyboardView(keyPressEvent: { key in vm.event.keyPressEvent(value: key) })
+                    KeyboardView(keyPressEvent: { key in vmWrapper.viewModel.event.onKeyPress(key: key) })
                     
                 }
             }

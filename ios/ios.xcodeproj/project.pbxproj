@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C0B5C7425BADE9E00A66F69 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B5C7325BADE9E00A66F69 /* KeyboardView.swift */; };
 		5C314CBC25BA0254007B22D8 /* MainVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBB25BA0254007B22D8 /* MainVMWrapper.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
 		5C314CC025BA0C4B007B22D8 /* CurrenciesVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBF25BA0C4B007B22D8 /* CurrenciesVMWrapper.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C0B5C7325BADE9E00A66F69 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		5C314CBB25BA0254007B22D8 /* MainVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVMWrapper.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C314CBF25BA0C4B007B22D8 /* CurrenciesVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesVMWrapper.swift; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 			path = SubView;
 			sourceTree = "<group>";
 		};
+		5C0B5C7225BADE8900A66F69 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				5C0B5C7325BADE9E00A66F69 /* KeyboardView.swift */,
+			);
+			path = SubView;
+			sourceTree = "<group>";
+		};
 		5C314CB925B9FB32007B22D8 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +103,7 @@
 		5C314CBA25B9FB39007B22D8 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				5C0B5C7225BADE8900A66F69 /* SubView */,
 				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
 				5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */,
 			);
@@ -291,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
+				5C0B5C7425BADE9E00A66F69 /* KeyboardView.swift in Sources */,
 				5C9791A8259743F000577946 /* VMWrapper.swift in Sources */,
 				5C314CC225BA1E8D007B22D8 /* CurrencyItemView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
