@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
@@ -27,7 +27,7 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     private val _effect = Channel<BarEffect>(1)
     val effect = _effect.receiveAsFlow().conflate()
 
-    fun getEvent() = this as BarEvent
+    val event = this as BarEvent
     // endregion
 
     init {

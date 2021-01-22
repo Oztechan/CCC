@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -48,7 +48,7 @@ class BarBottomSheetDialogFragment :
     }
 
     private fun initViews() {
-        barAdapter = BarAdapter(barViewModel.getEvent())
+        barAdapter = BarAdapter(barViewModel.event)
         binding.recyclerViewBar.adapter = barAdapter
     }
 
@@ -91,7 +91,7 @@ class BarBottomSheetDialogFragment :
 
     private fun setListeners() {
         binding.btnSelect.setOnClickListener {
-            barViewModel.getEvent().onSelectClick()
+            barViewModel.event.onSelectClick()
         }
     }
 }

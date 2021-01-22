@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
@@ -39,7 +39,7 @@ class CurrenciesViewModel(
 
     val data = CurrenciesData()
 
-    fun getEvent() = this as CurrenciesEvent
+    val event = this as CurrenciesEvent
     // endregion
 
     init {

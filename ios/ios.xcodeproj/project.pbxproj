@@ -71,13 +71,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C0B5C7125BACCE500A66F69 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				5C314CC325BA29F5007B22D8 /* CurrencyToolbarView.swift */,
+				5C314CC125BA1E8D007B22D8 /* CurrencyItemView.swift */,
+			);
+			path = SubView;
+			sourceTree = "<group>";
+		};
 		5C314CB925B9FB32007B22D8 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
+				5C0B5C7125BACCE500A66F69 /* SubView */,
 				5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */,
 				5C314CBF25BA0C4B007B22D8 /* CurrenciesVMWrapper.swift */,
-				5C314CC125BA1E8D007B22D8 /* CurrencyItemView.swift */,
-				5C314CC325BA29F5007B22D8 /* CurrencyToolbarView.swift */,
 			);
 			path = Currencies;
 			sourceTree = "<group>";

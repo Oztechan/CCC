@@ -50,7 +50,7 @@ class SettingsViewModel(
 
     private val data = SettingsData()
 
-    fun getEvent() = this as SettingsEvent
+    val event = this as SettingsEvent
     // endregion
 
     init {

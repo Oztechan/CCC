@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
@@ -61,7 +61,7 @@ class CalculatorViewModel(
 
     val data = CalculatorData()
 
-    fun getEvent() = this as CalculatorEvent
+    val event = this as CalculatorEvent
     // endregion
 
     init {

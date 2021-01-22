@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -63,7 +63,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        currenciesAdapter = CurrenciesAdapter(currenciesViewModel.getEvent())
+        currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
         setSpanByOrientation(resources.configuration.orientation)
 
         with(recyclerViewCurrencies) {
@@ -131,7 +131,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        with(currenciesViewModel.getEvent()) {
+        with(currenciesViewModel.event) {
 
             btnDone.setOnClickListener { onDoneClick() }
 

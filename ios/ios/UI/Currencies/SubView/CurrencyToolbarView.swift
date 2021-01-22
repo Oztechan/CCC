@@ -14,15 +14,15 @@ struct CurrencyToolbarView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var firstRun: Bool
-    var backClickEvent: () -> Void
-    var updateAllEvent: (Bool) -> Void
+    var onCloseClick: () -> Void
+    var updateAllCurrenciesState: (Bool) -> Void
 
     var body: some View {
         HStack {
 
             if !firstRun {
                 Button(
-                    action: backClickEvent,
+                    action: onCloseClick,
                     label: {
                         Image(systemName: "chevron.left")
                             .imageScale(.large)
@@ -37,11 +37,11 @@ struct CurrencyToolbarView: View {
 
             Spacer()
             Button(
-                action: { updateAllEvent(true) },
+                action: { updateAllCurrenciesState(true) },
                 label: { Text(MR.strings().btn_select_all.get()).foregroundColor(MR.colors().text.get()) }
             ).padding(.trailing, 10)
             Button(
-                action: { updateAllEvent(false) },
+                action: { updateAllCurrenciesState(false) },
                 label: { Text(MR.strings().btn_de_select_all.get()).foregroundColor(MR.colors().text.get()) }
             )
 
@@ -54,8 +54,8 @@ struct CurrencyToolbarViewPreview: PreviewProvider {
     static var previews: some View {
         CurrencyToolbarView(
             firstRun: false,
-            backClickEvent: {},
-            updateAllEvent: {_ in }
+            onCloseClick: {},
+            updateAllCurrenciesState: {_ in }
         ).makeForPreviewProvider()
     }
 }

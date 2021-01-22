@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -63,7 +63,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.getEvent())
+        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
         recyclerViewMain.adapter = calculatorAdapter
     }
 
@@ -121,7 +121,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        with(calculatorViewModel.getEvent()) {
+        with(calculatorViewModel.event) {
             btnSettings.setOnClickListener { onSettingsClicked() }
             layoutBar.root.setOnClickListener { onBarClick() }
 

@@ -15,7 +15,7 @@ struct CurrencyItemView: View {
 
     @State var item: Currency
 
-    var updateCurrencyEvent: () -> Void
+    var onItemClick: () -> Void
 
     var body: some View {
         HStack {
@@ -38,7 +38,7 @@ struct CurrencyItemView: View {
 
         }
         .contentShape(Rectangle())
-        .onTapGesture { updateCurrencyEvent() }
+        .onTapGesture { onItemClick() }
         .lineLimit(1)
     }
 }

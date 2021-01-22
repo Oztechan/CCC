@@ -188,7 +188,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }.toUnit()
 
     private fun setListeners() = with(binding) {
-        with(settingsViewModel.getEvent()) {
+        with(settingsViewModel.event) {
             backButton.setOnClickListener { onBackClick() }
 
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }

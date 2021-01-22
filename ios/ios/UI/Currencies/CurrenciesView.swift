@@ -41,8 +41,8 @@ struct CurrenciesView: View {
 
                 CurrencyToolbarView(
                     firstRun: vmWrapper.viewModel.isFirstRun(),
-                    backClickEvent: { vmWrapper.viewModel.getEvent().onCloseClick() },
-                    updateAllEvent: { vmWrapper.viewModel.getEvent().updateAllCurrenciesState(state: $0) }
+                    onCloseClick: { vmWrapper.viewModel.event.onCloseClick() },
+                    updateAllCurrenciesState: { vmWrapper.viewModel.event.updateAllCurrenciesState(state: $0) }
                 )
 
                 if vmWrapper.state.loading {
@@ -53,7 +53,7 @@ struct CurrenciesView: View {
                     List(vmWrapper.state.currencyList, id: \.name) { currency in
                         CurrencyItemView(
                             item: currency,
-                            updateCurrencyEvent: { vmWrapper.viewModel.getEvent().onItemClick(currency: currency) }
+                            onItemClick: { vmWrapper.viewModel.event.onItemClick(currency: currency) }
                         )
                     }
                     .id(UUID())
@@ -68,7 +68,7 @@ struct CurrenciesView: View {
                             .font(.subheadline)
                         Spacer()
                         Button(
-                            action: { vmWrapper.viewModel.getEvent().onDoneClick() },
+                            action: { vmWrapper.viewModel.event.onDoneClick() },
                             label: {
                                 Text(MR.strings().btn_done.get())
                                     .foregroundColor(MR.colors().text.get())
@@ -85,6 +85,12 @@ struct CurrenciesView: View {
             }
             .navigationBarHidden(true)
         }
+        .alert(isPresented: $isAlertShown) {
+            Alert(
+                title: Text(MR.strings().choose_at_least_two_currency.get()),
+                dismissButton: .default(Text(MR.strings().txt_ok.get()))
+            )
+        }
         .background(MR.colors().background_strong.get())
         .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
@@ -94,6 +100,8 @@ struct CurrenciesView: View {
     private func onEffect(effect: CurrenciesEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
+        case is FewCurrencyEffect:
+            isAlertShown = true
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
