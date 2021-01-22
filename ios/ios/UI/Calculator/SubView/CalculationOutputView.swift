@@ -14,7 +14,7 @@ struct CalculationOutputView: View {
     var baseCurrency: String
     var output: String
     var symbol: String
-    var barClickEvent: () -> Void
+    var onBarClick: () -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,7 +38,7 @@ struct CalculationOutputView: View {
         }
         .contentShape(Rectangle())
         .lineLimit(1)
-        .onTapGesture { barClickEvent() }
+        .onTapGesture { onBarClick() }
     }
 }
 
@@ -49,7 +49,7 @@ struct CalculationOutputViewPreview: PreviewProvider {
             baseCurrency: "USD",
             output: "123",
             symbol: "$",
-            barClickEvent: {}
+            onBarClick: {}
         ).makeForPreviewProvider()
     }
 }

@@ -12,19 +12,16 @@ import client
 struct CurrenciesView: View {
 
     @Environment(\.koin) var koin: Koin
-
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject
     var vmWrapper: CurrenciesVMWrapper
 
     @State var isAlertShown = false
 
-    var baseCurrencyChangeEffect: ((String) -> Void)?
-
-    init(viewModel: CurrenciesViewModel, baseCurrencyChangeEffect: ((String) -> Void)? = nil) {
+    init(viewModel: CurrenciesViewModel) {
         self.vmWrapper = CurrenciesVMWrapper(viewModel: viewModel)
-        self.baseCurrencyChangeEffect = baseCurrencyChangeEffect
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
         UITableView.appearance().tableHeaderView = UIView(
@@ -50,19 +47,24 @@ struct CurrenciesView: View {
                     updateAllCurrenciesState: { vmWrapper.viewModel.event.updateAllCurrenciesState(state: $0) }
                 )
 
-                if vmWrapper.state.loading {
-                    ProgressView()
-                }
-
                 Form {
-                    List(vmWrapper.state.currencyList, id: \.name) { currency in
-                        CurrencyItemView(
-                            item: currency,
-                            onItemClick: { vmWrapper.viewModel.event.onItemClick(currency: currency) }
-                        )
+                    if vmWrapper.state.loading {
+                        HStack {
+                            Spacer()
+                            ProgressView().transition(.slide)
+                            Spacer()
+                        }
+                        .listRowBackground(MR.colors().background.get())
+                    } else {
+                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+                            CurrencyItemView(
+                                item: currency,
+                                onItemClick: { vmWrapper.viewModel.event.onItemClick(currency: currency) }
+                            )
+                        }
+                        .id(UUID())
+                        .listRowBackground(MR.colors().background.get())
                     }
-                    .id(UUID())
-                    .listRowBackground(MR.colors().background.get())
                 }
 
                 if vmWrapper.viewModel.isFirstRun() {
@@ -111,6 +113,8 @@ struct CurrenciesView: View {
             UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
                 rootView: CalculatorView(viewModel: koin.get())
             )
+        case is CurrenciesEffect.Back:
+            presentationMode.wrappedValue.dismiss()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

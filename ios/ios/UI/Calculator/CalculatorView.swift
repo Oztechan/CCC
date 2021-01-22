@@ -19,7 +19,9 @@ struct CalculatorView: View {
     var vmWrapper: CalculatorVMWrapper
 
     @State var isBarShown = false
-    @State var isAlertShown = false
+    @State var fewCurrencyAlert = false
+    @State var maximumInputAlert = false
+    @State var navigation = false
 
     init(viewModel: CalculatorViewModel) {
         self.vmWrapper = CalculatorVMWrapper(viewModel: viewModel)
@@ -43,34 +45,36 @@ struct CalculatorView: View {
 
                     CalculationInputView(
                         input: vmWrapper.state.input,
-                        destinationView: CurrenciesView(
-                            viewModel: koin.get(),
-                            baseCurrencyChangeEffect: { vmWrapper.viewModel.event.onSpinnerItemSelected(base: $0) }
-                        )
+                        destinationView: CurrenciesView(viewModel: koin.get())
                     )
 
                     CalculationOutputView(
                         baseCurrency: vmWrapper.state.base,
                         output: vmWrapper.state.output,
                         symbol: vmWrapper.state.symbol,
-                        barClickEvent: {vmWrapper.viewModel.event.onBarClick()}
+                        onBarClick: {vmWrapper.viewModel.event.onBarClick()}
                     )
 
                     Form {
                         if vmWrapper.state.loading {
                             HStack {
                                 Spacer()
-                                ProgressView()
+                                ProgressView().transition(.slide)
                                 Spacer()
-                            }.listRowBackground(MR.colors().background.get())
+                            }
+                            .listRowBackground(MR.colors().background.get())
                         } else {
+
                             List(
-                                ExtensionsKt.toValidList(vmWrapper.state.currencyList, currentBase: vmWrapper.state.base),
+                                ExtensionsKt.toValidList(
+                                    vmWrapper.state.currencyList,
+                                    currentBase: vmWrapper.state.base
+                                ),
                                 id: \.rate
                             ) {
                                 CalculatorItemView(
                                     item: $0,
-                                    itemClickEvent: { item in
+                                    onItemClick: { item in
                                         vmWrapper.viewModel.event.onItemClick(
                                             currency: item,
                                             conversion: ExtensionsKt.toStandardDigits(
@@ -79,13 +83,20 @@ struct CalculatorView: View {
                                         )
                                     }
                                 )
-                            }.listRowBackground(MR.colors().background.get())
+                            }
+                            .listRowBackground(MR.colors().background.get())
                         }
                     }
 
-                    KeyboardView(keyPressEvent: { key in vmWrapper.viewModel.event.onKeyPress(key: key) })
+                    KeyboardView(onKeyPress: { vmWrapper.viewModel.event.onKeyPress(key: $0) })
 
                 }
+
+                NavigationLink(
+                    destination: CurrenciesView(viewModel: koin.get()),
+                    isActive: $navigation
+                ) { }.hidden()
+
             }
             .navigationBarHidden(true)
         }
@@ -99,12 +110,22 @@ struct CalculatorView: View {
 //                    isBarShown: $isBarShown
 //                )
 //            }
-//        ).alert(isPresented: $isAlertShown) {
-//            Alert(
-//                title: Text(vm.data.alertText),
-//                dismissButton: .default(Text("OK"))
-//            )
-//        }
+//        )
+        .alert(isPresented: $maximumInputAlert) {
+            Alert(
+                title: Text(MR.strings().max_input.get()),
+                dismissButton: .default(Text(MR.strings().txt_ok.get()))
+            )
+        }
+        .alert(isPresented: $fewCurrencyAlert) {
+            Alert(
+                title: Text(MR.strings().txt_select_currencies.get()),
+                primaryButton: .default(Text(MR.strings().txt_ok.get())) {
+                    navigation.toggle()
+                },
+                secondaryButton: .cancel()
+            )
+        }
         .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
         .onDisappear { vmWrapper.stopObserving() }
@@ -115,8 +136,10 @@ struct CalculatorView: View {
         switch effect {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
-        case is CalculatorEffect.MaximumInput, is CalculatorEffect.FewCurrency:
-            isAlertShown = true
+        case is CalculatorEffect.MaximumInput:
+            maximumInputAlert = true
+        case is CalculatorEffect.FewCurrency:
+            fewCurrencyAlert = true
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

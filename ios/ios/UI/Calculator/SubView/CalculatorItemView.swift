@@ -12,7 +12,7 @@ import client
 struct CalculatorItemView: View {
 
     var item: Currency
-    var itemClickEvent: (Currency) -> Void
+    var onItemClick: (Currency) -> Void
 
     var body: some View {
         HStack {
@@ -28,14 +28,14 @@ struct CalculatorItemView: View {
 
         }
         .contentShape(Rectangle())
-        .onTapGesture { itemClickEvent(item) }
+        .onTapGesture { onItemClick(item) }
     }
 }
 
 #if DEBUG
 struct CalculatorItemViewPreviews: PreviewProvider {
     static var previews: some View {
-        CalculatorItemView(item: Currency(), itemClickEvent: {_ in})
+        CalculatorItemView(item: Currency(), onItemClick: {_ in})
             .previewLayout(.fixed(width: 300, height: 60))
             .makeForPreviewProvider()
     }
