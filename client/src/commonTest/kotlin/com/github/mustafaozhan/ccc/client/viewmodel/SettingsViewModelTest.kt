@@ -7,16 +7,8 @@ import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.formatToString
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.BackEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ChangeThemeEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.FeedBackEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.OnGitHubEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.RemoveAdsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ShareEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SupportUsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ThemeDialogEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
@@ -40,8 +32,8 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             viewModel.updateTheme(appTheme)
             assertEquals(appTheme, viewModel.state.value.appThemeType)
 
-            viewModel.getEvent().onCurrenciesClick()
-            assertEquals(ChangeThemeEffect(appTheme.themeValue), viewModel.effect.single())
+            viewModel.event.onCurrenciesClick()
+            assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.single())
         }.cancel()
     }
 
@@ -60,64 +52,64 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun onBackClick() = runTest {
         it.launch {
-            viewModel.getEvent().onBackClick()
-            assertEquals(BackEffect, viewModel.effect.single())
+            viewModel.event.onBackClick()
+            assertEquals(SettingsEffect.Back, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onCurrenciesClick() = runTest {
         it.launch {
-            viewModel.getEvent().onCurrenciesClick()
-            assertEquals(CurrenciesEffect, viewModel.effect.single())
+            viewModel.event.onCurrenciesClick()
+            assertEquals(SettingsEffect.OpenCurrencies, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onFeedBackClick() = runTest {
         it.launch {
-            viewModel.getEvent().onFeedBackClick()
-            assertEquals(FeedBackEffect, viewModel.effect.single())
+            viewModel.event.onFeedBackClick()
+            assertEquals(SettingsEffect.FeedBack, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onShareClick() = runTest {
         it.launch {
-            viewModel.getEvent().onShareClick()
-            assertEquals(ShareEffect, viewModel.effect.single())
+            viewModel.event.onShareClick()
+            assertEquals(SettingsEffect.Share, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onSupportUsClick() = runTest {
         it.launch {
-            viewModel.getEvent().onSupportUsClick()
-            assertEquals(SupportUsEffect, viewModel.effect.single())
+            viewModel.event.onSupportUsClick()
+            assertEquals(SettingsEffect.SupportUs, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onOnGitHubClick() = runTest {
         it.launch {
-            viewModel.getEvent().onOnGitHubClick()
-            assertEquals(OnGitHubEffect, viewModel.effect.single())
+            viewModel.event.onOnGitHubClick()
+            assertEquals(SettingsEffect.OnGitHub, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onRemoveAdsClick() = runTest {
         it.launch {
-            viewModel.getEvent().onRemoveAdsClick()
-            assertEquals(RemoveAdsEffect, viewModel.effect.single())
+            viewModel.event.onRemoveAdsClick()
+            assertEquals(SettingsEffect.RemoveAds, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onThemeClick() = runTest {
         it.launch {
-            viewModel.getEvent().onThemeClick()
-            assertEquals(ThemeDialogEffect, viewModel.effect.single())
+            viewModel.event.onThemeClick()
+            assertEquals(SettingsEffect.ThemeDialog, viewModel.effect.single())
         }.cancel()
     }
 }

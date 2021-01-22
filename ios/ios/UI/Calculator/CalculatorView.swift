@@ -13,6 +13,7 @@ import client
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.koin) var koin: Koin
 
     @ObservedObject
     var vmWrapper: CalculatorVMWrapper
@@ -40,40 +41,46 @@ struct CalculatorView: View {
 
                 VStack {
 
-//                    CalculationInputView(
-//                        input: vmWrapper.state.input,
-//                        destinationView: CurrenciesView(baseCurrencyChangeEffect: { newBase in
-//                            vm.event.baseCurrencyChangeEvent(newBase: newBase)
-//                        })
-//                    )
+                    CalculationInputView(
+                        input: vmWrapper.state.input,
+                        destinationView: CurrenciesView(
+                            viewModel: koin.get(),
+                            baseCurrencyChangeEffect: { vmWrapper.viewModel.event.onSpinnerItemSelected(base: $0) }
+                        )
+                    )
 
                     CalculationOutputView(
                         baseCurrency: vmWrapper.state.base,
                         output: vmWrapper.state.output,
+                        symbol: vmWrapper.state.symbol,
                         barClickEvent: {vmWrapper.viewModel.event.onBarClick()}
                     )
 
-                    if vmWrapper.state.loading {
-                        ProgressView()
-                    }
-
                     Form {
-                        List(
-                            ExtensionsKt.toValidList(vmWrapper.state.currencyList, currentBase: vmWrapper.state.base),
-                            id: \.rate
-                        ) {
-                            CalculatorItemView(
-                                item: $0,
-                                itemClickEvent: { item in
-                                    vmWrapper.viewModel.event.onItemClick(
-                                        currency: item,
-                                        conversion: ExtensionsKt.toStandardDigits(
-                                            IOSExtensionsKt.getFormatted(item.rate)
+                        if vmWrapper.state.loading {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                Spacer()
+                            }.listRowBackground(MR.colors().background.get())
+                        } else {
+                            List(
+                                ExtensionsKt.toValidList(vmWrapper.state.currencyList, currentBase: vmWrapper.state.base),
+                                id: \.rate
+                            ) {
+                                CalculatorItemView(
+                                    item: $0,
+                                    itemClickEvent: { item in
+                                        vmWrapper.viewModel.event.onItemClick(
+                                            currency: item,
+                                            conversion: ExtensionsKt.toStandardDigits(
+                                                IOSExtensionsKt.getFormatted(item.rate)
+                                            )
                                         )
-                                    )
-                                }
-                            )
-                        }.listRowBackground(MR.colors().background.get())
+                                    }
+                                )
+                            }.listRowBackground(MR.colors().background.get())
+                        }
                     }
 
                     KeyboardView(keyPressEvent: { key in vmWrapper.viewModel.event.onKeyPress(key: key) })

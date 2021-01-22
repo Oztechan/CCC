@@ -20,8 +20,11 @@ struct CurrenciesView: View {
 
     @State var isAlertShown = false
 
-    init(viewModel: CurrenciesViewModel) {
+    var baseCurrencyChangeEffect: ((String) -> Void)?
+
+    init(viewModel: CurrenciesViewModel, baseCurrencyChangeEffect: ((String) -> Void)? = nil) {
         self.vmWrapper = CurrenciesVMWrapper(viewModel: viewModel)
+        self.baseCurrencyChangeEffect = baseCurrencyChangeEffect
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
         UITableView.appearance().tableHeaderView = UIView(

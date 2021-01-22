@@ -1,13 +1,12 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.BackEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.FewCurrencyEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
@@ -72,27 +71,27 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     @Test
     fun onItemLongClick() = with(viewModel) {
         val currentValue = viewModel.state.value.selectionVisibility
-        getEvent().onItemLongClick()
+        event.onItemLongClick()
         assertEquals(!currentValue, viewModel.state.value.selectionVisibility)
     }
 
     @Test
     fun updateAllCurrenciesState() {
-        assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(true))
-        assertEquals(Unit, viewModel.getEvent().updateAllCurrenciesState(false))
+        assertEquals(Unit, viewModel.event.updateAllCurrenciesState(true))
+        assertEquals(Unit, viewModel.event.updateAllCurrenciesState(false))
     }
 
     @Test
     fun onItemClick() {
         val currency = Currency("EUR", "Euro", "€")
-        assertEquals(Unit, viewModel.getEvent().onItemClick(currency))
+        assertEquals(Unit, viewModel.event.onItemClick(currency))
     }
 
     @Test
     fun onCloseClick() = runTest {
         it.launch {
-            viewModel.getEvent().onCloseClick()
-            assertEquals(BackEffect, viewModel.effect.single())
+            viewModel.event.onCloseClick()
+            assertEquals(CurrenciesEffect.Back, viewModel.effect.single())
             assertEquals("", viewModel.data.query)
         }.cancel()
     }
@@ -100,8 +99,8 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     @Test
     fun onDoneClick() = runTest {
         it.launch {
-            viewModel.getEvent().onDoneClick()
-            assertEquals(FewCurrencyEffect, viewModel.effect.single())
+            viewModel.event.onDoneClick()
+            assertEquals(CurrenciesEffect.FewCurrency, viewModel.effect.single())
         }.cancel()
     }
 }

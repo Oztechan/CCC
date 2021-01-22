@@ -1,17 +1,15 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel.Companion.KEY_DEL
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenBarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenSettingsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ShowRateEffect
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
@@ -29,24 +27,24 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onSpinnerItemSelected() = with(viewModel) {
         val clickedItem = "asd"
-        getEvent().onSpinnerItemSelected(clickedItem)
+        event.onSpinnerItemSelected(clickedItem)
         assertEquals(clickedItem, state.value.base)
     }
 
     @Test
     fun onBarClick() = runTest {
         it.launch {
-            viewModel.getEvent().onBarClick()
+            viewModel.event.onBarClick()
 
-            assertEquals(OpenBarEffect, viewModel.effect.single())
+            assertEquals(CalculatorEffect.OpenBar, viewModel.effect.single())
         }.cancel()
     }
 
     @Test
     fun onSettingsClicked() = runTest {
         it.launch {
-            viewModel.getEvent().onSettingsClicked()
-            assertEquals(OpenSettingsEffect, viewModel.effect.single())
+            viewModel.event.onSettingsClicked()
+            assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.single())
         }.cancel()
     }
 
@@ -54,14 +52,14 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun onItemClick() = with(viewModel) {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val conversion = "123.456"
-        getEvent().onItemClick(currency, conversion)
+        event.onItemClick(currency, conversion)
 
         assertEquals(currency.name, state.value.base)
         assertEquals(conversion, state.value.input)
 
         val unValidConversion = "123."
         val validConversion = "123"
-        getEvent().onItemClick(currency, unValidConversion)
+        event.onItemClick(currency, unValidConversion)
         assertEquals(validConversion, state.value.input)
     }
 
@@ -70,10 +68,10 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         it.launch {
             val currency = Currency("USD", "Dollar", "$", 0.0, true)
 
-            viewModel.getEvent().onItemLongClick(currency)
+            viewModel.event.onItemLongClick(currency)
 
             assertEquals(
-                ShowRateEffect(
+                CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
                         viewModel.getCurrentBase(),
                         viewModel.data.rates
@@ -89,15 +87,15 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun onKeyPress() = with(viewModel) {
         val oldValue = state.value.input
         val key = "1"
-        getEvent().onKeyPress(key)
+        event.onKeyPress(key)
         assertEquals(oldValue + key, state.value.input)
 
-        getEvent().onKeyPress(KEY_AC)
+        event.onKeyPress(KEY_AC)
         assertEquals("", state.value.input)
 
         val currentInput = "12345"
-        getEvent().onKeyPress(currentInput)
-        getEvent().onKeyPress(KEY_DEL)
+        event.onKeyPress(currentInput)
+        event.onKeyPress(KEY_DEL)
         assertEquals(currentInput.dropLast(1), state.value.input)
     }
 }
