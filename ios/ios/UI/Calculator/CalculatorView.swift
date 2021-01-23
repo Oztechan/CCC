@@ -100,17 +100,19 @@ struct CalculatorView: View {
             }
             .navigationBarHidden(true)
         }
-//        .sheet(
-//            isPresented: $isBarShown,
-//            content: {
-//                BarView(
+        .sheet(
+            isPresented: $isBarShown,
+            content: {
+                BarView(
+                    viewModel: koin.get(),
 //                    baseCurrencyChangeEvent: { newBase in
+//                        vmWrapper.viewModel.event.
 //                        vm.event.baseCurrencyChangeEvent(newBase: newBase)
 //                    },
-//                    isBarShown: $isBarShown
-//                )
-//            }
-//        )
+                    isBarShown: $isBarShown
+                )
+            }
+        )
         .alert(isPresented: $maximumInputAlert) {
             Alert(
                 title: Text(MR.strings().max_input.get()),

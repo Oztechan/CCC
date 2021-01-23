@@ -1,39 +1,39 @@
 //
-//  CurrenciesVMWrapper.swift
+//  BarVMWrapper.swift
 //  ios
 //
-//  Created by Mustafa Ozhan on 21/01/2021.
+//  Created by Mustafa Ozhan on 23/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
 import Combine
 import client
 
-final class CurrenciesVMWrapper: VMWrapper {
+final class BarVMWrapper: VMWrapper {
 
-    let viewModel: CurrenciesViewModel
+    let viewModel: BarViewModel
 
-    @Published var state = CurrenciesState(
+    @Published var state = BarState(
         currencyList: [Currency](),
         loading: true,
-        selectionVisibility: false
+        enoughCurrency: false
     )
 
-    var effect = PassthroughSubject<CurrenciesEffect, Never>()
+    var effect = PassthroughSubject<BarEffect, Never>()
 
-    init(viewModel: CurrenciesViewModel) {
+    init(viewModel: BarViewModel) {
         self.viewModel = viewModel
-        LoggerKt.kermit.d(withMessage: {"CurrenciesVMWrapper init"})
+        LoggerKt.kermit.d(withMessage: {"BarVMWrapper init"})
     }
 
     func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
-            if let state = newState as? CurrenciesState {
+            if let state = newState as? BarState {
                 self.state = state
             }
         })
         self.viewModel.observeEffect(viewModel.effect, provideNewEffect: { newEffect in
-            if let effect = newEffect as? CurrenciesEffect {
+            if let effect = newEffect as? BarEffect {
                 self.effect.send(effect)
             }
         })

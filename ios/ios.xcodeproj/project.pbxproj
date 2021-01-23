@@ -23,6 +23,9 @@
 		5C9791A5259743DA00577946 /* CalculatorVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */; };
 		5C9791A8259743F000577946 /* VMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A7259743F000577946 /* VMWrapper.swift */; };
 		5C97C48725B9AFF0001223CE /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C97C48625B9AFF0001223CE /* Resources.swift */; };
+		5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* BarView.swift */; };
+		5CDE468625BC3B3300CA0FB1 /* BarVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468525BC3B3300CA0FB1 /* BarVMWrapper.swift */; };
+		5CDE468825BC3B5C00CA0FB1 /* BarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468725BC3B5C00CA0FB1 /* BarItemView.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FFB2242A642300829871 /* client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7555FFB1242A642300829871 /* client.framework */; };
@@ -60,6 +63,9 @@
 		5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorVMWrapper.swift; sourceTree = "<group>"; };
 		5C9791A7259743F000577946 /* VMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMWrapper.swift; sourceTree = "<group>"; };
 		5C97C48625B9AFF0001223CE /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		5CDE468325BC3B2000CA0FB1 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
+		5CDE468525BC3B3300CA0FB1 /* BarVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarVMWrapper.swift; sourceTree = "<group>"; };
+		5CDE468725BC3B5C00CA0FB1 /* BarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarItemView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 			children = (
 				5C314CBA25B9FB39007B22D8 /* Calculator */,
 				5C314CB925B9FB32007B22D8 /* Currencies */,
+				5CDE468225BB740100CA0FB1 /* Bar */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -169,6 +176,16 @@
 				5C9791A7259743F000577946 /* VMWrapper.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		5CDE468225BB740100CA0FB1 /* Bar */ = {
+			isa = PBXGroup;
+			children = (
+				5CDE468325BC3B2000CA0FB1 /* BarView.swift */,
+				5CDE468525BC3B3300CA0FB1 /* BarVMWrapper.swift */,
+				5CDE468725BC3B5C00CA0FB1 /* BarItemView.swift */,
+			);
+			path = Bar;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -310,7 +327,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CDE468625BC3B3300CA0FB1 /* BarVMWrapper.swift in Sources */,
+				5CDE468825BC3B5C00CA0FB1 /* BarItemView.swift in Sources */,
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
+				5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */,
 				5C0B5C7D25BAE3B100A66F69 /* CalculationOutputView.swift in Sources */,
 				5C0B5C7425BADE9E00A66F69 /* KeyboardView.swift in Sources */,
 				5C9791A8259743F000577946 /* VMWrapper.swift in Sources */,
