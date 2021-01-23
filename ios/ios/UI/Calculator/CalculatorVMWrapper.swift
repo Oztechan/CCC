@@ -23,10 +23,13 @@ final class CalculatorVMWrapper: VMWrapper {
         dataState: DataState.Error()
     )
 
+    var event: CalculatorEvent
+
     var effect = PassthroughSubject<CalculatorEffect, Never>()
 
     init(viewModel: CalculatorViewModel) {
         self.viewModel = viewModel
+        self.event = viewModel.event
         LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
     }
 

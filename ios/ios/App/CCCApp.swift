@@ -24,7 +24,7 @@ struct CCCApp: App {
     var body: some Scene {
         WindowGroup {
             if mainVMWrapper.viewModel?.isFistRun() == true {
-                CurrenciesView(viewModel: koin.get())
+                CurrenciesView(viewModel: koin.get(), currenciesNavigationToogle: .constant(false))
             } else {
                 CalculatorView(viewModel: koin.get())
             }

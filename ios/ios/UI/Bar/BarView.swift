@@ -44,7 +44,7 @@ struct BarView: View {
                         List(vmWrapper.state.currencyList, id: \.name) { currency in
 
                             BarItemView(item: currency)
-                                .onTapGesture { vmWrapper.viewModel.event.onItemClick(currency: currency) }
+                                .onTapGesture { vmWrapper.event.onItemClick(currency: currency) }
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
                         }.listRowBackground(MR.colors().background.get())
@@ -62,8 +62,6 @@ struct BarView: View {
 
     private func onEffect(effect: BarEffect) {
         switch effect {
-        case is BarEffect.ChangeBaseNavResult:
-            LoggerKt.kermit.d(withMessage: {"BarEffect.ChangeBaseNavResult"})
         case is BarEffect.OpenCurrencies:
             isBarShown = false
         default:

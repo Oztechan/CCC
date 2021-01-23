@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
+		5C17581C25BC74CF00D16BD9 /* SettingsVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581B25BC74CF00D16BD9 /* SettingsVMWrapper.swift */; };
 		5C314CBC25BA0254007B22D8 /* MainVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBB25BA0254007B22D8 /* MainVMWrapper.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
 		5C314CC025BA0C4B007B22D8 /* CurrenciesVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBF25BA0C4B007B22D8 /* CurrenciesVMWrapper.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5C17581B25BC74CF00D16BD9 /* SettingsVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVMWrapper.swift; sourceTree = "<group>"; };
 		5C314CBB25BA0254007B22D8 /* MainVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVMWrapper.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C314CBF25BA0C4B007B22D8 /* CurrenciesVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesVMWrapper.swift; sourceTree = "<group>"; };
@@ -69,6 +73,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C17581725BC749500D16BD9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5C17581925BC74BD00D16BD9 /* SettingsView.swift */,
+				5C17581B25BC74CF00D16BD9 /* SettingsVMWrapper.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		5C314CB925B9FB32007B22D8 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,8 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				5C314CBA25B9FB39007B22D8 /* Calculator */,
-				5C314CB925B9FB32007B22D8 /* Currencies */,
 				5CDE468225BB740100CA0FB1 /* Bar */,
+				5C314CB925B9FB32007B22D8 /* Currencies */,
+				5C17581725BC749500D16BD9 /* Settings */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -287,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C17581C25BC74CF00D16BD9 /* SettingsVMWrapper.swift in Sources */,
 				5CDE468625BC3B3300CA0FB1 /* BarVMWrapper.swift in Sources */,
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */,
@@ -296,6 +311,7 @@
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5C9791A5259743DA00577946 /* CalculatorVMWrapper.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
+				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* CCCApp.swift in Sources */,
 				5C314CBC25BA0254007B22D8 /* MainVMWrapper.swift in Sources */,
 			);

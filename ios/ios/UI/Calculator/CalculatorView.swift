@@ -21,7 +21,7 @@ struct CalculatorView: View {
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
     @State var maximumInputAlert = false
-    @State var navigation = false
+    @State var currenciesNavigationToogle = false
 
     init(viewModel: CalculatorViewModel) {
         self.vmWrapper = CalculatorVMWrapper(viewModel: viewModel)
@@ -43,16 +43,13 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(
-                        input: vmWrapper.state.input,
-                        destinationView: CurrenciesView(viewModel: koin.get())
-                    )
+                    CalculationInputView(input: vmWrapper.state.input)
 
                     CalculationOutputView(
                         baseCurrency: vmWrapper.state.base,
                         output: vmWrapper.state.output,
                         symbol: vmWrapper.state.symbol,
-                        onBarClick: {vmWrapper.viewModel.event.onBarClick()}
+                        onBarClick: {vmWrapper.event.onBarClick()}
                     )
 
                     Form {
@@ -75,7 +72,7 @@ struct CalculatorView: View {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { item in
-                                        vmWrapper.viewModel.event.onItemClick(
+                                        vmWrapper.event.onItemClick(
                                             currency: item,
                                             conversion: ExtensionsKt.toStandardDigits(
                                                 IOSExtensionsKt.getFormatted(item.rate)
@@ -88,13 +85,16 @@ struct CalculatorView: View {
                         }
                     }.background(MR.colors().background.get())
 
-                    KeyboardView(onKeyPress: { vmWrapper.viewModel.event.onKeyPress(key: $0) })
+                    KeyboardView(onKeyPress: { vmWrapper.event.onKeyPress(key: $0) })
 
                 }
 
                 NavigationLink(
-                    destination: CurrenciesView(viewModel: koin.get()),
-                    isActive: $navigation
+                    destination: CurrenciesView(
+                        viewModel: koin.get(),
+                        currenciesNavigationToogle: $currenciesNavigationToogle
+                    ),
+                    isActive: $currenciesNavigationToogle
                 ) { }.hidden()
 
             }
@@ -102,16 +102,7 @@ struct CalculatorView: View {
         }
         .sheet(
             isPresented: $isBarShown,
-            content: {
-                BarView(
-                    viewModel: koin.get(),
-//                    baseCurrencyChangeEvent: { newBase in
-//                        vmWrapper.viewModel.event.
-//                        vm.event.baseCurrencyChangeEvent(newBase: newBase)
-//                    },
-                    isBarShown: $isBarShown
-                )
-            }
+            content: { BarView(viewModel: koin.get(), isBarShown: $isBarShown) }
         )
         .alert(isPresented: $maximumInputAlert) {
             Alert(
@@ -123,7 +114,7 @@ struct CalculatorView: View {
             Alert(
                 title: Text(MR.strings().txt_select_currencies.get()),
                 primaryButton: .default(Text(MR.strings().txt_ok.get())) {
-                    navigation.toggle()
+                    currenciesNavigationToogle.toggle()
                 },
                 secondaryButton: .cancel()
             )
@@ -149,9 +140,10 @@ struct CalculatorView: View {
 }
 
 struct CalculationInputView: View {
+    @Environment(\.koin) var koin: Koin
+    @State var settingsNavvigationToogle = false
 
     var input: String
-    var destinationView: CurrenciesView
 
     var body: some View {
         HStack {
@@ -161,13 +153,20 @@ struct CalculationInputView: View {
                 .foregroundColor(MR.colors().text.get())
                 .font(.title2)
             Spacer()
-            NavigationLink(destination: destinationView) {
-                Image(systemName: "gear")
-                    .imageScale(.large)
-                    .accentColor(MR.colors().text.get())
-                    .padding(.trailing, 15)
 
-            }
+            Image(systemName: "gear")
+                .imageScale(.large)
+                .accentColor(MR.colors().text.get())
+                .padding(.trailing, 15)
+                .onTapGesture { settingsNavvigationToogle.toggle()}
+
+            NavigationLink(
+                destination: SettingsView(
+                    viewModel: koin.get(),
+                    settingsNavvigationToogle: $settingsNavvigationToogle
+                ),
+                isActive: $settingsNavvigationToogle
+            ) { }.hidden()
 
         }.frame(width: .none, height: 40, alignment: .center)
     }

@@ -49,4 +49,8 @@ extension Koin {
     func get() -> BarViewModel {
         return koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
     }
+
+    func get() -> SettingsViewModel {
+        return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
+    }
 }

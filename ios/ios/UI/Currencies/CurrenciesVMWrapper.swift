@@ -21,8 +21,11 @@ final class CurrenciesVMWrapper: VMWrapper {
 
     var effect = PassthroughSubject<CurrenciesEffect, Never>()
 
+    var event: CurrenciesEvent
+
     init(viewModel: CurrenciesViewModel) {
         self.viewModel = viewModel
+        self.event = viewModel.event
         LoggerKt.kermit.d(withMessage: {"CurrenciesVMWrapper init"})
     }
 

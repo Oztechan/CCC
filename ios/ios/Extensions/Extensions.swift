@@ -15,6 +15,12 @@ extension ResourcesStringResource {
     }
 }
 
+extension ResourcesPluralsResource {
+    func get(quantitiy: Int32) -> String {
+        return ResourcesKt.getString(stringResource: self, quantity: quantitiy).localized()
+    }
+}
+
 extension ResourcesColorResource {
     func get() -> Color {
         return Color(ResourcesKt.getColor(colorResource: self))

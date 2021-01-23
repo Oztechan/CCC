@@ -12,15 +12,17 @@ import client
 struct CurrenciesView: View {
 
     @Environment(\.koin) var koin: Koin
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject
     var vmWrapper: CurrenciesVMWrapper
 
     @State var isAlertShown = false
 
-    init(viewModel: CurrenciesViewModel) {
+    @Binding var currenciesNavigationToogle: Bool
+
+    init(viewModel: CurrenciesViewModel, currenciesNavigationToogle: Binding<Bool>) {
         self.vmWrapper = CurrenciesVMWrapper(viewModel: viewModel)
+        self._currenciesNavigationToogle = currenciesNavigationToogle
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
         UITableView.appearance().tableHeaderView = UIView(
@@ -41,8 +43,8 @@ struct CurrenciesView: View {
 
                 CurrencyToolbarView(
                     firstRun: vmWrapper.viewModel.isFirstRun(),
-                    onCloseClick: { vmWrapper.viewModel.event.onCloseClick() },
-                    updateAllCurrenciesState: { vmWrapper.viewModel.event.updateAllCurrenciesState(state: $0) }
+                    onCloseClick: { vmWrapper.event.onCloseClick() },
+                    updateAllCurrenciesState: { vmWrapper.event.updateAllCurrenciesState(state: $0) }
                 )
 
                 Form {
@@ -57,7 +59,7 @@ struct CurrenciesView: View {
                         List(vmWrapper.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
                                 item: currency,
-                                onItemClick: { vmWrapper.viewModel.event.onItemClick(currency: currency) }
+                                onItemClick: { vmWrapper.event.onItemClick(currency: currency) }
                             )
                         }
                         .id(UUID())
@@ -73,7 +75,7 @@ struct CurrenciesView: View {
                             .font(.subheadline)
                         Spacer()
                         Button(
-                            action: { vmWrapper.viewModel.event.onDoneClick() },
+                            action: { vmWrapper.event.onDoneClick() },
                             label: {
                                 Text(MR.strings().btn_done.get())
                                     .foregroundColor(MR.colors().text.get())
@@ -112,7 +114,7 @@ struct CurrenciesView: View {
                 rootView: CalculatorView(viewModel: koin.get())
             )
         case is CurrenciesEffect.Back:
-            presentationMode.wrappedValue.dismiss()
+            currenciesNavigationToogle.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
@@ -134,13 +136,14 @@ struct CurrencyToolbarView: View {
                         Image(systemName: "chevron.left")
                             .imageScale(.large)
                             .accentColor(MR.colors().text.get())
-                            .padding(.leading, 10)
-
-                        Text(MR.strings().txt_back.get()).foregroundColor(MR.colors().text.get())
+                            .padding(.leading, 20)
                     }
                 ).padding(.trailing, 10)
 
             }
+
+            Text(MR.strings().txt_currencies.get())
+                .font(.title2)
 
             Spacer()
             Button(
