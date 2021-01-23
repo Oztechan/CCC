@@ -45,7 +45,7 @@ extension Koin {
     func get() -> CurrenciesViewModel {
         return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
     }
-    
+
     func get() -> BarViewModel {
         return koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
     }

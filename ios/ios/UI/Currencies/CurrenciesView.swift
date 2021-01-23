@@ -12,7 +12,6 @@ import client
 struct CurrenciesView: View {
 
     @Environment(\.koin) var koin: Koin
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject
@@ -32,7 +31,6 @@ struct CurrenciesView: View {
                 height: Double.leastNonzeroMagnitude
             )
         )
-        UITableView.appearance().backgroundColor = MR.colors().background.get()
     }
 
     var body: some View {
@@ -65,7 +63,7 @@ struct CurrenciesView: View {
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
-                }
+                }.background(MR.colors().background.get())
 
                 if vmWrapper.viewModel.isFirstRun() {
                     HStack {
@@ -121,10 +119,70 @@ struct CurrenciesView: View {
     }
 }
 
-struct CurrenciesViewPreviews: PreviewProvider {
-    @Environment(\.koin) static var koin: Koin
+struct CurrencyToolbarView: View {
+    var firstRun: Bool
+    var onCloseClick: () -> Void
+    var updateAllCurrenciesState: (Bool) -> Void
 
-    static var previews: some View {
-        CurrenciesView(viewModel: koin.get())
+    var body: some View {
+        HStack {
+
+            if !firstRun {
+                Button(
+                    action: onCloseClick,
+                    label: {
+                        Image(systemName: "chevron.left")
+                            .imageScale(.large)
+                            .accentColor(MR.colors().text.get())
+                            .padding(.leading, 10)
+
+                        Text(MR.strings().txt_back.get()).foregroundColor(MR.colors().text.get())
+                    }
+                ).padding(.trailing, 10)
+
+            }
+
+            Spacer()
+            Button(
+                action: { updateAllCurrenciesState(true) },
+                label: { Text(MR.strings().btn_select_all.get()).foregroundColor(MR.colors().text.get()) }
+            ).padding(.trailing, 10)
+            Button(
+                action: { updateAllCurrenciesState(false) },
+                label: { Text(MR.strings().btn_de_select_all.get()).foregroundColor(MR.colors().text.get()) }
+            )
+
+        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+    }
+}
+
+struct CurrencyItemView: View {
+    @State var item: Currency
+
+    var onItemClick: () -> Void
+
+    var body: some View {
+        HStack {
+
+            Image(uiImage: item.name.getImage())
+                .resizable()
+                .frame(width: 36, height: 36, alignment: .center)
+                .shadow(radius: 3)
+            Text(item.name)
+                .frame(width: 45)
+                .foregroundColor(MR.colors().text.get())
+            Text(item.longName)
+                .font(.footnote)
+                .foregroundColor(MR.colors().text.get())
+            Text(item.symbol)
+                .font(.footnote)
+                .foregroundColor(MR.colors().text.get())
+            Spacer()
+            Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
+
+        }
+        .contentShape(Rectangle())
+        .onTapGesture { onItemClick() }
+        .lineLimit(1)
     }
 }

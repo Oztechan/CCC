@@ -27,22 +27,33 @@ struct BarView: View {
 
         NavigationView {
 
-            if vmWrapper.state.loading {
-                ProgressView()
+            ZStack {
+
+                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+
+                Form {
+                    if vmWrapper.state.loading {
+                        HStack {
+                            Spacer()
+                            ProgressView().transition(.slide)
+                            Spacer()
+                        }
+                        .listRowBackground(MR.colors().background.get())
+                    } else {
+
+                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+
+                            BarItemView(item: currency)
+                                .onTapGesture { vmWrapper.viewModel.event.onItemClick(currency: currency) }
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+
+                        }.listRowBackground(MR.colors().background.get())
+                    }
+                }
+                .background(MR.colors().background.get())
+                .navigationBarTitle(MR.strings().txt_current_base.get())
+
             }
-
-            Form {
-
-                List(vmWrapper.state.currencyList, id: \.name) { currency in
-
-                    BarItemView(item: currency)
-                        .onTapGesture { vmWrapper.viewModel.event.onItemClick(currency: currency) }
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-
-                }.listRowBackground(Color("ColorBackground"))
-
-            }.navigationBarTitle("Base Currency")
-
         }
         .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
@@ -61,12 +72,29 @@ struct BarView: View {
     }
 }
 
-#if DEBUG
-struct BarViewPreviews: PreviewProvider {
-    @Environment(\.koin) static var koin: Koin
+struct BarItemView: View {
+    var item: Currency
 
-    static var previews: some View {
-        BarView(viewModel: koin.get(), isBarShown: .constant(true)).makeForPreviewProvider()
+    var body: some View {
+        HStack {
+
+            Image(uiImage: item.name.getImage())
+                .resizable()
+                .frame(width: 36, height: 36, alignment: .center)
+                .shadow(radius: 3)
+            Text(item.name)
+                .frame(width: 45)
+                .foregroundColor(MR.colors().text.get())
+            Text(item.longName)
+                .font(.footnote)
+                .foregroundColor(MR.colors().text.get())
+            Text(item.symbol)
+                .font(.footnote)
+                .foregroundColor(MR.colors().text.get())
+            Spacer()
+
+        }
+        .contentShape(Rectangle())
+        .lineLimit(1)
     }
 }
-#endif
