@@ -5,15 +5,14 @@
 
 ## Branches
 -   [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) is Kotlin Multi Platform branch.
-    - android, compeletelly moved to KMP
+    - android, compeletelly moved to KMP (in beta)
     - ios, In progress
-    - backend, compeletelly moved to KMP, (In Production)
-    - web, In progress
-    - desktop, In progress
--   [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) is Android branch which is in market currently.
-    -  In Production
--   [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) is Android branch with min sdk 16 support, current app is min sdk 21.
-    -  In production for SDK16 - SDK21.
+    - backend, compeletelly moved to KMP, (in beta)
+    - web, will be implemented
+    - desktop, will be implemented
+-   [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) is Android branch which is in market currently. (in Production)
+-   [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) is Android branch with min sdk 16 support, current app is min sdk 21. (in Production for SDK16 - SDK21)
+
 
 ## Features
 
@@ -37,10 +36,19 @@
 [![currencies.png](https://i.postimg.cc/tJDKkj1y/currencies.png)](https://postimg.cc/p5hcV3Y1)
 
 ### License
+```
 Copyright 2017 Mustafa Ozhan
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-<http://www.apache.org/licenses/LICENSE-2.0>
+    http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
