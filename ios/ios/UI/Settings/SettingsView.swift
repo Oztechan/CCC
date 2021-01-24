@@ -10,7 +10,9 @@ import SwiftUI
 import client
 
 struct SettingsView: View {
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vmWrapper: SettingsVMWrapper = Koin.shared.settingsVMWrapper
+
     @State var currenciesNavigationToogle = false
     @Binding var settingsNavvigationToogle: Bool
 
@@ -53,7 +55,55 @@ struct SettingsView: View {
                             quantitiy: vmWrapper.state.activeCurrencyCount
                         ),
                         onClick: { vmWrapper.event.onCurrenciesClick() }
-                    ).listRowBackground(MR.colors().background.get())
+                    )
+
+                    SettingsItemView(
+                        imgName: "lightbulb.fill",
+                        title: MR.strings().settings_item_theme_title.get(),
+                        subTitle: MR.strings().settings_item_theme_sub_title.get(),
+                        value: vmWrapper.state.appThemeType.typeName,
+                        onClick: { vmWrapper.event.onThemeClick() }
+                    )
+
+                    SettingsItemView(
+                        imgName: "eye.slash.fill",
+                        title: MR.strings().settings_item_remove_ads_title.get(),
+                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+                        value: vmWrapper.state.addFreeDate,
+                        onClick: { vmWrapper.event.onRemoveAdsClick() }
+                    )
+
+                    SettingsItemView(
+                        imgName: "arrow.2.circlepath.circle.fill",
+                        title: MR.strings().settings_item_sync_title.get(),
+                        subTitle: MR.strings().settings_item_sync_sub_title.get(),
+                        value: "",
+                        onClick: { vmWrapper.event.onSyncClick() }
+                    )
+
+                    SettingsItemView(
+                        imgName: "cart.fill",
+                        title: MR.strings().settings_item_support_us_title.get(),
+                        subTitle: MR.strings().settings_item_support_us_sub_title.get(),
+                        value: "",
+                        onClick: { vmWrapper.event.onSupportUsClick() }
+                    )
+
+                    SettingsItemView(
+                        imgName: "envelope.fill",
+                        title: MR.strings().settings_item_feedback_title.get(),
+                        subTitle: MR.strings().settings_item_feedback_sub_title.get(),
+                        value: "",
+                        onClick: { vmWrapper.event.onFeedBackClick() }
+                    )
+
+                    SettingsItemView(
+                        imgName: "chevron.left.slash.chevron.right",
+                        title: MR.strings().settings_item_on_github_title.get(),
+                        subTitle: MR.strings().settings_item_on_github_sub_title.get(),
+                        value: "",
+                        onClick: { vmWrapper.event.onOnGitHubClick() }
+                    )
 
                 }.background(MR.colors().background.get())
 
@@ -88,37 +138,38 @@ struct SettingsItemView: View {
     let onClick: () -> Void
 
     var body: some View {
-        VStack {
-            HStack {
-                Image(systemName: imgName)
-                    .frame(width: 48, height: 48, alignment: .center)
-                    .imageScale(.large)
-                    .accentColor(MR.colors().text.get())
+        HStack {
+            Image(systemName: imgName)
+                .frame(width: 48, height: 48, alignment: .center)
+                .imageScale(.large)
+                .accentColor(MR.colors().text.get())
+                .padding(.bottom, 4)
+                .padding(.top, 4)
 
-                VStack {
-                    HStack {
-                        Text(title).font(.title3)
-                        Spacer()
-                    }
-
-                    HStack {
-                        Text(subTitle).font(.footnote)
-                        Spacer()
-                    }
+            VStack {
+                HStack {
+                    Text(title).font(.title3)
+                    Spacer()
                 }
 
                 Spacer()
 
-                Text(value).font(.footnote)
-
-                Image(systemName: "chevron.right")
-                    .frame(width: 48, height: 48, alignment: .center)
-                    .imageScale(.large)
-                    .accentColor(MR.colors().text.get())
+                HStack {
+                    Text(subTitle).font(.footnote)
+                    Spacer()
+                }
             }
 
-            Divider()
+            Spacer()
+
+            Text(value).font(.footnote)
+
+            Image(systemName: "chevron.right")
+                .frame(width: 48, height: 48, alignment: .center)
+                .imageScale(.large)
+                .accentColor(MR.colors().text.get())
         }
+        .listRowBackground(MR.colors().background.get())
         .onTapGesture { onClick() }
         .contentShape(Rectangle())
         .lineLimit(1)

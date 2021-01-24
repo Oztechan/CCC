@@ -11,6 +11,7 @@ import client
 
 struct BarView: View {
 
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vmWrapper: BarVMWrapper = Koin.shared.barVMWrapper
     @Binding var isBarShown: Bool
 

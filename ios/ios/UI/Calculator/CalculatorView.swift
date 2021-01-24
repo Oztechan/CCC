@@ -12,8 +12,8 @@ import client
 
 struct CalculatorView: View {
 
-    @ObservedObject
-    var vmWrapper: CalculatorVMWrapper = Koin.shared.calculatorVMWrapper
+    @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var vmWrapper: CalculatorVMWrapper = Koin.shared.calculatorVMWrapper
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false

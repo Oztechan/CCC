@@ -12,9 +12,7 @@ import client
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-
-    @ObservedObject
-    var vmWrapper: CurrenciesVMWrapper = Koin.shared.currenciesVMWrapper
+    @ObservedObject var vmWrapper: CurrenciesVMWrapper = Koin.shared.currenciesVMWrapper
 
     @State var isAlertShown = false
 

@@ -34,7 +34,7 @@
     <string name="btn_de_select_all">Deselect All</string>
     <string name="btn_done">Done</string>
     <string name="txt_back">Back</string>
-    <string name="txt_select_currencies">Please select your favorite currencies</string>
+    <string name="txt_select_currencies">Select your currencies</string>
 
     <!--Snacky Text-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
