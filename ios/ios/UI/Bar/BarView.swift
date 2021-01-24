@@ -16,8 +16,8 @@ struct BarView: View {
     @Binding var isBarShown: Bool
 
     init(isBarShown: Binding<Bool>) {
-        self._isBarShown = isBarShown
         LoggerKt.kermit.d(withMessage: {"BarView init"})
+        self._isBarShown = isBarShown
     }
 
     var body: some View {
@@ -52,9 +52,7 @@ struct BarView: View {
 
             }
         }
-        .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
-        .onDisappear { vmWrapper.stopObserving() }
     }
 
     private func onEffect(effect: BarEffect) {
@@ -68,6 +66,7 @@ struct BarView: View {
 }
 
 struct BarItemView: View {
+    @Environment(\.colorScheme) var colorScheme
     var item: Currency
 
     var body: some View {

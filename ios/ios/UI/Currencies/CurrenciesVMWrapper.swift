@@ -9,7 +9,7 @@
 import Combine
 import client
 
-final class CurrenciesVMWrapper: VMWrapper {
+final class CurrenciesVMWrapper: ObservableObject {
 
     let viewModel: CurrenciesViewModel
 
@@ -24,12 +24,11 @@ final class CurrenciesVMWrapper: VMWrapper {
     var event: CurrenciesEvent
 
     init(viewModel: CurrenciesViewModel) {
+        LoggerKt.kermit.d(withMessage: {"CurrenciesVMWrapper init"})
+
         self.viewModel = viewModel
         self.event = viewModel.event
-        LoggerKt.kermit.d(withMessage: {"CurrenciesVMWrapper init"})
-    }
 
-    func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
             if let state = newState as? CurrenciesState {
                 self.state = state
@@ -42,7 +41,7 @@ final class CurrenciesVMWrapper: VMWrapper {
         })
     }
 
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }

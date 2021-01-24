@@ -17,7 +17,6 @@
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
 		5C9791A5259743DA00577946 /* CalculatorVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */; };
-		5C9791A8259743F000577946 /* VMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9791A7259743F000577946 /* VMWrapper.swift */; };
 		5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* BarView.swift */; };
 		5CDE468625BC3B3300CA0FB1 /* BarVMWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468525BC3B3300CA0FB1 /* BarVMWrapper.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
@@ -51,7 +50,6 @@
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C9791A4259743DA00577946 /* CalculatorVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorVMWrapper.swift; sourceTree = "<group>"; };
-		5C9791A7259743F000577946 /* VMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMWrapper.swift; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
 		5CDE468525BC3B3300CA0FB1 /* BarVMWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarVMWrapper.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,14 +143,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		5C9791A6259743E000577946 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				5C9791A7259743F000577946 /* VMWrapper.swift */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
 		5CDE468225BB740100CA0FB1 /* Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +172,6 @@
 		7555FF7D242A565900829871 /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				5C9791A6259743E000577946 /* Base */,
 				5C5D09312562EB8700DA9C4A /* App */,
 				5C5D09342562EBCA00DA9C4A /* DI */,
 				5C5D093A2562EC1300DA9C4A /* UI */,
@@ -305,7 +294,6 @@
 				5CDE468625BC3B3300CA0FB1 /* BarVMWrapper.swift in Sources */,
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */,
-				5C9791A8259743F000577946 /* VMWrapper.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C314CC025BA0C4B007B22D8 /* CurrenciesVMWrapper.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,

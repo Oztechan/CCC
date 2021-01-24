@@ -19,8 +19,9 @@ struct CurrenciesView: View {
     @Binding var currenciesNavigationToogle: Bool
 
     init(currenciesNavigationToogle: Binding<Bool>) {
-        self._currenciesNavigationToogle = currenciesNavigationToogle
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
+
+        self._currenciesNavigationToogle = currenciesNavigationToogle
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -94,9 +95,7 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
-        .onDisappear { vmWrapper.stopObserving() }
     }
 
     private func onEffect(effect: CurrenciesEffect) {

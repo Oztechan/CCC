@@ -112,9 +112,7 @@ struct CalculatorView: View {
                 secondaryButton: .cancel()
             )
         }
-        .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
-        .onDisappear { vmWrapper.stopObserving() }
     }
 
     private func onEffect(effect: CalculatorEffect) {
@@ -133,6 +131,7 @@ struct CalculatorView: View {
 }
 
 struct CalculationInputView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var settingsNavvigationToogle = false
 
     var input: String

@@ -9,20 +9,16 @@
 import Combine
 import client
 
-final class MainVMWrapper: VMWrapper {
+final class MainVMWrapper: ObservableObject {
 
     var viewModel: MainViewModel
 
     init(viewModel: MainViewModel) {
-        self.viewModel = viewModel
         LoggerKt.kermit.d(withMessage: {"MainVMWrapper init"})
+        self.viewModel = viewModel
     }
 
-    func startObserving() {
-        // No implementation
-    }
-
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }

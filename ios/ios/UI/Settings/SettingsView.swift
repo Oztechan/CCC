@@ -17,8 +17,8 @@ struct SettingsView: View {
     @Binding var settingsNavvigationToogle: Bool
 
     init(settingsNavvigationToogle: Binding<Bool>) {
-        self._settingsNavvigationToogle = settingsNavvigationToogle
         LoggerKt.kermit.d(withMessage: {"BarView init"})
+        self._settingsNavvigationToogle = settingsNavvigationToogle
     }
 
     var body: some View {
@@ -44,7 +44,7 @@ struct SettingsView: View {
                         .font(.title2)
 
                     Spacer()
-                }
+                }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
 
                 Form {
                     SettingsItemView(
@@ -114,9 +114,7 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
-        .onDisappear { vmWrapper.stopObserving() }
     }
 
     private func onEffect(effect: SettingsEffect) {

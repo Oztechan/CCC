@@ -5,7 +5,8 @@
 package com.github.mustafaozhan.ccc.client.base
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,11 +16,16 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("EmptyDefaultConstructor", "unused")
 actual open class BaseViewModel actual constructor() {
 
-    protected actual val clientScope: CoroutineScope = MainScope()
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope: CoroutineScope = CoroutineScope(
+        Dispatchers.Main + viewModelJob
+    )
+
+    protected actual val clientScope: CoroutineScope = viewModelScope
 
     protected actual open fun onCleared() {
-        clientScope.coroutineContext.cancelChildren()
-    }Pl
+        viewModelJob.cancelChildren()
+    }
 
     fun <T> Flow<T>.observeEffect(provideNewEffect: (T) -> Unit) = onEach {
         provideNewEffect.invoke(it)

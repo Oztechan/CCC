@@ -9,7 +9,7 @@
 import Combine
 import client
 
-final class CalculatorVMWrapper: VMWrapper {
+final class CalculatorVMWrapper: ObservableObject {
 
     let viewModel: CalculatorViewModel
 
@@ -28,12 +28,11 @@ final class CalculatorVMWrapper: VMWrapper {
     var effect = PassthroughSubject<CalculatorEffect, Never>()
 
     init(viewModel: CalculatorViewModel) {
+        LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
+
         self.viewModel = viewModel
         self.event = viewModel.event
-        LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
-    }
 
-    func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
             if let state = newState as? CalculatorState {
                 self.state = state
@@ -46,7 +45,7 @@ final class CalculatorVMWrapper: VMWrapper {
         })
     }
 
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }

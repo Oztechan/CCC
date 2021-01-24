@@ -9,7 +9,7 @@
 import Combine
 import client
 
-final class BarVMWrapper: VMWrapper {
+final class BarVMWrapper: ObservableObject {
 
     let viewModel: BarViewModel
 
@@ -24,12 +24,11 @@ final class BarVMWrapper: VMWrapper {
     var event: BarEvent
 
     init(viewModel: BarViewModel) {
+        LoggerKt.kermit.d(withMessage: {"BarVMWrapper init"})
+
         self.viewModel = viewModel
         self.event = viewModel.event
-        LoggerKt.kermit.d(withMessage: {"BarVMWrapper init"})
-    }
 
-    func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
             if let state = newState as? BarState {
                 self.state = state
@@ -42,7 +41,7 @@ final class BarVMWrapper: VMWrapper {
         })
     }
 
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }

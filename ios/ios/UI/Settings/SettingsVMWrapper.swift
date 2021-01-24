@@ -9,7 +9,7 @@
 import Combine
 import client
 
-final class SettingsVMWrapper: VMWrapper {
+final class SettingsVMWrapper: ObservableObject {
 
     let viewModel: SettingsViewModel
 
@@ -24,12 +24,11 @@ final class SettingsVMWrapper: VMWrapper {
     var event: SettingsEvent
 
     init(viewModel: SettingsViewModel) {
+        LoggerKt.kermit.d(withMessage: {"SettingsVMWrapper init"})
+
         self.viewModel = viewModel
         self.event = viewModel.event
-        LoggerKt.kermit.d(withMessage: {"SettingsVMWrapper init"})
-    }
 
-    func startObserving() {
         self.viewModel.observeState(viewModel.state, provideNewState: { newState in
             if let state = newState as? SettingsState {
                 self.state = state
@@ -42,7 +41,7 @@ final class SettingsVMWrapper: VMWrapper {
         })
     }
 
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }
