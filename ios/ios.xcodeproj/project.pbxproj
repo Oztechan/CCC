@@ -130,8 +130,8 @@
 			children = (
 				5C314CBA25B9FB39007B22D8 /* Calculator */,
 				5CDE468225BB740100CA0FB1 /* Bar */,
-				5C314CB925B9FB32007B22D8 /* Currencies */,
 				5C17581725BC749500D16BD9 /* Settings */,
+				5C314CB925B9FB32007B22D8 /* Currencies */,
 			);
 			path = UI;
 			sourceTree = "<group>";

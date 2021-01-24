@@ -12,19 +12,15 @@ import client
 
 struct CalculatorView: View {
 
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.koin) var koin: Koin
-
     @ObservedObject
-    var vmWrapper: CalculatorVMWrapper
+    var vmWrapper: CalculatorVMWrapper = Koin.shared.calculatorVMWrapper
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
     @State var maximumInputAlert = false
     @State var currenciesNavigationToogle = false
 
-    init(viewModel: CalculatorViewModel) {
-        self.vmWrapper = CalculatorVMWrapper(viewModel: viewModel)
+    init() {
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
@@ -90,10 +86,7 @@ struct CalculatorView: View {
                 }
 
                 NavigationLink(
-                    destination: CurrenciesView(
-                        viewModel: koin.get(),
-                        currenciesNavigationToogle: $currenciesNavigationToogle
-                    ),
+                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
                     isActive: $currenciesNavigationToogle
                 ) { }.hidden()
 
@@ -102,7 +95,7 @@ struct CalculatorView: View {
         }
         .sheet(
             isPresented: $isBarShown,
-            content: { BarView(viewModel: koin.get(), isBarShown: $isBarShown) }
+            content: { BarView(isBarShown: $isBarShown) }
         )
         .alert(isPresented: $maximumInputAlert) {
             Alert(
@@ -140,7 +133,6 @@ struct CalculatorView: View {
 }
 
 struct CalculationInputView: View {
-    @Environment(\.koin) var koin: Koin
     @State var settingsNavvigationToogle = false
 
     var input: String
@@ -161,10 +153,7 @@ struct CalculationInputView: View {
                 .onTapGesture { settingsNavvigationToogle.toggle()}
 
             NavigationLink(
-                destination: SettingsView(
-                    viewModel: koin.get(),
-                    settingsNavvigationToogle: $settingsNavvigationToogle
-                ),
+                destination: SettingsView(settingsNavvigationToogle: $settingsNavvigationToogle),
                 isActive: $settingsNavvigationToogle
             ) { }.hidden()
 

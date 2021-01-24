@@ -11,14 +11,11 @@ import client
 
 final class MainVMWrapper: VMWrapper {
 
-    var viewModel: MainViewModel?
+    var viewModel: MainViewModel
 
-    init() {
-        LoggerKt.kermit.d(withMessage: {"MainVMWrapper init"})
-    }
-
-    func setViewModel(viewModel: MainViewModel) {
+    init(viewModel: MainViewModel) {
         self.viewModel = viewModel
+        LoggerKt.kermit.d(withMessage: {"MainVMWrapper init"})
     }
 
     func startObserving() {
@@ -26,6 +23,6 @@ final class MainVMWrapper: VMWrapper {
     }
 
     func stopObserving() {
-        self.viewModel?.onCleared()
+        self.viewModel.onCleared()
     }
 }

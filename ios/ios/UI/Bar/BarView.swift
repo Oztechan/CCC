@@ -11,14 +11,10 @@ import client
 
 struct BarView: View {
 
-    @ObservedObject var vmWrapper: BarVMWrapper
+    @ObservedObject var vmWrapper: BarVMWrapper = Koin.shared.barVMWrapper
     @Binding var isBarShown: Bool
 
-    init(
-        viewModel: BarViewModel,
-        isBarShown: Binding<Bool>
-    ) {
-        self.vmWrapper = BarVMWrapper(viewModel: viewModel)
+    init(isBarShown: Binding<Bool>) {
         self._isBarShown = isBarShown
         LoggerKt.kermit.d(withMessage: {"BarView init"})
     }

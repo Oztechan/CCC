@@ -11,28 +11,26 @@ import client
 
 struct CurrenciesView: View {
 
-    @Environment(\.koin) var koin: Koin
+    @Environment(\.colorScheme) var colorScheme
 
     @ObservedObject
-    var vmWrapper: CurrenciesVMWrapper
+    var vmWrapper: CurrenciesVMWrapper = Koin.shared.currenciesVMWrapper
 
     @State var isAlertShown = false
 
     @Binding var currenciesNavigationToogle: Bool
 
-    init(viewModel: CurrenciesViewModel, currenciesNavigationToogle: Binding<Bool>) {
-        self.vmWrapper = CurrenciesVMWrapper(viewModel: viewModel)
+    init(currenciesNavigationToogle: Binding<Bool>) {
         self._currenciesNavigationToogle = currenciesNavigationToogle
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
-        UITableView.appearance().tableHeaderView = UIView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: 0,
-                height: Double.leastNonzeroMagnitude
-            )
-        )
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 0,
+            height: Double.leastNonzeroMagnitude
+        ))
+        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
     }
 
     var body: some View {
@@ -98,7 +96,6 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .background(MR.colors().background_strong.get())
         .onAppear { vmWrapper.startObserving() }
         .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
         .onDisappear { vmWrapper.stopObserving() }
@@ -111,7 +108,7 @@ struct CurrenciesView: View {
             isAlertShown = true
         case is CurrenciesEffect.OpenCalculator:
             UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
-                rootView: CalculatorView(viewModel: koin.get())
+                rootView: CalculatorView()
             )
         case is CurrenciesEffect.Back:
             currenciesNavigationToogle.toggle()

@@ -10,13 +10,11 @@ import SwiftUI
 import client
 
 struct SettingsView: View {
-    @Environment(\.koin) var koin: Koin
-    @ObservedObject var vmWrapper: SettingsVMWrapper
+    @ObservedObject var vmWrapper: SettingsVMWrapper = Koin.shared.settingsVMWrapper
     @State var currenciesNavigationToogle = false
     @Binding var settingsNavvigationToogle: Bool
 
-    init(viewModel: SettingsViewModel, settingsNavvigationToogle: Binding<Bool>) {
-        self.vmWrapper = SettingsVMWrapper(viewModel: viewModel)
+    init(settingsNavvigationToogle: Binding<Bool>) {
         self._settingsNavvigationToogle = settingsNavvigationToogle
         LoggerKt.kermit.d(withMessage: {"BarView init"})
     }
@@ -60,10 +58,7 @@ struct SettingsView: View {
                 }.background(MR.colors().background.get())
 
                 NavigationLink(
-                    destination: CurrenciesView(
-                        viewModel: koin.get(),
-                        currenciesNavigationToogle: $currenciesNavigationToogle
-                    ),
+                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
                     isActive: $currenciesNavigationToogle
                 ) { }.hidden()
             }
