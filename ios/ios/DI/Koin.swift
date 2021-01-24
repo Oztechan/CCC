@@ -6,36 +6,44 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
 import client
 
-struct Koin {
+// swiftlint:disable force_cast
+class Koin {
+    static let shared: Koin = Koin()
+
     let koin = KoinIOSKt.doInitIOS(
         userDefaults: UserDefaults(suiteName: "application_user_defaults")!
     ).koin
-}
 
-struct KoinKey: EnvironmentKey {
-    typealias Value = Koin
-    static var defaultValue = Koin()
-}
+    lazy var mainVMWrapper: MainVMWrapper = {
+        return MainVMWrapper(
+            viewModel: Koin.shared.koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
+        )
+    }()
 
-extension EnvironmentValues {
-    var koin: Koin {
-        set {
-            self[KoinKey.self] = newValue
-        }
-        // swiftlint:disable implicit_getter
-        get {
-            return self[KoinKey.self]
-        }
-    }
-}
+    lazy var calculatorVMWrapper: CalculatorVMWrapper = {
+        return CalculatorVMWrapper(
+            viewModel: Koin.shared.koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+        )
+    }()
 
-// swiftlint:disable force_cast
-extension Koin {
-    func get() -> CalculatorViewModel {
-        return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
-    }
+    lazy var currenciesVMWrapper: CurrenciesVMWrapper = {
+        return CurrenciesVMWrapper(
+            viewModel: Koin.shared.koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
+        )
+    }()
+
+    lazy var barVMWrapper: BarVMWrapper = {
+        return BarVMWrapper(
+            viewModel: Koin.shared.koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
+        )
+    }()
+
+    lazy var settingsVMWrapper: SettingsVMWrapper = {
+        return SettingsVMWrapper(
+            viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
+        )
+    }()
 }

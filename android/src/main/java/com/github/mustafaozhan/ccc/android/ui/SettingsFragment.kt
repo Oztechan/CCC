@@ -20,18 +20,8 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.BackEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ChangeThemeEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.FeedBackEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.OnGitHubEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.OnlyOneTimeSyncEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.RemoveAdsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ShareEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SupportUsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SynchronisedEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.ThemeDialogEffect
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem
@@ -147,14 +137,14 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         settingsViewModel.effect.collect { viewEffect ->
             kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                BackEffect -> getBaseActivity()?.onBackPressed()
-                CurrenciesEffect -> navigate(
+                SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
+                SettingsEffect.OpenCurrencies -> navigate(
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
-                FeedBackEffect -> sendFeedBack()
-                ShareEffect -> share()
-                SupportUsEffect -> showDialog(
+                SettingsEffect.FeedBack -> sendFeedBack()
+                SettingsEffect.Share -> share()
+                SettingsEffect.SupportUs -> showDialog(
                     requireActivity(),
                     R.string.support_us,
                     R.string.rate_and_support,
@@ -167,28 +157,31 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                         )
                     )
                 }
-                OnGitHubEffect -> startIntent(
+                SettingsEffect.OnGitHub -> startIntent(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(getString(R.string.github_url))
                     )
                 )
-                RemoveAdsEffect -> showDialog(
+                SettingsEffect.RemoveAds -> showDialog(
                     requireActivity(),
                     R.string.remove_ads,
                     R.string.remove_ads_text,
                     R.string.watch
                 ) { prepareRewardedAd() }
-                ThemeDialogEffect -> changeTheme()
-                is ChangeThemeEffect -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
-                SynchronisedEffect -> Toast.show(requireContext(), R.string.txt_synced)
-                OnlyOneTimeSyncEffect -> Toast.show(requireContext(), R.string.txt_already_synced)
+                SettingsEffect.ThemeDialog -> changeTheme()
+                is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
+                SettingsEffect.Synchronised -> Toast.show(requireContext(), R.string.txt_synced)
+                SettingsEffect.OnlyOneTimeSync -> Toast.show(
+                    requireContext(),
+                    R.string.txt_already_synced
+                )
             }
         }
     }.toUnit()
 
     private fun setListeners() = with(binding) {
-        with(settingsViewModel.getEvent()) {
+        with(settingsViewModel.event) {
             backButton.setOnClickListener { onBackClick() }
 
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }

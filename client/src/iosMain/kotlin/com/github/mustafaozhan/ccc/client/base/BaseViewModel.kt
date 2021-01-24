@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.client.base
@@ -29,9 +29,9 @@ actual open class BaseViewModel actual constructor() {
 
     fun <T> Flow<T>.observeEffect(provideNewEffect: (T) -> Unit) = onEach {
         provideNewEffect.invoke(it)
-    }.launchIn(viewModelScope)
+    }.launchIn(clientScope)
 
     fun <T> SharedFlow<T>.observeState(provideNewState: (T) -> Unit) = onEach {
         provideNewState.invoke(it)
-    }.launchIn(viewModelScope)
+    }.launchIn(clientScope)
 }

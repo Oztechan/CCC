@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -17,10 +17,9 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.OpenCurrenciesEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
@@ -48,7 +47,7 @@ class BarBottomSheetDialogFragment :
     }
 
     private fun initViews() {
-        barAdapter = BarAdapter(barViewModel.getEvent())
+        barAdapter = BarAdapter(barViewModel.event)
         binding.recyclerViewBar.adapter = barAdapter
     }
 
@@ -72,7 +71,7 @@ class BarBottomSheetDialogFragment :
         barViewModel.effect.collect { viewEffect ->
             kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is ChangeBaseNavResultEffect -> {
+                is BarEffect.ChangeBaseNavResult -> {
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,
@@ -80,7 +79,7 @@ class BarBottomSheetDialogFragment :
                     )
                     dismissDialog()
                 }
-                OpenCurrenciesEffect -> navigate(
+                BarEffect.OpenCurrencies -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment(),
                     dismiss = false
@@ -91,7 +90,7 @@ class BarBottomSheetDialogFragment :
 
     private fun setListeners() {
         binding.btnSelect.setOnClickListener {
-            barViewModel.getEvent().onSelectClick()
+            barViewModel.event.onSelectClick()
         }
     }
 }

@@ -11,7 +11,8 @@ import client
 
 @main
 struct CCCApp: App {
-    @Environment(\.koin) var koin: Koin
+
+    @ObservedObject var mainVMWrapper: MainVMWrapper = Koin.shared.mainVMWrapper
 
     init() {
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
@@ -19,7 +20,11 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalculatorView(calculatorVMWrapper: CalculatorVMWrapper(viewModel: koin.get()))
+            if mainVMWrapper.viewModel.isFistRun() {
+                CurrenciesView(currenciesNavigationToogle: .constant(false))
+            } else {
+                CalculatorView()
+            }
         }
     }
 }

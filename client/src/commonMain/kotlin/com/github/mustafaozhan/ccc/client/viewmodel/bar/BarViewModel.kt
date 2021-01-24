@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
@@ -27,7 +27,7 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     private val _effect = Channel<BarEffect>(1)
     val effect = _effect.receiveAsFlow().conflate()
 
-    fun getEvent() = this as BarEvent
+    val event = this as BarEvent
     // endregion
 
     init {
@@ -54,12 +54,12 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launch {
         kermit.d { "BarViewModel onItemClick ${currency.name}" }
-        _effect.send(ChangeBaseNavResultEffect(currency.name))
+        _effect.send(BarEffect.ChangeBaseNavResult(currency.name))
     }.toUnit()
 
     override fun onSelectClick() = clientScope.launch {
         kermit.d { "BarViewModel onSelectClick" }
-        _effect.send(OpenCurrenciesEffect)
+        _effect.send(BarEffect.OpenCurrencies)
     }.toUnit()
     // endregion
 }

@@ -33,10 +33,12 @@
     <string name="btn_select_all">Select All</string>
     <string name="btn_de_select_all">Deselect All</string>
     <string name="btn_done">Done</string>
-    <string name="txt_select_currencies">Please select your favorite currencies</string>
+    <string name="txt_back">Back</string>
+    <string name="txt_select_currencies">Select your currencies</string>
 
     <!--Snacky Text-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
+    <string name="txt_ok">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
@@ -97,7 +99,7 @@
     <string name="watch">Watch</string>
 
     <!-- Bar Bottom Sheet Dialog -->
-    <string name="txt_current_base">Select new base currency</string>
+    <string name="txt_current_base">Select base currency</string>
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>

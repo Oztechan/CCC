@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -28,14 +28,9 @@ import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ErrorEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.FewCurrencyEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.MaximumInputEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenBarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.OpenSettingsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.ShowRateEffect
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
@@ -63,7 +58,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.getEvent())
+        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
         recyclerViewMain.adapter = calculatorAdapter
     }
 
@@ -91,8 +86,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.effect.collect { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                ErrorEffect -> Toast.show(requireContext(), R.string.error_text_unknown)
-                FewCurrencyEffect -> showSnack(
+                CalculatorEffect.Error -> Toast.show(requireContext(), R.string.error_text_unknown)
+                CalculatorEffect.FewCurrency -> showSnack(
                     requireView(),
                     R.string.choose_at_least_two_currency,
                     R.string.select
@@ -102,16 +97,16 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                MaximumInputEffect -> Toast.show(requireContext(), R.string.max_input)
-                OpenBarEffect -> navigate(
+                CalculatorEffect.MaximumInput -> Toast.show(requireContext(), R.string.max_input)
+                CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
                 )
-                OpenSettingsEffect -> navigate(
+                CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
-                is ShowRateEffect -> showSnack(
+                is CalculatorEffect.ShowRate -> showSnack(
                     requireView(),
                     viewEffect.text,
                     icon = requireContext().getImageResourceByName(viewEffect.name)
@@ -121,7 +116,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setListeners() = with(binding) {
-        with(calculatorViewModel.getEvent()) {
+        with(calculatorViewModel.event) {
             btnSettings.setOnClickListener { onSettingsClicked() }
             layoutBar.root.setOnClickListener { onBarClick() }
 

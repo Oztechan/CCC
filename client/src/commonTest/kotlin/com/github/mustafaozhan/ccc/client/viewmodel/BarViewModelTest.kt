@@ -1,13 +1,12 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.ChangeBaseNavResultEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.OpenCurrenciesEffect
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
@@ -26,10 +25,10 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     fun onItemClick() = runTest {
         it.launch {
             val currency = Currency("USD", "Dollar", "$", 0.0, true)
-            viewModel.getEvent().onItemClick(currency)
+            viewModel.event.onItemClick(currency)
 
             assertEquals(
-                ChangeBaseNavResultEffect(currency.name),
+                BarEffect.ChangeBaseNavResult(currency.name),
                 viewModel.effect.single()
             )
         }.cancel()
@@ -38,8 +37,8 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     @Test
     fun onSelectClick() = runTest {
         it.launch {
-            viewModel.getEvent().onSelectClick()
-            assertEquals(OpenCurrenciesEffect, viewModel.effect.single())
+            viewModel.event.onSelectClick()
+            assertEquals(BarEffect.OpenCurrencies, viewModel.effect.single())
         }.cancel()
     }
 }

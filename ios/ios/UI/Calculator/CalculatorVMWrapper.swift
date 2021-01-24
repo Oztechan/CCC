@@ -6,11 +6,10 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import Foundation
 import Combine
 import client
 
-final class CalculatorVMWrapper: VMWrapper {
+final class CalculatorVMWrapper: ObservableObject {
 
     let viewModel: CalculatorViewModel
 
@@ -24,14 +23,21 @@ final class CalculatorVMWrapper: VMWrapper {
         dataState: DataState.Error()
     )
 
+    var event: CalculatorEvent
+
     var effect = PassthroughSubject<CalculatorEffect, Never>()
 
     init(viewModel: CalculatorViewModel) {
-        self.viewModel = viewModel
         LoggerKt.kermit.d(withMessage: {"CalculatorVMWrapper init"})
-    }
 
-    func observeEffect() {
+        self.viewModel = viewModel
+        self.event = viewModel.event
+
+        self.viewModel.observeState(viewModel.state, provideNewState: { newState in
+            if let state = newState as? CalculatorState {
+                self.state = state
+            }
+        })
         self.viewModel.observeEffect(viewModel.effect, provideNewEffect: { newEffect in
             if let effect = newEffect as? CalculatorEffect {
                 self.effect.send(effect)
@@ -39,15 +45,7 @@ final class CalculatorVMWrapper: VMWrapper {
         })
     }
 
-    func observeStates() {
-        self.viewModel.observeState(viewModel.state, provideNewState: { newState in
-            if let state = newState as? CalculatorState {
-                self.state = state
-            }
-        })
-    }
-
-    func stopObserving() {
+    deinit {
         self.viewModel.onCleared()
     }
 }

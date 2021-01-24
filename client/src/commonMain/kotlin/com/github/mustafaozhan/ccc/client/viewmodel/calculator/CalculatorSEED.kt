@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
@@ -54,13 +54,14 @@ interface CalculatorEvent {
 }
 
 // Effect
-sealed class CalculatorEffect
-object ErrorEffect : CalculatorEffect()
-object FewCurrencyEffect : CalculatorEffect()
-object OpenBarEffect : CalculatorEffect()
-object MaximumInputEffect : CalculatorEffect()
-object OpenSettingsEffect : CalculatorEffect()
-data class ShowRateEffect(val text: String, val name: String) : CalculatorEffect()
+sealed class CalculatorEffect {
+    object Error : CalculatorEffect()
+    object FewCurrency : CalculatorEffect()
+    object OpenBar : CalculatorEffect()
+    object MaximumInput : CalculatorEffect()
+    object OpenSettings : CalculatorEffect()
+    data class ShowRate(val text: String, val name: String) : CalculatorEffect()
+}
 
 // Data
 data class CalculatorData(
