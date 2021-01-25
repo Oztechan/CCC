@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
@@ -35,7 +35,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), SettingsEvent {
+) : BaseSEEDViewModel(), SettingsEvent {
 
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
@@ -43,14 +43,14 @@ class SettingsViewModel(
 
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
-    val state: StateFlow<SettingsState> = _state
+    override val state: StateFlow<SettingsState> = _state
+
+    override val event = this as SettingsEvent
 
     private val _effect = Channel<SettingsEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    private val data = SettingsData()
-
-    val event = this as SettingsEvent
+    override val data = SettingsData()
     // endregion
 
     init {

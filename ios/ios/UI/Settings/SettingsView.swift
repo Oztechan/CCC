@@ -11,7 +11,7 @@ import client
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: SettingsVMWrapper = Koin.shared.settingsVMWrapper
+    @ObservedObject var seed = Koin.shared.settingsSEED
 
     @State var currenciesNavigationToogle = false
     @Binding var settingsNavvigationToogle: Bool
@@ -52,25 +52,25 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_currencies_title.get(),
                         subTitle: MR.strings().settings_item_currencies_sub_title.get(),
                         value: MR.strings().settings_item_currencies_value.get(
-                            parameter: vmWrapper.state.activeCurrencyCount
+                            parameter: seed.state.activeCurrencyCount
                         ),
-                        onClick: { vmWrapper.event.onCurrenciesClick() }
+                        onClick: { seed.event.onCurrenciesClick() }
                     )
 
                     SettingsItemView(
                         imgName: "lightbulb.fill",
                         title: MR.strings().settings_item_theme_title.get(),
                         subTitle: MR.strings().settings_item_theme_sub_title.get(),
-                        value: vmWrapper.state.appThemeType.typeName,
-                        onClick: { vmWrapper.event.onThemeClick() }
+                        value: seed.state.appThemeType.typeName,
+                        onClick: { seed.event.onThemeClick() }
                     )
 
                     SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: vmWrapper.state.addFreeDate,
-                        onClick: { vmWrapper.event.onRemoveAdsClick() }
+                        value: seed.state.addFreeDate,
+                        onClick: { seed.event.onRemoveAdsClick() }
                     )
 
                     SettingsItemView(
@@ -78,7 +78,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_sync_title.get(),
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onSyncClick() }
+                        onClick: { seed.event.onSyncClick() }
                     )
 
                     SettingsItemView(
@@ -86,7 +86,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_support_us_title.get(),
                         subTitle: MR.strings().settings_item_support_us_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onSupportUsClick() }
+                        onClick: { seed.event.onSupportUsClick() }
                     )
 
                     SettingsItemView(
@@ -94,7 +94,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_feedback_title.get(),
                         subTitle: MR.strings().settings_item_feedback_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onFeedBackClick() }
+                        onClick: { seed.event.onFeedBackClick() }
                     )
 
                     SettingsItemView(
@@ -102,7 +102,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_on_github_title.get(),
                         subTitle: MR.strings().settings_item_on_github_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onOnGitHubClick() }
+                        onClick: { seed.event.onOnGitHubClick() }
                     )
 
                 }.background(MR.colors().background.get())
@@ -114,7 +114,7 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: SettingsEffect) {

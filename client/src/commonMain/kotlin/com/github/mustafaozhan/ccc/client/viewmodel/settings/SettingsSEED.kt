@@ -3,6 +3,10 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -11,7 +15,7 @@ data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeDate: String = ""
-) {
+) : BaseState() {
     constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "")
 
     companion object {
@@ -30,7 +34,7 @@ data class SettingsState(
 }
 
 // Event
-interface SettingsEvent {
+interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
     fun onFeedBackClick()
@@ -43,7 +47,7 @@ interface SettingsEvent {
 }
 
 // Effect
-sealed class SettingsEffect {
+sealed class SettingsEffect : BaseEffect() {
     object Back : SettingsEffect()
     object OpenCurrencies : SettingsEffect()
     object FeedBack : SettingsEffect()
@@ -58,4 +62,4 @@ sealed class SettingsEffect {
 }
 
 // Data
-data class SettingsData(var synced: Boolean = false)
+data class SettingsData(var synced: Boolean = false) : BaseData()

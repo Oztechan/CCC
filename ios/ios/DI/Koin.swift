@@ -46,4 +46,21 @@ class Koin {
             viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
         )
     }()
+
+    lazy var settingsSEED: ObservableSEED<
+        SettingsViewModel,
+        SettingsState,
+        SettingsEffect,
+        SettingsEvent
+    > = {
+        return ObservableSEED<
+            SettingsViewModel,
+            SettingsState,
+            SettingsEffect,
+            SettingsEvent
+        >(
+            viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel,
+            state: SettingsState()
+        )
+    }()
 }
