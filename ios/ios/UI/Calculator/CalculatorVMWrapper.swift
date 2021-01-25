@@ -13,15 +13,7 @@ final class CalculatorVMWrapper: ObservableObject {
 
     let viewModel: CalculatorViewModel
 
-    @Published var state = CalculatorState(
-        input: "",
-        base: "",
-        currencyList: [Currency](),
-        output: "",
-        symbol: "",
-        loading: true,
-        dataState: DataState.Error()
-    )
+    @Published var state = CalculatorState()
 
     var event: CalculatorEvent
 

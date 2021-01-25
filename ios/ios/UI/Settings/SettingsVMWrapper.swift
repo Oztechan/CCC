@@ -13,11 +13,7 @@ final class SettingsVMWrapper: ObservableObject {
 
     let viewModel: SettingsViewModel
 
-    @Published var state = SettingsState(
-        activeCurrencyCount: 0,
-        appThemeType: AppTheme.systemDefault,
-        addFreeDate: ""
-    )
+    @Published var state = SettingsState()
 
     var effect = PassthroughSubject<SettingsEffect, Never>()
 

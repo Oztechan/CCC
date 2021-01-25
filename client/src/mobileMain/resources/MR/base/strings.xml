@@ -98,7 +98,7 @@
     <string name="watch">Watch</string>
 
     <!-- Bar Bottom Sheet Dialog -->
-    <string name="txt_current_base">Select base currency</string>
+    <string name="txt_select_base_currency">Select base currency</string>
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>

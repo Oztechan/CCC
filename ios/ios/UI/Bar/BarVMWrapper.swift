@@ -13,11 +13,7 @@ final class BarVMWrapper: ObservableObject {
 
     let viewModel: BarViewModel
 
-    @Published var state = BarState(
-        currencyList: [Currency](),
-        loading: true,
-        enoughCurrency: false
-    )
+    @Published var state = BarState()
 
     var effect = PassthroughSubject<BarEffect, Never>()
 

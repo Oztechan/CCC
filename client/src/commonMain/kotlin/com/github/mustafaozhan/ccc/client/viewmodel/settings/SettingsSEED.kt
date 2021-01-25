@@ -12,6 +12,8 @@ data class SettingsState(
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeDate: String = ""
 ) {
+    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "")
+
     companion object {
         fun MutableStateFlow<SettingsState>.update(
             activeCurrencyCount: Int = value.activeCurrencyCount,

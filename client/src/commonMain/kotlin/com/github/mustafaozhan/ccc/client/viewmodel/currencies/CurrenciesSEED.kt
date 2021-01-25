@@ -12,6 +12,8 @@ data class CurrenciesState(
     val loading: Boolean = false,
     val selectionVisibility: Boolean = false
 ) {
+    constructor() : this(listOf(), false, false)
+
     companion object {
         fun MutableStateFlow<CurrenciesState>.update(
             currencyList: List<Currency> = value.currencyList,

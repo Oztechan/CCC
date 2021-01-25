@@ -62,7 +62,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         calculatorViewModel.state.collect {
             with(it) {
-                calculatorAdapter.submitList(currencyList, calculatorViewModel.getCurrentBase())
+                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.getCurrentBase()))
 
                 binding.txtInput.text = input
                 with(binding.layoutBar) {
@@ -173,9 +173,6 @@ class CalculatorAdapter(
             false
         )
     )
-
-    fun submitList(list: List<Currency>?, currentBase: String) =
-        submitList(list.toValidList(currentBase))
 
     inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
         BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {

@@ -19,6 +19,8 @@ data class CalculatorState(
     val loading: Boolean = true,
     val dataState: DataState = DataState.Error,
 ) {
+    constructor() : this("", "", listOf(), "", "", true, DataState.Error)
+
     companion object {
         @Suppress("LongParameterList")
         fun MutableStateFlow<CalculatorState>.update(

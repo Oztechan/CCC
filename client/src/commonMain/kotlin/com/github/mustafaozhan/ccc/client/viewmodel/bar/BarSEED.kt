@@ -12,6 +12,8 @@ data class BarState(
     val loading: Boolean = true,
     val enoughCurrency: Boolean = false
 ) {
+    constructor() : this(listOf(), true, false)
+
     companion object {
         fun MutableStateFlow<BarState>.update(
             currencyList: List<Currency> = value.currencyList,

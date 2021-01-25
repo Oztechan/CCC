@@ -51,7 +51,7 @@ struct BarView: View {
                     }
                 }
                 .background(MR.colors().background.get())
-                .navigationBarTitle(MR.strings().txt_current_base.get())
+                .navigationBarTitle(MR.strings().txt_select_base_currency.get())
 
             }
         }
