@@ -33,7 +33,6 @@
     <string name="btn_select_all">Select All</string>
     <string name="btn_de_select_all">Deselect All</string>
     <string name="btn_done">Done</string>
-    <string name="txt_back">Back</string>
     <string name="txt_select_currencies">Select your currencies</string>
 
     <!--Snacky Text-->
@@ -106,7 +105,7 @@
 
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
-    <string name="settings_item_no_currency_selected">No currency selected</string>
+    <string name="settings_item_currencies_value">%d active</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>

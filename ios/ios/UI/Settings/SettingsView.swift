@@ -49,10 +49,10 @@ struct SettingsView: View {
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: MR.strings().txt_currencies.get(),
-                        subTitle: MR.strings().txt_select_currencies.get(),
-                        value: MR.plurals().settings_item_currencies_value.get(
-                            quantitiy: vmWrapper.state.activeCurrencyCount
+                        title: MR.strings().settings_item_currencies_title.get(),
+                        subTitle: MR.strings().settings_item_currencies_sub_title.get(),
+                        value: MR.strings().settings_item_currencies_value.get(
+                            parameter: vmWrapper.state.activeCurrencyCount
                         ),
                         onClick: { vmWrapper.event.onCurrenciesClick() }
                     )
@@ -148,19 +148,17 @@ struct SettingsItemView: View {
                 HStack {
                     Text(title).font(.title3)
                     Spacer()
-                }
-
-                Spacer()
+                }.padding(4)
 
                 HStack {
                     Text(subTitle).font(.footnote)
                     Spacer()
-                }
+                }.padding(4)
             }
 
             Spacer()
 
-            Text(value).font(.footnote)
+            Text(value).font(.caption)
 
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)

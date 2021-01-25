@@ -13,11 +13,8 @@ extension ResourcesStringResource {
     func get() -> String {
         return ResourcesKt.getString(stringResource: self).localized()
     }
-}
-
-extension ResourcesPluralsResource {
-    func get(quantitiy: Int32) -> String {
-        return ResourcesKt.getString(stringResource: self, quantity: quantitiy).localized()
+    func get(parameter: Any) -> String {
+        return ResourcesKt.getString(stringResource: self, parameter: parameter).localized()
     }
 }
 

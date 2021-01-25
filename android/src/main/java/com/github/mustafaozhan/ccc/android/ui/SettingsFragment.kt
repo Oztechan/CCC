@@ -106,16 +106,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         settingsViewModel.state.collect {
             with(it) {
-                binding.itemCurrencies.settingsItemValue.text = if (activeCurrencyCount == 0) {
-                    requireContext().getString(R.string.settings_item_no_currency_selected)
-                } else {
-                    requireContext().resources
-                        .getQuantityString(
-                            R.plurals.settings_item_currencies_value,
-                            activeCurrencyCount,
-                            activeCurrencyCount
-                        )
-                }
+                binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
+                    R.string.settings_item_currencies_value,
+                    activeCurrencyCount
+                )
                 binding.itemTheme.settingsItemValue.text = appThemeType.typeName
 
                 binding.itemDisableAds.settingsItemValue.text =
