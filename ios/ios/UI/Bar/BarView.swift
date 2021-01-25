@@ -15,9 +15,12 @@ struct BarView: View {
     @ObservedObject var vmWrapper: BarVMWrapper = Koin.shared.barVMWrapper
     @Binding var isBarShown: Bool
 
-    init(isBarShown: Binding<Bool>) {
+    var onDismiss: () -> Void
+
+    init(isBarShown: Binding<Bool>, dismissEvent: @escaping () -> Void) {
         LoggerKt.kermit.d(withMessage: {"BarView init"})
         self._isBarShown = isBarShown
+        self.onDismiss = dismissEvent
     }
 
     var body: some View {
@@ -57,7 +60,8 @@ struct BarView: View {
 
     private func onEffect(effect: BarEffect) {
         switch effect {
-        case is BarEffect.OpenCurrencies:
+        case is BarEffect.ChangeBase:
+            onDismiss()
             isBarShown = false
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})

@@ -28,7 +28,7 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
             viewModel.event.onItemClick(currency)
 
             assertEquals(
-                BarEffect.ChangeBaseNavResult(currency.name),
+                BarEffect.ChangeBase(currency.name),
                 viewModel.effect.single()
             )
         }.cancel()

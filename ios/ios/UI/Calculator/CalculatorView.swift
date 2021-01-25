@@ -95,7 +95,12 @@ struct CalculatorView: View {
         }
         .sheet(
             isPresented: $isBarShown,
-            content: { BarView(isBarShown: $isBarShown) }
+            content: {
+                BarView(
+                    isBarShown: $isBarShown,
+                    dismissEvent: { vmWrapper.viewModel.verifyCurrentBase() }
+                )
+            }
         )
         .alert(isPresented: $maximumInputAlert) {
             Alert(

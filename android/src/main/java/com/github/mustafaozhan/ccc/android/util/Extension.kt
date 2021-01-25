@@ -1,22 +1,16 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 @file:Suppress("unused", "TooManyFunctions")
 
 package com.github.mustafaozhan.ccc.android.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.toUnit
@@ -70,22 +64,6 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
 } else {
     isEnabled = false
     visibility = View.GONE
-}
-
-fun <T> Fragment.getNavigationResult(key: String) =
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
-
-// todo here needs to be changed
-@SuppressLint("RestrictedApi")
-fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String) =
-    findNavController()
-        .backStack
-        .firstOrNull { it.destination.id == destinationId }
-        ?.savedStateHandle?.set(key, result)
-
-fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
-    removeObserver(observer)
-    observe(owner, observer)
 }
 
 fun View.visibleIf(visible: Boolean) {

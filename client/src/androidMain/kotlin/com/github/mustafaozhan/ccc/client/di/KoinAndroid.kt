@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.client.di
@@ -40,5 +40,5 @@ actual val clientModule: Module = module {
     viewModel { MainViewModel(get()) }
     viewModel { CurrenciesViewModel(get(), get()) }
     viewModel { CalculatorViewModel(get(), get(), get(), get()) }
-    viewModel { BarViewModel(get()) }
+    viewModel { BarViewModel(get(), get()) }
 }

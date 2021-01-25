@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 @file:Suppress("unused")
@@ -36,7 +36,7 @@ actual val clientModule: Module = module {
     single { MainViewModel(get()) }
     single { CurrenciesViewModel(get(), get()) }
     single { CalculatorViewModel(get(), get(), get(), get()) }
-    single { BarViewModel(get()) }
+    single { BarViewModel(get(), get()) }
 }
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {

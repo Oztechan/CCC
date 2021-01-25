@@ -41,7 +41,6 @@ sealed class CurrenciesEffect {
     object FewCurrency : CurrenciesEffect()
     object OpenCalculator : CurrenciesEffect()
     object Back : CurrenciesEffect()
-    data class ChangeBaseNavResult(val newBase: String) : CurrenciesEffect()
 }
 
 // Data

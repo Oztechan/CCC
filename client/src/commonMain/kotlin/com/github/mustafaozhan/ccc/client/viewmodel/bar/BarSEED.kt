@@ -35,6 +35,6 @@ interface BarEvent {
 
 // Effect
 sealed class BarEffect {
-    data class ChangeBaseNavResult(val newBase: String) : BarEffect()
+    data class ChangeBase(val newBase: String) : BarEffect()
     object OpenCurrencies : BarEffect()
 }

@@ -16,15 +16,12 @@ import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
-import com.github.mustafaozhan.ccc.android.util.getNavigationResult
-import com.github.mustafaozhan.ccc.android.util.reObserve
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
@@ -54,7 +51,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         observeStates()
         observeEffect()
         setListeners()
-        observeNavigationResult()
     }
 
     private fun initViews() = with(binding) {
@@ -152,15 +148,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         }
     }
 
-    private fun observeNavigationResult() = getNavigationResult<String>(KEY_BASE_CURRENCY)
-        ?.reObserve(viewLifecycleOwner, {
-            kermit.d { "CalculatorFragment observeNavigationResult $it" }
-            calculatorViewModel.verifyCurrentBase(it)
-        })
-
     override fun onResume() {
         super.onResume()
         kermit.d { "CalculatorFragment onResume" }
+        calculatorViewModel.verifyCurrentBase()
         binding.adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
             calculatorViewModel.isRewardExpired()

@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,10 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarEvent {
+class BarViewModel(
+    private val currencyDao: CurrencyDao,
+    private val settingsRepository: SettingsRepository
+) : BaseViewModel(), BarEvent {
     // region SEED
     private val _state = MutableStateFlow(BarState())
     val state: StateFlow<BarState> = _state
@@ -54,7 +58,8 @@ class BarViewModel(private val currencyDao: CurrencyDao) : BaseViewModel(), BarE
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launch {
         kermit.d { "BarViewModel onItemClick ${currency.name}" }
-        _effect.send(BarEffect.ChangeBaseNavResult(currency.name))
+        settingsRepository.currentBase = currency.name
+        _effect.send(BarEffect.ChangeBase(currency.name))
     }.toUnit()
 
     override fun onSelectClick() = clientScope.launch {

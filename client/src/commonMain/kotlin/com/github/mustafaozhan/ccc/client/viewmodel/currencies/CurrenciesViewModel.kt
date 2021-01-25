@@ -76,16 +76,9 @@ class CurrenciesViewModel(
                 .toList().firstOrNull()?.isActive == false
         }
     )?.let {
-        updateCurrentBase(
-            state.value.currencyList
-                .firstOrNull { it.isActive }?.name ?: ""
-        )
+        settingsRepository.currentBase = state.value.currencyList
+            .firstOrNull { it.isActive }?.name ?: ""
     }
-
-    private fun updateCurrentBase(newBase: String) = clientScope.launch {
-        settingsRepository.currentBase = newBase
-        _effect.send(CurrenciesEffect.ChangeBaseNavResult(newBase))
-    }.toUnit()
 
     fun hideSelectionVisibility() {
         _state.update(selectionVisibility = false)
