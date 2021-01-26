@@ -15,7 +15,7 @@ typealias CurrenciesObservable = ObservableSEED
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var vmseed: CurrenciesObservable = koin.get()
+    @StateObject var seed: CurrenciesObservable = koin.get()
 
     @State var isAlertShown = false
 
@@ -42,13 +42,13 @@ struct CurrenciesView: View {
             VStack {
 
                 CurrencyToolbarView(
-                    firstRun: vmseed.viewModel.isFirstRun(),
-                    onCloseClick: { vmseed.event.onCloseClick() },
-                    updateAllCurrenciesState: { vmseed.event.updateAllCurrenciesState(state: $0) }
+                    firstRun: seed.viewModel.isFirstRun(),
+                    onCloseClick: { seed.event.onCloseClick() },
+                    updateAllCurrenciesState: { seed.event.updateAllCurrenciesState(state: $0) }
                 )
 
                 Form {
-                    if vmseed.state.loading {
+                    if seed.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -56,10 +56,10 @@ struct CurrenciesView: View {
                         }
                         .listRowBackground(MR.colors().background.get())
                     } else {
-                        List(vmseed.state.currencyList, id: \.name) { currency in
+                        List(seed.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
                                 item: currency,
-                                onItemClick: { vmseed.event.onItemClick(currency: currency) }
+                                onItemClick: { seed.event.onItemClick(currency: currency) }
                             )
                         }
                         .id(UUID())
@@ -67,7 +67,7 @@ struct CurrenciesView: View {
                     }
                 }.background(MR.colors().background.get())
 
-                if vmseed.viewModel.isFirstRun() {
+                if seed.viewModel.isFirstRun() {
                     HStack {
 
                         Text(MR.strings().txt_select_currencies.get())
@@ -75,7 +75,7 @@ struct CurrenciesView: View {
                             .font(.subheadline)
                         Spacer()
                         Button(
-                            action: { vmseed.event.onDoneClick() },
+                            action: { seed.event.onDoneClick() },
                             label: {
                                 Text(MR.strings().btn_done.get())
                                     .foregroundColor(MR.colors().text.get())
@@ -98,7 +98,7 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .onReceive(vmseed.effect) { onEffect(effect: $0) }
+        .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CurrenciesEffect) {

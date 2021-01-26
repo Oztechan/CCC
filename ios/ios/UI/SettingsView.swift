@@ -169,8 +169,8 @@ struct SettingsItemView: View {
                 .accentColor(MR.colors().text.get())
         }
         .listRowBackground(MR.colors().background.get())
-        .onTapGesture { onClick() }
         .contentShape(Rectangle())
+        .onTapGesture { onClick() }
         .lineLimit(1)
     }
 }

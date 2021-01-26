@@ -61,10 +61,7 @@ struct CalculatorView: View {
                         } else {
 
                             List(
-                                ExtensionsKt.toValidList(
-                                    seed.state.currencyList,
-                                    currentBase: seed.state.base
-                                ),
+                                ExtensionsKt.toValidList(seed.state.currencyList, currentBase: seed.state.base),
                                 id: \.rate
                             ) {
                                 CalculatorItemView(
@@ -203,7 +200,7 @@ struct CalculationOutputView: View {
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
-    let data = [
+    let keys = [
         [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
         [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
         [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
@@ -220,7 +217,7 @@ struct KeyboardView: View {
     var body: some View {
 
         VStack(alignment: .center) {
-            ForEach(data, id: \.self) { items in
+            ForEach(keys, id: \.self) { items in
 
                 HStack(alignment: .center) {
                     ForEach(items, id: \.self) { item in
