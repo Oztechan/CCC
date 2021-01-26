@@ -13,11 +13,7 @@ plugins {
 
 kotlin {
 
-    android {
-        dependencies {
-            coreLibraryDesugaring(Dependencies.Android.desugaring)
-        }
-    }
+    android()
 
     ios()
 
@@ -137,12 +133,6 @@ android {
             create("testReleaseApi") {}
         }
 
-        compileOptions {
-            isCoreLibraryDesugaringEnabled = true
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
-
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }
@@ -151,11 +141,5 @@ sqldelight {
     database(Database.name) {
         packageName = Database.packageName
         sourceFolders = listOf(Database.sourceFolders)
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
