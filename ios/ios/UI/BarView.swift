@@ -9,7 +9,7 @@
 import SwiftUI
 import client
 
-typealias BarObservable = SEEDObservable
+typealias BarObservable = ObservableSEED
 <BarViewModel, BarState, BarEffect, BarEvent, BaseData>
 
 struct BarView: View {

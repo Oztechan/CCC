@@ -9,10 +9,12 @@
 import SwiftUI
 import client
 
+typealias MainObservable = ObservableVM<MainViewModel>
+
 @main
 struct CCCApp: App {
 
-    @StateObject var mainVMWrapper: MainVMWrapper = startKoin().get()
+    @StateObject var mainVM: MainObservable = startKoin().get()
 
     init() {
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
@@ -20,7 +22,7 @@ struct CCCApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if mainVMWrapper.viewModel.isFistRun() {
+            if mainVM.viewModel.isFistRun() {
                 CurrenciesView(currenciesNavigationToogle: .constant(false))
             } else {
                 CalculatorView()

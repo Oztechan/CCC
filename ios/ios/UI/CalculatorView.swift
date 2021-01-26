@@ -9,13 +9,13 @@
 import SwiftUI
 import client
 
-typealias CalculatorObservable = SEEDObservable
+typealias CalculatorObservable = ObservableSEED
 <CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
 
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var seed: CalculatorObservable = koin.get()
+    @StateObject var seed: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false

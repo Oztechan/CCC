@@ -9,7 +9,7 @@
 import SwiftUI
 import client
 
-typealias CurrenciesObservable = SEEDObservable
+typealias CurrenciesObservable = ObservableSEED
 <CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
 
 struct CurrenciesView: View {

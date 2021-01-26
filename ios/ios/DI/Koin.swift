@@ -49,12 +49,12 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
     }
 
-    // viewmodel wrapper
-    func get() -> MainVMWrapper {
-        return MainVMWrapper(viewModel: get())
+    // ObservableVM
+    func get() -> MainObservable {
+        return MainObservable(viewModel: get())
     }
 
-    // observalbe SEED
+    // ObservableSEED
     func get() -> CalculatorObservable {
         return CalculatorObservable(viewModel: get(), state: CalculatorState())
     }

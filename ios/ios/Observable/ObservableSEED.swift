@@ -9,7 +9,7 @@
 import Combine
 import client
 
-class SEEDObservable<
+class ObservableSEED<
     ViewModel: BaseSEEDViewModel,
     State: BaseState,
     Effect: BaseEffect,
