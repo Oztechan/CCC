@@ -13,8 +13,6 @@ plugins {
 
 kotlin {
 
-    jvm()
-
     android()
 
     ios()
@@ -27,6 +25,8 @@ kotlin {
             }
         }
     }
+
+    jvm()
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -81,6 +81,19 @@ kotlin {
             val iosTest by getting
         }
 
+        with(Dependencies.JS) {
+            val jsMain by getting {
+                dependencies {
+                    implementation(ktor)
+                }
+            }
+            val jsTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
+                }
+            }
+        }
+
         with(Dependencies.JVM) {
             val jvmMain by getting {
                 dependencies {
@@ -91,19 +104,6 @@ kotlin {
             val jvmTest by getting {
                 dependencies {
                     implementation(kotlin(testJUnit))
-                }
-            }
-        }
-
-        with(Dependencies.JS) {
-            val jsMain by getting {
-                dependencies {
-                    implementation(ktor)
-                }
-            }
-            val jsTest by getting {
-                dependencies {
-                    implementation(kotlin(test))
                 }
             }
         }
