@@ -9,58 +9,65 @@
 import SwiftUI
 import client
 
-// swiftlint:disable force_cast
-class Koin {
-    static let shared: Koin = Koin()
+func startKoin() -> Koin_coreKoin {
+    let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    let koin = KoinIOSKt.doInitIOS(
-        userDefaults: UserDefaults(suiteName: "application_user_defaults")!
+    _koin = KoinIOSKt.doInitIOS(
+        userDefaults: userDefaults
     ).koin
 
-    lazy var mainVMWrapper: MainVMWrapper = {
-        return MainVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
-        )
-    }()
+    return koin
+}
 
-    lazy var calculatorVMWrapper: CalculatorVMWrapper = {
-        return CalculatorVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
-        )
-    }()
+private var _koin: Koin_coreKoin?
 
-    lazy var currenciesVMWrapper: CurrenciesVMWrapper = {
-        return CurrenciesVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
-        )
-    }()
+var koin: Koin_coreKoin {
+    return _koin!
+}
 
-    lazy var barVMWrapper: BarVMWrapper = {
-        return BarVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
-        )
-    }()
+// swiftlint:disable force_cast
+extension Koin_coreKoin {
 
-    lazy var settingsVMWrapper: SettingsVMWrapper = {
-        return SettingsVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
-        )
-    }()
+    // viewmodel
+    func get() -> MainViewModel {
+        return koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
+    }
 
-    lazy var settingsSEED: ObservableSEED<
-        SettingsViewModel,
-        SettingsState,
-        SettingsEffect,
-        SettingsEvent
-    > = {
-        return ObservableSEED<
-            SettingsViewModel,
-            SettingsState,
-            SettingsEffect,
-            SettingsEvent
-        >(
-            viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel,
-            state: SettingsState()
-        )
-    }()
+    func get() -> CalculatorViewModel {
+        return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+    }
+
+    func get() -> CurrenciesViewModel {
+        return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
+    }
+
+    func get() -> BarViewModel {
+        return koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
+    }
+
+    func get() -> SettingsViewModel {
+        return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
+    }
+
+    // viewmodel wrapper
+    func get() -> MainVMWrapper {
+        return MainVMWrapper(viewModel: get())
+    }
+
+    func get() -> CalculatorVMWrapper {
+        return CalculatorVMWrapper(viewModel: get())
+    }
+
+    func get() -> CurrenciesVMWrapper {
+        return CurrenciesVMWrapper(viewModel: get())
+    }
+
+    func get() -> BarVMWrapper {
+        return BarVMWrapper(viewModel: get())
+    }
+
+    // observalbe SEED
+    func get() -> SettingsObservable {
+        return SettingsObservable(viewModel: get(), state: SettingsState())
+    }
 }

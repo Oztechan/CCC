@@ -14,5 +14,4 @@ abstract class BaseSEEDViewModel : BaseViewModel() {
     abstract val event: BaseEvent
     abstract val data: BaseData
     // endregion
-
 }

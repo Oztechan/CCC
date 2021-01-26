@@ -9,11 +9,12 @@
 import Combine
 import client
 
-class ObservableSEED<
+class SEEDObservable<
     ViewModel: BaseSEEDViewModel,
     State: BaseState,
     Effect: BaseEffect,
-    Event: BaseEvent
+    Event: BaseEvent,
+    Data: BaseData
 >: ObservableObject {
 
     let viewModel: ViewModel
@@ -23,6 +24,8 @@ class ObservableSEED<
     var effect = PassthroughSubject<Effect, Never>()
     var event: Event
 
+    var data: Data
+
     // swiftlint:disable force_cast
     init(viewModel: ViewModel, state: State) {
         LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) init"})
@@ -30,6 +33,7 @@ class ObservableSEED<
         self.viewModel = viewModel
         self.state = state
         self.event = viewModel.event as! Event
+        self.data = viewModel.data as! Data
 
         self.viewModel.observeState(viewModel.state, provideNewState: {
             self.state = $0 as! State

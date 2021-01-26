@@ -12,7 +12,7 @@ import client
 @main
 struct CCCApp: App {
 
-    @ObservedObject var mainVMWrapper: MainVMWrapper = Koin.shared.mainVMWrapper
+    @StateObject var mainVMWrapper: MainVMWrapper = startKoin().get()
 
     init() {
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
