@@ -7,13 +7,15 @@
 //
 
 import SwiftUI
-import UIKit
 import client
+
+typealias CalculatorObservable = SEEDObservable
+<CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
 
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: CalculatorVMWrapper = Koin.shared.calculatorVMWrapper
+    @ObservedObject var seed: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
@@ -39,17 +41,17 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(input: vmWrapper.state.input)
+                    CalculationInputView(input: seed.state.input)
 
                     CalculationOutputView(
-                        baseCurrency: vmWrapper.state.base,
-                        output: vmWrapper.state.output,
-                        symbol: vmWrapper.state.symbol,
-                        onBarClick: {vmWrapper.event.onBarClick()}
+                        baseCurrency: seed.state.base,
+                        output: seed.state.output,
+                        symbol: seed.state.symbol,
+                        onBarClick: {seed.event.onBarClick()}
                     )
 
                     Form {
-                        if vmWrapper.state.loading {
+                        if seed.state.loading {
                             HStack {
                                 Spacer()
                                 ProgressView().transition(.slide)
@@ -60,15 +62,15 @@ struct CalculatorView: View {
 
                             List(
                                 ExtensionsKt.toValidList(
-                                    vmWrapper.state.currencyList,
-                                    currentBase: vmWrapper.state.base
+                                    seed.state.currencyList,
+                                    currentBase: seed.state.base
                                 ),
                                 id: \.rate
                             ) {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { item in
-                                        vmWrapper.event.onItemClick(
+                                        seed.event.onItemClick(
                                             currency: item,
                                             conversion: ExtensionsKt.toStandardDigits(
                                                 IOSExtensionsKt.getFormatted(item.rate)
@@ -81,7 +83,7 @@ struct CalculatorView: View {
                         }
                     }.background(MR.colors().background.get())
 
-                    KeyboardView(onKeyPress: { vmWrapper.event.onKeyPress(key: $0) })
+                    KeyboardView(onKeyPress: { seed.event.onKeyPress(key: $0) })
 
                 }
 
@@ -98,7 +100,7 @@ struct CalculatorView: View {
             content: {
                 BarView(
                     isBarShown: $isBarShown,
-                    dismissEvent: { vmWrapper.viewModel.verifyCurrentBase() }
+                    dismissEvent: { seed.viewModel.verifyCurrentBase() }
                 )
             }
         )
@@ -117,7 +119,7 @@ struct CalculatorView: View {
                 secondaryButton: .cancel()
             )
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CalculatorEffect) {

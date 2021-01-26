@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
@@ -28,18 +28,18 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), CurrenciesEvent {
+) : BaseSEEDViewModel(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
-    val state: StateFlow<CurrenciesState> = _state
+    override val state: StateFlow<CurrenciesState> = _state
 
     private val _effect = Channel<CurrenciesEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    val data = CurrenciesData()
+    override val event = this as CurrenciesEvent
 
-    val event = this as CurrenciesEvent
+    override val data = CurrenciesData()
     // endregion
 
     init {

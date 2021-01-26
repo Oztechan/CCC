@@ -12,6 +12,6 @@ abstract class BaseSEEDViewModel : BaseViewModel() {
     abstract val state: StateFlow<BaseState>
     abstract val effect: Flow<BaseEffect>
     abstract val event: BaseEvent
-    abstract val data: BaseData
+    abstract val data: BaseData?
     // endregion
 }

@@ -4,6 +4,10 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.calculator.Calculator
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.common.model.Rates
@@ -18,7 +22,7 @@ data class CalculatorState(
     val symbol: String = "",
     val loading: Boolean = true,
     val dataState: DataState = DataState.Error,
-) {
+) : BaseState() {
     constructor() : this("", "", listOf(), "", "", true, DataState.Error)
 
     companion object {
@@ -46,7 +50,7 @@ data class CalculatorState(
 }
 
 // Event
-interface CalculatorEvent {
+interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency, conversion: String)
     fun onItemLongClick(currency: Currency): Boolean
@@ -56,7 +60,7 @@ interface CalculatorEvent {
 }
 
 // Effect
-sealed class CalculatorEffect {
+sealed class CalculatorEffect : BaseEffect() {
     object Error : CalculatorEffect()
     object FewCurrency : CalculatorEffect()
     object OpenBar : CalculatorEffect()
@@ -69,4 +73,4 @@ sealed class CalculatorEffect {
 data class CalculatorData(
     var calculator: Calculator = Calculator(),
     var rates: Rates? = null
-)
+) : BaseData()

@@ -9,10 +9,13 @@
 import SwiftUI
 import client
 
+typealias CurrenciesObservable = SEEDObservable
+<CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
+
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: CurrenciesVMWrapper = Koin.shared.currenciesVMWrapper
+    @StateObject var vmseed: CurrenciesObservable = koin.get()
 
     @State var isAlertShown = false
 
@@ -39,13 +42,13 @@ struct CurrenciesView: View {
             VStack {
 
                 CurrencyToolbarView(
-                    firstRun: vmWrapper.viewModel.isFirstRun(),
-                    onCloseClick: { vmWrapper.event.onCloseClick() },
-                    updateAllCurrenciesState: { vmWrapper.event.updateAllCurrenciesState(state: $0) }
+                    firstRun: vmseed.viewModel.isFirstRun(),
+                    onCloseClick: { vmseed.event.onCloseClick() },
+                    updateAllCurrenciesState: { vmseed.event.updateAllCurrenciesState(state: $0) }
                 )
 
                 Form {
-                    if vmWrapper.state.loading {
+                    if vmseed.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -53,10 +56,10 @@ struct CurrenciesView: View {
                         }
                         .listRowBackground(MR.colors().background.get())
                     } else {
-                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+                        List(vmseed.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
                                 item: currency,
-                                onItemClick: { vmWrapper.event.onItemClick(currency: currency) }
+                                onItemClick: { vmseed.event.onItemClick(currency: currency) }
                             )
                         }
                         .id(UUID())
@@ -64,7 +67,7 @@ struct CurrenciesView: View {
                     }
                 }.background(MR.colors().background.get())
 
-                if vmWrapper.viewModel.isFirstRun() {
+                if vmseed.viewModel.isFirstRun() {
                     HStack {
 
                         Text(MR.strings().txt_select_currencies.get())
@@ -72,7 +75,7 @@ struct CurrenciesView: View {
                             .font(.subheadline)
                         Spacer()
                         Button(
-                            action: { vmWrapper.event.onDoneClick() },
+                            action: { vmseed.event.onDoneClick() },
                             label: {
                                 Text(MR.strings().btn_done.get())
                                     .foregroundColor(MR.colors().text.get())
@@ -95,7 +98,7 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onReceive(vmseed.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CurrenciesEffect) {

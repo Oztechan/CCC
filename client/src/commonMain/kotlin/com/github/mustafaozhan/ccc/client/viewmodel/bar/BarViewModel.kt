@@ -3,7 +3,8 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
@@ -23,15 +24,17 @@ import kotlinx.coroutines.launch
 class BarViewModel(
     private val currencyDao: CurrencyDao,
     private val settingsRepository: SettingsRepository
-) : BaseViewModel(), BarEvent {
+) : BaseSEEDViewModel(), BarEvent {
     // region SEED
     private val _state = MutableStateFlow(BarState())
-    val state: StateFlow<BarState> = _state
+    override val state: StateFlow<BarState> = _state
 
     private val _effect = Channel<BarEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    val event = this as BarEvent
+    override val event = this as BarEvent
+
+    override val data: BaseData? = null
     // endregion
 
     init {

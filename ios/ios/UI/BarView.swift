@@ -9,10 +9,13 @@
 import SwiftUI
 import client
 
+typealias BarObservable = SEEDObservable
+<BarViewModel, BarState, BarEffect, BarEvent, BaseData>
+
 struct BarView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: BarVMWrapper = Koin.shared.barVMWrapper
+    @StateObject var seed: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
     var onDismiss: () -> Void
@@ -32,7 +35,7 @@ struct BarView: View {
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 Form {
-                    if vmWrapper.state.loading {
+                    if seed.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -41,10 +44,10 @@ struct BarView: View {
                         .listRowBackground(MR.colors().background.get())
                     } else {
 
-                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+                        List(seed.state.currencyList, id: \.name) { currency in
 
                             BarItemView(item: currency)
-                                .onTapGesture { vmWrapper.event.onItemClick(currency: currency) }
+                                .onTapGesture { seed.event.onItemClick(currency: currency) }
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
                         }.listRowBackground(MR.colors().background.get())
@@ -55,7 +58,7 @@ struct BarView: View {
 
             }
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: BarEffect) {

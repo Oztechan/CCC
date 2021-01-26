@@ -9,9 +9,12 @@
 import SwiftUI
 import client
 
+typealias SettingsObservable = SEEDObservable
+<SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
+
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var seed = Koin.shared.settingsSEED
+    @ObservedObject var seed: SettingsObservable = koin.get()
 
     @State var currenciesNavigationToogle = false
     @Binding var settingsNavvigationToogle: Bool

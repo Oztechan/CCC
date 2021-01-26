@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
@@ -43,7 +43,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), CalculatorEvent {
+) : BaseSEEDViewModel(), CalculatorEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 18
@@ -54,14 +54,14 @@ class CalculatorViewModel(
 
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
-    val state: StateFlow<CalculatorState> = _state
+    override val state: StateFlow<CalculatorState> = _state
 
     private val _effect = Channel<CalculatorEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    val data = CalculatorData()
+    override val event = this as CalculatorEvent
 
-    val event = this as CalculatorEvent
+    override val data = CalculatorData()
     // endregion
 
     init {

@@ -54,20 +54,20 @@ extension Koin_coreKoin {
         return MainVMWrapper(viewModel: get())
     }
 
-    func get() -> CalculatorVMWrapper {
-        return CalculatorVMWrapper(viewModel: get())
-    }
-
-    func get() -> CurrenciesVMWrapper {
-        return CurrenciesVMWrapper(viewModel: get())
-    }
-
-    func get() -> BarVMWrapper {
-        return BarVMWrapper(viewModel: get())
-    }
-
     // observalbe SEED
+    func get() -> CalculatorObservable {
+        return CalculatorObservable(viewModel: get(), state: CalculatorState())
+    }
+
+    func get() -> BarObservable {
+        return BarObservable(viewModel: get(), state: BarState())
+    }
+
     func get() -> SettingsObservable {
         return SettingsObservable(viewModel: get(), state: SettingsState())
+    }
+
+    func get() -> CurrenciesObservable {
+        return CurrenciesObservable(viewModel: get(), state: CurrenciesState())
     }
 }
