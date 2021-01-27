@@ -21,20 +21,6 @@ struct CurrenciesView: View {
 
     @Binding var currenciesNavigationToggle: Bool
 
-    init(currenciesNavigationToggle: Binding<Bool>) {
-        LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
-
-        self._currenciesNavigationToggle = currenciesNavigationToggle
-
-        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: 0,
-            height: Double.leastNonzeroMagnitude
-        ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
-    }
-
     var body: some View {
         ZStack {
             MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
@@ -114,7 +100,6 @@ struct CurrencyToolbarView: View {
                             .padding(.leading, 20)
                     }
                 ).padding(.trailing, 10)
-
             }
 
             Text(MR.strings().txt_currencies.get())

@@ -22,18 +22,6 @@ struct CalculatorView: View {
     @State var maximumInputAlert = false
     @State var currenciesNavigationToggle = false
 
-    init() {
-        LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
-
-        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: 0,
-            height: Double.leastNonzeroMagnitude
-        ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
-    }
-
     var body: some View {
         NavigationView {
             ZStack {
@@ -94,7 +82,7 @@ struct CalculatorView: View {
             content: {
                 BarView(
                     isBarShown: $isBarShown,
-                    dismissEvent: { observable.viewModel.verifyCurrentBase() }
+                    onDismiss: { observable.viewModel.verifyCurrentBase() }
                 )
             }
         )
@@ -198,18 +186,13 @@ struct CalculationOutputView: View {
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
+    // swiftlint:disable line_length
     let keys = [
         [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
         [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
         [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
         [MR.strings().dot.get(), MR.strings().zero.get(), MR.strings().percent.get(), MR.strings().plus.get()],
-        [
-            MR.strings().open_parentheses.get(),
-            MR.strings().triple_zero.get(),
-            MR.strings().ac.get(),
-            MR.strings().delete_.get(),
-            MR.strings().close_parentheses.get()
-        ]
+        [MR.strings().open_parentheses.get(), MR.strings().triple_zero.get(), MR.strings().ac.get(), MR.strings().delete_.get(), MR.strings().close_parentheses.get()]
     ]
 
     var body: some View {
@@ -226,12 +209,7 @@ struct KeyboardView: View {
                                 Text(item)
                                     .font(.title2)
                                     .foregroundColor(MR.colors().text.get())
-                                    .frame(
-                                        minWidth: 0,
-                                        maxWidth: .infinity,
-                                        minHeight: 0,
-                                        maxHeight: .infinity
-                                    )
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
 

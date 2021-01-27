@@ -15,6 +15,13 @@ struct CCCApp: App {
     init() {
         startKoin()
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 0,
+            height: Double.leastNonzeroMagnitude
+        ))
+        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
     }
 
     var body: some Scene {

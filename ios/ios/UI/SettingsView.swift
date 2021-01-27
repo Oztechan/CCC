@@ -19,11 +19,6 @@ struct SettingsView: View {
     @State var currenciesNavigationToggle = false
     @Binding var settingsNavigationToggle: Bool
 
-    init(settingsNavigationToggle: Binding<Bool>) {
-        LoggerKt.kermit.d(withMessage: {"BarView init"})
-        self._settingsNavigationToggle = settingsNavigationToggle
-    }
-
     var body: some View {
 
         ZStack {
@@ -43,7 +38,6 @@ struct SettingsView: View {
                         ),
                         onClick: { observable.event.onCurrenciesClick() }
                     )
-
                     SettingsItemView(
                         imgName: "lightbulb.fill",
                         title: MR.strings().settings_item_theme_title.get(),
@@ -51,7 +45,6 @@ struct SettingsView: View {
                         value: observable.state.appThemeType.typeName,
                         onClick: { observable.event.onThemeClick() }
                     )
-
                     SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
@@ -59,7 +52,6 @@ struct SettingsView: View {
                         value: observable.state.addFreeDate,
                         onClick: { observable.event.onRemoveAdsClick() }
                     )
-
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: MR.strings().settings_item_sync_title.get(),
@@ -67,7 +59,6 @@ struct SettingsView: View {
                         value: "",
                         onClick: { observable.event.onSyncClick() }
                     )
-
                     SettingsItemView(
                         imgName: "cart.fill",
                         title: MR.strings().settings_item_support_us_title.get(),
@@ -75,7 +66,6 @@ struct SettingsView: View {
                         value: "",
                         onClick: { observable.event.onSupportUsClick() }
                     )
-
                     SettingsItemView(
                         imgName: "envelope.fill",
                         title: MR.strings().settings_item_feedback_title.get(),
@@ -83,7 +73,6 @@ struct SettingsView: View {
                         value: "",
                         onClick: { observable.event.onFeedBackClick() }
                     )
-
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
                         title: MR.strings().settings_item_on_github_title.get(),
@@ -91,7 +80,6 @@ struct SettingsView: View {
                         value: "",
                         onClick: { observable.event.onOnGitHubClick() }
                     )
-
                 }.background(MR.colors().background.get())
 
                 NavigationLink(

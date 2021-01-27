@@ -20,12 +20,6 @@ struct BarView: View {
 
     var onDismiss: () -> Void
 
-    init(isBarShown: Binding<Bool>, dismissEvent: @escaping () -> Void) {
-        LoggerKt.kermit.d(withMessage: {"BarView init"})
-        self._isBarShown = isBarShown
-        self.onDismiss = dismissEvent
-    }
-
     var body: some View {
 
         NavigationView {
