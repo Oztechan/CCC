@@ -36,12 +36,7 @@ struct BarView: View {
 
                 Form {
                     if observable.state.loading {
-                        HStack {
-                            Spacer()
-                            ProgressView().transition(.slide)
-                            Spacer()
-                        }
-                        .listRowBackground(MR.colors().background.get())
+                        FormProgressView()
                     } else {
 
                         List(observable.state.currencyList, id: \.name) { currency in
