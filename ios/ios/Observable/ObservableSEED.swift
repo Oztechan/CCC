@@ -24,16 +24,16 @@ class ObservableSEED<
     var effect = PassthroughSubject<Effect, Never>()
     var event: Event
 
-    var data: Data
+    var data: Data?
 
     // swiftlint:disable force_cast
-    init(viewModel: ViewModel, state: State) {
+    init(viewModel: ViewModel) {
         LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) init"})
 
         self.viewModel = viewModel
-        self.state = state
+        self.state = State()
         self.event = viewModel.event as! Event
-        self.data = viewModel.data as! Data
+        self.data = viewModel.data as? Data
     }
 
     deinit {

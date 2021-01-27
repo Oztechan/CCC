@@ -56,18 +56,18 @@ extension Koin_coreKoin {
 
     // ObservableSEED
     func get() -> CalculatorObservable {
-        return CalculatorObservable(viewModel: get(), state: CalculatorState())
+        return CalculatorObservable(viewModel: get())
     }
 
     func get() -> BarObservable {
-        return BarObservable(viewModel: get(), state: BarState())
+        return BarObservable(viewModel: get())
     }
 
     func get() -> SettingsObservable {
-        return SettingsObservable(viewModel: get(), state: SettingsState())
+        return SettingsObservable(viewModel: get())
     }
 
     func get() -> CurrenciesObservable {
-        return CurrenciesObservable(viewModel: get(), state: CurrenciesState())
+        return CurrenciesObservable(viewModel: get())
     }
 }
