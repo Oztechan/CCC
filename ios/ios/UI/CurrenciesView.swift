@@ -98,6 +98,7 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
+        .onAppear {seed.startObserving()}
         .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 

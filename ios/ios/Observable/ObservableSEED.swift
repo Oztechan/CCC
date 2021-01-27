@@ -34,16 +34,18 @@ class ObservableSEED<
         self.state = state
         self.event = viewModel.event as! Event
         self.data = viewModel.data as! Data
-
-        self.viewModel.observeState(viewModel.state, provideNewState: {
-            self.state = $0 as! State
-        })
-        self.viewModel.observeEffect(viewModel.effect, provideNewEffect: {
-            self.effect.send($0 as! Effect)
-        })
     }
 
     deinit {
         self.viewModel.onCleared()
+    }
+
+    func startObserving() {
+        self.viewModel.observe(viewModel.state, onChange: {
+            self.state = $0 as! State
+        })
+        self.viewModel.observe(viewModel.effect, onChange: {
+            self.effect.send($0 as! Effect)
+        })
     }
 }

@@ -58,6 +58,7 @@ struct BarView: View {
 
             }
         }
+        .onAppear {seed.startObserving()}
         .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 

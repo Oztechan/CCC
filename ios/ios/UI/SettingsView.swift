@@ -117,6 +117,7 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
+        .onAppear {seed.startObserving()}
         .onReceive(seed.effect) { onEffect(effect: $0) }
     }
 
