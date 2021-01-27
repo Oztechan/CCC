@@ -62,26 +62,8 @@ struct CurrenciesView: View {
                     }
                 }.background(MR.colors().background.get())
 
-                if observable.viewModel.isFirstRun() {
-                    HStack {
-
-                        Text(MR.strings().txt_select_currencies.get())
-                            .foregroundColor(MR.colors().text.get())
-                            .font(.subheadline)
-                        Spacer()
-                        Button(
-                            action: { observable.event.onDoneClick() },
-                            label: {
-                                Text(MR.strings().btn_done.get())
-                                    .foregroundColor(MR.colors().text.get())
-
-                            }
-                        )
-                        .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-                        .background(MR.colors().background_weak.get())
-
-                    }
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+                if seed.viewModel.isFirstRun() {
+                    SelectInitialCurrenciesView(onDoneClick: seed.event.onDoneClick)
                 }
 
             }
@@ -149,6 +131,32 @@ struct CurrencyToolbarView: View {
             )
 
         }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+    }
+}
+
+struct SelectInitialCurrenciesView: View {
+    var onDoneClick: () -> Void
+
+    var body: some View {
+        HStack {
+
+            Text(MR.strings().txt_select_currencies.get())
+                .foregroundColor(MR.colors().text.get())
+                .font(.subheadline)
+            Spacer()
+            Button(
+                action: { onDoneClick() },
+                label: {
+                    Text(MR.strings().btn_done.get())
+                        .foregroundColor(MR.colors().text.get())
+
+                }
+            )
+            .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+            .background(MR.colors().background_weak.get())
+
+        }
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
 }
 
