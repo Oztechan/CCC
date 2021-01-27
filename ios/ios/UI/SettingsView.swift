@@ -31,23 +31,7 @@ struct SettingsView: View {
 
             VStack {
 
-                HStack {
-
-                    Button(
-                        action: { settingsNavigationToggle.toggle() },
-                        label: {
-                            Image(systemName: "chevron.left")
-                                .imageScale(.large)
-                                .accentColor(MR.colors().text.get())
-                                .padding(.leading, 20)
-                        }
-                    ).padding(.trailing, 10)
-
-                    Text(MR.strings().txt_settings.get())
-                        .font(.title2)
-
-                    Spacer()
-                }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+                SettingsToolbarView(navigationToogle: $settingsNavvigationToogle)
 
                 Form {
                     SettingsItemView(
@@ -128,6 +112,30 @@ struct SettingsView: View {
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
+    }
+}
+
+struct SettingsToolbarView: View {
+    @Binding var navigationToogle: Bool
+
+    var body: some View {
+        HStack {
+
+            Button(
+                action: { navigationToogle.toggle() },
+                label: {
+                    Image(systemName: "chevron.left")
+                        .imageScale(.large)
+                        .accentColor(MR.colors().text.get())
+                        .padding(.leading, 20)
+                }
+            ).padding(.trailing, 10)
+
+            Text(MR.strings().txt_settings.get())
+                .font(.title2)
+
+            Spacer()
+        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
     }
 }
 
