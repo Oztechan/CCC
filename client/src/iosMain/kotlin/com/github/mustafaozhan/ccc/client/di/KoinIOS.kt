@@ -31,12 +31,12 @@ fun initIOS(userDefaults: NSUserDefaults) = initClient(
 }
 
 actual val clientModule: Module = module {
-    single { SettingsViewModel(get(), get(), get(), get()) }
-    single { SplashViewModel(get()) }
-    single { MainViewModel(get()) }
-    single { CurrenciesViewModel(get(), get()) }
-    single { CalculatorViewModel(get(), get(), get(), get()) }
-    single { BarViewModel(get(), get()) }
+    factory { SettingsViewModel(get(), get(), get(), get()) }
+    factory { SplashViewModel(get()) }
+    factory { MainViewModel(get()) }
+    factory { CurrenciesViewModel(get(), get()) }
+    factory { CalculatorViewModel(get(), get(), get(), get()) }
+    factory { BarViewModel(get(), get()) }
 }
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
