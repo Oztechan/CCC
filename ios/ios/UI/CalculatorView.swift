@@ -20,7 +20,7 @@ struct CalculatorView: View {
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
     @State var maximumInputAlert = false
-    @State var currenciesNavigationToogle = false
+    @State var currenciesNavigationToggle = false
 
     init() {
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
@@ -85,8 +85,8 @@ struct CalculatorView: View {
                 }
 
                 NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
-                    isActive: $currenciesNavigationToogle
+                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
+                    isActive: $currenciesNavigationToggle
                 ) { }.hidden()
 
             }
@@ -111,7 +111,7 @@ struct CalculatorView: View {
             Alert(
                 title: Text(MR.strings().txt_select_currencies.get()),
                 primaryButton: .default(Text(MR.strings().txt_ok.get())) {
-                    currenciesNavigationToogle.toggle()
+                    currenciesNavigationToggle.toggle()
                 },
                 secondaryButton: .cancel()
             )
@@ -137,7 +137,7 @@ struct CalculatorView: View {
 
 struct CalculationInputView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State var settingsNavvigationToogle = false
+    @State var settingsNavigationToggle = false
 
     var input: String
 
@@ -154,11 +154,11 @@ struct CalculationInputView: View {
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.trailing, 15)
-                .onTapGesture { settingsNavvigationToogle.toggle()}
+                .onTapGesture { settingsNavigationToggle.toggle()}
 
             NavigationLink(
-                destination: SettingsView(settingsNavvigationToogle: $settingsNavvigationToogle),
-                isActive: $settingsNavvigationToogle
+                destination: SettingsView(settingsNavigationToggle: $settingsNavigationToggle),
+                isActive: $settingsNavigationToggle
             ) { }.hidden()
 
         }.frame(width: .none, height: 40, alignment: .center)

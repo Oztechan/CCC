@@ -19,12 +19,12 @@ struct CurrenciesView: View {
 
     @State var isAlertShown = false
 
-    @Binding var currenciesNavigationToogle: Bool
+    @Binding var currenciesNavigationToggle: Bool
 
-    init(currenciesNavigationToogle: Binding<Bool>) {
+    init(currenciesNavigationToggle: Binding<Bool>) {
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
-        self._currenciesNavigationToogle = currenciesNavigationToogle
+        self._currenciesNavigationToggle = currenciesNavigationToggle
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -112,7 +112,7 @@ struct CurrenciesView: View {
                 rootView: CalculatorView()
             )
         case is CurrenciesEffect.Back:
-            currenciesNavigationToogle.toggle()
+            currenciesNavigationToggle.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

@@ -16,12 +16,12 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var seed: SettingsObservable = koin.get()
 
-    @State var currenciesNavigationToogle = false
-    @Binding var settingsNavvigationToogle: Bool
+    @State var currenciesNavigationToggle = false
+    @Binding var settingsNavigationToggle: Bool
 
-    init(settingsNavvigationToogle: Binding<Bool>) {
+    init(settingsNavigationToggle: Binding<Bool>) {
         LoggerKt.kermit.d(withMessage: {"BarView init"})
-        self._settingsNavvigationToogle = settingsNavvigationToogle
+        self._settingsNavigationToggle = settingsNavigationToggle
     }
 
     var body: some View {
@@ -34,7 +34,7 @@ struct SettingsView: View {
                 HStack {
 
                     Button(
-                        action: { settingsNavvigationToogle.toggle() },
+                        action: { settingsNavigationToggle.toggle() },
                         label: {
                             Image(systemName: "chevron.left")
                                 .imageScale(.large)
@@ -111,8 +111,8 @@ struct SettingsView: View {
                 }.background(MR.colors().background.get())
 
                 NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
-                    isActive: $currenciesNavigationToogle
+                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
+                    isActive: $currenciesNavigationToggle
                 ) { }.hidden()
             }
             .navigationBarHidden(true)
@@ -124,7 +124,7 @@ struct SettingsView: View {
     private func onEffect(effect: SettingsEffect) {
         switch effect {
         case is SettingsEffect.OpenCurrencies:
-            currenciesNavigationToogle.toggle()
+            currenciesNavigationToggle.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

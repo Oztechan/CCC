@@ -9,14 +9,12 @@
 import SwiftUI
 import client
 
-func startKoin() -> Koin_coreKoin {
+func startKoin() {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
     _koin = KoinIOSKt.doInitIOS(
         userDefaults: userDefaults
     ).koin
-
-    return koin
 }
 
 private var _koin: Koin_coreKoin?
@@ -49,12 +47,11 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
     }
 
-    // ObservableVM
+    // ObservableSEED
     func get() -> MainObservable {
         return MainObservable(viewModel: get())
     }
 
-    // ObservableSEED
     func get() -> CalculatorObservable {
         return CalculatorObservable(viewModel: get())
     }

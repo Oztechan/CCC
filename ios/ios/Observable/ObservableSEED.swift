@@ -41,11 +41,15 @@ class ObservableSEED<
     }
 
     func startObserving() {
-        self.viewModel.observe(viewModel.state, onChange: {
-            self.state = $0 as! State
-        })
-        self.viewModel.observe(viewModel.effect, onChange: {
-            self.effect.send($0 as! Effect)
-        })
+        if viewModel.state != nil {
+            self.viewModel.observe(viewModel.state!, onChange: {
+                self.state = $0 as! State
+            })
+        }
+        if viewModel.effect != nil {
+            self.viewModel.observe(viewModel.effect!, onChange: {
+                self.effect.send($0 as! Effect)
+            })
+        }
     }
 }
