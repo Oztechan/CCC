@@ -1,15 +1,19 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.currencies
+package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
@@ -150,3 +154,35 @@ class CurrenciesViewModel(
     }.toUnit()
     // endregion
 }
+
+// State
+data class CurrenciesState(
+    val currencyList: List<Currency> = listOf(),
+    val loading: Boolean = false,
+    val selectionVisibility: Boolean = false
+) : BaseState() {
+    // for ios
+    constructor() : this(listOf(), false, false)
+}
+
+// Event
+interface CurrenciesEvent : BaseEvent {
+    fun updateAllCurrenciesState(state: Boolean)
+    fun onItemClick(currency: Currency)
+    fun onDoneClick()
+    fun onItemLongClick(): Boolean
+    fun onCloseClick()
+}
+
+// Effect
+sealed class CurrenciesEffect : BaseEffect() {
+    object FewCurrency : CurrenciesEffect()
+    object OpenCalculator : CurrenciesEffect()
+    object Back : CurrenciesEffect()
+}
+
+// Data
+data class CurrenciesData(
+    var unFilteredList: MutableList<Currency>? = mutableListOf(),
+    var query: String = ""
+) : BaseData()

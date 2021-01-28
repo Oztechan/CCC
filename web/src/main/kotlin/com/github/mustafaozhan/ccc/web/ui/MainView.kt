@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 package com.github.mustafaozhan.ccc.web.ui
 
 import com.github.mustafaozhan.ccc.client.di.getDependency
 import com.github.mustafaozhan.ccc.client.log.kermit
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
 import react.RProps
 import react.child

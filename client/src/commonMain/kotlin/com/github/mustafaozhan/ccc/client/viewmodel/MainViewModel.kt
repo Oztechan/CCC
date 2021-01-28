@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.main
+package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired

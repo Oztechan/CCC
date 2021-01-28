@@ -1,9 +1,14 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.calculator
+package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.calculator.Calculator
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
@@ -16,7 +21,7 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
@@ -242,3 +247,43 @@ class CalculatorViewModel(
     }.toUnit()
     // endregion
 }
+
+// State
+data class CalculatorState(
+    val input: String = "",
+    val base: String = "",
+    val currencyList: List<Currency> = listOf(),
+    val output: String = "",
+    val symbol: String = "",
+    val loading: Boolean = true,
+    val dataState: DataState = DataState.Error,
+) : BaseState() {
+    // for ios
+    constructor() : this("", "", listOf(), "", "", true, DataState.Error)
+}
+
+// Event
+interface CalculatorEvent : BaseEvent {
+    fun onKeyPress(key: String)
+    fun onItemClick(currency: Currency, conversion: String)
+    fun onItemLongClick(currency: Currency): Boolean
+    fun onBarClick()
+    fun onSpinnerItemSelected(base: String)
+    fun onSettingsClicked()
+}
+
+// Effect
+sealed class CalculatorEffect : BaseEffect() {
+    object Error : CalculatorEffect()
+    object FewCurrency : CalculatorEffect()
+    object OpenBar : CalculatorEffect()
+    object MaximumInput : CalculatorEffect()
+    object OpenSettings : CalculatorEffect()
+    data class ShowRate(val text: String, val name: String) : CalculatorEffect()
+}
+
+// Data
+data class CalculatorData(
+    var calculator: Calculator = Calculator(),
+    var rates: Rates? = null
+) : BaseData()

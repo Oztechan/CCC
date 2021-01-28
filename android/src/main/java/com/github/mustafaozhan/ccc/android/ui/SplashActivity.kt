@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.client.log.kermit
-import com.github.mustafaozhan.ccc.client.viewmodel.splash.SplashViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.SplashViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : BaseActivity() {

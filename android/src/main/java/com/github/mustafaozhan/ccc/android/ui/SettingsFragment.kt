@@ -20,8 +20,8 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.SettingsEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem

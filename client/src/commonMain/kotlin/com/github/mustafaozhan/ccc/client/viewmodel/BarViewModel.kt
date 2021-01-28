@@ -1,15 +1,18 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.bar
+package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
@@ -71,3 +74,27 @@ class BarViewModel(
     }.toUnit()
     // endregion
 }
+
+// State
+data class BarState(
+    val currencyList: List<Currency> = listOf(),
+    val loading: Boolean = true,
+    val enoughCurrency: Boolean = false
+) : BaseState() {
+    // for ios
+    constructor() : this(listOf(), true, false)
+}
+
+// Event
+interface BarEvent : BaseEvent {
+    fun onItemClick(currency: Currency)
+    fun onSelectClick()
+}
+
+// Effect
+sealed class BarEffect : BaseEffect() {
+    data class ChangeBase(val newBase: String) : BarEffect()
+    object OpenCurrencies : BarEffect()
+}
+
+// Data

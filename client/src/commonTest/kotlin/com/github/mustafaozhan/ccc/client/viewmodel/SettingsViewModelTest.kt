@@ -7,8 +7,6 @@ import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.formatToString
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
@@ -11,7 +11,7 @@ import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.log.kermit
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
