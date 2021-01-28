@@ -14,14 +14,14 @@ import com.github.mustafaozhan.ccc.client.viewmodel.SettingsState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 fun MutableStateFlow<BarState>.update(
-    currencyList: List<Currency> = value.currencyList,
     loading: Boolean = value.loading,
-    enoughCurrency: Boolean = value.enoughCurrency
+    enoughCurrency: Boolean = value.enoughCurrency,
+    currencyList: List<Currency> = value.currencyList
 ) {
     value = value.copy(
-        currencyList = currencyList,
         loading = loading,
-        enoughCurrency = enoughCurrency
+        enoughCurrency = enoughCurrency,
+        currencyList = currencyList
     )
 }
 

@@ -77,12 +77,12 @@ class BarViewModel(
 
 // State
 data class BarState(
-    val currencyList: List<Currency> = listOf(),
     val loading: Boolean = true,
-    val enoughCurrency: Boolean = false
+    val enoughCurrency: Boolean = false,
+    val currencyList: List<Currency> = listOf(),
 ) : BaseState() {
     // for ios
-    constructor() : this(listOf(), true, false)
+    constructor() : this(true, false, listOf())
 }
 
 // Event

@@ -40,7 +40,6 @@
     <string name="txt_ok">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
-    <string name="click_back_again_to_exit">Please click BACK again to exit</string>
 
     <!--Toasty Text-->
     <string name="max_input">Maximum number of input exceeded.</string>
