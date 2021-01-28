@@ -70,7 +70,7 @@ android {
             versionName = getVersionName(project)
         }
 
-        // todo remove after androidPlugin = "7.0.0-alpha04" fixed
+        // todo https://youtrack.jetbrains.com/issue/KT-43944
         configurations {
             create("testApi") {}
             create("testDebugApi") {}
