@@ -48,8 +48,12 @@ struct CurrenciesView: View {
                     }
                 }.background(MR.colors().background.get())
 
-                if seed.viewModel.isFirstRun() {
-                    SelectInitialCurrenciesView(onDoneClick: seed.event.onDoneClick)
+                if observable.viewModel.isFirstRun() {
+                    SelectCurrencyView(
+                        text: MR.strings().txt_select_currencies.get(),
+                        buttonText: MR.strings().btn_done.get(),
+                        onButtonClick: observable.event.onDoneClick
+                    )
                 }
 
             }
@@ -119,33 +123,8 @@ struct CurrencyToolbarView: View {
     }
 }
 
-struct SelectInitialCurrenciesView: View {
-    var onDoneClick: () -> Void
-
-    var body: some View {
-        HStack {
-
-            Text(MR.strings().txt_select_currencies.get())
-                .foregroundColor(MR.colors().text.get())
-                .font(.subheadline)
-            Spacer()
-            Button(
-                action: { onDoneClick() },
-                label: {
-                    Text(MR.strings().btn_done.get())
-                        .foregroundColor(MR.colors().text.get())
-
-                }
-            )
-            .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-            .background(MR.colors().background_weak.get())
-
-        }
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-    }
-}
-
 struct CurrencyItemView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var item: Currency
 
     var onItemClick: () -> Void
@@ -168,6 +147,7 @@ struct CurrencyItemView: View {
                 .foregroundColor(MR.colors().text.get())
             Spacer()
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(MR.colors().accent.get())
 
         }
         .contentShape(Rectangle())

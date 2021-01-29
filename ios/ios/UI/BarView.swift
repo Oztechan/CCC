@@ -17,6 +17,7 @@ struct BarView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
+    @State var currenciesNavigationToggle: Bool = false
 
     var onDismiss: () -> Void
 
@@ -28,23 +29,38 @@ struct BarView: View {
 
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
-                Form {
-                    if observable.state.loading {
-                        FormProgressView()
-                    } else {
+                if observable.state.currencyList.count < 2 {
 
-                        List(observable.state.currencyList, id: \.name) { currency in
+                    SelectCurrencyView(
+                        text: MR.strings().choose_at_least_two_currency.get(),
+                        buttonText: MR.strings().select.get(),
+                        onButtonClick: { currenciesNavigationToggle = true }
+                    ).listRowBackground(MR.colors().background.get())
 
-                            BarItemView(item: currency)
-                                .onTapGesture { observable.event.onItemClick(currency: currency) }
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                } else {
 
-                        }.listRowBackground(MR.colors().background.get())
+                    Form {
+                        if observable.state.loading {
+                            FormProgressView()
+                        } else {
+
+                            List(observable.state.currencyList, id: \.name) { currency in
+
+                                BarItemView(item: currency)
+                                    .onTapGesture { observable.event.onItemClick(currency: currency) }
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+
+                            }.listRowBackground(MR.colors().background.get())
+                        }
                     }
+                    .background(MR.colors().background.get())
+                    .navigationBarTitle(MR.strings().txt_select_base_currency.get())
                 }
-                .background(MR.colors().background.get())
-                .navigationBarTitle(MR.strings().txt_select_base_currency.get())
 
+                NavigationLink(
+                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
+                    isActive: $currenciesNavigationToggle
+                ) { }.hidden()
             }
         }
         .onAppear {observable.startObserving()}

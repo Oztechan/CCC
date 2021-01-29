@@ -26,7 +26,7 @@ struct SettingsView: View {
 
             VStack {
 
-                SettingsToolbarView(navigationToogle: $settingsNavvigationToogle)
+                SettingsToolbarView(navigationToggle: $settingsNavigationToggle)
 
                 Form {
                     SettingsItemView(
@@ -104,13 +104,14 @@ struct SettingsView: View {
 }
 
 struct SettingsToolbarView: View {
-    @Binding var navigationToogle: Bool
+    @Environment(\.colorScheme) var colorScheme
+    @Binding var navigationToggle: Bool
 
     var body: some View {
         HStack {
 
             Button(
-                action: { navigationToogle.toggle() },
+                action: { navigationToggle.toggle() },
                 label: {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)
