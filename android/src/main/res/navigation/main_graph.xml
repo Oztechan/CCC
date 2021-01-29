@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -54,5 +54,23 @@
             app:destination="@id/currenciesFragment"
             app:popUpTo="@id/calculatorFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_barBottomSheetDialogFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
     </dialog>
+
+    <fragment
+        android:id="@+id/sliderFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.SliderFragment"
+        android:label="SliderFragment"
+        tools:layout="@layout/fragment_slider">
+
+        <action
+            android:id="@+id/action_sliderFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_sliderFragment_to_currenciesFragment"
+            app:destination="@id/currenciesFragment" />
+
+    </fragment>
 </navigation>

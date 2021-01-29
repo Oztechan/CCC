@@ -1,43 +1,29 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.log.kermit
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.ccc.client.viewmodel.MainEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.review.ReviewManagerFactory
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class MainActivity : BaseActivity() {
-
-    companion object {
-        private const val BACK_DELAY: Long = 2000
-        private const val AD_INITIAL_DELAY: Long = 60000
-        private const val REVIEW_DELAY: Long = 10000
-        private const val AD_PERIOD: Long = 180000
-    }
+class MainActivity : BaseActivity() {
 
     private val mainViewModel: MainViewModel by viewModel()
-
-    private lateinit var interstitialAd: InterstitialAd
-    private lateinit var adJob: Job
-    private var adVisibility = false
-    private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,91 +31,65 @@ open class MainActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
-        checkReview()
-        prepareInterstitialAd()
+        observeEffect()
+        mainViewModel.checkReview()
+    }
+
+    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+        mainViewModel.effect.collect { viewEffect ->
+            kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
+                is MainEffect.ShowInterstitialAd -> showInterstitialAd()
+                is MainEffect.RequestReview -> requestReview()
+            }
+        }
+    }
+
+    private fun requestReview() {
+        ReviewManagerFactory.create(this@MainActivity)
+            .apply {
+                requestReviewFlow().addOnCompleteListener { request ->
+                    if (request.isSuccessful) {
+                        launchReviewFlow(this@MainActivity, request.result)
+                    }
+                }
+            }
     }
 
     private fun checkDestination() = with(getNavigationController()) {
         if (mainViewModel.isFistRun()) {
             graph = navInflater.inflate(R.navigation.main_graph)
                 .apply {
-                    startDestination = R.id.currenciesFragment
+                    startDestination = R.id.sliderFragment
                 }
         }
     }
 
-    private fun prepareInterstitialAd() {
-        interstitialAd = InterstitialAd(this)
-        interstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
-        interstitialAd.loadAd(AdRequest.Builder().build())
-    }
-
-    private fun setupInterstitialAd() {
-        adVisibility = true
-
-        adJob = lifecycle.coroutineScope.launch {
-            delay(AD_INITIAL_DELAY)
-
-            while (isActive) {
-                interstitialAd.whether(
-                    { isLoaded },
-                    { adVisibility },
-                    { mainViewModel.isRewardExpired() }
-                )?.apply { show() }
-                    ?: prepareInterstitialAd()
-                delay(AD_PERIOD)
+    private fun showInterstitialAd() = InterstitialAd.load(
+        this,
+        getString(R.string.interstitial_ad_id),
+        AdRequest.Builder().build(),
+        object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                kermit.d { "MainActivity onAdFailedToLoad ${adError.message}" }
             }
-        }
-    }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                kermit.d { "MainActivity onAdLoaded" }
+                interstitialAd.show(this@MainActivity)
+            }
+        })
 
     override fun onResume() {
         super.onResume()
         kermit.d { "MainActivity onResume" }
-        setupInterstitialAd()
-    }
-
-    private fun checkReview() {
-        if (mainViewModel.shouldShowReview()) {
-            lifecycle.coroutineScope.launch {
-                delay(REVIEW_DELAY)
-
-                ReviewManagerFactory.create(this@MainActivity).apply {
-                    requestReviewFlow().addOnCompleteListener { request ->
-                        if (request.isSuccessful) {
-                            launchReviewFlow(this@MainActivity, request.result)
-                            mainViewModel.setLastReview()
-                        }
-                    }
-                }
-            }
-        }
+        mainViewModel.onResume()
     }
 
     override fun onPause() {
-        super.onPause()
         kermit.d { "MainActivity onPause" }
-        adJob.cancel()
-        adVisibility = false
-    }
-
-    override fun onBackPressed() {
-        kermit.d { "MainActivity onBackPressed" }
-        if (getNavigationController().currentDestination?.id == R.id.calculatorFragment) {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed()
-                return
-            }
-
-            doubleBackToExitPressedOnce = true
-            showSnack(findViewById(containerId), R.string.click_back_again_to_exit)
-
-            lifecycle.coroutineScope.launch {
-                delay(BACK_DELAY)
-                doubleBackToExitPressedOnce = false
-            }
-        } else {
-            super.onBackPressed()
-        }
+        mainViewModel.event.onPause()
+        super.onPause()
     }
 
     override fun attachBaseContext(base: Context) {

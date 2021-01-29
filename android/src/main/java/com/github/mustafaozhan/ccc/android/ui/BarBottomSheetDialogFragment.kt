@@ -12,14 +12,12 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
-import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.BarEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.BarEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
@@ -71,14 +69,12 @@ class BarBottomSheetDialogFragment :
         barViewModel.effect.collect { viewEffect ->
             kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is BarEffect.ChangeBaseNavResult -> {
-                    setNavigationResult(
-                        R.id.calculatorFragment,
-                        viewEffect.newBase,
-                        KEY_BASE_CURRENCY
-                    )
-                    dismissDialog()
-                }
+                is BarEffect.ChangeBase -> navigate(
+                    R.id.barBottomSheetDialogFragment,
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
+                    dismiss = true,
+                    animate = false
+                )
                 BarEffect.OpenCurrencies -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment(),

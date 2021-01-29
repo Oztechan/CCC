@@ -5,8 +5,6 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
@@ -28,7 +26,7 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
             viewModel.event.onItemClick(currency)
 
             assertEquals(
-                BarEffect.ChangeBaseNavResult(currency.name),
+                BarEffect.ChangeBase(currency.name),
                 viewModel.effect.single()
             )
         }.cancel()

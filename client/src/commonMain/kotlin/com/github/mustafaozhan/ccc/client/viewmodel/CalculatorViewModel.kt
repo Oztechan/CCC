@@ -1,9 +1,14 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.calculator
+package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.calculator.Calculator
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
@@ -16,7 +21,7 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
@@ -43,7 +48,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), CalculatorEvent {
+) : BaseSEEDViewModel(), CalculatorEvent {
 
     companion object {
         private const val MAXIMUM_INPUT = 18
@@ -54,14 +59,14 @@ class CalculatorViewModel(
 
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
-    val state: StateFlow<CalculatorState> = _state
+    override val state: StateFlow<CalculatorState> = _state
 
     private val _effect = Channel<CalculatorEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    val data = CalculatorData()
+    override val event = this as CalculatorEvent
 
-    val event = this as CalculatorEvent
+    override val data = CalculatorData()
     // endregion
 
     init {
@@ -71,7 +76,10 @@ class CalculatorViewModel(
         clientScope.launch {
             state.map { it.base }
                 .distinctUntilChanged()
-                .collect { currentBaseChanged(it) }
+                .collect {
+                    currentBaseChanged(it)
+                    kermit.d { "CalculatorViewModel base changed $it" }
+                }
         }
 
         clientScope.launch {
@@ -80,6 +88,7 @@ class CalculatorViewModel(
                 .collect { input ->
                     _state.update(loading = true)
                     calculateOutput(input)
+                    kermit.d { "CalculatorViewModel input changed $input" }
                 }
         }
 
@@ -164,8 +173,8 @@ class CalculatorViewModel(
         )
     }
 
-    fun verifyCurrentBase(it: String) {
-        _state.update(base = it)
+    fun verifyCurrentBase() {
+        _state.update(base = settingsRepository.currentBase, input = "")
     }
 
     fun getCurrentBase() = settingsRepository.currentBase
@@ -238,3 +247,41 @@ class CalculatorViewModel(
     }.toUnit()
     // endregion
 }
+
+// region SEED
+data class CalculatorState(
+    val input: String = "",
+    val base: String = "",
+    val currencyList: List<Currency> = listOf(),
+    val output: String = "",
+    val symbol: String = "",
+    val loading: Boolean = true,
+    val dataState: DataState = DataState.Error,
+) : BaseState() {
+    // for ios
+    constructor() : this("", "", listOf(), "", "", true, DataState.Error)
+}
+
+interface CalculatorEvent : BaseEvent {
+    fun onKeyPress(key: String)
+    fun onItemClick(currency: Currency, conversion: String)
+    fun onItemLongClick(currency: Currency): Boolean
+    fun onBarClick()
+    fun onSpinnerItemSelected(base: String)
+    fun onSettingsClicked()
+}
+
+sealed class CalculatorEffect : BaseEffect() {
+    object Error : CalculatorEffect()
+    object FewCurrency : CalculatorEffect()
+    object OpenBar : CalculatorEffect()
+    object MaximumInput : CalculatorEffect()
+    object OpenSettings : CalculatorEffect()
+    data class ShowRate(val text: String, val name: String) : CalculatorEffect()
+}
+
+data class CalculatorData(
+    var calculator: Calculator = Calculator(),
+    var rates: Rates? = null
+) : BaseData()
+// endregion

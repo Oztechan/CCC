@@ -9,41 +9,62 @@
 import SwiftUI
 import client
 
-// swiftlint:disable force_cast
-class Koin {
-    static let shared: Koin = Koin()
+func startKoin() {
+    let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    let koin = KoinIOSKt.doInitIOS(
-        userDefaults: UserDefaults(suiteName: "application_user_defaults")!
+    _koin = KoinIOSKt.doInitIOS(
+        userDefaults: userDefaults
     ).koin
+}
 
-    lazy var mainVMWrapper: MainVMWrapper = {
-        return MainVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
-        )
-    }()
+private var _koin: Koin_coreKoin?
 
-    lazy var calculatorVMWrapper: CalculatorVMWrapper = {
-        return CalculatorVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
-        )
-    }()
+var koin: Koin_coreKoin {
+    return _koin!
+}
 
-    lazy var currenciesVMWrapper: CurrenciesVMWrapper = {
-        return CurrenciesVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
-        )
-    }()
+// swiftlint:disable force_cast
+extension Koin_coreKoin {
 
-    lazy var barVMWrapper: BarVMWrapper = {
-        return BarVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
-        )
-    }()
+    // viewmodel
+    func get() -> MainViewModel {
+        return koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
+    }
 
-    lazy var settingsVMWrapper: SettingsVMWrapper = {
-        return SettingsVMWrapper(
-            viewModel: Koin.shared.koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
-        )
-    }()
+    func get() -> CalculatorViewModel {
+        return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+    }
+
+    func get() -> CurrenciesViewModel {
+        return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
+    }
+
+    func get() -> BarViewModel {
+        return koin.getDependency(objCClass: BarViewModel.self) as! BarViewModel
+    }
+
+    func get() -> SettingsViewModel {
+        return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
+    }
+
+    // ObservableSEED
+    func get() -> MainObservable {
+        return MainObservable(viewModel: get())
+    }
+
+    func get() -> CalculatorObservable {
+        return CalculatorObservable(viewModel: get())
+    }
+
+    func get() -> BarObservable {
+        return BarObservable(viewModel: get())
+    }
+
+    func get() -> SettingsObservable {
+        return SettingsObservable(viewModel: get())
+    }
+
+    func get() -> CurrenciesObservable {
+        return CurrenciesObservable(viewModel: get())
+    }
 }

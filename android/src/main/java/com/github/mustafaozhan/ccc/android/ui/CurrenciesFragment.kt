@@ -21,14 +21,12 @@ import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
-import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.KEY_BASE_CURRENCY
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEvent
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
@@ -118,13 +116,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                 CurrenciesEffect.Back -> {
                     getBaseActivity()?.onBackPressed()
                     view?.run { hideKeyboard() }
-                }
-                is CurrenciesEffect.ChangeBaseNavResult -> {
-                    setNavigationResult(
-                        R.id.calculatorFragment,
-                        viewEffect.newBase,
-                        KEY_BASE_CURRENCY
-                    )
                 }
             }
         }

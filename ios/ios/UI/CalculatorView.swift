@@ -7,18 +7,20 @@
 //
 
 import SwiftUI
-import UIKit
 import client
+
+typealias CalculatorObservable = ObservableSEED
+<CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
 
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: CalculatorVMWrapper = Koin.shared.calculatorVMWrapper
+    @StateObject var observable: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
     @State var maximumInputAlert = false
-    @State var currenciesNavigationToogle = false
+    @State var currenciesNavigationToggle = false
 
     init() {
         LoggerKt.kermit.d(withMessage: {"CalculatorView init"})
@@ -39,17 +41,17 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(input: vmWrapper.state.input)
+                    CalculationInputView(input: observable.state.input)
 
                     CalculationOutputView(
-                        baseCurrency: vmWrapper.state.base,
-                        output: vmWrapper.state.output,
-                        symbol: vmWrapper.state.symbol,
-                        onBarClick: {vmWrapper.event.onBarClick()}
+                        baseCurrency: observable.state.base,
+                        output: observable.state.output,
+                        symbol: observable.state.symbol,
+                        onBarClick: {observable.event.onBarClick()}
                     )
 
                     Form {
-                        if vmWrapper.state.loading {
+                        if observable.state.loading {
                             HStack {
                                 Spacer()
                                 ProgressView().transition(.slide)
@@ -60,15 +62,15 @@ struct CalculatorView: View {
 
                             List(
                                 ExtensionsKt.toValidList(
-                                    vmWrapper.state.currencyList,
-                                    currentBase: vmWrapper.state.base
+                                    observable.state.currencyList,
+                                    currentBase: observable.state.base
                                 ),
                                 id: \.rate
                             ) {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { item in
-                                        vmWrapper.event.onItemClick(
+                                        observable.event.onItemClick(
                                             currency: item,
                                             conversion: ExtensionsKt.toStandardDigits(
                                                 IOSExtensionsKt.getFormatted(item.rate)
@@ -81,13 +83,13 @@ struct CalculatorView: View {
                         }
                     }.background(MR.colors().background.get())
 
-                    KeyboardView(onKeyPress: { vmWrapper.event.onKeyPress(key: $0) })
+                    KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
                 }
 
                 NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
-                    isActive: $currenciesNavigationToogle
+                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
+                    isActive: $currenciesNavigationToggle
                 ) { }.hidden()
 
             }
@@ -95,7 +97,12 @@ struct CalculatorView: View {
         }
         .sheet(
             isPresented: $isBarShown,
-            content: { BarView(isBarShown: $isBarShown) }
+            content: {
+                BarView(
+                    isBarShown: $isBarShown,
+                    dismissEvent: { observable.viewModel.verifyCurrentBase() }
+                )
+            }
         )
         .alert(isPresented: $maximumInputAlert) {
             Alert(
@@ -107,12 +114,13 @@ struct CalculatorView: View {
             Alert(
                 title: Text(MR.strings().txt_select_currencies.get()),
                 primaryButton: .default(Text(MR.strings().txt_ok.get())) {
-                    currenciesNavigationToogle.toggle()
+                    currenciesNavigationToggle.toggle()
                 },
                 secondaryButton: .cancel()
             )
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CalculatorEffect) {
@@ -132,7 +140,7 @@ struct CalculatorView: View {
 
 struct CalculationInputView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State var settingsNavvigationToogle = false
+    @State var settingsNavigationToggle = false
 
     var input: String
 
@@ -149,11 +157,11 @@ struct CalculationInputView: View {
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.trailing, 15)
-                .onTapGesture { settingsNavvigationToogle.toggle()}
+                .onTapGesture { settingsNavigationToggle.toggle()}
 
             NavigationLink(
-                destination: SettingsView(settingsNavvigationToogle: $settingsNavvigationToogle),
-                isActive: $settingsNavvigationToogle
+                destination: SettingsView(settingsNavigationToggle: $settingsNavigationToggle),
+                isActive: $settingsNavigationToggle
             ) { }.hidden()
 
         }.frame(width: .none, height: 40, alignment: .center)
@@ -196,7 +204,7 @@ struct CalculationOutputView: View {
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
-    let data = [
+    let keys = [
         [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
         [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
         [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
@@ -213,7 +221,7 @@ struct KeyboardView: View {
     var body: some View {
 
         VStack(alignment: .center) {
-            ForEach(data, id: \.self) { items in
+            ForEach(keys, id: \.self) { items in
 
                 HStack(alignment: .center) {
                     ForEach(items, id: \.self) { item in

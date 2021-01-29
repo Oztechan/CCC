@@ -9,19 +9,22 @@
 import SwiftUI
 import client
 
+typealias CurrenciesObservable = ObservableSEED
+<CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
+
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: CurrenciesVMWrapper = Koin.shared.currenciesVMWrapper
+    @StateObject var observable: CurrenciesObservable = koin.get()
 
     @State var isAlertShown = false
 
-    @Binding var currenciesNavigationToogle: Bool
+    @Binding var currenciesNavigationToggle: Bool
 
-    init(currenciesNavigationToogle: Binding<Bool>) {
+    init(currenciesNavigationToggle: Binding<Bool>) {
         LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
 
-        self._currenciesNavigationToogle = currenciesNavigationToogle
+        self._currenciesNavigationToggle = currenciesNavigationToggle
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -39,13 +42,13 @@ struct CurrenciesView: View {
             VStack {
 
                 CurrencyToolbarView(
-                    firstRun: vmWrapper.viewModel.isFirstRun(),
-                    onCloseClick: { vmWrapper.event.onCloseClick() },
-                    updateAllCurrenciesState: { vmWrapper.event.updateAllCurrenciesState(state: $0) }
+                    firstRun: observable.viewModel.isFirstRun(),
+                    onCloseClick: { observable.event.onCloseClick() },
+                    updateAllCurrenciesState: { observable.event.updateAllCurrenciesState(state: $0) }
                 )
 
                 Form {
-                    if vmWrapper.state.loading {
+                    if observable.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -53,10 +56,10 @@ struct CurrenciesView: View {
                         }
                         .listRowBackground(MR.colors().background.get())
                     } else {
-                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+                        List(observable.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
                                 item: currency,
-                                onItemClick: { vmWrapper.event.onItemClick(currency: currency) }
+                                onItemClick: { observable.event.onItemClick(currency: currency) }
                             )
                         }
                         .id(UUID())
@@ -64,7 +67,7 @@ struct CurrenciesView: View {
                     }
                 }.background(MR.colors().background.get())
 
-                if vmWrapper.viewModel.isFirstRun() {
+                if observable.viewModel.isFirstRun() {
                     HStack {
 
                         Text(MR.strings().txt_select_currencies.get())
@@ -72,7 +75,7 @@ struct CurrenciesView: View {
                             .font(.subheadline)
                         Spacer()
                         Button(
-                            action: { vmWrapper.event.onDoneClick() },
+                            action: { observable.event.onDoneClick() },
                             label: {
                                 Text(MR.strings().btn_done.get())
                                     .foregroundColor(MR.colors().text.get())
@@ -95,7 +98,8 @@ struct CurrenciesView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CurrenciesEffect) {
@@ -108,7 +112,7 @@ struct CurrenciesView: View {
                 rootView: CalculatorView()
             )
         case is CurrenciesEffect.Back:
-            currenciesNavigationToogle.toggle()
+            currenciesNavigationToggle.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

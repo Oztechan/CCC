@@ -9,15 +9,21 @@
 import SwiftUI
 import client
 
+typealias BarObservable = ObservableSEED
+<BarViewModel, BarState, BarEffect, BarEvent, BaseData>
+
 struct BarView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: BarVMWrapper = Koin.shared.barVMWrapper
+    @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
-    init(isBarShown: Binding<Bool>) {
+    var onDismiss: () -> Void
+
+    init(isBarShown: Binding<Bool>, dismissEvent: @escaping () -> Void) {
         LoggerKt.kermit.d(withMessage: {"BarView init"})
         self._isBarShown = isBarShown
+        self.onDismiss = dismissEvent
     }
 
     var body: some View {
@@ -29,7 +35,7 @@ struct BarView: View {
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 Form {
-                    if vmWrapper.state.loading {
+                    if observable.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -38,26 +44,28 @@ struct BarView: View {
                         .listRowBackground(MR.colors().background.get())
                     } else {
 
-                        List(vmWrapper.state.currencyList, id: \.name) { currency in
+                        List(observable.state.currencyList, id: \.name) { currency in
 
                             BarItemView(item: currency)
-                                .onTapGesture { vmWrapper.event.onItemClick(currency: currency) }
+                                .onTapGesture { observable.event.onItemClick(currency: currency) }
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
                         }.listRowBackground(MR.colors().background.get())
                     }
                 }
                 .background(MR.colors().background.get())
-                .navigationBarTitle(MR.strings().txt_current_base.get())
+                .navigationBarTitle(MR.strings().txt_select_base_currency.get())
 
             }
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: BarEffect) {
         switch effect {
-        case is BarEffect.OpenCurrencies:
+        case is BarEffect.ChangeBase:
+            onDismiss()
             isBarShown = false
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})

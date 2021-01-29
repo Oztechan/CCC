@@ -1,17 +1,16 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
 @file:Suppress("unused")
 
 package com.github.mustafaozhan.ccc.client.di
 
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.splash.SplashViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.nsUserDefaults
 import kotlinx.cinterop.ObjCClass
@@ -31,12 +30,11 @@ fun initIOS(userDefaults: NSUserDefaults) = initClient(
 }
 
 actual val clientModule: Module = module {
-    single { SettingsViewModel(get(), get(), get(), get()) }
-    single { SplashViewModel(get()) }
-    single { MainViewModel(get()) }
-    single { CurrenciesViewModel(get(), get()) }
-    single { CalculatorViewModel(get(), get(), get(), get()) }
-    single { BarViewModel(get()) }
+    factory { SettingsViewModel(get(), get(), get(), get()) }
+    factory { MainViewModel(get()) }
+    factory { CurrenciesViewModel(get(), get()) }
+    factory { CalculatorViewModel(get(), get(), get(), get()) }
+    factory { BarViewModel(get(), get()) }
 }
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {

@@ -1,9 +1,13 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.settings
+package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
@@ -12,7 +16,7 @@ import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
@@ -35,22 +39,22 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
-) : BaseViewModel(), SettingsEvent {
+) : BaseSEEDViewModel(), SettingsEvent {
 
     companion object {
-        internal const val SYNC_DELAY = 10.toLong()
+        private const val SYNC_DELAY = 10.toLong()
     }
 
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
-    val state: StateFlow<SettingsState> = _state
+    override val state: StateFlow<SettingsState> = _state
+
+    override val event = this as SettingsEvent
 
     private val _effect = Channel<SettingsEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    private val data = SettingsData()
-
-    val event = this as SettingsEvent
+    override val data = SettingsData()
     // endregion
 
     init {
@@ -162,3 +166,42 @@ class SettingsViewModel(
     }.toUnit()
     // endregion
 }
+
+// region SEED
+data class SettingsState(
+    val activeCurrencyCount: Int = 0,
+    val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
+    val addFreeDate: String = ""
+) : BaseState() {
+    // for ios
+    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "")
+}
+
+interface SettingsEvent : BaseEvent {
+    fun onBackClick()
+    fun onCurrenciesClick()
+    fun onFeedBackClick()
+    fun onShareClick()
+    fun onSupportUsClick()
+    fun onOnGitHubClick()
+    fun onRemoveAdsClick()
+    fun onSyncClick()
+    fun onThemeClick()
+}
+
+sealed class SettingsEffect : BaseEffect() {
+    object Back : SettingsEffect()
+    object OpenCurrencies : SettingsEffect()
+    object FeedBack : SettingsEffect()
+    object Share : SettingsEffect()
+    object SupportUs : SettingsEffect()
+    object OnGitHub : SettingsEffect()
+    object RemoveAds : SettingsEffect()
+    object ThemeDialog : SettingsEffect()
+    object Synchronised : SettingsEffect()
+    object OnlyOneTimeSync : SettingsEffect()
+    data class ChangeTheme(val themeValue: Int) : SettingsEffect()
+}
+
+data class SettingsData(var synced: Boolean = false) : BaseData()
+// endregion

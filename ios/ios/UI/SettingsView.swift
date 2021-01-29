@@ -9,16 +9,19 @@
 import SwiftUI
 import client
 
+typealias SettingsObservable = ObservableSEED
+<SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
+
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var vmWrapper: SettingsVMWrapper = Koin.shared.settingsVMWrapper
+    @StateObject var observable: SettingsObservable = koin.get()
 
-    @State var currenciesNavigationToogle = false
-    @Binding var settingsNavvigationToogle: Bool
+    @State var currenciesNavigationToggle = false
+    @Binding var settingsNavigationToggle: Bool
 
-    init(settingsNavvigationToogle: Binding<Bool>) {
+    init(settingsNavigationToggle: Binding<Bool>) {
         LoggerKt.kermit.d(withMessage: {"BarView init"})
-        self._settingsNavvigationToogle = settingsNavvigationToogle
+        self._settingsNavigationToggle = settingsNavigationToggle
     }
 
     var body: some View {
@@ -31,7 +34,7 @@ struct SettingsView: View {
                 HStack {
 
                     Button(
-                        action: { settingsNavvigationToogle.toggle() },
+                        action: { settingsNavigationToggle.toggle() },
                         label: {
                             Image(systemName: "chevron.left")
                                 .imageScale(.large)
@@ -49,28 +52,28 @@ struct SettingsView: View {
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: MR.strings().txt_currencies.get(),
-                        subTitle: MR.strings().txt_select_currencies.get(),
-                        value: MR.plurals().settings_item_currencies_value.get(
-                            quantitiy: vmWrapper.state.activeCurrencyCount
+                        title: MR.strings().settings_item_currencies_title.get(),
+                        subTitle: MR.strings().settings_item_currencies_sub_title.get(),
+                        value: MR.strings().settings_item_currencies_value.get(
+                            parameter: observable.state.activeCurrencyCount
                         ),
-                        onClick: { vmWrapper.event.onCurrenciesClick() }
+                        onClick: { observable.event.onCurrenciesClick() }
                     )
 
                     SettingsItemView(
                         imgName: "lightbulb.fill",
                         title: MR.strings().settings_item_theme_title.get(),
                         subTitle: MR.strings().settings_item_theme_sub_title.get(),
-                        value: vmWrapper.state.appThemeType.typeName,
-                        onClick: { vmWrapper.event.onThemeClick() }
+                        value: observable.state.appThemeType.typeName,
+                        onClick: { observable.event.onThemeClick() }
                     )
 
                     SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: vmWrapper.state.addFreeDate,
-                        onClick: { vmWrapper.event.onRemoveAdsClick() }
+                        value: observable.state.addFreeDate,
+                        onClick: { observable.event.onRemoveAdsClick() }
                     )
 
                     SettingsItemView(
@@ -78,7 +81,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_sync_title.get(),
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onSyncClick() }
+                        onClick: { observable.event.onSyncClick() }
                     )
 
                     SettingsItemView(
@@ -86,7 +89,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_support_us_title.get(),
                         subTitle: MR.strings().settings_item_support_us_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onSupportUsClick() }
+                        onClick: { observable.event.onSupportUsClick() }
                     )
 
                     SettingsItemView(
@@ -94,7 +97,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_feedback_title.get(),
                         subTitle: MR.strings().settings_item_feedback_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onFeedBackClick() }
+                        onClick: { observable.event.onFeedBackClick() }
                     )
 
                     SettingsItemView(
@@ -102,25 +105,26 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_on_github_title.get(),
                         subTitle: MR.strings().settings_item_on_github_sub_title.get(),
                         value: "",
-                        onClick: { vmWrapper.event.onOnGitHubClick() }
+                        onClick: { observable.event.onOnGitHubClick() }
                     )
 
                 }.background(MR.colors().background.get())
 
                 NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToogle: $currenciesNavigationToogle),
-                    isActive: $currenciesNavigationToogle
+                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
+                    isActive: $currenciesNavigationToggle
                 ) { }.hidden()
             }
             .navigationBarHidden(true)
         }
-        .onReceive(vmWrapper.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: SettingsEffect) {
         switch effect {
         case is SettingsEffect.OpenCurrencies:
-            currenciesNavigationToogle.toggle()
+            currenciesNavigationToggle.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
@@ -148,19 +152,17 @@ struct SettingsItemView: View {
                 HStack {
                     Text(title).font(.title3)
                     Spacer()
-                }
-
-                Spacer()
+                }.padding(4)
 
                 HStack {
                     Text(subTitle).font(.footnote)
                     Spacer()
-                }
+                }.padding(4)
             }
 
             Spacer()
 
-            Text(value).font(.footnote)
+            Text(value).font(.caption)
 
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)
@@ -168,8 +170,8 @@ struct SettingsItemView: View {
                 .accentColor(MR.colors().text.get())
         }
         .listRowBackground(MR.colors().background.get())
-        .onTapGesture { onClick() }
         .contentShape(Rectangle())
+        .onTapGesture { onClick() }
         .lineLimit(1)
     }
 }

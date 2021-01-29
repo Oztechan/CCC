@@ -1,15 +1,19 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.currencies
+package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseData
+import com.github.mustafaozhan.ccc.client.base.BaseEffect
+import com.github.mustafaozhan.ccc.client.base.BaseEvent
+import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.log.kermit
@@ -28,18 +32,18 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
-) : BaseViewModel(), CurrenciesEvent {
+) : BaseSEEDViewModel(), CurrenciesEvent {
 
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
-    val state: StateFlow<CurrenciesState> = _state
+    override val state: StateFlow<CurrenciesState> = _state
 
     private val _effect = Channel<CurrenciesEffect>(1)
-    val effect = _effect.receiveAsFlow().conflate()
+    override val effect = _effect.receiveAsFlow().conflate()
 
-    val data = CurrenciesData()
+    override val event = this as CurrenciesEvent
 
-    val event = this as CurrenciesEvent
+    override val data = CurrenciesData()
     // endregion
 
     init {
@@ -76,16 +80,9 @@ class CurrenciesViewModel(
                 .toList().firstOrNull()?.isActive == false
         }
     )?.let {
-        updateCurrentBase(
-            state.value.currencyList
-                .firstOrNull { it.isActive }?.name ?: ""
-        )
+        settingsRepository.currentBase = state.value.currencyList
+            .firstOrNull { it.isActive }?.name ?: ""
     }
-
-    private fun updateCurrentBase(newBase: String) = clientScope.launch {
-        settingsRepository.currentBase = newBase
-        _effect.send(CurrenciesEffect.ChangeBaseNavResult(newBase))
-    }.toUnit()
 
     fun hideSelectionVisibility() {
         _state.update(selectionVisibility = false)
@@ -157,3 +154,33 @@ class CurrenciesViewModel(
     }.toUnit()
     // endregion
 }
+
+// region SEED
+data class CurrenciesState(
+    val currencyList: List<Currency> = listOf(),
+    val loading: Boolean = false,
+    val selectionVisibility: Boolean = false
+) : BaseState() {
+    // for ios
+    constructor() : this(listOf(), false, false)
+}
+
+interface CurrenciesEvent : BaseEvent {
+    fun updateAllCurrenciesState(state: Boolean)
+    fun onItemClick(currency: Currency)
+    fun onDoneClick()
+    fun onItemLongClick(): Boolean
+    fun onCloseClick()
+}
+
+sealed class CurrenciesEffect : BaseEffect() {
+    object FewCurrency : CurrenciesEffect()
+    object OpenCalculator : CurrenciesEffect()
+    object Back : CurrenciesEffect()
+}
+
+data class CurrenciesData(
+    var unFilteredList: MutableList<Currency>? = mutableListOf(),
+    var query: String = ""
+) : BaseData()
+// endregion
