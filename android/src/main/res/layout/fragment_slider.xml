@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchStyle"
-    tools:showIn="@layout/activity_slider">
+    tools:showIn="@layout/fragment_slider">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"

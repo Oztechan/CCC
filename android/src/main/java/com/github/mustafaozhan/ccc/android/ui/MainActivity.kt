@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         if (mainViewModel.isFistRun()) {
             graph = navInflater.inflate(R.navigation.main_graph)
                 .apply {
-                    startDestination = R.id.currenciesFragment
+                    startDestination = R.id.sliderFragment
                 }
         }
     }

@@ -11,7 +11,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.SplashViewModel
 import com.github.mustafaozhan.ccc.common.log.kermit
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.KoinApplication
@@ -36,7 +35,6 @@ fun initAndroid(context: Context): KoinApplication = initClient(
 
 actual val clientModule: Module = module {
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
-    viewModel { SplashViewModel(get()) }
     viewModel { MainViewModel(get()) }
     viewModel { CurrenciesViewModel(get(), get()) }
     viewModel { CalculatorViewModel(get(), get(), get(), get()) }

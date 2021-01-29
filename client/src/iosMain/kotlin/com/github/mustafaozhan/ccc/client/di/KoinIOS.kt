@@ -11,7 +11,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.SplashViewModel
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.nsUserDefaults
 import kotlinx.cinterop.ObjCClass
@@ -32,7 +31,6 @@ fun initIOS(userDefaults: NSUserDefaults) = initClient(
 
 actual val clientModule: Module = module {
     factory { SettingsViewModel(get(), get(), get(), get()) }
-    factory { SplashViewModel(get()) }
     factory { MainViewModel(get()) }
     factory { CurrenciesViewModel(get(), get()) }
     factory { CalculatorViewModel(get(), get(), get(), get()) }
