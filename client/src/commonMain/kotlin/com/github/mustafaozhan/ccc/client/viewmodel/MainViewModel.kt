@@ -26,8 +26,8 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
     MainEvent {
 
     companion object {
-        private const val AD_INITIAL_DELAY: Long = 60000
-        private const val AD_PERIOD: Long = 180000
+        private const val AD_DELAY_INITIAL: Long = 60000
+        private const val AD_DELAY_NORMAL: Long = 180000
         private const val REVIEW_DELAY: Long = 10000
     }
 
@@ -46,27 +46,23 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
         kermit.d { "MainViewModel init" }
     }
 
-    private fun setupInterstitialAd() {
+    private fun setupInterstitialAdTimer() {
         data.adVisibility = true
 
         data.adJob = clientScope.launch {
-            delay(AD_INITIAL_DELAY)
+            delay(getAdDelay())
 
             while (isActive) {
                 if (data.adVisibility && settingsRepository.adFreeActivatedDate.isRewardExpired()) {
                     _effect.send(MainEffect.ShowInterstitialAd)
-                } else {
-                    _effect.send(MainEffect.PrepareInterstitialAd)
+                    data.isInitialAd = false
                 }
-
-                delay(AD_PERIOD)
+                delay(getAdDelay())
             }
         }
     }
 
-    fun setLastReview() {
-        settingsRepository.lastReviewRequest = Clock.System.now().toEpochMilliseconds()
-    }
+    private fun getAdDelay() = if (data.isInitialAd) AD_DELAY_INITIAL else AD_DELAY_NORMAL
 
     fun isFistRun() = settingsRepository.firstRun
 
@@ -77,6 +73,7 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
             clientScope.launch {
                 delay(REVIEW_DELAY)
                 _effect.send(MainEffect.RequestReview)
+                settingsRepository.lastReviewRequest = Clock.System.now().toEpochMilliseconds()
             }
         }
     }
@@ -95,26 +92,25 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
 
     override fun onResume() {
         kermit.d { "MainViewModel onResume" }
-        setupInterstitialAd()
+        setupInterstitialAdTimer()
     }
     // endregion
 }
 
-// Effect
+// region SEED
 sealed class MainEffect : BaseEffect() {
     object ShowInterstitialAd : MainEffect()
-    object PrepareInterstitialAd : MainEffect()
     object RequestReview : MainEffect()
 }
 
-// Event
 interface MainEvent : BaseEvent {
     fun onPause()
     fun onResume()
 }
 
-// Data
 data class MainData(
     var adJob: Job = Job(),
-    var adVisibility: Boolean = false
+    var adVisibility: Boolean = false,
+    var isInitialAd: Boolean = true
 ) : BaseData()
+// endregion

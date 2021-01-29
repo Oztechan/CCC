@@ -167,7 +167,7 @@ class SettingsViewModel(
     // endregion
 }
 
-// State
+// region SEED
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
@@ -177,7 +177,6 @@ data class SettingsState(
     constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "")
 }
 
-// Event
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
@@ -190,7 +189,6 @@ interface SettingsEvent : BaseEvent {
     fun onThemeClick()
 }
 
-// Effect
 sealed class SettingsEffect : BaseEffect() {
     object Back : SettingsEffect()
     object OpenCurrencies : SettingsEffect()
@@ -205,5 +203,5 @@ sealed class SettingsEffect : BaseEffect() {
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()
 }
 
-// Data
 data class SettingsData(var synced: Boolean = false) : BaseData()
+// endregion

@@ -75,7 +75,7 @@ class BarViewModel(
     // endregion
 }
 
-// State
+// region SEED
 data class BarState(
     val loading: Boolean = true,
     val enoughCurrency: Boolean = false,
@@ -85,16 +85,13 @@ data class BarState(
     constructor() : this(true, false, listOf())
 }
 
-// Event
 interface BarEvent : BaseEvent {
     fun onItemClick(currency: Currency)
     fun onSelectClick()
 }
 
-// Effect
 sealed class BarEffect : BaseEffect() {
     data class ChangeBase(val newBase: String) : BarEffect()
     object OpenCurrencies : BarEffect()
 }
-
-// Data
+// endregion

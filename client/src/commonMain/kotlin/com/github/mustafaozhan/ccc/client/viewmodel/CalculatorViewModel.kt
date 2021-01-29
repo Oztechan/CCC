@@ -248,7 +248,7 @@ class CalculatorViewModel(
     // endregion
 }
 
-// State
+// region SEED
 data class CalculatorState(
     val input: String = "",
     val base: String = "",
@@ -262,7 +262,6 @@ data class CalculatorState(
     constructor() : this("", "", listOf(), "", "", true, DataState.Error)
 }
 
-// Event
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency, conversion: String)
@@ -272,7 +271,6 @@ interface CalculatorEvent : BaseEvent {
     fun onSettingsClicked()
 }
 
-// Effect
 sealed class CalculatorEffect : BaseEffect() {
     object Error : CalculatorEffect()
     object FewCurrency : CalculatorEffect()
@@ -282,8 +280,8 @@ sealed class CalculatorEffect : BaseEffect() {
     data class ShowRate(val text: String, val name: String) : CalculatorEffect()
 }
 
-// Data
 data class CalculatorData(
     var calculator: Calculator = Calculator(),
     var rates: Rates? = null
 ) : BaseData()
+// endregion

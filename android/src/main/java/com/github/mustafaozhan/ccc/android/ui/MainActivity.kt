@@ -25,8 +25,6 @@ class MainActivity : BaseActivity() {
 
     private val mainViewModel: MainViewModel by viewModel()
 
-    private lateinit var interstitialAd: InterstitialAd
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         kermit.d { "MainActivity onCreate" }
@@ -35,26 +33,27 @@ class MainActivity : BaseActivity() {
         checkDestination()
         observeEffect()
         mainViewModel.checkReview()
-        prepareInterstitialAd()
     }
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         mainViewModel.effect.collect { viewEffect ->
             kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is MainEffect.ShowInterstitialAd -> interstitialAd.show(this@MainActivity)
-                is MainEffect.PrepareInterstitialAd -> prepareInterstitialAd()
-                is MainEffect.RequestReview -> ReviewManagerFactory.create(this@MainActivity)
-                    .apply {
-                        requestReviewFlow().addOnCompleteListener { request ->
-                            if (request.isSuccessful) {
-                                launchReviewFlow(this@MainActivity, request.result)
-                                mainViewModel.setLastReview()
-                            }
-                        }
-                    }
+                is MainEffect.ShowInterstitialAd -> showInterstitialAd()
+                is MainEffect.RequestReview -> requestReview()
             }
         }
+    }
+
+    private fun requestReview() {
+        ReviewManagerFactory.create(this@MainActivity)
+            .apply {
+                requestReviewFlow().addOnCompleteListener { request ->
+                    if (request.isSuccessful) {
+                        launchReviewFlow(this@MainActivity, request.result)
+                    }
+                }
+            }
     }
 
     private fun checkDestination() = with(getNavigationController()) {
@@ -66,7 +65,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun prepareInterstitialAd() = InterstitialAd.load(
+    private fun showInterstitialAd() = InterstitialAd.load(
         this,
         getString(R.string.interstitial_ad_id),
         AdRequest.Builder().build(),
@@ -77,7 +76,7 @@ class MainActivity : BaseActivity() {
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
                 kermit.d { "MainActivity onAdLoaded" }
-                this@MainActivity.interstitialAd = interstitialAd
+                interstitialAd.show(this@MainActivity)
             }
         })
 

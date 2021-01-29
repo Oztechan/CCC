@@ -155,7 +155,7 @@ class CurrenciesViewModel(
     // endregion
 }
 
-// State
+// region SEED
 data class CurrenciesState(
     val currencyList: List<Currency> = listOf(),
     val loading: Boolean = false,
@@ -165,7 +165,6 @@ data class CurrenciesState(
     constructor() : this(listOf(), false, false)
 }
 
-// Event
 interface CurrenciesEvent : BaseEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
@@ -174,15 +173,14 @@ interface CurrenciesEvent : BaseEvent {
     fun onCloseClick()
 }
 
-// Effect
 sealed class CurrenciesEffect : BaseEffect() {
     object FewCurrency : CurrenciesEffect()
     object OpenCalculator : CurrenciesEffect()
     object Back : CurrenciesEffect()
 }
 
-// Data
 data class CurrenciesData(
     var unFilteredList: MutableList<Currency>? = mutableListOf(),
     var query: String = ""
 ) : BaseData()
+// endregion
