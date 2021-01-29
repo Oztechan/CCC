@@ -15,7 +15,7 @@ typealias CalculatorObservable = ObservableSEED
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var seed: CalculatorObservable = koin.get()
+    @StateObject var observable: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
@@ -41,17 +41,17 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(input: seed.state.input)
+                    CalculationInputView(input: observable.state.input)
 
                     CalculationOutputView(
-                        baseCurrency: seed.state.base,
-                        output: seed.state.output,
-                        symbol: seed.state.symbol,
-                        onBarClick: {seed.event.onBarClick()}
+                        baseCurrency: observable.state.base,
+                        output: observable.state.output,
+                        symbol: observable.state.symbol,
+                        onBarClick: {observable.event.onBarClick()}
                     )
 
                     Form {
-                        if seed.state.loading {
+                        if observable.state.loading {
                             HStack {
                                 Spacer()
                                 ProgressView().transition(.slide)
@@ -61,13 +61,16 @@ struct CalculatorView: View {
                         } else {
 
                             List(
-                                ExtensionsKt.toValidList(seed.state.currencyList, currentBase: seed.state.base),
+                                ExtensionsKt.toValidList(
+                                    observable.state.currencyList,
+                                    currentBase: observable.state.base
+                                ),
                                 id: \.rate
                             ) {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { item in
-                                        seed.event.onItemClick(
+                                        observable.event.onItemClick(
                                             currency: item,
                                             conversion: ExtensionsKt.toStandardDigits(
                                                 IOSExtensionsKt.getFormatted(item.rate)
@@ -80,7 +83,7 @@ struct CalculatorView: View {
                         }
                     }.background(MR.colors().background.get())
 
-                    KeyboardView(onKeyPress: { seed.event.onKeyPress(key: $0) })
+                    KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
                 }
 
@@ -97,7 +100,7 @@ struct CalculatorView: View {
             content: {
                 BarView(
                     isBarShown: $isBarShown,
-                    dismissEvent: { seed.viewModel.verifyCurrentBase() }
+                    dismissEvent: { observable.viewModel.verifyCurrentBase() }
                 )
             }
         )
@@ -116,8 +119,8 @@ struct CalculatorView: View {
                 secondaryButton: .cancel()
             )
         }
-        .onAppear {seed.startObserving()}
-        .onReceive(seed.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: CalculatorEffect) {

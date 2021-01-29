@@ -14,7 +14,7 @@ typealias SettingsObservable = ObservableSEED
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var seed: SettingsObservable = koin.get()
+    @StateObject var observable: SettingsObservable = koin.get()
 
     @State var currenciesNavigationToggle = false
     @Binding var settingsNavigationToggle: Bool
@@ -55,25 +55,25 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_currencies_title.get(),
                         subTitle: MR.strings().settings_item_currencies_sub_title.get(),
                         value: MR.strings().settings_item_currencies_value.get(
-                            parameter: seed.state.activeCurrencyCount
+                            parameter: observable.state.activeCurrencyCount
                         ),
-                        onClick: { seed.event.onCurrenciesClick() }
+                        onClick: { observable.event.onCurrenciesClick() }
                     )
 
                     SettingsItemView(
                         imgName: "lightbulb.fill",
                         title: MR.strings().settings_item_theme_title.get(),
                         subTitle: MR.strings().settings_item_theme_sub_title.get(),
-                        value: seed.state.appThemeType.typeName,
-                        onClick: { seed.event.onThemeClick() }
+                        value: observable.state.appThemeType.typeName,
+                        onClick: { observable.event.onThemeClick() }
                     )
 
                     SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: seed.state.addFreeDate,
-                        onClick: { seed.event.onRemoveAdsClick() }
+                        value: observable.state.addFreeDate,
+                        onClick: { observable.event.onRemoveAdsClick() }
                     )
 
                     SettingsItemView(
@@ -81,7 +81,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_sync_title.get(),
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
-                        onClick: { seed.event.onSyncClick() }
+                        onClick: { observable.event.onSyncClick() }
                     )
 
                     SettingsItemView(
@@ -89,7 +89,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_support_us_title.get(),
                         subTitle: MR.strings().settings_item_support_us_sub_title.get(),
                         value: "",
-                        onClick: { seed.event.onSupportUsClick() }
+                        onClick: { observable.event.onSupportUsClick() }
                     )
 
                     SettingsItemView(
@@ -97,7 +97,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_feedback_title.get(),
                         subTitle: MR.strings().settings_item_feedback_sub_title.get(),
                         value: "",
-                        onClick: { seed.event.onFeedBackClick() }
+                        onClick: { observable.event.onFeedBackClick() }
                     )
 
                     SettingsItemView(
@@ -105,7 +105,7 @@ struct SettingsView: View {
                         title: MR.strings().settings_item_on_github_title.get(),
                         subTitle: MR.strings().settings_item_on_github_sub_title.get(),
                         value: "",
-                        onClick: { seed.event.onOnGitHubClick() }
+                        onClick: { observable.event.onOnGitHubClick() }
                     )
 
                 }.background(MR.colors().background.get())
@@ -117,8 +117,8 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .onAppear {seed.startObserving()}
-        .onReceive(seed.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: SettingsEffect) {

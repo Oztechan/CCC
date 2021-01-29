@@ -9,7 +9,7 @@
 import Combine
 import client
 
-class ObservableSEED<
+final class ObservableSEED<
     ViewModel: BaseSEEDViewModel,
     State: BaseState,
     Effect: BaseEffect,
@@ -19,12 +19,12 @@ class ObservableSEED<
 
     let viewModel: ViewModel
 
-    @Published var state: State
+    @Published private(set) var state: State
 
-    var effect = PassthroughSubject<Effect, Never>()
-    var event: Event
+    let effect = PassthroughSubject<Effect, Never>()
+    let event: Event
 
-    var data: Data?
+    let data: Data?
 
     // swiftlint:disable force_cast
     init(viewModel: ViewModel) {

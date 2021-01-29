@@ -9,7 +9,7 @@
 import Combine
 import client
 
-class ObservableVM<ViewModel: BaseViewModel>: ObservableObject {
+final class ObservableVM<ViewModel: BaseViewModel>: ObservableObject {
 
     let viewModel: ViewModel
 

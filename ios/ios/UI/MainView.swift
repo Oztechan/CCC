@@ -13,31 +13,31 @@ typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, 
 
 struct MainView: View {
 
-    @StateObject var seed: MainObservable = koin.get()
+    @StateObject var observable: MainObservable = koin.get()
 
     @Environment(\.scenePhase) var scenePhase
 
     var body: some View {
 
         ZStack {
-            if seed.viewModel.isFistRun() {
+            if observable.viewModel.isFistRun() {
                 CurrenciesView(currenciesNavigationToggle: .constant(false))
             } else {
                 CalculatorView()
             }
         }
-        .onAppear {seed.startObserving()}
-        .onReceive(seed.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
         .onChange(of: scenePhase) { phase in
             switch phase {
             case .background:
                 LoggerKt.kermit.d(withMessage: {"App is in background"})
             case .active:
                 LoggerKt.kermit.d(withMessage: {"App is Active"})
-                seed.event.onResume()
+                observable.event.onResume()
             case .inactive:
                 LoggerKt.kermit.d(withMessage: {"App is Inactive"})
-                seed.event.onPause()
+                observable.event.onPause()
             @unknown default:
                 LoggerKt.kermit.d(withMessage: {"New App state not yet introduced"})
             }

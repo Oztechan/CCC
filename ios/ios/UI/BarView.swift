@@ -15,7 +15,7 @@ typealias BarObservable = ObservableSEED
 struct BarView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var seed: BarObservable = koin.get()
+    @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
     var onDismiss: () -> Void
@@ -35,7 +35,7 @@ struct BarView: View {
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 Form {
-                    if seed.state.loading {
+                    if observable.state.loading {
                         HStack {
                             Spacer()
                             ProgressView().transition(.slide)
@@ -44,10 +44,10 @@ struct BarView: View {
                         .listRowBackground(MR.colors().background.get())
                     } else {
 
-                        List(seed.state.currencyList, id: \.name) { currency in
+                        List(observable.state.currencyList, id: \.name) { currency in
 
                             BarItemView(item: currency)
-                                .onTapGesture { seed.event.onItemClick(currency: currency) }
+                                .onTapGesture { observable.event.onItemClick(currency: currency) }
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
                         }.listRowBackground(MR.colors().background.get())
@@ -58,8 +58,8 @@ struct BarView: View {
 
             }
         }
-        .onAppear {seed.startObserving()}
-        .onReceive(seed.effect) { onEffect(effect: $0) }
+        .onAppear {observable.startObserving()}
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: BarEffect) {
