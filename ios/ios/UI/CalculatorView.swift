@@ -20,7 +20,6 @@ struct CalculatorView: View {
     @StateObject var observable: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
-    @State var fewCurrencyAlert = false
 
     var body: some View {
         NavigationView {
@@ -80,14 +79,6 @@ struct CalculatorView: View {
                 ).environmentObject(navigationStack)
             }
         )
-        .snackBar(
-            isShowing: $fewCurrencyAlert,
-            text: Text(MR.strings().txt_select_currencies.get()),
-            actionText: Text(MR.strings().select.get()),
-            action: {
-                self.navigationStack.push(CurrenciesView())
-            }
-        )
         .onAppear {observable.startObserving()}
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
@@ -98,9 +89,9 @@ struct CalculatorView: View {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.MaximumInput:
-            showToast(text: MR.strings().max_input.get())
+            toast(text: MR.strings().max_input.get())
         case is CalculatorEffect.FewCurrency:
-            fewCurrencyAlert = true
+            toast(text: MR.strings().choose_at_least_two_currency.get())
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
