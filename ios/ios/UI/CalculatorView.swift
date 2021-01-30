@@ -21,7 +21,6 @@ struct CalculatorView: View {
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
-    @State var maximumInputAlert = false
 
     var body: some View {
         NavigationView {
@@ -81,12 +80,6 @@ struct CalculatorView: View {
                 ).environmentObject(navigationStack)
             }
         )
-        .alert(isPresented: $maximumInputAlert) {
-            Alert(
-                title: Text(MR.strings().max_input.get()),
-                dismissButton: .default(Text(MR.strings().txt_ok.get()))
-            )
-        }
         .snackBar(
             isShowing: $fewCurrencyAlert,
             text: Text(MR.strings().txt_select_currencies.get()),
@@ -105,7 +98,7 @@ struct CalculatorView: View {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.MaximumInput:
-            maximumInputAlert = true
+            showToast(text: MR.strings().max_input.get())
         case is CalculatorEffect.FewCurrency:
             fewCurrencyAlert = true
         default:
