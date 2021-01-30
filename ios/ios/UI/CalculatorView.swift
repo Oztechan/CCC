@@ -89,9 +89,14 @@ struct CalculatorView: View {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.MaximumInput:
-            toast(text: MR.strings().max_input.get())
+            showToast(text: MR.strings().max_input.get())
         case is CalculatorEffect.FewCurrency:
-            toast(text: MR.strings().choose_at_least_two_currency.get())
+            showSnackBar(
+                text: MR.strings().choose_at_least_two_currency.get(),
+                butonText: MR.strings().select.get(),
+                action: {
+                    navigationStack.push(CurrenciesView())
+                })
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

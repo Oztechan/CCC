@@ -19,8 +19,6 @@ struct CurrenciesView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CurrenciesObservable = koin.get()
 
-    @State var isAlertShown = false
-
     var body: some View {
         ZStack {
             MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
@@ -59,12 +57,6 @@ struct CurrenciesView: View {
             }
             .navigationBarHidden(true)
         }
-        .alert(isPresented: $isAlertShown) {
-            Alert(
-                title: Text(MR.strings().choose_at_least_two_currency.get()),
-                dismissButton: .default(Text(MR.strings().txt_ok.get()))
-            )
-        }
         .onAppear {observable.startObserving()}
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
@@ -73,7 +65,10 @@ struct CurrenciesView: View {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            isAlertShown = true
+            showAlert(
+                text: MR.strings().choose_at_least_two_currency.get(),
+                buttonText: MR.strings().select.get()
+            )
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:

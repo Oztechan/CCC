@@ -10,24 +10,105 @@ import SwiftMessages
 import SwiftUI
 import client
 
-func toast(text: String) {
+func showToast(text: String) {
 
-    let success = MessageView.viewFromNib(layout: .cardView)
-    success.configureTheme(
+    let view = MessageView.viewFromNib(layout: .cardView)
+    view.configureTheme(
         backgroundColor: MR.colors().background_weak.get(),
         foregroundColor: MR.colors().text.get(),
         iconImage: MR.images().ic_app_logo.get()
             .resized(to: CGSize(width: 64, height: 64)),
         iconText: nil
     )
-    success.configureDropShadow()
-    success.configureContent(title: "", body: text)
-    success.button?.isHidden = true
-    var successConfig = SwiftMessages.defaultConfig
-    successConfig.presentationStyle = .bottom
-    successConfig.presentationContext = .window(windowLevel: UIWindow.Level.normal)
+    view.configureDropShadow()
+    view.configureContent(title: "", body: text)
+    view.button?.isHidden = true
 
-    SwiftMessages.show(config: successConfig, view: success)
+    var config = SwiftMessages.defaultConfig
+    config.presentationStyle = .bottom
+    config.presentationContext = .window(windowLevel: UIWindow.Level.normal)
+
+    SwiftMessages.show(config: config, view: view)
+}
+
+func showSnackBar(text: String, butonText: String, action:@escaping () -> Void) {
+
+    let view = MessageView.viewFromNib(layout: .cardView)
+    view.configureTheme(
+        backgroundColor: MR.colors().background.get(),
+        foregroundColor: MR.colors().text.get(),
+        iconImage: MR.images().ic_app_logo.get().resized(
+            to: CGSize(width: 64, height: 64)
+        )
+    )
+
+    view.configureDropShadow()
+
+    view.configureContent(
+        title: "",
+        body: text,
+        iconImage: MR.images().ic_app_logo.get()
+            .resized(to: CGSize(width: 64, height: 64)),
+        iconText: nil,
+        buttonImage: nil,
+        buttonTitle: butonText,
+        buttonTapHandler: { _ in
+            action()
+    })
+
+    view.button?.contentEdgeInsets = UIEdgeInsets(
+        top: 16.0,
+        left: 16.0,
+        bottom: 16.0,
+        right: 16.0
+    )
+
+    var config = SwiftMessages.defaultConfig
+    config.presentationStyle = .bottom
+    config.presentationContext = .window(windowLevel: UIWindow.Level.normal)
+
+    SwiftMessages.show(config: config, view: view)
+}
+
+func showAlert(
+    title: String = "",
+    text: String,
+    buttonText: String,
+    action:@escaping () -> Void = {} ,
+    cancelable: Bool = true,
+    hideOnAction: Bool = true
+) {
+    let view: MessageView = MessageView.viewFromNib(layout: .centeredView)
+    view.configureBackgroundView(width: 250)
+    view.configureTheme(
+        backgroundColor: MR.colors().background.get(),
+        foregroundColor: MR.colors().text.get()
+    )
+    view.configureContent(
+        title: title,
+        body: text,
+        iconImage: MR.images().ic_app_logo.get().resized(
+            to: CGSize(width: 64, height: 64)
+        ),
+        iconText: nil,
+        buttonImage: nil,
+        buttonTitle: buttonText
+    ) { _ in
+        action()
+
+        if hideOnAction {
+            SwiftMessages.hide()
+        }
+    }
+
+    view.backgroundView.backgroundColor = MR.colors().background_weak.get()
+    view.backgroundView.layer.cornerRadius = 10
+    var config = SwiftMessages.defaultConfig
+    config.presentationStyle = .center
+    config.duration = .forever
+    config.dimMode = .blur(style: .dark, alpha: 1, interactive: cancelable)
+    config.presentationContext  = .window(windowLevel: UIWindow.Level.statusBar)
+    SwiftMessages.show(config: config, view: view)
 }
 
 extension UIImage {
