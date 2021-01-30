@@ -22,5 +22,5 @@
         style="@style/SlideSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/slide_intro_text_2" />
+        android:text="@string/slide_intro_text" />
 </LinearLayout>

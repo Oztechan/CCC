@@ -38,7 +38,7 @@ struct SettingsView: View {
                         onClick: { observable.event.onCurrenciesClick() }
                     )
                     SettingsItemView(
-                        imgName: "lightbulb.fill",
+                        imgName: "lightbulb.slash",
                         title: MR.strings().settings_item_theme_title.get(),
                         subTitle: MR.strings().settings_item_theme_sub_title.get(),
                         value: observable.state.appThemeType.typeName,
