@@ -87,15 +87,14 @@ struct CalculatorView: View {
                 dismissButton: .default(Text(MR.strings().txt_ok.get()))
             )
         }
-        .alert(isPresented: $fewCurrencyAlert) {
-            Alert(
-                title: Text(MR.strings().txt_select_currencies.get()),
-                primaryButton: .default(Text(MR.strings().txt_ok.get())) {
-                    self.navigationStack.push(CurrenciesView())
-                },
-                secondaryButton: .cancel()
-            )
-        }
+        .snackBar(
+            isShowing: $fewCurrencyAlert,
+            text: Text(MR.strings().txt_select_currencies.get()),
+            actionText: Text(MR.strings().select.get()),
+            action: {
+                self.navigationStack.push(CurrenciesView())
+            }
+        )
         .onAppear {observable.startObserving()}
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
@@ -219,10 +218,10 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(String(item.rate)).foregroundColor(Color(MR.colors().text.get()))
-            Text(item.symbol).foregroundColor(Color(MR.colors().text.get()))
+            Text(String(item.rate)).foregroundColor(MR.colors().text.get())
+            Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
-            Text(item.name).foregroundColor(Color(MR.colors().text.get()))
+            Text(item.name).foregroundColor(MR.colors().text.get())
             Image(uiImage: item.name.getImage())
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)

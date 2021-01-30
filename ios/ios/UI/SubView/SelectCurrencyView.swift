@@ -29,6 +29,8 @@ struct SelectCurrencyView: View {
             )
             .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
             .background(MR.colors().background_weak.get())
+            .clipped()
+            .cornerRadius(3)
 
         }
         .padding(EdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 10))

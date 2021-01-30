@@ -12,7 +12,6 @@ import NavigationStack
 
 struct SliderView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
 

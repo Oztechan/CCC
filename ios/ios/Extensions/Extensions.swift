@@ -20,7 +20,7 @@ extension ResourcesStringResource {
 
 extension ResourcesColorResource {
     func get() -> Color {
-        return Color(ResourcesKt.getColor(colorResource: self))
+        return Color(get())
     }
     func get() -> UIColor {
         return ResourcesKt.getColor(colorResource: self)
