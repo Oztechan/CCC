@@ -8,6 +8,7 @@
 
 import SwiftUI
 import client
+import NavigationStack
 
 typealias CurrenciesObservable = ObservableSEED
 <CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
@@ -15,11 +16,10 @@ typealias CurrenciesObservable = ObservableSEED
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CurrenciesObservable = koin.get()
 
     @State var isAlertShown = false
-
-    @Binding var currenciesNavigationToggle: Bool
 
     var body: some View {
         ZStack {
@@ -75,11 +75,9 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.FewCurrency:
             isAlertShown = true
         case is CurrenciesEffect.OpenCalculator:
-            UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
-                rootView: CalculatorView()
-            )
+            navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
-            currenciesNavigationToggle.toggle()
+            self.navigationStack.pop()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

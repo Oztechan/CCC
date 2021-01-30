@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 import client
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
@@ -19,9 +20,12 @@ struct MainView: View {
 
     var body: some View {
 
-        ZStack {
+        NavigationStackView(
+            transitionType: .default,
+            easing: Animation.easeInOut(duration: 0.5)
+        ) {
             if observable.viewModel.isFistRun() {
-                CurrenciesView(currenciesNavigationToggle: .constant(false))
+                CurrenciesView()
             } else {
                 CalculatorView()
             }

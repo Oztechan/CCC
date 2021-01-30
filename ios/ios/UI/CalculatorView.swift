@@ -8,6 +8,7 @@
 
 import SwiftUI
 import client
+import NavigationStack
 
 typealias CalculatorObservable = ObservableSEED
 <CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
@@ -15,12 +16,12 @@ typealias CalculatorObservable = ObservableSEED
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CalculatorObservable = koin.get()
 
     @State var isBarShown = false
     @State var fewCurrencyAlert = false
     @State var maximumInputAlert = false
-    @State var currenciesNavigationToggle = false
 
     var body: some View {
         NavigationView {
@@ -68,12 +69,6 @@ struct CalculatorView: View {
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
                 }
-
-                NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
-                    isActive: $currenciesNavigationToggle
-                ) { }.hidden()
-
             }
             .navigationBarHidden(true)
         }
@@ -83,7 +78,7 @@ struct CalculatorView: View {
                 BarView(
                     isBarShown: $isBarShown,
                     onDismiss: { observable.viewModel.verifyCurrentBase() }
-                )
+                ).environmentObject(navigationStack)
             }
         )
         .alert(isPresented: $maximumInputAlert) {
@@ -96,7 +91,7 @@ struct CalculatorView: View {
             Alert(
                 title: Text(MR.strings().txt_select_currencies.get()),
                 primaryButton: .default(Text(MR.strings().txt_ok.get())) {
-                    currenciesNavigationToggle.toggle()
+                    self.navigationStack.push(CurrenciesView())
                 },
                 secondaryButton: .cancel()
             )
@@ -121,8 +116,8 @@ struct CalculatorView: View {
 }
 
 struct CalculationInputView: View {
+    @EnvironmentObject private var navigationStack: NavigationStack
     @Environment(\.colorScheme) var colorScheme
-    @State var settingsNavigationToggle = false
 
     var input: String
 
@@ -139,12 +134,7 @@ struct CalculationInputView: View {
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.trailing, 15)
-                .onTapGesture { settingsNavigationToggle.toggle()}
-
-            NavigationLink(
-                destination: SettingsView(settingsNavigationToggle: $settingsNavigationToggle),
-                isActive: $settingsNavigationToggle
-            ) { }.hidden()
+                .onTapGesture { self.navigationStack.push(SettingsView()) }
 
         }.frame(width: .none, height: 40, alignment: .center)
     }

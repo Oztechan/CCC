@@ -8,16 +8,15 @@
 
 import SwiftUI
 import client
+import NavigationStack
 
 typealias SettingsObservable = ObservableSEED
 <SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
 
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
-
-    @State var currenciesNavigationToggle = false
-    @Binding var settingsNavigationToggle: Bool
 
     var body: some View {
 
@@ -26,7 +25,7 @@ struct SettingsView: View {
 
             VStack {
 
-                SettingsToolbarView(navigationToggle: $settingsNavigationToggle)
+                SettingsToolbarView()
 
                 Form {
                     SettingsItemView(
@@ -81,11 +80,6 @@ struct SettingsView: View {
                         onClick: { observable.event.onOnGitHubClick() }
                     )
                 }.background(MR.colors().background.get())
-
-                NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
-                    isActive: $currenciesNavigationToggle
-                ) { }.hidden()
             }
             .navigationBarHidden(true)
         }
@@ -96,7 +90,7 @@ struct SettingsView: View {
     private func onEffect(effect: SettingsEffect) {
         switch effect {
         case is SettingsEffect.OpenCurrencies:
-            currenciesNavigationToggle.toggle()
+            self.navigationStack.push(CurrenciesView())
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
@@ -105,13 +99,13 @@ struct SettingsView: View {
 
 struct SettingsToolbarView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Binding var navigationToggle: Bool
+    @EnvironmentObject private var navigationStack: NavigationStack
 
     var body: some View {
         HStack {
 
             Button(
-                action: { navigationToggle.toggle() },
+                action: { navigationStack.pop() },
                 label: {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)
@@ -140,6 +134,7 @@ struct SettingsItemView: View {
         HStack {
             Image(systemName: imgName)
                 .frame(width: 48, height: 48, alignment: .center)
+                .font(.system(size: 24))
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.bottom, 4)

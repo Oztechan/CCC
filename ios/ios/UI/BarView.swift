@@ -8,6 +8,7 @@
 
 import SwiftUI
 import client
+import NavigationStack
 
 typealias BarObservable = ObservableSEED
 <BarViewModel, BarState, BarEffect, BarEvent, BaseData>
@@ -15,9 +16,9 @@ typealias BarObservable = ObservableSEED
 struct BarView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
-    @State var currenciesNavigationToggle: Bool = false
 
     var onDismiss: () -> Void
 
@@ -34,7 +35,7 @@ struct BarView: View {
                     SelectCurrencyView(
                         text: MR.strings().choose_at_least_two_currency.get(),
                         buttonText: MR.strings().select.get(),
-                        onButtonClick: { currenciesNavigationToggle = true }
+                        onButtonClick: { self.navigationStack.push(CurrenciesView()) }
                     ).listRowBackground(MR.colors().background.get())
 
                 } else {
@@ -56,11 +57,6 @@ struct BarView: View {
                     .background(MR.colors().background.get())
                     .navigationBarTitle(MR.strings().txt_select_base_currency.get())
                 }
-
-                NavigationLink(
-                    destination: CurrenciesView(currenciesNavigationToggle: $currenciesNavigationToggle),
-                    isActive: $currenciesNavigationToggle
-                ) { }.hidden()
             }
         }
         .onAppear {observable.startObserving()}
