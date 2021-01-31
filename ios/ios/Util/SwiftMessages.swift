@@ -57,11 +57,13 @@ func showSnackBar(text: String, butonText: String, action:@escaping () -> Void) 
     })
 
     view.button?.contentEdgeInsets = UIEdgeInsets(
-        top: 16.0,
-        left: 16.0,
-        bottom: 16.0,
-        right: 16.0
+        top: 10.0,
+        left: 10.0,
+        bottom: 10.0,
+        right: 10.0
     )
+
+    view.button?.backgroundColor = MR.colors().primary.get()
 
     var config = SwiftMessages.defaultConfig
     config.presentationStyle = .bottom
@@ -101,8 +103,19 @@ func showAlert(
         }
     }
 
+    view.button?.contentEdgeInsets = UIEdgeInsets(
+        top: 10.0,
+        left: 10.0,
+        bottom: 10.0,
+        right: 10.0
+    )
+
     view.backgroundView.backgroundColor = MR.colors().background_weak.get()
     view.backgroundView.layer.cornerRadius = 10
+    view.button?.backgroundColor = MR.colors().primary.get()
+
+    view.addSubview(UIButton(frame: CGRect(x: 30, y: 30, width: 30, height: 30)))
+
     var config = SwiftMessages.defaultConfig
     config.presentationStyle = .center
     config.duration = .forever

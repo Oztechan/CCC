@@ -22,8 +22,8 @@ struct SliderView: View {
                 image: Image(uiImage: MR.images().ic_app_logo.get()),
                 subTitle1: MR.strings().slide_intro_text.get(),
                 subTitle2: "",
-                butonText: MR.strings().next.get(),
-                butonAction: {
+                buttonText: MR.strings().next.get(),
+                buttonAction: {
                     navigationStack.push(
 
                         SlideView(
@@ -31,8 +31,8 @@ struct SliderView: View {
                             image: Image(systemName: "ant.fill"),
                             subTitle1: MR.strings().slide_bug_report_text_1.get(),
                             subTitle2: MR.strings().slide_bug_report_text_2.get(),
-                            butonText: MR.strings().next.get(),
-                            butonAction: {
+                            buttonText: MR.strings().next.get(),
+                            buttonAction: {
                                 navigationStack.push(
 
                                     SlideView(
@@ -40,8 +40,8 @@ struct SliderView: View {
                                         image: Image(systemName: "eye.slash.fill"),
                                         subTitle1: MR.strings().slide_disable_ads_text_1.get(),
                                         subTitle2: MR.strings().slide_disable_ads_text_2.get(),
-                                        butonText: MR.strings().next.get(),
-                                        butonAction: {
+                                        buttonText: MR.strings().next.get(),
+                                        buttonAction: {
                                             navigationStack.push(
 
                                                 SlideView(
@@ -49,8 +49,8 @@ struct SliderView: View {
                                                     image: Image(systemName: "lightbulb.slash"),
                                                     subTitle1: MR.strings().slide_dark_mode_text_1.get(),
                                                     subTitle2: MR.strings().slide_dark_mode_text_2.get(),
-                                                    butonText: MR.strings().btn_done.get(),
-                                                    butonAction: { navigationStack.push(CurrenciesView()) }
+                                                    buttonText: MR.strings().btn_done.get(),
+                                                    buttonAction: { navigationStack.push(CurrenciesView()) }
                                                 )
 
                                             )
@@ -69,12 +69,14 @@ struct SliderView: View {
 }
 
 struct SlideView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     var title: String
     var image: Image
     var subTitle1: String
     var subTitle2: String
-    var butonText: String
-    var butonAction: () -> Void
+    var buttonText: String
+    var buttonAction: () -> Void
 
     var body: some View {
         ZStack {
@@ -111,9 +113,9 @@ struct SlideView: View {
                 HStack {
                     Spacer()
 
-                    Button(action: { butonAction() },
+                    Button(action: { buttonAction() },
                            label: {
-                            Text(butonText)
+                            Text(buttonText)
                                 .font(.body)
                                 .foregroundColor(MR.colors().text.get())
                            }

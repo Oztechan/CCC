@@ -61,6 +61,7 @@ struct CalculatorView: View {
                                 )
                             }
                             .listRowBackground(MR.colors().background.get())
+                            .animation(.default)
                         }
                     }.background(MR.colors().background.get())
 
