@@ -8,7 +8,7 @@
 
 import SwiftMessages
 import SwiftUI
-import client
+import Client
 
 func showToast(text: String) {
 

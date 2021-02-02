@@ -6,6 +6,7 @@ target 'ios' do
   use_frameworks!
 
   # Pods for ios
+  pod 'client', :path => '../client/client.podspec'
   pod 'SwiftMessages'
   pod 'NavigationStack'
 

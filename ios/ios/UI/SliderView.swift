@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import client
+import Client
 import NavigationStack
 
 struct SliderView: View {

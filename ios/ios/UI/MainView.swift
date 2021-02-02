@@ -8,7 +8,7 @@
 
 import SwiftUI
 import NavigationStack
-import client
+import Client
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
 

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import client
+import Client
 
 func startKoin() {
     LoggerKt.kermit.d(withMessage: {"starting koin"})

@@ -7,21 +7,25 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 plugins {
     with(Plugins) {
         kotlin(multiplatform)
+        kotlin(cocoapods)
         id(androidLibrary)
         id(sqldelight)
         id(mokoResources)
     }
 }
 
+version = ProjectSettings.getVersionName(project)
+
 kotlin {
     android()
 
-    ios {
-        binaries {
-            framework {
-                baseName = "client"
-            }
-        }
+    ios()
+
+    cocoapods {
+        summary = "CCC"
+        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
+        frameworkName = "Client"
+        ios.deploymentTarget = "14.0"
     }
 
     js {

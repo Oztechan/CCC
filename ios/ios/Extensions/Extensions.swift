@@ -6,7 +6,7 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import client
+import Client
 import SwiftUI
 
 extension ResourcesStringResource {

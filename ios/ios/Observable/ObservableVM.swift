@@ -7,7 +7,7 @@
 //
 
 import Combine
-import client
+import Client
 
 final class ObservableVM<ViewModel: BaseViewModel>: ObservableObject {
 
