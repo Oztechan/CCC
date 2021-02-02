@@ -42,7 +42,7 @@ jobs:
           xcode-version: latest
 
       - name: Xcode build
-        run: xcodebuild build -project ios/ios.xcodeproj/ -sdk iphonesimulator -destination "OS=14.0" ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO EXCLUDED_ARCHS=arm64
+        run: xcodebuild build -workspace ios/ios.xcworkspace -scheme ios CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED="NO" CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO"
 
       - name: Notify slack success
         if: success()
