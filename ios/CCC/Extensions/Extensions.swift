@@ -1,12 +1,12 @@
 //
 //  Extensions.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 16/11/2020.
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import client
+import Client
 import SwiftUI
 
 extension ResourcesStringResource {
@@ -20,7 +20,7 @@ extension ResourcesStringResource {
 
 extension ResourcesColorResource {
     func get() -> Color {
-        return Color(ResourcesKt.getColor(colorResource: self))
+        return Color(get())
     }
     func get() -> UIColor {
         return ResourcesKt.getColor(colorResource: self)

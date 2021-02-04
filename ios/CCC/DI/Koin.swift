@@ -1,15 +1,17 @@
 //
 //  Koin.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 16/11/2020.
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
 import SwiftUI
-import client
+import Client
 
 func startKoin() {
+    LoggerKt.kermit.d(withMessage: {"starting koin"})
+
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
     _koin = KoinIOSKt.doInitIOS(
@@ -47,7 +49,7 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
     }
 
-    // ObservableSEED
+    // Observable
     func get() -> MainObservable {
         return MainObservable(viewModel: get())
     }

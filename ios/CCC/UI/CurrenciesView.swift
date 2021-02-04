@@ -1,13 +1,14 @@
 //
 //  CurrenciesView.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 21/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
 import SwiftUI
-import client
+import Client
+import NavigationStack
 
 typealias CurrenciesObservable = ObservableSEED
 <CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
@@ -15,25 +16,8 @@ typealias CurrenciesObservable = ObservableSEED
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CurrenciesObservable = koin.get()
-
-    @State var isAlertShown = false
-
-    @Binding var currenciesNavigationToggle: Bool
-
-    init(currenciesNavigationToggle: Binding<Bool>) {
-        LoggerKt.kermit.d(withMessage: {"CurrenciesView init"})
-
-        self._currenciesNavigationToggle = currenciesNavigationToggle
-
-        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: 0,
-            height: Double.leastNonzeroMagnitude
-        ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
-    }
 
     var body: some View {
         ZStack {
@@ -49,12 +33,7 @@ struct CurrenciesView: View {
 
                 Form {
                     if observable.state.loading {
-                        HStack {
-                            Spacer()
-                            ProgressView().transition(.slide)
-                            Spacer()
-                        }
-                        .listRowBackground(MR.colors().background.get())
+                        FormProgressView()
                     } else {
                         List(observable.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
@@ -68,35 +47,15 @@ struct CurrenciesView: View {
                 }.background(MR.colors().background.get())
 
                 if observable.viewModel.isFirstRun() {
-                    HStack {
-
-                        Text(MR.strings().txt_select_currencies.get())
-                            .foregroundColor(MR.colors().text.get())
-                            .font(.subheadline)
-                        Spacer()
-                        Button(
-                            action: { observable.event.onDoneClick() },
-                            label: {
-                                Text(MR.strings().btn_done.get())
-                                    .foregroundColor(MR.colors().text.get())
-
-                            }
-                        )
-                        .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-                        .background(MR.colors().background_weak.get())
-
-                    }
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+                    SelectCurrencyView(
+                        text: MR.strings().txt_select_currencies.get(),
+                        buttonText: MR.strings().btn_done.get(),
+                        onButtonClick: observable.event.onDoneClick
+                    )
                 }
 
             }
             .navigationBarHidden(true)
-        }
-        .alert(isPresented: $isAlertShown) {
-            Alert(
-                title: Text(MR.strings().choose_at_least_two_currency.get()),
-                dismissButton: .default(Text(MR.strings().txt_ok.get()))
-            )
         }
         .onAppear {observable.startObserving()}
         .onReceive(observable.effect) { onEffect(effect: $0) }
@@ -106,13 +65,14 @@ struct CurrenciesView: View {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            isAlertShown = true
-        case is CurrenciesEffect.OpenCalculator:
-            UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController = UIHostingController(
-                rootView: CalculatorView()
+            showAlert(
+                text: MR.strings().choose_at_least_two_currency.get(),
+                buttonText: MR.strings().select.get()
             )
+        case is CurrenciesEffect.OpenCalculator:
+            navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
-            currenciesNavigationToggle.toggle()
+            self.navigationStack.pop()
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
@@ -137,7 +97,6 @@ struct CurrencyToolbarView: View {
                             .padding(.leading, 20)
                     }
                 ).padding(.trailing, 10)
-
             }
 
             Text(MR.strings().txt_currencies.get())
@@ -158,6 +117,7 @@ struct CurrencyToolbarView: View {
 }
 
 struct CurrencyItemView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var item: Currency
 
     var onItemClick: () -> Void
@@ -180,6 +140,7 @@ struct CurrencyItemView: View {
                 .foregroundColor(MR.colors().text.get())
             Spacer()
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(MR.colors().accent.get())
 
         }
         .contentShape(Rectangle())

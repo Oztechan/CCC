@@ -1,13 +1,14 @@
 //
 //  MainView.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 28/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
 import SwiftUI
-import client
+import NavigationStack
+import Client
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
 
@@ -19,9 +20,12 @@ struct MainView: View {
 
     var body: some View {
 
-        ZStack {
+        NavigationStackView(
+            transitionType: .default,
+            easing: Animation.easeInOut(duration: 0.5)
+        ) {
             if observable.viewModel.isFistRun() {
-                CurrenciesView(currenciesNavigationToggle: .constant(false))
+                SliderView()
             } else {
                 CalculatorView()
             }

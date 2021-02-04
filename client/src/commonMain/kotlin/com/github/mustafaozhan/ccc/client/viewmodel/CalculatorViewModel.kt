@@ -76,10 +76,7 @@ class CalculatorViewModel(
         clientScope.launch {
             state.map { it.base }
                 .distinctUntilChanged()
-                .collect {
-                    currentBaseChanged(it)
-                    kermit.d { "CalculatorViewModel base changed $it" }
-                }
+                .collect { currentBaseChanged(it) }
         }
 
         clientScope.launch {
@@ -88,7 +85,6 @@ class CalculatorViewModel(
                 .collect { input ->
                     _state.update(loading = true)
                     calculateOutput(input)
-                    kermit.d { "CalculatorViewModel input changed $input" }
                 }
         }
 

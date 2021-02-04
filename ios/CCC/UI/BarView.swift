@@ -1,13 +1,14 @@
 //
 //  BarView.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 23/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
 import SwiftUI
-import client
+import Client
+import NavigationStack
 
 typealias BarObservable = ObservableSEED
 <BarViewModel, BarState, BarEffect, BarEvent, BaseData>
@@ -15,16 +16,11 @@ typealias BarObservable = ObservableSEED
 struct BarView: View {
 
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
     var onDismiss: () -> Void
-
-    init(isBarShown: Binding<Bool>, dismissEvent: @escaping () -> Void) {
-        LoggerKt.kermit.d(withMessage: {"BarView init"})
-        self._isBarShown = isBarShown
-        self.onDismiss = dismissEvent
-    }
 
     var body: some View {
 
@@ -34,28 +30,33 @@ struct BarView: View {
 
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
-                Form {
-                    if observable.state.loading {
-                        HStack {
-                            Spacer()
-                            ProgressView().transition(.slide)
-                            Spacer()
+                if observable.state.currencyList.count < 2 {
+
+                    SelectCurrencyView(
+                        text: MR.strings().choose_at_least_two_currency.get(),
+                        buttonText: MR.strings().select.get(),
+                        onButtonClick: { self.navigationStack.push(CurrenciesView()) }
+                    ).listRowBackground(MR.colors().background.get())
+
+                } else {
+
+                    Form {
+                        if observable.state.loading {
+                            FormProgressView()
+                        } else {
+
+                            List(observable.state.currencyList, id: \.name) { currency in
+
+                                BarItemView(item: currency)
+                                    .onTapGesture { observable.event.onItemClick(currency: currency) }
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+
+                            }.listRowBackground(MR.colors().background.get())
                         }
-                        .listRowBackground(MR.colors().background.get())
-                    } else {
-
-                        List(observable.state.currencyList, id: \.name) { currency in
-
-                            BarItemView(item: currency)
-                                .onTapGesture { observable.event.onItemClick(currency: currency) }
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-
-                        }.listRowBackground(MR.colors().background.get())
                     }
+                    .background(MR.colors().background.get())
+                    .navigationBarTitle(MR.strings().txt_select_base_currency.get())
                 }
-                .background(MR.colors().background.get())
-                .navigationBarTitle(MR.strings().txt_select_base_currency.get())
-
             }
         }
         .onAppear {observable.startObserving()}

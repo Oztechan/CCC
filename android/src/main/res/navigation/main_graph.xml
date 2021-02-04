@@ -66,9 +66,6 @@
         tools:layout="@layout/fragment_slider">
 
         <action
-            android:id="@+id/action_sliderFragment_to_calculatorFragment"
-            app:destination="@id/calculatorFragment" />
-        <action
             android:id="@+id/action_sliderFragment_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
 
