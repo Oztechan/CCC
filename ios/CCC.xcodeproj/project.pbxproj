@@ -40,7 +40,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		242DEAF49EF885A383A83980 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
 		341CA58575E08166F616E331 /* Pods_CCC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CCC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -60,7 +59,6 @@
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B9A5F300569FBA445467DE16 /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		CB3F2CB9B5D0920F890DA73A /* Pods-CCC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CCC.debug.xcconfig"; path = "Target Support Files/Pods-CCC/Pods-CCC.debug.xcconfig"; sourceTree = "<group>"; };
 		FF1FD2425A9A57DA8C484F81 /* Pods-CCC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CCC.release.xcconfig"; path = "Target Support Files/Pods-CCC/Pods-CCC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,8 +200,6 @@
 		E1A41654A700B91B0C52E7DE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B9A5F300569FBA445467DE16 /* Pods-ios.debug.xcconfig */,
-				242DEAF49EF885A383A83980 /* Pods-ios.release.xcconfig */,
 				CB3F2CB9B5D0920F890DA73A /* Pods-CCC.debug.xcconfig */,
 				FF1FD2425A9A57DA8C484F81 /* Pods-CCC.release.xcconfig */,
 			);
@@ -230,7 +226,7 @@
 			dependencies = (
 			);
 			name = CCC;
-			productName = ios;
+			productName = CCC;
 			productReference = 7555FF7B242A565900829871 /* CCC.app */;
 			productType = "com.apple.product-type.application";
 		};

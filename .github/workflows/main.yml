@@ -44,10 +44,10 @@ jobs:
 #          xcode-version: latest
 #
 #      - name: Install Cocoapods
-#        run: cd ios/ios; gem install cocoapods; pod repo update; pod setup; pod install
+#        run: cd ios/CCC; gem install cocoapods; pod repo update; pod setup; pod install
 #
 #      - name: Xcode build
-#        run: xcodebuild build -workspace ios/ios.xcworkspace -scheme ios -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED="NO" CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO"
+#        run: xcodebuild build -workspace ios/CCC.xcworkspace -scheme CCC -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED="NO" CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO"
 
       - name: Notify slack success
         if: success()
