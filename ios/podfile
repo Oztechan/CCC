@@ -7,7 +7,7 @@ target 'ios' do
 
   # Pods for ios
   pod 'client', :path => '../client/client.podspec'
-  pod 'SwiftMessages'
+  pod 'SwiftMessages', :inhibit_warnings => true
   pod 'NavigationStack'
 
 end

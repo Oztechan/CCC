@@ -485,10 +485,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/../../../client/build/cocoapods/framework\"",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -513,10 +509,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/../../../client/build/cocoapods/framework\"",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = ios/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
