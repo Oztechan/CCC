@@ -1,6 +1,6 @@
 //
 //  CurrencySelectionView.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 29/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  ObservableSEED.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 25/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.

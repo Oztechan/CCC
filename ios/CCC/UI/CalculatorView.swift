@@ -1,6 +1,6 @@
 //
 //  MainView.swift
-//  ios
+//  CCC
 //
 //  Created by Mustafa Ozhan on 16/11/2020.
 //  Copyright © 2020 orgName. All rights reserved.
