@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'client'
-    spec.version                  = '2.1.560'
+    spec.version                  = '2.1.563'
     spec.homepage                 = 'https://github.com/CurrencyConverterCalculator/CCC'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
