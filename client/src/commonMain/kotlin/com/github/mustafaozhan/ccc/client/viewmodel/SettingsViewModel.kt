@@ -96,6 +96,10 @@ class SettingsViewModel(
 
     fun getAppTheme() = settingsRepository.appTheme
 
+    fun showLoadingView(shouldShow: Boolean) {
+        _state.update(loading = shouldShow)
+    }
+
     override fun onCleared() {
         kermit.d { "SettingsViewModel onCleared" }
         super.onCleared()
@@ -146,6 +150,9 @@ class SettingsViewModel(
         kermit.d { "SettingsViewModel onSyncClick" }
 
         if (!data.synced) {
+            _state.update(loading = true)
+
+            _effect.send(SettingsEffect.Synchronising)
             currencyDao.getActiveCurrencies()
                 .toModelList()
                 .forEach { (name) ->
@@ -160,6 +167,7 @@ class SettingsViewModel(
 
             data.synced = true
             _effect.send(SettingsEffect.Synchronised)
+            _state.update(loading = false)
         } else {
             _effect.send(SettingsEffect.OnlyOneTimeSync)
         }
@@ -171,10 +179,11 @@ class SettingsViewModel(
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
-    val addFreeDate: String = ""
+    val addFreeDate: String = "",
+    val loading: Boolean = false
 ) : BaseState() {
     // for ios
-    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "")
+    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "", false)
 }
 
 interface SettingsEvent : BaseEvent {
@@ -198,6 +207,7 @@ sealed class SettingsEffect : BaseEffect() {
     object OnGitHub : SettingsEffect()
     object RemoveAds : SettingsEffect()
     object ThemeDialog : SettingsEffect()
+    object Synchronising : SettingsEffect()
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()

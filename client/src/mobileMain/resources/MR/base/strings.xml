@@ -107,6 +107,7 @@
 
     <string name="settings_item_sync_title">Synchronise</string>
     <string name="settings_item_sync_sub_title">Sync to use app offline</string>
+    <string name="txt_synchronising">Synchronising</string>
     <string name="txt_synced">Synchronisation completed!</string>
     <string name="txt_already_synced">Already synchronised!</string>
 

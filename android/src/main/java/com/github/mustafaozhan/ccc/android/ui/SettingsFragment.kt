@@ -103,6 +103,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         settingsViewModel.state.collect {
             with(it) {
+                binding.loadingView.visibleIf(loading)
                 binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
                     R.string.settings_item_currencies_value,
                     activeCurrencyCount
@@ -159,9 +160,16 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.remove_ads,
                     R.string.remove_ads_text,
                     R.string.watch
-                ) { prepareRewardedAd() }
+                ) {
+                    settingsViewModel.showLoadingView(true)
+                    prepareRewardedAd()
+                }
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
+                SettingsEffect.Synchronising -> Toast.show(
+                    requireContext(),
+                    R.string.txt_synchronising
+                )
                 SettingsEffect.Synchronised -> Toast.show(requireContext(), R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> Toast.show(
                     requireContext(),
@@ -215,10 +223,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) = context?.let {
                 kermit.d { "SettingsFragment onRewardedAdFailedToLoad" }
+                settingsViewModel.showLoadingView(false)
                 Toast.show(it, R.string.error_text_unknown)
             }.toUnit()
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
+                settingsViewModel.showLoadingView(false)
                 kermit.d { "SettingsFragment onRewardedAdLoaded" }
 
                 rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {

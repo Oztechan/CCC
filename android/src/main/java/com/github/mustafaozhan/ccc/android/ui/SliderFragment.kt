@@ -15,6 +15,8 @@ import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.ccc.android.util.gone
+import com.github.mustafaozhan.ccc.android.util.visible
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.whether
@@ -53,7 +55,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
     override fun onResume() {
         super.onResume()
-        binding.progressBar.visibility = View.GONE
+        binding.progressBar.gone()
     }
 
     private fun setListeners() {
@@ -83,7 +85,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
                 .whether { it < layouts.size }
                 ?.let { binding.viewPager.currentItem = it }
                 ?: run {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visible()
                     navigate(
                         R.id.sliderFragment,
                         SliderFragmentDirections.actionSliderFragmentToCurrenciesFragment()
