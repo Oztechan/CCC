@@ -72,13 +72,11 @@ class BarBottomSheetDialogFragment :
                 is BarEffect.ChangeBase -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
-                    dismiss = true,
                     animate = false
                 )
                 BarEffect.OpenCurrencies -> navigate(
                     R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment(),
-                    dismiss = false
+                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment()
                 )
             }
         }
