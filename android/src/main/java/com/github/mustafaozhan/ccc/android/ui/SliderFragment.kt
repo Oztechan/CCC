@@ -29,8 +29,9 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             R.layout.layout_slide_bug_report,
             R.layout.layout_slide_disable_ads
         )
-        const val TEXT_SIZE = 36f
-        const val HTML_DOT_CODE = "&#8226;"
+        private const val TEXT_SIZE = 36f
+        private const val HTML_DOT_CODE = "&#8226;"
+        private var IS_THEME_SLIDE_CHECKED = false
     }
 
     override fun bind() {
@@ -41,12 +42,18 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         super.onCreate(savedInstanceState)
         kermit.d { "SliderActivity onCreate" }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !IS_THEME_SLIDE_CHECKED) {
             layouts.add(R.layout.layout_slide_dark_mode)
         }
+        IS_THEME_SLIDE_CHECKED = true
 
         addBottomDots(0)
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun setListeners() {
