@@ -2,6 +2,8 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     with(Plugins) {
         kotlin(multiplatform)
@@ -82,7 +84,7 @@ kotlin {
                 dependencies {
                     dependsOn(mobileMain)
                     implementation(androidMaterial)
-                    implementation(koinAndroidViewModel)
+                    implementation(koinAndroid)
                     implementation(viewModelExt)
                 }
             }
@@ -150,4 +152,10 @@ android {
 multiplatformResources {
     multiplatformResourcesPackage = "com.github.mustafaozhan.ccc.client"
     multiplatformResourcesSourceSet = "mobileMain"
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
