@@ -22,24 +22,24 @@ import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding
+import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetBarBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BarBottomSheetDialogFragment :
-    BaseVBBottomSheetDialogFragment<FragmentBottomSheetBarBinding>() {
+class BarBottomSheet :
+    BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() {
 
     private val barViewModel: BarViewModel by viewModel()
 
     private lateinit var barAdapter: BarAdapter
 
     override fun bind() {
-        binding = FragmentBottomSheetBarBinding.inflate(layoutInflater)
+        binding = BottomSheetBarBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "BarBottomSheetDialogFragment onViewCreated" }
+        kermit.d { "BarBottomSheet onViewCreated" }
         initViews()
         observeStates()
         observeEffect()
@@ -69,7 +69,7 @@ class BarBottomSheetDialogFragment :
 
     private fun observeEffect() = lifecycleScope.launchWhenStarted {
         barViewModel.effect.collect { viewEffect ->
-            kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
+            kermit.d { "BarBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is BarEffect.ChangeBase -> {
                     setNavigationResult(
@@ -80,8 +80,8 @@ class BarBottomSheetDialogFragment :
                     dismissDialog()
                 }
                 BarEffect.OpenCurrencies -> navigate(
-                    R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment()
+                    R.id.barBottomSheet,
+                    BarBottomSheetDirections.actionBarBottomSheetToCurrenciesFragment()
                 )
             }
         }
