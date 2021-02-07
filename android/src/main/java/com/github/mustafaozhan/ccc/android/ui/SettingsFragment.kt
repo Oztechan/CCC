@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
@@ -22,11 +21,11 @@ import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
-import com.github.mustafaozhan.scopemob.whether
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
@@ -42,8 +41,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private val settingsViewModel: SettingsViewModel by viewModel()
-
-    private lateinit var rewardedAd: RewardedAd
 
     override fun bind() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
@@ -106,6 +103,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         settingsViewModel.state.collect {
             with(it) {
+                binding.loadingView.visibleIf(loading)
                 binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
                     R.string.settings_item_currencies_value,
                     activeCurrencyCount
@@ -162,9 +160,16 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.remove_ads,
                     R.string.remove_ads_text,
                     R.string.watch
-                ) { prepareRewardedAd() }
+                ) {
+                    settingsViewModel.showLoadingView(true)
+                    prepareRewardedAd()
+                }
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
+                SettingsEffect.Synchronising -> Toast.show(
+                    requireContext(),
+                    R.string.txt_synchronising
+                )
                 SettingsEffect.Synchronised -> Toast.show(requireContext(), R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> Toast.show(
                     requireContext(),
@@ -211,42 +216,46 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun showRewardedAd() = rewardedAd
-        .whether { isLoaded }
-        ?.show(requireActivity(), object : RewardedAdCallback() {
-            override fun onRewardedAdOpened() = kermit.d { "SettingsFragment onRewardedAdOpened" }
-
-            override fun onRewardedAdClosed() = kermit.d { "SettingsFragment onRewardedAdClosed" }
-
-            override fun onRewardedAdFailedToShow(errorCode: Int) = context?.let {
-                kermit.d { "SettingsFragment onRewardedAdFailedToShow" }
+    private fun prepareRewardedAd() = RewardedAd.load(
+        requireContext(),
+        getString(R.string.rewarded_ad_unit_id),
+        AdRequest.Builder().build(),
+        object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) = context?.let {
+                kermit.d { "SettingsFragment onRewardedAdFailedToLoad" }
+                settingsViewModel.showLoadingView(false)
                 Toast.show(it, R.string.error_text_unknown)
             }.toUnit()
 
-            override fun onUserEarnedReward(@NonNull reward: RewardItem) {
-                kermit.d { "SettingsFragment onUserEarnedReward" }
-                settingsViewModel.updateAddFreeDate()
-                activity?.run {
-                    finish()
-                    startActivity(intent)
+            override fun onAdLoaded(rewardedAd: RewardedAd) {
+                settingsViewModel.showLoadingView(false)
+                kermit.d { "SettingsFragment onRewardedAdLoaded" }
+
+                rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() =
+                        kermit.d { "SettingsFragment onAdDismissedFullScreenContent" }
+
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError?) =
+                        context?.let {
+                            kermit.d { "SettingsFragment onRewardedAdFailedToShow" }
+                            Toast.show(it, R.string.error_text_unknown)
+                        }.toUnit()
+
+                    override fun onAdShowedFullScreenContent() =
+                        kermit.d { "SettingsFragment onAdShowedFullScreenContent" }
+                }
+
+                rewardedAd.show(requireActivity()) {
+                    kermit.d { "SettingsFragment onUserEarnedReward" }
+                    settingsViewModel.updateAddFreeDate()
+                    activity?.run {
+                        finish()
+                        startActivity(intent)
+                    }
                 }
             }
-        }).toUnit()
-
-    private fun prepareRewardedAd() {
-        rewardedAd = RewardedAd(requireContext(), getString(R.string.rewarded_ad_unit_id))
-        rewardedAd.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onRewardedAdLoaded() {
-                kermit.d { "SettingsFragment onRewardedAdLoaded" }
-                showRewardedAd()
-            }
-
-            override fun onRewardedAdFailedToLoad(errorCode: Int) = context?.let {
-                kermit.d { "SettingsFragment onRewardedAdFailedToLoad" }
-                Toast.show(it, R.string.error_text_unknown)
-            }.toUnit()
-        })
-    }
+        }
+    )
 
     private fun startIntent(intent: Intent) {
         getBaseActivity()?.packageManager?.let {

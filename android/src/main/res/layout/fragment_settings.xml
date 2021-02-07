@@ -33,6 +33,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/loading_view"
+        style="@style/ProgressBarStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         style="@style/SettingsScrollViewStyle"
         app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
@@ -71,6 +79,7 @@
                 style="@style/WideFitStyle"
                 layout="@layout/item_settings"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_disable_ads" />
 

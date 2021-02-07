@@ -61,11 +61,13 @@ fun MutableStateFlow<CurrenciesState>.update(
 fun MutableStateFlow<SettingsState>.update(
     activeCurrencyCount: Int = value.activeCurrencyCount,
     appThemeType: AppTheme = value.appThemeType,
-    addFreeDate: String = value.addFreeDate
+    addFreeDate: String = value.addFreeDate,
+    loading: Boolean = value.loading
 ) {
     value = value.copy(
         activeCurrencyCount = activeCurrencyCount,
         appThemeType = appThemeType,
-        addFreeDate = addFreeDate
+        addFreeDate = addFreeDate,
+        loading = loading
     )
 }

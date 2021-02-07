@@ -426,7 +426,7 @@
         <item name="android:layout_width">@dimen/margin_zero</item>
         <item name="android:layout_height">@dimen/height_separator</item>
         <item name="android:layout_marginStart">@dimen/margin_start_settings_item_separator</item>
-        <item name="android:layout_marginEnd">@dimen/margin_four</item>
+        <item name="android:layout_marginEnd">@dimen/margin_eight</item>
         <item name="android:background">@color/color_text_weak</item>
     </style>
 

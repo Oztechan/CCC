@@ -7,7 +7,7 @@ import com.github.mustafaozhan.ccc.client.di.initClient
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import org.koin.core.Koin
-import org.koin.core.context.KoinContextHandler
+import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 
 abstract class BaseViewModelTest<ViewModelType> {
@@ -22,7 +22,5 @@ abstract class BaseViewModelTest<ViewModelType> {
     }
 
     @AfterTest
-    fun destroy() {
-        KoinContextHandler.stop()
-    }
+    fun destroy() = stopKoin()
 }

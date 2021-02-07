@@ -8,7 +8,7 @@ import com.github.mustafaozhan.ccc.common.di.initCommon
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import org.koin.core.Koin
-import org.koin.core.context.KoinContextHandler
+import org.koin.core.context.stopKoin
 
 abstract class BaseRepositoryTest<SubjectType> {
     protected lateinit var koin: Koin
@@ -22,7 +22,5 @@ abstract class BaseRepositoryTest<SubjectType> {
     }
 
     @AfterTest
-    fun destroy() {
-        KoinContextHandler.stop()
-    }
+    fun destroy() = stopKoin()
 }

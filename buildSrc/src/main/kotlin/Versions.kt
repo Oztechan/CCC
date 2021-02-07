@@ -12,7 +12,7 @@ object Versions {
     const val kotlinXHtml = "0.7.2"
     const val versionChecker = "0.36.0"
     const val react = "17.0.1-pre.144-kotlin-1.4.30"
-    const val koin = "3.0.0-alpha-4"
+    const val koin = "3.0.1-alpha-3"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.7.1"
     const val firebaseCore = "18.0.2"

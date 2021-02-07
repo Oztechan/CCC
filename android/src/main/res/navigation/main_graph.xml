@@ -4,7 +4,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/main_graph"
     app:startDestination="@id/calculatorFragment">
 
     <fragment
@@ -40,6 +40,9 @@
         tools:layout="@layout/fragment_currencies">
 
         <action
+            app:launchSingleTop="true"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_currenciesFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
     </fragment>
@@ -51,10 +54,11 @@
         tools:layout="@layout/fragment_bottom_sheet_bar">
         <action
             android:id="@+id/action_barBottomSheetDialogFragment_to_currenciesFragment"
-            app:destination="@id/currenciesFragment"
-            app:popUpTo="@id/calculatorFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/currenciesFragment" />
         <action
+            app:launchSingleTop="true"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_barBottomSheetDialogFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
     </dialog>

@@ -75,6 +75,15 @@ fun View.visibleIf(visible: Boolean) {
     }
 }
 
+fun View?.visible() {
+    this?.visibility = View.VISIBLE
+    this?.bringToFront()
+}
+
+fun View?.gone() {
+    this?.visibility = View.GONE
+}
+
 fun TextView.dataState(state: DataState) = when (state) {
     is DataState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)

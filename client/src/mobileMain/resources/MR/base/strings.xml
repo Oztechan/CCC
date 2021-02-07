@@ -3,7 +3,7 @@
   -->
 
 <resources>
-    <string name="app_name">CC&amp;C</string>
+    <string name="app_name">CCC</string>
 
     <!--Keyboard-->
     <string name="seven">7</string>
@@ -73,15 +73,15 @@
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
     <string name="slide_bug_report_text_2">Click on settings icon \n\n Feedback > Send us an email\n\n On GitHub > Create a GitHub issue\n\n</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
-    <string name="slide_disable_ads_text_1">If you want to disable Ads for 48 hours</string>
-    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads\n\n After you watch a video, app will be ad free for 48 hours!</string>
+    <string name="slide_disable_ads_text_1">If you want to disable Ads for 3 days</string>
+    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads\n\n After you watch a video, app will be ad free for 3 days!</string>
     <string name="slide_dark_mode_title">Theme</string>
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
     <string name="slide_dark_mode_text_2">Click on settings icon > Theme\n\n Then chose your theme!</string>
 
     <!--Rewarded Ad-->
     <string name="remove_ads">Remove Ads</string>
-    <string name="remove_ads_text">Would you like to watch a video to stop ads for 48 hours ?</string>
+    <string name="remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
     <string name="watch">Watch</string>
 
     <!-- Bar Bottom Sheet Dialog -->
@@ -99,7 +99,7 @@
     <string name="title_dialog_choose_theme">Choose app theme</string>
 
     <string name="settings_item_remove_ads_title">Remove Ads</string>
-    <string name="settings_item_remove_ads_sub_title">Disable ads 48 hours</string>
+    <string name="settings_item_remove_ads_sub_title">Disable ads 3 days</string>
     <string name="settings_item_remove_ads_value_expired">Expired\n</string>
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
@@ -107,6 +107,7 @@
 
     <string name="settings_item_sync_title">Synchronise</string>
     <string name="settings_item_sync_sub_title">Sync to use app offline</string>
+    <string name="txt_synchronising">Synchronising</string>
     <string name="txt_synced">Synchronisation completed!</string>
     <string name="txt_already_synced">Already synchronised!</string>
 
