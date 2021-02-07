@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
@@ -77,13 +76,6 @@ class SettingsViewModel(
         }
     }
 
-    fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state.update(
-            addFreeDate = Instant.fromEpochMilliseconds(it + AD_EXPIRATION).formatToString()
-        )
-        settingsRepository.adFreeActivatedDate = it
-    }
-
     fun updateTheme(theme: AppTheme) = clientScope.launch {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
@@ -95,10 +87,6 @@ class SettingsViewModel(
     fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
 
     fun getAppTheme() = settingsRepository.appTheme
-
-    fun showLoadingView(shouldShow: Boolean) {
-        _state.update(loading = shouldShow)
-    }
 
     override fun onCleared() {
         kermit.d { "SettingsViewModel onCleared" }

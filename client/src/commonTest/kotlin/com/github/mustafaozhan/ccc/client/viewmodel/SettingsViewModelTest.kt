@@ -31,6 +31,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 //        assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.single())
 //    }
 
+    // todo
     @Test
     fun updateAddFreeDate() = with(viewModel) {
         updateAddFreeDate()

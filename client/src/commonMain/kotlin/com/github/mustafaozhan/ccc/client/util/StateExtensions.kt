@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.viewmodel.BarState
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorState
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesState
+import com.github.mustafaozhan.ccc.client.viewmodel.RemoveAdsState
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsState
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -68,6 +69,14 @@ fun MutableStateFlow<SettingsState>.update(
         activeCurrencyCount = activeCurrencyCount,
         appThemeType = appThemeType,
         addFreeDate = addFreeDate,
+        loading = loading
+    )
+}
+
+fun MutableStateFlow<RemoveAdsState>.update(
+    loading: Boolean = value.loading
+) {
+    value = value.copy(
         loading = loading
     )
 }
