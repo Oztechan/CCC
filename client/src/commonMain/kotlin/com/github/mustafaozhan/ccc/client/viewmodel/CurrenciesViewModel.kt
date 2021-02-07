@@ -89,12 +89,12 @@ class CurrenciesViewModel(
     }
 
     fun filterList(txt: String) = data.unFilteredList
-        ?.filter { (name, longName, symbol) ->
+        .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                     longName.contains(txt, true) ||
                     symbol.contains(txt, true)
-        }?.toMutableList()
-        ?.let {
+        }.toMutableList()
+        .let {
             _state.update(
                 currencyList = it,
                 loading = false
@@ -126,7 +126,7 @@ class CurrenciesViewModel(
 
     override fun onDoneClick() = clientScope.launch {
         kermit.d { "CurrenciesViewModel onDoneClick" }
-        _state.value.currencyList
+        data.unFilteredList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
@@ -180,7 +180,7 @@ sealed class CurrenciesEffect : BaseEffect() {
 }
 
 data class CurrenciesData(
-    var unFilteredList: MutableList<Currency>? = mutableListOf(),
+    var unFilteredList: MutableList<Currency> = mutableListOf(),
     var query: String = ""
 ) : BaseData()
 // endregion
