@@ -31,7 +31,17 @@
         <action
             android:id="@+id/action_currenciesFragment_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
+        <action
+            android:id="@+id/action_currenciesFragment_to_removeAdsBottomSheet"
+            app:destination="@id/removeAdsBottomSheet" />
     </fragment>
+
+
+    <dialog
+        android:id="@+id/removeAdsBottomSheet"
+        android:name="com.github.mustafaozhan.ccc.android.ui.RemoveAdsBottomSheet"
+        android:label="RemoveAdsBottomSheet"
+        tools:layout="@layout/bottom_sheet_remove_ads"></dialog>
 
     <fragment
         android:id="@+id/currenciesFragment"
