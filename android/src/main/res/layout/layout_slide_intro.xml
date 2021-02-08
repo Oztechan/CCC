@@ -12,8 +12,8 @@
         android:text="@string/slide_intro_title" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/height_width_app_logo"
+        android:layout_height="@dimen/height_width_app_logo"
         android:layout_marginTop="@dimen/margin_top_slide_items"
         android:src="@drawable/ic_app_logo"
         tools:ignore="ContentDescription" />

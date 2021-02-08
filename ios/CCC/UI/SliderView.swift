@@ -96,12 +96,14 @@ struct SlideView: View {
                     .accentColor(MR.colors().text.get())
 
                 Text(subTitle1)
+                    .lineSpacing(12)
                     .multilineTextAlignment(.center)
                     .font(.body)
                     .padding(10)
                     .padding(.bottom, 30)
 
                 Text(subTitle2)
+                    .lineSpacing(12)
                     .multilineTextAlignment(.center)
                     .padding(10)
                     .font(.callout)

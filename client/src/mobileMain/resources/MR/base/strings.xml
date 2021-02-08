@@ -68,16 +68,16 @@
     <string name="next">NEXT</string>
     <string name="got_it">GOT IT</string>
     <string name="slide_intro_title">Currency Converter Calculator</string>
-    <string name="slide_intro_text">Simple user interface\n\nFast responses\n\nAccurate rates\n\nEasy to use</string>
+    <string name="slide_intro_text">Simple user interface\nFast responses\nAccurate rates\nEasy to use</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
-    <string name="slide_bug_report_text_2">Click on settings icon \n\n Feedback > Send us an email\n\n On GitHub > Create a GitHub issue\n\n</string>
+    <string name="slide_bug_report_text_2">Click on settings icon \nFeedback > Send us an email\nOn GitHub > Create a GitHub issue</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads for 3 days</string>
-    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads\n\n After you watch a video, app will be ad free for 3 days!</string>
+    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads\nAfter you watch a video, app will be ad free for 3 days!</string>
     <string name="slide_dark_mode_title">Theme</string>
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
-    <string name="slide_dark_mode_text_2">Click on settings icon > Theme\n\n Then chose your theme!</string>
+    <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
 
     <!--Rewarded Ad-->
     <string name="remove_ads">Remove Ads</string>
