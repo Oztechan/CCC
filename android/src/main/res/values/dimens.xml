@@ -47,5 +47,5 @@
     <dimen name="padding_left_right_slide_item">36dp</dimen>
 
     <!-- Search View -->
-    <dimen name="max_width_search_view">275dp</dimen>
+    <dimen name="max_width_search_view">256dp</dimen>
 </resources>
