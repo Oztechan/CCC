@@ -52,7 +52,7 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
         data.adJob = clientScope.launch {
             delay(getAdDelay())
 
-            while (isActive) {
+            while (isActive && !isFistRun()) {
                 if (data.adVisibility && settingsRepository.adFreeActivatedDate.isRewardExpired()) {
                     _effect.send(MainEffect.ShowInterstitialAd)
                     data.isInitialAd = false
