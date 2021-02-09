@@ -3,7 +3,8 @@
  */
 
 plugins {
-    id(Plugins.versionChecker) version Versions.versionChecker
+    id(Plugins.dependencyUpdates) version Versions.dependencyUpdates
+    id(Plugins.buildHealth) version Versions.buildHealth
 }
 
 buildscript {

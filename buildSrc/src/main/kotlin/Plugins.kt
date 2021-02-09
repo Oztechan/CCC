@@ -19,6 +19,7 @@ object Plugins {
     const val kotlinXSerialization = "kotlinx-serialization"
     const val serializationPlugin = "plugin.serialization"
     const val sqldelight = "com.squareup.sqldelight"
-    const val versionChecker = "com.github.ben-manes.versions"
     const val mokoResources = "dev.icerock.mobile.multiplatform-resources"
+    const val dependencyUpdates = "com.github.ben-manes.versions"
+    const val buildHealth = "com.autonomousapps.dependency-analysis"
 }

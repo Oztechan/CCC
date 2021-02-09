@@ -10,7 +10,6 @@ object Versions {
     const val ktor = "1.5.1"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
-    const val versionChecker = "0.36.0"
     const val react = "17.0.1-pre.144-kotlin-1.4.30"
     const val koin = "3.0.1-alpha-3"
     const val kermit = "0.1.8"
@@ -31,4 +30,6 @@ object Versions {
     const val sqlDelight = "1.4.3"
     const val viewModelExt = "2.3.0-rc01"
     const val mokoResources = "0.15.0"
+    const val dependencyUpdates = "0.36.0"
+    const val buildHealth = "0.71.0"
 }
