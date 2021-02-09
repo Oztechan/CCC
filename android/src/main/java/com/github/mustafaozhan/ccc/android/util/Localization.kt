@@ -28,7 +28,7 @@ private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
 }
 
 @Suppress("DEPRECATION")
-private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context? {
+private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context {
     val resources: Resources = context.resources
     val configuration: Configuration = resources.configuration
     configuration.locale = locale
