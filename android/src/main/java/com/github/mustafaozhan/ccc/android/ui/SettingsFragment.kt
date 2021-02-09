@@ -56,6 +56,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initViews() = with(binding) {
+        adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            settingsViewModel.isRewardExpired()
+        )
+
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)
@@ -197,10 +202,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     override fun onResume() {
         super.onResume()
         kermit.d { "SettingsFragment onResume" }
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
-            settingsViewModel.isRewardExpired()
-        )
     }
 
     private fun changeTheme() {

@@ -58,6 +58,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
+        adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            currenciesViewModel.isRewardExpired()
+        )
+
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
         setSpanByOrientation(resources.configuration.orientation)
 
@@ -144,10 +149,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     override fun onResume() {
         super.onResume()
         kermit.d { "CurrenciesFragment onResume" }
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            currenciesViewModel.isRewardExpired()
-        )
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.filterList("")
     }

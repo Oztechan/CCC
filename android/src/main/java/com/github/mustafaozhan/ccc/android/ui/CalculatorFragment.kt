@@ -54,6 +54,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun initViews() = with(binding) {
+        adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            calculatorViewModel.isRewardExpired()
+        )
         calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
         recyclerViewMain.adapter = calculatorAdapter
     }
@@ -152,10 +156,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onResume()
         kermit.d { "CalculatorFragment onResume" }
         calculatorViewModel.verifyCurrentBase()
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.isRewardExpired()
-        )
     }
 }
 

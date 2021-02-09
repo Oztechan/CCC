@@ -59,7 +59,7 @@
 
     <!--Mail-->
     <string name="mail_developer">mr.mustafa.ozhan@gmail.com</string>
-    <string name="mail_feedback_subject">Feedback for My Currencies</string>
+    <string name="mail_feedback_subject">Feedback for CCC</string>
     <string name="mail_extra_text">Dear Developer,</string>
     <string name="mail_intent_title">Send Feedback:</string>
     <string name="app_market_link">https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies</string>
