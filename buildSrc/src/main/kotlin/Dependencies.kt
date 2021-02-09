@@ -56,7 +56,6 @@ object Dependencies {
 
         const val ktorCore = "io.ktor:ktor-server-core:${Versions.ktor}"
         const val ktorNetty = "io.ktor:ktor-server-netty:${Versions.ktor}"
-        const val ktorWebSockets = "io.ktor:ktor-websockets:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-serialization:${Versions.ktor}"
         const val logBack = "ch.qos.logback:logback-classic:${Versions.logBack}"
         const val sqlliteDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"

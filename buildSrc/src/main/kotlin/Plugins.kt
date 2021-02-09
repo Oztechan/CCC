@@ -8,7 +8,6 @@ object Plugins {
     const val android = "android"
     const val platformJvm = "jvm"
     const val js = "js"
-    const val kapt = "kapt"
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"
     const val cocoapods = "native.cocoapods"
