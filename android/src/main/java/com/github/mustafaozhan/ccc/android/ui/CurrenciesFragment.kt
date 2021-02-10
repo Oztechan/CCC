@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
@@ -23,6 +22,7 @@ import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
+import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
@@ -124,9 +124,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     getBaseActivity()?.onBackPressed()
                     view?.run { hideKeyboard() }
                 }
-                is CurrenciesEffect.ChangeBase -> findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    CHANGE_BASE_EVENT,
-                    viewEffect.newBase
+                is CurrenciesEffect.ChangeBase -> setNavigationResult(
+                    R.id.calculatorFragment,
+                    viewEffect.newBase,
+                    CHANGE_BASE_EVENT
                 )
             }
         }

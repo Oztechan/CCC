@@ -5,12 +5,15 @@
 
 package com.github.mustafaozhan.ccc.android.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.toUnit
@@ -66,6 +69,17 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
     isEnabled = false
     gone()
 }
+
+fun <T> Fragment.getNavigationResult(key: String) =
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+
+// todo here needs to be changed
+@SuppressLint("RestrictedApi")
+fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String) =
+    findNavController()
+        .backStack
+        .firstOrNull { it.destination.id == destinationId }
+        ?.savedStateHandle?.set(key, result)
 
 fun View.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 

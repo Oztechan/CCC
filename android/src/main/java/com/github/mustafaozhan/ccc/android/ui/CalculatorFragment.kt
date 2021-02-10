@@ -10,13 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
+import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
@@ -59,9 +59,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         setListeners()
     }
 
-    private fun observeNavigationResults() = findNavController().currentBackStackEntry
-        ?.savedStateHandle
-        ?.getLiveData<String>(CHANGE_BASE_EVENT)
+    private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
         ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
 
     private fun initViews() = with(binding) {
