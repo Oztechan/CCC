@@ -19,6 +19,8 @@ struct CurrenciesView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CurrenciesObservable = koin.get()
 
+    var onBaseChange: ((String) -> Void)?
+
     var body: some View {
         ZStack {
             MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
@@ -74,6 +76,9 @@ struct CurrenciesView: View {
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
             self.navigationStack.pop()
+        // swiftlint:disable force_cast
+        case is CurrenciesEffect.ChangeBase:
+            onBaseChange?((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

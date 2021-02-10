@@ -18,6 +18,8 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
 
+    var onBaseChange: ((String) -> Void)
+
     var body: some View {
 
         ZStack {
@@ -91,7 +93,7 @@ struct SettingsView: View {
     private func onEffect(effect: SettingsEffect) {
         switch effect {
         case is SettingsEffect.OpenCurrencies:
-            self.navigationStack.push(CurrenciesView())
+            self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

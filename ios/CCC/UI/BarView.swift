@@ -20,7 +20,7 @@ struct BarView: View {
     @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
-    var onDismiss: (String) -> Void
+    var onBaseChange: (String) -> Void
 
     var body: some View {
 
@@ -35,7 +35,7 @@ struct BarView: View {
                     SelectCurrencyView(
                         text: MR.strings().choose_at_least_two_currency.get(),
                         buttonText: MR.strings().select.get(),
-                        onButtonClick: { self.navigationStack.push(CurrenciesView()) }
+                        onButtonClick: { self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange)) }
                     ).listRowBackground(MR.colors().background.get())
 
                 } else {
@@ -68,7 +68,7 @@ struct BarView: View {
         switch effect {
         // swiftlint:disable force_cast
         case is BarEffect.ChangeBase:
-            onDismiss((effect as! BarEffect.ChangeBase).newBase)
+            onBaseChange((effect as! BarEffect.ChangeBase).newBase)
             isBarShown = false
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})

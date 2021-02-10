@@ -28,7 +28,10 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(input: observable.state.input)
+                    CalculationInputView(
+                        onBaseChange: { observable.event.onBaseChange(base: $0) },
+                        input: observable.state.input
+                    )
 
                     CalculationOutputView(
                         baseCurrency: observable.state.base,
@@ -76,7 +79,7 @@ struct CalculatorView: View {
             content: {
                 BarView(
                     isBarShown: $isBarShown,
-                    onDismiss: { base in observable.event.onBarDismissed(base: base)}
+                    onBaseChange: { observable.event.onBaseChange(base: $0)}
                 ).environmentObject(navigationStack)
             }
         )
@@ -97,8 +100,9 @@ struct CalculatorView: View {
                 text: MR.strings().choose_at_least_two_currency.get(),
                 butonText: MR.strings().select.get(),
                 action: {
-                    navigationStack.push(CurrenciesView())
-                })
+                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                }
+            )
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }
@@ -108,6 +112,8 @@ struct CalculatorView: View {
 struct CalculationInputView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @Environment(\.colorScheme) var colorScheme
+
+    var onBaseChange: ((String) -> Void)
 
     var input: String
 
@@ -124,7 +130,7 @@ struct CalculationInputView: View {
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.trailing, 15)
-                .onTapGesture { self.navigationStack.push(SettingsView()) }
+                .onTapGesture { self.navigationStack.push(SettingsView(onBaseChange: onBaseChange)) }
 
         }.frame(width: .none, height: 40, alignment: .center)
     }
