@@ -23,7 +23,6 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
@@ -37,6 +36,10 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
+
+    companion object {
+        const val CHANGE_BASE_EVENT = "change_base"
+    }
 
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
@@ -59,7 +62,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeNavigationResults() = findNavController().currentBackStackEntry
         ?.savedStateHandle
         ?.getLiveData<String>(CHANGE_BASE_EVENT)
-        ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBarDismissed(it) }
+        ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
@@ -74,7 +77,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         calculatorViewModel.state.collect {
             with(it) {
-                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.getCurrentBase()))
+                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
 
                 binding.txtInput.text = input
                 with(binding.layoutBar) {

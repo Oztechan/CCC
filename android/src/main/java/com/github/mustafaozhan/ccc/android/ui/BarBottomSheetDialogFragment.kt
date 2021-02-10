@@ -12,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
+import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel

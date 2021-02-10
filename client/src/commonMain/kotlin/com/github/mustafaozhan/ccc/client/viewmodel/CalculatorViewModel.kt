@@ -169,8 +169,6 @@ class CalculatorViewModel(
         )
     }
 
-    fun getCurrentBase() = settingsRepository.currentBase
-
     fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
 
     override fun onCleared() {
@@ -238,7 +236,7 @@ class CalculatorViewModel(
         _effect.send(CalculatorEffect.OpenSettings)
     }.toUnit()
 
-    override fun onBarDismissed(base: String) = currentBaseChanged(base)
+    override fun onBaseChange(base: String) = currentBaseChanged(base)
     // endregion
 }
 
@@ -263,7 +261,7 @@ interface CalculatorEvent : BaseEvent {
     fun onBarClick()
     fun onSpinnerItemSelected(base: String)
     fun onSettingsClicked()
-    fun onBarDismissed(base: String)
+    fun onBaseChange(base: String)
 }
 
 sealed class CalculatorEffect : BaseEffect() {
