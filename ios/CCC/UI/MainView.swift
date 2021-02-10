@@ -30,7 +30,8 @@ struct MainView: View {
                 CalculatorView()
             }
         }
-        .onAppear {observable.startObserving()}
+        .onAppear { observable.startObserving() }
+        .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
         .onChange(of: scenePhase) { phase in
             switch phase {

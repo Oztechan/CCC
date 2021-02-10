@@ -20,7 +20,7 @@ struct BarView: View {
     @StateObject var observable: BarObservable = koin.get()
     @Binding var isBarShown: Bool
 
-    var onDismiss: () -> Void
+    var onDismiss: (String) -> Void
 
     var body: some View {
 
@@ -59,14 +59,16 @@ struct BarView: View {
                 }
             }
         }
-        .onAppear {observable.startObserving()}
+        .onAppear { observable.startObserving() }
+        .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: BarEffect) {
         switch effect {
+        // swiftlint:disable force_cast
         case is BarEffect.ChangeBase:
-            onDismiss()
+            onDismiss((effect as! BarEffect.ChangeBase).newBase)
             isBarShown = false
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})

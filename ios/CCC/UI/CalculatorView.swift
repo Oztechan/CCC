@@ -76,11 +76,12 @@ struct CalculatorView: View {
             content: {
                 BarView(
                     isBarShown: $isBarShown,
-                    onDismiss: { observable.viewModel.verifyCurrentBase() }
+                    onDismiss: { base in observable.event.onBarDismissed(base: base)}
                 ).environmentObject(navigationStack)
             }
         )
-        .onAppear {observable.startObserving()}
+        .onAppear { observable.startObserving() }
+        .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 

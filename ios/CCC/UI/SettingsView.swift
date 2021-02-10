@@ -83,7 +83,8 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .onAppear {observable.startObserving()}
+        .onAppear { observable.startObserving() }
+        .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
