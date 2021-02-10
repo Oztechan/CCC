@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
@@ -15,6 +16,7 @@ import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
@@ -69,11 +71,13 @@ class BarBottomSheetDialogFragment :
         barViewModel.effect.collect { viewEffect ->
             kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is BarEffect.ChangeBase -> navigate(
-                    R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
-                    animate = false
-                )
+                is BarEffect.ChangeBase -> {
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                        CHANGE_BASE_EVENT,
+                        viewEffect.newBase
+                    )
+                    dismissDialog()
+                }
                 BarEffect.OpenCurrencies -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment()

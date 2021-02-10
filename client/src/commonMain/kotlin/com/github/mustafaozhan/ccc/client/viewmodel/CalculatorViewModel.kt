@@ -82,10 +82,7 @@ class CalculatorViewModel(
         clientScope.launch {
             state.map { it.input }
                 .distinctUntilChanged()
-                .collect { input ->
-                    _state.update(loading = true)
-                    calculateOutput(input)
-                }
+                .collect { calculateOutput(it) }
         }
 
         clientScope.launch {
@@ -133,6 +130,7 @@ class CalculatorViewModel(
     }
 
     private fun calculateOutput(input: String) = clientScope.launch {
+        _state.update(loading = true)
         data.calculator
             .calculate(input.toSupportedCharacters())
             .mapTo { if (isFinite()) getFormatted() else "" }
@@ -163,14 +161,12 @@ class CalculatorViewModel(
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         settingsRepository.currentBase = newBase
+        calculateOutput(_state.value.input)
         _state.update(
+            base = newBase,
             input = _state.value.input,
             symbol = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
         )
-    }
-
-    fun verifyCurrentBase() {
-        _state.update(base = settingsRepository.currentBase, input = "")
     }
 
     fun getCurrentBase() = settingsRepository.currentBase
@@ -241,6 +237,8 @@ class CalculatorViewModel(
         kermit.d { "CalculatorViewModel onSettingsClicked" }
         _effect.send(CalculatorEffect.OpenSettings)
     }.toUnit()
+
+    override fun onBarDismissed(base: String) = currentBaseChanged(base)
     // endregion
 }
 
@@ -265,6 +263,7 @@ interface CalculatorEvent : BaseEvent {
     fun onBarClick()
     fun onSpinnerItemSelected(base: String)
     fun onSettingsClicked()
+    fun onBarDismissed(base: String)
 }
 
 sealed class CalculatorEffect : BaseEffect() {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
@@ -22,6 +23,7 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
@@ -48,10 +50,16 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "CalculatorFragment onViewCreated" }
         initViews()
+        observeNavigationResults()
         observeStates()
         observeEffect()
         setListeners()
     }
+
+    private fun observeNavigationResults() = findNavController().currentBackStackEntry
+        ?.savedStateHandle
+        ?.getLiveData<String>(CHANGE_BASE_EVENT)
+        ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBarDismissed(it) }
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
@@ -150,12 +158,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         setOnClickListener {
             calculatorViewModel.onKeyPress(text.toString())
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        kermit.d { "CalculatorFragment onResume" }
-        calculatorViewModel.verifyCurrentBase()
     }
 }
 

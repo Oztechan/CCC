@@ -8,3 +8,4 @@ const val DAY = (24 * 60 * 60 * 1000).toLong()
 const val WEEK = 7 * DAY
 const val AD_EXPIRATION = 3 * DAY
 const val MINIMUM_ACTIVE_CURRENCY = 2
+const val CHANGE_BASE_EVENT = "change_base"

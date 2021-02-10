@@ -55,12 +55,6 @@
         <action
             android:id="@+id/action_barBottomSheetDialogFragment_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
-        <action
-            app:launchSingleTop="true"
-            app:popUpTo="@id/main_graph"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_barBottomSheetDialogFragment_to_calculatorFragment"
-            app:destination="@id/calculatorFragment" />
     </dialog>
 
     <fragment

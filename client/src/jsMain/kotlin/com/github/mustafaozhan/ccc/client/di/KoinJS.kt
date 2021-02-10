@@ -25,5 +25,5 @@ actual val clientModule: Module = module {
     single { MainViewModel(get()) }
     single { CurrenciesViewModel(get(), get()) }
     single { CalculatorViewModel(get(), get(), get(), get()) }
-    single { BarViewModel(get(), get()) }
+    single { BarViewModel(get()) }
 }
