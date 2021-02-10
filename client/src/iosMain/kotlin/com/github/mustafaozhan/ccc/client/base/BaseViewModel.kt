@@ -4,8 +4,10 @@
 
 package com.github.mustafaozhan.ccc.client.base
 
+import io.ktor.utils.io.core.Closeable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +28,17 @@ actual open class BaseViewModel actual constructor() {
         viewModelJob.cancelChildren()
     }
 
-    fun <T> Flow<T>.observe(onChange: (T) -> Unit) = onEach {
-        onChange.invoke(it)
-    }.launchIn(clientScope)
+    fun <T> Flow<T>.observe(onChange: ((T) -> Unit)): Closeable {
+        val job = Job()
+        onEach {
+            onChange(it)
+        }.launchIn(
+            CoroutineScope(Dispatchers.Main + job)
+        )
+        return object : Closeable {
+            override fun close() {
+                job.cancel()
+            }
+        }
+    }
 }
