@@ -222,7 +222,6 @@ class CurrenciesAdapter(
     class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = true
 
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-            oldItem.isActive == newItem.isActive
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }

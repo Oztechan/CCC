@@ -97,10 +97,7 @@ class CurrenciesViewModel(
                     symbol.contains(txt, true)
         }.toMutableList()
         .let {
-            _state.update(
-                currencyList = it,
-                loading = false
-            )
+            _state.update(currencyList = it, loading = false)
         }.run {
             data.query = txt
             true
