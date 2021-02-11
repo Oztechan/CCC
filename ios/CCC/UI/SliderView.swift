@@ -50,7 +50,11 @@ struct SliderView: View {
                                                     subTitle1: MR.strings().slide_dark_mode_text_1.get(),
                                                     subTitle2: MR.strings().slide_dark_mode_text_2.get(),
                                                     buttonText: MR.strings().btn_done.get(),
-                                                    buttonAction: { navigationStack.push(CurrenciesView()) }
+                                                    buttonAction: {
+                                                        navigationStack.push(
+                                                            CurrenciesView(onBaseChange: { _ in })
+                                                        )
+                                                    }
                                                 )
 
                                             )

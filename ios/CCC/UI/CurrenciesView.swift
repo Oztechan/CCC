@@ -19,7 +19,7 @@ struct CurrenciesView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: CurrenciesObservable = koin.get()
 
-    var onBaseChange: ((String) -> Void)?
+    var onBaseChange: (String) -> Void
 
     var body: some View {
         ZStack {
@@ -78,7 +78,7 @@ struct CurrenciesView: View {
             self.navigationStack.pop()
         // swiftlint:disable force_cast
         case is CurrenciesEffect.ChangeBase:
-            onBaseChange?((effect as! CurrenciesEffect.ChangeBase).newBase)
+            onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
             LoggerKt.kermit.d(withMessage: {"unknown effect"})
         }

@@ -182,7 +182,7 @@
         <item name="android:textColor">@color/color_text</item>
     </style>
 
-    <style name="SlideLayout" parent="MatchStyle">x
+    <style name="SlideLayout" parent="MatchStyle">
         <item name="android:paddingBottom">@dimen/padding_bottom_slide_layout</item>
         <item name="android:background">@color/color_background_strong</item>
         <item name="android:gravity">center</item>
