@@ -9,7 +9,7 @@
     <dimen name="text_size">17sp</dimen>
     <dimen name="text_size_l">19sp</dimen>
     <dimen name="text_size_xl">22sp</dimen>
-    <dimen name="text_size_xxl">24sp</dimen>
+    <dimen name="text_size_xxl">25sp</dimen>
 
     <!--Match Parent-->
     <dimen name="fit">0dp</dimen>
@@ -43,9 +43,11 @@
     <dimen name="dots_margin_bottom">20dp</dimen>
 
     <!-- Slide -->
+    <dimen name="padding_bottom_slide_layout">48dp</dimen>
+    <dimen name="height_width_app_logo">200dp</dimen>
     <dimen name="margin_top_slide_items">20dp</dimen>
     <dimen name="padding_left_right_slide_item">36dp</dimen>
 
     <!-- Search View -->
-    <dimen name="max_width_search_view">275dp</dimen>
+    <dimen name="max_width_search_view">256dp</dimen>
 </resources>

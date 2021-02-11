@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
+import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
+import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
@@ -58,6 +60,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
+        adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            currenciesViewModel.isRewardExpired()
+        )
+
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
         setSpanByOrientation(resources.configuration.orientation)
 
@@ -117,6 +124,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     getBaseActivity()?.onBackPressed()
                     view?.run { hideKeyboard() }
                 }
+                is CurrenciesEffect.ChangeBase -> setNavigationResult(
+                    R.id.calculatorFragment,
+                    viewEffect.newBase,
+                    CHANGE_BASE_EVENT
+                )
             }
         }
     }
@@ -144,10 +156,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     override fun onResume() {
         super.onResume()
         kermit.d { "CurrenciesFragment onResume" }
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            currenciesViewModel.isRewardExpired()
-        )
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.filterList("")
     }
@@ -212,9 +220,8 @@ class CurrenciesAdapter(
     }
 
     class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = true
 
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-            oldItem.isActive == newItem.isActive
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }

@@ -17,40 +17,6 @@ private const val IMAGE_PADDING = 24
 @Suppress("LongParameterList")
 fun showSnack(
     view: View,
-    text: Int? = null,
-    actionText: Int? = null,
-    icon: Int? = null,
-    isIndefinite: Boolean = false,
-    action: (() -> Unit)? = null
-) = Snackbar.make(
-    view,
-    text?.let { view.context?.getString(it) } ?: "",
-    if (isIndefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
-).apply {
-    setAction(actionText?.let { context.getString(it) } ?: "") {
-        kermit.d { "Snackbar action click" }
-        action?.invoke()
-    }
-    this.view.apply {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
-        findViewById<TextView>(R.id.snackbar_text)?.apply {
-            gravity = Gravity.CENTER
-            setCompoundDrawablesWithIntrinsicBounds(
-                icon
-                    ?: R.drawable.ic_dialog_and_snackbar, 0, 0, 0
-            )
-            compoundDrawablePadding = IMAGE_PADDING
-        }
-        findViewById<TextView>(R.id.snackbar_action)?.apply {
-            setTypeface(null, Typeface.BOLD)
-            setTextColor(ContextCompat.getColor(context, R.color.color_text_action_snack_bar))
-        }
-    }
-}.show()
-
-@Suppress("LongParameterList")
-fun showSnack(
-    view: View,
     text: String = "",
     actionText: String = "",
     icon: Int? = null,
@@ -70,8 +36,10 @@ fun showSnack(
         findViewById<TextView>(R.id.snackbar_text)?.apply {
             gravity = Gravity.CENTER
             setCompoundDrawablesWithIntrinsicBounds(
-                icon
-                    ?: R.drawable.ic_dialog_and_snackbar, 0, 0, 0
+                icon ?: R.drawable.ic_dialog_and_snackbar,
+                0,
+                0,
+                0
             )
             compoundDrawablePadding = IMAGE_PADDING
         }
@@ -81,3 +49,20 @@ fun showSnack(
         }
     }
 }.show()
+
+@Suppress("LongParameterList")
+fun showSnack(
+    view: View,
+    text: Int? = null,
+    actionText: Int? = null,
+    icon: Int? = null,
+    isIndefinite: Boolean = false,
+    action: (() -> Unit)? = null
+) = showSnack(
+    view,
+    if (text == null) "" else view.context.getString(text),
+    if (actionText == null) "" else view.context.getString(actionText),
+    icon,
+    isIndefinite,
+    action
+)

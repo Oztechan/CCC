@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
+import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
+import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
@@ -69,11 +71,14 @@ class BarBottomSheetDialogFragment :
         barViewModel.effect.collect { viewEffect ->
             kermit.d { "BarBottomSheetDialogFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is BarEffect.ChangeBase -> navigate(
-                    R.id.barBottomSheetDialogFragment,
-                    BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCalculatorFragment(),
-                    animate = false
-                )
+                is BarEffect.ChangeBase -> {
+                    setNavigationResult(
+                        R.id.calculatorFragment,
+                        viewEffect.newBase,
+                        CHANGE_BASE_EVENT
+                    )
+                    dismissDialog()
+                }
                 BarEffect.OpenCurrencies -> navigate(
                     R.id.barBottomSheetDialogFragment,
                     BarBottomSheetDialogFragmentDirections.actionBarBottomSheetDialogFragmentToCurrenciesFragment()

@@ -8,7 +8,6 @@ object Plugins {
     const val android = "android"
     const val platformJvm = "jvm"
     const val js = "js"
-    const val kapt = "kapt"
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"
     const val cocoapods = "native.cocoapods"
@@ -19,6 +18,7 @@ object Plugins {
     const val kotlinXSerialization = "kotlinx-serialization"
     const val serializationPlugin = "plugin.serialization"
     const val sqldelight = "com.squareup.sqldelight"
-    const val versionChecker = "com.github.ben-manes.versions"
     const val mokoResources = "dev.icerock.mobile.multiplatform-resources"
+    const val dependencyUpdates = "com.github.ben-manes.versions"
+    const val buildHealth = "com.autonomousapps.dependency-analysis"
 }

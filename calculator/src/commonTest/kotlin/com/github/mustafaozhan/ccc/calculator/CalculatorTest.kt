@@ -53,6 +53,14 @@ class CalculatorTest {
         assertEquals(Double.NEGATIVE_INFINITY, calculator.calculate("-9.0/0"))
 
     @Test
+    fun checkIfFirstDigitAcceptable() {
+        assertEquals(Double.NaN, calculator.calculate(")"))
+        assertEquals(Double.NaN, calculator.calculate("/"))
+        assertEquals(Double.NaN, calculator.calculate("%"))
+        assertEquals(Double.NaN, calculator.calculate("*"))
+    }
+
+    @Test
     fun multipleDivision() = assertEquals(1.0, calculator.calculate("20/10/2"))
 
     @Test

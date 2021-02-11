@@ -3,7 +3,9 @@
  */
 
 plugins {
-    id(Plugins.versionChecker) version Versions.versionChecker
+    id(Plugins.dependencyUpdates) version Versions.dependencyUpdates
+    // todo enable after https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/issues/365
+    // id(Plugins.buildHealth) version Versions.buildHealth
 }
 
 buildscript {

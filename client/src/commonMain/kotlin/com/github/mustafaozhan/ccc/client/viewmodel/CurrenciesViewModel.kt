@@ -80,8 +80,10 @@ class CurrenciesViewModel(
                 .toList().firstOrNull()?.isActive == false
         }
     )?.let {
-        settingsRepository.currentBase = state.value.currencyList
-            .firstOrNull { it.isActive }?.name ?: ""
+        (state.value.currencyList.firstOrNull { it.isActive }?.name ?: "").let { newBase ->
+            settingsRepository.currentBase = newBase
+            clientScope.launch { _effect.send(CurrenciesEffect.ChangeBase(newBase)) }
+        }
     }
 
     fun hideSelectionVisibility() {
@@ -95,10 +97,7 @@ class CurrenciesViewModel(
                     symbol.contains(txt, true)
         }.toMutableList()
         .let {
-            _state.update(
-                currencyList = it,
-                loading = false
-            )
+            _state.update(currencyList = it, loading = false)
         }.run {
             data.query = txt
             true
@@ -177,6 +176,7 @@ sealed class CurrenciesEffect : BaseEffect() {
     object FewCurrency : CurrenciesEffect()
     object OpenCalculator : CurrenciesEffect()
     object Back : CurrenciesEffect()
+    data class ChangeBase(val newBase: String) : CurrenciesEffect()
 }
 
 data class CurrenciesData(

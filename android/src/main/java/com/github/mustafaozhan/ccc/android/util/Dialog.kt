@@ -48,26 +48,14 @@ fun showDialog(
     positiveButton: Int,
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
-) {
-    if (!activity.isFinishing) {
-        val dialog = AlertDialog
-            .Builder(activity, R.style.AlertDialogCustom)
-            .setIcon(R.drawable.ic_dialog_and_snackbar)
-            .setTitle(activity.getString(title))
-            .setMessage(activity.getString(message))
-            .setPositiveButton(activity.getText(positiveButton)) { _, _ ->
-                kermit.d { "Dialog positive button click" }
-                function?.invoke()
-            }
-
-        if (cancelable) {
-            dialog
-                .setCancelable(cancelable)
-                .setNegativeButton(activity.getString(android.R.string.cancel), null)
-        }
-        dialog.show()
-    }
-}
+) = showDialog(
+    activity,
+    activity.getString(title),
+    activity.getString(message),
+    activity.getString(positiveButton),
+    cancelable,
+    function
+)
 
 @Suppress("LongParameterList")
 fun showSingleChoiceDialog(
@@ -96,15 +84,10 @@ fun showSingleChoiceDialog(
     items: Array<String>,
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
-) {
-    if (!activity.isFinishing) {
-        AlertDialog
-            .Builder(activity, R.style.AlertDialogCustom)
-            .setIcon(R.drawable.ic_dialog_and_snackbar)
-            .setTitle(activity.getString(title))
-            .setSingleChoiceItems(items, selectedIndex) { _, which ->
-                kermit.d { "Dialog choice click $which" }
-                choiceAction?.invoke(which)
-            }.show()
-    }
-}
+) = showSingleChoiceDialog(
+    activity,
+    activity.getString(title),
+    items,
+    selectedIndex,
+    choiceAction
+)

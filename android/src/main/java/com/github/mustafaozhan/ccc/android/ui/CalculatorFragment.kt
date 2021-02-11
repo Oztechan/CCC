@@ -16,6 +16,7 @@ import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
+import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
@@ -36,6 +37,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
+    companion object {
+        const val CHANGE_BASE_EVENT = "change_base"
+    }
+
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
@@ -48,12 +53,20 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "CalculatorFragment onViewCreated" }
         initViews()
+        observeNavigationResults()
         observeStates()
         observeEffect()
         setListeners()
     }
 
+    private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
+        ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
+
     private fun initViews() = with(binding) {
+        adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            calculatorViewModel.isRewardExpired()
+        )
         calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
         recyclerViewMain.adapter = calculatorAdapter
     }
@@ -62,7 +75,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         calculatorViewModel.state.collect {
             with(it) {
-                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.getCurrentBase()))
+                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
 
                 binding.txtInput.text = input
                 with(binding.layoutBar) {
@@ -146,16 +159,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         setOnClickListener {
             calculatorViewModel.onKeyPress(text.toString())
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        kermit.d { "CalculatorFragment onResume" }
-        calculatorViewModel.verifyCurrentBase()
-        binding.adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.isRewardExpired()
-        )
     }
 }
 

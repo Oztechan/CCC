@@ -14,7 +14,6 @@ dependencies {
     with(Dependencies.JVM) {
         implementation(ktorCore)
         implementation(ktorNetty)
-        implementation(ktorWebSockets)
         implementation(ktorSerialization)
         implementation(logBack)
     }

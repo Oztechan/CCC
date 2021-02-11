@@ -8,7 +8,6 @@ plugins {
         id(googleServices)
         id(safeargs)
         kotlin(android)
-        kotlin(kapt)
     }
 }
 

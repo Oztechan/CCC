@@ -71,7 +71,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
             assertEquals(
                 CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
-                        viewModel.getCurrentBase(),
+                        viewModel.state.value.base,
                         viewModel.data.rates
                     ),
                     currency.name

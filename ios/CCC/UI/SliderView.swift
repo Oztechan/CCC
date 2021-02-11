@@ -50,7 +50,11 @@ struct SliderView: View {
                                                     subTitle1: MR.strings().slide_dark_mode_text_1.get(),
                                                     subTitle2: MR.strings().slide_dark_mode_text_2.get(),
                                                     buttonText: MR.strings().btn_done.get(),
-                                                    buttonAction: { navigationStack.push(CurrenciesView()) }
+                                                    buttonAction: {
+                                                        navigationStack.push(
+                                                            CurrenciesView(onBaseChange: { _ in })
+                                                        )
+                                                    }
                                                 )
 
                                             )
@@ -96,12 +100,14 @@ struct SlideView: View {
                     .accentColor(MR.colors().text.get())
 
                 Text(subTitle1)
+                    .lineSpacing(12)
                     .multilineTextAlignment(.center)
                     .font(.body)
                     .padding(10)
                     .padding(.bottom, 30)
 
                 Text(subTitle2)
+                    .lineSpacing(12)
                     .multilineTextAlignment(.center)
                     .padding(10)
                     .font(.callout)

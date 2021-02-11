@@ -104,6 +104,10 @@ class Calculator {
         while (i < expression.length) {
             val currChar = expression[i]
 
+            if (i == 0 && currChar in ")/%*") {
+                throw BadFormatException()
+            }
+
             when {
                 currChar in "0123456789." -> {
                     if (i != 0 && (expression[i - 1] == ')')) {
