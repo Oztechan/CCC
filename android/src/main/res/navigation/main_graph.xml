@@ -32,16 +32,16 @@
             android:id="@+id/action_currenciesFragment_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
         <action
-            android:id="@+id/action_currenciesFragment_to_removeAdsBottomSheet"
-            app:destination="@id/removeAdsBottomSheet" />
+            android:id="@+id/action_currenciesFragment_to_adRremoveBottomSheet"
+            app:destination="@id/adRemoveBottomSheet" />
     </fragment>
 
 
     <dialog
-        android:id="@+id/removeAdsBottomSheet"
-        android:name="com.github.mustafaozhan.ccc.android.ui.RemoveAdsBottomSheet"
-        android:label="RemoveAdsBottomSheet"
-        tools:layout="@layout/bottom_sheet_remove_ads"></dialog>
+        android:id="@+id/adRemoveBottomSheet"
+        android:name="com.github.mustafaozhan.ccc.android.ui.AdRemoveBottomSheet"
+        android:label="AdRemoveBottomSheet"
+        tools:layout="@layout/bottom_sheet_ad_remove"></dialog>
 
     <fragment
         android:id="@+id/currenciesFragment"

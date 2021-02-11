@@ -11,7 +11,7 @@ import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.RemoveAdsViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -19,20 +19,20 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetRemoveAdsBinding
+import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RemoveAdsBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetRemoveAdsBinding>() {
+class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
 
-    private val removeAdsViewModel: RemoveAdsViewModel by viewModel()
+    private val adRemoveViewModel: AdRemoveViewModel by viewModel()
 
     override fun bind() {
-        binding = BottomSheetRemoveAdsBinding.inflate(layoutInflater)
+        binding = BottomSheetAdRemoveBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "RemoveAdsBottomSheet onViewCreated" }
+        kermit.d { "AdRemoveBottomSheet onViewCreated" }
 
         showDialog(
             requireActivity(),
@@ -40,7 +40,7 @@ class RemoveAdsBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetRemoveAd
             R.string.remove_ads_text,
             R.string.watch
         ) {
-            removeAdsViewModel.showLoadingView(true)
+            adRemoveViewModel.showLoadingView(true)
             prepareRewardedAd()
         }
     }
@@ -51,32 +51,32 @@ class RemoveAdsBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetRemoveAd
         AdRequest.Builder().build(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) = context?.let {
-                kermit.d { "SettingsFragment onRewardedAdFailedToLoad" }
-                removeAdsViewModel.showLoadingView(false)
+                kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
+                adRemoveViewModel.showLoadingView(false)
                 Toast.show(it, R.string.error_text_unknown)
             }.toUnit()
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
-                removeAdsViewModel.showLoadingView(false)
-                kermit.d { "SettingsFragment onRewardedAdLoaded" }
+                adRemoveViewModel.showLoadingView(false)
+                kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
 
                 rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() =
-                        kermit.d { "SettingsFragment onAdDismissedFullScreenContent" }
+                        kermit.d { "AdRemoveBottomSheet onAdDismissedFullScreenContent" }
 
                     override fun onAdFailedToShowFullScreenContent(adError: AdError?) =
                         context?.let {
-                            kermit.d { "SettingsFragment onRewardedAdFailedToShow" }
+                            kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToShow" }
                             Toast.show(it, R.string.error_text_unknown)
                         }.toUnit()
 
                     override fun onAdShowedFullScreenContent() =
-                        kermit.d { "SettingsFragment onAdShowedFullScreenContent" }
+                        kermit.d { "AdRemoveBottomSheet onAdShowedFullScreenContent" }
                 }
 
                 rewardedAd.show(requireActivity()) {
-                    kermit.d { "SettingsFragment onUserEarnedReward" }
-                    removeAdsViewModel.updateAddFreeDate()
+                    kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
+                    adRemoveViewModel.updateAddFreeDate()
                     activity?.run {
                         finish()
                         startActivity(intent)

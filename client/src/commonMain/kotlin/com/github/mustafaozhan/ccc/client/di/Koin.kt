@@ -5,11 +5,11 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.RemoveAdsViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.initCommon
@@ -35,7 +35,7 @@ private val viewModelModule = module {
     viewModelDefinition { CurrenciesViewModel(get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get()) }
     viewModelDefinition { BarViewModel(get()) }
-    viewModelDefinition { RemoveAdsViewModel(get()) }
+    viewModelDefinition { AdRemoveViewModel(get()) }
 }
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(

@@ -19,23 +19,23 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.datetime.Clock
 
-class RemoveAdsViewModel(
+class AdRemoveViewModel(
     private val settingsRepository: SettingsRepository
-) : BaseSEEDViewModel(), RemoveAdsEvent {
+) : BaseSEEDViewModel(), AdRemoveEvent {
     // region SEED
-    private val _state = MutableStateFlow(RemoveAdsState())
-    override val state: StateFlow<RemoveAdsState> = _state
+    private val _state = MutableStateFlow(AdRemoveState())
+    override val state: StateFlow<AdRemoveState> = _state
 
-    private val _effect = Channel<RemoveAdsEffect>(1)
+    private val _effect = Channel<AdRemoveEffect>(1)
     override val effect = _effect.receiveAsFlow().conflate()
 
-    override val event = this as RemoveAdsEvent
+    override val event = this as AdRemoveEvent
 
-    override val data: RemoveAdsData? = null
+    override val data: AdRemoveData? = null
     // endregion
 
     init {
-        kermit.d { "RemoveAdsViewModel init" }
+        kermit.d { "AdRemoveViewModel init" }
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
@@ -47,20 +47,20 @@ class RemoveAdsViewModel(
     }
 
     override fun onCleared() {
-        kermit.d { "RemoveAdsViewModel onCleared" }
+        kermit.d { "AdRemoveViewModel onCleared" }
         super.onCleared()
     }
 }
 
 // region SEED
-data class RemoveAdsState(
+data class AdRemoveState(
     val loading: Boolean = false
 ) : BaseState()
 
-interface RemoveAdsEvent : BaseEvent
+interface AdRemoveEvent : BaseEvent
 
-sealed class RemoveAdsEffect : BaseEffect()
+sealed class AdRemoveEffect : BaseEffect()
 
-class RemoveAdsData : BaseData()
+class AdRemoveData : BaseData()
 // todo create fake seed if missing
 // endregion

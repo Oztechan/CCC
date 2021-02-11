@@ -160,7 +160,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
                 SettingsEffect.RemoveAds -> navigate(
                     R.id.settingsFragment,
-                    SettingsFragmentDirections.actionCurrenciesFragmentToRemoveAdsBottomSheet()
+                    SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)

@@ -7,10 +7,10 @@ package com.github.mustafaozhan.ccc.client.util
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveState
 import com.github.mustafaozhan.ccc.client.viewmodel.BarState
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorState
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesState
-import com.github.mustafaozhan.ccc.client.viewmodel.RemoveAdsState
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsState
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -73,7 +73,7 @@ fun MutableStateFlow<SettingsState>.update(
     )
 }
 
-fun MutableStateFlow<RemoveAdsState>.update(
+fun MutableStateFlow<AdRemoveState>.update(
     loading: Boolean = value.loading
 ) {
     value = value.copy(
