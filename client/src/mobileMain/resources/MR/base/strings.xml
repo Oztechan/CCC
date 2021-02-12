@@ -79,11 +79,6 @@
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
     <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
 
-    <!--Rewarded Ad-->
-    <string name="remove_ads">Remove Ads</string>
-    <string name="remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
-    <string name="watch">Watch</string>
-
     <!-- Bar Bottom Sheet Dialog -->
     <string name="txt_select_base_currency">Select base currency</string>
 
@@ -99,7 +94,7 @@
     <string name="title_dialog_choose_theme">Choose app theme</string>
 
     <string name="settings_item_remove_ads_title">Remove Ads</string>
-    <string name="settings_item_remove_ads_sub_title">Disable ads 3 days</string>
+    <string name="settings_item_remove_ads_sub_title">Disable ads</string>
     <string name="settings_item_remove_ads_value_expired">Expired\n</string>
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
@@ -126,4 +121,20 @@
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
 
+    <!-- Ad Remove -->
+    <string name="txt_watch_video">Watch video</string>
+    <string name="txt_watch_video_reward">3 days</string>
+    <string name="txt_pay_one_euro">Pay 1€</string>
+    <string name="txt_pay_one_euro_reward">1 month</string>
+    <string name="txt_pay_two_euro">Pay 2€</string>
+    <string name="txt_pay_two_euro_reward">3 months</string>
+    <string name="txt_pay_three_euro">Pay 3€</string>
+    <string name="txt_pay_three_euro_reward">6 months</string>
+    <string name="txt_pay_five_euro">Pay 5€</string>
+    <string name="txt_pay_five_euro_reward">1 year</string>
+
+    <!--Rewarded Ad-->
+    <string name="txt_remove_ads">Remove Ads</string>
+    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
+    <string name="txt_watch">Watch</string>
 </resources>

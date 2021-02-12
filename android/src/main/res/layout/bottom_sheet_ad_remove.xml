@@ -3,7 +3,62 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/WideStyle">
 
+    <TextView
+        android:id="@+id/txt_remove_ads"
+        style="@style/BottomSheetTitleStyle"
+        android:text="@string/txt_remove_ads"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loading_view"
+        style="@style/ProgressBarStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_remove_ads" />
+
+    <include
+        android:id="@+id/item_watch_video"
+        style="@style/WideFitStyle"
+        layout="@layout/item_ad_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_remove_ads" />
+
+    <include
+        android:id="@+id/item_month"
+        style="@style/WideFitStyle"
+        layout="@layout/item_ad_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_watch_video" />
+
+    <include
+        android:id="@+id/item_quarter"
+        style="@style/WideFitStyle"
+        layout="@layout/item_ad_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_month" />
+
+    <include
+        android:id="@+id/item_half_year"
+        style="@style/WideFitStyle"
+        layout="@layout/item_ad_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_quarter" />
+
+    <include
+        android:id="@+id/item_year"
+        style="@style/WideFitStyle"
+        layout="@layout/item_ad_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_half_year" />
 </androidx.constraintlayout.widget.ConstraintLayout>

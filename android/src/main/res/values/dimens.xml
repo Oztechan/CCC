@@ -53,4 +53,7 @@
 
     <!-- Search View -->
     <dimen name="max_width_search_view">256dp</dimen>
+
+    <!-- Ad Remove -->
+    <dimen name="padding_ad_remove_item_layout">16dp</dimen>
 </resources>
