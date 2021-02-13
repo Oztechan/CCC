@@ -12,8 +12,7 @@ import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 
 class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
@@ -31,19 +30,15 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onBarClick() = runTest {
-        it.launch {
-            viewModel.event.onBarClick()
+        viewModel.event.onBarClick()
 
-            assertEquals(CalculatorEffect.OpenBar, viewModel.effect.single())
-        }.cancel()
+        assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
     }
 
     @Test
     fun onSettingsClicked() = runTest {
-        it.launch {
-            viewModel.event.onSettingsClicked()
-            assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.single())
-        }.cancel()
+        viewModel.event.onSettingsClicked()
+        assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.first())
     }
 
     @Test
@@ -63,22 +58,20 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onItemLongClick() = runTest {
-        it.launch {
-            val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
 
-            viewModel.event.onItemLongClick(currency)
+        viewModel.event.onItemLongClick(currency)
 
-            assertEquals(
-                CalculatorEffect.ShowRate(
-                    currency.getCurrencyConversionByRate(
-                        viewModel.state.value.base,
-                        viewModel.data.rates
-                    ),
-                    currency.name
+        assertEquals(
+            CalculatorEffect.ShowRate(
+                currency.getCurrencyConversionByRate(
+                    viewModel.state.value.base,
+                    viewModel.data.rates
                 ),
-                viewModel.effect.single()
-            )
-        }.cancel()
+                currency.name
+            ),
+            viewModel.effect.first()
+        )
     }
 
     @Test

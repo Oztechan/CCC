@@ -4,39 +4,36 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 
 class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
 
     override val viewModel: BarViewModel by lazy {
-        koin.getDependency(SettingsRepository::class)
+        koin.getDependency(BarViewModel::class)
     }
 
     @Test
     fun onItemClick() = runTest {
-        it.launch {
-            val currency = Currency("USD", "Dollar", "$", 0.0, true)
-            viewModel.event.onItemClick(currency)
+        kermit.d { "BarViewModelTest onItemClick inside test" }
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        viewModel.event.onItemClick(currency)
 
-            assertEquals(
-                BarEffect.ChangeBase(currency.name),
-                viewModel.effect.single()
-            )
-        }.cancel()
+        kermit.d { "BarViewModelTest onItemClick before asset" }
+        assertEquals(
+            BarEffect.ChangeBase(currency.name),
+            viewModel.effect.first()
+        )
     }
 
     @Test
     fun onSelectClick() = runTest {
-        it.launch {
-            viewModel.event.onSelectClick()
-            assertEquals(BarEffect.OpenCurrencies, viewModel.effect.single())
-        }.cancel()
+        viewModel.event.onSelectClick()
+        assertEquals(BarEffect.OpenCurrencies, viewModel.effect.first())
     }
 }

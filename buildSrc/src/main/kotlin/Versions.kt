@@ -4,7 +4,7 @@
 
 object Versions {
     const val kotlin = "1.4.30"
-    const val androidPlugin = "7.0.0-alpha05"
+    const val androidPlugin = "7.0.0-alpha06"
     const val androidMaterial = "1.3.0"
     const val constraintLayout = "2.1.0-alpha2"
     const val ktor = "1.5.1"
@@ -24,7 +24,7 @@ object Versions {
     const val navigation = "2.3.3"
     const val playCore = "1.9.1"
     const val dateTime = "0.1.1"
-    const val kotlinCoroutines = "1.4.2-native-mt"
+    const val kotlinCoroutines = "1.3.9-native-mt-2"
 
     // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
     const val sqlDelight = "1.4.3"

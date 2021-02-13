@@ -12,7 +12,6 @@ import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
@@ -39,4 +38,4 @@ actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
     }
 }
 
-actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit) = runBlocking { block(this) }
+actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }

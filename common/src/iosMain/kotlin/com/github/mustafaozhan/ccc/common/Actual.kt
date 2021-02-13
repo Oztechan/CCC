@@ -14,7 +14,7 @@ import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
@@ -40,4 +40,8 @@ actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
     }
 }
 
-actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit) = runBlocking { block(this) }
+actual fun runTest(block: suspend () -> Unit) {
+    CoroutineScope(Dispatchers.Main).launch {
+        block()
+    }
+}

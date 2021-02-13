@@ -152,6 +152,7 @@ android {
 multiplatformResources {
     multiplatformResourcesPackage = "com.github.mustafaozhan.ccc.client"
     multiplatformResourcesSourceSet = "mobileMain"
+    disableStaticFrameworkWarning = true
 }
 
 tasks.withType<KotlinCompile> {

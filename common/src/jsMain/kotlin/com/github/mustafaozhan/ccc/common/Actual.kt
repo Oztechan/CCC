@@ -9,7 +9,6 @@ import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.russhwolf.settings.JsSettings
 import com.russhwolf.settings.Settings
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
@@ -29,5 +28,4 @@ actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
     // todo JS SqlDelight is not ready yet. https://github.com/cashapp/sqldelight/issues/1667
 }
 
-actual fun runTest(block: suspend (scope: CoroutineScope) -> Unit): dynamic =
-    GlobalScope.promise { block(this) }
+actual fun runTest(block: suspend () -> Unit): dynamic = GlobalScope.promise { block() }
