@@ -44,6 +44,7 @@ object Dependencies {
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
         const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
+        const val billing = "com.android.billingclient:billing:${Versions.billing}"
     }
 
     object IOS {

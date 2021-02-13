@@ -27,6 +27,7 @@ object Versions {
     const val playCore = "1.9.1"
     const val dateTime = "0.1.1"
     const val kotlinCoroutines = "1.4.2-native-mt"
+    const val billing = "3.0.2"
 
     // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
     const val sqlDelight = "1.4.3"
