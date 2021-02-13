@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
+import com.github.mustafaozhan.ccc.client.model.BillingPeriod
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
@@ -56,6 +57,10 @@ class AdRemoveViewModel(
     override fun onWatchVideoClick() = clientScope.launch {
         _effect.send(AdRemoveEffect.WatchVideo)
     }.toUnit()
+
+    override fun onBillingClick(period: BillingPeriod) = clientScope.launch {
+        _effect.send(AdRemoveEffect.Billing(period))
+    }.toUnit()
 }
 
 // region SEED
@@ -68,9 +73,11 @@ data class AdRemoveState(
 
 interface AdRemoveEvent : BaseEvent {
     fun onWatchVideoClick()
+    fun onBillingClick(period: BillingPeriod)
 }
 
 sealed class AdRemoveEffect : BaseEffect() {
     object WatchVideo : AdRemoveEffect()
+    data class Billing(val period: BillingPeriod) : AdRemoveEffect()
 }
 // endregion

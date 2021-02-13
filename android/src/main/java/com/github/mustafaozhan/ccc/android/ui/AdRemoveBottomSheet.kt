@@ -12,6 +12,7 @@ import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.ccc.client.model.BillingPeriod
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
@@ -81,6 +82,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     adRemoveViewModel.showLoadingView(true)
                     prepareRewardedAd()
                 }
+                is AdRemoveEffect.Billing -> TODO("will be implemented")
             }
         }
     }
@@ -88,6 +90,18 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun setListeners() = with(binding) {
         itemWatchVideo.root.setOnClickListener {
             adRemoveViewModel.event.onWatchVideoClick()
+        }
+        itemMonth.root.setOnClickListener {
+            adRemoveViewModel.event.onBillingClick(BillingPeriod.MONTH)
+        }
+        itemQuarter.root.setOnClickListener {
+            adRemoveViewModel.event.onBillingClick(BillingPeriod.QUARTER)
+        }
+        itemHalfYear.root.setOnClickListener {
+            adRemoveViewModel.event.onBillingClick(BillingPeriod.HALF_YEAR)
+        }
+        itemYear.root.setOnClickListener {
+            adRemoveViewModel.event.onBillingClick(BillingPeriod.YEAR)
         }
     }
 
