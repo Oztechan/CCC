@@ -16,16 +16,15 @@ object ProjectSettings {
     const val projectMinSdkVersion = 21
     const val projectTargetSdkVersion = 30
 
-    fun getVersionCode(project: Project) = gitCommitCount(project).let {
-        if (it.isEmpty()) 1 else it.toInt()
-    }
+    fun getVersionCode(project: Project) = gitCommitCount(project).toInt()
 
     fun getVersionName(project: Project) = "$mayorVersion.$minorVersion.${gitCommitCount(project)}"
 
     private fun gitCommitCount(project: Project) =
         "git rev-list --first-parent --count origin/master"
-            .executeCommand(project.rootDir)?.trim()
-            ?: ""
+            .executeCommand(project.rootDir)?.trim().let {
+                if (it.isNullOrEmpty()) 1.toString() else it
+            }
 
     @Suppress("SpreadOperator", "MagicNumber")
     private fun String.executeCommand(workingDir: File): String? = try {
