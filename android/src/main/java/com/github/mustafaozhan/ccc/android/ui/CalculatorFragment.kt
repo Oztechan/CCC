@@ -49,6 +49,15 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        kermit.d { "CalculatorFragment onCreate" }
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            calculatorViewModel.isRewardExpired()
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "CalculatorFragment onViewCreated" }
@@ -63,10 +72,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
 
     private fun initViews() = with(binding) {
-        adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            calculatorViewModel.isRewardExpired()
-        )
         calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
         recyclerViewMain.adapter = calculatorAdapter
     }

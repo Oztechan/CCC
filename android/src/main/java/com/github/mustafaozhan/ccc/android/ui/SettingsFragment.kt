@@ -46,6 +46,15 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        kermit.d { "SettingsFragment onCreate" }
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_settings),
+            settingsViewModel.isRewardExpired()
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "SettingsFragment onViewCreated" }
@@ -56,11 +65,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
-            settingsViewModel.isRewardExpired()
-        )
-
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)

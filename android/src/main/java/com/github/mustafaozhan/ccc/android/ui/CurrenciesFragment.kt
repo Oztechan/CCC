@@ -50,6 +50,15 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         binding = FragmentCurrenciesBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        kermit.d { "CurrenciesFragment onCreate" }
+        binding.adViewContainer.setAdaptiveBannerAd(
+            getString(R.string.banner_ad_unit_id_currencies),
+            currenciesViewModel.isRewardExpired()
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "CurrenciesFragment onViewCreated" }
@@ -60,11 +69,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
-            currenciesViewModel.isRewardExpired()
-        )
-
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
         setSpanByOrientation(resources.configuration.orientation)
 
