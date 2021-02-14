@@ -24,19 +24,18 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
             sDG, sEK, sGD, sHP, sLL, sOS, sRD, sSP, sTD, sTN, sVC, sYP, sZL, tHB, tJS, tMT,
             tND, tOP, tRY, tTD, tWD, tZS, uAH, uGX, uSD, uYU, uZS, vES, vND, vUV, wST, xAF,
             xAG, xAU, xCD, xDR, xOF, xPD, xPF, xPT, yER, zAR, zMW, zWL
-        ).also {
-            kermit.d { "OfflineRatesDao insertOfflineRates ${rates.base}" }
-        }
+        ).also { kermit.d { "OfflineRatesDao insertOfflineRates ${rates.base}" } }
     }
 
-    fun getOfflineRatesByBase(base: String) = offlineRatesQueries.getOfflineRatesByBase(base)
-        .executeAsOneOrNull()?.toModel().also {
-            kermit.d { "OfflineRatesDao getOfflineRatesByBase $base" }
-        }
+    fun getOfflineRatesByBase(baseName: String) = offlineRatesQueries
+        .getOfflineRatesByBase(baseName)
+        .executeAsOneOrNull()
+        ?.toModel()
+        .also { kermit.d { "OfflineRatesDao getOfflineRatesByBase $baseName" } }
 
-    fun getOfflineCurrencyResponseByBase(base: String) =
-        offlineRatesQueries.getOfflineRatesByBase(base)
-            .executeAsOneOrNull()?.toCurrencyResponseEntity().also {
-                kermit.d { "OfflineRatesDao getOfflineCurrencyResponseByBase $base" }
-            }
+    fun getOfflineCurrencyResponseByBase(baseName: String) = offlineRatesQueries
+        .getOfflineRatesByBase(baseName)
+        .executeAsOneOrNull()
+        ?.toCurrencyResponseEntity()
+        .also { kermit.d { "OfflineRatesDao getOfflineCurrencyResponseByBase $baseName" } }
 }

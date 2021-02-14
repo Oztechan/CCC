@@ -57,6 +57,7 @@ fun getCommonModule(useFakes: Boolean): Module = module {
     single { OfflineRatesDao(get()) }
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T> Koin.getDependency(clazz: KClass<*>): T {
     return get(clazz, null) { parametersOf(clazz.simpleName) } as T
 }
