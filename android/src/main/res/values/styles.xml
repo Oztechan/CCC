@@ -523,7 +523,7 @@
 
     <!-- Ad Remove -->
     <style name="AdRemoveItemLayoutStyle" parent="WideStyle">
-        <item name="android:background">@color/background_weak</item>
+        <item name="android:background">@color/color_background_weak</item>
     </style>
 
     <style name="TextAdRemoveItemStyle" parent="WrapStyle">
