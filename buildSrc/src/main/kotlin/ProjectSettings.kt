@@ -9,7 +9,7 @@ import org.gradle.api.Project
 object ProjectSettings {
 
     private const val mayorVersion = 2
-    private const val minorVersion = 1
+    private const val minorVersion = 2
 
     const val projectId = "mustafaozhan.github.com.mycurrencies"
     const val projectCompileSdkVersion = 30
