@@ -6,13 +6,13 @@
 ## Branches
 - [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
 
-  -  android - compeletelly moved to KMP (in beta)
+  -  android - completely moved to KMP (in beta, staged %10 in Production)
   -  ios, In progress
-  -  backend, compeletelly moved to KMP, (in beta)
+  -  backend, completely moved to KMP, (in beta)
   -  web, will be implemented
   -  desktop, will be implemented
 
-- [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Android market branch. (in Production)
+- [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android market branch (in Production). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
 
 - [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) - Android market branch with min sdk 16 support. (in Production for SDK16 - SDK21)
 
