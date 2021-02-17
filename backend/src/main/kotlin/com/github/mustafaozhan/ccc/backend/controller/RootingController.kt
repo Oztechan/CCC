@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.backend.controller
 
-import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
-import com.github.mustafaozhan.ccc.common.data.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 
 class RootingController(private val offlineRatesDao: OfflineRatesDao) {
     fun getOfflineCurrencyResponseByBase(base: String): CurrencyResponseEntity? =

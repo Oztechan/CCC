@@ -17,11 +17,11 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
-import com.github.mustafaozhan.ccc.common.data.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.data.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
-import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.db.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -2,9 +2,9 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.common.data.api
+package com.github.mustafaozhan.ccc.common.api
 
-import com.github.mustafaozhan.ccc.common.data.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.key.BASE_URL_API
 import com.github.mustafaozhan.ccc.common.key.BASE_URL_BACKEND
 import com.github.mustafaozhan.ccc.common.log.kermit

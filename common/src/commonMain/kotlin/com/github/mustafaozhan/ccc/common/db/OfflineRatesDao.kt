@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.data.db
+package com.github.mustafaozhan.ccc.common.db
 
-import com.github.mustafaozhan.ccc.common.data.entity.toCurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel
