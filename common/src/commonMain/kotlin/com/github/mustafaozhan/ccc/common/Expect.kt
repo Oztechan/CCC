@@ -5,12 +5,16 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.model.PlatformType
+import com.russhwolf.settings.Settings
 import kotlin.coroutines.CoroutineContext
+import org.koin.core.definition.BeanDefinition
 import org.koin.core.module.Module
 
 expect val platform: PlatformType
 
 expect val platformCoroutineContext: CoroutineContext
+
+expect fun Module.getSettingsDefinition(): BeanDefinition<Settings>
 
 expect fun getPlatformCommonModule(useFakes: Boolean): Module
 

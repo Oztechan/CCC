@@ -12,7 +12,9 @@ import com.github.mustafaozhan.ccc.common.data.db.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.getPlatformCommonModule
+import com.github.mustafaozhan.ccc.common.getSettingsDefinition
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.logmob.LogMobLogger
@@ -46,9 +48,11 @@ fun getCommonModule(useFakes: Boolean): Module = module {
     single { ApiRepository(get()) }
 
     if (useFakes) {
+        single { FakeSettings.getSettings() }
         single { FakeCurrencyQueries.getCurrencyQueries() }
         single { FakeOfflineRatesQueries.getOfflineRatesQueries() }
     } else {
+        getSettingsDefinition()
         single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
         single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     }

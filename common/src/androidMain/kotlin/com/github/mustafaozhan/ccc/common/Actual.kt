@@ -5,7 +5,6 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
-import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.AndroidSettings
@@ -21,12 +20,9 @@ actual val platform = PlatformType.ANDROID
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 
+actual fun Module.getSettingsDefinition() = single<Settings> { AndroidSettings(get()) }
+
 actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    if (useFakes) {
-        single { FakeSettings.getSettings() }
-    } else {
-        single<Settings> { AndroidSettings(get()) }
-    }
     single {
         CurrencyConverterCalculatorDatabase(
             AndroidSqliteDriver(

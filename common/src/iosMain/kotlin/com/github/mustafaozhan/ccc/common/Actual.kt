@@ -5,7 +5,6 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
-import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.AppleSettings
@@ -24,12 +23,10 @@ actual val platform = PlatformType.IOS
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
 lateinit var nsUserDefaults: NSUserDefaults
+
+actual fun Module.getSettingsDefinition() = single<Settings> { AppleSettings(nsUserDefaults) }
+
 actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    if (useFakes) {
-        single { FakeSettings.getSettings() }
-    } else {
-        single<Settings> { AppleSettings(nsUserDefaults) }
-    }
     single {
         CurrencyConverterCalculatorDatabase(
             NativeSqliteDriver(
