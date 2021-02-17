@@ -19,7 +19,7 @@ import kotlinx.serialization.SerializationException
 
 class ApiRepository(private val apiFactory: ApiFactory) {
 
-    @Suppress("ThrowsCount", "TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught")
     suspend fun <T> apiRequest(
         suspendBlock: suspend () -> T
     ) = withContext(platformCoroutineContext) {

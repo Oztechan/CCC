@@ -21,6 +21,7 @@ import platform.Foundation.NSUserDefaults
 
 fun initIOS(userDefaults: NSUserDefaults) = initClient(
     module {
+        // https://github.com/InsertKoinIO/koin/issues/1016
         // todo koin doesn't support to have it as single then use with get() for Objective-C classes
         nsUserDefaults = userDefaults
     }

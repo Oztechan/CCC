@@ -14,7 +14,9 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 
 fun initJVM(delegate: Preferences) = initClient(
-    module { single { delegate } }
+    module {
+        single { delegate }
+    }
 ).also {
     kermit.d { "KoinJVM initJVM" }
 }

@@ -33,6 +33,7 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
         ?.toModel()
         .also { kermit.d { "OfflineRatesDao getOfflineRatesByBase $baseName" } }
 
+    @Suppress("unused")
     fun getOfflineCurrencyResponseByBase(baseName: String) = offlineRatesQueries
         .getOfflineRatesByBase(baseName)
         .executeAsOneOrNull()

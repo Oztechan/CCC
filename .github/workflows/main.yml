@@ -41,8 +41,8 @@ jobs:
         with:
           xcode-version: latest
 
-      - name: Install Cocoapods
-        run: ./gradlew build :client:podspec; cd ios/CCC; gem install cocoapods; gem install cocoapods-generate; pod repo update; pod setup; pod install
+      - name: Install Pods
+        run: cd ios/CCC; pod setup; pod install
 
       - name: Xcode build
         run: xcodebuild build -workspace ios/CCC.xcworkspace -scheme CCC -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED="NO" CODE_SIGN_ENTITLEMENTS="" CODE_SIGNING_ALLOWED="NO"

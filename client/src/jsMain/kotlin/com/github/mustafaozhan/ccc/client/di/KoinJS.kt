@@ -14,7 +14,9 @@ import org.koin.dsl.module
 import org.w3c.dom.Storage
 
 fun initJS(storage: Storage) = initClient(
-    module { single { storage } }
+    module {
+        single { storage }
+    }
 ).also {
     kermit.d { "KoinJS initJS" }
 }
