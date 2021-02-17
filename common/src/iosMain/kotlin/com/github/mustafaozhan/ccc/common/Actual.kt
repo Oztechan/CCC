@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.module.Module
-import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 actual val platform = PlatformType.IOS
@@ -26,15 +25,13 @@ lateinit var nsUserDefaults: NSUserDefaults
 
 actual fun Module.getSettingsDefinition() = single<Settings> { AppleSettings(nsUserDefaults) }
 
-actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    single {
-        CurrencyConverterCalculatorDatabase(
-            NativeSqliteDriver(
-                CurrencyConverterCalculatorDatabase.Schema,
-                DATABASE_NAME
-            )
+actual fun Module.getDatabaseDefinition() = single {
+    CurrencyConverterCalculatorDatabase(
+        NativeSqliteDriver(
+            CurrencyConverterCalculatorDatabase.Schema,
+            DATABASE_NAME
         )
-    }
+    )
 }
 
 actual fun runTest(block: suspend () -> Unit) {

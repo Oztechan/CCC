@@ -13,7 +13,7 @@ import com.github.mustafaozhan.ccc.common.data.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeSettings
-import com.github.mustafaozhan.ccc.common.getPlatformCommonModule
+import com.github.mustafaozhan.ccc.common.getDatabaseDefinition
 import com.github.mustafaozhan.ccc.common.getSettingsDefinition
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
@@ -32,20 +32,18 @@ fun initCommon(
     useFakes: Boolean = false
 ) = startKoin {
     modules(clientModule)
-    modules(
-        getPlatformCommonModule(useFakes),
-        getCommonModule(useFakes)
-    )
+    modules(getCommonModule(useFakes))
 }.also {
     kermit.d { "Koin initCommon" }
 }
 
 fun getCommonModule(useFakes: Boolean): Module = module {
     single { Kermit(LogMobLogger()) }
-    single { SettingsRepository(get()) }
 
     factory { ApiFactory() }
     single { ApiRepository(get()) }
+
+    getDatabaseDefinition()
 
     if (useFakes) {
         single { FakeSettings.getSettings() }
@@ -56,6 +54,8 @@ fun getCommonModule(useFakes: Boolean): Module = module {
         single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
         single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     }
+
+    single { SettingsRepository(get()) }
 
     single { CurrencyDao(get()) }
     single { OfflineRatesDao(get()) }

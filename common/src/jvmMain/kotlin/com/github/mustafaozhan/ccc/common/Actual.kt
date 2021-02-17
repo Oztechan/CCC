@@ -14,7 +14,6 @@ import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
-import org.koin.dsl.module
 
 actual val platform = PlatformType.JVM
 
@@ -23,13 +22,11 @@ actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 @ExperimentalSettingsImplementation
 actual fun Module.getSettingsDefinition() = single<Settings> { JvmPreferencesSettings(get()) }
 
-actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    single {
-        CurrencyConverterCalculatorDatabase(
-            JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
-                .also { CurrencyConverterCalculatorDatabase.Schema.create(it) }
-        )
-    }
+actual fun Module.getDatabaseDefinition() = single {
+    CurrencyConverterCalculatorDatabase(
+        JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+            .also { CurrencyConverterCalculatorDatabase.Schema.create(it) }
+    )
 }
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }

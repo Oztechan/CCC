@@ -14,7 +14,6 @@ import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
-import org.koin.dsl.module
 
 actual val platform = PlatformType.ANDROID
 
@@ -22,16 +21,14 @@ actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 
 actual fun Module.getSettingsDefinition() = single<Settings> { AndroidSettings(get()) }
 
-actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    single {
-        CurrencyConverterCalculatorDatabase(
-            AndroidSqliteDriver(
-                CurrencyConverterCalculatorDatabase.Schema,
-                get(),
-                DATABASE_NAME
-            )
+actual fun Module.getDatabaseDefinition() = single {
+    CurrencyConverterCalculatorDatabase(
+        AndroidSqliteDriver(
+            CurrencyConverterCalculatorDatabase.Schema,
+            get(),
+            DATABASE_NAME
         )
-    }
+    )
 }
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }
