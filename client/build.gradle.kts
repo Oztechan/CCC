@@ -157,7 +157,7 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.github.mustafaozhan.ccc.client"
+    multiplatformResourcesPackage = "${ProjectSettings.packageName}.client"
     multiplatformResourcesSourceSet = "mobileMain"
     disableStaticFrameworkWarning = true
 }

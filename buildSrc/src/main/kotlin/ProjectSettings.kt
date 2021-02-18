@@ -12,6 +12,7 @@ object ProjectSettings {
     private const val minorVersion = 2
 
     const val projectId = "mustafaozhan.github.com.mycurrencies"
+    const val packageName = "com.github.mustafaozhan.ccc"
     const val projectCompileSdkVersion = 30
     const val projectMinSdkVersion = 21
     const val projectTargetSdkVersion = 30

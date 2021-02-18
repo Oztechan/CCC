@@ -32,4 +32,5 @@ object Versions {
     const val mokoResources = "0.15.0"
     const val dependencyUpdates = "0.36.0"
     const val buildHealth = "0.71.0"
+    const val buildKonfig = "0.7.0"
 }

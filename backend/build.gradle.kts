@@ -29,5 +29,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.github.mustafaozhan.ccc.backend.BackendAppKt")
+    mainClass.set("${ProjectSettings.packageName}.backend.BackendAppKt")
 }

@@ -15,4 +15,6 @@ object ClassPaths {
     const val navigation =
         "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
     const val mokoResoruces = "dev.icerock.moko:resources-generator:${Versions.mokoResources}"
+    const val buildKonfig =
+        "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.buildKonfig}"
 }

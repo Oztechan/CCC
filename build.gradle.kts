@@ -24,6 +24,7 @@ buildscript {
             classpath(kotlinSerialization)
             classpath(sqldelight)
             classpath(mokoResoruces)
+            classpath(buildKonfig)
         }
     }
 }
