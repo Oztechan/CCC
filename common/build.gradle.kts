@@ -158,7 +158,7 @@ configure<BuildKonfigExtension> {
     try {
         props.load(file("key.properties").inputStream())
     } catch (e: Exception) {
-        // keys are private and can not be comitted to git
+        // keys are private and can not be committed to git
     }
 
     defaultConfigs {
