@@ -5,7 +5,6 @@
 package com.github.mustafaozhan.ccc.common
 
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
-import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.AppleSettings
@@ -16,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.module.Module
-import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 actual val platform = PlatformType.IOS
@@ -24,20 +22,16 @@ actual val platform = PlatformType.IOS
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
 lateinit var nsUserDefaults: NSUserDefaults
-actual fun getPlatformCommonModule(useFakes: Boolean): Module = module {
-    if (useFakes) {
-        single { FakeSettings.getSettings() }
-    } else {
-        single<Settings> { AppleSettings(nsUserDefaults) }
-    }
-    single {
-        CurrencyConverterCalculatorDatabase(
-            NativeSqliteDriver(
-                CurrencyConverterCalculatorDatabase.Schema,
-                DATABASE_NAME
-            )
+
+actual fun Module.getSettingsDefinition() = single<Settings> { AppleSettings(nsUserDefaults) }
+
+actual fun Module.getDatabaseDefinition() = single {
+    CurrencyConverterCalculatorDatabase(
+        NativeSqliteDriver(
+            CurrencyConverterCalculatorDatabase.Schema,
+            DATABASE_NAME
         )
-    }
+    )
 }
 
 actual fun runTest(block: suspend () -> Unit) {

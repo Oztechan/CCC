@@ -6,22 +6,22 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
-import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.nsUserDefaults
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
+import org.koin.core.definition.BeanDefinition
+import org.koin.core.definition.Definition
 import org.koin.core.module.Module
+import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 fun initIOS(userDefaults: NSUserDefaults) = initClient(
     module {
+        // https://github.com/InsertKoinIO/koin/issues/1016
         // todo koin doesn't support to have it as single then use with get() for Objective-C classes
         nsUserDefaults = userDefaults
     }
@@ -29,13 +29,11 @@ fun initIOS(userDefaults: NSUserDefaults) = initClient(
     kermit.d { "KoinIOS initIOS" }
 }
 
-actual val clientModule: Module = module {
-    single { SettingsViewModel(get(), get(), get(), get()) }
-    single { MainViewModel(get()) }
-    single { CurrenciesViewModel(get(), get()) }
-    single { CalculatorViewModel(get(), get(), get(), get()) }
-    single { BarViewModel(get()) }
-}
+actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
+    qualifier: Qualifier?,
+    override: Boolean,
+    noinline definition: Definition<T>
+): BeanDefinition<T> = single(qualifier = qualifier, override = override, definition = definition)
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
     getDependency(it)

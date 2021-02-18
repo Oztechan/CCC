@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.data.error
+package com.github.mustafaozhan.ccc.common.error
 
 open class NetworkException(cause: Throwable) : Throwable(cause)
 

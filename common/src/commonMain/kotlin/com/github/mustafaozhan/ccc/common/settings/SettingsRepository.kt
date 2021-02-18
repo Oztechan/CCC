@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.common.data.settings
+package com.github.mustafaozhan.ccc.common.settings
 
 import com.russhwolf.settings.Settings
 import kotlinx.datetime.Clock
