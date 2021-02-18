@@ -4,9 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common.api
 
+import com.github.mustafaozhan.ccc.common.BuildKonfig
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
-import com.github.mustafaozhan.ccc.common.key.BASE_URL_API
-import com.github.mustafaozhan.ccc.common.key.BASE_URL_BACKEND
 import com.github.mustafaozhan.ccc.common.log.kermit
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
@@ -58,7 +57,7 @@ class ApiFactory : ApiService {
     override suspend fun getRatesByBaseViaBackend(base: String): CurrencyResponseEntity =
         client.get {
             url {
-                takeFrom(BASE_URL_BACKEND)
+                takeFrom(BuildKonfig.BASE_URL_BACKEND)
                 path(PATH_CURRENCY_BY_BASE_BACKEND)
                 parameter(QUERY_KEY_BASE, base)
             }
@@ -66,7 +65,7 @@ class ApiFactory : ApiService {
 
     override suspend fun getRatesByBaseViaApi(base: String): CurrencyResponseEntity = client.get {
         url {
-            takeFrom(BASE_URL_API)
+            takeFrom(BuildKonfig.BASE_URL_API)
             path(PATH_CURRENCY_BY_BASE_API)
             parameter(QUERY_KEY_BASE, base)
         }

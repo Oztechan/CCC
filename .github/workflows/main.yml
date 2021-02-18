@@ -23,16 +23,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode google-services.json
-        env:
-          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-        run: echo $FIREBASE_CONFIG > android/google-services.json
-
-      - name: Decode Keys
-        env:
-          KEYS: ${{ secrets.KEYS }}
-        run: mkdir common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/key; echo $KEYS > common/src/commonMain/kotlin/com/github/mustafaozhan/ccc/common/key/Keys.kt
-
       - name: Gradle Build
         run: ./gradlew build --parallel
 

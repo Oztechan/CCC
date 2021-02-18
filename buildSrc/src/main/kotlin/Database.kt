@@ -4,6 +4,6 @@
 
 object Database {
     const val name = "CurrencyConverterCalculatorDatabase"
-    const val packageName = "com.github.mustafaozhan.ccc.common.sql"
+    const val packageName = "${ProjectSettings.packageName}.common.sql"
     const val sourceFolders = "database"
 }

@@ -11,6 +11,7 @@ object Plugins {
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"
     const val cocoapods = "native.cocoapods"
+    const val buildKonfig = "com.codingfeline.buildkonfig"
 
     const val crashlytics = "com.google.firebase.crashlytics"
     const val googleServices = "com.google.gms.google-services"
