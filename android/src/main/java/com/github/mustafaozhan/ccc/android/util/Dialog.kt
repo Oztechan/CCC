@@ -20,11 +20,7 @@ fun showDialog(
     positiveButton: String,
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
-) = AlertDialog
-    .Builder(activity, R.style.AlertDialogCustom)
-    .whetherNot { activity.isFinishing }
-    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
-    ?.setTitle(title)
+) = buildDialog(activity, title)
     ?.setMessage(message)
     ?.setPositiveButton(positiveButton) { _, _ ->
         kermit.d { "Dialog positive button click" }
@@ -59,11 +55,7 @@ fun showSingleChoiceDialog(
     items: Array<String>,
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
-) = AlertDialog
-    .Builder(activity, R.style.AlertDialogCustom)
-    .whetherNot { activity.isFinishing }
-    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
-    ?.setTitle(title)
+) = buildDialog(activity, title)
     ?.setSingleChoiceItems(items, selectedIndex) { _, which ->
         kermit.d { "Dialog choice click $which" }
         choiceAction?.invoke(which)
@@ -83,3 +75,12 @@ fun showSingleChoiceDialog(
     selectedIndex,
     choiceAction
 )
+
+private fun buildDialog(
+    activity: Activity,
+    title: String
+) = AlertDialog
+    .Builder(activity, R.style.AlertDialogCustom)
+    .whetherNot { activity.isFinishing }
+    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
+    ?.setTitle(title)
