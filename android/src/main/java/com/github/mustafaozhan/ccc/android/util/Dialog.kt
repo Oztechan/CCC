@@ -8,6 +8,8 @@ package com.github.mustafaozhan.ccc.android.util
 import android.app.Activity
 import android.app.AlertDialog
 import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.scopemob.inCase
+import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 
 @Suppress("LongParameterList")
@@ -18,27 +20,20 @@ fun showDialog(
     positiveButton: String,
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
-) {
-    if (!activity.isFinishing) {
-        val dialog = AlertDialog
-            .Builder(activity, R.style.AlertDialogCustom)
-            .setIcon(R.drawable.ic_dialog_and_snackbar)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(positiveButton) { _, _ ->
-                kermit.d { "Dialog positive button click" }
-                function?.invoke()
-            }
-
-        if (cancelable) {
-            dialog
-                .setCancelable(cancelable)
-                .setNegativeButton(activity.getString(android.R.string.cancel), null)
-        }
-
-        dialog.show()
+) = AlertDialog
+    .Builder(activity, R.style.AlertDialogCustom)
+    .whetherNot { activity.isFinishing }
+    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
+    ?.setTitle(title)
+    ?.setMessage(message)
+    ?.setPositiveButton(positiveButton) { _, _ ->
+        kermit.d { "Dialog positive button click" }
+        function?.invoke()
     }
-}
+    ?.inCase(cancelable) {
+        setCancelable(cancelable)
+        setNegativeButton(activity.getString(android.R.string.cancel), null)
+    }?.show()
 
 @Suppress("LongParameterList")
 fun showDialog(
@@ -64,18 +59,15 @@ fun showSingleChoiceDialog(
     items: Array<String>,
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
-) {
-    if (!activity.isFinishing) {
-        AlertDialog
-            .Builder(activity, R.style.AlertDialogCustom)
-            .setIcon(R.drawable.ic_dialog_and_snackbar)
-            .setTitle(title)
-            .setSingleChoiceItems(items, selectedIndex) { _, which ->
-                kermit.d { "Dialog choice click $which" }
-                choiceAction?.invoke(which)
-            }.show()
-    }
-}
+) = AlertDialog
+    .Builder(activity, R.style.AlertDialogCustom)
+    .whetherNot { activity.isFinishing }
+    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
+    ?.setTitle(title)
+    ?.setSingleChoiceItems(items, selectedIndex) { _, which ->
+        kermit.d { "Dialog choice click $which" }
+        choiceAction?.invoke(which)
+    }?.show()
 
 @Suppress("LongParameterList")
 fun showSingleChoiceDialog(

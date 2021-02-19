@@ -12,9 +12,7 @@ import com.github.mustafaozhan.ccc.client.log.kermit
 import com.google.android.material.snackbar.Snackbar
 import mustafaozhan.github.com.mycurrencies.R
 
-private const val IMAGE_PADDING = 24
-
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "NestedBlockDepth")
 fun showSnack(
     view: View,
     text: String = "",
@@ -33,16 +31,24 @@ fun showSnack(
     }
     this.view.apply {
         setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
+
         findViewById<TextView>(R.id.snackbar_text)?.apply {
             gravity = Gravity.CENTER
-            setCompoundDrawablesWithIntrinsicBounds(
-                icon ?: R.drawable.ic_dialog_and_snackbar,
-                0,
-                0,
-                0
-            )
-            compoundDrawablePadding = IMAGE_PADDING
+
+            ContextCompat.getDrawable(context, icon ?: R.drawable.ic_dialog_and_snackbar)
+                ?.apply {
+                    setBounds(
+                        0,
+                        0,
+                        resources.getDimensionPixelSize(R.dimen.snack_icon_size),
+                        resources.getDimensionPixelSize(R.dimen.snack_icon_size)
+                    )
+                }?.let {
+                    setCompoundDrawables(it, null, null, null)
+                    compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.margin_eight)
+                }
         }
+
         findViewById<TextView>(R.id.snackbar_action)?.apply {
             setTypeface(null, Typeface.BOLD)
             setTextColor(ContextCompat.getColor(context, R.color.color_text_action_snack_bar))

@@ -35,6 +35,9 @@
     <!--Currency Icon Size-->
     <dimen name="currency_icon_size">36dp</dimen>
 
+    <!-- Snack Bar -->
+    <dimen name="snack_icon_size">56dp</dimen>
+
     <!--ProgressBar-->
     <dimen name="progress_bar_height_width">72dp</dimen>
     <dimen name="progress_bar_margin_top">24dp</dimen>
