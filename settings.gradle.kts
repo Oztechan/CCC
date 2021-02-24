@@ -23,6 +23,6 @@ include(
     ":basemob", ":scopemob", ":logmob"
 )
 
-project(":basemob").projectDir = file("basemob/submob")
-project(":scopemob").projectDir = file("scopemob/submob")
-project(":logmob").projectDir = file("logmob/submob")
+project(":basemob").projectDir = file("basemob/basemob")
+project(":scopemob").projectDir = file("scopemob/scopemob")
+project(":logmob").projectDir = file("logmob/logmob")
