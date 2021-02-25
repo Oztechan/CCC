@@ -3,15 +3,15 @@
  */
 
 object Versions {
-    const val kotlin = "1.4.30"
-    const val androidPlugin = "7.0.0-alpha07"
-    const val androidMaterial = "1.3.0"
+    const val kotlin = "1.4.31"
+    const val androidPlugin = "7.0.0-alpha08"
+    const val androidMaterial = "1.4.0-alpha01"
     const val constraintLayout = "2.1.0-alpha2"
     const val ktor = "1.5.1"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val react = "17.0.1-pre.148-kotlin-1.4.30"
-    const val koin = "3.0.1-alpha-3"
+    const val koin = "3.0.1-alpha-5"
     const val koinAndroid = "3.0.1-alpha-3"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.7.3"
