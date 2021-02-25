@@ -10,7 +10,12 @@ kotlin {
 
     jvm()
 
-    ios()
+    // todo Revert to just ios() when gradle plugin can properly resolve it
+    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false) {
+        iosArm64("ios")
+    } else {
+        iosX64("ios")
+    }
 
     js {
         browser {

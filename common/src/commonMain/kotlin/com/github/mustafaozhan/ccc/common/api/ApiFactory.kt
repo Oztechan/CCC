@@ -16,6 +16,7 @@ import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.http.ContentType
 import io.ktor.http.takeFrom
 import kotlinx.serialization.json.Json
 
@@ -37,6 +38,7 @@ class ApiFactory : ApiService {
         HttpClient {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(json)
+                accept(ContentType.Application.Json)
             }
             install(HttpTimeout) {
                 connectTimeoutMillis = TIME_OUT
