@@ -35,7 +35,7 @@ fun Instant.formatToString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
     "${hour.doubleDigits()}:${minute.doubleDigits()} " +
-            "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
+        "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
 }
 
 fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
@@ -59,6 +59,8 @@ fun String.toSupportedCharacters() =
         .replace(" ", "")
         .replace("−", "-")
 
+fun String.isEmptyOrNullString() = isEmpty() || equals("null", true)
+
 fun String.toStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
@@ -76,9 +78,9 @@ fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
 fun List<Currency>?.toValidList(currentBase: String) =
     this?.filter {
         it.name != currentBase &&
-                it.isActive &&
-                it.rate.toString() != "NaN" &&
-                it.rate.toString() != "0.0"
+            it.isActive &&
+            it.rate.toString() != "NaN" &&
+            it.rate.toString() != "0.0"
     } ?: mutableListOf()
 
 @Suppress("ComplexMethod", "LongMethod")

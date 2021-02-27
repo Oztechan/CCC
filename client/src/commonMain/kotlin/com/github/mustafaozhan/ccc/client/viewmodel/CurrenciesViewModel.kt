@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
+import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
@@ -73,7 +74,7 @@ class CurrenciesViewModel(
     }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
-        { isEmpty() },
+        { isEmptyOrNullString() },
         { base ->
             state.value.currencyList
                 .filter { it.name == base }
@@ -93,8 +94,8 @@ class CurrenciesViewModel(
     fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
-                    longName.contains(txt, true) ||
-                    symbol.contains(txt, true)
+                longName.contains(txt, true) ||
+                symbol.contains(txt, true)
         }.toMutableList()
         .let {
             _state.update(currencyList = it, loading = false)

@@ -12,6 +12,7 @@ import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.getConversionByName
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
+import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.util.toRates
@@ -24,11 +25,11 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.platform
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -108,6 +109,14 @@ class ExtensionsTest {
         ).forEach {
             assertEquals("0123456789", it.toStandardDigits(), "actual string $it")
         }
+    }
+
+    @Test
+    fun isEmptyOrNullString() {
+        assertEquals(true, "".isEmptyOrNullString())
+        assertEquals(true, "null".isEmptyOrNullString())
+        assertEquals(true, "Null".isEmptyOrNullString())
+        assertEquals(true, "NULL".isEmptyOrNullString())
     }
 
     @Test
