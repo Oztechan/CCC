@@ -35,10 +35,10 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven(url = "https://dl.bintray.com/ekito/koin")
         // todo soon will be just jcenter() https://github.com/Kotlin/kotlinx-datetime/issues/40
         maven(url = "https://kotlin.bintray.com/kotlinx/")
         maven(url = "https://dl.bintray.com/icerockdev/moko")
+        maven(url = "https://kotlin.bintray.com/kotlin-js-wrappers")
     }
 }

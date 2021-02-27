@@ -2,7 +2,7 @@
  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 plugins {

@@ -21,7 +21,7 @@ kotlin {
 
     // todo Revert to just ios() when gradle plugin can properly resolve it
     // todo it is necessary for xcodebuild, find workaround
-    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false) {
+    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true) {
         iosArm64("ios")
     } else {
         iosX64("ios")

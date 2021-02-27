@@ -4,15 +4,6 @@
 
 enableFeaturePreview("GRADLE_METADATA")
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        jcenter()
-        mavenCentral()
-    }
-}
-
 include(
     ":android",
     ":backend",
