@@ -7,15 +7,15 @@
 
 * [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
 
-    * ![badge][badge-android] completely moved to KMP (in beta, staged %50 in Production)
-    * ![badge][badge-ios] in progress
-    * ![badge][badge-web] will be implemented
-    * ![badge][badge-desktop] will be implemented
-    * ![badge][badge-backend] completely moved to KMP (in beta)
-    * ![badge][badge-client] shared module for FE targets
-    * ![badge][badge-common] shared module for BE and FE targets
+    - [x] ![badge][badge-android] in production!
+    - [ ] ![badge][badge-ios] in progress :bow:
+    - [ ] ![badge][badge-web] will be implemented :eyes:
+    - [ ] ![badge][badge-desktop] will be implemented :eyes:
+    - [x] ![badge][badge-backend] in beta
+    - [x] ![badge][badge-client] shared module for FE targets
+    - [x] ![badge][badge-common] shared module for BE and FE targets
 
-* [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android market branch (in Production). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
+* [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android branch (retired). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
 
 * [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) - Android market branch with min sdk 16 support. (in Production for SDK16 - SDK21)
 
@@ -59,10 +59,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[badge-android]: https://img.shields.io/badge/module-android-green
-[badge-ios]: https://img.shields.io/badge/module-ios-orange
-[badge-backend]: https://img.shields.io/badge/module-backend-blue
-[badge-web]: https://img.shields.io/badge/module-web-yellow
-[badge-desktop]: https://img.shields.io/badge/module-desktop-red
-[badge-client]: https://img.shields.io/badge/module-client-white
-[badge-common]: https://img.shields.io/badge/module-common-darkgrey
+[badge-android]: https://img.shields.io/badge/app-android-green
+[badge-ios]: https://img.shields.io/badge/app-ios-orange
+[badge-backend]: https://img.shields.io/badge/app-backend-blue
+[badge-web]: https://img.shields.io/badge/app-web-yellow
+[badge-desktop]: https://img.shields.io/badge/app-desktop-red
+[badge-client]: https://img.shields.io/badge/shared-client-white
+[badge-common]: https://img.shields.io/badge/shared-common-darkgrey
