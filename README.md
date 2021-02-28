@@ -7,13 +7,13 @@
 
 * [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
 
-    * android, completely moved to KMP (in beta, staged %10 in Production)
-    * ios, In progress
-    * backend, completely moved to KMP (in beta)
-    * web, will be implemented
-    * desktop, will be implemented
-    * client, shared module for FE targets
-    * common, shared module for BE and FE targets
+    * ![badge][badge-android], completely moved to KMP (in beta, staged %50 in Production)
+    * ![badge][badge-ios], In progress
+    * ![badge][badge-backend], completely moved to KMP (in beta)
+    * ![badge][badge-web], will be implemented
+    * ![badge][badge-desktop], will be implemented
+    * ![badge][badge-client], shared module for FE targets
+    * ![badge][badge-common], shared module for BE and FE targets
 
 * [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android market branch (in Production). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
 
@@ -58,3 +58,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[badge-android]: https://img.shields.io/badge/module-android-green
+[badge-ios]: https://img.shields.io/badge/module-ios-orange
+[badge-backend]: https://img.shields.io/badge/module-backend-blue
+[badge-web]: https://img.shields.io/badge/module-web-yellow
+[badge-desktop]: https://img.shields.io/badge/module-desktop-red
+[badge-client]: https://img.shields.io/badge/module-client-white
+[badge-common]: https://img.shields.io/badge/module-common-darkgrey
