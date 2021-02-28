@@ -7,13 +7,13 @@
 
 * [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
 
-    * ![badge][badge-android], completely moved to KMP (in beta, staged %50 in Production)
-    * ![badge][badge-ios], In progress
-    * ![badge][badge-backend], completely moved to KMP (in beta)
-    * ![badge][badge-web], will be implemented
-    * ![badge][badge-desktop], will be implemented
-    * ![badge][badge-client], shared module for FE targets
-    * ![badge][badge-common], shared module for BE and FE targets
+    * ![badge][badge-android] completely moved to KMP (in beta, staged %50 in Production)
+    * ![badge][badge-ios] in progress
+    * ![badge][badge-web] will be implemented
+    * ![badge][badge-desktop] will be implemented
+    * ![badge][badge-backend] completely moved to KMP (in beta)
+    * ![badge][badge-client] shared module for FE targets
+    * ![badge][badge-common] shared module for BE and FE targets
 
 * [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android market branch (in Production). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
 
