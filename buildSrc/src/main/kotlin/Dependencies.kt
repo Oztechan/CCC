@@ -29,7 +29,7 @@ object Dependencies {
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
-        const val koinAndroid = "org.koin:koin-android:${Versions.koinAndroid}"
+        const val koinAndroid = "org.koin:koin-android:${Versions.koin}"
 
         const val firebaseCrashlytics =
             "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
