@@ -7,6 +7,7 @@ object Plugins {
     const val multiplatform = "multiplatform"
     const val android = "android"
     const val platformJvm = "jvm"
+    const val compose = "org.jetbrains.compose"
     const val js = "js"
     const val androidApplication = "com.android.application"
     const val androidLibrary = "com.android.library"

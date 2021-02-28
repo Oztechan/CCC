@@ -11,7 +11,8 @@ buildscript {
     repositories {
         gradlePluginPortal()
         google()
-        maven(url = "https://dl.bintray.com/icerockdev/plugins")
+        maven("https://dl.bintray.com/icerockdev/plugins")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
         with(ClassPaths) {
@@ -24,6 +25,7 @@ buildscript {
             classpath(sqldelight)
             classpath(mokoResoruces)
             classpath(buildKonfig)
+            classpath(compose)
         }
     }
 }
@@ -35,10 +37,11 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        maven(url = "https://dl.bintray.com/ekito/koin")
+        maven("https://dl.bintray.com/ekito/koin")
         // todo soon will be just jcenter() https://github.com/Kotlin/kotlinx-datetime/issues/40
-        maven(url = "https://kotlin.bintray.com/kotlinx/")
-        maven(url = "https://dl.bintray.com/icerockdev/moko")
-        maven(url = "https://kotlin.bintray.com/kotlin-js-wrappers")
+        maven("https://kotlin.bintray.com/kotlinx/")
+        maven("https://dl.bintray.com/icerockdev/moko")
+        maven("https://kotlin.bintray.com/kotlin-js-wrappers")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }

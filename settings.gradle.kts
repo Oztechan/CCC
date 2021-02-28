@@ -8,6 +8,7 @@ include(
     ":android",
     ":backend",
     ":web",
+    ":desktop",
     ":client",
     ":common",
     ":calculator",
