@@ -7,6 +7,7 @@ object ClassPaths {
     const val androidBuildTools = "com.android.tools.build:gradle:${Versions.androidPlugin}"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlinSerialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+    const val compose = "org.jetbrains.compose:compose-gradle-plugin:${Versions.compose}"
     const val sqldelight = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
 
     const val gsmGoogle = "com.google.gms:google-services:${Versions.gsm}"
