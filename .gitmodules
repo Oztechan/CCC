@@ -7,6 +7,6 @@
 [submodule "basemob"]
 	path = basemob
 	url = https://github.com/SubMob/BaseMob
-[submodule "ParserMob"]
-	path = ParserMob
+[submodule "parsermob"]
+	path = parsermob
 	url = https://github.com/SubMob/ParserMob
