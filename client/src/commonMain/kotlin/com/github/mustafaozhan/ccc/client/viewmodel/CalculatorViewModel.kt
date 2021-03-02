@@ -3,7 +3,6 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.calculator.Calculator
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
@@ -29,6 +28,7 @@ import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.parsermob.ParserMob
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -131,7 +131,7 @@ class CalculatorViewModel(
 
     private fun calculateOutput(input: String) = clientScope.launch {
         _state.update(loading = true)
-        data.calculator
+        data.parser
             .calculate(input.toSupportedCharacters())
             .mapTo { if (isFinite()) getFormatted() else "" }
             .whether { length <= MAXIMUM_INPUT }
@@ -274,7 +274,7 @@ sealed class CalculatorEffect : BaseEffect() {
 }
 
 data class CalculatorData(
-    var calculator: Calculator = Calculator(),
+    var parser: ParserMob = ParserMob(),
     var rates: Rates? = null
 ) : BaseData()
 // endregion
