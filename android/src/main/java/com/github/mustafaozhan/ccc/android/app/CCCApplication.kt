@@ -5,8 +5,8 @@ package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.ccc.client.log.kermit
-import com.github.mustafaozhan.logmob.initLogMob
+import com.github.mustafaozhan.logmob.initCrashlytics
+import com.github.mustafaozhan.logmob.kermit
 
 @Suppress("unused")
 class CCCApplication : Application() {
@@ -15,6 +15,6 @@ class CCCApplication : Application() {
         super.onCreate()
         kermit.d { "CCCApplication onCreate" }
         initAndroid(this@CCCApplication)
-        initLogMob(this, enableAnalytics = true)
+        initCrashlytics(this, enableAnalytics = true)
     }
 }

@@ -3,8 +3,8 @@
  */
 package com.github.mustafaozhan.ccc.common.db
 
-import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.sql.CurrencyQueries
+import com.github.mustafaozhan.logmob.kermit
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.map

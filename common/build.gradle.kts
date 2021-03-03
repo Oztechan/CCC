@@ -51,7 +51,6 @@ kotlin {
                     implementation(dateTime)
 
                     implementation(koinCore)
-                    implementation(kermit)
 
                     implementation(ktorLogging)
                     implementation(ktorSerialization)
@@ -130,11 +129,6 @@ android {
             targetSdkVersion(projectTargetSdkVersion)
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
-        }
-
-        // todo remove after https://github.com/touchlab/Kermit/issues/67
-        testOptions {
-            unitTests.isReturnDefaultValues = true
         }
 
         // todo https://youtrack.jetbrains.com/issue/KT-43944

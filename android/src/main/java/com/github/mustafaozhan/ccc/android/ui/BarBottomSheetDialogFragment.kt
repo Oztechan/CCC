@@ -15,11 +15,11 @@ import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANG
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.BarEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
+import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentBottomSheetBarBinding

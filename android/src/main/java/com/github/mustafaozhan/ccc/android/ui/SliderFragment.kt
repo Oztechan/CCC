@@ -17,7 +17,7 @@ import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.gone
 import com.github.mustafaozhan.ccc.android.util.visible
-import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R

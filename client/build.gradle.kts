@@ -61,12 +61,12 @@ kotlin {
                     implementation(dateTime)
                     implementation(coroutines)
                     implementation(koinCore)
-                    implementation(kermit)
 
                     with(Modules) {
                         implementation(project(common))
                         implementation(project(parsermob))
                         implementation(project(scopemob))
+                        implementation(project(logmob))
                     }
                 }
             }
@@ -139,7 +139,7 @@ android {
             versionName = getVersionName(project)
         }
 
-        // todo remove after https://github.com/touchlab/Kermit/issues/67
+        // todo needed for android coroutine testing
         testOptions {
             unitTests.isReturnDefaultValues = true
         }

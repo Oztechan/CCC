@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.backend.routes
 
 import com.github.mustafaozhan.ccc.backend.controller.RootingController
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route

@@ -4,7 +4,6 @@
 
 package com.github.mustafaozhan.ccc.common.di
 
-import co.touchlab.kermit.Kermit
 import com.github.mustafaozhan.ccc.common.api.ApiFactory
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
@@ -14,38 +13,37 @@ import com.github.mustafaozhan.ccc.common.fake.FakeOfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.fake.FakeSettings
 import com.github.mustafaozhan.ccc.common.getDatabaseDefinition
 import com.github.mustafaozhan.ccc.common.getSettingsDefinition
-import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
-import com.github.mustafaozhan.logmob.LogMobLogger
-import kotlin.reflect.KClass
+import com.github.mustafaozhan.logmob.initLogger
+import com.github.mustafaozhan.logmob.kermit
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 
 const val DATABASE_NAME = "application_database.sqlite"
 
 fun initCommon(
     clientModule: List<Module> = emptyList(),
-    useFakes: Boolean = false
+    forTest: Boolean = false
 ) = startKoin {
     modules(clientModule)
-    modules(getCommonModule(useFakes))
+    modules(getCommonModule(forTest))
 }.also {
+    initLogger(forTest)
     kermit.d { "Koin initCommon" }
 }
 
-fun getCommonModule(useFakes: Boolean): Module = module {
-    single { Kermit(LogMobLogger()) }
-
+fun getCommonModule(forTest: Boolean): Module = module {
     factory { ApiFactory() }
     single { ApiRepository(get()) }
 
     getDatabaseDefinition()
 
-    if (useFakes) {
+    if (forTest) {
         single { FakeSettings.getSettings() }
         single { FakeCurrencyQueries.getCurrencyQueries() }
         single { FakeOfflineRatesQueries.getOfflineRatesQueries() }

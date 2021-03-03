@@ -18,11 +18,11 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(koinCore)
-        implementation(kermit)
     }
 
     with(Modules) {
         implementation(project(client))
+        implementation(project(logmob))
     }
 }
 

@@ -14,17 +14,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 import java.util.Locale
-import mustafaozhan.github.com.mycurrencies.R
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))

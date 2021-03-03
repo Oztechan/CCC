@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.android.ui
 import android.content.Intent
 import android.os.Bundle
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 
 class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

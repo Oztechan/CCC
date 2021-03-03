@@ -24,11 +24,11 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
+import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
