@@ -13,8 +13,8 @@ class CCCApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        kermit.d { "CCCApplication onCreate" }
         initAndroid(this@CCCApplication)
+        kermit.d { "CCCApplication onCreate" }
         initCrashlytics(this, enableAnalytics = true)
     }
 }
