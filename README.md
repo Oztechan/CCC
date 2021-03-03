@@ -22,10 +22,11 @@
 
 ### :warning: Note
 
-Project uses submodules, so if you clone it submodules will be missing. After cloning, inside the
-project folder please run
+The project uses submodules, please clone it as below:
 
 ```shell
+git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
+cd CCC &&
 git submodule update --init --recursive
 ```
 
