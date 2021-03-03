@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import com.google.android.material.snackbar.Snackbar
 import mustafaozhan.github.com.mycurrencies.R
 

@@ -51,7 +51,6 @@ kotlin {
                     implementation(dateTime)
 
                     implementation(koinCore)
-                    implementation(kermit)
 
                     implementation(ktorLogging)
                     implementation(ktorSerialization)

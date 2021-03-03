@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature

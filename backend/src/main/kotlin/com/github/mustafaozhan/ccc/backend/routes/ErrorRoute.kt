@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.backend.routes
 
 import com.github.mustafaozhan.ccc.backend.util.getResourceByName
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import io.ktor.application.call
 import io.ktor.http.ContentType
 import io.ktor.response.respondText

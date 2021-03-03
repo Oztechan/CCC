@@ -54,7 +54,6 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(dateTime)
-        implementation(kermit)
     }
 
     with(Modules) {

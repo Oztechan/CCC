@@ -21,7 +21,6 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
@@ -29,6 +28,7 @@ import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
+import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding

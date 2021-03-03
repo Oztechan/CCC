@@ -16,11 +16,11 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
+import com.github.mustafaozhan.logmob.kermit
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback

@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.app.Activity
 import android.app.AlertDialog
-import com.github.mustafaozhan.ccc.client.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R

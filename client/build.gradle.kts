@@ -61,12 +61,12 @@ kotlin {
                     implementation(dateTime)
                     implementation(coroutines)
                     implementation(koinCore)
-                    implementation(kermit)
 
                     with(Modules) {
                         implementation(project(common))
                         implementation(project(parsermob))
                         implementation(project(scopemob))
+                        implementation(project(logmob))
                     }
                 }
             }
@@ -137,6 +137,11 @@ android {
             targetSdkVersion(projectTargetSdkVersion)
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
+        }
+
+        // todo needed for android coroutine testing
+        testOptions {
+            unitTests.isReturnDefaultValues = true
         }
 
         // todo https://youtrack.jetbrains.com/issue/KT-43944

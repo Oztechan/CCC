@@ -12,7 +12,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.initCommon
-import com.github.mustafaozhan.ccc.common.log.kermit
+import com.github.mustafaozhan.logmob.kermit
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.definition.BeanDefinition

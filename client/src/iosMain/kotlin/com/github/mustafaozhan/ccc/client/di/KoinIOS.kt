@@ -7,8 +7,8 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
-import com.github.mustafaozhan.ccc.common.log.kermit
 import com.github.mustafaozhan.ccc.common.nsUserDefaults
+import com.github.mustafaozhan.logmob.kermit
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
