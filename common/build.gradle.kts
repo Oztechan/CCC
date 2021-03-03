@@ -132,11 +132,6 @@ android {
             versionName = getVersionName(project)
         }
 
-        // todo remove after https://github.com/touchlab/Kermit/issues/67
-        testOptions {
-            unitTests.isReturnDefaultValues = true
-        }
-
         // todo https://youtrack.jetbrains.com/issue/KT-43944
         configurations {
             create("testApi") {}

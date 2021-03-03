@@ -4,4 +4,5 @@
 
 package com.github.mustafaozhan.ccc.client.log
 
-val kermit = com.github.mustafaozhan.ccc.common.log.kermit
+val kermit
+    get() = com.github.mustafaozhan.ccc.common.log.kermit
