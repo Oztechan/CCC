@@ -183,7 +183,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
                 rewardedAd.show(requireActivity()) {
                     kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
-                    adRemoveViewModel.updateAddFreeDate()
+                    adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
                     activity?.run {
                         finish()
                         startActivity(intent)
@@ -198,6 +198,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         purchaseList: MutableList<Purchase>?
     ) {
         kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
+        purchaseList?.firstOrNull()?.let { purchase ->
+            RemoveAdType.values().firstOrNull { it.skuId == purchase.sku }?.let {
+                adRemoveViewModel.updateAddFreeDate(it)
+            }
+        }
     }
 }
 

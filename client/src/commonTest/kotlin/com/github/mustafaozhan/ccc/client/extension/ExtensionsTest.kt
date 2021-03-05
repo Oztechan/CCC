@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
+import com.github.mustafaozhan.ccc.client.util.THREE_DAYS
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.doubleDigits
@@ -156,15 +156,15 @@ class ExtensionsTest {
     fun isRewardExpired() {
         assertEquals(
             true,
-            (Clock.System.now().toEpochMilliseconds() - 1 - AD_EXPIRATION).isRewardExpired()
+            (Clock.System.now().toEpochMilliseconds() - 1 - THREE_DAYS).isRewardExpired()
         )
         assertEquals(
             true,
-            (Clock.System.now().toEpochMilliseconds() - AD_EXPIRATION).isRewardExpired()
+            (Clock.System.now().toEpochMilliseconds() - THREE_DAYS).isRewardExpired()
         )
         assertEquals(
             false,
-            (Clock.System.now().toEpochMilliseconds() + 1 - AD_EXPIRATION).isRewardExpired()
+            (Clock.System.now().toEpochMilliseconds() + 1 - THREE_DAYS).isRewardExpired()
         )
     }
 

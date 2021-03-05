@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -22,6 +21,9 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 
 class AdRemoveViewModel(
     private val settingsRepository: SettingsRepository
@@ -43,8 +45,35 @@ class AdRemoveViewModel(
         _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
-    fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        settingsRepository.adFreeEndDate = it + AD_EXPIRATION
+    fun updateAddFreeDate(video: RemoveAdType) = Clock.System.now().let {
+        settingsRepository.adFreeEndDate =
+            when (video) {
+                RemoveAdType.VIDEO -> it.plus(
+                    3,
+                    DateTimeUnit.DAY,
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+                RemoveAdType.MONTH -> it.plus(
+                    1,
+                    DateTimeUnit.MONTH,
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+                RemoveAdType.QUARTER -> it.plus(
+                    3,
+                    DateTimeUnit.MONTH,
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+                RemoveAdType.HALF_YEAR -> it.plus(
+                    6,
+                    DateTimeUnit.MONTH,
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+                RemoveAdType.YEAR -> it.plus(
+                    1,
+                    DateTimeUnit.YEAR,
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+            }
     }
 
     fun showLoadingView(shouldShow: Boolean) {
