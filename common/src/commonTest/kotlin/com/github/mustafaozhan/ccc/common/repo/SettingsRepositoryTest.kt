@@ -6,10 +6,10 @@ package com.github.mustafaozhan.ccc.common.repo
 import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.datetime.Clock
 
 class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
 
@@ -36,7 +36,7 @@ class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
     @Test
     fun adFreeActivatedDate() = assertEquals(
         0.toLong(),
-        repository.adFreeActivatedDate
+        repository.adFreeEndDate
     )
 
     @Test

@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -43,7 +44,7 @@ class AdRemoveViewModel(
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        settingsRepository.adFreeActivatedDate = it
+        settingsRepository.adFreeEndDate = it + AD_EXPIRATION
     }
 
     fun showLoadingView(shouldShow: Boolean) {
@@ -51,18 +52,17 @@ class AdRemoveViewModel(
     }
 
     fun addInAppBillingMethods(billingMethods: List<Triple<String, String, String>>) =
-        billingMethods
-            .forEach { billingMethod ->
-                val tempList = state.value.adRemoveTypes.toMutableList()
-                RemoveAdType.values().firstOrNull { it.skuId == billingMethod.first }?.let {
-                    val adType = it
-                    adType.cost = billingMethod.second
-                    adType.reward = billingMethod.third
-                    tempList.add(adType)
-                }
-                tempList.sortBy { it.ordinal }
-                _state.update(adRemoveTypes = tempList)
+        billingMethods.forEach { billingMethod ->
+            val tempList = state.value.adRemoveTypes.toMutableList()
+            RemoveAdType.values().firstOrNull { it.skuId == billingMethod.first }?.let {
+                val adType = it
+                adType.cost = billingMethod.second
+                adType.reward = billingMethod.third
+                tempList.add(adType)
             }
+            tempList.sortBy { it.ordinal }
+            _state.update(adRemoveTypes = tempList)
+        }
 
     override fun onCleared() {
         kermit.d { "AdRemoveViewModel onCleared" }

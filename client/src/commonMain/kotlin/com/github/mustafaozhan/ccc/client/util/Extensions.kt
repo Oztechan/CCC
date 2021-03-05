@@ -28,7 +28,7 @@ fun Long.isWeekPassed(): Boolean {
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= AD_EXPIRATION
+    return Clock.System.now().toEpochMilliseconds() > this
 }
 
 fun Instant.formatToString(

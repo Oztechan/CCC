@@ -169,7 +169,7 @@ class CalculatorViewModel(
         )
     }
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
     override fun onCleared() {
         kermit.d { "CalculatorViewModel onCleared" }

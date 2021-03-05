@@ -11,7 +11,6 @@ import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
 import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
@@ -62,9 +61,8 @@ class SettingsViewModel(
         _state.update(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
-            addFreeDate = Instant.fromEpochMilliseconds(
-                settingsRepository.adFreeActivatedDate + AD_EXPIRATION
-            ).formatToString()
+            addFreeEndDate = Instant.fromEpochMilliseconds(settingsRepository.adFreeEndDate)
+                .formatToString()
         )
 
         clientScope.launch {
@@ -82,9 +80,9 @@ class SettingsViewModel(
         _effect.send(SettingsEffect.ChangeTheme(theme.themeValue))
     }.toUnit()
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
-    fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
+    fun isAdFreeEverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
 
     fun getAppTheme() = settingsRepository.appTheme
 
@@ -167,7 +165,7 @@ class SettingsViewModel(
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
-    val addFreeDate: String = "",
+    val addFreeEndDate: String = "",
     val loading: Boolean = false
 ) : BaseState() {
     // for ios

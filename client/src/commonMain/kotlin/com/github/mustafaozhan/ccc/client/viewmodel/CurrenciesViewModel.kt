@@ -104,7 +104,7 @@ class CurrenciesViewModel(
             true
         }
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
     fun isFirstRun() = settingsRepository.firstRun
 
