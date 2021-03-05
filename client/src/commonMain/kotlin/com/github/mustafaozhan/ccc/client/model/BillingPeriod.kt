@@ -4,9 +4,9 @@
 
 package com.github.mustafaozhan.ccc.client.model
 
-enum class BillingPeriod {
-    MONTH,
-    QUARTER,
-    HALF_YEAR,
-    YEAR
+enum class BillingPeriod(val skuId: String) {
+    MONTH("one_month"),
+    QUARTER("three_months"),
+    HALF_YEAR("six_months"),
+    YEAR("one_year")
 }

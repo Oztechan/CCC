@@ -7,15 +7,22 @@ package com.github.mustafaozhan.ccc.android.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.SkuDetailsParams
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.log.kermit
 import com.github.mustafaozhan.ccc.client.model.BillingPeriod
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
+import com.github.mustafaozhan.logmob.kermit
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -27,7 +34,9 @@ import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
+class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>(),
+    PurchasesUpdatedListener {
+    private lateinit var billingClient: BillingClient
 
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
 
@@ -42,6 +51,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         observeStates()
         observeEffect()
         setListeners()
+        setupBillingClient()
     }
 
     private fun initViews() = with(binding) {
@@ -82,9 +92,59 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     adRemoveViewModel.showLoadingView(true)
                     prepareRewardedAd()
                 }
-                is AdRemoveEffect.Billing -> TODO("will be implemented")
+                is AdRemoveEffect.Billing -> launchBilling(viewEffect.period)
             }
         }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun launchBilling(period: BillingPeriod) {
+
+        if (billingClient.isReady) {
+            val params = SkuDetailsParams
+                .newBuilder()
+                .setSkusList(BillingPeriod.values().map { it.skuId })
+                .setType(BillingClient.SkuType.INAPP)
+                .build()
+            billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    kermit.d { "AdRemoveBottomSheet launchBilling querySkuDetailsAsync, responseCode: ${billingResult.responseCode}" }
+                    skuDetailsList?.let {
+                        val billingFlowParams = BillingFlowParams
+                            .newBuilder()
+                            .setSkuDetails(it.first())
+                            .build()
+                        billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
+                    }
+                } else {
+                    kermit.d { "AdRemoveBottomSheet launchBilling Can't querySkuDetailsAsync, responseCode: ${billingResult.responseCode}" }
+                }
+            }
+        } else {
+            kermit.d { "AdRemoveBottomSheet launchBilling Billing Client not ready" }
+        }
+    }
+
+    private fun setupBillingClient() {
+        billingClient = BillingClient
+            .newBuilder(requireContext())
+            .enablePendingPurchases()
+            .setListener(this)
+            .build()
+
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    kermit.d { "AdRemoveBottomSheet onBillingSetupFinished OK" }
+                } else {
+                    kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {
+                kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
+            }
+        })
     }
 
     private fun setListeners() = with(binding) {
@@ -145,4 +205,8 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             }
         }
     )
+
+    override fun onPurchasesUpdated(p0: BillingResult, p1: MutableList<Purchase>?) {
+        kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
+    }
 }
