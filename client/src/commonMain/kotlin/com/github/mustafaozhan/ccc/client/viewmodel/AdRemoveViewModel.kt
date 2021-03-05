@@ -69,12 +69,8 @@ class AdRemoveViewModel(
         super.onCleared()
     }
 
-    override fun onWatchVideoClick() = clientScope.launch {
-        _effect.send(AdRemoveEffect.WatchVideo)
-    }.toUnit()
-
     override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launch {
-        _effect.send(AdRemoveEffect.Billing(type))
+        _effect.send(AdRemoveEffect.RemoveAd(type))
     }.toUnit()
 }
 
@@ -88,12 +84,10 @@ data class AdRemoveState(
 }
 
 interface AdRemoveEvent : BaseEvent {
-    fun onWatchVideoClick()
     fun onAdRemoveItemClick(type: RemoveAdType)
 }
 
 sealed class AdRemoveEffect : BaseEffect() {
-    object WatchVideo : AdRemoveEffect()
-    data class Billing(val period: RemoveAdType) : AdRemoveEffect()
+    data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
 }
 // endregion

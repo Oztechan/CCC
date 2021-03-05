@@ -30,23 +30,20 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     // Event
     @Test
-    fun onWatchVideoClick() = runTest {
-        viewModel.event.onWatchVideoClick()
-        assertEquals(AdRemoveEffect.WatchVideo, viewModel.effect.first())
-    }
-
-    @Test
     fun onBillingClick() = runTest {
+        viewModel.event.onAdRemoveItemClick(RemoveAdType.VIDEO)
+        assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.VIDEO), viewModel.effect.first())
+
         viewModel.event.onAdRemoveItemClick(RemoveAdType.MONTH)
-        assertEquals(AdRemoveEffect.Billing(RemoveAdType.MONTH), viewModel.effect.first())
+        assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.MONTH), viewModel.effect.first())
 
         viewModel.event.onAdRemoveItemClick(RemoveAdType.QUARTER)
-        assertEquals(AdRemoveEffect.Billing(RemoveAdType.QUARTER), viewModel.effect.first())
+        assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.QUARTER), viewModel.effect.first())
 
         viewModel.event.onAdRemoveItemClick(RemoveAdType.HALF_YEAR)
-        assertEquals(AdRemoveEffect.Billing(RemoveAdType.HALF_YEAR), viewModel.effect.first())
+        assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.HALF_YEAR), viewModel.effect.first())
 
         viewModel.event.onAdRemoveItemClick(RemoveAdType.YEAR)
-        assertEquals(AdRemoveEffect.Billing(RemoveAdType.YEAR), viewModel.effect.first())
+        assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.YEAR), viewModel.effect.first())
     }
 }
