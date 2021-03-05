@@ -22,7 +22,6 @@
     <dimen name="margin_eight">8dp</dimen>
     <dimen name="margin_twelve">12dp</dimen>
     <dimen name="margin_sixteen">16dp</dimen>
-    <dimen name="margin_fifty_six">56dp</dimen>
 
     <dimen name="height_separator">0.33dp</dimen>
 

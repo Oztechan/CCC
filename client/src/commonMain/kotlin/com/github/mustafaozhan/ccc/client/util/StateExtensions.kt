@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.client.util
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveState
 import com.github.mustafaozhan.ccc.client.viewmodel.BarState
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorState
@@ -74,9 +75,11 @@ fun MutableStateFlow<SettingsState>.update(
 }
 
 fun MutableStateFlow<AdRemoveState>.update(
+    adRemoveTypes: List<RemoveAdType> = value.adRemoveTypes,
     loading: Boolean = value.loading
 ) {
     value = value.copy(
+        adRemoveTypes = adRemoveTypes,
         loading = loading
     )
 }

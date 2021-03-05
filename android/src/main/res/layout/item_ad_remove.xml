@@ -8,7 +8,7 @@
     style="@style/AdRemoveItemLayoutStyle">
 
     <TextView
-        android:id="@+id/txt_action"
+        android:id="@+id/txt_cost"
         style="@style/TextAdRemoveItemStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

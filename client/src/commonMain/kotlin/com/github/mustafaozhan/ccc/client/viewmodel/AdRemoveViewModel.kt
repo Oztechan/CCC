@@ -9,7 +9,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
-import com.github.mustafaozhan.ccc.client.model.BillingPeriod
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -39,6 +39,7 @@ class AdRemoveViewModel(
 
     init {
         kermit.d { "AdRemoveViewModel init" }
+        _state.update(adRemoveTypes = listOf(RemoveAdType.VIDEO))
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
@@ -58,26 +59,27 @@ class AdRemoveViewModel(
         _effect.send(AdRemoveEffect.WatchVideo)
     }.toUnit()
 
-    override fun onBillingClick(period: BillingPeriod) = clientScope.launch {
-        _effect.send(AdRemoveEffect.Billing(period))
+    override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launch {
+        _effect.send(AdRemoveEffect.Billing(type))
     }.toUnit()
 }
 
 // region SEED
 data class AdRemoveState(
+    val adRemoveTypes: List<RemoveAdType> = listOf(),
     val loading: Boolean = false
 ) : BaseState() {
     // for ios
-    constructor() : this(false)
+    constructor() : this(listOf<RemoveAdType>(), false)
 }
 
 interface AdRemoveEvent : BaseEvent {
     fun onWatchVideoClick()
-    fun onBillingClick(period: BillingPeriod)
+    fun onAdRemoveItemClick(type: RemoveAdType)
 }
 
 sealed class AdRemoveEffect : BaseEffect() {
     object WatchVideo : AdRemoveEffect()
-    data class Billing(val period: BillingPeriod) : AdRemoveEffect()
+    data class Billing(val period: RemoveAdType) : AdRemoveEffect()
 }
 // endregion

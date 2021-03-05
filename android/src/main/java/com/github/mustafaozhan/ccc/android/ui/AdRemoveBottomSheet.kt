@@ -5,8 +5,11 @@
 package com.github.mustafaozhan.ccc.android.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -14,13 +17,15 @@ import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetailsParams
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.model.BillingPeriod
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.google.android.gms.ads.AdError
@@ -32,6 +37,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>(),
@@ -39,6 +45,8 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private lateinit var billingClient: BillingClient
 
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
+
+    private lateinit var removeAdsAdapter: RemoveAdsAdapter
 
     override fun bind() {
         binding = BottomSheetAdRemoveBinding.inflate(layoutInflater)
@@ -50,31 +58,19 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         initViews()
         observeStates()
         observeEffect()
-        setListeners()
         setupBillingClient()
     }
 
-    private fun initViews() = with(binding) {
-        itemWatchVideo.txtAction.text = getString(R.string.txt_watch_video)
-        itemWatchVideo.txtReward.text = getString(R.string.txt_watch_video_reward)
-
-        itemMonth.txtAction.text = getString(R.string.txt_pay_one_euro)
-        itemMonth.txtReward.text = getString(R.string.txt_pay_one_euro_reward)
-
-        itemQuarter.txtAction.text = getString(R.string.txt_pay_two_euro)
-        itemQuarter.txtReward.text = getString(R.string.txt_pay_two_euro_reward)
-
-        itemHalfYear.txtAction.text = getString(R.string.txt_pay_three_euro)
-        itemHalfYear.txtReward.text = getString(R.string.txt_pay_three_euro_reward)
-
-        itemYear.txtAction.text = getString(R.string.txt_pay_five_euro)
-        itemYear.txtReward.text = getString(R.string.txt_pay_five_euro_reward)
+    private fun initViews() {
+        removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
+        binding.recyclerViewBar.adapter = removeAdsAdapter
     }
 
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         adRemoveViewModel.state.collect {
             with(it) {
                 binding.loadingView.visibleIf(loading)
+                removeAdsAdapter.submitList(adRemoveTypes)
             }
         }
     }
@@ -98,12 +94,12 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun launchBilling(period: BillingPeriod) {
+    private fun launchBilling(period: RemoveAdType) {
 
         if (billingClient.isReady) {
             val params = SkuDetailsParams
                 .newBuilder()
-                .setSkusList(BillingPeriod.values().map { it.skuId })
+                .setSkusList(RemoveAdType.values().map { it.skuId }.filter { it.isNotEmpty() })
                 .setType(BillingClient.SkuType.INAPP)
                 .build()
             billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
@@ -145,24 +141,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
             }
         })
-    }
-
-    private fun setListeners() = with(binding) {
-        itemWatchVideo.root.setOnClickListener {
-            adRemoveViewModel.event.onWatchVideoClick()
-        }
-        itemMonth.root.setOnClickListener {
-            adRemoveViewModel.event.onBillingClick(BillingPeriod.MONTH)
-        }
-        itemQuarter.root.setOnClickListener {
-            adRemoveViewModel.event.onBillingClick(BillingPeriod.QUARTER)
-        }
-        itemHalfYear.root.setOnClickListener {
-            adRemoveViewModel.event.onBillingClick(BillingPeriod.HALF_YEAR)
-        }
-        itemYear.root.setOnClickListener {
-            adRemoveViewModel.event.onBillingClick(BillingPeriod.YEAR)
-        }
     }
 
     private fun prepareRewardedAd() = RewardedAd.load(
@@ -208,5 +186,37 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onPurchasesUpdated(p0: BillingResult, p1: MutableList<Purchase>?) {
         kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
+    }
+}
+
+class RemoveAdsAdapter(
+    private val removeAdsEvent: AdRemoveEvent
+) : BaseVBRecyclerViewAdapter<RemoveAdType, ItemAdRemoveBinding>(RemoveAdDiffer()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = CalculatorVBViewHolder(
+        ItemAdRemoveBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    inner class CalculatorVBViewHolder(itemBinding: ItemAdRemoveBinding) :
+        BaseVBViewHolder<RemoveAdType, ItemAdRemoveBinding>(itemBinding) {
+
+        override fun onItemBind(item: RemoveAdType) = with(itemBinding) {
+            root.setOnClickListener { removeAdsEvent.onAdRemoveItemClick(item) }
+            txtReward.text = item.reward
+            txtCost.text = item.cost
+        }
+    }
+
+    class RemoveAdDiffer : DiffUtil.ItemCallback<RemoveAdType>() {
+        override fun areItemsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
+
+        override fun areContentsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
     }
 }
