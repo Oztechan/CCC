@@ -39,7 +39,7 @@ class AdRemoveViewModel(
 
     init {
         kermit.d { "AdRemoveViewModel init" }
-        _state.update(adRemoveTypes = listOf(RemoveAdType.VIDEO))
+        _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
     fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
@@ -49,6 +49,20 @@ class AdRemoveViewModel(
     fun showLoadingView(shouldShow: Boolean) {
         _state.update(loading = shouldShow)
     }
+
+    fun addInAppBillingMethods(billingMethods: List<Triple<String, String, String>>) =
+        billingMethods
+            .forEach { billingMethod ->
+                val tempList = state.value.adRemoveTypes.toMutableList()
+                RemoveAdType.values().firstOrNull { it.skuId == billingMethod.first }?.let {
+                    val adType = it
+                    adType.cost = billingMethod.second
+                    adType.reward = billingMethod.third
+                    tempList.add(adType)
+                }
+                tempList.sortBy { it.ordinal }
+                _state.update(adRemoveTypes = tempList)
+            }
 
     override fun onCleared() {
         kermit.d { "AdRemoveViewModel onCleared" }

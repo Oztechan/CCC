@@ -4,9 +4,10 @@
 
 package com.github.mustafaozhan.ccc.client.model
 
+@Suppress("VARIABLE_IN_ENUM")
 enum class RemoveAdType(
-    val cost: String,
-    val reward: String,
+    var cost: String,
+    var reward: String,
     val skuId: String,
 ) {
     VIDEO("Watch Video", "3 Days", ""),

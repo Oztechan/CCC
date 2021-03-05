@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -96,29 +95,13 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     @Suppress("UNUSED_PARAMETER")
     private fun launchBilling(period: RemoveAdType) {
 
-        if (billingClient.isReady) {
-            val params = SkuDetailsParams
-                .newBuilder()
-                .setSkusList(RemoveAdType.values().map { it.skuId }.filter { it.isNotEmpty() })
-                .setType(BillingClient.SkuType.INAPP)
-                .build()
-            billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    kermit.d { "AdRemoveBottomSheet launchBilling querySkuDetailsAsync, responseCode: ${billingResult.responseCode}" }
-                    skuDetailsList?.let {
-                        val billingFlowParams = BillingFlowParams
-                            .newBuilder()
-                            .setSkuDetails(it.first())
-                            .build()
-                        billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
-                    }
-                } else {
-                    kermit.d { "AdRemoveBottomSheet launchBilling Can't querySkuDetailsAsync, responseCode: ${billingResult.responseCode}" }
-                }
-            }
-        } else {
-            kermit.d { "AdRemoveBottomSheet launchBilling Billing Client not ready" }
-        }
+//        skuDetailsList?.let {
+//            val billingFlowParams = BillingFlowParams
+//                .newBuilder()
+//                .setSkuDetails(it.first())
+//                .build()
+//            billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
+//        }
     }
 
     private fun setupBillingClient() {
@@ -132,6 +115,30 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     kermit.d { "AdRemoveBottomSheet onBillingSetupFinished OK" }
+
+                    if (billingClient.isReady) {
+                        val params = SkuDetailsParams
+                            .newBuilder()
+                            .setSkusList(RemoveAdType.values().map { it.skuId }
+                                .filter { it.isNotEmpty() })
+                            .setType(BillingClient.SkuType.INAPP)
+                            .build()
+                        billingClient.querySkuDetailsAsync(params) { result, skuDetailsList ->
+                            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                                kermit.d { "AdRemoveBottomSheet launchBilling querySkuDetailsAsync, responseCode: ${result.responseCode}" }
+                            } else {
+                                kermit.d { "AdRemoveBottomSheet launchBilling Can't querySkuDetailsAsync, responseCode: ${result.responseCode}" }
+                            }
+
+                            skuDetailsList?.map { Triple(it.sku, it.price, it.description) }?.let {
+                                adRemoveViewModel.addInAppBillingMethods(it)
+                            }
+
+
+                        }
+                    } else {
+                        kermit.d { "AdRemoveBottomSheet launchBilling Billing Client not ready" }
+                    }
                 } else {
                     kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
                 }
