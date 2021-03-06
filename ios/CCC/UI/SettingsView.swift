@@ -50,7 +50,7 @@ struct SettingsView: View {
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: observable.state.addFreeDate,
+                        value: observable.state.addFreeEndDate,
                         onClick: { observable.event.onRemoveAdsClick() }
                     )
                     SettingsItemView(

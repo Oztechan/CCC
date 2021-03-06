@@ -14,8 +14,6 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
@@ -42,8 +40,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBindi
 import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>(),
-    PurchasesUpdatedListener {
+class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
     private lateinit var billingClient: BillingClient
 
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
@@ -117,11 +114,24 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }
 
     private fun setupBillingClient() {
+        adRemoveViewModel.showLoadingView(true)
         billingClient = BillingClient
             .newBuilder(requireContext())
             .enablePendingPurchases()
-            .setListener(this)
-            .build()
+            .setListener { billingResult, purchaseList ->
+                kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
+                purchaseList?.firstOrNull()?.let { purchase ->
+                    RemoveAdType.values().firstOrNull { it.skuId == purchase.sku }?.let {
+                        adRemoveViewModel.updateAddFreeDate(it)
+                    }
+                }
+
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                    billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { historyBillingResult, purchaseHistoryList ->
+                        // todo restore
+                    }
+                }
+            }.build()
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
@@ -146,12 +156,16 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                                 map { Triple(it.sku, it.price, it.description) }.let {
                                     adRemoveViewModel.addInAppBillingMethods(it)
                                 }
-                            }
+                            } ?: run {
+                            adRemoveViewModel.showLoadingView(false)
+                        }
                     }
                 }.toUnit()
 
-            override fun onBillingServiceDisconnected() =
+            override fun onBillingServiceDisconnected() {
                 kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
+                adRemoveViewModel.showLoadingView(false)
+            }
         })
     }
 
@@ -191,18 +205,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             }
         }
     )
-
-    override fun onPurchasesUpdated(
-        billingResult: BillingResult,
-        purchaseList: MutableList<Purchase>?
-    ) {
-        kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
-        purchaseList?.firstOrNull()?.let { purchase ->
-            RemoveAdType.values().firstOrNull { it.skuId == purchase.sku }?.let {
-                adRemoveViewModel.updateAddFreeDate(it)
-            }
-        }
-    }
 }
 
 class RemoveAdsAdapter(

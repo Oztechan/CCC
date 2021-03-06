@@ -94,7 +94,7 @@ class AdRemoveViewModel(
                 tempList.add(adType)
             }
             tempList.sortBy { it.ordinal }
-            _state.update(adRemoveTypes = tempList)
+            _state.update(adRemoveTypes = tempList, loading = false)
         }
 
     override fun onCleared() {

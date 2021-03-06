@@ -10,9 +10,9 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companio
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.first
 
 class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
