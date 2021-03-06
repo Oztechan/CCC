@@ -45,6 +45,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBindi
 import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>(),
     PurchaseHistoryResponseListener,
     PurchasesUpdatedListener,
@@ -202,7 +203,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 Pair(historyRecord.sku, historyRecord.purchaseTime)
             )
         }.toUnit()
-
 
     override fun onPurchasesUpdated(
         billingResult: BillingResult,

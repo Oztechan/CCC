@@ -46,6 +46,7 @@ class AdRemoveViewModel(
         _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
+    @Suppress("MagicNumber")
     fun updateAddFreeDate(adType: RemoveAdType, startDate: Instant = Clock.System.now()) {
         settingsRepository.adFreeEndDate = when (adType) {
             RemoveAdType.VIDEO -> startDate.plus(
