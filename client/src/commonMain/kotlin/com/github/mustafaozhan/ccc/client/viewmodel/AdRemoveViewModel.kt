@@ -76,7 +76,7 @@ class AdRemoveViewModel(
             }
     }.also {
         clientScope.launch {
-            _effect.send(AdRemoveEffect.ApplyAdFreeSettings)
+            _effect.send(AdRemoveEffect.RestartActivity)
         }
     }
 
@@ -122,6 +122,6 @@ interface AdRemoveEvent : BaseEvent {
 
 sealed class AdRemoveEffect : BaseEffect() {
     data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
-    object ApplyAdFreeSettings : AdRemoveEffect()
+    object RestartActivity : AdRemoveEffect()
 }
 // endregion
