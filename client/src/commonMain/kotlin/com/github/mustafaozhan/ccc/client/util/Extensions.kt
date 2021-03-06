@@ -28,7 +28,7 @@ fun Long.isWeekPassed(): Boolean {
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() > this
+    return Clock.System.now().toEpochMilliseconds() - this >= VIDEO_REWARD
 }
 
 fun Instant.formatToString(

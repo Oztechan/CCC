@@ -74,6 +74,10 @@ class AdRemoveViewModel(
                     TimeZone.currentSystemDefault()
                 ).toEpochMilliseconds()
             }
+    }.also {
+        clientScope.launch {
+            _effect.send(AdRemoveEffect.ApplyAdFreeSettings)
+        }
     }
 
     fun showLoadingView(shouldShow: Boolean) {
@@ -118,5 +122,6 @@ interface AdRemoveEvent : BaseEvent {
 
 sealed class AdRemoveEffect : BaseEffect() {
     data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
+    object ApplyAdFreeSettings : AdRemoveEffect()
 }
 // endregion

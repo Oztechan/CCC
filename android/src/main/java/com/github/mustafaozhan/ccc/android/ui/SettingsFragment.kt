@@ -173,6 +173,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     requireContext(),
                     R.string.txt_already_synced
                 )
+                SettingsEffect.AlreadyAdFree -> Toast.show(
+                    requireContext(),
+                    R.string.txt_ads_already_disabled
+                )
             }
         }
     }.toUnit()

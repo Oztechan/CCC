@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.THREE_DAYS
+import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.doubleDigits
@@ -155,16 +155,25 @@ class ExtensionsTest {
     @Test
     fun isRewardExpired() {
         assertEquals(
-            true,
-            (Clock.System.now().toEpochMilliseconds() - 1 - THREE_DAYS).isRewardExpired()
-        )
-        assertEquals(
-            true,
-            (Clock.System.now().toEpochMilliseconds() - THREE_DAYS).isRewardExpired()
+            false,
+            (Clock.System.now().toEpochMilliseconds()).isRewardExpired()
         )
         assertEquals(
             false,
-            (Clock.System.now().toEpochMilliseconds() + 1 - THREE_DAYS).isRewardExpired()
+            (Clock.System.now().toEpochMilliseconds() + VIDEO_REWARD).isRewardExpired()
+        )
+
+        assertEquals(
+            true,
+            (Clock.System.now().toEpochMilliseconds() - 1 - VIDEO_REWARD).isRewardExpired()
+        )
+        assertEquals(
+            true,
+            (Clock.System.now().toEpochMilliseconds() - VIDEO_REWARD).isRewardExpired()
+        )
+        assertEquals(
+            false,
+            (Clock.System.now().toEpochMilliseconds() + 1 - VIDEO_REWARD).isRewardExpired()
         )
     }
 

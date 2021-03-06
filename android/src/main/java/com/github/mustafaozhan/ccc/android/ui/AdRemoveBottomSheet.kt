@@ -108,7 +108,10 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                             }
                     }
                 }
-                else -> Unit
+                else -> activity?.run {
+                    finish()
+                    startActivity(intent)
+                }
             }
         }
     }
@@ -184,10 +187,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 rewardedAd.show(requireActivity()) {
                     kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
                     adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
-                    activity?.run {
-                        finish()
-                        startActivity(intent)
-                    }
                 }
             }
         }

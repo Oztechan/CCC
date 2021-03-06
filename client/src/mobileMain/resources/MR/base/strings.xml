@@ -99,6 +99,7 @@
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
     <string name="settings_item_remove_ads_reward_achieved">Active</string>
     <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
+    <string name="txt_ads_already_disabled">Ads are already disabled</string>
 
     <string name="settings_item_sync_title">Synchronise</string>
     <string name="settings_item_sync_sub_title">Sync to use app offline</string>

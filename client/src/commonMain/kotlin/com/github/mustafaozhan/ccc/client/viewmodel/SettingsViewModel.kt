@@ -124,7 +124,7 @@ class SettingsViewModel(
 
     override fun onRemoveAdsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onRemoveAdsClick" }
-        _effect.send(SettingsEffect.RemoveAds)
+        _effect.send(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
     }.toUnit()
 
     override fun onThemeClick() = clientScope.launch {
@@ -196,6 +196,7 @@ sealed class SettingsEffect : BaseEffect() {
     object Synchronising : SettingsEffect()
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
+    object AlreadyAdFree : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()
 }
 

@@ -6,9 +6,9 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.first
 
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
@@ -67,7 +67,10 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun onRemoveAdsClick() = runTest {
         viewModel.event.onRemoveAdsClick()
-        assertEquals(SettingsEffect.RemoveAds, viewModel.effect.first())
+        assertEquals(
+            if (viewModel.isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree,
+            viewModel.effect.first()
+        )
     }
 
     @Test
