@@ -190,10 +190,19 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onPurchaseHistoryResponse(
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
-    ) {
+    ) = purchaseHistoryList.also {
         kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse" }
-        TODO("Not yet implemented")
-    }
+    }?.minByOrNull { it.purchaseTime }
+        ?.whether { historyRecord ->
+            RemoveAdType.values()
+                .map { removeAdType -> removeAdType.skuId }
+                .any { skuId -> skuId == historyRecord.sku }
+        }?.let { historyRecord ->
+            adRemoveViewModel.validatePurchaseHistory(
+                Pair(historyRecord.sku, historyRecord.purchaseTime)
+            )
+        }.toUnit()
+
 
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
@@ -205,15 +214,13 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 adRemoveViewModel.updateAddFreeDate(it)
             }
         }
-
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-            kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ITEM_ALREADY_OWNED" }
-            billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
-        }
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
-        .also { kermit.d { "AdRemoveBottomSheet onBillingSetupFinished" } }
+        .also {
+            kermit.d { "AdRemoveBottomSheet onBillingSetupFinished" }
+            it.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
+        }
         .whether(
             { isReady },
             { billingResult.responseCode == BillingClient.BillingResponseCode.OK }

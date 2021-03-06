@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 
@@ -45,40 +46,42 @@ class AdRemoveViewModel(
         _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
-    fun updateAddFreeDate(video: RemoveAdType) = Clock.System.now().let {
-        settingsRepository.adFreeEndDate =
-            when (video) {
-                RemoveAdType.VIDEO -> it.plus(
-                    3,
-                    DateTimeUnit.DAY,
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-                RemoveAdType.MONTH -> it.plus(
-                    1,
-                    DateTimeUnit.MONTH,
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-                RemoveAdType.QUARTER -> it.plus(
-                    3,
-                    DateTimeUnit.MONTH,
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-                RemoveAdType.HALF_YEAR -> it.plus(
-                    6,
-                    DateTimeUnit.MONTH,
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-                RemoveAdType.YEAR -> it.plus(
-                    1,
-                    DateTimeUnit.YEAR,
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-            }
-    }.also {
+    fun updateAddFreeDate(adType: RemoveAdType, startDate: Instant = Clock.System.now()) {
+        settingsRepository.adFreeEndDate = when (adType) {
+            RemoveAdType.VIDEO -> startDate.plus(
+                3,
+                DateTimeUnit.DAY,
+                TimeZone.currentSystemDefault()
+            ).toEpochMilliseconds()
+            RemoveAdType.MONTH -> startDate.plus(
+                1,
+                DateTimeUnit.MONTH,
+                TimeZone.currentSystemDefault()
+            ).toEpochMilliseconds()
+            RemoveAdType.QUARTER -> startDate.plus(
+                3,
+                DateTimeUnit.MONTH,
+                TimeZone.currentSystemDefault()
+            ).toEpochMilliseconds()
+            RemoveAdType.HALF_YEAR -> startDate.plus(
+                6,
+                DateTimeUnit.MONTH,
+                TimeZone.currentSystemDefault()
+            ).toEpochMilliseconds()
+            RemoveAdType.YEAR -> startDate.plus(
+                1,
+                DateTimeUnit.YEAR,
+                TimeZone.currentSystemDefault()
+            ).toEpochMilliseconds()
+        }
         clientScope.launch {
             _effect.send(AdRemoveEffect.RestartActivity)
         }
     }
+
+    fun validatePurchaseHistory(pair: Pair<String, Long>) = RemoveAdType.values()
+        .firstOrNull { it.skuId == pair.first }
+        ?.let { updateAddFreeDate(it, Instant.fromEpochMilliseconds(pair.second)) }
 
     fun showLoadingView(shouldShow: Boolean) {
         _state.update(loading = shouldShow)
