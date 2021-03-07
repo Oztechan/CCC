@@ -6,14 +6,17 @@
 package com.github.mustafaozhan.ccc.client.util
 
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 private const val BIGGEST_DIGIT = 9
@@ -22,6 +25,9 @@ expect fun Double.getFormatted(): String
 
 @Suppress("unused")
 fun Any?.toUnit() = Unit
+
+@Suppress("unused")
+fun Any?.unitOrNull() = if (this == null) null else Unit
 
 fun Long.isWeekPassed(): Boolean {
     return Clock.System.now().toEpochMilliseconds() - this >= WEEK
@@ -82,6 +88,35 @@ fun List<Currency>?.toValidList(currentBase: String) =
             it.rate.toString() != "NaN" &&
             it.rate.toString() != "0.0"
     } ?: mutableListOf()
+
+@Suppress("MagicNumber")
+fun RemoveAdType.calculateAdRewardEnd(startDate: Instant = Clock.System.now()) = when (this) {
+    RemoveAdType.VIDEO -> startDate.plus(
+        3,
+        DateTimeUnit.DAY,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
+    RemoveAdType.MONTH -> startDate.plus(
+        1,
+        DateTimeUnit.MONTH,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
+    RemoveAdType.QUARTER -> startDate.plus(
+        3,
+        DateTimeUnit.MONTH,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
+    RemoveAdType.HALF_YEAR -> startDate.plus(
+        6,
+        DateTimeUnit.MONTH,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
+    RemoveAdType.YEAR -> startDate.plus(
+        1,
+        DateTimeUnit.YEAR,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
+}
 
 @Suppress("ComplexMethod", "LongMethod")
 fun Rates.getConversionByName(name: String) = when (name.capitalize()) {

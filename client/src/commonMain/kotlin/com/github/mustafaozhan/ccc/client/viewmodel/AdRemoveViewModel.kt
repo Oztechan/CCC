@@ -9,12 +9,15 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
+import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
+import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +25,7 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 
 class AdRemoveViewModel(
     private val settingsRepository: SettingsRepository
@@ -47,53 +47,35 @@ class AdRemoveViewModel(
         _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
-    @Suppress("MagicNumber")
-    fun updateAddFreeDate(adType: RemoveAdType, startDate: Instant = Clock.System.now()) {
-        settingsRepository.adFreeEndDate = when (adType) {
-            RemoveAdType.VIDEO -> startDate.plus(
-                3,
-                DateTimeUnit.DAY,
-                TimeZone.currentSystemDefault()
-            ).toEpochMilliseconds()
-            RemoveAdType.MONTH -> startDate.plus(
-                1,
-                DateTimeUnit.MONTH,
-                TimeZone.currentSystemDefault()
-            ).toEpochMilliseconds()
-            RemoveAdType.QUARTER -> startDate.plus(
-                3,
-                DateTimeUnit.MONTH,
-                TimeZone.currentSystemDefault()
-            ).toEpochMilliseconds()
-            RemoveAdType.HALF_YEAR -> startDate.plus(
-                6,
-                DateTimeUnit.MONTH,
-                TimeZone.currentSystemDefault()
-            ).toEpochMilliseconds()
-            RemoveAdType.YEAR -> startDate.plus(
-                1,
-                DateTimeUnit.YEAR,
-                TimeZone.currentSystemDefault()
-            ).toEpochMilliseconds()
-        }
-        clientScope.launch {
-            _effect.send(AdRemoveEffect.RestartActivity)
-        }
+    fun updateAddFreeDate(
+        adType: RemoveAdType,
+        startDate: Instant = Clock.System.now()
+    ) = clientScope.launch {
+        settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
+        _effect.send(AdRemoveEffect.RestartActivity)
     }
 
-    fun restorePurchase(sku: String, date: Long) = RemoveAdType.values()
-        .firstOrNull { it.data.skuId == sku }
-        ?.let { updateAddFreeDate(it, Instant.fromEpochMilliseconds(date)) }
+    fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
+        .maxByOrNull {
+            it.purchaseType.calculateAdRewardEnd(Instant.fromEpochMilliseconds(it.purchaseDate))
+        }?.whether { historyRecord ->
+            RemoveAdType.getSkuList()
+                .any { skuId -> skuId == historyRecord.purchaseType.data.skuId }
+        }?.apply {
+            RemoveAdType.getBySku(purchaseType.data.skuId)
+                ?.let {
+                    updateAddFreeDate(it, Instant.fromEpochMilliseconds(this.purchaseDate))
+                }
+        }
 
     fun showLoadingView(shouldShow: Boolean) {
         _state.update(loading = shouldShow)
     }
 
-    fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) =
-        billingMethods.forEach { billingMethod ->
+    fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) = billingMethods
+        .forEach { billingMethod ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.values()
-                .firstOrNull { it.data.skuId == billingMethod.skuId }
+            RemoveAdType.getBySku(billingMethod.skuId)
                 ?.apply {
                     data.cost = billingMethod.cost
                     data.reward = billingMethod.reward

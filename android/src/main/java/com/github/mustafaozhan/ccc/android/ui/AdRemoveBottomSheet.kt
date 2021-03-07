@@ -181,9 +181,9 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     ) = skuDetailsList
         .also { kermit.d { "AdRemoveBottomSheet onSkuDetailsResponse" } }
         ?.whether { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
-        ?.apply {
-            skuDetails = this
-            adRemoveViewModel.addInAppBillingMethods(map {
+        ?.let { detailsList ->
+            this.skuDetails = detailsList
+            adRemoveViewModel.addInAppBillingMethods(detailsList.map {
                 RemoveAdData(it.price, it.description, it.sku)
             })
         }.unitOrNull()
@@ -215,12 +215,10 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         .also {
             kermit.d { "AdRemoveBottomSheet onBillingSetupFinished" }
             it.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
-        }
-        .whether(
+        }.whether(
             { isReady },
             { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
         )?.apply {
-
             val skuDetailsParams = SkuDetailsParams.newBuilder()
                 .setSkusList(RemoveAdType.getSkuList())
                 .setType(BillingClient.SkuType.INAPP)
