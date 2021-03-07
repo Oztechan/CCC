@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
+import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
@@ -80,23 +81,25 @@ class AdRemoveViewModel(
         }
     }
 
-    fun validatePurchaseHistory(pair: Pair<String, Long>) = RemoveAdType.values()
-        .firstOrNull { it.skuId == pair.first }
-        ?.let { updateAddFreeDate(it, Instant.fromEpochMilliseconds(pair.second)) }
+    fun restorePurchase(sku: String, date: Long) = RemoveAdType.values()
+        .firstOrNull { it.data.skuId == sku }
+        ?.let { updateAddFreeDate(it, Instant.fromEpochMilliseconds(date)) }
 
     fun showLoadingView(shouldShow: Boolean) {
         _state.update(loading = shouldShow)
     }
 
-    fun addInAppBillingMethods(billingMethods: List<Triple<String, String, String>>) =
+    fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) =
         billingMethods.forEach { billingMethod ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.values().firstOrNull { it.skuId == billingMethod.first }?.let {
-                val adType = it
-                adType.cost = billingMethod.second
-                adType.reward = billingMethod.third
-                tempList.add(adType)
-            }
+            RemoveAdType.values()
+                .firstOrNull { it.data.skuId == billingMethod.skuId }
+                ?.apply {
+                    data.cost = billingMethod.cost
+                    data.reward = billingMethod.reward
+                }?.let {
+                    tempList.add(it)
+                }
             tempList.sortBy { it.ordinal }
             _state.update(adRemoveTypes = tempList, loading = false)
         }

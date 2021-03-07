@@ -26,6 +26,7 @@ import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragme
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
@@ -103,7 +104,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                             prepareRewardedAd()
                         }
                     } else {
-                        launchBillingFlow(viewEffect.removeAdType.skuId)
+                        launchBillingFlow(viewEffect.removeAdType.data.skuId)
                     }
                 }
                 AdRemoveEffect.RestartActivity -> activity?.run {
@@ -180,7 +181,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             ?.whether { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
             ?.apply {
                 skuDetails = this
-                map { Triple(it.sku, it.price, it.description) }.let {
+                map { RemoveAdData(it.price, it.description, it.sku) }.let {
                     adRemoveViewModel.addInAppBillingMethods(it)
                 }
             } ?: run {
@@ -196,12 +197,10 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }?.minByOrNull { it.purchaseTime }
         ?.whether { historyRecord ->
             RemoveAdType.values()
-                .map { removeAdType -> removeAdType.skuId }
+                .map { adType -> adType.data.skuId }
                 .any { skuId -> skuId == historyRecord.sku }
-        }?.let { historyRecord ->
-            adRemoveViewModel.validatePurchaseHistory(
-                Pair(historyRecord.sku, historyRecord.purchaseTime)
-            )
+        }?.apply {
+            adRemoveViewModel.restorePurchase(sku, purchaseTime)
         }.toUnit()
 
     override fun onPurchasesUpdated(
@@ -210,7 +209,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     ) {
         kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
         purchaseList?.firstOrNull()?.let { purchase ->
-            RemoveAdType.values().firstOrNull { it.skuId == purchase.sku }?.let {
+            RemoveAdType.values().firstOrNull { it.data.skuId == purchase.sku }?.let {
                 adRemoveViewModel.updateAddFreeDate(it)
             }
         }
@@ -229,7 +228,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             val skuDetailsParams = SkuDetailsParams.newBuilder()
                 .setSkusList(
                     RemoveAdType.values()
-                        .map { it.skuId }
+                        .map { it.data.skuId }
                         .filter { it.isNotEmpty() }
                 )
                 .setType(BillingClient.SkuType.INAPP)
@@ -263,8 +262,8 @@ class RemoveAdsAdapter(
 
         override fun onItemBind(item: RemoveAdType) = with(itemBinding) {
             root.setOnClickListener { removeAdsEvent.onAdRemoveItemClick(item) }
-            txtReward.text = item.reward
-            txtCost.text = item.cost
+            txtReward.text = item.data.reward
+            txtCost.text = item.data.cost
         }
     }
 
