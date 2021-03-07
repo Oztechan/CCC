@@ -4,8 +4,10 @@
 package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
 import com.github.mustafaozhan.ccc.client.util.WEEK
+import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.doubleDigits
 import com.github.mustafaozhan.ccc.client.util.formatToString
@@ -20,6 +22,7 @@ import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
+import com.github.mustafaozhan.ccc.client.util.unitOrNull
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
@@ -28,8 +31,10 @@ import com.github.mustafaozhan.ccc.common.platform
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -191,5 +196,59 @@ class ExtensionsTest {
         assertEquals("05", 5.doubleDigits())
         assertEquals("09", 9.doubleDigits())
         assertEquals("10", 10.doubleDigits())
+    }
+
+    @Test
+    fun unit() {
+        val nullAny = null
+        val notNullAny = Any()
+        assertTrue { nullAny.toUnit() == Unit }
+        assertTrue { notNullAny.toUnit() == Unit }
+        assertTrue { nullAny.unitOrNull() == null }
+        assertTrue { notNullAny.unitOrNull() == Unit }
+    }
+
+    @Test
+    fun calculateAdRewardEnd() {
+        assertTrue {
+            Instant.fromEpochMilliseconds(
+                RemoveAdType.VIDEO.calculateAdRewardEnd()
+            ).minus(
+                Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds() - 100),
+                TimeZone.currentSystemDefault()
+            ).days == 3
+        }
+        assertTrue {
+            Instant.fromEpochMilliseconds(
+                RemoveAdType.MONTH.calculateAdRewardEnd()
+            ).minus(
+                Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds() - 100),
+                TimeZone.currentSystemDefault()
+            ).months == 1
+        }
+        assertTrue {
+            Instant.fromEpochMilliseconds(
+                RemoveAdType.QUARTER.calculateAdRewardEnd()
+            ).minus(
+                Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds() - 100),
+                TimeZone.currentSystemDefault()
+            ).months == 3
+        }
+        assertTrue {
+            Instant.fromEpochMilliseconds(
+                RemoveAdType.HALF_YEAR.calculateAdRewardEnd()
+            ).minus(
+                Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds() - 100),
+                TimeZone.currentSystemDefault()
+            ).months == 6
+        }
+        assertTrue {
+            Instant.fromEpochMilliseconds(
+                RemoveAdType.YEAR.calculateAdRewardEnd()
+            ).minus(
+                Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds() - 100),
+                TimeZone.currentSystemDefault()
+            ).years == 1
+        }
     }
 }
