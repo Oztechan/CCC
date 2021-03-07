@@ -26,13 +26,16 @@ import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragme
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.ccc.client.util.unitOrNull
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
+import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -175,45 +178,38 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onSkuDetailsResponse(
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
-    ) {
-        kermit.d { "AdRemoveBottomSheet onBillingSetupFinished querySkuDetailsAsync" }
-        skuDetailsList
-            ?.whether { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
-            ?.apply {
-                skuDetails = this
-                map { RemoveAdData(it.price, it.description, it.sku) }.let {
-                    adRemoveViewModel.addInAppBillingMethods(it)
-                }
-            } ?: run {
-            adRemoveViewModel.showLoadingView(false)
-        }
-    }
+    ) = skuDetailsList
+        .also { kermit.d { "AdRemoveBottomSheet onSkuDetailsResponse" } }
+        ?.whether { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
+        ?.apply {
+            skuDetails = this
+            adRemoveViewModel.addInAppBillingMethods(map {
+                RemoveAdData(it.price, it.description, it.sku)
+            })
+        }.unitOrNull()
+        ?: run { adRemoveViewModel.showLoadingView(false) }
 
     override fun onPurchaseHistoryResponse(
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
-    ) = purchaseHistoryList.also {
-        kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse" }
-    }?.minByOrNull { it.purchaseTime }
-        ?.whether { historyRecord ->
-            RemoveAdType.values()
-                .map { adType -> adType.data.skuId }
-                .any { skuId -> skuId == historyRecord.sku }
-        }?.apply {
-            adRemoveViewModel.restorePurchase(sku, purchaseTime)
-        }.toUnit()
+    ) = purchaseHistoryList
+        .also { kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse" } }
+        ?.mapNotNull { historyRecord ->
+            RemoveAdType.getBySku(historyRecord.sku)?.let {
+                PurchaseHistory(historyRecord.purchaseTime, it)
+            }
+        }?.let { adRemoveViewModel.restorePurchase(it) }
+        .toUnit()
 
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchaseList: MutableList<Purchase>?
-    ) {
-        kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" }
-        purchaseList?.firstOrNull()?.let { purchase ->
-            RemoveAdType.values().firstOrNull { it.data.skuId == purchase.sku }?.let {
-                adRemoveViewModel.updateAddFreeDate(it)
-            }
-        }
-    }
+    ) = purchaseList
+        ?.also { kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" } }
+        ?.firstOrNull()
+        ?.mapTo { RemoveAdType.getBySku(sku) }
+        ?.let { adRemoveViewModel.updateAddFreeDate(it) }
+        .toUnit()
 
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
         .also {
@@ -226,11 +222,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         )?.apply {
 
             val skuDetailsParams = SkuDetailsParams.newBuilder()
-                .setSkusList(
-                    RemoveAdType.values()
-                        .map { it.data.skuId }
-                        .filter { it.isNotEmpty() }
-                )
+                .setSkusList(RemoveAdType.getSkuList())
                 .setType(BillingClient.SkuType.INAPP)
                 .build()
             querySkuDetailsAsync(skuDetailsParams, this@AdRemoveBottomSheet)
