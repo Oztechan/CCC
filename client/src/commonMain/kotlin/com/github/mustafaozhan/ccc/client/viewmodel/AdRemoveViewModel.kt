@@ -65,6 +65,7 @@ class AdRemoveViewModel(
             RemoveAdType.getBySku(purchaseType.data.skuId)
                 ?.let {
                     updateAddFreeDate(it, Instant.fromEpochMilliseconds(this.purchaseDate))
+                    clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
                 }
         }
 
@@ -112,5 +113,6 @@ interface AdRemoveEvent : BaseEvent {
 sealed class AdRemoveEffect : BaseEffect() {
     data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
     object RestartActivity : AdRemoveEffect()
+    object AlreadyAdFree : AdRemoveEffect()
 }
 // endregion

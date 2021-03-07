@@ -110,12 +110,18 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                         launchBillingFlow(viewEffect.removeAdType.data.skuId)
                     }
                 }
-                AdRemoveEffect.RestartActivity -> activity?.run {
-                    finish()
-                    startActivity(intent)
-                }
+                AdRemoveEffect.AlreadyAdFree -> Toast.show(
+                    requireContext(),
+                    R.string.txt_ads_already_disabled
+                )
+                AdRemoveEffect.RestartActivity -> restartActivity()
             }
         }
+    }
+
+    private fun restartActivity() = activity?.run {
+        finish()
+        startActivity(intent)
     }
 
     private fun setupBillingClient() {
