@@ -59,14 +59,13 @@ class AdRemoveViewModel(
         .maxByOrNull {
             it.purchaseType.calculateAdRewardEnd(Instant.fromEpochMilliseconds(it.purchaseDate))
         }?.whether { historyRecord ->
-            RemoveAdType.getSkuList()
-                .any { skuId -> skuId == historyRecord.purchaseType.data.skuId }
-        }?.apply {
-            RemoveAdType.getBySku(purchaseType.data.skuId)
-                ?.let {
-                    updateAddFreeDate(it, Instant.fromEpochMilliseconds(this.purchaseDate))
-                    clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
-                }
+            RemoveAdType.getSkuList().any { it == historyRecord.purchaseType.data.skuId }
+        }?.whether { it.purchaseDate > settingsRepository.adFreeEndDate }
+        ?.apply {
+            RemoveAdType.getBySku(purchaseType.data.skuId)?.let {
+                updateAddFreeDate(it, Instant.fromEpochMilliseconds(this.purchaseDate))
+                clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
+            }
         }
 
     fun showLoadingView(shouldShow: Boolean) {

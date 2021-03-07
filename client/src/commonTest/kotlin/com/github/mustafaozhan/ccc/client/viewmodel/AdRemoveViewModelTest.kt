@@ -5,10 +5,12 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlinx.coroutines.flow.first
+import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -26,6 +28,38 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         assertTrue { viewModel.state.value.loading }
         viewModel.showLoadingView(false)
         assertFalse { viewModel.state.value.loading }
+    }
+
+    @Test
+    fun updateAddFreeDate() = runTest {
+        RemoveAdType.values().forEach {
+            viewModel.updateAddFreeDate(it)
+            assertEquals(AdRemoveEffect.RestartActivity, viewModel.effect.first())
+        }
+    }
+
+    @Test
+    fun restorePurchase() = runTest {
+        viewModel.restorePurchase(
+            listOf(
+                PurchaseHistory(
+                    Clock.System.now().toEpochMilliseconds(), RemoveAdType.MONTH
+                )
+            )
+        )
+        assertEquals(AdRemoveEffect.AlreadyAdFree, viewModel.effect.first())
+    }
+
+    @Test
+    fun addInAppBillingMethods() = runTest {
+        RemoveAdType.values()
+            .map { it.data }
+            .forEach {
+                viewModel.addInAppBillingMethods(listOf(it))
+                assertTrue {
+                    viewModel.state.value.adRemoveTypes.contains(RemoveAdType.getBySku(it.skuId))
+                }
+            }
     }
 
     // Event

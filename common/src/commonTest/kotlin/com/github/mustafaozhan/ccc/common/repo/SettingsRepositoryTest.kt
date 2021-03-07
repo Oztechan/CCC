@@ -34,7 +34,7 @@ class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
     )
 
     @Test
-    fun adFreeActivatedDate() = assertEquals(
+    fun adFreeEndDate() = assertEquals(
         0.toLong(),
         repository.adFreeEndDate
     )
