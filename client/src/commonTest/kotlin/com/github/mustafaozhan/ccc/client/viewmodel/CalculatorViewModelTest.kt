@@ -51,10 +51,16 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
             delay(300)
             assertEquals(currency.name, state.value.base)
             assertEquals(conversion, state.value.input)
+        }
+    }
 
-            val unValidConversion = "123."
+    @Test
+    fun onItemClickInvalidConversion() = runTest {
+        with(viewModel) {
+            val currency = Currency("USD", "Dollar", "$", 0.0, true)
+            val inValidConversion = "123."
             val validConversion = "123"
-            event.onItemClick(currency, unValidConversion)
+            event.onItemClick(currency, inValidConversion)
             delay(300)
             assertEquals(validConversion, state.value.input)
         }
