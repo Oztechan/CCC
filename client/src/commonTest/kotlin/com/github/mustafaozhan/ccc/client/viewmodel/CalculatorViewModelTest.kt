@@ -43,25 +43,21 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     }
 
     @Test
-    fun onItemClick() = runTest {
-        with(viewModel) {
-            val currency = Currency("USD", "Dollar", "$", 0.0, true)
-            val conversion = "123.456"
-            event.onItemClick(currency, conversion)
-            delay(300)
+    fun onItemClick() = with(viewModel) {
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val conversion = "123.456"
+        event.onItemClick(currency, conversion).run {
             assertEquals(currency.name, state.value.base)
             assertEquals(conversion, state.value.input)
         }
     }
 
     @Test
-    fun onItemClickInvalidConversion() = runTest {
-        with(viewModel) {
-            val currency = Currency("USD", "Dollar", "$", 0.0, true)
-            val inValidConversion = "123."
-            val validConversion = "123"
-            event.onItemClick(currency, inValidConversion)
-            delay(300)
+    fun onItemClickInvalidConversion() = with(viewModel) {
+        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val inValidConversion = "123."
+        val validConversion = "123"
+        event.onItemClick(currency, inValidConversion).run {
             assertEquals(validConversion, state.value.input)
         }
     }
