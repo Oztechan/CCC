@@ -52,7 +52,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             )
         )
         delay(100)
-        assertEquals(AdRemoveEffect.RestartActivity, viewModel.effect.first())
+        assertEquals(AdRemoveEffect.AlreadyAdFree, viewModel.effect.first())
     }
 
     @Test
