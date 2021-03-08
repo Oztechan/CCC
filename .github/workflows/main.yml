@@ -24,7 +24,7 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: ./gradlew build --parallel
+        run: ./gradlew build --parallel --info
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1

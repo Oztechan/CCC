@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companio
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -75,18 +76,24 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     }
 
     @Test
-    fun onKeyPress() = with(viewModel) {
-        val oldValue = state.value.input
-        val key = "1"
-        event.onKeyPress(key)
-        assertEquals(oldValue + key, state.value.input)
+    fun onKeyPress() = runTest {
+        with(viewModel) {
+            val oldValue = state.value.input
+            val key = "1"
+            event.onKeyPress(key)
+            delay(100)
+            assertEquals(oldValue + key, state.value.input)
 
-        event.onKeyPress(KEY_AC)
-        assertEquals("", state.value.input)
+            event.onKeyPress(KEY_AC)
+            delay(100)
+            assertEquals("", state.value.input)
 
-        val currentInput = "12345"
-        event.onKeyPress(currentInput)
-        event.onKeyPress(KEY_DEL)
-        assertEquals(currentInput.dropLast(1), state.value.input)
+            event.onKeyPress(key)
+            event.onKeyPress(key)
+            delay(100)
+            event.onKeyPress(KEY_DEL)
+            delay(100)
+            assertEquals(key, state.value.input)
+        }
     }
 }
