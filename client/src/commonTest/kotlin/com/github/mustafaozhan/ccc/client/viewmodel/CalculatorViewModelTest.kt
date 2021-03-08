@@ -43,18 +43,21 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     }
 
     @Test
-    fun onItemClick() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
-        val conversion = "123.456"
-        event.onItemClick(currency, conversion)
+    fun onItemClick() = runTest {
+        with(viewModel) {
+            val currency = Currency("USD", "Dollar", "$", 0.0, true)
+            val conversion = "123.456"
+            event.onItemClick(currency, conversion)
+            delay(300)
+            assertEquals(currency.name, state.value.base)
+            assertEquals(conversion, state.value.input)
 
-        assertEquals(currency.name, state.value.base)
-        assertEquals(conversion, state.value.input)
-
-        val unValidConversion = "123."
-        val validConversion = "123"
-        event.onItemClick(currency, unValidConversion)
-        assertEquals(validConversion, state.value.input)
+            val unValidConversion = "123."
+            val validConversion = "123"
+            event.onItemClick(currency, unValidConversion)
+            delay(300)
+            assertEquals(validConversion, state.value.input)
+        }
     }
 
     @Test
@@ -81,18 +84,18 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
             val oldValue = state.value.input
             val key = "1"
             event.onKeyPress(key)
-            delay(100)
+            delay(300)
             assertEquals(oldValue + key, state.value.input)
 
             event.onKeyPress(KEY_AC)
-            delay(100)
+            delay(300)
             assertEquals("", state.value.input)
 
             event.onKeyPress(key)
             event.onKeyPress(key)
-            delay(100)
+            delay(300)
             event.onKeyPress(KEY_DEL)
-            delay(100)
+            delay(300)
             assertEquals(key, state.value.input)
         }
     }
