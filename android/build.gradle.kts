@@ -49,6 +49,7 @@ dependencies {
         implementation(navigation)
         implementation(playCore)
         implementation(koinAndroid)
+        implementation(billing)
         coreLibraryDesugaring(desugaring)
     }
 

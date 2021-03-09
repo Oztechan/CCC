@@ -7,8 +7,7 @@ object Dependencies {
     object Common {
         const val test = "test-common"
         const val testAnnotations = "test-annotations-common"
-
-        const val koinCore = "org.koin:koin-core:${Versions.koin}"
+        const val koinCore = "io.insert-koin:koin-core:${Versions.koin}"
         const val kermit = "co.touchlab:kermit:${Versions.kermit}"
         const val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
@@ -28,15 +27,12 @@ object Dependencies {
             "com.google.android.material:material:${Versions.androidMaterial}"
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-
-        const val koinAndroid = "org.koin:koin-android:${Versions.koin}"
-
+        const val koinAndroid = "io.insert-koin:koin-android:${Versions.koin}"
         const val firebaseCrashlytics =
             "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
         const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
-
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
         const val viewModelExt =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelExt}"
@@ -44,6 +40,7 @@ object Dependencies {
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
         const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
+        const val billing = "com.android.billingclient:billing:${Versions.billing}"
     }
 
     object IOS {
@@ -53,7 +50,6 @@ object Dependencies {
 
     object JVM {
         const val testJUnit = "test-junit"
-
         const val ktorCore = "io.ktor:ktor-server-core:${Versions.ktor}"
         const val ktorNetty = "io.ktor:ktor-server-netty:${Versions.ktor}"
         const val ktorSerialization = "io.ktor:ktor-serialization:${Versions.ktor}"
@@ -64,7 +60,6 @@ object Dependencies {
 
     object JS {
         const val test = "test-js"
-
         const val kotlinXHtml = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.kotlinXHtml}"
         const val kotlinReact = "org.jetbrains:kotlin-react:${Versions.react}"
         const val kotlinReactDom = "org.jetbrains:kotlin-react-dom:${Versions.react}"

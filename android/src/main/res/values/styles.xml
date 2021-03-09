@@ -130,6 +130,23 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="BaseItemSeparatorStyle">
+        <item name="android:layout_width">@dimen/margin_zero</item>
+        <item name="android:layout_height">@dimen/height_separator</item>
+        <item name="android:layout_marginEnd">@dimen/margin_eight</item>
+        <item name="android:background">@color/color_text_weak</item>
+    </style>
+
+    <style name="BaseRecyclerViewStyle" parent="FitStyle">
+        <item name="android:background">@color/color_background</item>
+    </style>
+
+    <style name="BaseBottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/color_background_weak</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
     <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
@@ -271,7 +288,7 @@
     </style>
 
     <!-- Bar Bottom Sheet Dialog -->
-    <style name="CurrentBaseStyle" parent="WrapStyle">
+    <style name="BottomSheetTitleStyle" parent="WrapStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
@@ -424,12 +441,8 @@
         <item name="android:layout_height">@dimen/width_height_settings_icon</item>
     </style>
 
-    <style name="SettingsItemSeparator">
-        <item name="android:layout_width">@dimen/margin_zero</item>
-        <item name="android:layout_height">@dimen/height_separator</item>
+    <style name="SettingsItemSeparator" parent="BaseItemSeparatorStyle">
         <item name="android:layout_marginStart">@dimen/margin_start_settings_item_separator</item>
-        <item name="android:layout_marginEnd">@dimen/margin_eight</item>
-        <item name="android:background">@color/color_text_weak</item>
     </style>
 
     <style name="SettingsItemArrow" parent="WrapStyle">
@@ -507,15 +520,18 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/color_background</item>
-    </style>
-
-    <style name="BottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
-        <item name="android:layout_height">wrap_content</item>
+    <!-- Ad Remove -->
+    <style name="AdRemoveItemLayoutStyle" parent="WideStyle">
         <item name="android:background">@color/color_background_weak</item>
-        <item name="android:clipToPadding">false</item>
-        <item name="android:paddingBottom">@dimen/margin_fifty_six</item>
     </style>
 
+    <style name="TextAdRemoveItemStyle" parent="WrapStyle">
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:padding">@dimen/padding_ad_remove_item_layout</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="AdRemoveItemSeparatorStyle" parent="BaseItemSeparatorStyle">
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
+    </style>
 </resources>

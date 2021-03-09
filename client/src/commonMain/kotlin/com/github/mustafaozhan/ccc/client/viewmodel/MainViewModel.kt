@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -20,7 +21,6 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 
 class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSEEDViewModel(),
     MainEvent {
@@ -53,7 +53,7 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
             delay(getAdDelay())
 
             while (isActive && !isFistRun()) {
-                if (data.adVisibility && settingsRepository.adFreeActivatedDate.isRewardExpired()) {
+                if (data.adVisibility && settingsRepository.adFreeEndDate.isRewardExpired()) {
                     _effect.send(MainEffect.ShowInterstitialAd)
                     data.isInitialAd = false
                 }
@@ -73,7 +73,7 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
             clientScope.launch {
                 delay(REVIEW_DELAY)
                 _effect.send(MainEffect.RequestReview)
-                settingsRepository.lastReviewRequest = Clock.System.now().toEpochMilliseconds()
+                settingsRepository.lastReviewRequest = nowAsLong()
             }
         }
     }

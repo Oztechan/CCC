@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/txt_current_base"
-        style="@style/CurrentBaseStyle"
+        style="@style/BottomSheetTitleStyle"
         android:text="@string/txt_select_base_currency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_bar"
-        style="@style/BottomSheetDialogRecyclerViewStyle"
+        style="@style/BaseBottomSheetDialogRecyclerViewStyle"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

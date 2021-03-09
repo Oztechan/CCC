@@ -11,9 +11,8 @@ import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
-import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
@@ -30,8 +29,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
@@ -63,9 +60,7 @@ class SettingsViewModel(
         _state.update(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
-            addFreeDate = Instant.fromEpochMilliseconds(
-                settingsRepository.adFreeActivatedDate + AD_EXPIRATION
-            ).formatToString()
+            addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
         clientScope.launch {
@@ -77,28 +72,17 @@ class SettingsViewModel(
         }
     }
 
-    fun updateAddFreeDate() = Clock.System.now().toEpochMilliseconds().let {
-        _state.update(
-            addFreeDate = Instant.fromEpochMilliseconds(it + AD_EXPIRATION).formatToString()
-        )
-        settingsRepository.adFreeActivatedDate = it
-    }
-
     fun updateTheme(theme: AppTheme) = clientScope.launch {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
         _effect.send(SettingsEffect.ChangeTheme(theme.themeValue))
     }.toUnit()
 
-    fun isRewardExpired() = settingsRepository.adFreeActivatedDate.isRewardExpired()
+    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
-    fun getAdFreeActivatedDate() = settingsRepository.adFreeActivatedDate
+    fun isAdFreeEverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
 
     fun getAppTheme() = settingsRepository.appTheme
-
-    fun showLoadingView(shouldShow: Boolean) {
-        _state.update(loading = shouldShow)
-    }
 
     override fun onCleared() {
         kermit.d { "SettingsViewModel onCleared" }
@@ -138,7 +122,7 @@ class SettingsViewModel(
 
     override fun onRemoveAdsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onRemoveAdsClick" }
-        _effect.send(SettingsEffect.RemoveAds)
+        _effect.send(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
     }.toUnit()
 
     override fun onThemeClick() = clientScope.launch {
@@ -179,7 +163,7 @@ class SettingsViewModel(
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
-    val addFreeDate: String = "",
+    val addFreeEndDate: String = "",
     val loading: Boolean = false
 ) : BaseState() {
     // for ios
@@ -210,6 +194,7 @@ sealed class SettingsEffect : BaseEffect() {
     object Synchronising : SettingsEffect()
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
+    object AlreadyAdFree : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()
 }
 

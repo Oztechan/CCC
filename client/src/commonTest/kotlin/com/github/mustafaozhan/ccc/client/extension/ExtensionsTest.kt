@@ -4,32 +4,39 @@
 package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
 import com.github.mustafaozhan.ccc.client.util.WEEK
+import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.doubleDigits
-import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.getConversionByName
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
+import com.github.mustafaozhan.ccc.client.util.toDateString
+import com.github.mustafaozhan.ccc.client.util.toInstant
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
+import com.github.mustafaozhan.ccc.client.util.unitOrNull
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.platform
-import kotlinx.datetime.Clock
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -147,34 +154,37 @@ class ExtensionsTest {
 
     @Test
     fun isWeekPassed() {
-        assertEquals(true, (Clock.System.now().toEpochMilliseconds() - 1 - WEEK).isWeekPassed())
-        assertEquals(true, (Clock.System.now().toEpochMilliseconds() - WEEK).isWeekPassed())
-        assertEquals(false, (Clock.System.now().toEpochMilliseconds() + 1 - WEEK).isWeekPassed())
+        assertEquals(true, (nowAsLong() - 1 - WEEK).isWeekPassed())
+        assertEquals(true, (nowAsLong() - WEEK).isWeekPassed())
+        assertEquals(false, (nowAsLong() + 1 - WEEK).isWeekPassed())
     }
 
     @Test
     fun isRewardExpired() {
-        assertEquals(
-            true,
-            (Clock.System.now().toEpochMilliseconds() - 1 - AD_EXPIRATION).isRewardExpired()
-        )
-        assertEquals(
-            true,
-            (Clock.System.now().toEpochMilliseconds() - AD_EXPIRATION).isRewardExpired()
-        )
-        assertEquals(
-            false,
-            (Clock.System.now().toEpochMilliseconds() + 1 - AD_EXPIRATION).isRewardExpired()
-        )
+        assertFalse { nowAsLong().isRewardExpired() }
+        assertFalse { (nowAsLong() + VIDEO_REWARD).isRewardExpired() }
+        assertTrue { (nowAsLong() - 1 - VIDEO_REWARD).isRewardExpired() }
+        assertTrue { (nowAsLong() - VIDEO_REWARD).isRewardExpired() }
+        assertFalse { (nowAsLong() + 1 - VIDEO_REWARD).isRewardExpired() }
     }
 
     @Test
-    fun formatToString() {
-        assertEquals(
-            "09:12 20.12.2020",
-            Instant.parse("2020-12-20T09:12:28Z").formatToString(TimeZone.UTC)
-        )
-    }
+    fun longToInstant() = assertEquals(
+        123.toLong().toInstant(),
+        Instant.fromEpochMilliseconds(123)
+    )
+
+    @Test
+    fun longToDateString() = assertEquals(
+        "09:12 20.12.2020",
+        1608455548000.toDateString(TimeZone.UTC)
+    )
+
+    @Test
+    fun instantToDateString() = assertEquals(
+        "09:12 20.12.2020",
+        Instant.parse("2020-12-20T09:12:28Z").toDateString(TimeZone.UTC)
+    )
 
     @Test
     fun doubleDigits() {
@@ -182,5 +192,58 @@ class ExtensionsTest {
         assertEquals("05", 5.doubleDigits())
         assertEquals("09", 9.doubleDigits())
         assertEquals("10", 10.doubleDigits())
+    }
+
+    @Test
+    fun unit() {
+        val nullAny = null
+        val notNullAny = Any()
+        assertTrue { nullAny.toUnit() == Unit }
+        assertTrue { notNullAny.toUnit() == Unit }
+        assertTrue { nullAny.unitOrNull() == null }
+        assertTrue { notNullAny.unitOrNull() == Unit }
+    }
+
+    @Test
+    fun calculateAdRewardEnd() {
+        assertEquals(
+            3,
+            RemoveAdType.VIDEO
+                .calculateAdRewardEnd()
+                .toInstant()
+                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
+                .days
+        )
+        assertEquals(
+            1,
+            RemoveAdType.MONTH.calculateAdRewardEnd()
+                .toInstant()
+                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
+                .months
+        )
+        assertEquals(
+            3,
+            RemoveAdType.QUARTER
+                .calculateAdRewardEnd()
+                .toInstant()
+                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
+                .months
+        )
+        assertEquals(
+            6,
+            RemoveAdType.HALF_YEAR
+                .calculateAdRewardEnd()
+                .toInstant()
+                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
+                .months
+        )
+        assertEquals(
+            1,
+            RemoveAdType.YEAR
+                .calculateAdRewardEnd()
+                .toInstant()
+                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
+                .years
+        )
     }
 }

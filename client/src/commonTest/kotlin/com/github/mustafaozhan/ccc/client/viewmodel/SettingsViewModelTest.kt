@@ -4,15 +4,11 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
-import com.github.mustafaozhan.ccc.client.util.AD_EXPIRATION
-import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.first
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
@@ -30,17 +26,6 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 //        viewModel.event.onCurrenciesClick()
 //        assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.single())
 //    }
-
-    @Test
-    fun updateAddFreeDate() = with(viewModel) {
-        updateAddFreeDate()
-        assertEquals(
-            state.value.addFreeDate,
-            Instant.fromEpochMilliseconds(
-                Clock.System.now().toEpochMilliseconds() + AD_EXPIRATION
-            ).formatToString()
-        )
-    }
 
     // Event
     @Test
@@ -82,7 +67,10 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun onRemoveAdsClick() = runTest {
         viewModel.event.onRemoveAdsClick()
-        assertEquals(SettingsEffect.RemoveAds, viewModel.effect.first())
+        assertEquals(
+            if (viewModel.isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree,
+            viewModel.effect.first()
+        )
     }
 
     @Test

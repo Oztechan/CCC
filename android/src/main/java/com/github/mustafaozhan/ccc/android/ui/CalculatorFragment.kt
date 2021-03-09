@@ -114,7 +114,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 CalculatorEffect.MaximumInput -> Toast.show(requireContext(), R.string.max_input)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
-                    CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheetDialogFragment()
+                    CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheet()
                 )
                 CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,
