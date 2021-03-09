@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common.settings
 
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.russhwolf.settings.Settings
-import kotlinx.datetime.Clock
 
 class SettingsRepository(private val settings: Settings) {
     companion object {
@@ -33,6 +33,6 @@ class SettingsRepository(private val settings: Settings) {
         set(value) = settings.putLong(KEY_AD_FREE_END_DATE, value)
 
     var lastReviewRequest: Long
-        get() = settings.getLong(KEY_LAST_REVIEW_REQUEST, Clock.System.now().toEpochMilliseconds())
+        get() = settings.getLong(KEY_LAST_REVIEW_REQUEST, nowAsLong())
         set(value) = settings.putLong(KEY_LAST_REVIEW_REQUEST, value)
 }

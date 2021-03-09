@@ -21,6 +21,8 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         koin.getDependency(CalculatorViewModel::class)
     }
 
+    private val currency = Currency("USD", "Dollar", "$", 0.0, true)
+
     // Event
     @Test
     fun onSpinnerItemSelected() = with(viewModel) {
@@ -44,7 +46,6 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onItemClick() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val conversion = "123.456"
         event.onItemClick(currency, conversion).run {
             assertEquals(currency.name, state.value.base)
@@ -54,7 +55,6 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onItemClickInvalidConversion() = with(viewModel) {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val inValidConversion = "123."
         val validConversion = "123"
         event.onItemClick(currency, inValidConversion).run {
@@ -64,8 +64,6 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onItemLongClick() = runTest {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
-
         viewModel.event.onItemLongClick(currency)
 
         assertEquals(

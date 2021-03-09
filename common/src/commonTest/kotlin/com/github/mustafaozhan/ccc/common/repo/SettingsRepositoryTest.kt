@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.common.repo
 import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import kotlinx.datetime.Clock
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -41,6 +41,6 @@ class SettingsRepositoryTest : BaseRepositoryTest<SettingsRepository>() {
 
     @Test
     fun lastReviewRequest() = assertTrue {
-        repository.lastReviewRequest <= Clock.System.now().toEpochMilliseconds()
+        repository.lastReviewRequest <= nowAsLong()
     }
 }

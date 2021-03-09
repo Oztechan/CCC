@@ -11,8 +11,8 @@ import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
-import com.github.mustafaozhan.ccc.client.util.formatToString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
@@ -61,8 +60,7 @@ class SettingsViewModel(
         _state.update(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
-            addFreeEndDate = Instant.fromEpochMilliseconds(settingsRepository.adFreeEndDate)
-                .formatToString()
+            addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
         clientScope.launch {

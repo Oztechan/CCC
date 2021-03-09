@@ -16,6 +16,7 @@ import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.channels.Channel
@@ -24,8 +25,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 class AdRemoveViewModel(
     private val settingsRepository: SettingsRepository
@@ -49,7 +48,7 @@ class AdRemoveViewModel(
 
     fun updateAddFreeDate(
         adType: RemoveAdType,
-        startDate: Instant = Clock.System.now()
+        startDate: Long = nowAsLong()
     ) = clientScope.launch {
         settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
         _effect.send(AdRemoveEffect.RestartActivity)
@@ -57,13 +56,13 @@ class AdRemoveViewModel(
 
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
         .maxByOrNull {
-            it.purchaseType.calculateAdRewardEnd(Instant.fromEpochMilliseconds(it.purchaseDate))
+            it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
         }?.whether { historyRecord ->
             RemoveAdType.getSkuList().any { it == historyRecord.purchaseType.data.skuId }
         }?.whether { it.purchaseDate > settingsRepository.adFreeEndDate }
         ?.apply {
             RemoveAdType.getBySku(purchaseType.data.skuId)?.let {
-                updateAddFreeDate(it, Instant.fromEpochMilliseconds(this.purchaseDate))
+                updateAddFreeDate(it, this.purchaseDate)
                 clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
             }
         }

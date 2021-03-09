@@ -10,9 +10,10 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
+import com.github.mustafaozhan.ccc.common.util.nowAsInstant
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -30,14 +31,20 @@ fun Any?.toUnit() = Unit
 fun Any?.unitOrNull() = if (this == null) null else Unit
 
 fun Long.isWeekPassed(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= WEEK
+    return nowAsLong() - this >= WEEK
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return Clock.System.now().toEpochMilliseconds() - this >= VIDEO_REWARD
+    return nowAsLong() - this >= VIDEO_REWARD
 }
 
-fun Instant.formatToString(
+fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
+
+fun Long.toDateString(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+) = toInstant().toDateString(timeZone)
+
+fun Instant.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
     "${hour.doubleDigits()}:${minute.doubleDigits()} " +
@@ -49,7 +56,7 @@ fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 fun CurrencyResponse.toRates(): Rates {
     val rate = rates
     rate.base = base
-    rate.date = Clock.System.now().formatToString()
+    rate.date = nowAsInstant().toDateString()
     return rate
 }
 
@@ -90,28 +97,28 @@ fun List<Currency>?.toValidList(currentBase: String) =
     } ?: mutableListOf()
 
 @Suppress("MagicNumber")
-fun RemoveAdType.calculateAdRewardEnd(startDate: Instant = Clock.System.now()) = when (this) {
-    RemoveAdType.VIDEO -> startDate.plus(
+fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
+    RemoveAdType.VIDEO -> startDate.toInstant().plus(
         3,
         DateTimeUnit.DAY,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.MONTH -> startDate.plus(
+    RemoveAdType.MONTH -> startDate.toInstant().plus(
         1,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.QUARTER -> startDate.plus(
+    RemoveAdType.QUARTER -> startDate.toInstant().plus(
         3,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.HALF_YEAR -> startDate.plus(
+    RemoveAdType.HALF_YEAR -> startDate.toInstant().plus(
         6,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.YEAR -> startDate.plus(
+    RemoveAdType.YEAR -> startDate.toInstant().plus(
         1,
         DateTimeUnit.YEAR,
         TimeZone.currentSystemDefault()

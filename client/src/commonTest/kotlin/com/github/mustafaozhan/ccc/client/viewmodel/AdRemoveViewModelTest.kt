@@ -9,9 +9,9 @@ import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -43,12 +43,8 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     fun restorePurchase() = runTest {
         viewModel.restorePurchase(
             listOf(
-                PurchaseHistory(
-                    Clock.System.now().toEpochMilliseconds(), RemoveAdType.MONTH
-                ),
-                PurchaseHistory(
-                    Clock.System.now().toEpochMilliseconds(), RemoveAdType.YEAR
-                )
+                PurchaseHistory(nowAsLong(), RemoveAdType.MONTH),
+                PurchaseHistory(nowAsLong(), RemoveAdType.YEAR)
             )
         )
         delay(100)
