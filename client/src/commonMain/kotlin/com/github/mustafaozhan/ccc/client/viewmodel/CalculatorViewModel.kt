@@ -54,6 +54,7 @@ class CalculatorViewModel(
     companion object {
         private const val MAXIMUM_INPUT = 18
         private const val CHAR_DOT = '.'
+        private const val PRECISION = 9
         const val KEY_DEL = "DEL"
         const val KEY_AC = "AC"
     }
@@ -130,7 +131,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = clientScope.launch {
         _state.update(loading = true)
         data.parser
-            .calculate(input.toSupportedCharacters())
+            .calculate(input.toSupportedCharacters(), PRECISION)
             .mapTo { if (isFinite()) getFormatted() else "" }
             .whether { length <= MAXIMUM_INPUT }
             ?.let { output ->
