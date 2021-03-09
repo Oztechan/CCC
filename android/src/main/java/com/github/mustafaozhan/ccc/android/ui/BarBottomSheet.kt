@@ -87,10 +87,8 @@ class BarBottomSheet :
         }
     }
 
-    private fun setListeners() {
-        binding.btnSelect.setOnClickListener {
-            barViewModel.event.onSelectClick()
-        }
+    private fun setListeners() = binding.btnSelect.setOnClickListener {
+        barViewModel.event.onSelectClick()
     }
 }
 

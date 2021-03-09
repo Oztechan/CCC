@@ -132,13 +132,12 @@ class SliderPagerAdapter(
     private var layouts: ArrayList<Int>
 ) : PagerAdapter() {
 
-    override fun instantiateItem(container: ViewGroup, position: Int): View {
-        val view = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
-            ?.castTo<LayoutInflater>()
-            ?.inflate(layouts[position], container, false)
-        container.addView(view)
-        return view ?: View(context)
-    }
+    override fun instantiateItem(container: ViewGroup, position: Int): View = context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+        ?.castTo<LayoutInflater>()
+        ?.inflate(layouts[position], container, false)
+        ?.also { container.addView(it) }
+        ?: View(context)
 
     override fun getCount() = layouts.size
 
