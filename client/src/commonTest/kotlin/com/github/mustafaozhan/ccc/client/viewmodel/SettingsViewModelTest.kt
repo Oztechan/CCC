@@ -30,52 +30,60 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     // Event
     @Test
     fun onBackClick() = runTest {
-        viewModel.event.onBackClick()
-        assertEquals(SettingsEffect.Back, viewModel.effect.first())
+        viewModel.event.onBackClick().run {
+            assertEquals(SettingsEffect.Back, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onCurrenciesClick() = runTest {
-        viewModel.event.onCurrenciesClick()
-        assertEquals(SettingsEffect.OpenCurrencies, viewModel.effect.first())
+        viewModel.event.onCurrenciesClick().run {
+            assertEquals(SettingsEffect.OpenCurrencies, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onFeedBackClick() = runTest {
-        viewModel.event.onFeedBackClick()
-        assertEquals(SettingsEffect.FeedBack, viewModel.effect.first())
+        viewModel.event.onFeedBackClick().run {
+            assertEquals(SettingsEffect.FeedBack, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onShareClick() = runTest {
-        viewModel.event.onShareClick()
-        assertEquals(SettingsEffect.Share, viewModel.effect.first())
+        viewModel.event.onShareClick().run {
+            assertEquals(SettingsEffect.Share, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onSupportUsClick() = runTest {
-        viewModel.event.onSupportUsClick()
-        assertEquals(SettingsEffect.SupportUs, viewModel.effect.first())
+        viewModel.event.onSupportUsClick().run {
+            assertEquals(SettingsEffect.SupportUs, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onOnGitHubClick() = runTest {
-        viewModel.event.onOnGitHubClick()
-        assertEquals(SettingsEffect.OnGitHub, viewModel.effect.first())
+        viewModel.event.onOnGitHubClick().run {
+            assertEquals(SettingsEffect.OnGitHub, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onRemoveAdsClick() = runTest {
-        viewModel.event.onRemoveAdsClick()
-        assertEquals(
-            if (viewModel.isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree,
-            viewModel.effect.first()
-        )
+        viewModel.event.onRemoveAdsClick().run {
+            assertEquals(
+                if (viewModel.isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree,
+                viewModel.effect.first()
+            )
+        }
     }
 
     @Test
     fun onThemeClick() = runTest {
-        viewModel.event.onThemeClick()
-        assertEquals(SettingsEffect.ThemeDialog, viewModel.effect.first())
+        viewModel.event.onThemeClick().run {
+            assertEquals(SettingsEffect.ThemeDialog, viewModel.effect.first())
+        }
     }
 }

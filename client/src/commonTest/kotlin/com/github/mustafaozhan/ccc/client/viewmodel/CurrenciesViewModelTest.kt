@@ -28,60 +28,51 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
         with(viewModel) {
             data.unFilteredList = originalList
-            filterList("USD")
-            assertTrue(state.value.currencyList.contains(dollar))
-
+            filterList("USD").run {
+                assertTrue(state.value.currencyList.contains(dollar))
+            }
             data.unFilteredList = originalList
-            filterList("Euro")
-            assertTrue(state.value.currencyList.contains(euro))
-
+            filterList("Euro").run {
+                assertTrue(state.value.currencyList.contains(euro))
+            }
             data.unFilteredList = originalList
-            filterList("$")
-            assertTrue(state.value.currencyList.contains(dollar))
-
+            filterList("$").run {
+                assertTrue(state.value.currencyList.contains(dollar))
+            }
             data.unFilteredList = originalList
-            filterList("asdasd")
-            assertTrue(state.value.currencyList.isEmpty())
-
+            filterList("asdasd").run {
+                assertTrue(state.value.currencyList.isEmpty())
+            }
             data.unFilteredList = originalList
-            filterList("o")
-            assertEquals(2, state.value.currencyList.size)
+            filterList("o").run {
+                assertEquals(2, state.value.currencyList.size)
+            }
         }
     }
 
     @Test
     fun hideSelectionVisibility() {
-        viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.value.selectionVisibility)
+        viewModel.hideSelectionVisibility().run {
+            assertEquals(false, viewModel.state.value.selectionVisibility)
+        }
     }
 
     @Test
     fun queryGetUpdatedOnFilteringList() {
         val query = "query"
-        viewModel.filterList(query)
-        assertEquals(query, viewModel.data.query)
+        viewModel.filterList(query).run {
+            assertEquals(query, viewModel.data.query)
+        }
     }
 
     // Event
     @Test
     fun onItemLongClick() = with(viewModel) {
         val currentValue = viewModel.state.value.selectionVisibility
-        event.onItemLongClick()
-        assertEquals(!currentValue, viewModel.state.value.selectionVisibility)
+        event.onItemLongClick().run {
+            assertEquals(!currentValue, viewModel.state.value.selectionVisibility)
+        }
     }
-
-    @Test
-    fun updateAllCurrenciesState() {
-        assertEquals(Unit, viewModel.event.updateAllCurrenciesState(true))
-        assertEquals(Unit, viewModel.event.updateAllCurrenciesState(false))
-    }
-
-    @Test
-    fun onItemClick() {
-        val currency = Currency("EUR", "Euro", "€")
-        assertEquals(Unit, viewModel.event.onItemClick(currency))
-    }
-
 //    @Test
 //    fun onCloseClick() = runTest {
 //        viewModel.event.onCloseClick()

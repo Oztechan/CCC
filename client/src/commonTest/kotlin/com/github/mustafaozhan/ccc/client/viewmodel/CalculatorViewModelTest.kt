@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companio
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,21 +26,23 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onSpinnerItemSelected() = with(viewModel) {
         val clickedItem = "asd"
-        event.onSpinnerItemSelected(clickedItem)
-        assertEquals(clickedItem, state.value.base)
+        event.onSpinnerItemSelected(clickedItem).run {
+            assertEquals(clickedItem, state.value.base)
+        }
     }
 
     @Test
     fun onBarClick() = runTest {
-        viewModel.event.onBarClick()
-
-        assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
+        viewModel.event.onBarClick().run {
+            assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
+        }
     }
 
     @Test
     fun onSettingsClicked() = runTest {
-        viewModel.event.onSettingsClicked()
-        assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.first())
+        viewModel.event.onSettingsClicked().run {
+            assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.first())
+        }
     }
 
     @Test
@@ -64,18 +65,18 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onItemLongClick() = runTest {
-        viewModel.event.onItemLongClick(currency)
-
-        assertEquals(
-            CalculatorEffect.ShowRate(
-                currency.getCurrencyConversionByRate(
-                    viewModel.state.value.base,
-                    viewModel.data.rates
+        viewModel.event.onItemLongClick(currency).run {
+            assertEquals(
+                CalculatorEffect.ShowRate(
+                    currency.getCurrencyConversionByRate(
+                        viewModel.state.value.base,
+                        viewModel.data.rates
+                    ),
+                    currency.name
                 ),
-                currency.name
-            ),
-            viewModel.effect.first()
-        )
+                viewModel.effect.first()
+            )
+        }
     }
 
     @Test
@@ -83,20 +84,19 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         with(viewModel) {
             val oldValue = state.value.input
             val key = "1"
-            event.onKeyPress(key)
-            delay(300)
-            assertEquals(oldValue + key, state.value.input)
+            event.onKeyPress(key).run {
+                assertEquals(oldValue + key, state.value.input)
+            }
 
-            event.onKeyPress(KEY_AC)
-            delay(300)
-            assertEquals("", state.value.input)
+            event.onKeyPress(KEY_AC).run {
+                assertEquals("", state.value.input)
+            }
 
             event.onKeyPress(key)
             event.onKeyPress(key)
-            delay(300)
-            event.onKeyPress(KEY_DEL)
-            delay(300)
-            assertEquals(key, state.value.input)
+            event.onKeyPress(KEY_DEL).run {
+                assertEquals(key, state.value.input)
+            }
         }
     }
 }

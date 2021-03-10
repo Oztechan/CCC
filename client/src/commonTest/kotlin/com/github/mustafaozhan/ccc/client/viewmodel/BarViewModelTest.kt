@@ -20,17 +20,18 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     @Test
     fun onItemClick() = runTest {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
-        viewModel.event.onItemClick(currency)
-
-        assertEquals(
-            BarEffect.ChangeBase(currency.name),
-            viewModel.effect.first()
-        )
+        viewModel.event.onItemClick(currency).run {
+            assertEquals(
+                BarEffect.ChangeBase(currency.name),
+                viewModel.effect.first()
+            )
+        }
     }
 
     @Test
     fun onSelectClick() = runTest {
-        viewModel.event.onSelectClick()
-        assertEquals(BarEffect.OpenCurrencies, viewModel.effect.first())
+        viewModel.event.onSelectClick().run {
+            assertEquals(BarEffect.OpenCurrencies, viewModel.effect.first())
+        }
     }
 }
