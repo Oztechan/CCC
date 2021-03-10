@@ -1,4 +1,4 @@
-name: CCC CI
+name: master
 
 on:
   push:

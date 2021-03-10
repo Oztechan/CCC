@@ -5,8 +5,8 @@
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val kotlin = "1.4.31"
-    const val androidPlugin = "7.0.0-alpha08"
-    const val compose = "0.4.0-build171"
+    const val androidPlugin = "7.0.0-alpha09"
+    const val compose = "0.4.0-build173"
     const val androidMaterial = "1.4.0-alpha01"
     const val constraintLayout = "2.1.0-alpha2"
     const val ktor = "1.5.2"
@@ -26,8 +26,9 @@ object Versions {
     const val navigation = "2.3.3"
     const val playCore = "1.10.0"
     const val dateTime = "0.1.1"
-    const val kotlinCoroutines = "1.4.2-native-mt"
-    const val billing = "3.0.2"
+    const val kotlinCoroutines = "1.4.3-native-mt"
+    const val billing = "3.0.3"
+
     // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
     const val sqlDelight = "1.4.3"
     const val viewModelExt = "2.3.0"
