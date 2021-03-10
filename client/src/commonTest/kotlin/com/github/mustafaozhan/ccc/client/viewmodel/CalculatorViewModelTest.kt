@@ -13,6 +13,7 @@ import com.github.mustafaozhan.ccc.common.runTest
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
@@ -26,57 +27,51 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onSpinnerItemSelected() = with(viewModel) {
         val clickedItem = "asd"
-        event.onSpinnerItemSelected(clickedItem).run {
-            assertEquals(clickedItem, state.value.base)
-        }
+        event.onSpinnerItemSelected(clickedItem)
+        assertEquals(clickedItem, state.value.base)
     }
 
     @Test
     fun onBarClick() = runTest {
-        viewModel.event.onBarClick().run {
-            assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
-        }
+        viewModel.event.onBarClick()
+        assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
     }
 
     @Test
     fun onSettingsClicked() = runTest {
-        viewModel.event.onSettingsClicked().run {
-            assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.first())
-        }
+        viewModel.event.onSettingsClicked()
+        assertEquals(CalculatorEffect.OpenSettings, viewModel.effect.first())
     }
 
     @Test
     fun onItemClick() = with(viewModel) {
         val conversion = "123.456"
-        event.onItemClick(currency, conversion).run {
-            assertEquals(currency.name, state.value.base)
-            assertEquals(conversion, state.value.input)
-        }
+        event.onItemClick(currency, conversion)
+        assertEquals(currency.name, state.value.base)
+        assertEquals(conversion, state.value.input)
     }
 
     @Test
     fun onItemClickInvalidConversion() = with(viewModel) {
         val inValidConversion = "123."
         val validConversion = "123"
-        event.onItemClick(currency, inValidConversion).run {
-            assertEquals(validConversion, state.value.input)
-        }
+        event.onItemClick(currency, inValidConversion)
+        assertEquals(validConversion, state.value.input)
     }
 
     @Test
     fun onItemLongClick() = runTest {
-        viewModel.event.onItemLongClick(currency).run {
-            assertEquals(
-                CalculatorEffect.ShowRate(
-                    currency.getCurrencyConversionByRate(
-                        viewModel.state.value.base,
-                        viewModel.data.rates
-                    ),
-                    currency.name
+        viewModel.event.onItemLongClick(currency)
+        assertEquals(
+            CalculatorEffect.ShowRate(
+                currency.getCurrencyConversionByRate(
+                    viewModel.state.value.base,
+                    viewModel.data.rates
                 ),
-                viewModel.effect.first()
-            )
-        }
+                currency.name
+            ),
+            viewModel.effect.first()
+        )
     }
 
     @Test
@@ -84,19 +79,23 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         with(viewModel) {
             val oldValue = state.value.input
             val key = "1"
-            event.onKeyPress(key).run {
-                assertEquals(oldValue + key, state.value.input)
-            }
+            event.onKeyPress(key)
+            assertEquals(oldValue + key, state.value.input)
 
-            event.onKeyPress(KEY_AC).run {
-                assertEquals("", state.value.input)
-            }
+            event.onKeyPress(KEY_AC)
+            assertEquals("", state.value.input)
 
             event.onKeyPress(key)
             event.onKeyPress(key)
-            event.onKeyPress(KEY_DEL).run {
-                assertEquals(key, state.value.input)
-            }
+            event.onKeyPress(KEY_DEL)
+            assertEquals(key, state.value.input)
         }
+    }
+
+    @Test
+    fun onBaseChanged() = runTest {
+        viewModel.event.onBaseChange(currency.name)
+        assertNull(viewModel.data.rates)
+        assertEquals(currency.name, viewModel.state.value.base)
     }
 }
