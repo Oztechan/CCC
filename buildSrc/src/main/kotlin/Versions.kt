@@ -23,7 +23,7 @@ object Versions {
     const val gsm = "4.3.5"
     const val crashlytics = "2.5.1"
     const val admob = "19.7.0"
-    const val navigation = "2.3.3"
+    const val navigation = "2.3.4"
     const val playCore = "1.10.0"
     const val dateTime = "0.1.1"
     const val kotlinCoroutines = "1.4.3-native-mt"
