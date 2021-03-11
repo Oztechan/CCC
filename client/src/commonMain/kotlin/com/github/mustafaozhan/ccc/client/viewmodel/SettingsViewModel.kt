@@ -71,6 +71,26 @@ class SettingsViewModel(
             }.launchIn(clientScope)
     }
 
+    private suspend fun synchroniseRates() {
+        _state.update(loading = true)
+
+        _effect.send(SettingsEffect.Synchronising)
+        currencyDao.getActiveCurrencies()
+            .toModelList()
+            .forEach { (name) ->
+                delay(SYNC_DELAY)
+
+                apiRepository.getRatesByBaseViaBackend(name).execute(
+                    success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
+                    error = { error -> kermit.e(error) { error.message.toString() } }
+                )
+            }
+
+        _effect.send(SettingsEffect.Synchronised)
+        _state.update(loading = false)
+        data.synced = true
+    }
+
     fun updateTheme(theme: AppTheme) = clientScope.launch {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
@@ -131,27 +151,10 @@ class SettingsViewModel(
 
     override fun onSyncClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSyncClick" }
-
-        if (!data.synced) {
-            _state.update(loading = true)
-
-            _effect.send(SettingsEffect.Synchronising)
-            currencyDao.getActiveCurrencies()
-                .toModelList()
-                .forEach { (name) ->
-                    delay(SYNC_DELAY)
-
-                    apiRepository.getRatesByBaseViaBackend(name).execute(
-                        success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
-                        error = { error -> kermit.e(error) { error.message.toString() } }
-                    )
-                }
-
-            data.synced = true
-            _effect.send(SettingsEffect.Synchronised)
-            _state.update(loading = false)
-        } else {
+        if (data.synced) {
             _effect.send(SettingsEffect.OnlyOneTimeSync)
+        } else {
+            synchroniseRates()
         }
     }.toUnit()
     // endregion

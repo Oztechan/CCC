@@ -84,10 +84,11 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun onSyncClick() = runTest {
         viewModel.event.onSyncClick()
+        delay(200)
         assertEquals(SettingsEffect.Synchronising, viewModel.effect.first())
         assertTrue { viewModel.data.synced }
 
         viewModel.event.onSyncClick()
-        assertEquals(SettingsEffect.Synchronised, viewModel.effect.first())
+        assertEquals(SettingsEffect.OnlyOneTimeSync, viewModel.effect.first())
     }
 }
