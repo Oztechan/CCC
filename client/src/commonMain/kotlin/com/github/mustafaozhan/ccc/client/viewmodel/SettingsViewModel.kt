@@ -25,8 +25,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -63,13 +64,11 @@ class SettingsViewModel(
             addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
-        clientScope.launch {
-            currencyDao.collectActiveCurrencies()
-                .mapToModel()
-                .collect {
-                    _state.update(activeCurrencyCount = it.size)
-                }
-        }
+        currencyDao.collectActiveCurrencies()
+            .mapToModel()
+            .onEach {
+                _state.update(activeCurrencyCount = it.size)
+            }.launchIn(clientScope)
     }
 
     fun updateTheme(theme: AppTheme) = clientScope.launch {

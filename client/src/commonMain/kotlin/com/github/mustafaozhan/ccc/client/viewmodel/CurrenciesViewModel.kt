@@ -24,8 +24,9 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -51,25 +52,23 @@ class CurrenciesViewModel(
         kermit.d { "CurrenciesViewModel init" }
         _state.update(loading = true)
 
-        clientScope.launch {
-            currencyDao.collectAllCurrencies()
-                .mapToModel()
-                .collect { currencyList ->
+        currencyDao.collectAllCurrencies()
+            .mapToModel()
+            .onEach { currencyList ->
 
-                    _state.update(currencyList = currencyList)
-                    data.unFilteredList = currencyList.toMutableList()
+                _state.update(currencyList = currencyList)
+                data.unFilteredList = currencyList.toMutableList()
 
-                    currencyList
-                        .filter { it.isActive }.size
-                        .whether { it < MINIMUM_ACTIVE_CURRENCY }
-                        ?.whetherNot { settingsRepository.firstRun }
-                        ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
+                currencyList
+                    .filter { it.isActive }.size
+                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
+                    ?.whetherNot { settingsRepository.firstRun }
+                    ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
 
-                    verifyCurrentBase()
-                    filterList(data.query)
-                    _state.update(selectionVisibility = false)
-                }
-        }
+                verifyCurrentBase()
+                filterList(data.query)
+                _state.update(selectionVisibility = false)
+            }.launchIn(clientScope)
 
         filterList("")
     }

@@ -18,8 +18,9 @@ import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -39,17 +40,15 @@ class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
     init {
         kermit.d { "BarViewModel init" }
 
-        clientScope.launch {
-            currencyDao.collectActiveCurrencies()
-                .mapToModel()
-                .collect {
-                    _state.update(
-                        currencyList = it,
-                        loading = false,
-                        enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
-                    )
-                }
-        }
+        currencyDao.collectActiveCurrencies()
+            .mapToModel()
+            .onEach {
+                _state.update(
+                    currencyList = it,
+                    loading = false,
+                    enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
+                )
+            }.launchIn(clientScope)
     }
 
     override fun onCleared() {

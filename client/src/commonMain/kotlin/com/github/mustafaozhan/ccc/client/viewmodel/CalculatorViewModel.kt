@@ -35,10 +35,11 @@ import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -74,23 +75,20 @@ class CalculatorViewModel(
         kermit.d { "CalculatorViewModel init" }
         _state.update(base = settingsRepository.currentBase, input = "")
 
-        clientScope.launch {
-            state.map { it.base }
-                .distinctUntilChanged()
-                .collect { currentBaseChanged(it) }
-        }
+        state.map { it.base }
+            .distinctUntilChanged()
+            .onEach { currentBaseChanged(it) }
+            .launchIn(clientScope)
 
-        clientScope.launch {
-            state.map { it.input }
-                .distinctUntilChanged()
-                .collect { calculateOutput(it) }
-        }
+        state.map { it.input }
+            .distinctUntilChanged()
+            .onEach { calculateOutput(it) }
+            .launchIn(clientScope)
 
-        clientScope.launch {
-            currencyDao.collectActiveCurrencies()
-                .mapToModel()
-                .collect { _state.update(currencyList = it) }
-        }
+        currencyDao.collectActiveCurrencies()
+            .mapToModel()
+            .onEach { _state.update(currencyList = it) }
+            .launchIn(clientScope)
     }
 
     private fun getRates() = data.rates?.let { rates ->
