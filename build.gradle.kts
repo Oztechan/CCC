@@ -41,5 +41,6 @@ allprojects {
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlin-js-wrappers")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://kotlin.bintray.com/kotlinx/")
     }
 }

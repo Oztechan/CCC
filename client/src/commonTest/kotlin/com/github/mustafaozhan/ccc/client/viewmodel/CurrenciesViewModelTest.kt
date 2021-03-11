@@ -7,7 +7,8 @@ import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -75,13 +76,28 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     @Test
     fun onCloseClick() = runTest {
         viewModel.event.onCloseClick()
-        assertEquals(CurrenciesEffect.Back, viewModel.effect.first())
+
+        // init causes CurrenciesEffect.ChangeBase before
+        assertEquals(
+            true,
+            viewModel.effect
+                .take(2)
+                .toList().contains(CurrenciesEffect.Back)
+        )
+
         assertEquals("", viewModel.data.query)
     }
 
     @Test
     fun onDoneClick() = runTest {
         viewModel.event.onDoneClick()
-        assertEquals(CurrenciesEffect.FewCurrency, viewModel.effect.first())
+
+        // init causes CurrenciesEffect.ChangeBase before
+        assertEquals(
+            true,
+            viewModel.effect
+                .take(2)
+                .toList().contains(CurrenciesEffect.FewCurrency)
+        )
     }
 }

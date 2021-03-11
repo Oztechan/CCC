@@ -19,6 +19,7 @@ import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.either
+import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.channels.Channel
@@ -59,19 +60,22 @@ class CurrenciesViewModel(
                 _state.update(currencyList = currencyList)
                 data.unFilteredList = currencyList.toMutableList()
 
-                currencyList
-                    .filter { it.isActive }.size
-                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.whetherNot { settingsRepository.firstRun }
-                    ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
-
+                verifyListSize()
                 verifyCurrentBase()
+
                 filterList(data.query)
                 _state.update(selectionVisibility = false)
             }.launchIn(clientScope)
 
         filterList("")
     }
+
+    private fun verifyListSize() = _state.value.currencyList
+        .filter { it.isActive }.size
+        .whether { it < MINIMUM_ACTIVE_CURRENCY }
+        ?.whetherNot { settingsRepository.firstRun }
+        ?.mapTo { clientScope }
+        ?.launch { _effect.send(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
         { isEmptyOrNullString() },
