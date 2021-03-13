@@ -21,7 +21,6 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     fun onItemClick() = runTest {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         viewModel.event.onItemClick(currency)
-
         assertEquals(
             BarEffect.ChangeBase(currency.name),
             viewModel.effect.first()

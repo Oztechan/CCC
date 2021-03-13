@@ -53,6 +53,7 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
         if (adWidthPixels == 0f) {
             adWidthPixels = widthPixels.toFloat()
         }
+        removeAllViews()
         addView(
             AdView(context).apply {
                 adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(

@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,6 +26,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     fun setLoading() {
         viewModel.showLoadingView(true)
         assertTrue { viewModel.state.value.loading }
+
         viewModel.showLoadingView(false)
         assertFalse { viewModel.state.value.loading }
     }
@@ -47,7 +47,6 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
                 PurchaseHistory(nowAsLong(), RemoveAdType.YEAR)
             )
         )
-        delay(100)
         viewModel.effect.first().let {
             assertTrue {
                 it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.RestartActivity

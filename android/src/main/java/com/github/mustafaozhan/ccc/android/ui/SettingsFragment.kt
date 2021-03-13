@@ -201,8 +201,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         kermit.d { "SettingsFragment onResume" }
     }
 
-    private fun changeTheme() {
-        AppTheme.getThemeByValue(settingsViewModel.getAppTheme())?.let { currentThemeType ->
+    private fun changeTheme() = AppTheme.getThemeByValue(settingsViewModel.getAppTheme())
+        ?.let { currentThemeType ->
             showSingleChoiceDialog(
                 requireActivity(),
                 getString(R.string.title_dialog_choose_theme),
@@ -212,12 +212,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
             }
         }
-    }
 
-    private fun startIntent(intent: Intent) {
-        getBaseActivity()?.packageManager?.let {
-            intent.resolveActivity(it)?.let { startActivity(intent) }
-        }
+    private fun startIntent(intent: Intent) = getBaseActivity()?.packageManager?.let {
+        intent.resolveActivity(it)?.let { startActivity(intent) }
     }
 
     private fun share() = Intent(Intent.ACTION_SEND).apply {

@@ -160,10 +160,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         }
     }
 
-    private fun Button.setKeyboardListener() {
-        setOnClickListener {
-            calculatorViewModel.onKeyPress(text.toString())
-        }
+    private fun Button.setKeyboardListener() = setOnClickListener {
+        calculatorViewModel.onKeyPress(text.toString())
     }
 }
 

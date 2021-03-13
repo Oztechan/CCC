@@ -13,6 +13,7 @@ import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
+import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -68,15 +69,13 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
 
     fun getAppTheme() = settingsRepository.appTheme
 
-    fun checkReview() {
-        if (settingsRepository.lastReviewRequest.isWeekPassed()) {
-            clientScope.launch {
-                delay(REVIEW_DELAY)
-                _effect.send(MainEffect.RequestReview)
-                settingsRepository.lastReviewRequest = nowAsLong()
-            }
+    fun checkReview() = clientScope
+        .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
+        ?.launch {
+            delay(REVIEW_DELAY)
+            _effect.send(MainEffect.RequestReview)
+            settingsRepository.lastReviewRequest = nowAsLong()
         }
-    }
 
     override fun onCleared() {
         kermit.d { "MainViewModel onCleared" }

@@ -10,10 +10,10 @@ import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companio
 import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
@@ -34,7 +34,6 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onBarClick() = runTest {
         viewModel.event.onBarClick()
-
         assertEquals(CalculatorEffect.OpenBar, viewModel.effect.first())
     }
 
@@ -47,25 +46,22 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onItemClick() = with(viewModel) {
         val conversion = "123.456"
-        event.onItemClick(currency, conversion).run {
-            assertEquals(currency.name, state.value.base)
-            assertEquals(conversion, state.value.input)
-        }
+        event.onItemClick(currency, conversion)
+        assertEquals(currency.name, state.value.base)
+        assertEquals(conversion, state.value.input)
     }
 
     @Test
     fun onItemClickInvalidConversion() = with(viewModel) {
         val inValidConversion = "123."
         val validConversion = "123"
-        event.onItemClick(currency, inValidConversion).run {
-            assertEquals(validConversion, state.value.input)
-        }
+        event.onItemClick(currency, inValidConversion)
+        assertEquals(validConversion, state.value.input)
     }
 
     @Test
     fun onItemLongClick() = runTest {
         viewModel.event.onItemLongClick(currency)
-
         assertEquals(
             CalculatorEffect.ShowRate(
                 currency.getCurrencyConversionByRate(
@@ -84,19 +80,22 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
             val oldValue = state.value.input
             val key = "1"
             event.onKeyPress(key)
-            delay(300)
             assertEquals(oldValue + key, state.value.input)
 
             event.onKeyPress(KEY_AC)
-            delay(300)
             assertEquals("", state.value.input)
 
             event.onKeyPress(key)
             event.onKeyPress(key)
-            delay(300)
             event.onKeyPress(KEY_DEL)
-            delay(300)
             assertEquals(key, state.value.input)
         }
+    }
+
+    @Test
+    fun onBaseChanged() = runTest {
+        viewModel.event.onBaseChange(currency.name)
+        assertNull(viewModel.data.rates)
+        assertEquals(currency.name, viewModel.state.value.base)
     }
 }

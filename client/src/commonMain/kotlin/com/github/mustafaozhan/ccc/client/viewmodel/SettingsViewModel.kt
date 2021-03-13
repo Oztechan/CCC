@@ -25,8 +25,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -63,13 +64,31 @@ class SettingsViewModel(
             addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
-        clientScope.launch {
-            currencyDao.collectActiveCurrencies()
-                .mapToModel()
-                .collect {
-                    _state.update(activeCurrencyCount = it.size)
-                }
-        }
+        currencyDao.collectActiveCurrencies()
+            .mapToModel()
+            .onEach {
+                _state.update(activeCurrencyCount = it.size)
+            }.launchIn(clientScope)
+    }
+
+    private suspend fun synchroniseRates() {
+        _state.update(loading = true)
+
+        _effect.send(SettingsEffect.Synchronising)
+        currencyDao.getActiveCurrencies()
+            .toModelList()
+            .forEach { (name) ->
+                delay(SYNC_DELAY)
+
+                apiRepository.getRatesByBaseViaBackend(name).execute(
+                    success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
+                    error = { error -> kermit.e(error) { error.message.toString() } }
+                )
+            }
+
+        _effect.send(SettingsEffect.Synchronised)
+        _state.update(loading = false)
+        data.synced = true
     }
 
     fun updateTheme(theme: AppTheme) = clientScope.launch {
@@ -132,28 +151,10 @@ class SettingsViewModel(
 
     override fun onSyncClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSyncClick" }
-
-        if (!data.synced) {
-            _state.update(loading = true)
-
-            _effect.send(SettingsEffect.Synchronising)
-            currencyDao.getActiveCurrencies()
-                .toModelList()
-                .forEach { (name) ->
-                    delay(SYNC_DELAY)
-
-                    apiRepository.getRatesByBaseViaBackend(name).execute({
-                        clientScope.launch {
-                            offlineRatesDao.insertOfflineRates(it.toRates())
-                        }
-                    }, { error -> kermit.e(error) { error.message.toString() } })
-                }
-
-            data.synced = true
-            _effect.send(SettingsEffect.Synchronised)
-            _state.update(loading = false)
-        } else {
+        if (data.synced) {
             _effect.send(SettingsEffect.OnlyOneTimeSync)
+        } else {
+            synchroniseRates()
         }
     }.toUnit()
     // endregion

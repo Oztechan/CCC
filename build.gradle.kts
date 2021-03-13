@@ -38,10 +38,9 @@ allprojects {
         mavenCentral()
         google()
         maven("https://dl.bintray.com/ekito/koin")
-        // todo soon will be just jcenter() https://github.com/Kotlin/kotlinx-datetime/issues/40
-        maven("https://kotlin.bintray.com/kotlinx/")
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlin-js-wrappers")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://kotlin.bintray.com/kotlinx/")
     }
 }

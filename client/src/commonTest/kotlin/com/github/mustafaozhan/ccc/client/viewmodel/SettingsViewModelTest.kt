@@ -4,11 +4,14 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
@@ -17,15 +20,14 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         koin.getDependency(SettingsViewModel::class)
     }
 
-//    @Test
-//    fun updateTheme() = runTest {
-//        val appTheme = AppTheme.DARK
-//        viewModel.updateTheme(appTheme)
-//        assertEquals(appTheme, viewModel.state.value.appThemeType)
-//
-//        viewModel.event.onCurrenciesClick()
-//        assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.single())
-//    }
+    @Test
+    fun updateTheme() = runTest {
+        val appTheme = AppTheme.DARK
+        viewModel.updateTheme(appTheme)
+        delay(200) // waiting for init
+        assertEquals(appTheme, viewModel.state.value.appThemeType)
+        assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.first())
+    }
 
     // Event
     @Test
@@ -77,5 +79,16 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun onThemeClick() = runTest {
         viewModel.event.onThemeClick()
         assertEquals(SettingsEffect.ThemeDialog, viewModel.effect.first())
+    }
+
+    @Test
+    fun onSyncClick() = runTest {
+        viewModel.event.onSyncClick()
+        delay(200)
+        assertEquals(SettingsEffect.Synchronising, viewModel.effect.first())
+        assertTrue { viewModel.data.synced }
+
+        viewModel.event.onSyncClick()
+        assertEquals(SettingsEffect.OnlyOneTimeSync, viewModel.effect.first())
     }
 }

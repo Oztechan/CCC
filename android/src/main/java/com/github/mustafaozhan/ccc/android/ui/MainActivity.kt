@@ -45,16 +45,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun requestReview() {
-        ReviewManagerFactory.create(this@MainActivity)
-            .apply {
-                requestReviewFlow().addOnCompleteListener { request ->
-                    if (request.isSuccessful) {
-                        launchReviewFlow(this@MainActivity, request.result)
-                    }
+    private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
+        .apply {
+            requestReviewFlow().addOnCompleteListener { request ->
+                if (request.isSuccessful) {
+                    launchReviewFlow(this@MainActivity, request.result)
                 }
             }
-    }
+        }
 
     private fun checkDestination() = with(getNavigationController()) {
         if (mainViewModel.isFistRun()) {
