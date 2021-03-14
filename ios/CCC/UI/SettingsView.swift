@@ -40,13 +40,6 @@ struct SettingsView: View {
                         onClick: { observable.event.onCurrenciesClick() }
                     )
                     SettingsItemView(
-                        imgName: "lightbulb.slash",
-                        title: MR.strings().settings_item_theme_title.get(),
-                        subTitle: MR.strings().settings_item_theme_sub_title.get(),
-                        value: observable.state.appThemeType.typeName,
-                        onClick: { observable.event.onThemeClick() }
-                    )
-                    SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
@@ -59,13 +52,6 @@ struct SettingsView: View {
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
                         onClick: { observable.event.onSyncClick() }
-                    )
-                    SettingsItemView(
-                        imgName: "cart.fill",
-                        title: MR.strings().settings_item_support_us_title.get(),
-                        subTitle: MR.strings().settings_item_support_us_sub_title.get(),
-                        value: "",
-                        onClick: { observable.event.onSupportUsClick() }
                     )
                     SettingsItemView(
                         imgName: "envelope.fill",
@@ -99,6 +85,16 @@ struct SettingsView: View {
             self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         case is SettingsEffect.FeedBack:
             EmailHelper().sendFeedback()
+        case is SettingsEffect.OnGitHub:
+            UIApplication.shared.open(NSURL(string: MR.strings().github_url.get())! as URL)
+        case is SettingsEffect.Synchronising:
+            showToast(text: MR.strings().txt_synchronising.get())
+        case is SettingsEffect.Synchronised:
+            showToast(text: MR.strings().txt_synced.get())
+        case is SettingsEffect.OnlyOneTimeSync:
+            showToast(text: MR.strings().txt_already_synced.get())
+        case is SettingsEffect.AlreadyAdFree:
+            showToast(text: MR.strings().txt_ads_already_disabled.get())
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }
