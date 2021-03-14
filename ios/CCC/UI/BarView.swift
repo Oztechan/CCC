@@ -65,13 +65,16 @@ struct BarView: View {
     }
 
     private func onEffect(effect: BarEffect) {
+        LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         // swiftlint:disable force_cast
         case is BarEffect.ChangeBase:
             onBaseChange((effect as! BarEffect.ChangeBase).newBase)
             isBarShown = false
+        case is BarEffect.OpenCurrencies:
+            navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         default:
-            LoggerKt.kermit.d(withMessage: {"unknown effect"})
+            LoggerKt.kermit.d(withMessage: {"BarView unknown effect"})
         }
     }
 }

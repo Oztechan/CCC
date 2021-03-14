@@ -17,6 +17,7 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
+    @State var removeAdDialogVisibility: Bool = false
 
     var onBaseChange: ((String) -> Void)
 
@@ -27,7 +28,7 @@ struct SettingsView: View {
 
             VStack {
 
-                SettingsToolbarView()
+                SettingsToolbarView(backEvent: { observable.event.onBackClick() })
 
                 Form {
                     SettingsItemView(
@@ -40,17 +41,10 @@ struct SettingsView: View {
                         onClick: { observable.event.onCurrenciesClick() }
                     )
                     SettingsItemView(
-                        imgName: "lightbulb.slash",
-                        title: MR.strings().settings_item_theme_title.get(),
-                        subTitle: MR.strings().settings_item_theme_sub_title.get(),
-                        value: observable.state.appThemeType.typeName,
-                        onClick: { observable.event.onThemeClick() }
-                    )
-                    SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: observable.state.addFreeEndDate,
+                        value: getAdFreeText(),
                         onClick: { observable.event.onRemoveAdsClick() }
                     )
                     SettingsItemView(
@@ -59,13 +53,6 @@ struct SettingsView: View {
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
                         onClick: { observable.event.onSyncClick() }
-                    )
-                    SettingsItemView(
-                        imgName: "cart.fill",
-                        title: MR.strings().settings_item_support_us_title.get(),
-                        subTitle: MR.strings().settings_item_support_us_sub_title.get(),
-                        value: "",
-                        onClick: { observable.event.onSupportUsClick() }
                     )
                     SettingsItemView(
                         imgName: "envelope.fill",
@@ -85,30 +72,72 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
+        .alert(isPresented: $removeAdDialogVisibility) {
+            Alert(
+                title: Text(MR.strings().txt_remove_ads.get()),
+                message: Text(MR.strings().txt_remove_ads_text.get()),
+                primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
+                    // todo show rewarded ad
+                }),
+                secondaryButton: .destructive(Text(MR.strings().cancel.get()))
+            )
+        }
         .onAppear { observable.startObserving() }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: SettingsEffect) {
+        LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
+        case is SettingsEffect.Back:
+            navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
             self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
+        case is SettingsEffect.FeedBack:
+            EmailHelper().sendFeedback()
+        case is SettingsEffect.OnGitHub:
+            UIApplication.shared.open(NSURL(string: MR.strings().github_url.get())! as URL)
+        case is SettingsEffect.Synchronising:
+            showToast(text: MR.strings().txt_synchronising.get())
+        case is SettingsEffect.Synchronised:
+            showToast(text: MR.strings().txt_synced.get())
+        case is SettingsEffect.OnlyOneTimeSync:
+            showToast(text: MR.strings().txt_already_synced.get())
+        case is SettingsEffect.AlreadyAdFree:
+            showToast(text: MR.strings().txt_ads_already_disabled.get())
+        case is SettingsEffect.RemoveAds:
+            self.removeAdDialogVisibility = true
         default:
-            LoggerKt.kermit.d(withMessage: {"unknown effect"})
+            LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }
     }
+
+    private func getAdFreeText() -> String {
+        if observable.viewModel.isAdFreeNeverActivated() {
+            return ""
+        } else {
+            if observable.viewModel.isRewardExpired() {
+                return MR.strings().settings_item_remove_ads_value_expired.get()
+            } else {
+                return MR.strings().settings_item_remove_ads_value_will_expire.get(
+                    parameter: observable.state.addFreeEndDate
+                )
+            }
+        }
+    }
+
 }
 
 struct SettingsToolbarView: View {
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
+    var backEvent: () -> Void
 
     var body: some View {
         HStack {
 
             Button(
-                action: { navigationStack.pop() },
+                action: { backEvent() },
                 label: {
                     Image(systemName: "chevron.left")
                         .imageScale(.large)

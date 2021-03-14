@@ -114,7 +114,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemTheme.settingsItemValue.text = appThemeType.typeName
 
                 binding.itemDisableAds.settingsItemValue.text =
-                    if (settingsViewModel.isAdFreeEverActivated()) "" else {
+                    if (settingsViewModel.isAdFreeNeverActivated()) "" else {
                         if (settingsViewModel.isRewardExpired()) {
                             getString(R.string.settings_item_remove_ads_value_expired)
                         } else {

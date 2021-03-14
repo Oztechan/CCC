@@ -68,10 +68,7 @@ struct CurrenciesView: View {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            showAlert(
-                text: MR.strings().choose_at_least_two_currency.get(),
-                buttonText: MR.strings().select.get()
-            )
+            showToast(text: MR.strings().choose_at_least_two_currency.get())
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
@@ -80,7 +77,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
-            LoggerKt.kermit.d(withMessage: {"unknown effect"})
+            LoggerKt.kermit.d(withMessage: {"CurrenciesView unknown effect"})
         }
     }
 }

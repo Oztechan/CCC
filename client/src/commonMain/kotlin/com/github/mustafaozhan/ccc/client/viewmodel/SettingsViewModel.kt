@@ -99,7 +99,7 @@ class SettingsViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
-    fun isAdFreeEverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
+    fun isAdFreeNeverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
 
     fun getAppTheme() = settingsRepository.appTheme
 
