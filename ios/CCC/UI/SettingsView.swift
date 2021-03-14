@@ -17,7 +17,6 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
-    
     @State var removeAdDialogVisibility: Bool = false
 
     var onBaseChange: ((String) -> Void)
@@ -45,7 +44,7 @@ struct SettingsView: View {
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
                         subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: observable.state.addFreeEndDate,
+                        value: getAdFreeText(),
                         onClick: { observable.event.onRemoveAdsClick() }
                     )
                     SettingsItemView(
@@ -111,6 +110,20 @@ struct SettingsView: View {
             self.removeAdDialogVisibility = true
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
+        }
+    }
+
+    private func getAdFreeText() -> String {
+        if observable.viewModel.isAdFreeNeverActivated() {
+            return ""
+        } else {
+            if observable.viewModel.isRewardExpired() {
+                return MR.strings().settings_item_remove_ads_value_expired.get()
+            } else {
+                return MR.strings().settings_item_remove_ads_value_will_expire.get(
+                    parameter: observable.state.addFreeEndDate
+                )
+            }
         }
     }
 
