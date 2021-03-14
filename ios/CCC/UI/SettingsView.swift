@@ -17,6 +17,8 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
+    
+    @State var removeAdDialogVisibility: Bool = false
 
     var onBaseChange: ((String) -> Void)
 
@@ -71,6 +73,16 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
+        .alert(isPresented: $removeAdDialogVisibility) {
+            Alert(
+                title: Text(MR.strings().txt_remove_ads.get()),
+                message: Text(MR.strings().txt_remove_ads_text.get()),
+                primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
+                    // todo show rewarded ad
+                }),
+                secondaryButton: .destructive(Text(MR.strings().cancel.get()))
+            )
+        }
         .onAppear { observable.startObserving() }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
@@ -95,6 +107,8 @@ struct SettingsView: View {
             showToast(text: MR.strings().txt_already_synced.get())
         case is SettingsEffect.AlreadyAdFree:
             showToast(text: MR.strings().txt_ads_already_disabled.get())
+        case is SettingsEffect.RemoveAds:
+            self.removeAdDialogVisibility = true
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }
