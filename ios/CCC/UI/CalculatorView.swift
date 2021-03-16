@@ -229,7 +229,8 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(String(item.rate)).foregroundColor(MR.colors().text.get())
+            Text(IOSExtensionsKt.getFormatted(item.rate))
+                .foregroundColor(MR.colors().text.get())
             Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
             Text(item.name).foregroundColor(MR.colors().text.get())
