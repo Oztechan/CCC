@@ -185,7 +185,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
     ) = skuDetailsList
-        .also { kermit.d { "AdRemoveBottomSheet onSkuDetailsResponse" } }
+        .also { kermit.d { "AdRemoveBottomSheet onSkuDetailsResponse ${billingResult.responseCode}" } }
         ?.whether { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
         ?.let { detailsList ->
             this.skuDetails = detailsList
@@ -199,7 +199,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) = purchaseHistoryList
-        .also { kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse" } }
+        .also { kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse ${billingResult.responseCode}" } }
         ?.mapNotNull { historyRecord ->
             RemoveAdType.getBySku(historyRecord.sku)?.let {
                 PurchaseHistory(historyRecord.purchaseTime, it)
@@ -211,7 +211,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         billingResult: BillingResult,
         purchaseList: MutableList<Purchase>?
     ) = purchaseList
-        ?.also { kermit.d { "AdRemoveBottomSheet onPurchasesUpdated" } }
+        .also { kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ${billingResult.responseCode}" } }
         ?.firstOrNull()
         ?.mapTo { RemoveAdType.getBySku(sku) }
         ?.let { adRemoveViewModel.updateAddFreeDate(it) }
@@ -219,7 +219,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
         .also {
-            kermit.d { "AdRemoveBottomSheet onBillingSetupFinished" }
+            kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
             it.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
         }.whether(
             { isReady },
