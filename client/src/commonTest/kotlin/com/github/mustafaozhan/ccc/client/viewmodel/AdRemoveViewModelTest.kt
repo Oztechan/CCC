@@ -7,6 +7,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.util.nowAsLong

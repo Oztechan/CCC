@@ -5,6 +5,7 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import kotlin.test.Test
 import kotlin.test.assertEquals

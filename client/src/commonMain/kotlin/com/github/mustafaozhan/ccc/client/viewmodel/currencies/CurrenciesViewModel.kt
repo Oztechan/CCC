@@ -1,13 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
-import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
@@ -158,34 +154,3 @@ class CurrenciesViewModel(
     }.toUnit()
     // endregion
 }
-
-// region SEED
-data class CurrenciesState(
-    val currencyList: List<Currency> = listOf(),
-    val loading: Boolean = false,
-    val selectionVisibility: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(listOf(), false, false)
-}
-
-interface CurrenciesEvent : BaseEvent {
-    fun updateAllCurrenciesState(state: Boolean)
-    fun onItemClick(currency: Currency)
-    fun onDoneClick()
-    fun onItemLongClick(): Boolean
-    fun onCloseClick()
-}
-
-sealed class CurrenciesEffect : BaseEffect() {
-    object FewCurrency : CurrenciesEffect()
-    object OpenCalculator : CurrenciesEffect()
-    object Back : CurrenciesEffect()
-    data class ChangeBase(val newBase: String) : CurrenciesEffect()
-}
-
-data class CurrenciesData(
-    var unFilteredList: MutableList<Currency> = mutableListOf(),
-    var query: String = ""
-) : BaseData()
-// endregion

@@ -16,9 +16,9 @@ import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.viewmodel.BarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.BarEvent
-import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R

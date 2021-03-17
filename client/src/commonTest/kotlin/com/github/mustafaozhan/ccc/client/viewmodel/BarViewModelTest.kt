@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlinx.coroutines.flow.first

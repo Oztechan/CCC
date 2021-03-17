@@ -1,11 +1,8 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.main
 
-import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
@@ -14,7 +11,6 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
@@ -95,21 +91,3 @@ class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSE
     }
     // endregion
 }
-
-// region SEED
-sealed class MainEffect : BaseEffect() {
-    object ShowInterstitialAd : MainEffect()
-    object RequestReview : MainEffect()
-}
-
-interface MainEvent : BaseEvent {
-    fun onPause()
-    fun onResume()
-}
-
-data class MainData(
-    var adJob: Job = Job(),
-    var adVisibility: Boolean = false,
-    var isInitialAd: Boolean = true
-) : BaseData()
-// endregion

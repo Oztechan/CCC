@@ -1,13 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
@@ -68,24 +65,3 @@ class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
     }.toUnit()
     // endregion
 }
-
-// region SEED
-data class BarState(
-    val loading: Boolean = true,
-    val enoughCurrency: Boolean = false,
-    val currencyList: List<Currency> = listOf(),
-) : BaseState() {
-    // for ios
-    constructor() : this(true, false, listOf())
-}
-
-interface BarEvent : BaseEvent {
-    fun onItemClick(currency: Currency)
-    fun onSelectClick()
-}
-
-sealed class BarEffect : BaseEffect() {
-    data class ChangeBase(val newBase: String) : BarEffect()
-    object OpenCurrencies : BarEffect()
-}
-// endregion

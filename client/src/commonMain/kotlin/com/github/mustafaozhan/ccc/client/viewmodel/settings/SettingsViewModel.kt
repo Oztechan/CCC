@@ -1,13 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
-import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModelList
@@ -159,45 +155,3 @@ class SettingsViewModel(
     }.toUnit()
     // endregion
 }
-
-// region SEED
-data class SettingsState(
-    val activeCurrencyCount: Int = 0,
-    val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
-    val addFreeEndDate: String = "",
-    val loading: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "", false)
-}
-
-interface SettingsEvent : BaseEvent {
-    fun onBackClick()
-    fun onCurrenciesClick()
-    fun onFeedBackClick()
-    fun onShareClick()
-    fun onSupportUsClick()
-    fun onOnGitHubClick()
-    fun onRemoveAdsClick()
-    fun onSyncClick()
-    fun onThemeClick()
-}
-
-sealed class SettingsEffect : BaseEffect() {
-    object Back : SettingsEffect()
-    object OpenCurrencies : SettingsEffect()
-    object FeedBack : SettingsEffect()
-    object Share : SettingsEffect()
-    object SupportUs : SettingsEffect()
-    object OnGitHub : SettingsEffect()
-    object RemoveAds : SettingsEffect()
-    object ThemeDialog : SettingsEffect()
-    object Synchronising : SettingsEffect()
-    object Synchronised : SettingsEffect()
-    object OnlyOneTimeSync : SettingsEffect()
-    object AlreadyAdFree : SettingsEffect()
-    data class ChangeTheme(val themeValue: Int) : SettingsEffect()
-}
-
-data class SettingsData(var synced: Boolean = false) : BaseData()
-// endregion

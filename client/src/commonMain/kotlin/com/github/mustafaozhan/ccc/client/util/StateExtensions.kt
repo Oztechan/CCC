@@ -8,11 +8,11 @@ import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveState
-import com.github.mustafaozhan.ccc.client.viewmodel.BarState
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorState
-import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesState
-import com.github.mustafaozhan.ccc.client.viewmodel.SettingsState
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveState
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState
+import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 fun MutableStateFlow<BarState>.update(

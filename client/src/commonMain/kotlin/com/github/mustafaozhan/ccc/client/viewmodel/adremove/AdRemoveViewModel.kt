@@ -2,13 +2,10 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.adremove
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -94,23 +91,3 @@ class AdRemoveViewModel(
         _effect.send(AdRemoveEffect.RemoveAd(type))
     }.toUnit()
 }
-
-// region SEED
-data class AdRemoveState(
-    val adRemoveTypes: List<RemoveAdType> = listOf(),
-    val loading: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(listOf<RemoveAdType>(), false)
-}
-
-interface AdRemoveEvent : BaseEvent {
-    fun onAdRemoveItemClick(type: RemoveAdType)
-}
-
-sealed class AdRemoveEffect : BaseEffect() {
-    data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
-    object RestartActivity : AdRemoveEffect()
-    object AlreadyAdFree : AdRemoveEffect()
-}
-// endregion

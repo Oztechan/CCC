@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.web.ui
 
 import com.github.mustafaozhan.ccc.client.di.getDependency
-import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.web.app.AppDependenciesContext
 import com.github.mustafaozhan.logmob.kermit
 import react.RProps
