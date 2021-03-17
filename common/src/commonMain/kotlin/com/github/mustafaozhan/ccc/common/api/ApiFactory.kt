@@ -6,11 +6,11 @@ package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
-import com.github.mustafaozhan.logmob.kermit
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
@@ -46,11 +46,7 @@ class ApiFactory : ApiService {
                 requestTimeoutMillis = TIME_OUT
             }
             install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        kermit.v("Network") { message }
-                    }
-                }
+                logger = Logger.DEFAULT
                 level = LogLevel.INFO
             }
         }

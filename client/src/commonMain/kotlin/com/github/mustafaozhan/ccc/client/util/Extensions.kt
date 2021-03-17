@@ -53,12 +53,7 @@ fun Instant.toDateString(
 
 fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
-fun CurrencyResponse.toRates(): Rates {
-    val rate = rates
-    rate.base = base
-    rate.date = nowAsInstant().toDateString()
-    return rate
-}
+fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
 
 fun Rates?.calculateResult(name: String, value: String?) =
     this?.whetherNot { value.isNullOrEmpty() }

@@ -29,6 +29,7 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.platform
+import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -137,8 +138,8 @@ class ExtensionsTest {
     @Test
     fun currencyResponseToRates() {
         val base = "EUR"
-        val rates = Rates(base, "", uSD = 5.0)
-        val currencyResponse = CurrencyResponse(base, "", rates)
+        val rates = Rates(base, nowAsInstant().toDateString(), uSD = 5.0)
+        val currencyResponse = CurrencyResponse(base, nowAsInstant().toDateString(), rates)
         assertEquals(rates, currencyResponse.toRates())
     }
 
