@@ -73,7 +73,10 @@ struct CalculatorView: View {
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
-                    RateStateView(rateState: observable.state.rateState)
+                    RateStateView(
+                        color: observable.state.rateState.getColor(),
+                        text: observable.state.rateState.getText()
+                    )
 
                 }
             }
@@ -221,35 +224,15 @@ struct KeyboardView: View {
 }
 
 struct RateStateView: View {
-
-    @State var rateState: RateState
+    var color: Color
+    var text: String
 
     var body: some View {
         HStack {
-            switch rateState {
-            case is RateState.Online:
-                Circle()
-                    .frame(width: 12, height: 12, alignment: .center)
-                    .foregroundColor(MR.colors().text.get())
-                Text((rateState as! RateState.Online).lastUpdate ?? "")
-            case is RateState.Cached:
-                Circle()
-                    .frame(width: 12, height: 12, alignment: .center)
-                    .foregroundColor(MR.colors().text.get())
-                Text((rateState as! RateState.Cached).lastUpdate ?? "")
-            case is RateState.Offline:
-                Circle()
-                    .frame(width: 12, height: 12, alignment: .center)
-                    .foregroundColor(MR.colors().text.get())
-                Text((rateState as! RateState.Offline).lastUpdate ?? "")
-            case is RateState.Error:
-                Circle()
-                    .frame(width: 12, height: 12, alignment: .center)
-                    .foregroundColor(MR.colors().text.get())
-                Text(MR.strings().text_no_data.get())
-            default:
-                Spacer()
-            }
+            Circle()
+                .frame(width: 12, height: 12, alignment: .center)
+                .foregroundColor(color)
+            Text(text).font(.caption)
         }
     }
 }
