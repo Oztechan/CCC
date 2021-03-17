@@ -5,7 +5,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.model.toModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
@@ -84,7 +84,7 @@ class CalculatorViewModel(
 
     private fun getRates() = data.rates?.let { rates ->
         calculateConversions(rates)
-        _state.update(dataState = DataState.Cached(rates.date))
+        _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
@@ -98,7 +98,7 @@ class CalculatorViewModel(
         .toRates().let {
             data.rates = it
             calculateConversions(it)
-            _state.update(dataState = DataState.Online(it.date))
+            _state.update(rateState = RateState.Online(it.date))
             offlineRatesDao.insertOfflineRates(it)
         }
 
@@ -109,13 +109,13 @@ class CalculatorViewModel(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
-            _state.update(dataState = DataState.Offline(offlineRates.date))
+            _state.update(rateState = RateState.Offline(offlineRates.date))
         } ?: clientScope.launch {
             kermit.w(t) { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.send(CalculatorEffect.Error) }
-            _state.update(dataState = DataState.Error)
+            _state.update(rateState = RateState.Error)
         }
     }
 

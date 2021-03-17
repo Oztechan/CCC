@@ -73,6 +73,8 @@ struct CalculatorView: View {
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
+                    RateStateView(rateState: observable.state.rateState)
+
                 }
             }
             .navigationBarHidden(true)
@@ -215,6 +217,40 @@ struct KeyboardView: View {
 
             }
         }.background(MR.colors().background_strong.get())
+    }
+}
+
+struct RateStateView: View {
+
+    @State var rateState: RateState
+
+    var body: some View {
+        HStack {
+            switch rateState {
+            case is RateState.Online:
+                Circle()
+                    .frame(width: 12, height: 12, alignment: .center)
+                    .foregroundColor(MR.colors().text.get())
+                Text((rateState as! RateState.Online).lastUpdate ?? "")
+            case is RateState.Cached:
+                Circle()
+                    .frame(width: 12, height: 12, alignment: .center)
+                    .foregroundColor(MR.colors().text.get())
+                Text((rateState as! RateState.Cached).lastUpdate ?? "")
+            case is RateState.Offline:
+                Circle()
+                    .frame(width: 12, height: 12, alignment: .center)
+                    .foregroundColor(MR.colors().text.get())
+                Text((rateState as! RateState.Offline).lastUpdate ?? "")
+            case is RateState.Error:
+                Circle()
+                    .frame(width: 12, height: 12, alignment: .center)
+                    .foregroundColor(MR.colors().text.get())
+                Text(MR.strings().text_no_data.get())
+            default:
+                Spacer()
+            }
+        }
     }
 }
 

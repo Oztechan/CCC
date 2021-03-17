@@ -5,7 +5,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.parsermob.ParserMob
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +18,10 @@ data class CalculatorState(
     val output: String = "",
     val symbol: String = "",
     val loading: Boolean = true,
-    val dataState: DataState = DataState.Error,
+    val rateState: RateState = RateState.Error,
 ) : BaseState() {
     // for ios
-    constructor() : this("", "", listOf(), "", "", true, DataState.Error)
+    constructor() : this("", "", listOf(), "", "", true, RateState.Error)
 
     companion object {
         @Suppress("LongParameterList")
@@ -32,7 +32,7 @@ data class CalculatorState(
             output: String = value.output,
             symbol: String = value.symbol,
             loading: Boolean = value.loading,
-            dataState: DataState = value.dataState
+            rateState: RateState = value.rateState
         ) {
             value = value.copy(
                 input = input,
@@ -41,7 +41,7 @@ data class CalculatorState(
                 output = output,
                 symbol = symbol,
                 loading = loading,
-                dataState = dataState
+                rateState = rateState
             )
         }
     }

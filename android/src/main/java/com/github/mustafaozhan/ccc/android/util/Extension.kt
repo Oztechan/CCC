@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.github.mustafaozhan.ccc.client.model.DataState
+import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
@@ -93,16 +93,16 @@ fun View?.gone() {
     this?.visibility = View.GONE
 }
 
-fun TextView.dataState(state: DataState) = when (state) {
-    is DataState.Online -> {
+fun TextView.dataState(state: RateState) = when (state) {
+    is RateState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
     }
-    is DataState.Cached -> {
+    is RateState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
     }
-    is DataState.Offline -> {
+    is RateState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
             context.getString(R.string.text_offline)
         } else {
@@ -110,7 +110,7 @@ fun TextView.dataState(state: DataState) = when (state) {
         }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
     }
-    DataState.Error -> {
+    RateState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
     }
