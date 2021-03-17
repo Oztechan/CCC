@@ -5,6 +5,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
+import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class CurrenciesState(
@@ -14,6 +15,20 @@ data class CurrenciesState(
 ) : BaseState() {
     // for ios
     constructor() : this(listOf(), false, false)
+
+    companion object {
+        fun MutableStateFlow<CurrenciesState>.update(
+            currencyList: List<Currency> = value.currencyList,
+            loading: Boolean = value.loading,
+            selectionVisibility: Boolean = value.selectionVisibility
+        ) {
+            value = value.copy(
+                currencyList = currencyList,
+                loading = loading,
+                selectionVisibility = selectionVisibility
+            )
+        }
+    }
 }
 
 // Event

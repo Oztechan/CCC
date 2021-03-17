@@ -5,6 +5,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class SettingsState(
@@ -15,6 +16,22 @@ data class SettingsState(
 ) : BaseState() {
     // for ios
     constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "", false)
+
+    companion object {
+        fun MutableStateFlow<SettingsState>.update(
+            activeCurrencyCount: Int = value.activeCurrencyCount,
+            appThemeType: AppTheme = value.appThemeType,
+            addFreeEndDate: String = value.addFreeEndDate,
+            loading: Boolean = value.loading
+        ) {
+            value = value.copy(
+                activeCurrencyCount = activeCurrencyCount,
+                appThemeType = appThemeType,
+                addFreeEndDate = addFreeEndDate,
+                loading = loading
+            )
+        }
+    }
 }
 
 // Event

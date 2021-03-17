@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.parsermob.ParserMob
+import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class CalculatorState(
@@ -21,6 +22,29 @@ data class CalculatorState(
 ) : BaseState() {
     // for ios
     constructor() : this("", "", listOf(), "", "", true, DataState.Error)
+
+    companion object {
+        @Suppress("LongParameterList")
+        fun MutableStateFlow<CalculatorState>.update(
+            input: String = value.input,
+            base: String = value.base,
+            currencyList: List<Currency> = value.currencyList,
+            output: String = value.output,
+            symbol: String = value.symbol,
+            loading: Boolean = value.loading,
+            dataState: DataState = value.dataState
+        ) {
+            value = value.copy(
+                input = input,
+                base = base,
+                currencyList = currencyList,
+                output = output,
+                symbol = symbol,
+                loading = loading,
+                dataState = dataState
+            )
+        }
+    }
 }
 
 // Event
