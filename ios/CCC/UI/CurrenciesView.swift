@@ -72,7 +72,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
-            self.navigationStack.pop()
+            navigationStack.pop()
         // swiftlint:disable force_cast
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)

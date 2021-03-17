@@ -35,7 +35,7 @@ struct BarView: View {
                     SelectCurrencyView(
                         text: MR.strings().choose_at_least_two_currency.get(),
                         buttonText: MR.strings().select.get(),
-                        onButtonClick: { self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange)) }
+                        onButtonClick: { observable.event.onSelectClick() }
                     ).listRowBackground(MR.colors().background.get())
 
                 } else {

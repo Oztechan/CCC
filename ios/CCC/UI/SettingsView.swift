@@ -93,7 +93,7 @@ struct SettingsView: View {
         case is SettingsEffect.Back:
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
-            self.navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
+            navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         case is SettingsEffect.FeedBack:
             EmailHelper().sendFeedback()
         case is SettingsEffect.OnGitHub:
@@ -107,7 +107,7 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showToast(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            self.removeAdDialogVisibility = true
+            removeAdDialogVisibility = true
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }

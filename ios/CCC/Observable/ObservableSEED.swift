@@ -39,19 +39,19 @@ final class ObservableSEED<
     }
 
     deinit {
-        self.viewModel.onCleared()
+        viewModel.onCleared()
     }
 
     func startObserving() {
         LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) startObserving"})
 
         if viewModel.state != nil {
-            closeable = self.viewModel.observe(viewModel.state!, onChange: {
+            closeable = viewModel.observe(viewModel.state!, onChange: {
                 self.state = $0 as! State
             })
         }
         if viewModel.effect != nil {
-            closeable = self.viewModel.observe(viewModel.effect!, onChange: {
+            closeable = viewModel.observe(viewModel.effect!, onChange: {
                 self.effect.send($0 as! Effect)
             })
         }
