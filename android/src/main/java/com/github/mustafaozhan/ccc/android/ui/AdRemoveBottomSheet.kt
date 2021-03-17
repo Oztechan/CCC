@@ -31,9 +31,9 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.unitOrNull
-import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveEvent
-import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether

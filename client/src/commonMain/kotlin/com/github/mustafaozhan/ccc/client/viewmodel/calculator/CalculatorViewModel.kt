@@ -1,13 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel
+package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
-import com.github.mustafaozhan.ccc.client.base.BaseData
-import com.github.mustafaozhan.ccc.client.base.BaseEffect
-import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.DataState
 import com.github.mustafaozhan.ccc.client.model.mapToModel
@@ -20,7 +16,12 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.util.update
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
@@ -28,7 +29,6 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
-import com.github.mustafaozhan.parsermob.ParserMob
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -50,15 +50,6 @@ class CalculatorViewModel(
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseSEEDViewModel(), CalculatorEvent {
-
-    companion object {
-        private const val MAXIMUM_INPUT = 18
-        private const val CHAR_DOT = '.'
-        private const val PRECISION = 9
-        const val KEY_DEL = "DEL"
-        const val KEY_AC = "AC"
-    }
-
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
     override val state: StateFlow<CalculatorState> = _state
@@ -238,42 +229,3 @@ class CalculatorViewModel(
     override fun onBaseChange(base: String) = currentBaseChanged(base)
     // endregion
 }
-
-// region SEED
-data class CalculatorState(
-    val input: String = "",
-    val base: String = "",
-    val currencyList: List<Currency> = listOf(),
-    val output: String = "",
-    val symbol: String = "",
-    val loading: Boolean = true,
-    val dataState: DataState = DataState.Error,
-) : BaseState() {
-    // for ios
-    constructor() : this("", "", listOf(), "", "", true, DataState.Error)
-}
-
-interface CalculatorEvent : BaseEvent {
-    fun onKeyPress(key: String)
-    fun onItemClick(currency: Currency, conversion: String)
-    fun onItemLongClick(currency: Currency): Boolean
-    fun onBarClick()
-    fun onSpinnerItemSelected(base: String)
-    fun onSettingsClicked()
-    fun onBaseChange(base: String)
-}
-
-sealed class CalculatorEffect : BaseEffect() {
-    object Error : CalculatorEffect()
-    object FewCurrency : CalculatorEffect()
-    object OpenBar : CalculatorEffect()
-    object MaximumInput : CalculatorEffect()
-    object OpenSettings : CalculatorEffect()
-    data class ShowRate(val text: String, val name: String) : CalculatorEffect()
-}
-
-data class CalculatorData(
-    var parser: ParserMob = ParserMob(),
-    var rates: Rates? = null
-) : BaseData()
-// endregion

@@ -5,12 +5,12 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.AdRemoveViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.MainViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.SettingsViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.initCommon
 import com.github.mustafaozhan.logmob.kermit

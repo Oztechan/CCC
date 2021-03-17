@@ -25,9 +25,9 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorEvent
-import com.github.mustafaozhan.ccc.client.viewmodel.CalculatorViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.collect
 import mustafaozhan.github.com.mycurrencies.R
