@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
@@ -34,11 +35,6 @@ class SettingsViewModel(
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseSEEDViewModel(), SettingsEvent {
-
-    companion object {
-        private const val SYNC_DELAY = 10.toLong()
-    }
-
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
     override val state: StateFlow<SettingsState> = _state

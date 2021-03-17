@@ -7,6 +7,9 @@ import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_NORMAL
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
@@ -19,15 +22,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val settingsRepository: SettingsRepository) : BaseSEEDViewModel(),
-    MainEvent {
-
-    companion object {
-        private const val AD_DELAY_INITIAL: Long = 60000
-        private const val AD_DELAY_NORMAL: Long = 180000
-        private const val REVIEW_DELAY: Long = 10000
-    }
-
+class MainViewModel(
+    private val settingsRepository: SettingsRepository
+) : BaseSEEDViewModel(), MainEvent {
     // region SEED
     override val state: StateFlow<BaseState>? = null
 

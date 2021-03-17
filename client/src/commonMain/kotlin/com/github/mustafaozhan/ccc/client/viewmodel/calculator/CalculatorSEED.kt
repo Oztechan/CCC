@@ -72,4 +72,12 @@ sealed class CalculatorEffect : BaseEffect() {
 data class CalculatorData(
     var parser: ParserMob = ParserMob(),
     var rates: Rates? = null
-) : BaseData()
+) : BaseData() {
+    companion object {
+        internal const val MAXIMUM_INPUT = 18
+        internal const val CHAR_DOT = '.'
+        internal const val PRECISION = 9
+        internal const val KEY_DEL = "DEL"
+        internal const val KEY_AC = "AC"
+    }
+}

@@ -16,6 +16,11 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
@@ -45,15 +50,6 @@ class CalculatorViewModel(
     private val currencyDao: CurrencyDao,
     private val offlineRatesDao: OfflineRatesDao
 ) : BaseSEEDViewModel(), CalculatorEvent {
-
-    companion object {
-        private const val MAXIMUM_INPUT = 18
-        private const val CHAR_DOT = '.'
-        private const val PRECISION = 9
-        const val KEY_DEL = "DEL"
-        const val KEY_AC = "AC"
-    }
-
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
     override val state: StateFlow<CalculatorState> = _state

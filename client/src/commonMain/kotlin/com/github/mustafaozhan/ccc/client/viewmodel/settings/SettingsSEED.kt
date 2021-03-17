@@ -65,4 +65,8 @@ sealed class SettingsEffect : BaseEffect() {
 }
 
 // Data
-data class SettingsData(var synced: Boolean = false) : BaseData()
+data class SettingsData(var synced: Boolean = false) : BaseData() {
+    companion object {
+        internal const val SYNC_DELAY = 10.toLong()
+    }
+}

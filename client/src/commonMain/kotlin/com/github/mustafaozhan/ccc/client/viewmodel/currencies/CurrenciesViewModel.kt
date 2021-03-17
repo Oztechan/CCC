@@ -32,7 +32,6 @@ class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyDao: CurrencyDao
 ) : BaseSEEDViewModel(), CurrenciesEvent {
-
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
     override val state: StateFlow<CurrenciesState> = _state

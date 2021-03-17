@@ -22,4 +22,10 @@ data class MainData(
     var adJob: Job = Job(),
     var adVisibility: Boolean = false,
     var isInitialAd: Boolean = true
-) : BaseData()
+) : BaseData() {
+    companion object {
+        internal const val AD_DELAY_INITIAL: Long = 60000
+        internal const val AD_DELAY_NORMAL: Long = 180000
+        internal const val REVIEW_DELAY: Long = 10000
+    }
+}
