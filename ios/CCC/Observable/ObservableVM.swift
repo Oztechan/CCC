@@ -19,6 +19,6 @@ final class ObservableVM<ViewModel: BaseViewModel>: ObservableObject {
     }
 
     deinit {
-        self.viewModel.onCleared()
+        viewModel.onCleared()
     }
 }

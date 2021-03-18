@@ -29,8 +29,8 @@ struct CalculatorView: View {
                 VStack {
 
                     CalculationInputView(
-                        onBaseChange: { observable.event.onBaseChange(base: $0) },
-                        input: observable.state.input
+                        input: observable.state.input,
+                        onSettingsClick: { observable.event.onSettingsClicked() }
                     )
 
                     CalculationOutputView(
@@ -123,12 +123,10 @@ struct CalculatorView: View {
 }
 
 struct CalculationInputView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
     @Environment(\.colorScheme) var colorScheme
 
-    var onBaseChange: ((String) -> Void)
-
     var input: String
+    var onSettingsClick: () -> Void
 
     var body: some View {
         HStack {
@@ -143,7 +141,7 @@ struct CalculationInputView: View {
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(.trailing, 15)
-                .onTapGesture { self.navigationStack.push(SettingsView(onBaseChange: onBaseChange)) }
+                .onTapGesture { onSettingsClick() }
 
         }.frame(width: .none, height: 40, alignment: .center)
     }
@@ -229,7 +227,8 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(String(item.rate)).foregroundColor(MR.colors().text.get())
+            Text(IOSExtensionsKt.getFormatted(item.rate))
+                .foregroundColor(MR.colors().text.get())
             Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
             Text(item.name).foregroundColor(MR.colors().text.get())

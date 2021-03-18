@@ -86,10 +86,10 @@ class ExtensionsTest {
     @Test
     fun getFormatted() {
         val actualDouble = 123456.7890
-        if (platform == PlatformType.ANDROID || platform == PlatformType.JVM) {
-            assertEquals("123 456.789", actualDouble.getFormatted())
-        } else {
+        if (platform == PlatformType.JS) {
             assertEquals(actualDouble.toString(), actualDouble.getFormatted())
+        } else {
+            assertEquals("123 456.789", actualDouble.getFormatted())
         }
     }
 
