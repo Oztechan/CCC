@@ -38,6 +38,7 @@ interface CurrenciesEvent : BaseEvent {
     fun onDoneClick()
     fun onItemLongClick(): Boolean
     fun onCloseClick()
+    fun onQueryChange(query: String)
 }
 
 // Effect

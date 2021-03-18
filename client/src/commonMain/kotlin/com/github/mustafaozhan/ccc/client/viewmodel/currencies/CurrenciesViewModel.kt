@@ -86,11 +86,7 @@ class CurrenciesViewModel(
         }
     }
 
-    fun hideSelectionVisibility() {
-        _state.update(selectionVisibility = false)
-    }
-
-    fun filterList(txt: String) = data.unFilteredList
+    private fun filterList(txt: String) = data.unFilteredList
         .filter { (name, longName, symbol) ->
             name.contains(txt, true) ||
                 longName.contains(txt, true) ||
@@ -100,8 +96,11 @@ class CurrenciesViewModel(
             _state.update(currencyList = it, loading = false)
         }.run {
             data.query = txt
-            true
         }
+
+    fun hideSelectionVisibility() {
+        _state.update(selectionVisibility = false)
+    }
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
@@ -151,5 +150,10 @@ class CurrenciesViewModel(
             filterList("")
         }
     }.toUnit()
+
+    override fun onQueryChange(query: String) {
+        kermit.d { "CurrenciesViewModel onQueryChange $query" }
+        filterList(query)
+    }
     // endregion
 }

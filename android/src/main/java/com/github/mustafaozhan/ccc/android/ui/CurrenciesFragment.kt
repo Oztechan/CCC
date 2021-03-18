@@ -150,8 +150,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String) = false
-                    override fun onQueryTextChange(newText: String) =
-                        currenciesViewModel.filterList(newText)
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        kermit.d { "CurrenciesFragment onQueryTextChange" }
+                        currenciesViewModel.event.onQueryChange(newText)
+                        return true
+                    }
                 })
             }
         }
@@ -161,7 +164,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         super.onResume()
         kermit.d { "CurrenciesFragment onResume" }
         currenciesViewModel.hideSelectionVisibility()
-        currenciesViewModel.filterList("")
+        currenciesViewModel.event.onQueryChange("")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

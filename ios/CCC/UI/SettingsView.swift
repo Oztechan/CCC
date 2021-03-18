@@ -147,7 +147,7 @@ struct SettingsToolbarView: View {
             ).padding(.trailing, 10)
 
             Text(MR.strings().txt_settings.get())
-                .font(.title2)
+                .font(.title3)
 
             Spacer()
         }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))

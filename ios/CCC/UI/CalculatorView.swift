@@ -142,11 +142,15 @@ struct CalculationInputView: View {
                 .font(.title2)
             Spacer()
 
-            Image(systemName: "gear")
-                .imageScale(.large)
-                .accentColor(MR.colors().text.get())
-                .padding(.trailing, 15)
-                .onTapGesture { onSettingsClick() }
+            Button(
+                action: { onSettingsClick() },
+                label: {
+                    Image(systemName: "gear")
+                        .imageScale(.large)
+                        .accentColor(MR.colors().text.get())
+                        .padding(.trailing, 15)
+                }
+            )
 
         }.frame(width: .none, height: 40, alignment: .center)
     }
