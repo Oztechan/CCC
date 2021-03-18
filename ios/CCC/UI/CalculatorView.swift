@@ -30,7 +30,7 @@ struct CalculatorView: View {
 
                     CalculationInputView(
                         input: observable.state.input,
-                        onSettingsClick: { observable.event.onSettingsClicked() }
+                        onSettingsClick: observable.event.onSettingsClicked
                     )
 
                     CalculationOutputView(
@@ -142,15 +142,10 @@ struct CalculationInputView: View {
                 .font(.title2)
             Spacer()
 
-            Button(
-                action: { onSettingsClick() },
-                label: {
-                    Image(systemName: "gear")
-                        .imageScale(.large)
-                        .accentColor(MR.colors().text.get())
-                        .padding(.trailing, 15)
-                }
-            )
+            ToolbarButton(
+                clickEvent: onSettingsClick,
+                imgName: "gear"
+            ).padding(.trailing, 5)
 
         }.frame(width: .none, height: 40, alignment: .center)
     }
@@ -237,7 +232,7 @@ struct RateStateView: View {
                 .frame(width: 12, height: 12, alignment: .center)
                 .foregroundColor(color)
             Text(text).font(.caption)
-        }
+        }.padding(.bottom, 5)
     }
 }
 

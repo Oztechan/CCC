@@ -28,7 +28,7 @@ struct SettingsView: View {
 
             VStack {
 
-                SettingsToolbarView(backEvent: { observable.event.onBackClick() })
+                SettingsToolbarView(backEvent: observable.event.onBackClick)
 
                 Form {
                     SettingsItemView(
@@ -38,35 +38,35 @@ struct SettingsView: View {
                         value: MR.strings().settings_item_currencies_value.get(
                             parameter: observable.state.activeCurrencyCount
                         ),
-                        onClick: { observable.event.onCurrenciesClick() }
+                        onClick: observable.event.onCurrenciesClick
                     )
-                    SettingsItemView(
-                        imgName: "eye.slash.fill",
-                        title: MR.strings().settings_item_remove_ads_title.get(),
-                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: getAdFreeText(),
-                        onClick: { observable.event.onRemoveAdsClick() }
-                    )
+//                    SettingsItemView(
+//                        imgName: "eye.slash.fill",
+//                        title: MR.strings().settings_item_remove_ads_title.get(),
+//                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+//                        value: getAdFreeText(),
+//                        onClick: observable.event.onRemoveAdsClick
+//                    )
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: MR.strings().settings_item_sync_title.get(),
                         subTitle: MR.strings().settings_item_sync_sub_title.get(),
                         value: "",
-                        onClick: { observable.event.onSyncClick() }
+                        onClick: observable.event.onSyncClick
                     )
                     SettingsItemView(
                         imgName: "envelope.fill",
                         title: MR.strings().settings_item_feedback_title.get(),
                         subTitle: MR.strings().settings_item_feedback_sub_title.get(),
                         value: "",
-                        onClick: { observable.event.onFeedBackClick() }
+                        onClick: observable.event.onFeedBackClick
                     )
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
                         title: MR.strings().settings_item_on_github_title.get(),
                         subTitle: MR.strings().settings_item_on_github_sub_title.get(),
                         value: "",
-                        onClick: { observable.event.onOnGitHubClick() }
+                        onClick: observable.event.onOnGitHubClick
                     )
                 }.background(MR.colors().background.get())
             }
@@ -130,21 +130,11 @@ struct SettingsView: View {
 }
 
 struct SettingsToolbarView: View {
-    @Environment(\.colorScheme) var colorScheme
     var backEvent: () -> Void
 
     var body: some View {
         HStack {
-
-            Button(
-                action: { backEvent() },
-                label: {
-                    Image(systemName: "chevron.left")
-                        .imageScale(.large)
-                        .accentColor(MR.colors().text.get())
-                        .padding(.leading, 20)
-                }
-            ).padding(.trailing, 10)
+            ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
             Text(MR.strings().txt_settings.get())
                 .font(.title3)

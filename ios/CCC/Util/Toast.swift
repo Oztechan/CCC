@@ -10,21 +10,24 @@ import Loaf
 import Client
 
 func showToast(text: String) {
-    Loaf(
-        text,
-        state: .custom(
-            .init(
-                backgroundColor: MR.colors().text.get(),
-                textColor: MR.colors().background_weak.get(),
-                tintColor: MR.colors().background_weak.get(),
-                icon: UIImage(systemName: "info.circle.fill"),
-                textAlignment: .left,
-                iconAlignment: .left,
-                width: .screenPercentage(getPercentageFromString(text: text))
-            )
-        ),
-        sender: UIApplication.shared.windows.first(where: \.isKeyWindow)!.rootViewController!
-    ).show()
+    if let controller = UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController {
+        Loaf.dismiss(sender: controller)
+        Loaf(
+            text,
+            state: .custom(
+                .init(
+                    backgroundColor: MR.colors().text.get(),
+                    textColor: MR.colors().background_weak.get(),
+                    tintColor: MR.colors().background_weak.get(),
+                    icon: UIImage(systemName: "info.circle.fill"),
+                    textAlignment: .left,
+                    iconAlignment: .left,
+                    width: .screenPercentage(getPercentageFromString(text: text))
+                )
+            ),
+            sender: controller
+        ).show()
+    }
 }
 
 private func getPercentageFromString(text: String) -> CGFloat {

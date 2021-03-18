@@ -137,7 +137,6 @@ class CurrenciesViewModel(
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
         kermit.d { "CurrenciesViewModel onItemLongClick" }
         _state.update(selectionVisibility = !it)
-        true
     }
 
     override fun onCloseClick() = clientScope.launch {

@@ -222,7 +222,10 @@ class CurrenciesAdapter(
             txtSettingItem.text = item.getVariablesOneLine()
             checkBox.isChecked = item.isActive
             root.setOnClickListener { currenciesEvent.onItemClick(item) }
-            root.setOnLongClickListener { currenciesEvent.onItemLongClick() }
+            root.setOnLongClickListener {
+                currenciesEvent.onItemLongClick()
+                true
+            }
         }
     }
 

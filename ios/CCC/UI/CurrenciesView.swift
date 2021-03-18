@@ -29,7 +29,7 @@ struct CurrenciesView: View {
 
                 if observable.state.selectionVisibility {
                     SelectionView(
-                        onCloseClick: { observable.event.onCloseClick() },
+                        onCloseClick: observable.event.onCloseClick,
                         updateAllCurrenciesState: { observable.event.updateAllCurrenciesState(state: $0) }
                     )
                 } else {
@@ -48,7 +48,7 @@ struct CurrenciesView: View {
                             CurrencyItemView(
                                 item: currency,
                                 onItemClick: { observable.event.onItemClick(currency: currency) },
-                                onItemLongClick: { observable.event.onItemLongClick() }
+                                onItemLongClick: observable.event.onItemLongClick
                             )
                         }
                         .id(UUID())
@@ -56,7 +56,7 @@ struct CurrenciesView: View {
                     }
                 }
                 .background(MR.colors().background.get())
-                .animation(.easeIn)
+                .animation(.default)
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrencyView(
@@ -99,15 +99,7 @@ struct SelectionView: View {
     var body: some View {
         HStack {
 
-            Button(
-                action: onCloseClick,
-                label: {
-                    Image(systemName: "xmark")
-                        .imageScale(.large)
-                        .accentColor(MR.colors().text.get())
-                        .padding(.leading, 20)
-                }
-            ).padding(.trailing, 10)
+            ToolbarButton(clickEvent: onCloseClick, imgName: "xmark")
 
             Spacer()
             Button(
@@ -137,15 +129,7 @@ struct CurrencyToolbarView: View {
         HStack {
 
             if !firstRun {
-                Button(
-                    action: onBackClick,
-                    label: {
-                        Image(systemName: "chevron.left")
-                            .imageScale(.large)
-                            .accentColor(MR.colors().text.get())
-                            .padding(.leading, 20)
-                    }
-                ).padding(.trailing, 10)
+                ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
             }
 
             if searchVisibilty {
@@ -165,30 +149,25 @@ struct CurrencyToolbarView: View {
 
                 Spacer()
 
-                Button(
-                    action: { searchVisibilty.toggle() },
-                    label: {
-                        Image(systemName: "xmark")
-                            .imageScale(.large)
-                            .accentColor(MR.colors().text.get())
-                            .padding(.leading, 20)
-                    }
-                ).padding(.trailing, 10)
+                ToolbarButton(
+                    clickEvent: {
+                        query = ""
+                        onQueryChange("")
+                        searchVisibilty.toggle()
+                    },
+                    imgName: "xmark"
+                )
 
             } else {
 
-                Text(MR.strings().txt_currencies.get())
-                    .font(.title3)
+                Text(MR.strings().txt_currencies.get()).font(.title3)
+
                 Spacer()
-                Button(
-                    action: { searchVisibilty.toggle() },
-                    label: {
-                        Image(systemName: "magnifyingglass")
-                            .imageScale(.large)
-                            .accentColor(MR.colors().text.get())
-                            .padding(.leading, 20)
-                    }
-                ).padding(.trailing, 10)
+
+                ToolbarButton(
+                    clickEvent: { searchVisibilty.toggle() },
+                    imgName: "magnifyingglass"
+                )
             }
 
         }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))

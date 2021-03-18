@@ -26,7 +26,7 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun updateTheme() = runTest {
         val appTheme = AppTheme.DARK
         viewModel.updateTheme(appTheme)
-        delay(200) // waiting for init
+        delay(100)
         assertEquals(appTheme, viewModel.state.value.appThemeType)
         assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.first())
     }

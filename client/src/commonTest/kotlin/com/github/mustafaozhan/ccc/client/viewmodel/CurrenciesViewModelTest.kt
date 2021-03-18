@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlin.test.Test
@@ -36,7 +37,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     // Event
     @Test
-    fun onQueryChange() {
+    fun onQueryChange() = runTest {
         val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
@@ -48,22 +49,27 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         with(viewModel) {
             data.unFilteredList = originalList
             event.onQueryChange("USD")
+            delay(100)
             assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
             event.onQueryChange("Euro")
+            delay(100)
             assertTrue(state.value.currencyList.contains(euro))
 
             data.unFilteredList = originalList
             event.onQueryChange("$")
+            delay(100)
             assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
             event.onQueryChange("asdasd")
+            delay(100)
             assertTrue(state.value.currencyList.isEmpty())
 
             data.unFilteredList = originalList
             event.onQueryChange("o")
+            delay(100)
             assertEquals(2, state.value.currencyList.size)
         }
     }
