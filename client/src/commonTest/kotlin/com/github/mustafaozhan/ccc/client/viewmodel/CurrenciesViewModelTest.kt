@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlin.test.Test
@@ -22,7 +23,21 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun filterList() {
+    fun hideSelectionVisibility() {
+        viewModel.hideSelectionVisibility()
+        assertEquals(false, viewModel.state.value.selectionVisibility)
+    }
+
+    @Test
+    fun queryGetUpdatedOnFilteringList() {
+        val query = "query"
+        viewModel.event.onQueryChange(query)
+        assertEquals(query, viewModel.data.query)
+    }
+
+    // Event
+    @Test
+    fun onQueryChange() = runTest {
         val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
@@ -33,41 +48,32 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
         with(viewModel) {
             data.unFilteredList = originalList
-            filterList("USD")
+            event.onQueryChange("USD")
+            delay(100)
             assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
-            filterList("Euro")
+            event.onQueryChange("Euro")
+            delay(100)
             assertTrue(state.value.currencyList.contains(euro))
 
             data.unFilteredList = originalList
-            filterList("$")
+            event.onQueryChange("$")
+            delay(100)
             assertTrue(state.value.currencyList.contains(dollar))
 
             data.unFilteredList = originalList
-            filterList("asdasd")
+            event.onQueryChange("asdasd")
+            delay(100)
             assertTrue(state.value.currencyList.isEmpty())
 
             data.unFilteredList = originalList
-            filterList("o")
+            event.onQueryChange("o")
+            delay(100)
             assertEquals(2, state.value.currencyList.size)
         }
     }
 
-    @Test
-    fun hideSelectionVisibility() {
-        viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.value.selectionVisibility)
-    }
-
-    @Test
-    fun queryGetUpdatedOnFilteringList() {
-        val query = "query"
-        viewModel.filterList(query)
-        assertEquals(query, viewModel.data.query)
-    }
-
-    // Event
     @Test
     fun onItemLongClick() = with(viewModel) {
         val currentValue = viewModel.state.value.selectionVisibility

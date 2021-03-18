@@ -91,7 +91,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
 
                 binding.loadingView.visibleIf(loading)
-                binding.txtAppStatus.dataState(dataState)
+                binding.txtAppStatus.dataState(rateState)
             }
         }
     }

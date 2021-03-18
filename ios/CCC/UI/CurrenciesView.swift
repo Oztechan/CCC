@@ -27,11 +27,18 @@ struct CurrenciesView: View {
 
             VStack {
 
-                CurrencyToolbarView(
-                    firstRun: observable.viewModel.isFirstRun(),
-                    onCloseClick: { observable.event.onCloseClick() },
-                    updateAllCurrenciesState: { observable.event.updateAllCurrenciesState(state: $0) }
-                )
+                if observable.state.selectionVisibility {
+                    SelectionView(
+                        onCloseClick: observable.event.onCloseClick,
+                        updateAllCurrenciesState: { observable.event.updateAllCurrenciesState(state: $0) }
+                    )
+                } else {
+                    CurrencyToolbarView(
+                        firstRun: observable.viewModel.isFirstRun(),
+                        onBackClick: observable.event.onCloseClick,
+                        onQueryChange: { observable.event.onQueryChange(query: $0) }
+                    )
+                }
 
                 Form {
                     if observable.state.loading {
@@ -40,13 +47,16 @@ struct CurrenciesView: View {
                         List(observable.state.currencyList, id: \.name) { currency in
                             CurrencyItemView(
                                 item: currency,
-                                onItemClick: { observable.event.onItemClick(currency: currency) }
+                                onItemClick: { observable.event.onItemClick(currency: currency) },
+                                onItemLongClick: observable.event.onItemLongClick
                             )
                         }
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
-                }.background(MR.colors().background.get())
+                }
+                .background(MR.colors().background.get())
+                .animation(.default)
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrencyView(
@@ -82,28 +92,14 @@ struct CurrenciesView: View {
     }
 }
 
-struct CurrencyToolbarView: View {
-    var firstRun: Bool
+struct SelectionView: View {
     var onCloseClick: () -> Void
     var updateAllCurrenciesState: (Bool) -> Void
 
     var body: some View {
         HStack {
 
-            if !firstRun {
-                Button(
-                    action: onCloseClick,
-                    label: {
-                        Image(systemName: "chevron.left")
-                            .imageScale(.large)
-                            .accentColor(MR.colors().text.get())
-                            .padding(.leading, 20)
-                    }
-                ).padding(.trailing, 10)
-            }
-
-            Text(MR.strings().txt_currencies.get())
-                .font(.title2)
+            ToolbarButton(clickEvent: onCloseClick, imgName: "xmark")
 
             Spacer()
             Button(
@@ -115,6 +111,65 @@ struct CurrencyToolbarView: View {
                 label: { Text(MR.strings().btn_de_select_all.get()).foregroundColor(MR.colors().text.get()) }
             )
 
+        }
+        .padding(EdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 20))
+        .background(MR.colors().background_weak.get())
+    }
+}
+
+struct CurrencyToolbarView: View {
+    var firstRun: Bool
+    var onBackClick: () -> Void
+    var onQueryChange: (String) -> Void
+
+    @State var query = ""
+    @State var searchVisibilty = false
+
+    var body: some View {
+        HStack {
+
+            if !firstRun {
+                ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
+            }
+
+            if searchVisibilty {
+                Spacer()
+
+                TextField(MR.strings().search.get(), text: $query)
+                .onChange(of: query) { onQueryChange($0) }
+                .background(
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(MR.colors().background.get())
+                        .padding(.bottom, -4)
+                        .padding(.top, -4)
+                )
+                .disableAutocorrection(true)
+                .multilineTextAlignment(.center)
+                .padding(.all, 4)
+
+                Spacer()
+
+                ToolbarButton(
+                    clickEvent: {
+                        query = ""
+                        onQueryChange("")
+                        searchVisibilty.toggle()
+                    },
+                    imgName: "xmark"
+                )
+
+            } else {
+
+                Text(MR.strings().txt_currencies.get()).font(.title3)
+
+                Spacer()
+
+                ToolbarButton(
+                    clickEvent: { searchVisibilty.toggle() },
+                    imgName: "magnifyingglass"
+                )
+            }
+
         }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
     }
 }
@@ -124,6 +179,7 @@ struct CurrencyItemView: View {
     @State var item: Currency
 
     var onItemClick: () -> Void
+    var onItemLongClick: () -> Void
 
     var body: some View {
         HStack {
@@ -148,6 +204,7 @@ struct CurrencyItemView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture { onItemClick() }
+        .onLongPressGesture { onItemLongClick() }
         .lineLimit(1)
     }
 }

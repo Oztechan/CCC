@@ -24,7 +24,7 @@ struct SelectCurrencyView: View {
                 .font(.subheadline)
             Spacer()
             Button(
-                action: { onButtonClick() },
+                action: onButtonClick,
                 label: { Text(buttonText).foregroundColor(MR.colors().text.get()) }
             )
             .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))

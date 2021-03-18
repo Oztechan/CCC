@@ -30,7 +30,7 @@ struct CalculatorView: View {
 
                     CalculationInputView(
                         input: observable.state.input,
-                        onSettingsClick: { observable.event.onSettingsClicked() }
+                        onSettingsClick: observable.event.onSettingsClicked
                     )
 
                     CalculationOutputView(
@@ -72,6 +72,11 @@ struct CalculatorView: View {
                     }.background(MR.colors().background.get())
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
+
+                    RateStateView(
+                        color: observable.state.rateState.getColor(),
+                        text: observable.state.rateState.getText()
+                    )
 
                 }
             }
@@ -137,11 +142,10 @@ struct CalculationInputView: View {
                 .font(.title2)
             Spacer()
 
-            Image(systemName: "gear")
-                .imageScale(.large)
-                .accentColor(MR.colors().text.get())
-                .padding(.trailing, 15)
-                .onTapGesture { onSettingsClick() }
+            ToolbarButton(
+                clickEvent: onSettingsClick,
+                imgName: "gear"
+            ).padding(.trailing, 5)
 
         }.frame(width: .none, height: 40, alignment: .center)
     }
@@ -215,6 +219,20 @@ struct KeyboardView: View {
 
             }
         }.background(MR.colors().background_strong.get())
+    }
+}
+
+struct RateStateView: View {
+    var color: Color
+    var text: String
+
+    var body: some View {
+        HStack {
+            Circle()
+                .frame(width: 12, height: 12, alignment: .center)
+                .foregroundColor(color)
+            Text(text).font(.caption)
+        }.padding(.bottom, 5)
     }
 }
 

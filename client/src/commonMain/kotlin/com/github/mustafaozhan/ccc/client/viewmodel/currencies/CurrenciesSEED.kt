@@ -36,8 +36,9 @@ interface CurrenciesEvent : BaseEvent {
     fun updateAllCurrenciesState(state: Boolean)
     fun onItemClick(currency: Currency)
     fun onDoneClick()
-    fun onItemLongClick(): Boolean
+    fun onItemLongClick()
     fun onCloseClick()
+    fun onQueryChange(query: String)
 }
 
 // Effect
