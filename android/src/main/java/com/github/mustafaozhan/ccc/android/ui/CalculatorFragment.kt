@@ -188,12 +188,7 @@ class CalculatorAdapter(
             txtSymbol.text = item.symbol
             txtType.text = item.name
             imgItem.setBackgroundByName(item.name)
-            root.setOnClickListener {
-                calculatorEvent.onItemClick(
-                    item,
-                    item.rate.getFormatted().toStandardDigits()
-                )
-            }
+            root.setOnClickListener { calculatorEvent.onItemClick(item) }
             root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
         }
     }

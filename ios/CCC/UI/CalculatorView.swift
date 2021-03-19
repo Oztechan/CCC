@@ -53,17 +53,8 @@ struct CalculatorView: View {
                             ) {
                                 CalculatorItemView(
                                     item: $0,
-                                    onItemClick: { item in
-                                        observable.event.onItemClick(
-                                            currency: item,
-                                            conversion: ExtensionsKt.toStandardDigits(
-                                                IOSExtensionsKt.getFormatted(item.rate)
-                                            )
-                                        )
-                                    },
-                                    onItemLongClick: { item in
-                                        observable.event.onItemLongClick(currency: item)
-                                    }
+                                    onItemClick: { observable.event.onItemClick(currency: $0) },
+                                    onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
                                 )
                             }
                             .listRowBackground(MR.colors().background.get())

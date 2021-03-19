@@ -14,6 +14,7 @@ import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
+import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
@@ -183,9 +184,12 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) {
-        kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
-        var finalResult = conversion
+    override fun onItemClick(currency: Currency) {
+        kermit.d { "CalculatorViewModel onItemClick ${currency.name}" }
+        var finalResult = currency.rate
+            .getFormatted()
+            .toStandardDigits()
+            .toSupportedCharacters()
 
         while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
             finalResult = finalResult.dropLast(1)

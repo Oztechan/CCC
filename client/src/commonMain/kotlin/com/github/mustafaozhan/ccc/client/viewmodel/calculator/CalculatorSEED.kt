@@ -50,7 +50,7 @@ data class CalculatorState(
 // Event
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
-    fun onItemClick(currency: Currency, conversion: String)
+    fun onItemClick(currency: Currency)
     fun onItemLongClick(currency: Currency): Boolean
     fun onBarClick()
     fun onSpinnerItemSelected(base: String)
