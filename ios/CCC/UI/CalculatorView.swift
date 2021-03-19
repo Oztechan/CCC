@@ -169,7 +169,7 @@ struct CalculationOutputView: View {
                 Text(baseCurrency).foregroundColor(MR.colors().text.get())
 
                 if !output.isEmpty {
-                    Text(output).foregroundColor(MR.colors().text.get())
+                    Text("=  \(output)").foregroundColor(MR.colors().text.get())
                 }
 
                 Text(symbol).foregroundColor(MR.colors().text.get())

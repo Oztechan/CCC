@@ -174,7 +174,7 @@ class CalculatorViewModel(
     override fun onKeyPress(key: String) {
         kermit.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
-            KEY_AC -> _state.update(input = "", output = "")
+            KEY_AC -> _state.update(input = "")
             KEY_DEL -> state.value.input
                 .whetherNot { isEmpty() }
                 ?.apply {
