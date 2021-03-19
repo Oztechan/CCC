@@ -265,7 +265,7 @@
     <!-- Calculator -->
     <style name="CalculatorToolbarTextStyle" parent="FitStyle">
         <item name="android:gravity">center</item>
-        <item name="android:maxLines">3</item>
+        <item name="android:maxLines">2</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 

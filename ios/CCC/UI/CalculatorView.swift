@@ -137,9 +137,14 @@ struct CalculationInputView: View {
         HStack {
 
             Spacer()
+
             Text(input)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(MR.colors().text.get())
                 .font(.title2)
+
             Spacer()
 
             ToolbarButton(
@@ -147,7 +152,9 @@ struct CalculationInputView: View {
                 imgName: "gear"
             ).padding(.trailing, 5)
 
-        }.frame(width: .none, height: 40, alignment: .center)
+        }
+        .frame(width: .none, height: 36, alignment: .center)
+        .padding(.top, 4)
     }
 }
 

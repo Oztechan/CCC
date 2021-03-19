@@ -74,7 +74,8 @@ data class CalculatorData(
     var rates: Rates? = null
 ) : BaseData() {
     companion object {
-        internal const val MAXIMUM_INPUT = 18
+        internal const val MAXIMUM_OUTPUT = 18
+        internal const val MAXIMUM_INPUT = 44
         internal const val CHAR_DOT = '.'
         internal const val PRECISION = 9
         internal const val KEY_DEL = "DEL"

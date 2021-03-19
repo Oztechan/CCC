@@ -20,6 +20,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Co
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
@@ -124,8 +125,10 @@ class CalculatorViewModel(
         data.parser
             .calculate(input.toSupportedCharacters(), PRECISION)
             .mapTo { if (isFinite()) getFormatted() else "" }
-            .whether { length <= MAXIMUM_INPUT }
-            ?.let { output ->
+            .whether(
+                { output -> output.length <= MAXIMUM_OUTPUT },
+                { input.length <= MAXIMUM_INPUT }
+            )?.let { output ->
                 _state.update(output = output)
                 state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -184,7 +187,7 @@ class CalculatorViewModel(
         kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
         var finalResult = conversion
 
-        while (finalResult.length > MAXIMUM_INPUT) {
+        while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
             finalResult = finalResult.dropLast(1)
         }
 
