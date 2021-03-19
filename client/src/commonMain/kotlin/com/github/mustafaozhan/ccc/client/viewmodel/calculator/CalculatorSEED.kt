@@ -18,10 +18,10 @@ data class CalculatorState(
     val output: String = "",
     val symbol: String = "",
     val loading: Boolean = true,
-    val rateState: RateState = RateState.Error,
+    val rateState: RateState = RateState.None,
 ) : BaseState() {
     // for ios
-    constructor() : this("", "", listOf(), "", "", true, RateState.Error)
+    constructor() : this("", "", listOf(), "", "", true, RateState.None)
 
     companion object {
         @Suppress("LongParameterList")

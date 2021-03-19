@@ -47,10 +47,13 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     }
 
     @Test
-    fun onItemClick() = with(viewModel) {
-        event.onItemClick(currency)
-        assertEquals(currency.name, state.value.base)
-        assertEquals(currency.rate.toString(), state.value.input)
+    fun onItemClick() = runTest {
+        with(viewModel) {
+            event.onItemClick(currency)
+            delay(100)
+            assertEquals(currency.name, state.value.base)
+            assertEquals(currency.rate.toString(), state.value.input)
+        }
     }
 
     @Test

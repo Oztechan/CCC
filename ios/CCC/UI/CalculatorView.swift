@@ -64,10 +64,12 @@ struct CalculatorView: View {
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
-                    RateStateView(
-                        color: observable.state.rateState.getColor(),
-                        text: observable.state.rateState.getText()
-                    )
+                    if !(observable.state.rateState is RateState.None) {
+                        RateStateView(
+                            color: observable.state.rateState.getColor(),
+                            text: observable.state.rateState.getText()
+                        )
+                    }
 
                 }
             }
