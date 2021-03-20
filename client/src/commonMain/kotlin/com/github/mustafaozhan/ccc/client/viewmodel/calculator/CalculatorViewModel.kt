@@ -90,11 +90,11 @@ class CalculatorViewModel(
         _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
-            .getRatesByBaseViaBackend(settingsRepository.currentBase)
-            .execute(::rateDownloadSuccess, ::rateDownloadFailBackend)
+            .getRatesViaBackend(settingsRepository.currentBase)
+            .execute(::getRateSuccess, ::getRateViaBackendFailed)
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+    private fun getRateSuccess(currencyResponse: CurrencyResponse) = currencyResponse
         .toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -102,23 +102,23 @@ class CalculatorViewModel(
             offlineRatesDao.insertOfflineRates(it)
         }
 
-    private fun rateDownloadFailBackend(t: Throwable) {
+    private fun getRateViaBackendFailed(t: Throwable) {
         clientScope.launch {
-            kermit.w(t) { "CalculatorViewModel rateDownloadFailBackend" }
+            kermit.w(t) { "CalculatorViewModel getRateViaBackendFailed" }
             apiRepository
-                .getRatesByBaseViaApi(settingsRepository.currentBase)
+                .getRatesViaApi(settingsRepository.currentBase)
                 .execute(
                     {
-                        kermit.e(BackendCanBeDownException()) { "CalculatorViewModel rateDownloadFailBackend" }
-                        rateDownloadSuccess(it)
+                        kermit.e(BackendCanBeDownException()) { "CalculatorViewModel getRateViaBackendFailed" }
+                        getRateSuccess(it)
                     },
-                    ::rateDownloadFailApi
+                    ::getRateViaApiFailed
                 )
         }
     }
 
-    private fun rateDownloadFailApi(t: Throwable) {
-        kermit.w(t) { "CalculatorViewModel rateDownloadFailApi" }
+    private fun getRateViaApiFailed(t: Throwable) {
+        kermit.w(t) { "CalculatorViewModel getRateViaApiFailed" }
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->

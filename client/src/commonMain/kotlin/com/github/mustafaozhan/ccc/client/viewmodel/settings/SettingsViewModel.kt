@@ -72,7 +72,7 @@ class SettingsViewModel(
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                apiRepository.getRatesByBaseViaBackend(name).execute(
+                apiRepository.getRatesViaBackend(name).execute(
                     success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
                     error = { error -> kermit.e(error) { error.message.toString() } }
                 )
