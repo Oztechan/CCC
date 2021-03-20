@@ -52,16 +52,15 @@ class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesByBaseViaBackend(base: String): CurrencyResponseEntity =
-        client.get {
-            url {
-                takeFrom(BuildKonfig.BASE_URL_BACKEND)
-                path(PATH_CURRENCY_BY_BASE_BACKEND)
-                parameter(QUERY_KEY_BASE, base)
-            }
+    override suspend fun getRatesViaBackend(base: String): CurrencyResponseEntity = client.get {
+        url {
+            takeFrom(BuildKonfig.BASE_URL_BACKEND)
+            path(PATH_CURRENCY_BY_BASE_BACKEND)
+            parameter(QUERY_KEY_BASE, base)
         }
+    }
 
-    override suspend fun getRatesByBaseViaApi(base: String): CurrencyResponseEntity = client.get {
+    override suspend fun getRatesViaApi(base: String): CurrencyResponseEntity = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_API)
             path(PATH_CURRENCY_BY_BASE_API)

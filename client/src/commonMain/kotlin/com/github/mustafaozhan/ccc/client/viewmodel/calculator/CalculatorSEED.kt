@@ -18,10 +18,10 @@ data class CalculatorState(
     val output: String = "",
     val symbol: String = "",
     val loading: Boolean = true,
-    val rateState: RateState = RateState.Error,
+    val rateState: RateState = RateState.None,
 ) : BaseState() {
     // for ios
-    constructor() : this("", "", listOf(), "", "", true, RateState.Error)
+    constructor() : this("", "", listOf(), "", "", true, RateState.None)
 
     companion object {
         @Suppress("LongParameterList")
@@ -50,7 +50,7 @@ data class CalculatorState(
 // Event
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
-    fun onItemClick(currency: Currency, conversion: String)
+    fun onItemClick(currency: Currency)
     fun onItemLongClick(currency: Currency): Boolean
     fun onBarClick()
     fun onSpinnerItemSelected(base: String)
@@ -74,7 +74,8 @@ data class CalculatorData(
     var rates: Rates? = null
 ) : BaseData() {
     companion object {
-        internal const val MAXIMUM_INPUT = 18
+        internal const val MAXIMUM_OUTPUT = 18
+        internal const val MAXIMUM_INPUT = 44
         internal const val CHAR_DOT = '.'
         internal const val PRECISION = 9
         internal const val KEY_DEL = "DEL"

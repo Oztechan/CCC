@@ -53,17 +53,8 @@ struct CalculatorView: View {
                             ) {
                                 CalculatorItemView(
                                     item: $0,
-                                    onItemClick: { item in
-                                        observable.event.onItemClick(
-                                            currency: item,
-                                            conversion: ExtensionsKt.toStandardDigits(
-                                                IOSExtensionsKt.getFormatted(item.rate)
-                                            )
-                                        )
-                                    },
-                                    onItemLongClick: { item in
-                                        observable.event.onItemLongClick(currency: item)
-                                    }
+                                    onItemClick: { observable.event.onItemClick(currency: $0) },
+                                    onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
                                 )
                             }
                             .listRowBackground(MR.colors().background.get())
@@ -73,10 +64,12 @@ struct CalculatorView: View {
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
-                    RateStateView(
-                        color: observable.state.rateState.getColor(),
-                        text: observable.state.rateState.getText()
-                    )
+                    if !(observable.state.rateState is RateState.None) {
+                        RateStateView(
+                            color: observable.state.rateState.getColor(),
+                            text: observable.state.rateState.getText()
+                        )
+                    }
 
                 }
             }
@@ -137,9 +130,14 @@ struct CalculationInputView: View {
         HStack {
 
             Spacer()
+
             Text(input)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(MR.colors().text.get())
                 .font(.title2)
+
             Spacer()
 
             ToolbarButton(
@@ -147,7 +145,9 @@ struct CalculationInputView: View {
                 imgName: "gear"
             ).padding(.trailing, 5)
 
-        }.frame(width: .none, height: 40, alignment: .center)
+        }
+        .frame(width: .none, height: 36, alignment: .center)
+        .padding(.top, 4)
     }
 }
 
@@ -169,7 +169,7 @@ struct CalculationOutputView: View {
                 Text(baseCurrency).foregroundColor(MR.colors().text.get())
 
                 if !output.isEmpty {
-                    Text(output).foregroundColor(MR.colors().text.get())
+                    Text("=  \(output)").foregroundColor(MR.colors().text.get())
                 }
 
                 Text(symbol).foregroundColor(MR.colors().text.get())

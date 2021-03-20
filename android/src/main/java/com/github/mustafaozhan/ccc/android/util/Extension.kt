@@ -64,8 +64,8 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
                 loadAd(AdRequest.Builder().build())
             }
         )
-        visible()
     }
+    visible()
 } else {
     isEnabled = false
     gone()
@@ -86,7 +86,6 @@ fun View.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
-    this?.bringToFront()
 }
 
 fun View?.gone() {
@@ -97,10 +96,12 @@ fun TextView.dataState(state: RateState) = when (state) {
     is RateState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
+        visible()
     }
     is RateState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
+        visible()
     }
     is RateState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
@@ -109,9 +110,12 @@ fun TextView.dataState(state: RateState) = when (state) {
             context.getString(R.string.text_offline_last_updated, state.lastUpdate)
         }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
+        visible()
     }
     RateState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
+        visible()
     }
+    RateState.None -> gone()
 }

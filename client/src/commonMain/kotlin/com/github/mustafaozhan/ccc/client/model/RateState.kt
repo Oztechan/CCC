@@ -9,4 +9,5 @@ sealed class RateState {
     data class Cached(val lastUpdate: String?) : RateState()
     data class Offline(val lastUpdate: String?) : RateState()
     object Error : RateState()
+    object None : RateState()
 }

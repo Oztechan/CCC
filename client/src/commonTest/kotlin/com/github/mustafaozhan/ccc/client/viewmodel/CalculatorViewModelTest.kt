@@ -12,6 +12,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,7 +24,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
         koin.getDependency(CalculatorViewModel::class)
     }
 
-    private val currency = Currency("USD", "Dollar", "$", 0.0, true)
+    private val currency = Currency("USD", "Dollar", "$", 12345.6789, true)
 
     // Event
     @Test
@@ -46,19 +47,13 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     }
 
     @Test
-    fun onItemClick() = with(viewModel) {
-        val conversion = "123.456"
-        event.onItemClick(currency, conversion)
-        assertEquals(currency.name, state.value.base)
-        assertEquals(conversion, state.value.input)
-    }
-
-    @Test
-    fun onItemClickInvalidConversion() = with(viewModel) {
-        val inValidConversion = "123."
-        val validConversion = "123"
-        event.onItemClick(currency, inValidConversion)
-        assertEquals(validConversion, state.value.input)
+    fun onItemClick() = runTest {
+        with(viewModel) {
+            event.onItemClick(currency)
+            delay(100)
+            assertEquals(currency.name, state.value.base)
+            assertEquals(currency.rate.toString(), state.value.input)
+        }
     }
 
     @Test
@@ -97,6 +92,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     @Test
     fun onBaseChanged() = runTest {
         viewModel.event.onBaseChange(currency.name)
+        delay(100)
         assertNull(viewModel.data.rates)
         assertEquals(currency.name, viewModel.state.value.base)
     }

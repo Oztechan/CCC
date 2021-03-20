@@ -19,15 +19,15 @@ class ApiRepositoryTest : BaseRepositoryTest<ApiRepository>() {
     }
 
     @Test
-    fun getRatesByBaseViaApiParameterCanNotBeEmpty() = runTest {
-        repository.getRatesByBaseViaApi("").execute(error = {
+    fun getRatesViaApiParameterCanNotBeEmpty() = runTest {
+        repository.getRatesViaApi("").execute(error = {
             assertTrue(it is EmptyParameterException)
         })
     }
 
     @Test
-    fun getRatesByBaseViaBackendParameterCanNotBeEmpty() = runTest {
-        repository.getRatesByBaseViaBackend("").execute(error = {
+    fun getRatesViaBackendParameterCanNotBeEmpty() = runTest {
+        repository.getRatesViaBackend("").execute(error = {
             assertTrue(it is EmptyParameterException)
         })
     }

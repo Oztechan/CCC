@@ -14,17 +14,20 @@ import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toRates
+import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.error.BackendCanBeDownException
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -87,14 +90,11 @@ class CalculatorViewModel(
         _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
-            .getRatesByBaseViaBackend(settingsRepository.currentBase)
-            .execute(
-                ::rateDownloadSuccess,
-                ::rateDownloadFail
-            )
+            .getRatesViaBackend(settingsRepository.currentBase)
+            .execute(::getRateSuccess, ::getRateViaBackendFailed)
     }
 
-    private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+    private fun getRateSuccess(currencyResponse: CurrencyResponse) = currencyResponse
         .toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -102,16 +102,30 @@ class CalculatorViewModel(
             offlineRatesDao.insertOfflineRates(it)
         }
 
-    private fun rateDownloadFail(t: Throwable) {
-        kermit.w(t) { "rate download failed." }
+    private fun getRateViaBackendFailed(t: Throwable) {
+        clientScope.launch {
+            kermit.w(t) { "CalculatorViewModel getRateViaBackendFailed" }
+            apiRepository
+                .getRatesViaApi(settingsRepository.currentBase)
+                .execute(
+                    {
+                        kermit.e(BackendCanBeDownException()) { "CalculatorViewModel getRateViaBackendFailed" }
+                        getRateSuccess(it)
+                    },
+                    ::getRateViaApiFailed
+                )
+        }
+    }
 
+    private fun getRateViaApiFailed(t: Throwable) {
+        kermit.w(t) { "CalculatorViewModel getRateViaApiFailed" }
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _state.update(rateState = RateState.Offline(offlineRates.date))
         } ?: clientScope.launch {
-            kermit.w(t) { "no offline rate found" }
+            kermit.w { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.send(CalculatorEffect.Error) }
@@ -124,8 +138,10 @@ class CalculatorViewModel(
         data.parser
             .calculate(input.toSupportedCharacters(), PRECISION)
             .mapTo { if (isFinite()) getFormatted() else "" }
-            .whether { length <= MAXIMUM_INPUT }
-            ?.let { output ->
+            .whether(
+                { output -> output.length <= MAXIMUM_OUTPUT },
+                { input.length <= MAXIMUM_INPUT }
+            )?.let { output ->
                 _state.update(output = output)
                 state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -170,7 +186,7 @@ class CalculatorViewModel(
     override fun onKeyPress(key: String) {
         kermit.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
-            KEY_AC -> _state.update(input = "", output = "")
+            KEY_AC -> _state.update(input = "")
             KEY_DEL -> state.value.input
                 .whetherNot { isEmpty() }
                 ?.apply {
@@ -180,11 +196,14 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency, conversion: String) {
-        kermit.d { "CalculatorViewModel onItemClick ${currency.name} $conversion" }
-        var finalResult = conversion
+    override fun onItemClick(currency: Currency) {
+        kermit.d { "CalculatorViewModel onItemClick ${currency.name}" }
+        var finalResult = currency.rate
+            .getFormatted()
+            .toStandardDigits()
+            .toSupportedCharacters()
 
-        while (finalResult.length > MAXIMUM_INPUT) {
+        while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
             finalResult = finalResult.dropLast(1)
         }
 
