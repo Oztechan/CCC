@@ -64,8 +64,8 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
                 loadAd(AdRequest.Builder().build())
             }
         )
-        visible()
     }
+    visible()
 } else {
     isEnabled = false
     gone()
@@ -86,7 +86,6 @@ fun View.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
-    this?.bringToFront()
 }
 
 fun View?.gone() {
