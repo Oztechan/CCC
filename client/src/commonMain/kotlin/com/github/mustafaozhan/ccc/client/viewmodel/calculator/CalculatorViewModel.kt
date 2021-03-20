@@ -27,6 +27,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.C
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.error.BackendCanBeDownException
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -90,10 +91,7 @@ class CalculatorViewModel(
     } ?: clientScope.launch {
         apiRepository
             .getRatesByBaseViaBackend(settingsRepository.currentBase)
-            .execute(
-                ::rateDownloadSuccess,
-                ::rateDownloadFail
-            )
+            .execute(::rateDownloadSuccess, ::rateDownloadFailBackend)
     }
 
     private fun rateDownloadSuccess(currencyResponse: CurrencyResponse) = currencyResponse
@@ -104,16 +102,30 @@ class CalculatorViewModel(
             offlineRatesDao.insertOfflineRates(it)
         }
 
-    private fun rateDownloadFail(t: Throwable) {
-        kermit.w(t) { "rate download failed." }
+    private fun rateDownloadFailBackend(t: Throwable) {
+        clientScope.launch {
+            kermit.w(t) { "CalculatorViewModel rateDownloadFailBackend" }
+            apiRepository
+                .getRatesByBaseViaApi(settingsRepository.currentBase)
+                .execute(
+                    {
+                        kermit.e(BackendCanBeDownException()) { "CalculatorViewModel rateDownloadFailBackend" }
+                        rateDownloadSuccess(it)
+                    },
+                    ::rateDownloadFailApi
+                )
+        }
+    }
 
+    private fun rateDownloadFailApi(t: Throwable) {
+        kermit.w(t) { "CalculatorViewModel rateDownloadFailApi" }
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _state.update(rateState = RateState.Offline(offlineRates.date))
         } ?: clientScope.launch {
-            kermit.w(t) { "no offline rate found" }
+            kermit.w { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.send(CalculatorEffect.Error) }
