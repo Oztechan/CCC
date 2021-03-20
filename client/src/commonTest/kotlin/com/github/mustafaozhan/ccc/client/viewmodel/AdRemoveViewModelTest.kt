@@ -50,9 +50,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             )
         )
         viewModel.effect.first().let {
-            assertTrue {
-                it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.RestartActivity
-            }
+            assertTrue { it is AdRemoveEffect.AlreadyAdFree }
         }
     }
 

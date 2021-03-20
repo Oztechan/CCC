@@ -113,7 +113,8 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 }
                 AdRemoveEffect.AlreadyAdFree -> Toast.show(
                     requireContext(),
-                    R.string.txt_ads_already_disabled
+                    R.string.txt_ads_already_disabled,
+                    isLong = true
                 )
                 AdRemoveEffect.RestartActivity -> restartActivity()
             }

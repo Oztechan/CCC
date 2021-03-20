@@ -12,12 +12,14 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.model.RestorePurchaseTracking
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.toUnit
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveData.Companion.RESTART_ACTIVITY_DELAY
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveState.Companion.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.conflate
@@ -49,6 +51,7 @@ class AdRemoveViewModel(
         startDate: Long = nowAsLong()
     ) = clientScope.launch {
         settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
+        delay(RESTART_ACTIVITY_DELAY)
         _effect.send(AdRemoveEffect.RestartActivity)
     }
 
