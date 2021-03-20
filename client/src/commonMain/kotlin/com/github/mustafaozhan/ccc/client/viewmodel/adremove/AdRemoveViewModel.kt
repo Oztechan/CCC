@@ -9,7 +9,6 @@ import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.model.RestorePurchaseTracking
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveData.Companion.RESTART_ACTIVITY_DELAY
@@ -63,7 +62,6 @@ class AdRemoveViewModel(
         }?.whether { it.purchaseDate > settingsRepository.adFreeEndDate }
         ?.apply {
             RemoveAdType.getBySku(purchaseType.data.skuId)?.let {
-                kermit.w(RestorePurchaseTracking(it)) { "AdRemoveViewModel restorePurchase $it" }
                 updateAddFreeDate(it, this.purchaseDate)
                 clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
             }

@@ -26,7 +26,6 @@ import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragme
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.model.NewPurchaseTracking
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -216,10 +215,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         .also { kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ${billingResult.responseCode}" } }
         ?.firstOrNull()
         ?.mapTo { RemoveAdType.getBySku(sku) }
-        ?.let {
-            kermit.w(NewPurchaseTracking(it)) { "AdRemoveBottomSheet onPurchasesUpdated $it" }
-            adRemoveViewModel.updateAddFreeDate(it)
-        }
+        ?.let { adRemoveViewModel.updateAddFreeDate(it) }
         .toUnit()
 
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient

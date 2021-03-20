@@ -43,6 +43,6 @@ sealed class AdRemoveEffect : BaseEffect() {
 // Data
 class AdRemoveData : BaseData() {
     companion object {
-        const val RESTART_ACTIVITY_DELAY: Long = 500
+        const val RESTART_ACTIVITY_DELAY: Long = 250
     }
 }

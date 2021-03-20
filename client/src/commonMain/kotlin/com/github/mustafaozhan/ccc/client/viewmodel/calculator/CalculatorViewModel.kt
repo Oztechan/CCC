@@ -91,10 +91,10 @@ class CalculatorViewModel(
     } ?: clientScope.launch {
         apiRepository
             .getRatesViaBackend(settingsRepository.currentBase)
-            .execute(::getRateSuccess, ::getRateViaBackendFailed)
+            .execute(::getRatesSuccess, ::getRatesViaBackendFailed)
     }
 
-    private fun getRateSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+    private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
         .toRates().let {
             data.rates = it
             calculateConversions(it)
@@ -102,7 +102,7 @@ class CalculatorViewModel(
             offlineRatesDao.insertOfflineRates(it)
         }
 
-    private fun getRateViaBackendFailed(t: Throwable) {
+    private fun getRatesViaBackendFailed(t: Throwable) {
         clientScope.launch {
             kermit.w(t) { "CalculatorViewModel getRateViaBackendFailed" }
             apiRepository
@@ -110,14 +110,14 @@ class CalculatorViewModel(
                 .execute(
                     {
                         kermit.e(BackendCanBeDownException()) { "CalculatorViewModel getRateViaBackendFailed" }
-                        getRateSuccess(it)
+                        getRatesSuccess(it)
                     },
-                    ::getRateViaApiFailed
+                    ::getRatesViaApiFailed
                 )
         }
     }
 
-    private fun getRateViaApiFailed(t: Throwable) {
+    private fun getRatesViaApiFailed(t: Throwable) {
         kermit.w(t) { "CalculatorViewModel getRateViaApiFailed" }
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
