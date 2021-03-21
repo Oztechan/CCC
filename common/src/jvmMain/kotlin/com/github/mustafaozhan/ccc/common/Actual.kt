@@ -10,10 +10,10 @@ import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.JvmPreferencesSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
+import kotlin.coroutines.CoroutineContext
 
 actual val platform = PlatformType.JVM
 
@@ -30,3 +30,7 @@ actual fun Module.getDatabaseDefinition() = single {
 }
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }
+
+// todo need to find correct implementation for JS
+@Suppress("FunctionOnlyReturningConstant")
+actual fun isDebug() = false

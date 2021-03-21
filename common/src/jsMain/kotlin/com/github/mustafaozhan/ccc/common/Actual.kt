@@ -8,11 +8,11 @@ import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.JsSettings
 import com.russhwolf.settings.Settings
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import org.koin.core.module.Module
+import kotlin.coroutines.CoroutineContext
 
 actual val platform = PlatformType.JS
 
@@ -27,3 +27,7 @@ actual fun Module.getDatabaseDefinition() = single<CurrencyConverterCalculatorDa
 }
 
 actual fun runTest(block: suspend () -> Unit): dynamic = GlobalScope.promise { block() }
+
+// todo need to find correct implementation for JS
+@Suppress("FunctionOnlyReturningConstant")
+actual fun isDebug() = false
