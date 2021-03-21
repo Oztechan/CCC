@@ -2,6 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 

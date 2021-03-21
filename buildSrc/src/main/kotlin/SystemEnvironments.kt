@@ -22,11 +22,11 @@ object Values {
         val admobAppId = Keys.admobAppId.toDebug()
             .getEnvVar(Fakes.admobAppId)
         val bannerAdUnitIdCalculator = Keys.bannerAdUnitIdCalculator.toDebug()
-            .getEnvVar(Fakes.bannerAdUnitIdCalculator)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val bannerAdUnitIdSettings = Keys.bannerAdUnitIdSettings.toDebug()
-            .getEnvVar(Fakes.bannerAdUnitIdSettings)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val bannerAdUnitIdCurrencies = Keys.bannerAdUnitIdCurrencies.toDebug()
-            .getEnvVar(Fakes.bannerAdUnitIdCurrencies)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val interstitialAdId = Keys.interstitialAdId.toDebug()
             .getEnvVar(Fakes.interstitialAdId)
         val rewardedAdUnitId = Keys.rewardedAdUnitId.toDebug()
@@ -34,14 +34,14 @@ object Values {
     }
 
     object Release {
-        val admobAppId = Keys.admobAppId.toRelease()
+        var admobAppId = Keys.admobAppId.toRelease()
             .getEnvVar(Fakes.admobAppId)
         val bannerAdUnitIdCalculator = Keys.bannerAdUnitIdCalculator.toRelease()
-            .getEnvVar(Fakes.bannerAdUnitIdCalculator)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val bannerAdUnitIdSettings = Keys.bannerAdUnitIdSettings.toRelease()
-            .getEnvVar(Fakes.bannerAdUnitIdSettings)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val bannerAdUnitIdCurrencies = Keys.bannerAdUnitIdCurrencies.toRelease()
-            .getEnvVar(Fakes.bannerAdUnitIdCurrencies)
+            .getEnvVar(Fakes.bannerAdUnitId)
         val interstitialAdId = Keys.interstitialAdId.toRelease()
             .getEnvVar(Fakes.interstitialAdId)
         val rewardedAdUnitId = Keys.rewardedAdUnitId.toRelease()
@@ -54,9 +54,7 @@ object Fakes {
     const val apiUrl = "http://private.api.url"
 
     const val admobAppId = "ca-app-pub-3940256099942544~3347511713"
-    const val bannerAdUnitIdCalculator = "ca-app-pub-3940256099942544/6300978111"
-    const val bannerAdUnitIdSettings = "ca-app-pub-3940256099942544/6300978111"
-    const val bannerAdUnitIdCurrencies = "ca-app-pub-3940256099942544/6300978111"
+    const val bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111"
     const val interstitialAdId = "ca-app-pub-3940256099942544/1033173712"
     const val rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"
 }
