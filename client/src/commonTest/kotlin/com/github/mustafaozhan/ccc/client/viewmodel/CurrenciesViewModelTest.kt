@@ -47,29 +47,29 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         }
 
         with(viewModel) {
-            data.unFilteredList = originalList
+            data.unFilteredList = originalList.toMutableList()
             event.onQueryChange("USD")
-            delay(100)
+            delay(250)
             assertTrue(state.value.currencyList.contains(dollar))
 
-            data.unFilteredList = originalList
+            data.unFilteredList = originalList.toMutableList()
             event.onQueryChange("Euro")
-            delay(100)
+            delay(250)
             assertTrue(state.value.currencyList.contains(euro))
 
-            data.unFilteredList = originalList
+            data.unFilteredList = originalList.toMutableList()
             event.onQueryChange("$")
-            delay(100)
+            delay(250)
             assertTrue(state.value.currencyList.contains(dollar))
 
-            data.unFilteredList = originalList
+            data.unFilteredList = originalList.toMutableList()
             event.onQueryChange("asdasd")
-            delay(100)
+            delay(250)
             assertTrue(state.value.currencyList.isEmpty())
 
-            data.unFilteredList = originalList
+            data.unFilteredList = originalList.toMutableList()
             event.onQueryChange("o")
-            delay(100)
+            delay(250)
             assertEquals(2, state.value.currencyList.size)
         }
     }

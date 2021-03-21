@@ -50,7 +50,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     fun onItemClick() = runTest {
         with(viewModel) {
             event.onItemClick(currency)
-            delay(100)
+            delay(250)
             assertEquals(currency.name, state.value.base)
             assertEquals(currency.rate.toString(), state.value.input)
         }
