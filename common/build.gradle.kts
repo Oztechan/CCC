@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -154,6 +153,7 @@ configure<BuildKonfigExtension> {
     defaultConfigs {
         buildConfigField(Type.STRING, Keys.backendUrl, Values.backendUrl)
         buildConfigField(Type.STRING, Keys.apiUrl, Values.apiUrl)
+        buildConfigField(Type.STRING, Keys.debugBaseUrl, Values.debugBaseUrl)
     }
 }
 

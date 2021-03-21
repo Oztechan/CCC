@@ -3,6 +3,7 @@ import java.util.Locale
 object Keys {
     const val backendUrl = "BASE_URL_BACKEND"
     const val apiUrl = "BASE_URL_API"
+    const val debugBaseUrl = "DEBUG_BASE_URL"
 
     const val admobAppId = "ADMOB_APP_ID"
     const val bannerAdUnitIdCalculator = "BANNER_AD_UNIT_ID_CALCULATOR"
@@ -13,10 +14,9 @@ object Keys {
 }
 
 object Values {
-    val backendUrl = System.getenv(Keys.backendUrl)?.toString()
-        ?: Fakes.backendUrl
-    val apiUrl = System.getenv(Keys.apiUrl)?.toString()
-        ?: Fakes.apiUrl
+    val backendUrl = Keys.backendUrl.getEnvVar(Fakes.backendUrl)
+    val apiUrl = Keys.apiUrl.getEnvVar(Fakes.apiUrl)
+    val debugBaseUrl = Keys.debugBaseUrl.getEnvVar(Fakes.debugBaseUrl)
 
     object Debug {
         val admobAppId = Keys.admobAppId.toDebug()
@@ -52,6 +52,7 @@ object Values {
 object Fakes {
     const val backendUrl = "http://private.backend.url"
     const val apiUrl = "http://private.api.url"
+    const val debugBaseUrl = "http://private.debug.url"
 
     const val admobAppId = "ca-app-pub-3940256099942544~3347511713"
     const val bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111"

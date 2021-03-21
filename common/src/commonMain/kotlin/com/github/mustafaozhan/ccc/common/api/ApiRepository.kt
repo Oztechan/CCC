@@ -40,14 +40,14 @@ class ApiRepository(private val apiFactory: ApiFactory) {
 
     suspend fun getRatesViaBackend(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.getRatesViaBackend(base).toModel()
+        else apiFactory.getRatesViaBackend(base).toModel(base)
     }.also {
         kermit.d { "ApiRepository getRatesViaBackend $base" }
     }
 
     suspend fun getRatesViaApi(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.getRatesViaApi(base).toModel()
+        else apiFactory.getRatesViaApi(base).toModel(base)
     }.also {
         kermit.d { "ApiRepository getRatesViaApi $base" }
     }
