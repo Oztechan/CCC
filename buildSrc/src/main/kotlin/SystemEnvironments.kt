@@ -1,0 +1,73 @@
+import java.util.Locale
+
+object Keys {
+    const val backendUrl = "BASE_URL_BACKEND"
+    const val apiUrl = "BASE_URL_API"
+    const val debugBaseUrl = "DEBUG_BASE_URL"
+
+    const val admobAppId = "ADMOB_APP_ID"
+    const val bannerAdUnitIdCalculator = "BANNER_AD_UNIT_ID_CALCULATOR"
+    const val bannerAdUnitIdSettings = "BANNER_AD_UNIT_ID_SETTINGS"
+    const val bannerAdUnitIdCurrencies = "BANNER_AD_UNIT_ID_CURRENCIES"
+    const val interstitialAdId = "INTERSTITIAL_AD_ID"
+    const val rewardedAdUnitId = "REWARDED_AD_UNIT_ID"
+}
+
+object Values {
+    val backendUrl = Keys.backendUrl.getEnvVar(Fakes.backendUrl)
+    val apiUrl = Keys.apiUrl.getEnvVar(Fakes.apiUrl)
+    val debugBaseUrl = Keys.debugBaseUrl.getEnvVar(Fakes.debugBaseUrl)
+
+    object Debug {
+        val admobAppId = Keys.admobAppId.toDebug()
+            .getEnvVar(Fakes.admobAppId)
+        val bannerAdUnitIdCalculator = Keys.bannerAdUnitIdCalculator.toDebug()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val bannerAdUnitIdSettings = Keys.bannerAdUnitIdSettings.toDebug()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val bannerAdUnitIdCurrencies = Keys.bannerAdUnitIdCurrencies.toDebug()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val interstitialAdId = Keys.interstitialAdId.toDebug()
+            .getEnvVar(Fakes.interstitialAdId)
+        val rewardedAdUnitId = Keys.rewardedAdUnitId.toDebug()
+            .getEnvVar(Fakes.rewardedAdUnitId)
+    }
+
+    object Release {
+        var admobAppId = Keys.admobAppId.toRelease()
+            .getEnvVar(Fakes.admobAppId)
+        val bannerAdUnitIdCalculator = Keys.bannerAdUnitIdCalculator.toRelease()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val bannerAdUnitIdSettings = Keys.bannerAdUnitIdSettings.toRelease()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val bannerAdUnitIdCurrencies = Keys.bannerAdUnitIdCurrencies.toRelease()
+            .getEnvVar(Fakes.bannerAdUnitId)
+        val interstitialAdId = Keys.interstitialAdId.toRelease()
+            .getEnvVar(Fakes.interstitialAdId)
+        val rewardedAdUnitId = Keys.rewardedAdUnitId.toRelease()
+            .getEnvVar(Fakes.rewardedAdUnitId)
+    }
+}
+
+object Fakes {
+    const val backendUrl = "http://private.backend.url"
+    const val apiUrl = "http://private.api.url"
+    const val debugBaseUrl = "http://private.debug.url"
+
+    const val admobAppId = "ca-app-pub-3940256099942544~3347511713"
+    const val bannerAdUnitId = "ca-app-pub-3940256099942544/6300978111"
+    const val interstitialAdId = "ca-app-pub-3940256099942544/1033173712"
+    const val rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"
+}
+
+object Type {
+    const val string = "String"
+}
+
+private fun String.getEnvVar(defaultValue: String) = System.getenv(this)?.toString() ?: defaultValue
+
+fun String.toResource() = toLowerCase(Locale.ROOT)
+
+fun String.toDebug() = "DEBUG_$this"
+
+fun String.toRelease() = "RELEASE_$this"

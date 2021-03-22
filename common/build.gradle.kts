@@ -1,11 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     with(Plugins) {
@@ -149,29 +147,13 @@ sqldelight {
     }
 }
 
-@Suppress("TooGenericExceptionCaught")
 configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.packageName}.common"
 
-    val props = Properties()
-
-    try {
-        props.load(file("key.properties").inputStream())
-    } catch (e: Exception) {
-        // keys are private and can not be committed to git
-    }
-
     defaultConfigs {
-        buildConfigField(
-            Type.STRING,
-            "BASE_URL_BACKEND",
-            props["base_url_backend"]?.toString() ?: "http://private.backend.url"
-        )
-        buildConfigField(
-            Type.STRING,
-            "BASE_URL_API",
-            props["base_url_api"]?.toString() ?: "http://private.api.url"
-        )
+        buildConfigField(Type.STRING, Keys.backendUrl, Values.backendUrl)
+        buildConfigField(Type.STRING, Keys.apiUrl, Values.apiUrl)
+        buildConfigField(Type.STRING, Keys.debugBaseUrl, Values.debugBaseUrl)
     }
 }
 

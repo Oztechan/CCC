@@ -10,10 +10,10 @@ import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabas
 import com.russhwolf.settings.AndroidSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
+import kotlin.coroutines.CoroutineContext
 
 actual val platform = PlatformType.ANDROID
 
@@ -32,3 +32,5 @@ actual fun Module.getDatabaseDefinition() = single {
 }
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }
+
+actual fun isDebug() = BuildConfig.DEBUG

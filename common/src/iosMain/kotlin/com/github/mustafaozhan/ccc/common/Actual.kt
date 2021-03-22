@@ -10,12 +10,12 @@ import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabas
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.module.Module
 import platform.Foundation.NSUserDefaults
+import kotlin.coroutines.CoroutineContext
 
 actual val platform = PlatformType.IOS
 
@@ -39,3 +39,5 @@ actual fun runTest(block: suspend () -> Unit) {
         block()
     }
 }
+
+actual fun isDebug() = Platform.isDebugBinary

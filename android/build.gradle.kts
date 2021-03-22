@@ -39,6 +39,74 @@ android {
             viewBinding = true
         }
     }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            resValue(
+                Type.string.toResource(),
+                Keys.admobAppId.toResource(),
+                Values.Release.admobAppId
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdCalculator.toResource(),
+                Values.Release.bannerAdUnitIdCalculator
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdSettings.toResource(),
+                Values.Release.bannerAdUnitIdSettings
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdCurrencies.toResource(),
+                Values.Release.bannerAdUnitIdCurrencies
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.interstitialAdId.toResource(),
+                Values.Release.interstitialAdId
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.rewardedAdUnitId.toResource(),
+                Values.Release.rewardedAdUnitId
+            )
+        }
+        getByName("debug") {
+            resValue(
+                Type.string.toResource(),
+                Keys.admobAppId.toResource(),
+                Values.Debug.admobAppId
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdCalculator.toResource(),
+                Values.Debug.bannerAdUnitIdCalculator
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdSettings.toResource(),
+                Values.Debug.bannerAdUnitIdSettings
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.bannerAdUnitIdCurrencies.toResource(),
+                Values.Debug.bannerAdUnitIdCurrencies
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.interstitialAdId.toResource(),
+                Values.Debug.interstitialAdId
+            )
+            resValue(
+                Type.string.toResource(),
+                Keys.rewardedAdUnitId.toResource(),
+                Values.Debug.rewardedAdUnitId
+            )
+        }
+    }
 }
 
 dependencies {

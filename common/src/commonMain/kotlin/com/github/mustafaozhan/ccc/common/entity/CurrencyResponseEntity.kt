@@ -15,8 +15,8 @@ data class CurrencyResponseEntity(
     @SerialName("rates") var ratesEntity: RatesEntity
 )
 
-fun CurrencyResponseEntity.toModel() = CurrencyResponse(
-    base, date, ratesEntity.toModel()
+fun CurrencyResponseEntity.toModel(fallbackBase: String = base) = CurrencyResponse(
+    fallbackBase, date, ratesEntity.toModel()
 )
 
 fun Offline_rates.toRatesEntity() = RatesEntity(

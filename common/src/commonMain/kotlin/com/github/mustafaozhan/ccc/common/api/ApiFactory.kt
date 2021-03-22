@@ -6,14 +6,15 @@ package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.isDebug
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.DEFAULT
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
+import io.ktor.client.features.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
@@ -39,6 +40,7 @@ class ApiFactory : ApiService {
             install(JsonFeature) {
                 serializer = KotlinxSerializer(json)
                 accept(ContentType.Application.Json)
+                accept(ContentType.Text.Plain)
             }
             install(HttpTimeout) {
                 connectTimeoutMillis = TIME_OUT
@@ -46,7 +48,7 @@ class ApiFactory : ApiService {
                 requestTimeoutMillis = TIME_OUT
             }
             install(Logging) {
-                logger = Logger.DEFAULT
+                logger = Logger.SIMPLE
                 level = LogLevel.INFO
             }
         }
@@ -54,17 +56,25 @@ class ApiFactory : ApiService {
 
     override suspend fun getRatesViaBackend(base: String): CurrencyResponseEntity = client.get {
         url {
-            takeFrom(BuildKonfig.BASE_URL_BACKEND)
-            path(PATH_CURRENCY_BY_BASE_BACKEND)
-            parameter(QUERY_KEY_BASE, base)
+            if (isDebug()) {
+                takeFrom(BuildKonfig.DEBUG_BASE_URL)
+            } else {
+                takeFrom(BuildKonfig.BASE_URL_BACKEND)
+                path(PATH_CURRENCY_BY_BASE_BACKEND)
+                parameter(QUERY_KEY_BASE, base)
+            }
         }
     }
 
     override suspend fun getRatesViaApi(base: String): CurrencyResponseEntity = client.get {
         url {
-            takeFrom(BuildKonfig.BASE_URL_API)
-            path(PATH_CURRENCY_BY_BASE_API)
-            parameter(QUERY_KEY_BASE, base)
+            if (isDebug()) {
+                takeFrom(BuildKonfig.DEBUG_BASE_URL)
+            } else {
+                takeFrom(BuildKonfig.BASE_URL_API)
+                path(PATH_CURRENCY_BY_BASE_API)
+                parameter(QUERY_KEY_BASE, base)
+            }
         }
     }
 }
