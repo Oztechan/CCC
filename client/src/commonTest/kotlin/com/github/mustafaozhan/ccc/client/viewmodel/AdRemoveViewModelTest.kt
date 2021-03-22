@@ -15,7 +15,6 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
@@ -25,12 +24,12 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun setLoading() {
+    fun setLoading() = runTest {
         viewModel.showLoadingView(true)
-        assertTrue { viewModel.state.value.loading }
+        assertEquals(true, viewModel.state.first().loading)
 
         viewModel.showLoadingView(false)
-        assertFalse { viewModel.state.value.loading }
+        assertEquals(false, viewModel.state.first().loading)
     }
 
     @Test
@@ -50,7 +49,9 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             )
         )
         viewModel.effect.first().let {
-            assertTrue { it is AdRemoveEffect.AlreadyAdFree }
+            assertTrue {
+                it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.RestartActivity
+            }
         }
     }
 
@@ -60,9 +61,10 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             .map { it.data }
             .forEach {
                 viewModel.addInAppBillingMethods(listOf(it))
-                assertTrue {
-                    viewModel.state.value.adRemoveTypes.contains(RemoveAdType.getBySku(it.skuId))
-                }
+                assertEquals(
+                    true,
+                    viewModel.state.first().adRemoveTypes.contains(RemoveAdType.getBySku(it.skuId))
+                )
             }
     }
 

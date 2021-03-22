@@ -1,6 +1,5 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.adremove
 
-import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
 import com.github.mustafaozhan.ccc.client.base.BaseState
@@ -38,11 +37,4 @@ sealed class AdRemoveEffect : BaseEffect() {
     data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
     object RestartActivity : AdRemoveEffect()
     object AlreadyAdFree : AdRemoveEffect()
-}
-
-// Data
-class AdRemoveData : BaseData() {
-    companion object {
-        const val RESTART_ACTIVITY_DELAY: Long = 250
-    }
 }

@@ -9,7 +9,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlin.test.Test
@@ -23,9 +23,9 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun hideSelectionVisibility() {
+    fun hideSelectionVisibility() = runTest {
         viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.value.selectionVisibility)
+        assertEquals(false, viewModel.state.first().selectionVisibility)
     }
 
     @Test
@@ -47,38 +47,35 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         }
 
         with(viewModel) {
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("USD")
-            delay(250)
-            assertTrue(state.value.currencyList.contains(dollar))
+            assertTrue(state.first().currencyList.contains(dollar))
 
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("Euro")
-            delay(250)
-            assertTrue(state.value.currencyList.contains(euro))
+            assertTrue(state.first().currencyList.contains(euro))
 
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("$")
-            delay(250)
-            assertTrue(state.value.currencyList.contains(dollar))
+            assertTrue(state.first().currencyList.contains(dollar))
 
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("asdasd")
-            delay(250)
-            assertTrue(state.value.currencyList.isEmpty())
+            assertTrue(state.first().currencyList.isEmpty())
 
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("o")
-            delay(250)
-            assertEquals(2, state.value.currencyList.size)
+            assertEquals(2, state.first().currencyList.size)
         }
     }
 
     @Test
-    fun onItemLongClick() = with(viewModel) {
-        val currentValue = viewModel.state.value.selectionVisibility
-        event.onItemLongClick()
-        assertEquals(!currentValue, viewModel.state.value.selectionVisibility)
+    fun onItemLongClick() = runTest {
+        with(viewModel) {
+            val currentValue = viewModel.state.first().selectionVisibility
+            event.onItemLongClick()
+            assertEquals(!currentValue, viewModel.state.first().selectionVisibility)
+        }
     }
 
     @Test
