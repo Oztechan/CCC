@@ -23,6 +23,11 @@ jobs:
         with:
           java-version: 11
 
+      - name: Decode secret.properties
+        env:
+          SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
+        run: echo $SECRET_PROPERTIES > secret.properties
+
       - name: Gradle Build
         run: ./gradlew build --parallel
 
