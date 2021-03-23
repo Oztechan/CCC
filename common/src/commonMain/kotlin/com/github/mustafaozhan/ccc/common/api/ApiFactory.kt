@@ -57,7 +57,7 @@ class ApiFactory : ApiService {
     override suspend fun getRatesViaBackend(base: String): CurrencyResponseEntity = client.get {
         url {
             if (isDebug()) {
-                takeFrom(BuildKonfig.DEBUG_BASE_URL)
+                takeFrom(BuildKonfig.BASE_URL_DEV)
             } else {
                 takeFrom(BuildKonfig.BASE_URL_BACKEND)
                 path(PATH_CURRENCY_BY_BASE_BACKEND)
@@ -69,7 +69,7 @@ class ApiFactory : ApiService {
     override suspend fun getRatesViaApi(base: String): CurrencyResponseEntity = client.get {
         url {
             if (isDebug()) {
-                takeFrom(BuildKonfig.DEBUG_BASE_URL)
+                takeFrom(BuildKonfig.BASE_URL_DEV)
             } else {
                 takeFrom(BuildKonfig.BASE_URL_API)
                 path(PATH_CURRENCY_BY_BASE_API)

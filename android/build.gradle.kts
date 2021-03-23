@@ -41,69 +41,76 @@ android {
     }
 
     buildTypes {
+        val props = try {
+            Properties().apply { load(project.file("secret.properties").inputStream()) }
+        } catch (e: IOException) {
+            // keys are private and can not be committed to git
+            null
+        }
+
         getByName("release") {
             isMinifyEnabled = false
             resValue(
                 Type.string.toResource(),
                 Keys.admobAppId.toResource(),
-                Values.Release.admobAppId
+                props.get(Keys.admobAppId.toRelease(), Fakes.admobAppId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdCalculator.toResource(),
-                Values.Release.bannerAdUnitIdCalculator
+                props.get(Keys.bannerAdUnitIdCalculator.toRelease(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdSettings.toResource(),
-                Values.Release.bannerAdUnitIdSettings
+                props.get(Keys.bannerAdUnitIdSettings.toRelease(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdCurrencies.toResource(),
-                Values.Release.bannerAdUnitIdCurrencies
+                props.get(Keys.bannerAdUnitIdCurrencies.toRelease(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.interstitialAdId.toResource(),
-                Values.Release.interstitialAdId
+                props.get(Keys.interstitialAdId.toRelease(), Fakes.interstitialAdId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.rewardedAdUnitId.toResource(),
-                Values.Release.rewardedAdUnitId
+                props.get(Keys.rewardedAdUnitId.toRelease(), Fakes.rewardedAdUnitId)
             )
         }
         getByName("debug") {
             resValue(
                 Type.string.toResource(),
                 Keys.admobAppId.toResource(),
-                Values.Debug.admobAppId
+                props.get(Keys.admobAppId.toDebug(), Fakes.admobAppId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdCalculator.toResource(),
-                Values.Debug.bannerAdUnitIdCalculator
+                props.get(Keys.bannerAdUnitIdCalculator.toDebug(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdSettings.toResource(),
-                Values.Debug.bannerAdUnitIdSettings
+                props.get(Keys.bannerAdUnitIdSettings.toDebug(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.bannerAdUnitIdCurrencies.toResource(),
-                Values.Debug.bannerAdUnitIdCurrencies
+                props.get(Keys.bannerAdUnitIdCurrencies.toDebug(), Fakes.bannerAdUnitId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.interstitialAdId.toResource(),
-                Values.Debug.interstitialAdId
+                props.get(Keys.interstitialAdId.toDebug(), Fakes.interstitialAdId)
             )
             resValue(
                 Type.string.toResource(),
                 Keys.rewardedAdUnitId.toResource(),
-                Values.Debug.rewardedAdUnitId
+                props.get(Keys.rewardedAdUnitId.toDebug(), Fakes.rewardedAdUnitId)
             )
         }
     }

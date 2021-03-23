@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -150,10 +149,16 @@ sqldelight {
 configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.packageName}.common"
 
+    val props = try {
+        Properties().apply { load(project.file("secret.properties").inputStream()) }
+    } catch (e: IOException) {
+        null
+    }
+
     defaultConfigs {
-        buildConfigField(Type.STRING, Keys.backendUrl, Values.backendUrl)
-        buildConfigField(Type.STRING, Keys.apiUrl, Values.apiUrl)
-        buildConfigField(Type.STRING, Keys.debugBaseUrl, Values.debugBaseUrl)
+        buildConfigField(Type.STRING, Keys.backendUrl, props.get(Keys.backendUrl, Fakes.privateUrl))
+        buildConfigField(Type.STRING, Keys.apiUrl, props.get(Keys.apiUrl, Fakes.privateUrl))
+        buildConfigField(Type.STRING, Keys.devUrl, props.get(Keys.devUrl, Fakes.privateUrl))
     }
 }
 
