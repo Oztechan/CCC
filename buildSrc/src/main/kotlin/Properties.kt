@@ -1,3 +1,5 @@
+import org.gradle.api.Project
+import java.io.IOException
 import java.util.Locale
 import java.util.Properties
 
@@ -25,6 +27,12 @@ object Fakes {
 
 object Type {
     const val string = "String"
+}
+
+fun Project.getSecretProperties() = try {
+    Properties().apply { load(file("../secret.properties").inputStream()) }
+} catch (e: IOException) {
+    null
 }
 
 fun Properties?.get(key: String, default: String) = this?.get(key)?.toString() ?: default

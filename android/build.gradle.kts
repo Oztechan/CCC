@@ -41,12 +41,7 @@ android {
     }
 
     buildTypes {
-        val props = try {
-            Properties().apply { load(project.file("secret.properties").inputStream()) }
-        } catch (e: IOException) {
-            // keys are private and can not be committed to git
-            null
-        }
+        val props = project.getSecretProperties()
 
         getByName("release") {
             isMinifyEnabled = false
