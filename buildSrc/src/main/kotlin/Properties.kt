@@ -32,6 +32,7 @@ object Type {
 fun Project.getSecretProperties() = try {
     Properties().apply { load(file("../secret.properties").inputStream()) }
 } catch (e: IOException) {
+    logger.debug(e.message, e)
     null
 }
 
