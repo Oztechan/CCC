@@ -12,10 +12,9 @@ plugins {
 version = ProjectSettings.getVersionName(project)
 
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm()
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val jvmMain by getting {
             dependencies {
