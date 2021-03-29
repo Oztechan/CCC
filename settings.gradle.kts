@@ -6,7 +6,8 @@ include(
     ":android",
     ":backend",
     ":web",
-    ":desktop",
+//    todo desktop is removed until 1.5.0 stable release, compose desktop is not capable with Kotlin M releases
+//    ":desktop",
     ":client",
     ":common",
     ":basemob", ":scopemob", ":logmob", ":parsermob"
