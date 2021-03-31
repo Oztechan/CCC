@@ -41,6 +41,7 @@ object Dependencies {
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
         const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
         const val billing = "com.android.billingclient:billing:${Versions.billing}"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
     }
 
     object IOS {
