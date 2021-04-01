@@ -47,6 +47,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         setListeners()
     }
 
+    override fun onDestroyView() {
+        binding.adViewContainer.removeAllViews()
+        super.onDestroyView()
+    }
+
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_settings),

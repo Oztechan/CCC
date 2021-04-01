@@ -57,6 +57,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         setListeners()
     }
 
+    override fun onDestroyView() {
+        binding.adViewContainer.removeAllViews()
+        super.onDestroyView()
+    }
+
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
         ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
 
