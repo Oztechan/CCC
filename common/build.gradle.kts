@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -128,7 +127,12 @@ android {
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
         }
-
+        // todo https://youtrack.jetbrains.com/issue/KT-43944
+        configurations {
+            create("testApi") {}
+            create("testDebugApi") {}
+            create("testReleaseApi") {}
+        }
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }
@@ -146,9 +150,21 @@ configure<BuildKonfigExtension> {
     val props = project.getSecretProperties()
 
     defaultConfigs {
-        buildConfigField(Type.STRING, Keys.backendUrl, props.get(Keys.backendUrl, Fakes.privateUrl))
-        buildConfigField(Type.STRING, Keys.apiUrl, props.get(Keys.apiUrl, Fakes.privateUrl))
-        buildConfigField(Type.STRING, Keys.devUrl, props.get(Keys.devUrl, Fakes.privateUrl))
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            Keys.backendUrl,
+            props.get(Keys.backendUrl, Fakes.privateUrl)
+        )
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            Keys.apiUrl,
+            props.get(Keys.apiUrl, Fakes.privateUrl)
+        )
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            Keys.devUrl,
+            props.get(Keys.devUrl, Fakes.privateUrl)
+        )
     }
 }
 

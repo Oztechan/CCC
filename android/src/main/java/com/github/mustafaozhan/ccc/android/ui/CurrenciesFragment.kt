@@ -46,9 +46,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
-    override fun bind() {
-        binding = FragmentCurrenciesBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = FragmentCurrenciesBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

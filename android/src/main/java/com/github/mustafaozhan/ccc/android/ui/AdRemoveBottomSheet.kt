@@ -64,9 +64,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     private lateinit var skuDetails: List<SkuDetails>
 
-    override fun bind() {
-        binding = BottomSheetAdRemoveBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = BottomSheetAdRemoveBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
