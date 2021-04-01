@@ -36,9 +36,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private val settingsViewModel: SettingsViewModel by viewModel()
 
-    override fun bind() {
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = FragmentSettingsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

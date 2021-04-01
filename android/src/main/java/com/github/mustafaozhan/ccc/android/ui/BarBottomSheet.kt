@@ -33,9 +33,7 @@ class BarBottomSheet :
 
     private lateinit var barAdapter: BarAdapter
 
-    override fun bind() {
-        binding = BottomSheetBarBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = BottomSheetBarBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

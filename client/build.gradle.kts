@@ -143,14 +143,12 @@ android {
         testOptions {
             unitTests.isReturnDefaultValues = true
         }
-
         // todo https://youtrack.jetbrains.com/issue/KT-43944
         configurations {
             create("testApi") {}
             create("testDebugApi") {}
             create("testReleaseApi") {}
         }
-
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

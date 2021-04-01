@@ -45,9 +45,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private lateinit var calculatorAdapter: CalculatorAdapter
 
-    override fun bind() {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -36,9 +36,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         private var IS_THEME_SLIDE_CHECKED = false
     }
 
-    override fun bind() {
-        binding = FragmentSliderBinding.inflate(layoutInflater)
-    }
+    override fun getViewBinding() = FragmentSliderBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
