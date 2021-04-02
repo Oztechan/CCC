@@ -75,6 +75,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         setupBillingClient()
     }
 
+    override fun onDestroyView() {
+        Toast.destroy()
+        super.onDestroyView()
+    }
+
     private fun initViews() {
         removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
         binding.recyclerViewBar.adapter = removeAdsAdapter

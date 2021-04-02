@@ -58,6 +58,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     override fun onDestroyView() {
+        Toast.destroy()
         binding.adViewContainer.removeAllViews()
         super.onDestroyView()
     }

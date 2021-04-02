@@ -56,4 +56,9 @@ object Toast {
         isLong: Boolean = true,
         tintColor: Int? = null
     ) = show(context, context.getString(text), isLong, tintColor)
+
+    fun destroy() {
+        _toast?.cancel()
+        _toast = null
+    }
 }

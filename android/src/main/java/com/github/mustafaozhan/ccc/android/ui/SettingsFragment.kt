@@ -49,6 +49,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onDestroyView() {
         binding.adViewContainer.removeAllViews()
+        Toast.destroy()
         super.onDestroyView()
     }
 
