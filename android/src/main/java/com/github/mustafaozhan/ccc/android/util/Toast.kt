@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import mustafaozhan.github.com.mycurrencies.R
 
-// pass applicationContext
-// call Toast.destroy in onDestroyView() in order to prevent short cut memory leaks
 @Suppress("unused")
 object Toast {
     private const val IMAGE_PADDING = 24
@@ -27,7 +25,7 @@ object Toast {
     ) {
         _toast?.cancel()
         _toast = Toast.makeText(
-            context,
+            context.applicationContext,
             text,
             if (isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
         )
@@ -37,12 +35,17 @@ object Toast {
             setBackgroundResource(android.R.drawable.toast_frame)
             background.setTint(
                 ContextCompat.getColor(
-                    context,
+                    context.applicationContext,
                     tintColor ?: R.color.color_background_toast
                 )
             )
             findViewById<TextView>(android.R.id.message)?.apply {
-                setTextColor(ContextCompat.getColor(context, R.color.color_text_toast))
+                setTextColor(
+                    ContextCompat.getColor(
+                        context.applicationContext,
+                        R.color.color_text_toast
+                    )
+                )
                 gravity = Gravity.CENTER
                 setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info, 0, 0, 0)
                 compoundDrawablePadding = IMAGE_PADDING
@@ -58,9 +61,4 @@ object Toast {
         isLong: Boolean = true,
         tintColor: Int? = null
     ) = show(context, context.getString(text), isLong, tintColor)
-
-    fun destroy() {
-        _toast?.cancel()
-        _toast = null
-    }
 }

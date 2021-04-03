@@ -9,7 +9,7 @@ object Versions {
     const val compose = "0.4.0-build178"
     const val androidMaterial = "1.4.0-alpha01"
     const val constraintLayout = "2.1.0-beta01"
-    const val ktor = "1.5.2"
+    const val ktor = "1.5.3"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val react = "17.0.1-pre.148-kotlin-1.4.30"
