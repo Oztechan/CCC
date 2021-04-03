@@ -37,9 +37,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
@@ -163,19 +161,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             override fun onAdLoaded(rewardedAd: RewardedAd) {
                 adRemoveViewModel.showLoadingView(false)
                 kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
-
-                rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() =
-                        kermit.d { "AdRemoveBottomSheet onAdDismissedFullScreenContent" }
-
-                    override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                        kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToShow" }
-                        Toast.show(requireContext(), R.string.error_text_unknown)
-                    }
-
-                    override fun onAdShowedFullScreenContent() =
-                        kermit.d { "AdRemoveBottomSheet onAdShowedFullScreenContent" }
-                }
 
                 rewardedAd.show(requireActivity()) {
                     kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
