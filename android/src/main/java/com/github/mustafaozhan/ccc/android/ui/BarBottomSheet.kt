@@ -44,6 +44,11 @@ class BarBottomSheet :
         setListeners()
     }
 
+    override fun onDestroyView() {
+        binding.recyclerViewBar.adapter = null
+        super.onDestroyView()
+    }
+
     private fun initViews() {
         barAdapter = BarAdapter(barViewModel.event)
         binding.recyclerViewBar.adapter = barAdapter

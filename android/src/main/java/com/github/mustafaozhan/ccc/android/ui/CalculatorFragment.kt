@@ -59,6 +59,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onDestroyView() {
         binding.adViewContainer.removeAllViews()
+        binding.recyclerViewMain.adapter = null
         super.onDestroyView()
     }
 

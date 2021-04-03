@@ -59,6 +59,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onDestroyView() {
         binding.adViewContainer.removeAllViews()
+        binding.recyclerViewCurrencies.adapter = null
         super.onDestroyView()
     }
 

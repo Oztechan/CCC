@@ -77,6 +77,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onDestroyView() {
         billingClient.endConnection()
+        binding.recyclerViewBar.adapter = null
         super.onDestroyView()
     }
 
