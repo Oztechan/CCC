@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import mustafaozhan.github.com.mycurrencies.R
 
+// pass applicationContext
+// call Toast.destroy in onDestroyView() in order to prevent short cut memory leaks
 @Suppress("unused")
 object Toast {
     private const val IMAGE_PADDING = 24

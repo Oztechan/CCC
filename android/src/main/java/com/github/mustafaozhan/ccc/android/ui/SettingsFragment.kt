@@ -165,16 +165,19 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SettingsEffect.Synchronising -> Toast.show(
-                    requireContext(),
+                    requireContext().applicationContext,
                     R.string.txt_synchronising
                 )
-                SettingsEffect.Synchronised -> Toast.show(requireContext(), R.string.txt_synced)
+                SettingsEffect.Synchronised -> Toast.show(
+                    requireContext().applicationContext,
+                    R.string.txt_synced
+                )
                 SettingsEffect.OnlyOneTimeSync -> Toast.show(
-                    requireContext(),
+                    requireContext().applicationContext,
                     R.string.txt_already_synced
                 )
                 SettingsEffect.AlreadyAdFree -> Toast.show(
-                    requireContext(),
+                    requireContext().applicationContext,
                     R.string.txt_ads_already_disabled
                 )
             }

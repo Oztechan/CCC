@@ -99,7 +99,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.effect.collect { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CalculatorEffect.Error -> Toast.show(requireContext(), R.string.error_text_unknown)
+                CalculatorEffect.Error -> Toast.show(
+                    requireContext().applicationContext,
+                    R.string.error_text_unknown
+                )
                 CalculatorEffect.FewCurrency -> showSnack(
                     requireView(),
                     R.string.choose_at_least_two_currency,
@@ -110,7 +113,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                CalculatorEffect.MaximumInput -> Toast.show(requireContext(), R.string.max_input)
+                CalculatorEffect.MaximumInput -> Toast.show(
+                    requireContext().applicationContext,
+                    R.string.max_input
+                )
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheet()

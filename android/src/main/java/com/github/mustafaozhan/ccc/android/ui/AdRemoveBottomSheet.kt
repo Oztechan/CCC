@@ -114,7 +114,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     }
                 }
                 AdRemoveEffect.AlreadyAdFree -> Toast.show(
-                    requireContext(),
+                    requireContext().applicationContext,
                     R.string.txt_ads_already_disabled,
                     isLong = true
                 )
@@ -153,11 +153,12 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         getString(R.string.rewarded_ad_unit_id),
         AdRequest.Builder().build(),
         object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) = context?.let {
-                kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
-                adRemoveViewModel.showLoadingView(false)
-                Toast.show(it, R.string.error_text_unknown)
-            }.toUnit()
+            override fun onAdFailedToLoad(adError: LoadAdError) =
+                requireContext().applicationContext?.let {
+                    kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
+                    adRemoveViewModel.showLoadingView(false)
+                    Toast.show(it, R.string.error_text_unknown)
+                }.toUnit()
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
                 adRemoveViewModel.showLoadingView(false)
@@ -168,7 +169,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                         kermit.d { "AdRemoveBottomSheet onAdDismissedFullScreenContent" }
 
                     override fun onAdFailedToShowFullScreenContent(adError: AdError?) =
-                        context?.let {
+                        requireContext().applicationContext?.let {
                             kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToShow" }
                             Toast.show(it, R.string.error_text_unknown)
                         }.toUnit()
