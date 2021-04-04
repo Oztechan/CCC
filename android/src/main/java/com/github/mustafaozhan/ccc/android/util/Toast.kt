@@ -25,7 +25,7 @@ object Toast {
     ) {
         _toast?.cancel()
         _toast = Toast.makeText(
-            context,
+            context.applicationContext,
             text,
             if (isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
         )
@@ -35,12 +35,17 @@ object Toast {
             setBackgroundResource(android.R.drawable.toast_frame)
             background.setTint(
                 ContextCompat.getColor(
-                    context,
+                    context.applicationContext,
                     tintColor ?: R.color.color_background_toast
                 )
             )
             findViewById<TextView>(android.R.id.message)?.apply {
-                setTextColor(ContextCompat.getColor(context, R.color.color_text_toast))
+                setTextColor(
+                    ContextCompat.getColor(
+                        context.applicationContext,
+                        R.color.color_text_toast
+                    )
+                )
                 gravity = Gravity.CENTER
                 setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info, 0, 0, 0)
                 compoundDrawablePadding = IMAGE_PADDING

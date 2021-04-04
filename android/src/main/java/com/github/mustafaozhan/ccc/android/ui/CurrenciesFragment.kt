@@ -23,6 +23,7 @@ import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -57,6 +58,12 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         setListeners()
     }
 
+    override fun onDestroyView() {
+        binding.adViewContainer.removeAllViews()
+        binding.recyclerViewCurrencies.adapter = null
+        super.onDestroyView()
+    }
+
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
             getString(R.string.banner_ad_unit_id_currencies),
@@ -79,7 +86,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
-                binding.loadingView.visibleIf(loading)
+                binding.loadingView.showLoading(loading)
 
                 with(binding.layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)

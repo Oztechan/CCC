@@ -121,6 +121,7 @@ dependencies {
         implementation(koinAndroid)
         implementation(billing)
         coreLibraryDesugaring(desugaring)
+        debugImplementation(leakCanary)
     }
 
     with(Dependencies.Common) {

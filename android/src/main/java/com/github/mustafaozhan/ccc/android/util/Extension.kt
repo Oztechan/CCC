@@ -46,19 +46,19 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
     ?.toUnit()
 
 fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isExpired) {
-    MobileAds.initialize(context)
-    with(context.resources.displayMetrics) {
+    with(context.applicationContext) {
+        MobileAds.initialize(this)
 
         var adWidthPixels = width.toFloat()
         if (adWidthPixels == 0f) {
-            adWidthPixels = widthPixels.toFloat()
+            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
         }
         removeAllViews()
         addView(
-            AdView(context).apply {
+            AdView(this).apply {
                 adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
                     context,
-                    (adWidthPixels / density).toInt()
+                    (adWidthPixels / resources.displayMetrics.density).toInt()
                 )
                 adUnitId = adId
                 loadAd(AdRequest.Builder().build())
@@ -82,7 +82,12 @@ fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String)
         .firstOrNull { it.destination.id == destinationId }
         ?.savedStateHandle?.set(key, result)
 
-fun View.visibleIf(visible: Boolean) = if (visible) visible() else gone()
+fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
+
+fun View.showLoading(visible: Boolean) = if (visible) {
+    visible()
+    bringToFront()
+} else gone()
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE

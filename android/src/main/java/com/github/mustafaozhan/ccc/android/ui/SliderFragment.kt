@@ -46,7 +46,10 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             layouts.add(R.layout.layout_slide_dark_mode)
         }
         IS_THEME_SLIDE_CHECKED = true
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         addBottomDots(0)
         setListeners()
     }

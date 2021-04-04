@@ -14,6 +14,7 @@ import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragme
 import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
@@ -44,6 +45,11 @@ class BarBottomSheet :
         setListeners()
     }
 
+    override fun onDestroyView() {
+        binding.recyclerViewBar.adapter = null
+        super.onDestroyView()
+    }
+
     private fun initViews() {
         barAdapter = BarAdapter(barViewModel.event)
         binding.recyclerViewBar.adapter = barAdapter
@@ -55,7 +61,7 @@ class BarBottomSheet :
                 barAdapter.submitList(currencyList)
 
                 with(binding) {
-                    loadingView.visibleIf(loading)
+                    loadingView.showLoading(loading)
 
                     recyclerViewBar.visibleIf(enoughCurrency)
                     txtNoEnoughCurrency.visibleIf(!enoughCurrency)

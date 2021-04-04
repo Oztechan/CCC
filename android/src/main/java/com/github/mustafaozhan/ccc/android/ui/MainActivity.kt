@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showInterstitialAd() = InterstitialAd.load(
-        this,
+        applicationContext,
         getString(R.string.interstitial_ad_id),
         AdRequest.Builder().build(),
         object : InterstitialAdLoadCallback() {
@@ -81,7 +81,7 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         kermit.d { "MainActivity onResume" }
-        mainViewModel.onResume()
+        mainViewModel.event.onResume()
     }
 
     override fun onPause() {

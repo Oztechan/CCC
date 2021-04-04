@@ -25,7 +25,7 @@ import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
-import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -37,9 +37,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
@@ -75,6 +73,12 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         setupBillingClient()
     }
 
+    override fun onDestroyView() {
+        billingClient.endConnection()
+        binding.recyclerViewBar.adapter = null
+        super.onDestroyView()
+    }
+
     private fun initViews() {
         removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
         binding.recyclerViewBar.adapter = removeAdsAdapter
@@ -83,7 +87,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         adRemoveViewModel.state.collect {
             with(it) {
-                binding.loadingView.visibleIf(loading)
+                binding.loadingView.showLoading(loading)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
         }
@@ -126,7 +130,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun setupBillingClient() {
         adRemoveViewModel.showLoadingView(true)
         billingClient = BillingClient
-            .newBuilder(requireContext())
+            .newBuilder(requireContext().applicationContext)
             .enablePendingPurchases()
             .setListener(this)
             .build()
@@ -144,33 +148,19 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         }
 
     private fun prepareRewardedAd() = RewardedAd.load(
-        requireContext(),
+        requireContext().applicationContext,
         getString(R.string.rewarded_ad_unit_id),
         AdRequest.Builder().build(),
         object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) = context?.let {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
                 adRemoveViewModel.showLoadingView(false)
-                Toast.show(it, R.string.error_text_unknown)
-            }.toUnit()
+                Toast.show(requireContext(), R.string.error_text_unknown)
+            }
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
                 adRemoveViewModel.showLoadingView(false)
                 kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
-
-                rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() =
-                        kermit.d { "AdRemoveBottomSheet onAdDismissedFullScreenContent" }
-
-                    override fun onAdFailedToShowFullScreenContent(adError: AdError?) =
-                        context?.let {
-                            kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToShow" }
-                            Toast.show(it, R.string.error_text_unknown)
-                        }.toUnit()
-
-                    override fun onAdShowedFullScreenContent() =
-                        kermit.d { "AdRemoveBottomSheet onAdShowedFullScreenContent" }
-                }
 
                 rewardedAd.show(requireActivity()) {
                     kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
@@ -219,6 +209,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
         .also {
             kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
+            adRemoveViewModel.showLoadingView(false)
             it.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
         }.whether(
             { isReady },

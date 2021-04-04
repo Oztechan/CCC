@@ -143,8 +143,14 @@
 
     <style name="BaseBottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_eight</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
         <item name="android:background">@color/color_background_weak</item>
         <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="BaseBottomSheetLayout" parent="MatchStyle">
+        <item name="android:background">@color/color_background_weak</item>
     </style>
 
     <!-- Text -->
@@ -522,7 +528,7 @@
 
     <!-- Ad Remove -->
     <style name="AdRemoveItemLayoutStyle" parent="WideStyle">
-        <item name="android:background">@color/color_background_weak</item>
+        <item name="android:background">@drawable/selector_bar</item>
     </style>
 
     <style name="TextAdRemoveItemStyle" parent="WrapStyle">
