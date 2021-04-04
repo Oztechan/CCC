@@ -27,7 +27,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.C
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
-import com.github.mustafaozhan.ccc.common.error.BackendCanBeDownException
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -91,7 +90,7 @@ class CalculatorViewModel(
     } ?: clientScope.launch {
         apiRepository
             .getRatesViaBackend(settingsRepository.currentBase)
-            .execute(::getRatesSuccess, ::getRatesViaBackendFailed)
+            .execute(::getRatesSuccess, ::getRatesFailed)
     }
 
     private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
@@ -102,23 +101,8 @@ class CalculatorViewModel(
             offlineRatesDao.insertOfflineRates(it)
         }
 
-    private fun getRatesViaBackendFailed(t: Throwable) {
-        clientScope.launch {
-            kermit.w(t) { "CalculatorViewModel getRateViaBackendFailed" }
-            apiRepository
-                .getRatesViaApi(settingsRepository.currentBase)
-                .execute(
-                    {
-                        kermit.e(BackendCanBeDownException()) { "CalculatorViewModel getRateViaBackendFailed" }
-                        getRatesSuccess(it)
-                    },
-                    ::getRatesViaApiFailed
-                )
-        }
-    }
-
-    private fun getRatesViaApiFailed(t: Throwable) {
-        kermit.w(t) { "CalculatorViewModel getRateViaApiFailed" }
+    private fun getRatesFailed(t: Throwable) {
+        kermit.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesDao.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
