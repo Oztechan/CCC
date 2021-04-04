@@ -19,8 +19,8 @@ import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
@@ -89,7 +89,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     txtSymbol.text = " $symbol"
                 }
 
-                binding.loadingView.visibleIf(loading)
+                binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
             }
         }

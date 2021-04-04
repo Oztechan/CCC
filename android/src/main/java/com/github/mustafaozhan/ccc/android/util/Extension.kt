@@ -82,7 +82,12 @@ fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String)
         .firstOrNull { it.destination.id == destinationId }
         ?.savedStateHandle?.set(key, result)
 
-fun View.visibleIf(visible: Boolean) = if (visible) visible() else gone()
+fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
+
+fun View.showLoading(visible: Boolean) = if (visible) {
+    visible()
+    bringToFront()
+} else gone()
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE

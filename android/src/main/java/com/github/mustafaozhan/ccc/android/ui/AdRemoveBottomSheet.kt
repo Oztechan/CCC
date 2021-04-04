@@ -25,7 +25,7 @@ import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
-import com.github.mustafaozhan.ccc.android.util.visibleIf
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -87,7 +87,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun observeStates() = lifecycleScope.launchWhenStarted {
         adRemoveViewModel.state.collect {
             with(it) {
-                binding.loadingView.visibleIf(loading)
+                binding.loadingView.showLoading(loading)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
         }
@@ -209,6 +209,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onBillingSetupFinished(billingResult: BillingResult) = billingClient
         .also {
             kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
+            adRemoveViewModel.showLoadingView(false)
             it.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
         }.whether(
             { isReady },
