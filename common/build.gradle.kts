@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -150,21 +151,9 @@ configure<BuildKonfigExtension> {
     val props = project.getSecretProperties()
 
     defaultConfigs {
-        buildConfigField(
-            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
-            Keys.backendUrl,
-            props.get(Keys.backendUrl, Fakes.privateUrl)
-        )
-        buildConfigField(
-            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
-            Keys.apiUrl,
-            props.get(Keys.apiUrl, Fakes.privateUrl)
-        )
-        buildConfigField(
-            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
-            Keys.devUrl,
-            props.get(Keys.devUrl, Fakes.privateUrl)
-        )
+        buildConfigField(STRING, Keys.backendUrl, props.get(Keys.backendUrl, Fakes.privateUrl))
+        buildConfigField(STRING, Keys.apiUrl, props.get(Keys.apiUrl, Fakes.privateUrl))
+        buildConfigField(STRING, Keys.devUrl, props.get(Keys.devUrl, Fakes.privateUrl))
     }
 }
 
