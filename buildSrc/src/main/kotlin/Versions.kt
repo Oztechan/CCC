@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val kotlin = "1.4.32"
-    const val androidPlugin = "7.0.0-alpha12"
+    const val androidPlugin = "7.0.0-alpha13"
     const val compose = "0.4.0-build178"
     const val androidMaterial = "1.4.0-alpha01"
     const val constraintLayout = "2.1.0-beta01"
@@ -22,7 +22,7 @@ object Versions {
     const val anrWatchDog = "1.4.0"
     const val gsm = "4.3.5"
     const val crashlytics = "2.5.2"
-    const val admob = "19.8.0"
+    const val admob = "20.0.0"
     const val navigation = "2.3.4"
     const val playCore = "1.10.0"
     const val dateTime = "0.1.1"
