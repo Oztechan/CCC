@@ -4,9 +4,9 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.di.DATABASE_NAME
 import com.github.mustafaozhan.ccc.common.model.PlatformType
-import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver

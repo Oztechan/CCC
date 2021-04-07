@@ -47,12 +47,9 @@ kotlin {
 
                     implementation(multiplatformSettings)
                     implementation(dateTime)
-
                     implementation(koinCore)
-
                     implementation(ktorLogging)
                     implementation(ktorSerialization)
-
                     implementation(sqldelightRuntime)
                     implementation(sqldelightCoroutineExtensions)
                 }
@@ -139,9 +136,11 @@ android {
 }
 
 sqldelight {
-    database(Database.name) {
-        packageName = Database.packageName
-        sourceFolders = listOf(Database.sourceFolders)
+    with(Database) {
+        database(dbName) {
+            packageName = dbPackageName
+            sourceFolders = listOf(dbSourceFolders)
+        }
     }
 }
 
@@ -158,7 +157,5 @@ configure<BuildKonfigExtension> {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
+    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
 }
