@@ -9,10 +9,7 @@ import com.github.mustafaozhan.ccc.backend.routes.getCurrencyByName
 import com.github.mustafaozhan.ccc.backend.routes.getError
 import com.github.mustafaozhan.ccc.backend.routes.getRoot
 import com.github.mustafaozhan.logmob.kermit
-import io.ktor.application.install
-import io.ktor.features.ContentNegotiation
 import io.ktor.routing.routing
-import io.ktor.serialization.json
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
@@ -31,10 +28,6 @@ fun main() {
     ) {
 
         kermit.d { "BackendApp main" }
-
-        install(ContentNegotiation) {
-            json()
-        }
 
         apiController.startSyncApi()
 
