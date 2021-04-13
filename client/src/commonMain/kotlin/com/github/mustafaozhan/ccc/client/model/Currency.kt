@@ -17,11 +17,11 @@ data class Currency(
     fun getVariablesOneLine() = "$name $longName $symbol"
 }
 
-fun com.github.mustafaozhan.ccc.common.sql.Currency.toModel() = Currency(
+fun com.github.mustafaozhan.ccc.common.db.sql.Currency.toModel() = Currency(
     name, longName, symbol, rate, isActive == 1.toLong()
 )
 
-fun List<com.github.mustafaozhan.ccc.common.sql.Currency>.toModelList(): List<Currency> {
+fun List<com.github.mustafaozhan.ccc.common.db.sql.Currency>.toModelList(): List<Currency> {
     val temp = mutableListOf<Currency>()
     forEach {
         temp.add(
@@ -33,7 +33,7 @@ fun List<com.github.mustafaozhan.ccc.common.sql.Currency>.toModelList(): List<Cu
     return temp.toList()
 }
 
-fun Flow<List<com.github.mustafaozhan.ccc.common.sql.Currency>>.mapToModel(): Flow<List<Currency>> {
+fun Flow<List<com.github.mustafaozhan.ccc.common.db.sql.Currency>>.mapToModel(): Flow<List<Currency>> {
     return this.map {
         mutableListOf<Currency>().apply {
             it.forEach {

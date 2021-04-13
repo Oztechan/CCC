@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common.fake
 
-import com.github.mustafaozhan.ccc.common.sql.Currency
-import com.github.mustafaozhan.ccc.common.sql.CurrencyQueries
+import com.github.mustafaozhan.ccc.common.db.sql.Currency
+import com.github.mustafaozhan.ccc.common.db.sql.CurrencyQueries
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn

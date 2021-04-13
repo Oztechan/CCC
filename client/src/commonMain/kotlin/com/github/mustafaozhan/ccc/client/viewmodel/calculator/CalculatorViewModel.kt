@@ -25,8 +25,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Co
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
