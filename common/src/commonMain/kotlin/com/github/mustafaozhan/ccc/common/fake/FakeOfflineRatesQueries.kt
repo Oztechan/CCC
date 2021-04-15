@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common.fake
 
-import com.github.mustafaozhan.ccc.common.sql.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.sql.Offline_rates
+import com.github.mustafaozhan.ccc.common.db.sql.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.db.sql.Offline_rates
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.TransactionWithReturn
 import com.squareup.sqldelight.TransactionWithoutReturn

@@ -3,7 +3,7 @@
  */
 
 object Database {
-    const val name = "CurrencyConverterCalculatorDatabase"
-    const val packageName = "${ProjectSettings.packageName}.common.sql"
-    const val sourceFolders = "database"
+    const val dbName = "CurrencyConverterCalculatorDatabase"
+    const val dbPackageName = "${ProjectSettings.packageName}.common.db.sql"
+    const val dbSourceFolders = "kotlin"
 }

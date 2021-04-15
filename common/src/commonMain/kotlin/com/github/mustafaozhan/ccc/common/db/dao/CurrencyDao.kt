@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.db
+package com.github.mustafaozhan.ccc.common.db.dao
 
-import com.github.mustafaozhan.ccc.common.sql.CurrencyQueries
+import com.github.mustafaozhan.ccc.common.db.sql.CurrencyQueries
 import com.github.mustafaozhan.logmob.kermit
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList

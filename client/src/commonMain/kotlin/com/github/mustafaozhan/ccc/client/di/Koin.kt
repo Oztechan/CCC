@@ -5,37 +5,24 @@
 package com.github.mustafaozhan.ccc.client.di
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.initCommon
 import com.github.mustafaozhan.logmob.kermit
 import org.koin.core.Koin
-import org.koin.core.KoinApplication
 import org.koin.core.definition.BeanDefinition
 import org.koin.core.definition.Definition
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
-import org.koin.dsl.module
 import kotlin.reflect.KClass
 
-fun initClient(appModule: Module, forTest: Boolean = false): KoinApplication = initCommon(
-    appModule.plus(viewModelModule), forTest
+fun initClient(
+    appModule: Module,
+    forTest: Boolean = false
+) = initCommon(
+    appModule.plus(getClientModule()),
+    forTest
 ).also {
     kermit.d { "Koin initClient" }
-}
-
-private val viewModelModule = module {
-    viewModelDefinition { SettingsViewModel(get(), get(), get(), get()) }
-    viewModelDefinition { MainViewModel(get()) }
-    viewModelDefinition { CurrenciesViewModel(get(), get()) }
-    viewModelDefinition { CalculatorViewModel(get(), get(), get(), get()) }
-    viewModelDefinition { BarViewModel(get()) }
-    viewModelDefinition { AdRemoveViewModel(get()) }
 }
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(

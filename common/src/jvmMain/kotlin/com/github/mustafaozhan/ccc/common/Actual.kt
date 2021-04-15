@@ -4,8 +4,8 @@
 
 package com.github.mustafaozhan.ccc.common
 
+import com.github.mustafaozhan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.model.PlatformType
-import com.github.mustafaozhan.ccc.common.sql.CurrencyConverterCalculatorDatabase
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.JvmPreferencesSettings
 import com.russhwolf.settings.Settings

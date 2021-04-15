@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.backend.di
 import com.github.mustafaozhan.ccc.backend.controller.ApiController
 import com.github.mustafaozhan.ccc.backend.controller.RootingController
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.initCommon
 

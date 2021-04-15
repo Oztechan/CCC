@@ -3,7 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.common.model
 
-import com.github.mustafaozhan.ccc.common.sql.Offline_rates
+import com.github.mustafaozhan.ccc.common.db.sql.Offline_rates
 
 data class Rates(
     var base: String = "",

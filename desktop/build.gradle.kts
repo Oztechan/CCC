@@ -37,7 +37,7 @@ compose.desktop {
 // todo remove this when the kotlin and compose version is capable
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        freeCompilerArgs += listOf(
+        freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xallow-jvm-ir-dependencies",
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
