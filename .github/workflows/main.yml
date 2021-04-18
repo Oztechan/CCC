@@ -27,7 +27,7 @@ jobs:
         env:
           ANDROID_FIREBASE_CONFIG: ${{ secrets.ANDROID_FIREBASE_CONFIG }}
           IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
-        run: echo ANDROID_FIREBASE_CONFIG > android/google-services.json && echo IOS_FIREBASE_CONFIG > ios/CCC/Resources/GoogleService-Info.plist
+        run: rm android/google-services.json && echo ANDROID_FIREBASE_CONFIG > android/google-services.json && echo IOS_FIREBASE_CONFIG > ios/CCC/Resources/GoogleService-Info.plist
 
       - name: Decode secret.properties
         env:
