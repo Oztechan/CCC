@@ -19,7 +19,7 @@
 		5C693EBA25C4AFF800C9373E /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C693EB925C4AFF800C9373E /* SelectCurrencyView.swift */; };
 		5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E673F25C5A711001CC0D6 /* SliderView.swift */; };
 		5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E674C25C602BE001CC0D6 /* SnackBar.swift */; };
-		5C7EAA11260B6E1F00EEA866 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C7EAA10260B6E1F00EEA866 /* GoogleService-Info.plist */; };
+		5C8EB4A9260CB5E200DC4A90 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */; };
 		5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */; };
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
@@ -55,7 +55,7 @@
 		5C693EB925C4AFF800C9373E /* SelectCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyView.swift; sourceTree = "<group>"; };
 		5C6E673F25C5A711001CC0D6 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		5C6E674C25C602BE001CC0D6 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
-		5C7EAA10260B6E1F00EEA866 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../Desktop/FantasyPremierLeague/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSEED.swift; sourceTree = "<group>"; };
 		5C9A59BA25C350DE006745B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 			children = (
 				7555FF84242A565B00829871 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
-				5C7EAA10260B6E1F00EEA866 /* GoogleService-Info.plist */,
+				5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -221,6 +221,7 @@
 				7555FF79242A565900829871 /* Resources */,
 				7555FFB4242A642300829871 /* Embed Frameworks */,
 				01D0AF03C2FB2875D1357E9D /* [CP] Embed Pods Frameworks */,
+				5CBCF61F262CC83300B0B248 /* Firebase */,
 			);
 			buildRules = (
 			);
@@ -271,7 +272,7 @@
 			files = (
 				7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */,
 				7555FF85242A565B00829871 /* Assets.xcassets in Resources */,
-				5C7EAA11260B6E1F00EEA866 /* GoogleService-Info.plist in Resources */,
+				5C8EB4A9260CB5E200DC4A90 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,9 +296,29 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CCC/Pods-CCC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7555FFB5242A651A00829871 /* ShellScript */ = {
+		5CBCF61F262CC83300B0B248 /* Firebase */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = Firebase;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/CCC/Resources/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+		};
+		7555FFB5242A651A00829871 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -402,7 +423,6 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -463,7 +483,6 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

@@ -7,6 +7,9 @@ PODS:
     - FirebaseAnalytics (~> 7.9.0)
   - Firebase/CoreOnly (7.9.0):
     - FirebaseCore (= 7.9.0)
+  - Firebase/Crashlytics (7.9.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 7.9.0)
   - FirebaseAnalytics (7.9.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
@@ -25,6 +28,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30907.0)
+  - FirebaseCrashlytics (7.9.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleDataTransport (~> 8.0)
+    - nanopb (~> 2.30907.0)
+    - PromisesObjC (~> 1.2)
   - FirebaseInstallations (7.9.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -73,6 +82,7 @@ PODS:
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
   - Firebase/Analytics
+  - Firebase/Crashlytics
   - NavigationStack
   - SwiftMessages
 
@@ -82,6 +92,7 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCrashlytics
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -101,6 +112,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: 31b1269830dfe16687db3c60b76082c12bd6d527
   FirebaseCore: 0798738ad1ae0fda67e17c7b9081241c431c6859
   FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
+  FirebaseCrashlytics: 73cfa8d24d573ed1ff648acce3900df39ca32d77
   FirebaseInstallations: 5e777e6640fa060405cc7632447b6c5ca5af4742
   GoogleAppMeasurement: 120eec8803fe65a4a7475fb3d3d59a61d0e1a866
   GoogleDataTransport: b006084b73915a42c28a3466961a4edda3065da6
@@ -110,6 +122,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SwiftMessages: 55274ca3a239062398603008ed81924cfd1fe798
 
-PODFILE CHECKSUM: e3b320a394911bee3bb225ec68accaa625c1ac5a
+PODFILE CHECKSUM: 88fd4bdc4816e534511b7ad5d1b56f2eaacb7eb5
 
 COCOAPODS: 1.10.1
