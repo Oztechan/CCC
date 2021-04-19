@@ -23,12 +23,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode google-services.json
-        env:
-          ANDROID_FIREBASE_CONFIG: ${{ secrets.ANDROID_FIREBASE_CONFIG }}
-          IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
-        run: rm android/google-services.json && echo ANDROID_FIREBASE_CONFIG > android/google-services.json && echo IOS_FIREBASE_CONFIG > ios/CCC/Resources/GoogleService-Info.plist
-
       - name: Decode secret.properties
         env:
           SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
@@ -48,7 +42,10 @@ jobs:
           pod install
 
       - name: Xcode build
+        env:
+          IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
         run: cd ios &&
+          echo IOS_FIREBASE_CONFIG > CCC/Resources/GoogleService-Info.plist
           xcrun xcodebuild
           -workspace CCC.xcworkspace
           -scheme CCC
