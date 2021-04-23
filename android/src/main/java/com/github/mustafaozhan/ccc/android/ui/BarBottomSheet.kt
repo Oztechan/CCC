@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
@@ -55,7 +56,7 @@ class BarBottomSheet :
         binding.recyclerViewBar.adapter = barAdapter
     }
 
-    private fun observeStates() = lifecycleScope.launchWhenStarted {
+    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         barViewModel.state.collect {
             with(it) {
                 barAdapter.submitList(currencyList)
@@ -71,7 +72,7 @@ class BarBottomSheet :
         }
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         barViewModel.effect.collect { viewEffect ->
             kermit.d { "BarBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {

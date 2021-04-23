@@ -8,7 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -84,7 +85,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         binding.recyclerViewBar.adapter = removeAdsAdapter
     }
 
-    private fun observeStates() = lifecycleScope.launchWhenStarted {
+    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         adRemoveViewModel.state.collect {
             with(it) {
                 binding.loadingView.showLoading(loading)
@@ -93,7 +94,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         }
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         adRemoveViewModel.effect.collect { viewEffect ->
             kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {

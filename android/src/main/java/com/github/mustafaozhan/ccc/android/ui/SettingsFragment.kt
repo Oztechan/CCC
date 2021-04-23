@@ -9,7 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
@@ -102,7 +103,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = lifecycleScope.launchWhenStarted {
+    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         settingsViewModel.state.collect {
             with(it) {
                 binding.loadingView.visibleIf(loading)
@@ -127,7 +128,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         settingsViewModel.effect.collect { viewEffect ->
             kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {

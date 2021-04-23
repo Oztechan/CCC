@@ -12,7 +12,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
@@ -81,7 +82,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
-    private fun observeStates() = lifecycleScope.launchWhenStarted {
+    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         currenciesViewModel.state.collect {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
@@ -109,7 +110,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         }
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         currenciesViewModel.effect.collect { viewEffect ->
             kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {

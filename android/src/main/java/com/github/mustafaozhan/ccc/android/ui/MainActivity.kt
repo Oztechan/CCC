@@ -6,7 +6,8 @@ package com.github.mustafaozhan.ccc.android.ui
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
@@ -35,7 +36,7 @@ class MainActivity : BaseActivity() {
         mainViewModel.checkReview()
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = addRepeatingJob(Lifecycle.State.STARTED) {
         mainViewModel.effect.collect { viewEffect ->
             kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
