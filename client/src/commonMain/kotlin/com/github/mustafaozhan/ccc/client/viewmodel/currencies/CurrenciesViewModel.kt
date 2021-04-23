@@ -18,13 +18,12 @@ import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -34,10 +33,10 @@ class CurrenciesViewModel(
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
-    override val state: StateFlow<CurrenciesState> = _state
+    override val state = _state.asStateFlow()
 
-    private val _effect = Channel<CurrenciesEffect>(1)
-    override val effect = _effect.receiveAsFlow().conflate()
+    private val _effect = MutableSharedFlow<CurrenciesEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val event = this as CurrenciesEvent
 
@@ -70,7 +69,7 @@ class CurrenciesViewModel(
         .whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { settingsRepository.firstRun }
         ?.mapTo { clientScope }
-        ?.launch { _effect.send(CurrenciesEffect.FewCurrency) }
+        ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
         { isEmptyOrNullString() },
@@ -82,7 +81,7 @@ class CurrenciesViewModel(
     )?.let {
         (state.value.currencyList.firstOrNull { it.isActive }?.name ?: "").let { newBase ->
             settingsRepository.currentBase = newBase
-            clientScope.launch { _effect.send(CurrenciesEffect.ChangeBase(newBase)) }
+            clientScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
         }
     }
 
@@ -127,10 +126,10 @@ class CurrenciesViewModel(
         data.unFilteredList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
-            ?.let { _effect.send(CurrenciesEffect.FewCurrency) }
+            ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
                 settingsRepository.firstRun = false
-                _effect.send(CurrenciesEffect.OpenCalculator)
+                _effect.emit(CurrenciesEffect.OpenCalculator)
             }
     }.toUnit()
 
@@ -144,7 +143,7 @@ class CurrenciesViewModel(
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)
         } else {
-            _effect.send(CurrenciesEffect.Back)
+            _effect.emit(CurrenciesEffect.Back)
         }.run {
             filterList("")
         }

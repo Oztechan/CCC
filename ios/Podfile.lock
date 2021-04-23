@@ -1,5 +1,5 @@
 PODS:
-  - client (2.2.616)
+  - client (2.2.634)
   - Loaf (0.7.0)
   - NavigationStack (1.0.2)
   - SwiftMessages (9.0.0):
@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
     :path: "../client/client.podspec"
 
 SPEC CHECKSUMS:
-  client: e88af0048659de165b6f21e1e159f35060819ee2
+  client: c0472c7efd754aab0a052ff8d6dc2d17e55a2ae0
   Loaf: d69937cd00649f3fa260beb8b7aef0a1feb861ef
   NavigationStack: bb6c4f3d1b9fe92f1f6d47370f73c9233ad56272
   SwiftMessages: 55274ca3a239062398603008ed81924cfd1fe798

@@ -18,14 +18,13 @@ import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
 import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -37,12 +36,12 @@ class SettingsViewModel(
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
-    override val state: StateFlow<SettingsState> = _state
+    override val state = _state.asStateFlow()
 
     override val event = this as SettingsEvent
 
-    private val _effect = Channel<SettingsEffect>(1)
-    override val effect = _effect.receiveAsFlow().conflate()
+    private val _effect = MutableSharedFlow<SettingsEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val data = SettingsData()
     // endregion
@@ -66,7 +65,7 @@ class SettingsViewModel(
     private suspend fun synchroniseRates() {
         _state.update(loading = true)
 
-        _effect.send(SettingsEffect.Synchronising)
+        _effect.emit(SettingsEffect.Synchronising)
         currencyDao.getActiveCurrencies()
             .toModelList()
             .forEach { (name) ->
@@ -78,7 +77,7 @@ class SettingsViewModel(
                 )
             }
 
-        _effect.send(SettingsEffect.Synchronised)
+        _effect.emit(SettingsEffect.Synchronised)
         _state.update(loading = false)
         data.synced = true
     }
@@ -86,7 +85,7 @@ class SettingsViewModel(
     fun updateTheme(theme: AppTheme) = clientScope.launch {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
-        _effect.send(SettingsEffect.ChangeTheme(theme.themeValue))
+        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }.toUnit()
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
@@ -103,48 +102,48 @@ class SettingsViewModel(
     // region Event
     override fun onBackClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onBackClick" }
-        _effect.send(SettingsEffect.Back)
+        _effect.emit(SettingsEffect.Back)
     }.toUnit()
 
     override fun onCurrenciesClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onCurrenciesClick" }
-        _effect.send(SettingsEffect.OpenCurrencies)
+        _effect.emit(SettingsEffect.OpenCurrencies)
     }.toUnit()
 
     override fun onFeedBackClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onFeedBackClick" }
-        _effect.send(SettingsEffect.FeedBack)
+        _effect.emit(SettingsEffect.FeedBack)
     }.toUnit()
 
     override fun onShareClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onShareClick" }
-        _effect.send(SettingsEffect.Share)
+        _effect.emit(SettingsEffect.Share)
     }.toUnit()
 
     override fun onSupportUsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSupportUsClick" }
-        _effect.send(SettingsEffect.SupportUs)
+        _effect.emit(SettingsEffect.SupportUs)
     }.toUnit()
 
     override fun onOnGitHubClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onOnGitHubClick" }
-        _effect.send(SettingsEffect.OnGitHub)
+        _effect.emit(SettingsEffect.OnGitHub)
     }.toUnit()
 
     override fun onRemoveAdsClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onRemoveAdsClick" }
-        _effect.send(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
+        _effect.emit(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
     }.toUnit()
 
     override fun onThemeClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onThemeClick" }
-        _effect.send(SettingsEffect.ThemeDialog)
+        _effect.emit(SettingsEffect.ThemeDialog)
     }.toUnit()
 
     override fun onSyncClick() = clientScope.launch {
         kermit.d { "SettingsViewModel onSyncClick" }
         if (data.synced) {
-            _effect.send(SettingsEffect.OnlyOneTimeSync)
+            _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {
             synchroniseRates()
         }
