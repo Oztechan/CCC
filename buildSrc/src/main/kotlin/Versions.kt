@@ -6,14 +6,14 @@
 object Versions {
     const val kotlin = "1.4.32"
     const val androidPlugin = "7.0.0-alpha14"
-    const val compose = "0.4.0-build178"
+    const val compose = "0.4.0-build184"
     const val androidMaterial = "1.4.0-alpha02"
     const val constraintLayout = "2.1.0-beta01"
     const val ktor = "1.5.3"
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val react = "17.0.1-pre.148-kotlin-1.4.30"
-    const val koin = "3.0.1-beta-2"
+    const val koin = "3.0.1"
     const val kermit = "0.1.8"
     const val multiplatformSettings = "0.7.4"
     const val firebaseCore = "18.0.3"
@@ -32,9 +32,9 @@ object Versions {
 
     // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
     const val sqlDelight = "1.4.3"
-    const val viewModelExt = "2.4.0-alpha01"
+    const val lifecycle = "2.4.0-alpha01"
     const val mokoResources = "0.15.0"
     const val dependencyUpdates = "0.38.0"
-    const val buildHealth = "0.71.0"
+    const val buildHealth = "0.72.0"
     const val buildKonfig = "0.7.0"
 }

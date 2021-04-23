@@ -120,6 +120,7 @@ dependencies {
         implementation(playCore)
         implementation(koinAndroid)
         implementation(billing)
+        implementation(lifecycleRuntime)
         coreLibraryDesugaring(desugaring)
         debugImplementation(leakCanary)
     }
