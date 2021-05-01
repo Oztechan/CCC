@@ -5,11 +5,10 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.test
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,18 +19,19 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     }
 
     @Test
-    fun onItemClick() = runTest {
+    fun onItemClick() = with(viewModel) {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
-        viewModel.event.onItemClick(currency)
-        assertEquals(
-            BarEffect.ChangeBase(currency.name),
-            viewModel.effect.first()
-        )
+        effect.test({
+            event.onItemClick(currency)
+        }, {
+            assertEquals(BarEffect.ChangeBase(currency.name), it)
+        })
     }
 
     @Test
-    fun onSelectClick() = runTest {
+    fun onSelectClick() = viewModel.effect.test({
         viewModel.event.onSelectClick()
-        assertEquals(BarEffect.OpenCurrencies, viewModel.effect.first())
-    }
+    }, {
+        assertEquals(BarEffect.OpenCurrencies, it)
+    })
 }

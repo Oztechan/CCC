@@ -5,12 +5,10 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import com.github.mustafaozhan.ccc.client.util.test
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -23,74 +21,83 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun updateTheme() = runTest {
+    fun updateTheme() = with(viewModel) {
         val appTheme = AppTheme.DARK
-        viewModel.updateTheme(appTheme)
-        delay(250)
-        assertEquals(appTheme, viewModel.state.first().appThemeType)
-        assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), viewModel.effect.first())
+        effect.test({
+            viewModel.updateTheme(appTheme)
+        }, {
+            assertEquals(appTheme, viewModel.state.value.appThemeType)
+            assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), it)
+        })
     }
 
     // Event
     @Test
-    fun onBackClick() = runTest {
+    fun onBackClick() = viewModel.effect.test({
         viewModel.event.onBackClick()
-        assertEquals(SettingsEffect.Back, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.Back }
+    })
 
     @Test
-    fun onCurrenciesClick() = runTest {
+    fun onCurrenciesClick() = viewModel.effect.test({
         viewModel.event.onCurrenciesClick()
-        assertEquals(SettingsEffect.OpenCurrencies, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.OpenCurrencies }
+    })
 
     @Test
-    fun onFeedBackClick() = runTest {
+    fun onFeedBackClick() = viewModel.effect.test({
         viewModel.event.onFeedBackClick()
-        assertEquals(SettingsEffect.FeedBack, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.FeedBack }
+    })
 
     @Test
-    fun onShareClick() = runTest {
+    fun onShareClick() = viewModel.effect.test({
         viewModel.event.onShareClick()
-        assertEquals(SettingsEffect.Share, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.Share }
+    })
 
     @Test
-    fun onSupportUsClick() = runTest {
+    fun onSupportUsClick() = viewModel.effect.test({
         viewModel.event.onSupportUsClick()
-        assertEquals(SettingsEffect.SupportUs, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.SupportUs }
+    })
 
     @Test
-    fun onOnGitHubClick() = runTest {
+    fun onOnGitHubClick() = viewModel.effect.test({
         viewModel.event.onOnGitHubClick()
-        assertEquals(SettingsEffect.OnGitHub, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.OnGitHub }
+    })
 
     @Test
-    fun onRemoveAdsClick() = runTest {
+    fun onRemoveAdsClick() = viewModel.effect.test({
         viewModel.event.onRemoveAdsClick()
-        assertEquals(
-            if (viewModel.isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree,
-            viewModel.effect.first()
-        )
-    }
+    }, {
+        assertTrue {
+            if (viewModel.isRewardExpired()) {
+                it is SettingsEffect.RemoveAds
+            } else {
+                it is SettingsEffect.AlreadyAdFree
+            }
+        }
+    })
 
     @Test
-    fun onThemeClick() = runTest {
+    fun onThemeClick() = viewModel.effect.test({
         viewModel.event.onThemeClick()
-        assertEquals(SettingsEffect.ThemeDialog, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.ThemeDialog }
+    })
 
     @Test
-    fun onSyncClick() = runTest {
+    fun onSyncClick() = viewModel.effect.test({
         viewModel.event.onSyncClick()
-        delay(200)
-        assertEquals(SettingsEffect.Synchronising, viewModel.effect.first())
-        assertTrue { viewModel.data.synced }
-
-        viewModel.event.onSyncClick()
-        assertEquals(SettingsEffect.OnlyOneTimeSync, viewModel.effect.first())
-    }
+    }, {
+        assertTrue { it is SettingsEffect.Synchronising }
+    })
 }
