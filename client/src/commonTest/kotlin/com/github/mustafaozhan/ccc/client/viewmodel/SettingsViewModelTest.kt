@@ -5,7 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.util.test
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
@@ -23,61 +24,61 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun updateTheme() = with(viewModel) {
         val appTheme = AppTheme.DARK
-        effect.test({
+        effect.before {
             viewModel.updateTheme(appTheme)
-        }, {
+        }.after {
             assertEquals(appTheme, viewModel.state.value.appThemeType)
             assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), it)
-        })
+        }
     }
 
     // Event
     @Test
-    fun onBackClick() = viewModel.effect.test({
+    fun onBackClick() = viewModel.effect.before {
         viewModel.event.onBackClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.Back }
-    })
+    }
 
     @Test
-    fun onCurrenciesClick() = viewModel.effect.test({
+    fun onCurrenciesClick() = viewModel.effect.before {
         viewModel.event.onCurrenciesClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.OpenCurrencies }
-    })
+    }
 
     @Test
-    fun onFeedBackClick() = viewModel.effect.test({
+    fun onFeedBackClick() = viewModel.effect.before {
         viewModel.event.onFeedBackClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.FeedBack }
-    })
+    }
 
     @Test
-    fun onShareClick() = viewModel.effect.test({
+    fun onShareClick() = viewModel.effect.before {
         viewModel.event.onShareClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.Share }
-    })
+    }
 
     @Test
-    fun onSupportUsClick() = viewModel.effect.test({
+    fun onSupportUsClick() = viewModel.effect.before {
         viewModel.event.onSupportUsClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.SupportUs }
-    })
+    }
 
     @Test
-    fun onOnGitHubClick() = viewModel.effect.test({
+    fun onOnGitHubClick() = viewModel.effect.before {
         viewModel.event.onOnGitHubClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.OnGitHub }
-    })
+    }
 
     @Test
-    fun onRemoveAdsClick() = viewModel.effect.test({
+    fun onRemoveAdsClick() = viewModel.effect.before {
         viewModel.event.onRemoveAdsClick()
-    }, {
+    }.after {
         assertTrue {
             if (viewModel.isRewardExpired()) {
                 it is SettingsEffect.RemoveAds
@@ -85,19 +86,19 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
                 it is SettingsEffect.AlreadyAdFree
             }
         }
-    })
+    }
 
     @Test
-    fun onThemeClick() = viewModel.effect.test({
+    fun onThemeClick() = viewModel.effect.before {
         viewModel.event.onThemeClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.ThemeDialog }
-    })
+    }
 
     @Test
-    fun onSyncClick() = viewModel.effect.test({
+    fun onSyncClick() = viewModel.effect.before {
         viewModel.event.onSyncClick()
-    }, {
+    }.after {
         assertTrue { it is SettingsEffect.Synchronising }
-    })
+    }
 }

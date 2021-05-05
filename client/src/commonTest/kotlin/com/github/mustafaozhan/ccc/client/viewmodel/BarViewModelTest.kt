@@ -5,7 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.test
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
@@ -21,17 +22,17 @@ class BarViewModelTest : BaseViewModelTest<BarViewModel>() {
     @Test
     fun onItemClick() = with(viewModel) {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
-        effect.test({
+        effect.before {
             event.onItemClick(currency)
-        }, {
+        }.after {
             assertEquals(BarEffect.ChangeBase(currency.name), it)
-        })
+        }
     }
 
     @Test
-    fun onSelectClick() = viewModel.effect.test({
+    fun onSelectClick() = viewModel.effect.before {
         viewModel.event.onSelectClick()
-    }, {
+    }.after {
         assertEquals(BarEffect.OpenCurrencies, it)
-    })
+    }
 }

@@ -7,11 +7,11 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.test
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -24,79 +24,85 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun setLoading() = runTest {
-        viewModel.showLoadingView(true)
-        assertEquals(true, viewModel.state.value.loading)
-
-        viewModel.showLoadingView(false)
-        assertEquals(false, viewModel.state.value.loading)
+    fun setLoading() {
+        viewModel.state.before {
+            viewModel.showLoadingView(true)
+        }.after {
+            assertEquals(true, it?.loading)
+        }
+        viewModel.state.before {
+            viewModel.showLoadingView(false)
+        }.after {
+            assertEquals(false, it?.loading)
+        }
     }
 
     @Test
     fun updateAddFreeDate() = RemoveAdType.values().forEach {
-        viewModel.effect.test({
+        viewModel.effect.before {
             viewModel.updateAddFreeDate(it)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RestartActivity, it)
-        })
+        }
     }
 
     @Test
-    fun restorePurchase() = viewModel.effect.test({
+    fun restorePurchase() = viewModel.effect.before {
         viewModel.restorePurchase(
             listOf(
                 PurchaseHistory(nowAsLong(), RemoveAdType.MONTH),
                 PurchaseHistory(nowAsLong(), RemoveAdType.YEAR)
             )
         )
-    }, {
+    }.after {
         assertTrue { it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.RestartActivity }
-    })
+    }
 
     @Test
-    fun addInAppBillingMethods() = runTest {
-        RemoveAdType.values()
-            .map { it.data }
-            .forEach {
-                viewModel.addInAppBillingMethods(listOf(it))
+    fun addInAppBillingMethods() = RemoveAdType.values()
+        .map { it.data }
+        .forEach { removeAdData ->
+            viewModel.state.before {
+                viewModel.addInAppBillingMethods(listOf(removeAdData))
+            }.after {
                 assertEquals(
                     true,
-                    viewModel.state.value.adRemoveTypes.contains(RemoveAdType.getBySku(it.skuId))
+                    it?.adRemoveTypes?.contains(RemoveAdType.getBySku(removeAdData.skuId))
                 )
             }
-    }
+        }
 
     // Event
     @Test
     fun onBillingClick() = with(viewModel) {
-        effect.test({
+        effect.before {
             event.onAdRemoveItemClick(RemoveAdType.VIDEO)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.VIDEO), it)
-        })
+        }
 
-        effect.test({
+        effect.before {
             event.onAdRemoveItemClick(RemoveAdType.MONTH)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.MONTH), it)
-        })
+        }
 
-        effect.test({
+        effect.before {
             event.onAdRemoveItemClick(RemoveAdType.QUARTER)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.QUARTER), it)
-        })
+        }
 
-        effect.test({
+        effect.before {
             event.onAdRemoveItemClick(RemoveAdType.HALF_YEAR)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.HALF_YEAR), it)
-        })
+        }
 
-        effect.test({
+        effect.before {
             event.onAdRemoveItemClick(RemoveAdType.YEAR)
-        }, {
+        }.after {
             assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.YEAR), it)
-        })
+        }
     }
 }

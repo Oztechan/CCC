@@ -5,8 +5,9 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.client.util.test
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
@@ -26,38 +27,38 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     // Event
     @Test
-    fun onSpinnerItemSelected() = with(viewModel) {
-        val clickedItem = "EUR"
-        event.onSpinnerItemSelected(clickedItem)
-        assertEquals(clickedItem, state.value.base)
+    fun onSpinnerItemSelected() = viewModel.state.before {
+        viewModel.event.onSpinnerItemSelected(currency.name)
+    }.after {
+        assertEquals(currency.name, it?.base)
     }
 
     @Test
-    fun onBarClick() = viewModel.effect.test({
+    fun onBarClick() = viewModel.effect.before {
         viewModel.event.onBarClick()
-    }, {
+    }.after {
         assertEquals(CalculatorEffect.OpenBar, it)
-    })
+    }
 
     @Test
-    fun onSettingsClicked() = viewModel.effect.test({
+    fun onSettingsClicked() = viewModel.effect.before {
         viewModel.event.onSettingsClicked()
-    }, {
+    }.after {
         assertEquals(CalculatorEffect.OpenSettings, it)
-    })
+    }
 
     @Test
-    fun onItemClick() = viewModel.effect.test({
+    fun onItemClick() = viewModel.state.before {
         viewModel.event.onItemClick(currency)
-    }, {
-        assertEquals(currency.name, viewModel.state.value.base)
-        assertEquals(currency.rate.toString(), viewModel.state.value.input)
-    })
+    }.after {
+        assertEquals(currency.name, it?.base)
+        assertEquals(currency.rate.toString(), it?.input)
+    }
 
     @Test
-    fun onItemLongClick() = viewModel.effect.test({
+    fun onItemLongClick() = viewModel.effect.before {
         viewModel.event.onItemLongClick(currency)
-    }, {
+    }.after {
         assertEquals(
             CalculatorEffect.ShowRate(
                 currency.getCurrencyConversionByRate(
@@ -68,28 +69,38 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
             ),
             it
         )
-    })
+    }
 
     @Test
     fun onKeyPress() = with(viewModel) {
         val key = "1"
 
-        event.onKeyPress(key)
-        assertEquals(key, state.value.input)
+        state.before {
+            event.onKeyPress(key)
+        }.after {
+            assertEquals(key, it?.input)
+        }
 
-        event.onKeyPress(KEY_AC)
-        assertEquals("", state.value.input)
+        state.before {
+            event.onKeyPress(KEY_AC)
+        }.after {
+            assertEquals("", it?.input)
+        }
 
-        event.onKeyPress(key)
-        event.onKeyPress(key)
-        event.onKeyPress(KEY_DEL)
-        assertEquals(key, state.value.input)
+        state.before {
+            event.onKeyPress(key)
+            event.onKeyPress(key)
+            event.onKeyPress(KEY_DEL)
+        }.after {
+            assertEquals(key, it?.input)
+        }
     }
 
     @Test
-    fun onBaseChanged() {
-        viewModel.event.onBaseChange(currency.name)
+    fun onBaseChanged() = viewModel.state.before {
+        viewModel.onBaseChange(currency.name)
+    }.after {
         assertNull(viewModel.data.rates)
-        assertEquals(currency.name, viewModel.state.value.base)
+        assertEquals(currency.name, it?.base)
     }
 }
