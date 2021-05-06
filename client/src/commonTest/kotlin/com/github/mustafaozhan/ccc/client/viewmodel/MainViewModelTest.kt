@@ -17,16 +17,16 @@ class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun onPause() {
-        viewModel.event.onPause()
-        assertEquals(false, viewModel.data.adVisibility)
-        assertEquals(true, viewModel.data.adJob.isCancelled)
+    fun onPause() = with(viewModel) {
+        event.onPause()
+        assertEquals(false, data.adVisibility)
+        assertEquals(true, data.adJob.isCancelled)
     }
 
     @Test
-    fun onResume() {
-        viewModel.event.onResume()
-        assertEquals(true, viewModel.data.adVisibility)
-        assertEquals(true, viewModel.data.adJob.isActive)
+    fun onResume() = with(viewModel) {
+        event.onResume()
+        assertEquals(true, data.adVisibility)
+        assertEquals(true, data.adJob.isActive)
     }
 }

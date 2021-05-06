@@ -16,11 +16,10 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdRemoveViewModel(
@@ -28,10 +27,10 @@ class AdRemoveViewModel(
 ) : BaseSEEDViewModel(), AdRemoveEvent {
     // region SEED
     private val _state = MutableStateFlow(AdRemoveState())
-    override val state: StateFlow<AdRemoveState> = _state
+    override val state = _state.asStateFlow()
 
-    private val _effect = Channel<AdRemoveEffect>(1)
-    override val effect = _effect.receiveAsFlow().conflate()
+    private val _effect = MutableSharedFlow<AdRemoveEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val event = this as AdRemoveEvent
 
@@ -48,7 +47,7 @@ class AdRemoveViewModel(
         startDate: Long = nowAsLong()
     ) = clientScope.launch {
         settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
-        _effect.send(AdRemoveEffect.RestartActivity)
+        _effect.emit(AdRemoveEffect.RestartActivity)
     }
 
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
@@ -60,7 +59,7 @@ class AdRemoveViewModel(
         ?.apply {
             RemoveAdType.getBySku(purchaseType.data.skuId)?.let {
                 updateAddFreeDate(it, this.purchaseDate)
-                clientScope.launch { _effect.send(AdRemoveEffect.AlreadyAdFree) }
+                clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
             }
         }
 
@@ -88,6 +87,6 @@ class AdRemoveViewModel(
     }
 
     override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launch {
-        _effect.send(AdRemoveEffect.RemoveAd(type))
+        _effect.emit(AdRemoveEffect.RemoveAd(type))
     }.toUnit()
 }

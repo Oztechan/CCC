@@ -34,15 +34,14 @@ import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -54,10 +53,10 @@ class CalculatorViewModel(
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
-    override val state: StateFlow<CalculatorState> = _state
+    override val state = _state.asStateFlow()
 
-    private val _effect = Channel<CalculatorEffect>(1)
-    override val effect = _effect.receiveAsFlow().conflate()
+    private val _effect = MutableSharedFlow<CalculatorEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val event = this as CalculatorEvent
 
@@ -112,7 +111,7 @@ class CalculatorViewModel(
             kermit.w { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
-                ?.let { _effect.send(CalculatorEffect.Error) }
+                ?.let { _effect.emit(CalculatorEffect.Error) }
             _state.update(rateState = RateState.Error)
         }
     }
@@ -130,10 +129,10 @@ class CalculatorViewModel(
                 state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { state.value.input.isEmpty() }
-                    ?.let { _effect.send(CalculatorEffect.FewCurrency) }
+                    ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
                     ?: run { getRates() }
             } ?: run {
-            _effect.send(CalculatorEffect.MaximumInput)
+            _effect.emit(CalculatorEffect.MaximumInput)
             _state.update(
                 input = input.dropLast(1),
                 loading = false
@@ -201,7 +200,7 @@ class CalculatorViewModel(
     override fun onItemLongClick(currency: Currency): Boolean {
         kermit.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
         clientScope.launch {
-            _effect.send(
+            _effect.emit(
                 CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
                         settingsRepository.currentBase,
@@ -216,7 +215,7 @@ class CalculatorViewModel(
 
     override fun onBarClick() = clientScope.launch {
         kermit.d { "CalculatorViewModel onBarClick" }
-        _effect.send(CalculatorEffect.OpenBar)
+        _effect.emit(CalculatorEffect.OpenBar)
     }.toUnit()
 
     override fun onSpinnerItemSelected(base: String) {
@@ -226,7 +225,7 @@ class CalculatorViewModel(
 
     override fun onSettingsClicked() = clientScope.launch {
         kermit.d { "CalculatorViewModel onSettingsClicked" }
-        _effect.send(CalculatorEffect.OpenSettings)
+        _effect.emit(CalculatorEffect.OpenSettings)
     }.toUnit()
 
     override fun onBaseChange(base: String) = currentBaseChanged(base)

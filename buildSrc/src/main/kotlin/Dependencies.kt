@@ -34,8 +34,10 @@ object Dependencies {
         const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
         const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
         const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
-        const val viewModelExt =
-            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelExt}"
+        const val lifecycleViewModel =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+        const val lifecycleRuntime =
+            "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
         const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val playCore = "com.google.android.play:core:${Versions.playCore}"
         const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"

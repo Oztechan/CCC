@@ -9,7 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
@@ -76,7 +77,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = lifecycleScope.launchWhenStarted {
+    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         calculatorViewModel.state.collect {
             with(it) {
                 calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
@@ -95,7 +96,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         }
     }
 
-    private fun observeEffect() = lifecycleScope.launchWhenStarted {
+    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
         calculatorViewModel.effect.collect { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {

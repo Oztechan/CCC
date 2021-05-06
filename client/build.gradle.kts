@@ -91,7 +91,7 @@ kotlin {
                     dependsOn(mobileMain)
                     implementation(androidMaterial)
                     implementation(koinAndroid)
-                    implementation(viewModelExt)
+                    implementation(lifecycleViewModel)
                 }
             }
             val androidTest by getting {

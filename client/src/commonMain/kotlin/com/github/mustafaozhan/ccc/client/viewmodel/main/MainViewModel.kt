@@ -16,11 +16,10 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -30,8 +29,8 @@ class MainViewModel(
     // region SEED
     override val state: StateFlow<BaseState>? = null
 
-    private val _effect = Channel<MainEffect>(1)
-    override val effect = _effect.receiveAsFlow().conflate()
+    private val _effect = MutableSharedFlow<MainEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val event = this as MainEvent
 
@@ -51,7 +50,7 @@ class MainViewModel(
 
                 while (isActive && !isFistRun()) {
                     if (data.adVisibility && settingsRepository.adFreeEndDate.isRewardExpired()) {
-                        _effect.send(MainEffect.ShowInterstitialAd)
+                        _effect.emit(MainEffect.ShowInterstitialAd)
                         data.isInitialAd = false
                     }
                     delay(getAdDelay())
@@ -70,7 +69,7 @@ class MainViewModel(
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
         ?.launch {
             delay(REVIEW_DELAY)
-            _effect.send(MainEffect.RequestReview)
+            _effect.emit(MainEffect.RequestReview)
             settingsRepository.lastReviewRequest = nowAsLong()
         }
 

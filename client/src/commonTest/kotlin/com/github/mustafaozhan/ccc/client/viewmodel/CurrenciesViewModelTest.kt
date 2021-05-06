@@ -5,13 +5,11 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.runTest
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -23,9 +21,10 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     }
 
     @Test
-    fun hideSelectionVisibility() = runTest {
+    fun hideSelectionVisibility() = viewModel.state.before {
         viewModel.hideSelectionVisibility()
-        assertEquals(false, viewModel.state.first().selectionVisibility)
+    }.after {
+        assertEquals(false, it?.selectionVisibility)
     }
 
     @Test
@@ -37,7 +36,7 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     // Event
     @Test
-    fun onQueryChange() = runTest {
+    fun onQueryChange() = with(viewModel) {
         val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
@@ -46,63 +45,61 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
             add(dollar)
         }
 
-        with(viewModel) {
+        viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("USD")
-            assertTrue(state.first().currencyList.contains(dollar))
+        }.after {
+            assertEquals(true, it?.currencyList?.contains(dollar))
+        }
 
+        viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("Euro")
-            assertTrue(state.first().currencyList.contains(euro))
+        }.after {
+            assertEquals(true, it?.currencyList?.contains(euro))
+        }
 
+        viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("$")
-            assertTrue(state.first().currencyList.contains(dollar))
+        }.after {
+            assertEquals(true, it?.currencyList?.contains(dollar))
+        }
 
+        viewModel.state.before {
             data.unFilteredList = originalList
-            event.onQueryChange("asdasd")
-            assertTrue(state.first().currencyList.isEmpty())
+            event.onQueryChange("something")
+        }.after {
+            assertEquals(true, it?.currencyList?.isEmpty())
+        }
 
+        viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("o")
-            assertEquals(2, state.first().currencyList.size)
+        }.after {
+            assertEquals(2, it?.currencyList?.size)
         }
     }
 
     @Test
-    fun onItemLongClick() = runTest {
-        with(viewModel) {
-            val currentValue = viewModel.state.first().selectionVisibility
-            event.onItemLongClick()
-            assertEquals(!currentValue, viewModel.state.first().selectionVisibility)
-        }
+    fun onItemLongClick() = viewModel.state.before {
+        viewModel.event.onItemLongClick()
+    }.after {
+        assertEquals(true, it?.selectionVisibility)
     }
 
     @Test
-    fun onCloseClick() = runTest {
-        viewModel.event.onCloseClick()
-
-        // init causes CurrenciesEffect.ChangeBase before
-        assertEquals(
-            true,
-            viewModel.effect
-                .take(2)
-                .toList().contains(CurrenciesEffect.Back)
-        )
-
+    fun onCloseClick() = viewModel.effect.before {
+        viewModel.onCloseClick()
+    }.after {
+        assertTrue { it is CurrenciesEffect.Back }
         assertEquals("", viewModel.data.query)
     }
 
     @Test
-    fun onDoneClick() = runTest {
-        viewModel.event.onDoneClick()
-
-        // init causes CurrenciesEffect.ChangeBase before
-        assertEquals(
-            true,
-            viewModel.effect
-                .take(2)
-                .toList().contains(CurrenciesEffect.FewCurrency)
-        )
+    fun onDoneClick() = viewModel.effect.before {
+        viewModel.onDoneClick()
+    }.after {
+        assertTrue { it is CurrenciesEffect.FewCurrency }
     }
 }
