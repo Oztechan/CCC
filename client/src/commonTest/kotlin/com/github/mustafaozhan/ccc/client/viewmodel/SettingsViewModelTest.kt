@@ -10,6 +10,7 @@ import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
+import kotlinx.coroutines.delay
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -96,9 +97,20 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onSyncClick() = viewModel.effect.before {
-        viewModel.event.onSyncClick()
-    }.after {
-        assertTrue { it is SettingsEffect.Synchronising }
+    fun onSyncClick() {
+        viewModel.effect.before {
+            viewModel.event.onSyncClick()
+        }.after {
+            assertTrue { viewModel.state.value.loading }
+            assertTrue { it is SettingsEffect.Synchronising }
+            delay(300)
+        }
+
+        viewModel.effect.before {
+            viewModel.event.onSyncClick()
+        }.after {
+            assertTrue { viewModel.data.synced }
+            assertTrue { it is SettingsEffect.OnlyOneTimeSync }
+        }
     }
 }

@@ -12,7 +12,7 @@ fun <T> SharedFlow<T>.before(
     function()
 }
 
-fun <T> Flow<T>.after(function: (T?) -> Unit) = runTest {
+fun <T> Flow<T>.after(function: suspend (T?) -> Unit) = runTest {
     firstOrNull {
         function(it)
         true

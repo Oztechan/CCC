@@ -25,11 +25,13 @@ object Versions {
     const val admob = "20.1.0"
     const val navigation = "2.3.5"
     const val playCore = "1.10.0"
-    const val dateTime = "0.2.0"
+    const val dateTime = "0.1.1"
     const val kotlinCoroutines = "1.4.3-native-mt"
     const val billing = "3.0.3"
     const val leakCanary = "2.7"
-    const val sqlDelight = "1.5.0"
+
+    // todo update after https://github.com/cashapp/sqldelight/issues/2126 solved
+    const val sqlDelight = "1.4.3"
     const val lifecycle = "2.4.0-alpha01"
     const val mokoResources = "0.15.1"
     const val dependencyUpdates = "0.38.0"

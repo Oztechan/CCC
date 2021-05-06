@@ -98,7 +98,7 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     @Test
     fun onBaseChanged() = viewModel.state.before {
-        viewModel.onBaseChange(currency.name)
+        viewModel.event.onBaseChange(currency.name)
     }.after {
         assertNull(viewModel.data.rates)
         assertEquals(currency.name, it?.base)

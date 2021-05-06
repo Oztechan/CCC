@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.logmob.kermit
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -47,18 +46,16 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
         }
 
         viewModel.state.before {
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("USD")
         }.after {
-            kermit.d { "CurrenciesViewModelTest onQueryChange $it" }
             assertEquals(true, it?.currencyList?.contains(dollar))
         }
 
         viewModel.state.before {
-            data.unFilteredList = originalList.toMutableList()
+            data.unFilteredList = originalList
             event.onQueryChange("Euro")
         }.after {
-            kermit.d { "CurrenciesViewModelTest onQueryChange $it" }
             assertEquals(true, it?.currencyList?.contains(euro))
         }
 
