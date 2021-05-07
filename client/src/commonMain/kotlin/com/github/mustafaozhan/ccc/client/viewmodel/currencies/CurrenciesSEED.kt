@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 // State
 data class CurrenciesState(
     val currencyList: List<Currency> = listOf(),
-    val loading: Boolean = false,
+    val loading: Boolean = true,
     val selectionVisibility: Boolean = false
 ) : BaseState() {
     // for ios

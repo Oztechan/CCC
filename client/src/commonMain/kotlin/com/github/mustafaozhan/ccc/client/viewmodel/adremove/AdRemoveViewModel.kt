@@ -39,7 +39,6 @@ class AdRemoveViewModel(
 
     init {
         kermit.d { "AdRemoveViewModel init" }
-        _state.update(adRemoveTypes = mutableListOf(RemoveAdType.VIDEO))
     }
 
     fun updateAddFreeDate(

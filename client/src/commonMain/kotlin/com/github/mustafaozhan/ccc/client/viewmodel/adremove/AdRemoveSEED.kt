@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class AdRemoveState(
-    val adRemoveTypes: List<RemoveAdType> = listOf(),
+    val adRemoveTypes: List<RemoveAdType> = listOf(RemoveAdType.VIDEO),
     val loading: Boolean = false
 ) : BaseState() {
     // for ios
-    constructor() : this(listOf<RemoveAdType>(), false)
+    constructor() : this(listOf(RemoveAdType.VIDEO), false)
 
     companion object {
         fun MutableStateFlow<AdRemoveState>.update(

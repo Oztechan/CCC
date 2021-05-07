@@ -45,7 +45,6 @@ class CurrenciesViewModel(
 
     init {
         kermit.d { "CurrenciesViewModel init" }
-        _state.update(loading = true)
 
         currencyDao.collectAllCurrencies()
             .mapToModel()
