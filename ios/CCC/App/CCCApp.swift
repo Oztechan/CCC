@@ -14,7 +14,11 @@ import Firebase
 struct CCCApp: App {
 
     init() {
-        FirebaseApp.configure()
+
+        #if RELEASE
+            FirebaseApp.configure()
+        #endif
+
         startKoin()
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
