@@ -102,20 +102,13 @@ kotlin {
 
 android {
     with(ProjectSettings) {
-        compileSdkVersion(projectCompileSdkVersion)
+        compileSdk = compileSdkVersion
 
         defaultConfig {
-            minSdkVersion(projectMinSdkVersion)
-            targetSdkVersion(projectTargetSdkVersion)
-            versionCode = getVersionCode(project)
-            versionName = getVersionName(project)
+            minSdk = minSdkVersion
+            targetSdk = targetSdkVersion
         }
-        // todo https://youtrack.jetbrains.com/issue/KT-43944
-        configurations {
-            create("testApi") {}
-            create("testDebugApi") {}
-            create("testReleaseApi") {}
-        }
+
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }
