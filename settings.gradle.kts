@@ -5,8 +5,8 @@
 include(
     ":android",
     ":backend",
-    ":web",
-    ":desktop",
+//    ":web",
+//    ":desktop",
     ":client",
     ":common",
     ":basemob", ":scopemob", ":logmob", ":parsermob"
