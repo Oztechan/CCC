@@ -3,8 +3,6 @@
  */
 import org.gradle.api.Project
 import java.io.File
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 object ProjectSettings {
 
@@ -23,23 +21,16 @@ object ProjectSettings {
 
     private fun gitCommitCount(project: Project) =
         "git rev-list --first-parent --count origin/master"
-            .executeCommand(project.rootDir)?.trim().let {
-                if (it.isNullOrEmpty()) 1.toString() else it
-            }
+            .executeCommand(project.rootDir)
+            .trim()
 
-    @Suppress("SpreadOperator", "MagicNumber")
-    private fun String.executeCommand(workingDir: File): String? = try {
-        val parts = this.split("\\s".toRegex())
-        ProcessBuilder(*parts.toTypedArray())
-            .directory(workingDir)
-            .redirectOutput(ProcessBuilder.Redirect.PIPE)
-            .redirectError(ProcessBuilder.Redirect.PIPE)
-            .start().run {
-                waitFor(10, TimeUnit.SECONDS)
-                inputStream.bufferedReader().readText()
-            }
-    } catch (e: IOException) {
-        e.printStackTrace()
-        null
-    }
+    private fun String.executeCommand(workingDir: File) = ProcessBuilder(
+        split("\\s".toRegex())
+    ).directory(workingDir)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+        .start()
+        .inputStream
+        .bufferedReader()
+        .readText()
 }
