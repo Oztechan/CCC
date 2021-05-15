@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import org.gradle.api.Project
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import org.gradle.api.Project
 
 object ProjectSettings {
 
@@ -13,9 +13,9 @@ object ProjectSettings {
 
     const val projectId = "mustafaozhan.github.com.mycurrencies"
     const val packageName = "com.github.mustafaozhan.ccc"
-    const val projectCompileSdkVersion = 30
-    const val projectMinSdkVersion = 21
-    const val projectTargetSdkVersion = 30
+    const val compileSdkVersion = 30
+    const val minSdkVersion = 21
+    const val targetSdkVersion = 30
 
     fun getVersionCode(project: Project) = gitCommitCount(project).toInt()
 

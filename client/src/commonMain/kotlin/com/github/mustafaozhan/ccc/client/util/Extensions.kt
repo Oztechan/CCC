@@ -121,7 +121,7 @@ fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (thi
 }
 
 @Suppress("ComplexMethod", "LongMethod")
-fun Rates.getConversionByName(name: String) = when (name.capitalize()) {
+fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
     CurrencyType.AED.toString() -> aED
     CurrencyType.AFN.toString() -> aFN
     CurrencyType.ALL.toString() -> aLL

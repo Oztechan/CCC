@@ -52,7 +52,11 @@ kotlin {
             val commonMain by getting {
                 dependencies {
                     implementation(dateTime)
-                    implementation(coroutines)
+                    implementation(coroutines) {
+                        version {
+                            strictly(Versions.kotlinCoroutines)
+                        }
+                    }
                     implementation(koinCore)
 
                     with(Modules) {
@@ -119,25 +123,18 @@ kotlin {
 
 android {
     with(ProjectSettings) {
-        compileSdkVersion(projectCompileSdkVersion)
+        compileSdk = compileSdkVersion
 
         defaultConfig {
-            minSdkVersion(projectMinSdkVersion)
-            targetSdkVersion(projectTargetSdkVersion)
-            versionCode = getVersionCode(project)
-            versionName = getVersionName(project)
+            minSdk = minSdkVersion
+            targetSdk = targetSdkVersion
         }
 
         // todo needed for android coroutine testing
         testOptions {
             unitTests.isReturnDefaultValues = true
         }
-        // todo https://youtrack.jetbrains.com/issue/KT-43944
-        configurations {
-            create("testApi") {}
-            create("testDebugApi") {}
-            create("testReleaseApi") {}
-        }
+
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

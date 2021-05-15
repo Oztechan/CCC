@@ -24,14 +24,13 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
-import java.util.Locale
 
 fun ImageView.setBackgroundByName(name: String) =
     setImageResource(context.getImageResourceByName(name))
 
 fun Context.getImageResourceByName(name: String): Int = try {
     resources.getIdentifier(
-        name.toLowerCase(Locale.getDefault()).replace("try", "tryy"),
+        name.lowercase().replace("try", "tryy"),
         "drawable",
         packageName
     )
