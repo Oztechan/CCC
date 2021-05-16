@@ -99,13 +99,13 @@ struct SettingsView: View {
         case is SettingsEffect.OnGitHub:
             UIApplication.shared.open(NSURL(string: MR.strings().github_url.get())! as URL)
         case is SettingsEffect.Synchronising:
-            showToast(text: MR.strings().txt_synchronising.get())
+            showSnack(text: MR.strings().txt_synchronising.get())
         case is SettingsEffect.Synchronised:
-            showToast(text: MR.strings().txt_synced.get())
+            showSnack(text: MR.strings().txt_synced.get())
         case is SettingsEffect.OnlyOneTimeSync:
-            showToast(text: MR.strings().txt_already_synced.get())
+            showSnack(text: MR.strings().txt_already_synced.get())
         case is SettingsEffect.AlreadyAdFree:
-            showToast(text: MR.strings().txt_ads_already_disabled.get())
+            showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
             removeAdDialogVisibility = true
         default:

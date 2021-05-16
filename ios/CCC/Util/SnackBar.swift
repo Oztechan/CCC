@@ -10,9 +10,9 @@ import SwiftMessages
 import SwiftUI
 import Client
 
-func showSnackBar(
+func showSnack(
     text: String,
-    butonText: String? = nil,
+    buttonText: String? = nil,
     action: (() -> Void)? = nil,
     iconImage: UIImage = MR.images().ic_app_logo.get()
 ) {
@@ -34,12 +34,12 @@ func showSnackBar(
         iconImage: iconImage.resized(to: CGSize(width: 64, height: 64)),
         iconText: nil,
         buttonImage: nil,
-        buttonTitle: butonText,
+        buttonTitle: buttonText,
         buttonTapHandler: { _ in
             action?()
         })
 
-    if butonText != nil {
+    if buttonText != nil {
         view.button?.contentEdgeInsets = UIEdgeInsets(
             top: 10.0,
             left: 10.0,
