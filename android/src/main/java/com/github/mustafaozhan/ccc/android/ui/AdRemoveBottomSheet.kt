@@ -24,9 +24,9 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
+import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -113,10 +113,9 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                         launchBillingFlow(viewEffect.removeAdType.data.skuId)
                     }
                 }
-                AdRemoveEffect.AlreadyAdFree -> Toast.show(
-                    requireContext(),
-                    R.string.txt_ads_already_disabled,
-                    isLong = true
+                AdRemoveEffect.AlreadyAdFree -> showSnack(
+                    requireView(),
+                    R.string.txt_ads_already_disabled
                 )
                 AdRemoveEffect.RestartActivity -> restartActivity()
             }
@@ -156,7 +155,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
                 adRemoveViewModel.showLoadingView(false)
-                Toast.show(requireContext(), R.string.error_text_unknown)
+                showSnack(requireView(), R.string.error_text_unknown)
             }
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {

@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.addRepeatingJob
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
+import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.toUnit
@@ -164,17 +164,20 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
-                SettingsEffect.Synchronising -> Toast.show(
-                    requireContext(),
+                SettingsEffect.Synchronising -> showSnack(
+                    requireView(),
                     R.string.txt_synchronising
                 )
-                SettingsEffect.Synchronised -> Toast.show(requireContext(), R.string.txt_synced)
-                SettingsEffect.OnlyOneTimeSync -> Toast.show(
-                    requireContext(),
+                SettingsEffect.Synchronised -> showSnack(
+                    requireView(),
+                    R.string.txt_synced
+                )
+                SettingsEffect.OnlyOneTimeSync -> showSnack(
+                    requireView(),
                     R.string.txt_already_synced
                 )
-                SettingsEffect.AlreadyAdFree -> Toast.show(
-                    requireContext(),
+                SettingsEffect.AlreadyAdFree -> showSnack(
+                    requireView(),
                     R.string.txt_ads_already_disabled
                 )
             }
