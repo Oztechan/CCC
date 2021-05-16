@@ -8,8 +8,8 @@ import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.error.NetworkException
 import com.github.mustafaozhan.ccc.common.error.TimeoutException
-import com.github.mustafaozhan.ccc.common.model.Result
 import com.github.mustafaozhan.ccc.common.platformCoroutineContext
+import com.github.mustafaozhan.ccc.common.util.Result
 import com.github.mustafaozhan.logmob.kermit
 import io.ktor.network.sockets.ConnectTimeoutException
 import io.ktor.utils.io.errors.IOException
