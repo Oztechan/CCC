@@ -22,9 +22,10 @@ fun showDialog(
     function: (() -> Unit)? = null
 ) = buildDialog(activity, title)
     ?.setMessage(message)
-    ?.setPositiveButton(positiveButton) { _, _ ->
+    ?.setPositiveButton(positiveButton) { dialog, _ ->
         kermit.d { "Dialog positive button click" }
         function?.invoke()
+        dialog.dismiss()
     }
     ?.inCase(cancelable) {
         setCancelable(cancelable)
@@ -56,9 +57,10 @@ fun showSingleChoiceDialog(
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
 ) = buildDialog(activity, title)
-    ?.setSingleChoiceItems(items, selectedIndex) { _, which ->
+    ?.setSingleChoiceItems(items, selectedIndex) { dialog, which ->
         kermit.d { "Dialog choice click $which" }
         choiceAction?.invoke(which)
+        dialog.dismiss()
     }?.show()
 
 @Suppress("LongParameterList")
