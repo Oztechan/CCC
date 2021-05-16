@@ -147,28 +147,32 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
         }
 
-    private fun prepareRewardedAd() = RewardedAd.load(
-        requireContext().applicationContext,
-        getString(R.string.rewarded_ad_unit_id),
-        AdRequest.Builder().build(),
-        object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
-                adRemoveViewModel.showLoadingView(false)
-                showSnack(requireView(), R.string.error_text_unknown)
-            }
+    private fun prepareRewardedAd() = context?.applicationContext?.let { applicationContext ->
+        RewardedAd.load(
+            applicationContext,
+            getString(R.string.rewarded_ad_unit_id),
+            AdRequest.Builder().build(),
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
+                    adRemoveViewModel.showLoadingView(false)
+                    view?.let { showSnack(it, R.string.error_text_unknown) }
+                }
 
-            override fun onAdLoaded(rewardedAd: RewardedAd) {
-                adRemoveViewModel.showLoadingView(false)
-                kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
+                override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    adRemoveViewModel.showLoadingView(false)
+                    kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
 
-                rewardedAd.show(requireActivity()) {
-                    kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
-                    adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
+                    activity?.let {
+                        rewardedAd.show(it) {
+                            kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
+                            adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
+                        }
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 
     override fun onSkuDetailsResponse(
         billingResult: BillingResult,
