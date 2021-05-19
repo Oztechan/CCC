@@ -38,6 +38,10 @@ android {
         buildFeatures {
             viewBinding = true
         }
+        // todo remove after MissingSuperCall bug fixed
+        lint {
+            isAbortOnError = false
+        }
     }
 
     buildTypes {
