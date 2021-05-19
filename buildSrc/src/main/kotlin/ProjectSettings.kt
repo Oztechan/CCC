@@ -3,6 +3,8 @@
  */
 import org.gradle.api.Project
 import java.io.File
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 object ProjectSettings {
 
@@ -20,17 +22,26 @@ object ProjectSettings {
     fun getVersionName(project: Project) = "$mayorVersion.$minorVersion.${gitCommitCount(project)}"
 
     private fun gitCommitCount(project: Project) =
-        "git rev-list --first-parent --count origin/master"
-            .executeCommand(project.rootDir)
-            .trim()
+        "git rev-list --first-parent --count HEAD"
+            .runCommand(project.rootDir).trim().let {
+                if (it.isEmpty()) 1.toString() else it
+            }
 
-    private fun String.executeCommand(workingDir: File) = ProcessBuilder(
-        split("\\s".toRegex())
-    ).directory(workingDir)
+    private fun String.runCommand(
+        workingDir: File = File("."),
+        timeoutAmount: Long = 60,
+        timeoutUnit: TimeUnit = TimeUnit.SECONDS
+    ): String = ProcessBuilder(split("\\s(?=(?:[^'\"`]*(['\"`])[^'\"`]*\\1)*[^'\"`]*$)".toRegex()))
+        .directory(workingDir)
         .redirectOutput(ProcessBuilder.Redirect.PIPE)
         .redirectError(ProcessBuilder.Redirect.PIPE)
         .start()
-        .inputStream
-        .bufferedReader()
-        .readText()
+        .apply { waitFor(timeoutAmount, timeoutUnit) }
+        .run {
+            val error = errorStream.bufferedReader().readText().trim()
+            if (error.isNotEmpty()) {
+                throw IOException(error)
+            }
+            inputStream.bufferedReader().readText().trim()
+        }
 }
