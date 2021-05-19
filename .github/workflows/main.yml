@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  pull_request:
 
 jobs:
   build:
@@ -52,14 +53,6 @@ jobs:
           CODE_SIGNING_REQUIRED="NO"
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
-
-      - name: Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: QA
-          file: android/build/outputs/apk/release/android-release-unsigned.apk
 
       - name: Notify slack success
         if: success()
