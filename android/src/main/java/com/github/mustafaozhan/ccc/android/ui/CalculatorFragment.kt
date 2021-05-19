@@ -14,7 +14,6 @@ import androidx.lifecycle.addRepeatingJob
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.android.util.Toast
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
 import com.github.mustafaozhan.ccc.android.util.getNavigationResult
@@ -100,7 +99,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.effect.collect { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CalculatorEffect.Error -> Toast.show(requireContext(), R.string.error_text_unknown)
+                CalculatorEffect.Error -> showSnack(
+                    requireView(),
+                    R.string.error_text_unknown
+                )
                 CalculatorEffect.FewCurrency -> showSnack(
                     requireView(),
                     R.string.choose_at_least_two_currency,
@@ -111,7 +113,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                CalculatorEffect.MaximumInput -> Toast.show(requireContext(), R.string.max_input)
+                CalculatorEffect.MaximumInput -> showSnack(
+                    requireView(),
+                    R.string.max_input
+                )
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheet()

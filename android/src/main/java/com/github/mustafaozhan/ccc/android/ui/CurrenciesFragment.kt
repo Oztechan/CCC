@@ -19,12 +19,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
-import com.github.mustafaozhan.ccc.android.util.Toast.show
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.showLoading
+import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -114,8 +114,8 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         currenciesViewModel.effect.collect { viewEffect ->
             kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CurrenciesEffect.FewCurrency -> show(
-                    requireContext(),
+                CurrenciesEffect.FewCurrency -> showSnack(
+                    requireView(),
                     R.string.choose_at_least_two_currency
                 )
                 CurrenciesEffect.OpenCalculator -> {

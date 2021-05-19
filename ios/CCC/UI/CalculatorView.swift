@@ -93,24 +93,24 @@ struct CalculatorView: View {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is CalculatorEffect.Error:
-            showToast(text: MR.strings().error_text_unknown.get())
+            showSnack(text: MR.strings().error_text_unknown.get())
         case is CalculatorEffect.FewCurrency:
-            showSnackBar(
+            showSnack(
                 text: MR.strings().choose_at_least_two_currency.get(),
-                butonText: MR.strings().select.get(),
+                buttonText: MR.strings().select.get(),
                 action: {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
         case is CalculatorEffect.MaximumInput:
-            showToast(text: MR.strings().max_input.get())
+            showSnack(text: MR.strings().max_input.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
         // swiftlint:disable force_cast
         case is CalculatorEffect.ShowRate:
-            showSnackBar(
+            showSnack(
                 text: (effect as! CalculatorEffect.ShowRate).text,
                 iconImage: (effect as! CalculatorEffect.ShowRate).name.getImage()
             )
