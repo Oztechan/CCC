@@ -23,7 +23,7 @@ jobs:
           java-version: 11
 
       - name: Build
-        run: ./gradlew assembleRelease
+        run: ./gradlew :android:build
 
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
