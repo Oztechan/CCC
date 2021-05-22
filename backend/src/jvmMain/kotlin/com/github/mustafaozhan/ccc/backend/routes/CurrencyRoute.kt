@@ -14,7 +14,9 @@ import io.ktor.routing.get
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-fun Route.getCurrencyByName(rootingController: RootingController) = get(PATH_BY_BASE) {
+fun Route.getCurrencyByName(
+    rootingController: RootingController
+) = get(PATH_BY_BASE) {
     call.parameters[PARAMETER_BASE]?.let { base ->
         kermit.d { "GET Request  $PARAMETER_BASE $base" }
         rootingController.getOfflineCurrencyResponseByBase(base)?.let {
