@@ -46,3 +46,8 @@ kotlin {
         }
     }
 }
+
+@Suppress("UnstableApiUsage")
+tasks.named<ProcessResources>("jvmProcessResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
