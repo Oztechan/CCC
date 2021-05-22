@@ -38,6 +38,5 @@ fun main() {
             getRoot()
             getCurrencyByName(rootingController)
         }
-
     }.start(wait = true)
 }

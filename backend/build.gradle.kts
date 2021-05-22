@@ -4,30 +4,45 @@
 
 plugins {
     with(Plugins) {
-        kotlin(platformJvm)
+        application
+        kotlin(multiplatform)
         kotlin(serializationPlugin)
     }
-    application
 }
 
-dependencies {
-    with(Dependencies.JVM) {
-        implementation(ktorCore)
-        implementation(ktorNetty)
-        implementation(ktorSerialization)
-        implementation(logBack)
+with(ProjectSettings) {
+    application {
+        mainClass.set("$packageName.backend.BackendAppKt")
     }
-
-    with(Dependencies.Common) {
-        implementation(koinCore)
-    }
-
-    with(Modules) {
-        implementation(project(common))
-        implementation(project(logmob))
-    }
+    group = projectId
+    version = getVersionName(project)
 }
 
-application {
-    mainClass.set("${ProjectSettings.packageName}.backend.BackendAppKt")
+kotlin {
+    jvm {
+        withJava()
+    }
+
+    @Suppress("UNUSED_VARIABLE")
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                with(Dependencies.JVM) {
+                    implementation(ktorCore)
+                    implementation(ktorNetty)
+                    implementation(ktorSerialization)
+                    implementation(logBack)
+                }
+
+                with(Dependencies.Common) {
+                    implementation(koinCore)
+                }
+
+                with(Modules) {
+                    implementation(project(common))
+                    implementation(project(logmob))
+                }
+            }
+        }
+    }
 }

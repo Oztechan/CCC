@@ -4,4 +4,6 @@
 
 package com.github.mustafaozhan.ccc.backend.util
 
-fun ClassLoader.getResourceByName(source: String) = getResource(source)?.readText() ?: ""
+fun ClassLoader.getResourceByName(
+    source: String
+) = getResource(source)?.readText() ?: ""
