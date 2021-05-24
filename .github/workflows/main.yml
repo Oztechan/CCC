@@ -42,7 +42,10 @@ jobs:
           pod install
 
       - name: Xcode build
+        env:
+          IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
         run: cd ios &&
+          echo IOS_FIREBASE_CONFIG > CCC/Resources/GoogleService-Info.plist
           xcrun xcodebuild
           -workspace CCC.xcworkspace
           -scheme CCC
