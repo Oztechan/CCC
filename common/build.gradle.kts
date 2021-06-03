@@ -26,7 +26,14 @@ kotlin {
         iosX64("ios")
     }
 
-//    js { browser { binaries.executable() testTask { enabled = false } } }
+    js {
+        browser {
+            binaries.executable()
+            testTask {
+                enabled = false
+            }
+        }
+    }
 
     jvm()
 
@@ -79,10 +86,10 @@ kotlin {
             val iosTest by getting
         }
 
-//        with(Dependencies.JS) {
-//            val jsMain by getting { dependencies { implementation(ktor) } }
-//            val jsTest by getting { dependencies { implementation(kotlin(test)) } }
-//        }
+        with(Dependencies.JS) {
+            val jsMain by getting { dependencies { implementation(ktor) } }
+            val jsTest by getting { dependencies { implementation(kotlin(test)) } }
+        }
 
         with(Dependencies.JVM) {
             val jvmMain by getting {
