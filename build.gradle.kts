@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
     id(Plugins.dependencyUpdates) version Versions.dependencyUpdates
@@ -43,4 +44,22 @@ allprojects {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://kotlin.bintray.com/kotlinx/")
     }
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    // show only stable version of gradle
+    gradleReleaseChannel = "current"
+    rejectVersionIf {
+        // show only stable versions
+        isNonStable(candidate.version) &&
+            // hide warnings for current unstable versions
+            !isNonStable(currentVersion)
+    }
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
