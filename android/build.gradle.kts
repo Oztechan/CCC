@@ -43,11 +43,22 @@ android {
             isAbortOnError = false
         }
     }
+    val props = project.getSecretProperties()
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(props.get(Keys.keyStorePath))
+            storePassword = props.get(Keys.storePassword)
+            keyAlias = props.get(Keys.keyAlias)
+            keyPassword = props.get(Keys.keyPassword)
+        }
+    }
 
     buildTypes {
-        val props = project.getSecretProperties()
 
         getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+
             isMinifyEnabled = false
             resValue(
                 Type.string.toResource(),

@@ -14,6 +14,11 @@ object Keys {
     const val bannerAdUnitIdCurrencies = "BANNER_AD_UNIT_ID_CURRENCIES"
     const val interstitialAdId = "INTERSTITIAL_AD_ID"
     const val rewardedAdUnitId = "REWARDED_AD_UNIT_ID"
+
+    const val keyStorePath = "KEY_STORE_PATH"
+    const val storePassword = "STORE_PASSWORD"
+    const val keyAlias = "KEY_ALIAS"
+    const val keyPassword = "KEY_PASSWORD"
 }
 
 object Fakes {
@@ -36,7 +41,7 @@ fun Project.getSecretProperties() = try {
     null
 }
 
-fun Properties?.get(key: String, default: String) = this?.get(key)?.toString() ?: default
+fun Properties?.get(key: String, default: String = "") = this?.get(key)?.toString() ?: default
 
 fun String.toResource() = toLowerCase(Locale.ROOT)
 

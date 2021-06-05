@@ -23,10 +23,13 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode secret.properties
+      - name: Adding secrets
         env:
           SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
-        run: echo $SECRET_PROPERTIES > secret.properties
+        run: |
+          echo $SECRET_PROPERTIES > secret.properties
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PHRASE }}" --batch release.keystore.asc > android/release.keystore
 
       - name: Gradle Build
         run: ./gradlew build --parallel
@@ -44,7 +47,8 @@ jobs:
       - name: Xcode build
         env:
           IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
-        run: cd ios &&
+        run: |
+          cd ios
           echo IOS_FIREBASE_CONFIG > CCC/Resources/GoogleService-Info.plist
           xcrun xcodebuild
           -workspace CCC.xcworkspace
