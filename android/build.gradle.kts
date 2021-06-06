@@ -43,85 +43,90 @@ android {
             isAbortOnError = false
         }
     }
-    val props = project.getSecretProperties()
 
     signingConfigs {
         create(BuildType.release) {
-            storeFile = file(props.get(Keys.keyStorePath))
-            storePassword = props.get(Keys.storePassword)
-            keyAlias = props.get(Keys.keyAlias)
-            keyPassword = props.get(Keys.keyPassword)
+            with(Keys.Signing) {
+                storeFile = file(getSecret(androidKeyStorePath))
+                storePassword = getSecret(androidStorePassword)
+                keyAlias = getSecret(androidKeyAlias)
+                keyPassword = getSecret(androidKeyPassword)
+            }
         }
     }
 
     buildTypes {
 
         getByName(BuildType.release) {
-            signingConfig = signingConfigs.getByName("release")
-
+            signingConfig = signingConfigs.getByName(BuildType.release)
             isMinifyEnabled = false
-            resValue(
-                Type.string.toResource(),
-                Keys.admobAppId.toResource(),
-                props.get(Keys.admobAppId.toRelease(), Fakes.admobAppId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdCalculator.toResource(),
-                props.get(Keys.bannerAdUnitIdCalculator.toRelease(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdSettings.toResource(),
-                props.get(Keys.bannerAdUnitIdSettings.toRelease(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdCurrencies.toResource(),
-                props.get(Keys.bannerAdUnitIdCurrencies.toRelease(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.interstitialAdId.toResource(),
-                props.get(Keys.interstitialAdId.toRelease(), Fakes.interstitialAdId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.rewardedAdUnitId.toResource(),
-                props.get(Keys.rewardedAdUnitId.toRelease(), Fakes.rewardedAdUnitId)
-            )
+
+            with(Keys.Release) {
+                resValue(
+                    Type.string.toLowerCase(),
+                    admobAppId.toLowerCase(),
+                    getSecret(admobAppId, Fakes.admobAppId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdCalculator.toLowerCase(),
+                    getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdSettings.toLowerCase(),
+                    getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdCurrencies.toLowerCase(),
+                    getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    interstitialAdId.toLowerCase(),
+                    getSecret(interstitialAdId, Fakes.interstitialAdId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    rewardedAdUnitId.toLowerCase(),
+                    getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
+                )
+            }
         }
         getByName(BuildType.debug) {
-            resValue(
-                Type.string.toResource(),
-                Keys.admobAppId.toResource(),
-                props.get(Keys.admobAppId.toDebug(), Fakes.admobAppId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdCalculator.toResource(),
-                props.get(Keys.bannerAdUnitIdCalculator.toDebug(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdSettings.toResource(),
-                props.get(Keys.bannerAdUnitIdSettings.toDebug(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.bannerAdUnitIdCurrencies.toResource(),
-                props.get(Keys.bannerAdUnitIdCurrencies.toDebug(), Fakes.bannerAdUnitId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.interstitialAdId.toResource(),
-                props.get(Keys.interstitialAdId.toDebug(), Fakes.interstitialAdId)
-            )
-            resValue(
-                Type.string.toResource(),
-                Keys.rewardedAdUnitId.toResource(),
-                props.get(Keys.rewardedAdUnitId.toDebug(), Fakes.rewardedAdUnitId)
-            )
+            with(Keys.Debug) {
+                resValue(
+                    Type.string.toLowerCase(),
+                    admobAppId.toLowerCase(),
+                    getSecret(admobAppId, Fakes.admobAppId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdCalculator.toLowerCase(),
+                    getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdSettings.toLowerCase(),
+                    getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    bannerAdUnitIdCurrencies.toLowerCase(),
+                    getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    interstitialAdId.toLowerCase(),
+                    getSecret(interstitialAdId, Fakes.interstitialAdId)
+                )
+                resValue(
+                    Type.string.toLowerCase(),
+                    rewardedAdUnitId.toLowerCase(),
+                    getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
+                )
+            }
         }
     }
 }

@@ -132,16 +132,14 @@ sqldelight {
 configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.packageName}.common"
 
-    val props = project.getSecretProperties()
-
     defaultConfigs {
         buildConfigField(
             STRING,
             Keys.baseUrlBackend,
-            props.get(Keys.baseUrlBackend, Fakes.privateUrl)
+            getSecret(Keys.baseUrlBackend, Fakes.privateUrl)
         )
-        buildConfigField(STRING, Keys.baseUrlApi, props.get(Keys.baseUrlApi, Fakes.privateUrl))
-        buildConfigField(STRING, Keys.baseUrlDev, props.get(Keys.baseUrlDev, Fakes.privateUrl))
+        buildConfigField(STRING, Keys.baseUrlApi, getSecret(Keys.baseUrlApi, Fakes.privateUrl))
+        buildConfigField(STRING, Keys.baseUrlDev, getSecret(Keys.baseUrlDev, Fakes.privateUrl))
     }
 }
 
