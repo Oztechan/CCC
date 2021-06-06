@@ -25,10 +25,11 @@ jobs:
 
       - name: Adding secret files
         run: |
-          echo "${{ secrets.ANDROID_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.ANDROID_RELEASE_KEYSTORE_PHRASE }}" --batch release.keystore.asc > android/release.keystore
+          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
           mkdir android/src/release
-          echo "${{ secrets.ANDROID_FIREBASE_CONFIG }}" > android/src/release/google-services.json
+          echo "${{ secrets.ANDROID_GPG_FIREBASE_CONFIG }}" > google-services.json.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
 
       - name: Gradle Build
         env:
