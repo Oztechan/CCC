@@ -55,7 +55,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_settings),
+            getString(R.string.android_banner_ad_unit_id_settings),
             settingsViewModel.isRewardExpired()
         )
 

@@ -10,6 +10,26 @@ jobs:
   build:
 
     runs-on: macos-latest
+    env:
+      ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
+      ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
+      ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS }}
+      ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES }}
+      ANDROID_RELEASE_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_RELEASE_INTERSTITIAL_AD_ID }}
+      ANDROID_RELEASE_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_RELEASE_REWARDED_AD_UNIT_ID }}
+      ANDROID_DEBUG_ADMOB_APP_ID: ${{ secrets.ANDROID_DEBUG_ADMOB_APP_ID }}
+      ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR }}
+      ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS }}
+      ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES }}
+      ANDROID_DEBUG_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_DEBUG_INTERSTITIAL_AD_ID }}
+      ANDROID_DEBUG_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_DEBUG_REWARDED_AD_UNIT_ID }}
+      ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
+      ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
+      BASE_URL_API: ${{ secrets.BASE_URL_API }}
+      BASE_URL_DEV: ${{ secrets.BASE_URL_DEV }}
 
     steps:
       - name: Clone Repo
@@ -23,10 +43,15 @@ jobs:
         with:
           java-version: 11
 
-      - name: Decode secret.properties
-        env:
-          SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
-        run: echo $SECRET_PROPERTIES > secret.properties
+      - name: Adding secret files
+        run: |
+          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
+          mkdir android/src/release
+          echo "${{ secrets.ANDROID_GPG_FIREBASE_CONFIG }}" > google-services.json.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
+          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
 
       - name: Gradle Build
         run: ./gradlew build --parallel
@@ -42,10 +67,7 @@ jobs:
           pod install
 
       - name: Xcode build
-        env:
-          IOS_FIREBASE_CONFIG: ${{ secrets.IOS_FIREBASE_CONFIG }}
         run: cd ios &&
-          echo IOS_FIREBASE_CONFIG > CCC/Resources/GoogleService-Info.plist
           xcrun xcodebuild
           -workspace CCC.xcworkspace
           -scheme CCC
@@ -56,6 +78,15 @@ jobs:
           CODE_SIGNING_REQUIRED="NO"
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
+
+      - name: Firebase App Distribution
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
+          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
+          groups: QA
+          file: android/build/outputs/apk/release/android-release.apk
 
       - name: Notify slack success
         if: success()
