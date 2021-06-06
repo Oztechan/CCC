@@ -46,7 +46,7 @@ android {
     val props = project.getSecretProperties()
 
     signingConfigs {
-        create("release") {
+        create(BuildType.release) {
             storeFile = file(props.get(Keys.keyStorePath))
             storePassword = props.get(Keys.storePassword)
             keyAlias = props.get(Keys.keyAlias)
@@ -56,7 +56,7 @@ android {
 
     buildTypes {
 
-        getByName("release") {
+        getByName(BuildType.release) {
             signingConfig = signingConfigs.getByName("release")
 
             isMinifyEnabled = false
@@ -91,7 +91,7 @@ android {
                 props.get(Keys.rewardedAdUnitId.toRelease(), Fakes.rewardedAdUnitId)
             )
         }
-        getByName("debug") {
+        getByName(BuildType.debug) {
             resValue(
                 Type.string.toResource(),
                 Keys.admobAppId.toResource(),

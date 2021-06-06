@@ -4,9 +4,9 @@ import java.util.Locale
 import java.util.Properties
 
 object Keys {
-    const val backendUrl = "BASE_URL_BACKEND"
-    const val apiUrl = "BASE_URL_API"
-    const val devUrl = "BASE_URL_DEV"
+    const val baseUrlBackend = "BASE_URL_BACKEND"
+    const val baseUrlApi = "BASE_URL_API"
+    const val baseUrlDev = "BASE_URL_DEV"
 
     const val admobAppId = "ADMOB_APP_ID"
     const val bannerAdUnitIdCalculator = "BANNER_AD_UNIT_ID_CALCULATOR"
@@ -30,9 +30,6 @@ object Fakes {
     const val rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"
 }
 
-object Type {
-    const val string = "String"
-}
 
 fun Project.getSecretProperties() = try {
     Properties().apply { load(file("../secret.properties").inputStream()) }
