@@ -24,14 +24,34 @@ jobs:
         with:
           java-version: 11
 
-      - name: Adding secrets
-        env:
-          SECRET_PROPERTIES: ${{ secrets.SECRET_PROPERTIES }}
-        run: echo $SECRET_PROPERTIES > secret.properties &&
-        echo "${{ secrets.RELEASE_KEYSTORE }}" > release.keystore.asc &&
-        gpg -d --passphrase "${{ secrets.RELEASE_KEYSTORE_PHRASE }}" --batch release.keystore.asc > android/release.keystore
+      - name: Adding secret files
+        run: |
+          echo "${{ secrets.ANDROID_RELEASE_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.ANDROID_RELEASE_KEYSTORE_PHRASE }}" --batch release.keystore.asc > android/release.keystore
+          mkdir android/src/release
+          echo "${{ secrets.ANDROID_FIREBASE_CONFIG }}" > android/src/release/google-services.json
 
       - name: Build
+        env:
+          BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
+          BASE_URL_API: ${{ secrets.BASE_URL_API }}
+          BASE_URL_DEV: ${{ secrets.BASE_URL_DEV }}
+          ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
+          ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
+          ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS }}
+          ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES }}
+          ANDROID_RELEASE_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_RELEASE_INTERSTITIAL_AD_ID }}
+          ANDROID_RELEASE_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_RELEASE_REWARDED_AD_UNIT_ID }}
+          ANDROID_DEBUG_ADMOB_APP_ID: ${{ secrets.ANDROID_DEBUG_ADMOB_APP_ID }}
+          ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR }}
+          ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS }}
+          ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES }}
+          ANDROID_DEBUG_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_DEBUG_INTERSTITIAL_AD_ID }}
+          ANDROID_DEBUG_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_DEBUG_REWARDED_AD_UNIT_ID }}
+          ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: ./gradlew :android:assembleRelease
 
       - name: Firebase App Distribution
