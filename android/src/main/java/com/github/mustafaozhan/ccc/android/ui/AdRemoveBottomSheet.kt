@@ -150,7 +150,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun prepareRewardedAd() = context?.applicationContext?.let { applicationContext ->
         RewardedAd.load(
             applicationContext,
-            getString(R.string.rewarded_ad_unit_id),
+            getString(R.string.android_rewarded_ad_unit_id),
             AdRequest.Builder().build(),
             object : RewardedAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {

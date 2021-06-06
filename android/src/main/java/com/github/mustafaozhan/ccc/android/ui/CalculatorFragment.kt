@@ -68,7 +68,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_calculator),
+            getString(R.string.android_banner_ad_unit_id_calculator),
             calculatorViewModel.isRewardExpired()
         )
         calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)

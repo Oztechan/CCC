@@ -66,7 +66,7 @@ class MainActivity : BaseActivity() {
 
     private fun showInterstitialAd() = InterstitialAd.load(
         applicationContext,
-        getString(R.string.interstitial_ad_id),
+        getString(R.string.android_interstitial_ad_id),
         AdRequest.Builder().build(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {

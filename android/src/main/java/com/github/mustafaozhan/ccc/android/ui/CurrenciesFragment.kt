@@ -67,7 +67,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.banner_ad_unit_id_currencies),
+            getString(R.string.android_banner_ad_unit_id_currencies),
             currenciesViewModel.isRewardExpired()
         )
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)

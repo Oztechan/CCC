@@ -42,11 +42,21 @@ object Fakes {
     const val rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"
 }
 
+fun String.removeVariant() = replace(
+    oldValue = "_${BuildType.release}_",
+    newValue = "_",
+    ignoreCase = true
+).replace(
+    oldValue = "_${BuildType.debug}_",
+    newValue = "_",
+    ignoreCase = true
+)
+
 fun Project.getSecret(
     key: String,
     default: String = ""
 ): String = System.getenv(key).let {
-    if (it.isEmpty()) {
+    if (it.isNullOrEmpty()) {
         getSecretProperties()?.get(key)?.toString() ?: default
     } else {
         it

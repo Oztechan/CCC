@@ -64,32 +64,32 @@ android {
             with(Keys.Release) {
                 resValue(
                     Type.string.toLowerCase(),
-                    admobAppId.toLowerCase(),
+                    admobAppId.removeVariant().toLowerCase(),
                     getSecret(admobAppId, Fakes.admobAppId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdCalculator.toLowerCase(),
+                    bannerAdUnitIdCalculator.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdSettings.toLowerCase(),
+                    bannerAdUnitIdSettings.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdCurrencies.toLowerCase(),
+                    bannerAdUnitIdCurrencies.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    interstitialAdId.toLowerCase(),
+                    interstitialAdId.removeVariant().toLowerCase(),
                     getSecret(interstitialAdId, Fakes.interstitialAdId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    rewardedAdUnitId.toLowerCase(),
+                    rewardedAdUnitId.removeVariant().toLowerCase(),
                     getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
                 )
             }
@@ -98,32 +98,32 @@ android {
             with(Keys.Debug) {
                 resValue(
                     Type.string.toLowerCase(),
-                    admobAppId.toLowerCase(),
+                    admobAppId.removeVariant().toLowerCase(),
                     getSecret(admobAppId, Fakes.admobAppId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdCalculator.toLowerCase(),
+                    bannerAdUnitIdCalculator.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdSettings.toLowerCase(),
+                    bannerAdUnitIdSettings.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    bannerAdUnitIdCurrencies.toLowerCase(),
+                    bannerAdUnitIdCurrencies.removeVariant().toLowerCase(),
                     getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    interstitialAdId.toLowerCase(),
+                    interstitialAdId.removeVariant().toLowerCase(),
                     getSecret(interstitialAdId, Fakes.interstitialAdId)
                 )
                 resValue(
                     Type.string.toLowerCase(),
-                    rewardedAdUnitId.toLowerCase(),
+                    rewardedAdUnitId.removeVariant().toLowerCase(),
                     getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
                 )
             }
