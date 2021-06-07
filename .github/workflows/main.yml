@@ -29,7 +29,7 @@ env:
 
 jobs:
 
-  main:
+  build:
     runs-on: macos-latest
     steps:
       - name: Clone Repo
@@ -54,6 +54,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
 
       - name: Gradle Build
+        uses: actions/cache@v1
         run: ./gradlew build --parallel
 
       - name: Set up Xcode
@@ -62,11 +63,13 @@ jobs:
           xcode-version: latest
 
       - name: Install Cocoapods
+        uses: actions/cache@v1
         run: ./gradlew build :client:podspec &&
           cd ios/CCC &&
           pod install
 
       - name: Xcode build
+        uses: actions/cache@v1
         run: cd ios &&
           xcrun xcodebuild
           -workspace CCC.xcworkspace
