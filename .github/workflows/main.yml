@@ -54,7 +54,6 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
 
       - name: Gradle Build
-        uses: actions/cache@v1
         run: ./gradlew build --parallel
 
       - name: Set up Xcode
@@ -63,13 +62,11 @@ jobs:
           xcode-version: latest
 
       - name: Install Cocoapods
-        uses: actions/cache@v1
         run: ./gradlew build :client:podspec &&
           cd ios/CCC &&
           pod install
 
       - name: Xcode build
-        uses: actions/cache@v1
         run: cd ios &&
           xcrun xcodebuild
           -workspace CCC.xcworkspace
@@ -82,10 +79,21 @@ jobs:
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: android/build/outputs/apk/release/android-release.apk
+
   distribution:
     runs-on: ubuntu-latest
     needs: main
     steps:
+      - name: download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: apk
+
       - name: Firebase App Distribution
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1
