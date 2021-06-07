@@ -89,7 +89,8 @@ jobs:
         with:
           name: release
           path: |
-          android/build/outputs/apk/release/android-release.apk
+            android/build/outputs/apk/release/android-release.apk
+            releaseNotes.txt
 
   Distribution:
     runs-on: ubuntu-latest
