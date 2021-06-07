@@ -87,7 +87,7 @@ jobs:
 
   distribution:
     runs-on: ubuntu-latest
-    needs: main
+    needs: build
     steps:
       - name: download artifact
         uses: actions/download-artifact@v2
