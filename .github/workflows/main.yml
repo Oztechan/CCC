@@ -81,11 +81,15 @@ jobs:
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
 
+      - name: Generate release notes
+        run: echo "${{ github.event }}" > releaseNotes.txt
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: apk
-          path: android/build/outputs/apk/release/android-release.apk
+          name: release
+          path: |
+          android/build/outputs/apk/release/android-release.apk
 
   Distribution:
     runs-on: ubuntu-latest
@@ -94,7 +98,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: apk
+          name: release
 
       - name: Firebase App Distribution
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -103,6 +107,7 @@ jobs:
           appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
           token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
           groups: QA
+          releaseNotesFile: releaseNotes.txt
           file: android-release.apk
 
   Notify:
