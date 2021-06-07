@@ -29,11 +29,13 @@ env:
 
 jobs:
 
-  build:
+  Build:
     runs-on: macos-latest
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Checkout submodules
         run: git submodule update --init --recursive
@@ -85,9 +87,9 @@ jobs:
           name: apk
           path: android/build/outputs/apk/release/android-release.apk
 
-  distribution:
+  Distribution:
     runs-on: ubuntu-latest
-    needs: build
+    needs: Build
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -103,9 +105,9 @@ jobs:
           groups: QA
           file: android-release.apk
 
-  notify:
+  Notify:
     runs-on: macos-latest
-    needs: distribution
+    needs: Distribution
     steps:
       - name: Notify slack success
         if: success()
