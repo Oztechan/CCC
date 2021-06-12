@@ -81,27 +81,6 @@ jobs:
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
 
-      - name: Generate release notes
-        run: echo "${{ github.event }}" > releaseNotes.txt
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: release
-          path: |
-            android/build/outputs/apk/release/android-release.apk
-            releaseNotes.txt
-
-  Distribution:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: release
-
       - name: Firebase App Distribution
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -109,14 +88,8 @@ jobs:
           appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
           token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
           groups: QA
-          releaseNotesFile: releaseNotes.txt
-          file: android-release.apk
+          file: android/build/outputs/apk/release/android-release.apk
 
-  Notify:
-    runs-on: macos-latest
-    needs: [ Build, Distribution ]
-    if: always()
-    steps:
       - name: Notify slack success
         if: success()
         env:
