@@ -13,7 +13,7 @@ object Versions {
     const val logBack = "1.3.0-alpha5"
     const val kotlinXHtml = "0.7.2"
     const val react = "17.0.1-pre.148-kotlin-1.4.30"
-    const val koin = "3.0.2"
+    const val koin = "3.1.0"
     const val kermit = "0.1.9"
     const val multiplatformSettings = "0.7.7"
     const val firebaseCore = "19.0.0"

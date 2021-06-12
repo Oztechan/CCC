@@ -12,8 +12,8 @@ import com.github.mustafaozhan.logmob.kermit
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
-import org.koin.core.definition.BeanDefinition
 import org.koin.core.definition.Definition
+import org.koin.core.instance.InstanceFactory
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
@@ -31,9 +31,13 @@ fun initIOS(userDefaults: NSUserDefaults) = initClient(
 
 actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
     qualifier: Qualifier?,
-    override: Boolean,
+    createdAtStart: Boolean,
     noinline definition: Definition<T>
-): BeanDefinition<T> = single(qualifier = qualifier, override = override, definition = definition)
+): Pair<Module, InstanceFactory<T>> = single(
+    qualifier = qualifier,
+    createdAtStart = createdAtStart,
+    definition = definition
+)
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
     getDependency(it)
