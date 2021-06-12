@@ -55,6 +55,16 @@ jobs:
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
 
+      - name: Gradle Caching
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Gradle Build
         run: ./gradlew build --parallel
 
@@ -81,6 +91,24 @@ jobs:
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: android/build/outputs/apk/release/android-release.apk
+
+  Distribution:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: apk
+
       - name: Firebase App Distribution
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -88,8 +116,13 @@ jobs:
           appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
           token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
           groups: QA
-          file: android/build/outputs/apk/release/android-release.apk
+          file: android-release.apk
 
+  Notify:
+    runs-on: macos-latest
+    needs: [ Build, Distribution ]
+    if: always()
+    steps:
       - name: Notify slack success
         if: success()
         env:
