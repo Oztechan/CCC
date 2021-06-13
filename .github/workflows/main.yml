@@ -32,7 +32,7 @@ jobs:
   GradleBuild:
     runs-on: macos-latest
     outputs:
-      deploy-status: ${{ steps.check.outputs.GradleBuildStatus }}
+      status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Clone Repo
@@ -64,9 +64,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          key: GradleBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            GradleBuild-${{ runner.os }}-gradle-
 
       - name: Gradle Build
         run: ./gradlew build --parallel
@@ -77,10 +77,14 @@ jobs:
           name: apk
           path: android/build/outputs/apk/release/android-release.apk
 
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   XCodeBuild:
     runs-on: macos-latest
     outputs:
-      deploy-status: ${{ steps.check.outputs.XCodeBuildStatus }}
+      status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Clone Repo
@@ -117,17 +121,17 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          key: XCodeBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            XCodeBuild-${{ runner.os }}-gradle-
 
       - name: Cache Pods
         uses: actions/cache@v1
         with:
           path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: XCodeBuild-${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            XCodeBuild-${{ runner.os }}-pods-
 
       - name: Install Cocoapods
         run: ./gradlew build :client:podspec &&
@@ -147,11 +151,15 @@ jobs:
           CODE_SIGN_ENTITLEMENTS=""
           CODE_SIGNING_ALLOWED="NO"
 
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Distribution:
     runs-on: ubuntu-latest
     needs: [ GradleBuild, XCodeBuild ]
     outputs:
-      deploy-status: ${{ steps.check.outputs.DistributionStatus }}
+      status: ${{ steps.status.outputs.status }}
     steps:
 
       - uses: actions/checkout@v2
@@ -172,6 +180,10 @@ jobs:
           groups: QA
           file: android-release.apk
 
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Notify:
     runs-on: macos-latest
     needs: [ GradleBuild, XCodeBuild, Distribution ]
@@ -179,9 +191,9 @@ jobs:
     steps:
 
       - name: Notify slack success
-        if: needs.deploy.outputs.GradleBuildStatus == 'true' &&
-          needs.deploy.outputs.XCodeBuildStatus == 'true' &&
-          needs.deploy.outputs.DistributionStatus == 'true'
+        if: needs.GradleBuild.outputs.status == 'success' &&
+          needs.XCodeBuild.outputs.status == 'success' &&
+          needs.Distribution.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
@@ -191,9 +203,9 @@ jobs:
           color: good
 
       - name: Notify slack fail
-        if: needs.deploy.outputs.GradleBuildStatus == '' ||
-          needs.deploy.outputs.XCodeBuildStatus == '' ||
-          needs.deploy.outputs.DistributionStatus == ''
+        if: false == (needs.GradleBuild.outputs.status == 'success') ||
+          false == (needs.XCodeBuild.outputs.status == 'success') ||
+          false == (needs.Distribution.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
