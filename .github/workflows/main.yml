@@ -31,6 +31,8 @@ jobs:
 
   Build:
     runs-on: macos-latest
+    outputs:
+      deploy-status: ${{ steps.check.outputs.buildStatus }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v2
@@ -99,6 +101,8 @@ jobs:
 
   Distribution:
     runs-on: ubuntu-latest
+    outputs:
+      deploy-status: ${{ steps.check.outputs.distributionStatus }}
     needs: Build
     steps:
       - uses: actions/checkout@v2
@@ -124,7 +128,7 @@ jobs:
     if: always()
     steps:
       - name: Notify slack success
-        if: success()
+        if: needs.deploy.outputs.buildStatus == 'true' && needs.deploy.outputs.distributionStatus == 'true'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
@@ -134,7 +138,7 @@ jobs:
           color: good
 
       - name: Notify slack fail
-        if: failure()
+        if: needs.deploy.outputs.buildStatus == 'false' || needs.deploy.outputs.distributionStatus == 'false'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
