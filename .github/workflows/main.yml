@@ -64,9 +64,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: GradleBuild-cache-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          key: cache-GradleBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
-            GradleBuild-cache-${{ runner.os }}-gradle-
+            cache-GradleBuild-${{ runner.os }}-gradle-
 
       - name: Gradle Build
         run: ./gradlew build --parallel
@@ -121,17 +121,17 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: XCodeBuild-cache-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
+          key: cache-XCodeBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
           restore-keys: |
-            XCodeBuild-cache-${{ runner.os }}-gradle-
+            cache-XCodeBuild-${{ runner.os }}-gradle-
 
       - name: Cache Pods
         uses: actions/cache@v1
         with:
           path: ios/Pods
-          key: XCodeBuild-cache-${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: cache-XCodeBuild-${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
-            XCodeBuild-cache-${{ runner.os }}-pods-
+            cache-XCodeBuild-${{ runner.os }}-pods-
 
       - name: Install Cocoapods
         run: ./gradlew build :client:podspec &&
