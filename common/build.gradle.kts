@@ -87,8 +87,16 @@ kotlin {
         }
 
         with(Dependencies.JS) {
-            val jsMain by getting { dependencies { implementation(ktor) } }
-            val jsTest by getting { dependencies { implementation(kotlin(test)) } }
+            val jsMain by getting {
+                dependencies {
+                    implementation(ktor)
+                }
+            }
+            val jsTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
+                }
+            }
         }
 
         with(Dependencies.JVM) {
