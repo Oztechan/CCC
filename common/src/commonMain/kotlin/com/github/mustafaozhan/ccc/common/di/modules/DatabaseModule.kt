@@ -1,7 +1,9 @@
 package com.github.mustafaozhan.ccc.common.di.modules
 
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepositoryImpl
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepositoryImpl
 import com.github.mustafaozhan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import com.github.mustafaozhan.ccc.common.di.getDatabaseDefinition
 import com.github.mustafaozhan.ccc.common.fake.FakeCurrencyQueries
@@ -19,8 +21,8 @@ fun getDatabaseModule(forTest: Boolean = false) = module {
         single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     }
 
-    single { CurrencyDao(get()) }
-    single { OfflineRatesDao(get()) }
+    single<CurrencyRepository> { CurrencyRepositoryImpl(get()) }
+    single<OfflineRatesRepository> { OfflineRatesRepositoryImpl(get()) }
 
     getDatabaseDefinition(DATABASE_NAME)
 }

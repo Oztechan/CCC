@@ -25,8 +25,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Co
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -48,8 +48,8 @@ import kotlinx.coroutines.launch
 class CalculatorViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -77,7 +77,7 @@ class CalculatorViewModel(
             .onEach { calculateOutput(it) }
             .launchIn(clientScope)
 
-        currencyDao.collectActiveCurrencies()
+        currencyRepository.collectActiveCurrencies()
             .mapToModel()
             .onEach { _state.update(currencyList = it) }
             .launchIn(clientScope)
@@ -97,12 +97,12 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it)
             _state.update(rateState = RateState.Online(it.date))
-            offlineRatesDao.insertOfflineRates(it)
+            offlineRatesRepository.insertOfflineRates(it)
         }
 
     private fun getRatesFailed(t: Throwable) {
         kermit.w(t) { "CalculatorViewModel getRatesFailed" }
-        offlineRatesDao.getOfflineRatesByBase(
+        offlineRatesRepository.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
@@ -154,7 +154,7 @@ class CalculatorViewModel(
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
+            symbol = currencyRepository.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
         )
     }
 

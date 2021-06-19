@@ -21,7 +21,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.takeFrom
 import kotlinx.serialization.json.Json
 
-class ApiFactory : ApiService {
+internal class ApiFactory : ApiService {
 
     companion object {
         private const val TIME_OUT: Long = 3000

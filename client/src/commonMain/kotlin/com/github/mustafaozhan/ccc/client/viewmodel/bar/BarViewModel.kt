@@ -10,7 +10,7 @@ import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
+class BarViewModel(
+    currencyRepository: CurrencyRepository
+) : BaseSEEDViewModel(), BarEvent {
     // region SEED
     private val _state = MutableStateFlow(BarState())
     override val state = _state.asStateFlow()
@@ -36,7 +38,7 @@ class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
     init {
         kermit.d { "BarViewModel init" }
 
-        currencyDao.collectActiveCurrencies()
+        currencyRepository.collectActiveCurrencies()
             .mapToModel()
             .onEach {
                 _state.update(

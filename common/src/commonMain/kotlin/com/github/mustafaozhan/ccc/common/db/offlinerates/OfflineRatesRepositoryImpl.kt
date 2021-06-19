@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-package com.github.mustafaozhan.ccc.common.db.dao
+package com.github.mustafaozhan.ccc.common.db.offlinerates
 
 import com.github.mustafaozhan.ccc.common.db.sql.OfflineRatesQueries
 import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
@@ -9,9 +6,11 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.model.toModel
 import com.github.mustafaozhan.logmob.kermit
 
-class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
+internal class OfflineRatesRepositoryImpl(
+    private val offlineRatesQueries: OfflineRatesQueries
+) : OfflineRatesRepository {
 
-    fun insertOfflineRates(rates: Rates) = with(rates) {
+    override fun insertOfflineRates(rates: Rates) = with(rates) {
         offlineRatesQueries.insertOfflineRates(
             base, date, aED, aFN, aLL, aMD, aNG, aOA, aRS, aUD, aWG, aZN, bAM, bBD, bDT, bGN,
             bHD, bIF, bMD, bND, bOB, bRL, bSD, bTC, bTN, bWP, bYN, bZD, cAD, cDF, cHF, cLF,
@@ -24,19 +23,18 @@ class OfflineRatesDao(private val offlineRatesQueries: OfflineRatesQueries) {
             sDG, sEK, sGD, sHP, sLL, sOS, sRD, sSP, sTD, sTN, sVC, sYP, sZL, tHB, tJS, tMT,
             tND, tOP, tRY, tTD, tWD, tZS, uAH, uGX, uSD, uYU, uZS, vES, vND, vUV, wST, xAF,
             xAG, xAU, xCD, xDR, xOF, xPD, xPF, xPT, yER, zAR, zMW, zWL
-        ).also { kermit.d { "OfflineRatesDao insertOfflineRates ${rates.base}" } }
+        ).also { kermit.d { "OfflineRatesRepositoryImpl insertOfflineRates ${rates.base}" } }
     }
 
-    fun getOfflineRatesByBase(baseName: String) = offlineRatesQueries
+    override fun getOfflineRatesByBase(baseName: String) = offlineRatesQueries
         .getOfflineRatesByBase(baseName)
         .executeAsOneOrNull()
         ?.toModel()
-        .also { kermit.d { "OfflineRatesDao getOfflineRatesByBase $baseName" } }
+        .also { kermit.d { "OfflineRatesRepositoryImpl getOfflineRatesByBase $baseName" } }
 
-    @Suppress("unused")
-    fun getOfflineCurrencyResponseByBase(baseName: String) = offlineRatesQueries
+    override fun getOfflineCurrencyResponseByBase(baseName: String) = offlineRatesQueries
         .getOfflineRatesByBase(baseName)
         .executeAsOneOrNull()
         ?.toCurrencyResponseEntity()
-        .also { kermit.d { "OfflineRatesDao getOfflineCurrencyResponseByBase $baseName" } }
+        .also { kermit.d { "OfflineRatesRepositoryImpl getOfflineCurrencyResponseByBase $baseName" } }
 }

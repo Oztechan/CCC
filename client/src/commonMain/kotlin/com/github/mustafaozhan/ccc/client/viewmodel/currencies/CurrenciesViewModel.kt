@@ -11,7 +11,7 @@ import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState.Companion.update
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.either
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
-    private val currencyDao: CurrencyDao
+    private val currencyRepository: CurrencyRepository
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -46,7 +46,7 @@ class CurrenciesViewModel(
     init {
         kermit.d { "CurrenciesViewModel init" }
 
-        currencyDao.collectAllCurrencies()
+        currencyRepository.collectAllCurrencies()
             .mapToModel()
             .onEach { currencyList ->
 
@@ -112,12 +112,12 @@ class CurrenciesViewModel(
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) {
         kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyDao.updateAllCurrencyState(state)
+        currencyRepository.updateAllCurrencyState(state)
     }
 
     override fun onItemClick(currency: Currency) {
         kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
-        currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
+        currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
     override fun onDoneClick() = clientScope.launch {

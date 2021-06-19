@@ -14,8 +14,8 @@ import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.delay
@@ -31,8 +31,8 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -55,7 +55,7 @@ class SettingsViewModel(
             addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
-        currencyDao.collectActiveCurrencies()
+        currencyRepository.collectActiveCurrencies()
             .mapToModel()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
@@ -66,13 +66,13 @@ class SettingsViewModel(
         _state.update(loading = true)
 
         _effect.emit(SettingsEffect.Synchronising)
-        currencyDao.getActiveCurrencies()
+        currencyRepository.getActiveCurrencies()
             .toModelList()
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
                 apiRepository.getRatesViaBackend(name).execute(
-                    success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
+                    success = { offlineRatesRepository.insertOfflineRates(it.toRates()) },
                     error = { error -> kermit.e(error) { error.message.toString() } }
                 )
             }
