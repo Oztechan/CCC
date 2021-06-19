@@ -7,7 +7,7 @@ import com.github.mustafaozhan.ccc.common.api.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.api.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.api.error.NetworkException
 import com.github.mustafaozhan.ccc.common.api.error.TimeoutException
-import com.github.mustafaozhan.ccc.common.entity.toModel
+import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.platformCoroutineContext
 import com.github.mustafaozhan.ccc.common.util.Result
 import com.github.mustafaozhan.logmob.kermit

@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
-import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.isDebug
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
@@ -54,7 +54,7 @@ internal class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesViaBackend(base: String): CurrencyResponseEntity = client.get {
+    override suspend fun getRatesViaBackend(base: String): CurrencyResponse = client.get {
         url {
             if (isDebug()) {
                 takeFrom(BuildKonfig.BASE_URL_DEV)
@@ -66,7 +66,7 @@ internal class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesViaApi(base: String): CurrencyResponseEntity = client.get {
+    override suspend fun getRatesViaApi(base: String): CurrencyResponse = client.get {
         url {
             if (isDebug()) {
                 takeFrom(BuildKonfig.BASE_URL_DEV)

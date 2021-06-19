@@ -1,9 +1,9 @@
 package com.github.mustafaozhan.ccc.common.db.offlinerates
 
 import com.github.mustafaozhan.ccc.common.db.sql.OfflineRatesQueries
-import com.github.mustafaozhan.ccc.common.entity.toCurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.mapper.toCurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.model.toModel
 import com.github.mustafaozhan.logmob.kermit
 
 internal class OfflineRatesRepositoryImpl(
@@ -33,7 +33,7 @@ internal class OfflineRatesRepositoryImpl(
         .also { kermit.d { "OfflineRatesRepositoryImpl getOfflineRatesByBase $baseName" } }
 
     override fun getOfflineCurrencyResponseByBase(baseName: String) = offlineRatesQueries
-        .getOfflineRatesByBase(baseName)
+        .getOfflineRatesByBase(baseName.uppercase())
         .executeAsOneOrNull()
         ?.toCurrencyResponseEntity()
         .also { kermit.d { "OfflineRatesRepositoryImpl getOfflineCurrencyResponseByBase $baseName" } }

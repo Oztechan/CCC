@@ -4,10 +4,9 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.model.mapToModel
-import com.github.mustafaozhan.ccc.client.model.toModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
@@ -78,8 +77,7 @@ class CalculatorViewModel(
             .launchIn(clientScope)
 
         currencyRepository.collectActiveCurrencies()
-            .mapToModel()
-            .onEach { _state.update(currencyList = it) }
+            .onEach { _state.update(currencyList = it.toUIModelList()) }
             .launchIn(clientScope)
     }
 
@@ -154,7 +152,7 @@ class CalculatorViewModel(
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyRepository.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
+            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         )
     }
 

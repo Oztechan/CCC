@@ -5,8 +5,6 @@ package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.model.mapToModel
-import com.github.mustafaozhan.ccc.client.model.toModelList
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.util.toRates
@@ -56,7 +54,6 @@ class SettingsViewModel(
         )
 
         currencyRepository.collectActiveCurrencies()
-            .mapToModel()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
             }.launchIn(clientScope)
@@ -67,7 +64,6 @@ class SettingsViewModel(
 
         _effect.emit(SettingsEffect.Synchronising)
         currencyRepository.getActiveCurrencies()
-            .toModelList()
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 

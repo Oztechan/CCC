@@ -4,8 +4,8 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -47,7 +48,7 @@ class CurrenciesViewModel(
         kermit.d { "CurrenciesViewModel init" }
 
         currencyRepository.collectAllCurrencies()
-            .mapToModel()
+            .map { it.toUIModelList() }
             .onEach { currencyList ->
 
                 _state.update(currencyList = currencyList)

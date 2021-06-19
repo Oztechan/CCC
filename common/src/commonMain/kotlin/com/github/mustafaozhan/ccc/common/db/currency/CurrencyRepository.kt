@@ -1,6 +1,6 @@
 package com.github.mustafaozhan.ccc.common.db.currency
 
-import com.github.mustafaozhan.ccc.common.db.sql.Currency
+import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.Flow
 
 interface CurrencyRepository {

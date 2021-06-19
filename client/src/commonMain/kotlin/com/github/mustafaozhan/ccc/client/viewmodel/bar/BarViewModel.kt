@@ -5,8 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
@@ -39,10 +39,9 @@ class BarViewModel(
         kermit.d { "BarViewModel init" }
 
         currencyRepository.collectActiveCurrencies()
-            .mapToModel()
             .onEach {
                 _state.update(
-                    currencyList = it,
+                    currencyList = it.toUIModelList(),
                     loading = false,
                     enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
                 )
