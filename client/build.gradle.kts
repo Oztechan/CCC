@@ -114,7 +114,11 @@ kotlin {
 
         with(Dependencies.JS) {
             val jsMain by getting
-            val jsTest by getting { dependencies { implementation(kotlin(test)) } }
+            val jsTest by getting {
+                dependencies {
+                    implementation(kotlin(test))
+                }
+            }
         }
 
         with(Dependencies.JVM) {
