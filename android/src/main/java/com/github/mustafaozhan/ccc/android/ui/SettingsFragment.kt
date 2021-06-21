@@ -18,7 +18,6 @@ import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.logmob.kermit
@@ -182,7 +181,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
             }
         }
-    }.toUnit()
+    }
 
     private fun setListeners() = with(binding) {
         with(settingsViewModel.event) {
@@ -224,7 +223,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         type = TEXT_TYPE
         putExtra(Intent.EXTRA_TEXT, getString(R.string.app_market_link))
         startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
-    }.toUnit()
+    }
 
     private fun sendFeedBack() = Intent(Intent.ACTION_SEND).apply {
         type = TEXT_EMAIL_TYPE
@@ -232,5 +231,5 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
         putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
         startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
-    }.toUnit()
+    }
 }

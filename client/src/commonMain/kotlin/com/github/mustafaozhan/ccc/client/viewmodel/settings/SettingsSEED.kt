@@ -13,26 +13,7 @@ data class SettingsState(
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeEndDate: String = "",
     val loading: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(0, AppTheme.SYSTEM_DEFAULT, "", false)
-
-    companion object {
-        fun MutableStateFlow<SettingsState>.update(
-            activeCurrencyCount: Int = value.activeCurrencyCount,
-            appThemeType: AppTheme = value.appThemeType,
-            addFreeEndDate: String = value.addFreeEndDate,
-            loading: Boolean = value.loading
-        ) {
-            value = value.copy(
-                activeCurrencyCount = activeCurrencyCount,
-                appThemeType = appThemeType,
-                addFreeEndDate = addFreeEndDate,
-                loading = loading
-            )
-        }
-    }
-}
+) : BaseState()
 
 // Event
 interface SettingsEvent : BaseEvent {
@@ -69,4 +50,19 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
     }
+}
+
+// Extension
+fun MutableStateFlow<SettingsState>.update(
+    activeCurrencyCount: Int = value.activeCurrencyCount,
+    appThemeType: AppTheme = value.appThemeType,
+    addFreeEndDate: String = value.addFreeEndDate,
+    loading: Boolean = value.loading
+) {
+    value = value.copy(
+        activeCurrencyCount = activeCurrencyCount,
+        appThemeType = appThemeType,
+        addFreeEndDate = addFreeEndDate,
+        loading = loading
+    )
 }

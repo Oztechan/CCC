@@ -21,9 +21,7 @@ import com.github.mustafaozhan.ccc.client.util.toInstant
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.client.util.unitOrNull
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
@@ -144,16 +142,6 @@ class ExtensionsTest {
     }
 
     @Test
-    fun toUnit() {
-        assertEquals(Unit, 1.toUnit())
-        assertEquals(Unit, 1.0.toUnit())
-        assertEquals(Unit, "some text".toUnit())
-        assertEquals(Unit, Rates().toUnit())
-        assertEquals(Unit, CurrencyResponse("EUR", "", Rates()).toUnit())
-        assertEquals(Unit, true.toUnit())
-    }
-
-    @Test
     fun isWeekPassed() {
         assertEquals(true, (nowAsLong() - 1 - WEEK).isWeekPassed())
         assertEquals(true, (nowAsLong() - WEEK).isWeekPassed())
@@ -193,16 +181,6 @@ class ExtensionsTest {
         assertEquals("05", 5.doubleDigits())
         assertEquals("09", 9.doubleDigits())
         assertEquals("10", 10.doubleDigits())
-    }
-
-    @Test
-    fun unit() {
-        val nullAny = null
-        val notNullAny = Any()
-        assertTrue { nullAny.toUnit() == Unit }
-        assertTrue { notNullAny.toUnit() == Unit }
-        assertTrue { nullAny.unitOrNull() == null }
-        assertTrue { notNullAny.unitOrNull() == Unit }
     }
 
     @Test

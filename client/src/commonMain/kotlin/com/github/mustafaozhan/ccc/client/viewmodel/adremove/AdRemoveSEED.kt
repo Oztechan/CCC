@@ -10,22 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 data class AdRemoveState(
     val adRemoveTypes: List<RemoveAdType> = listOf(RemoveAdType.VIDEO),
     val loading: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(listOf(RemoveAdType.VIDEO), false)
-
-    companion object {
-        fun MutableStateFlow<AdRemoveState>.update(
-            adRemoveTypes: List<RemoveAdType> = value.adRemoveTypes,
-            loading: Boolean = value.loading
-        ) {
-            value = value.copy(
-                adRemoveTypes = adRemoveTypes,
-                loading = loading
-            )
-        }
-    }
-}
+) : BaseState()
 
 // Event
 interface AdRemoveEvent : BaseEvent {
@@ -37,4 +22,15 @@ sealed class AdRemoveEffect : BaseEffect() {
     data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
     object RestartActivity : AdRemoveEffect()
     object AlreadyAdFree : AdRemoveEffect()
+}
+
+// Extension
+fun MutableStateFlow<AdRemoveState>.update(
+    adRemoveTypes: List<RemoveAdType> = value.adRemoveTypes,
+    loading: Boolean = value.loading
+) {
+    value = value.copy(
+        adRemoveTypes = adRemoveTypes,
+        loading = loading
+    )
 }

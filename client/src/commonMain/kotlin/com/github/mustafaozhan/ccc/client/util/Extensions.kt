@@ -14,6 +14,8 @@ import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -24,11 +26,11 @@ private const val BIGGEST_DIGIT = 9
 
 expect fun Double.getFormatted(): String
 
-@Suppress("unused")
-fun Any?.toUnit() = Unit
-
-@Suppress("unused")
-fun Any?.unitOrNull() = if (this == null) null else Unit
+fun CoroutineScope.launchIgnored(function: suspend () -> Unit) {
+    launch {
+        function()
+    }
+}
 
 fun Long.isWeekPassed(): Boolean {
     return nowAsLong() - this >= WEEK

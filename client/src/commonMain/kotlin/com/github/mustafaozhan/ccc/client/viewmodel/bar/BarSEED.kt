@@ -11,24 +11,7 @@ data class BarState(
     val loading: Boolean = true,
     val enoughCurrency: Boolean = false,
     val currencyList: List<Currency> = listOf(),
-) : BaseState() {
-    // for ios
-    constructor() : this(true, false, listOf())
-
-    companion object {
-        fun MutableStateFlow<BarState>.update(
-            loading: Boolean = value.loading,
-            enoughCurrency: Boolean = value.enoughCurrency,
-            currencyList: List<Currency> = value.currencyList
-        ) {
-            value = value.copy(
-                loading = loading,
-                enoughCurrency = enoughCurrency,
-                currencyList = currencyList
-            )
-        }
-    }
-}
+) : BaseState()
 
 // Event
 interface BarEvent : BaseEvent {
@@ -40,4 +23,17 @@ interface BarEvent : BaseEvent {
 sealed class BarEffect : BaseEffect() {
     data class ChangeBase(val newBase: String) : BarEffect()
     object OpenCurrencies : BarEffect()
+}
+
+// Extension
+fun MutableStateFlow<BarState>.update(
+    loading: Boolean = value.loading,
+    enoughCurrency: Boolean = value.enoughCurrency,
+    currencyList: List<Currency> = value.currencyList
+) {
+    value = value.copy(
+        loading = loading,
+        enoughCurrency = enoughCurrency,
+        currencyList = currencyList
+    )
 }

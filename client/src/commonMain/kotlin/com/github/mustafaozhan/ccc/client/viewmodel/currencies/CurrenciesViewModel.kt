@@ -9,8 +9,7 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
@@ -121,7 +120,7 @@ class CurrenciesViewModel(
         currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
-    override fun onDoneClick() = clientScope.launch {
+    override fun onDoneClick() = clientScope.launchIgnored {
         kermit.d { "CurrenciesViewModel onDoneClick" }
         data.unFilteredList
             .filter { it.isActive }.size
@@ -131,14 +130,14 @@ class CurrenciesViewModel(
                 settingsRepository.firstRun = false
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }
-    }.toUnit()
+    }
 
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
         kermit.d { "CurrenciesViewModel onItemLongClick" }
         _state.update(selectionVisibility = !it)
     }
 
-    override fun onCloseClick() = clientScope.launch {
+    override fun onCloseClick() = clientScope.launchIgnored {
         kermit.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)
@@ -147,7 +146,7 @@ class CurrenciesViewModel(
         }.run {
             filterList("")
         }
-    }.toUnit()
+    }
 
     override fun onQueryChange(query: String) {
         kermit.d { "CurrenciesViewModel onQueryChange $query" }
