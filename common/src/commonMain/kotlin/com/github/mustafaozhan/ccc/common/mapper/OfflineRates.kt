@@ -1,11 +1,11 @@
 package com.github.mustafaozhan.ccc.common.mapper
 
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.RatesEntity
+import com.github.mustafaozhan.ccc.common.model.Rates
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import com.github.mustafaozhan.ccc.common.db.sql.Offline_rates as OfflineRates
-import com.github.mustafaozhan.ccc.common.entity.CurrencyResponse as CurrencyResponseEntity
-import com.github.mustafaozhan.ccc.common.entity.Rates as RatesEntity
-import com.github.mustafaozhan.ccc.common.model.Rates as RatesModel
 
 internal fun OfflineRates.toRatesEntity() = RatesEntity(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
@@ -26,7 +26,7 @@ internal fun OfflineRates?.toCurrencyResponseEntity() =
 
 internal fun CurrencyResponseEntity?.toSerializedString() = Json.encodeToString(this)
 
-internal fun OfflineRates.toModel() = RatesModel(
+internal fun OfflineRates.toModel() = Rates(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
     BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF,
     CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,

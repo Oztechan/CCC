@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonNames
 
 @Suppress("ConstructorParameterNaming", "EXPERIMENTAL_API_USAGE")
 @Serializable
-internal data class Rates(
+internal data class RatesEntity(
     @SerialName("base") var base: String = "",
     @SerialName("date") var date: String? = null,
     @JsonNames("aed", "AED") var aed: Double? = null,

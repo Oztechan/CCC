@@ -4,38 +4,46 @@
 
 package com.github.mustafaozhan.ccc.common.mapper
 
+import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.github.mustafaozhan.ccc.common.db.sql.Currency as CurrencyEntity
-import com.github.mustafaozhan.ccc.common.model.Currency as CurrencyModel
 
-internal fun CurrencyEntity.toModel() = CurrencyModel(
-    name, longName, symbol, rate, isActive == 1.toLong()
+internal fun CurrencyEntity.toModel() = Currency(
+    name = name,
+    longName = longName,
+    symbol = symbol,
+    rate = rate,
+    isActive = isActive == 1.toLong()
 )
 
-internal fun List<CurrencyEntity>.toModelList(): List<CurrencyModel> {
-    val temp = mutableListOf<CurrencyModel>()
+internal fun List<CurrencyEntity>.toModelList(): List<Currency> {
+    val temp = mutableListOf<Currency>()
     forEach {
         temp.add(
-            CurrencyModel(
-                it.name, it.longName, it.symbol, it.rate, it.isActive == 1.toLong()
+            Currency(
+                name = it.name,
+                longName = it.longName,
+                symbol = it.symbol,
+                rate = it.rate,
+                isActive = it.isActive == 1.toLong()
             )
         )
     }
     return temp.toList()
 }
 
-internal fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<CurrencyModel>> {
+internal fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<Currency>> {
     return this.map {
-        mutableListOf<CurrencyModel>().apply {
+        mutableListOf<Currency>().apply {
             it.forEach {
                 add(
-                    CurrencyModel(
-                        it.name,
-                        it.longName,
-                        it.symbol,
-                        it.rate,
-                        it.isActive == 1.toLong()
+                    Currency(
+                        name = it.name,
+                        longName = it.longName,
+                        symbol = it.symbol,
+                        rate = it.rate,
+                        isActive = it.isActive == 1.toLong()
                     )
                 )
             }

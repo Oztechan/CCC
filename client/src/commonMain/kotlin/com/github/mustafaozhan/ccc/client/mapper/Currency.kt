@@ -1,9 +1,9 @@
 package com.github.mustafaozhan.ccc.client.mapper
 
-import com.github.mustafaozhan.ccc.client.model.Currency as ClientCurrency
-import com.github.mustafaozhan.ccc.common.model.Currency as CommonCurrency
+import com.github.mustafaozhan.ccc.common.model.Currency
+import com.github.mustafaozhan.ccc.client.model.Currency as CurrencyUIModel
 
-fun CommonCurrency.toUIModel() = ClientCurrency(
+fun Currency.toUIModel() = CurrencyUIModel(
     name = name,
     longName = longName,
     symbol = symbol,
@@ -11,6 +11,6 @@ fun CommonCurrency.toUIModel() = ClientCurrency(
     isActive = isActive
 )
 
-fun List<CommonCurrency>.toUIModelList() = map {
+fun List<Currency>.toUIModelList() = map {
     it.toUIModel()
 }

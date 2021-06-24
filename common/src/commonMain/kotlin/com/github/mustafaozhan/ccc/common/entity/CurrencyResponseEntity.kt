@@ -7,8 +7,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CurrencyResponse(
+internal data class CurrencyResponseEntity(
     @SerialName("base") var base: String,
     @SerialName("date") var date: String? = null,
-    @SerialName("rates") var rates: Rates
+    @SerialName("rates") var rates: RatesEntity
 )

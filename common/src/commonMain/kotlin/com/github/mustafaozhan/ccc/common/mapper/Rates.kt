@@ -1,9 +1,9 @@
 package com.github.mustafaozhan.ccc.common.mapper
 
-import com.github.mustafaozhan.ccc.common.entity.Rates as RatesEntity
-import com.github.mustafaozhan.ccc.common.model.Rates as RatesModel
+import com.github.mustafaozhan.ccc.common.entity.RatesEntity
+import com.github.mustafaozhan.ccc.common.model.Rates
 
-internal fun RatesEntity.toModel() = RatesModel(
+internal fun RatesEntity.toModel() = Rates(
     base, date, aed, afn, all, amd, ang, aoa, ars, aud, awg, azn, bam, bbd, bdt, bgn, bhd, bif,
     bmd, bnd, bob, brl, bsd, btc, btn, bwp, byn, bzd, cad, cdf, chf, clf, clp, cnh, cny, cop,
     crc, cuc, cup, cve, czk, djf, dkk, dop, dzd, egp, ern, etb, eur, fjd, fkp, gbp, gel, ggp,

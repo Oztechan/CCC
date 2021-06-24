@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.common.api
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
-import com.github.mustafaozhan.ccc.common.entity.CurrencyResponse
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.isDebug
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout
@@ -24,7 +24,7 @@ import kotlinx.serialization.json.Json
 internal class ApiFactory : ApiService {
 
     companion object {
-        private const val TIME_OUT: Long = 3000
+        private const val TIME_OUT: Long = 5000
         private const val QUERY_KEY_BASE = "base"
         private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
         private const val PATH_CURRENCY_BY_BASE_API = "latest/"
@@ -54,7 +54,9 @@ internal class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesViaBackend(base: String): CurrencyResponse = client.get {
+    override suspend fun getRatesViaBackend(
+        base: String
+    ): CurrencyResponseEntity = client.get {
         url {
             if (isDebug()) {
                 takeFrom(BuildKonfig.BASE_URL_DEV)
@@ -66,7 +68,9 @@ internal class ApiFactory : ApiService {
         }
     }
 
-    override suspend fun getRatesViaApi(base: String): CurrencyResponse = client.get {
+    override suspend fun getRatesViaApi(
+        base: String
+    ): CurrencyResponseEntity = client.get {
         url {
             if (isDebug()) {
                 takeFrom(BuildKonfig.BASE_URL_DEV)

@@ -83,7 +83,7 @@ fun String.toStandardDigits(): String {
 }
 
 fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
-    "1 $base = " + "${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
+    "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) =
     this?.filter {
