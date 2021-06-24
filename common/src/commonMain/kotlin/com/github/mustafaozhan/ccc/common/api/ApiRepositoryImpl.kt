@@ -22,7 +22,7 @@ internal class ApiRepositoryImpl(
 ) : ApiRepository {
 
     @Suppress("TooGenericExceptionCaught")
-    suspend fun <T> apiRequest(
+    private suspend fun <T> apiRequest(
         suspendBlock: suspend () -> T
     ) = withContext(platformCoroutineContext) {
         try {

@@ -45,7 +45,7 @@ class ExtensionsTest {
         val date = "12:34:56 01.01.2020"
         val base = "EUR"
         val target = "USD"
-        val rates = Rates(base, date, uSD = 5.0)
+        val rates = Rates(base, date, usd = 5.0)
 
         assertEquals(25.0, rates.calculateResult(target, "5.0"))
     }
@@ -54,7 +54,7 @@ class ExtensionsTest {
     fun getCurrencyConversionByRate() {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val base = "EUR"
-        val rates = Rates(base, null, uSD = 5.0)
+        val rates = Rates(base, null, usd = 5.0)
 
         assertEquals(
             "1 EUR = 5.0 USD Dollar \$",
@@ -127,16 +127,16 @@ class ExtensionsTest {
 
     @Test
     fun getConversionByName() {
-        val rates = Rates("EUR", "", uSD = 5.0, eUR = 12.2)
+        val rates = Rates("EUR", "", usd = 5.0, eur = 12.2)
 
-        assertEquals(rates.eUR, rates.getConversionByName("EUR"))
-        assertEquals(rates.uSD, rates.getConversionByName("USD"))
+        assertEquals(rates.eur, rates.getConversionByName("EUR"))
+        assertEquals(rates.usd, rates.getConversionByName("USD"))
     }
 
     @Test
     fun currencyResponseToRates() {
         val base = "EUR"
-        val rates = Rates(base, nowAsInstant().toDateString(), uSD = 5.0)
+        val rates = Rates(base, nowAsInstant().toDateString(), usd = 5.0)
         val currencyResponse = CurrencyResponse(base, nowAsInstant().toDateString(), rates)
         assertEquals(rates, currencyResponse.toRates())
     }

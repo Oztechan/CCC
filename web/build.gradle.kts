@@ -5,7 +5,6 @@
 plugins {
     with(Plugins) {
         kotlin(js)
-        kotlin(serializationPlugin)
     }
 }
 

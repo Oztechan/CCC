@@ -1,11 +1,13 @@
 package com.github.mustafaozhan.ccc.common.mapper
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import com.github.mustafaozhan.ccc.common.db.sql.Offline_rates as OfflineRates
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponse as CurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.entity.Rates as RatesEntity
 import com.github.mustafaozhan.ccc.common.model.Rates as RatesModel
 
-fun OfflineRates.toRatesEntity() = RatesEntity(
+internal fun OfflineRates.toRatesEntity() = RatesEntity(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
     BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF,
     CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,
@@ -19,10 +21,12 @@ fun OfflineRates.toRatesEntity() = RatesEntity(
     XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL
 )
 
-fun OfflineRates?.toCurrencyResponseEntity() =
+internal fun OfflineRates?.toCurrencyResponseEntity() =
     this?.run { CurrencyResponseEntity(base, date, toRatesEntity()) }
 
-fun OfflineRates.toModel() = RatesModel(
+internal fun CurrencyResponseEntity?.toSerializedString() = Json.encodeToString(this)
+
+internal fun OfflineRates.toModel() = RatesModel(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
     BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF,
     CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,

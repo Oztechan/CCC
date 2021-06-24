@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.map
 import com.github.mustafaozhan.ccc.common.db.sql.Currency as CurrencyEntity
 import com.github.mustafaozhan.ccc.common.model.Currency as CurrencyModel
 
-fun CurrencyEntity.toModel() = CurrencyModel(
+internal fun CurrencyEntity.toModel() = CurrencyModel(
     name, longName, symbol, rate, isActive == 1.toLong()
 )
 
-fun List<CurrencyEntity>.toModelList(): List<CurrencyModel> {
+internal fun List<CurrencyEntity>.toModelList(): List<CurrencyModel> {
     val temp = mutableListOf<CurrencyModel>()
     forEach {
         temp.add(
@@ -25,7 +25,7 @@ fun List<CurrencyEntity>.toModelList(): List<CurrencyModel> {
     return temp.toList()
 }
 
-fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<CurrencyModel>> {
+internal fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<CurrencyModel>> {
     return this.map {
         mutableListOf<CurrencyModel>().apply {
             it.forEach {
