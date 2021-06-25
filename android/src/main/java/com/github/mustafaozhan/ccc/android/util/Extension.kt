@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.google.android.gms.ads.AdRequest
@@ -42,7 +41,6 @@ fun Context.getImageResourceByName(name: String): Int = try {
 fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
-    ?.toUnit()
 
 fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isExpired) {
     with(context.applicationContext) {

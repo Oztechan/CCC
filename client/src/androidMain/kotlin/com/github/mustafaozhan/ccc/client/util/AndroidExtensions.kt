@@ -16,7 +16,7 @@ actual fun Double.getFormatted(): String {
     symbols.groupingSeparator = ' '
 
     // increasing floating digits for too small numbers
-    for (i in 0..MAXIMUM_FLOATING_POINT) {
+    repeat(MAXIMUM_FLOATING_POINT) {
         if (DecimalFormat(decimalFormat, symbols).format(this) == "0") {
             decimalFormat = "$decimalFormat#"
         }

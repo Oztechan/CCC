@@ -4,14 +4,13 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesState.Companion.update
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.either
@@ -23,13 +22,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
-    private val currencyDao: CurrencyDao
+    private val currencyRepository: CurrencyRepository
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -46,8 +46,8 @@ class CurrenciesViewModel(
     init {
         kermit.d { "CurrenciesViewModel init" }
 
-        currencyDao.collectAllCurrencies()
-            .mapToModel()
+        currencyRepository.collectAllCurrencies()
+            .map { it.toUIModelList() }
             .onEach { currencyList ->
 
                 _state.update(currencyList = currencyList)
@@ -112,15 +112,15 @@ class CurrenciesViewModel(
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) {
         kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyDao.updateAllCurrencyState(state)
+        currencyRepository.updateAllCurrencyState(state)
     }
 
     override fun onItemClick(currency: Currency) {
         kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
-        currencyDao.updateCurrencyStateByName(currency.name, !currency.isActive)
+        currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
-    override fun onDoneClick() = clientScope.launch {
+    override fun onDoneClick() = clientScope.launchIgnored {
         kermit.d { "CurrenciesViewModel onDoneClick" }
         data.unFilteredList
             .filter { it.isActive }.size
@@ -130,14 +130,14 @@ class CurrenciesViewModel(
                 settingsRepository.firstRun = false
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }
-    }.toUnit()
+    }
 
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
         kermit.d { "CurrenciesViewModel onItemLongClick" }
         _state.update(selectionVisibility = !it)
     }
 
-    override fun onCloseClick() = clientScope.launch {
+    override fun onCloseClick() = clientScope.launchIgnored {
         kermit.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)
@@ -146,7 +146,7 @@ class CurrenciesViewModel(
         }.run {
             filterList("")
         }
-    }.toUnit()
+    }
 
     override fun onQueryChange(query: String) {
         kermit.d { "CurrenciesViewModel onQueryChange $query" }

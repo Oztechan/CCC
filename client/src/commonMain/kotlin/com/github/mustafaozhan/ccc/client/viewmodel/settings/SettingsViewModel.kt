@@ -5,17 +5,14 @@ package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.model.mapToModel
-import com.github.mustafaozhan.ccc.client.model.toModelList
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.util.toRates
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.delay
@@ -25,14 +22,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -55,8 +51,7 @@ class SettingsViewModel(
             addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
-        currencyDao.collectActiveCurrencies()
-            .mapToModel()
+        currencyRepository.collectActiveCurrencies()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
             }.launchIn(clientScope)
@@ -66,27 +61,28 @@ class SettingsViewModel(
         _state.update(loading = true)
 
         _effect.emit(SettingsEffect.Synchronising)
-        currencyDao.getActiveCurrencies()
-            .toModelList()
+
+        currencyRepository.getActiveCurrencies()
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
                 apiRepository.getRatesViaBackend(name).execute(
-                    success = { offlineRatesDao.insertOfflineRates(it.toRates()) },
+                    success = { offlineRatesRepository.insertOfflineRates(it.toRates()) },
                     error = { error -> kermit.e(error) { error.message.toString() } }
                 )
             }
 
         _effect.emit(SettingsEffect.Synchronised)
+
         _state.update(loading = false)
         data.synced = true
     }
 
-    fun updateTheme(theme: AppTheme) = clientScope.launch {
+    fun updateTheme(theme: AppTheme) = clientScope.launchIgnored {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
-    }.toUnit()
+    }
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
@@ -100,53 +96,53 @@ class SettingsViewModel(
     }
 
     // region Event
-    override fun onBackClick() = clientScope.launch {
+    override fun onBackClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onBackClick" }
         _effect.emit(SettingsEffect.Back)
-    }.toUnit()
+    }
 
-    override fun onCurrenciesClick() = clientScope.launch {
+    override fun onCurrenciesClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onCurrenciesClick" }
         _effect.emit(SettingsEffect.OpenCurrencies)
-    }.toUnit()
+    }
 
-    override fun onFeedBackClick() = clientScope.launch {
+    override fun onFeedBackClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onFeedBackClick" }
         _effect.emit(SettingsEffect.FeedBack)
-    }.toUnit()
+    }
 
-    override fun onShareClick() = clientScope.launch {
+    override fun onShareClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onShareClick" }
         _effect.emit(SettingsEffect.Share)
-    }.toUnit()
+    }
 
-    override fun onSupportUsClick() = clientScope.launch {
+    override fun onSupportUsClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onSupportUsClick" }
         _effect.emit(SettingsEffect.SupportUs)
-    }.toUnit()
+    }
 
-    override fun onOnGitHubClick() = clientScope.launch {
+    override fun onOnGitHubClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onOnGitHubClick" }
         _effect.emit(SettingsEffect.OnGitHub)
-    }.toUnit()
+    }
 
-    override fun onRemoveAdsClick() = clientScope.launch {
+    override fun onRemoveAdsClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onRemoveAdsClick" }
         _effect.emit(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
-    }.toUnit()
+    }
 
-    override fun onThemeClick() = clientScope.launch {
+    override fun onThemeClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onThemeClick" }
         _effect.emit(SettingsEffect.ThemeDialog)
-    }.toUnit()
+    }
 
-    override fun onSyncClick() = clientScope.launch {
+    override fun onSyncClick() = clientScope.launchIgnored {
         kermit.d { "SettingsViewModel onSyncClick" }
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {
             synchroniseRates()
         }
-    }.toUnit()
+    }
     // endregion
 }

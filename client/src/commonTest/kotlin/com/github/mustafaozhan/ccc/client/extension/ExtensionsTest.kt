@@ -21,9 +21,7 @@ import com.github.mustafaozhan.ccc.client.util.toInstant
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.client.util.unitOrNull
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
@@ -47,7 +45,7 @@ class ExtensionsTest {
         val date = "12:34:56 01.01.2020"
         val base = "EUR"
         val target = "USD"
-        val rates = Rates(base, date, uSD = 5.0)
+        val rates = Rates(base, date, usd = 5.0)
 
         assertEquals(25.0, rates.calculateResult(target, "5.0"))
     }
@@ -56,7 +54,7 @@ class ExtensionsTest {
     fun getCurrencyConversionByRate() {
         val currency = Currency("USD", "Dollar", "$", 0.0, true)
         val base = "EUR"
-        val rates = Rates(base, null, uSD = 5.0)
+        val rates = Rates(base, null, usd = 5.0)
 
         assertEquals(
             "1 EUR = 5.0 USD Dollar \$",
@@ -129,28 +127,18 @@ class ExtensionsTest {
 
     @Test
     fun getConversionByName() {
-        val rates = Rates("EUR", "", uSD = 5.0, eUR = 12.2)
+        val rates = Rates("EUR", "", usd = 5.0, eur = 12.2)
 
-        assertEquals(rates.eUR, rates.getConversionByName("EUR"))
-        assertEquals(rates.uSD, rates.getConversionByName("USD"))
+        assertEquals(rates.eur, rates.getConversionByName("EUR"))
+        assertEquals(rates.usd, rates.getConversionByName("USD"))
     }
 
     @Test
     fun currencyResponseToRates() {
         val base = "EUR"
-        val rates = Rates(base, nowAsInstant().toDateString(), uSD = 5.0)
+        val rates = Rates(base, nowAsInstant().toDateString(), usd = 5.0)
         val currencyResponse = CurrencyResponse(base, nowAsInstant().toDateString(), rates)
         assertEquals(rates, currencyResponse.toRates())
-    }
-
-    @Test
-    fun toUnit() {
-        assertEquals(Unit, 1.toUnit())
-        assertEquals(Unit, 1.0.toUnit())
-        assertEquals(Unit, "some text".toUnit())
-        assertEquals(Unit, Rates().toUnit())
-        assertEquals(Unit, CurrencyResponse("EUR", "", Rates()).toUnit())
-        assertEquals(Unit, true.toUnit())
     }
 
     @Test
@@ -193,16 +181,6 @@ class ExtensionsTest {
         assertEquals("05", 5.doubleDigits())
         assertEquals("09", 9.doubleDigits())
         assertEquals("10", 10.doubleDigits())
-    }
-
-    @Test
-    fun unit() {
-        val nullAny = null
-        val notNullAny = Any()
-        assertTrue { nullAny.toUnit() == Unit }
-        assertTrue { notNullAny.toUnit() == Unit }
-        assertTrue { nullAny.unitOrNull() == null }
-        assertTrue { notNullAny.unitOrNull() == Unit }
     }
 
     @Test

@@ -19,33 +19,7 @@ data class CalculatorState(
     val symbol: String = "",
     val loading: Boolean = true,
     val rateState: RateState = RateState.None,
-) : BaseState() {
-    // for ios
-    constructor() : this("", "", listOf(), "", "", true, RateState.None)
-
-    companion object {
-        @Suppress("LongParameterList")
-        fun MutableStateFlow<CalculatorState>.update(
-            input: String = value.input,
-            base: String = value.base,
-            currencyList: List<Currency> = value.currencyList,
-            output: String = value.output,
-            symbol: String = value.symbol,
-            loading: Boolean = value.loading,
-            rateState: RateState = value.rateState
-        ) {
-            value = value.copy(
-                input = input,
-                base = base,
-                currencyList = currencyList,
-                output = output,
-                symbol = symbol,
-                loading = loading,
-                rateState = rateState
-            )
-        }
-    }
-}
+) : BaseState()
 
 // Event
 interface CalculatorEvent : BaseEvent {
@@ -81,4 +55,26 @@ data class CalculatorData(
         internal const val KEY_DEL = "DEL"
         internal const val KEY_AC = "AC"
     }
+}
+
+// Extension
+@Suppress("LongParameterList")
+fun MutableStateFlow<CalculatorState>.update(
+    input: String = value.input,
+    base: String = value.base,
+    currencyList: List<Currency> = value.currencyList,
+    output: String = value.output,
+    symbol: String = value.symbol,
+    loading: Boolean = value.loading,
+    rateState: RateState = value.rateState
+) {
+    value = value.copy(
+        input = input,
+        base = base,
+        currencyList = currencyList,
+        output = output,
+        symbol = symbol,
+        loading = loading,
+        rateState = rateState
+    )
 }

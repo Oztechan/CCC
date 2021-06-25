@@ -123,11 +123,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                         R.id.currenciesFragment,
                         CurrenciesFragmentDirections.actionCurrenciesFragmentToCalculatorFragment()
                     )
-                    view?.run { hideKeyboard() }
+                    view?.hideKeyboard()
                 }
                 CurrenciesEffect.Back -> {
                     getBaseActivity()?.onBackPressed()
-                    view?.run { hideKeyboard() }
+                    view?.hideKeyboard()
                 }
                 is CurrenciesEffect.ChangeBase -> setNavigationResult(
                     R.id.calculatorFragment,

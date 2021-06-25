@@ -5,12 +5,11 @@ package com.github.mustafaozhan.ccc.client.viewmodel.bar
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.mapToModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
-import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarState.Companion.update
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,9 +17,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
-class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
+class BarViewModel(
+    currencyRepository: CurrencyRepository
+) : BaseSEEDViewModel(), BarEvent {
     // region SEED
     private val _state = MutableStateFlow(BarState())
     override val state = _state.asStateFlow()
@@ -36,11 +36,10 @@ class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
     init {
         kermit.d { "BarViewModel init" }
 
-        currencyDao.collectActiveCurrencies()
-            .mapToModel()
+        currencyRepository.collectActiveCurrencies()
             .onEach {
                 _state.update(
-                    currencyList = it,
+                    currencyList = it.toUIModelList(),
                     loading = false,
                     enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
                 )
@@ -53,14 +52,14 @@ class BarViewModel(currencyDao: CurrencyDao) : BaseSEEDViewModel(), BarEvent {
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) = clientScope.launch {
+    override fun onItemClick(currency: Currency) = clientScope.launchIgnored {
         kermit.d { "BarViewModel onItemClick ${currency.name}" }
         _effect.emit(BarEffect.ChangeBase(currency.name))
-    }.toUnit()
+    }
 
-    override fun onSelectClick() = clientScope.launch {
+    override fun onSelectClick() = clientScope.launchIgnored {
         kermit.d { "BarViewModel onSelectClick" }
         _effect.emit(BarEffect.OpenCurrencies)
-    }.toUnit()
+    }
     // endregion
 }

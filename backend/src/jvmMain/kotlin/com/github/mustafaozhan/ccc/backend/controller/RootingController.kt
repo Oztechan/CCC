@@ -4,12 +4,12 @@
 
 package com.github.mustafaozhan.ccc.backend.controller
 
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 
 class RootingController(
-    private val offlineRatesDao: OfflineRatesDao
+    private val offlineRatesRepository: OfflineRatesRepository
 ) {
     fun getOfflineCurrencyResponseByBase(
         base: String
-    ) = offlineRatesDao.getOfflineCurrencyResponseByBase(base)
+    ) = offlineRatesRepository.getOfflineCurrencyResponseByBase(base)
 }

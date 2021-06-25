@@ -10,8 +10,7 @@ import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
-import com.github.mustafaozhan.ccc.client.util.toUnit
-import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveState.Companion.update
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
@@ -85,7 +84,7 @@ class AdRemoveViewModel(
         super.onCleared()
     }
 
-    override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launch {
+    override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launchIgnored {
         _effect.emit(AdRemoveEffect.RemoveAd(type))
-    }.toUnit()
+    }
 }

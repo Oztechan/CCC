@@ -12,24 +12,7 @@ data class CurrenciesState(
     val currencyList: List<Currency> = listOf(),
     val loading: Boolean = true,
     val selectionVisibility: Boolean = false
-) : BaseState() {
-    // for ios
-    constructor() : this(listOf(), false, false)
-
-    companion object {
-        fun MutableStateFlow<CurrenciesState>.update(
-            currencyList: List<Currency> = value.currencyList,
-            loading: Boolean = value.loading,
-            selectionVisibility: Boolean = value.selectionVisibility
-        ) {
-            value = value.copy(
-                currencyList = currencyList,
-                loading = loading,
-                selectionVisibility = selectionVisibility
-            )
-        }
-    }
-}
+) : BaseState()
 
 // Event
 interface CurrenciesEvent : BaseEvent {
@@ -54,3 +37,16 @@ data class CurrenciesData(
     var unFilteredList: MutableList<Currency> = mutableListOf(),
     var query: String = ""
 ) : BaseData()
+
+// Extension
+fun MutableStateFlow<CurrenciesState>.update(
+    currencyList: List<Currency> = value.currencyList,
+    loading: Boolean = value.loading,
+    selectionVisibility: Boolean = value.selectionVisibility
+) {
+    value = value.copy(
+        currencyList = currencyList,
+        loading = loading,
+        selectionVisibility = selectionVisibility
+    )
+}

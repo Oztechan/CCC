@@ -4,29 +4,27 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.model.mapToModel
-import com.github.mustafaozhan.ccc.client.model.toModel
 import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toUnit
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorState.Companion.update
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.dao.CurrencyDao
-import com.github.mustafaozhan.ccc.common.db.dao.OfflineRatesDao
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -48,8 +46,8 @@ import kotlinx.coroutines.launch
 class CalculatorViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
-    private val currencyDao: CurrencyDao,
-    private val offlineRatesDao: OfflineRatesDao
+    private val currencyRepository: CurrencyRepository,
+    private val offlineRatesRepository: OfflineRatesRepository
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -77,9 +75,8 @@ class CalculatorViewModel(
             .onEach { calculateOutput(it) }
             .launchIn(clientScope)
 
-        currencyDao.collectActiveCurrencies()
-            .mapToModel()
-            .onEach { _state.update(currencyList = it) }
+        currencyRepository.collectActiveCurrencies()
+            .onEach { _state.update(currencyList = it.toUIModelList()) }
             .launchIn(clientScope)
     }
 
@@ -97,12 +94,12 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it)
             _state.update(rateState = RateState.Online(it.date))
-            offlineRatesDao.insertOfflineRates(it)
+            offlineRatesRepository.insertOfflineRates(it)
         }
 
     private fun getRatesFailed(t: Throwable) {
         kermit.w(t) { "CalculatorViewModel getRatesFailed" }
-        offlineRatesDao.getOfflineRatesByBase(
+        offlineRatesRepository.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
@@ -154,7 +151,7 @@ class CalculatorViewModel(
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyDao.getCurrencyByName(newBase)?.toModel()?.symbol ?: ""
+            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
         )
     }
 
@@ -213,20 +210,20 @@ class CalculatorViewModel(
         return true
     }
 
-    override fun onBarClick() = clientScope.launch {
+    override fun onBarClick() = clientScope.launchIgnored {
         kermit.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)
-    }.toUnit()
+    }
 
     override fun onSpinnerItemSelected(base: String) {
         kermit.d { "CalculatorViewModel onSpinnerItemSelected $base" }
         _state.update(base = base)
     }
 
-    override fun onSettingsClicked() = clientScope.launch {
+    override fun onSettingsClicked() = clientScope.launchIgnored {
         kermit.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
-    }.toUnit()
+    }
 
     override fun onBaseChange(base: String) = currentBaseChanged(base)
     // endregion

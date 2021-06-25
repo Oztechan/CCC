@@ -14,6 +14,7 @@ import Firebase
 struct CCCApp: App {
 
     init() {
+        LoggerKt.doInitLogger()
 
         #if RELEASE
             FirebaseApp.configure()

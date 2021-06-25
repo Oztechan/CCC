@@ -6,7 +6,6 @@ plugins {
     with(Plugins) {
         application
         kotlin(multiplatform)
-        kotlin(serializationPlugin)
     }
 }
 

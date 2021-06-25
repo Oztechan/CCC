@@ -58,16 +58,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Cache Gradle
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: cache-GradleBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
-          restore-keys: |
-            cache-GradleBuild-${{ runner.os }}-gradle-
-
       - name: Gradle Build
         run: ./gradlew build --parallel
 
@@ -115,27 +105,10 @@ jobs:
         with:
           xcode-version: latest
 
-      - name: Cache Gradle
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: cache-XCodeBuild-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/buildSrc/**/*.kt') }}
-          restore-keys: |
-            cache-XCodeBuild-${{ runner.os }}-gradle-
-
-      - name: Cache Pods
-        uses: actions/cache@v1
-        with:
-          path: ios/Pods
-          key: cache-XCodeBuild-${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            cache-XCodeBuild-${{ runner.os }}-pods-
-
       - name: Install Cocoapods
-        run: ./gradlew build :client:podspec &&
-          cd ios/CCC &&
+        run: |
+          ./gradlew client:podGenIOS
+          cd ios/CCC
           pod install
 
       - name: Xcode build
@@ -185,7 +158,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   Notify:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: [ GradleBuild, XCodeBuild, Distribution ]
     if: always()
     steps:

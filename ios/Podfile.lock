@@ -1,5 +1,5 @@
 PODS:
-  - client (2.2.651)
+  - client (2.2.675)
   - Firebase/Analytics (7.9.0):
     - Firebase/Core
   - Firebase/Core (7.9.0):
@@ -107,7 +107,7 @@ EXTERNAL SOURCES:
     :path: "../client/client.podspec"
 
 SPEC CHECKSUMS:
-  client: 374447e7d606eaa372de385d0e1e70432a4ba382
+  client: 2a2b46f2a27edb455be88bf6ad940ffbe7cd81b2
   Firebase: d8bd6bd34b4c7ed57bfdd056c66ff5adcdde53ab
   FirebaseAnalytics: 31b1269830dfe16687db3c60b76082c12bd6d527
   FirebaseCore: 0798738ad1ae0fda67e17c7b9081241c431c6859

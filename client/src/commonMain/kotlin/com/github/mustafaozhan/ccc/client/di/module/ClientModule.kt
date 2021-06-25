@@ -1,5 +1,6 @@
-package com.github.mustafaozhan.ccc.client.di
+package com.github.mustafaozhan.ccc.client.di.module
 
+import com.github.mustafaozhan.ccc.client.di.viewModelDefinition
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
@@ -8,7 +9,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import org.koin.dsl.module
 
-fun getClientModule() = module {
+var clientModule = module {
     viewModelDefinition { SettingsViewModel(get(), get(), get(), get()) }
     viewModelDefinition { MainViewModel(get()) }
     viewModelDefinition { CurrenciesViewModel(get(), get()) }

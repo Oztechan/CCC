@@ -64,7 +64,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
-        ?.observe(viewLifecycleOwner) { calculatorViewModel.event.onBaseChange(it) }
+        ?.observe(viewLifecycleOwner) {
+            calculatorViewModel.event.onBaseChange(it)
+        }
 
     private fun initViews() = with(binding) {
         adViewContainer.setAdaptiveBannerAd(

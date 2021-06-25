@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ccc.web.app
 
 import com.github.mustafaozhan.ccc.client.di.initJS
 import com.github.mustafaozhan.ccc.web.ui.MainView
+import com.github.mustafaozhan.logmob.initLogger
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import org.koin.core.KoinApplication
@@ -17,6 +18,8 @@ private const val ROOT_ID = "root"
 val AppDependenciesContext = createContext<KoinApplication>()
 
 fun main() {
+    initLogger()
+
     render(document.getElementById(ROOT_ID)) {
         AppDependenciesContext.Provider(
             initJS(localStorage)
