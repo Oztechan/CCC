@@ -201,7 +201,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList?.mapNotNull { historyRecord ->
-            RemoveAdType.getBySku(historyRecord.sku)?.let {
+            RemoveAdType.getBySku(historyRecord.skus.first())?.let {
                 PurchaseHistory(historyRecord.purchaseTime, it)
             }
         }?.let { adRemoveViewModel.restorePurchase(it) }
@@ -214,7 +214,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ${billingResult.responseCode}" }
 
         purchaseList?.firstOrNull()
-            ?.mapTo { RemoveAdType.getBySku(sku) }
+            ?.mapTo { RemoveAdType.getBySku(skus.first()) }
             ?.let { adRemoveViewModel.updateAddFreeDate(it) }
     }
 

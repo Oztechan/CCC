@@ -27,7 +27,7 @@ object Versions {
     const val playCore = "1.10.0"
     const val dateTime = "0.2.1"
     const val kotlinCoroutines = "1.5.0-native-mt"
-    const val billing = "3.0.3"
+    const val billing = "4.0.0"
     const val leakCanary = "2.7"
     const val sqlDelight = "1.5.0"
     const val lifecycle = "2.4.0-alpha01"
