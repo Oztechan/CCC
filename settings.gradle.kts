@@ -2,14 +2,30 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
+// FE
 include(
     ":android",
-    ":backend",
-    ":web",
-    ":desktop",
-    ":client",
-    ":common",
-    ":basemob", ":scopemob", ":logmob", ":parsermob"
+    // ":web", todo enable when implementation start
+    // ":desktop", todo enable when implementation start
+)
+
+// BE
+include(
+    ":backend"
+)
+
+// Shared modules
+include(
+    ":client", // All FE targets
+    ":common", // All FE & BE targets
+)
+
+// SubMob
+include(
+    ":basemob",
+    ":scopemob",
+    ":logmob",
+    ":parsermob"
 )
 
 project(":basemob").projectDir = file("basemob/basemob")
