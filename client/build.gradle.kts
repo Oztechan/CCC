@@ -27,23 +27,19 @@ kotlin {
         iosX64("ios")
     }
 
+    // todo enable when implementation start
+    // jvm()
+
+    // todo enable when implementation start
+    // js { browser { binaries.executable()testTask { enabled = false } } }
+
+
     cocoapods {
         summary = "CCC"
         homepage = "https://github.com/CurrencyConverterCalculator/CCC"
         frameworkName = "Client"
         ios.deploymentTarget = "14.0"
     }
-
-    js {
-        browser {
-            binaries.executable()
-            testTask {
-                enabled = false
-            }
-        }
-    }
-
-    jvm()
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -112,23 +108,11 @@ kotlin {
         }
         val iosTest by getting
 
-        with(Dependencies.JS) {
-            val jsMain by getting
-            val jsTest by getting {
-                dependencies {
-                    implementation(kotlin(test))
-                }
-            }
-        }
+        // todo enable when implementation start
+        // with(Dependencies.JVM) { val jvmMain by getting val jvmTest by getting { dependencies { implementation(kotlin(testJUnit)) } } }
 
-        with(Dependencies.JVM) {
-            val jvmMain by getting
-            val jvmTest by getting {
-                dependencies {
-                    implementation(kotlin(testJUnit))
-                }
-            }
-        }
+        // todo enable when implementation start
+        // with(Dependencies.JS) { val jsMain by getting val jsTest by getting { dependencies { implementation(kotlin(test)) } } }
     }
 }
 

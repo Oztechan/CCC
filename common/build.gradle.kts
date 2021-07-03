@@ -26,16 +26,10 @@ kotlin {
         iosX64("ios")
     }
 
-    js {
-        browser {
-            binaries.executable()
-            testTask {
-                enabled = false
-            }
-        }
-    }
-
     jvm()
+
+    // todo enable when implementation start
+    // js { browser { binaries.executable()testTask { enabled = false } } }
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -86,19 +80,6 @@ kotlin {
             val iosTest by getting
         }
 
-        with(Dependencies.JS) {
-            val jsMain by getting {
-                dependencies {
-                    implementation(ktor)
-                }
-            }
-            val jsTest by getting {
-                dependencies {
-                    implementation(kotlin(test))
-                }
-            }
-        }
-
         with(Dependencies.JVM) {
             val jvmMain by getting {
                 dependencies {
@@ -112,6 +93,10 @@ kotlin {
                 }
             }
         }
+
+        // todo enable when implementation start
+        // with(Dependencies.JS) { val jsMain by getting { dependencies { implementation(ktor) } }
+        // val jsTest by getting { dependencies { implementation(kotlin(test))  } } }
     }
 }
 
