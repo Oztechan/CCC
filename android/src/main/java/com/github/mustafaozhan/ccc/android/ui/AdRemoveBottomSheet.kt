@@ -8,9 +8,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -40,7 +42,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
@@ -51,7 +54,8 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     PurchaseHistoryResponseListener,
     PurchasesUpdatedListener,
     SkuDetailsResponseListener,
-    BillingClientStateListener {
+    BillingClientStateListener,
+    AcknowledgePurchaseResponseListener {
 
     private lateinit var billingClient: BillingClient
 
@@ -60,6 +64,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private lateinit var removeAdsAdapter: RemoveAdsAdapter
 
     private lateinit var skuDetails: List<SkuDetails>
+    private lateinit var acknowledgePurchaseParams: AcknowledgePurchaseParams
 
     override fun getViewBinding() = BottomSheetAdRemoveBinding.inflate(layoutInflater)
 
@@ -83,34 +88,40 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         binding.recyclerViewBar.adapter = removeAdsAdapter
     }
 
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        adRemoveViewModel.state.collect {
+    private fun observeStates() = adRemoveViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 binding.loadingView.showLoading(loading)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
-        }
-    }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        adRemoveViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = adRemoveViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is AdRemoveEffect.RemoveAd -> {
+                is AdRemoveEffect.LaunchRemoveAdFlow -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
                         prepareRewardedAdFlow()
                     } else {
                         launchBillingFlow(viewEffect.removeAdType.data.skuId)
                     }
                 }
+                is AdRemoveEffect.AdsRemoved -> {
+                    if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
+                        restartActivity()
+                    } else {
+                        billingClient.acknowledgePurchase(acknowledgePurchaseParams, this)
+                    }
+                }
                 AdRemoveEffect.AlreadyAdFree -> showSnack(
                     requireView(),
                     R.string.txt_ads_already_disabled
                 )
-                AdRemoveEffect.RestartActivity -> restartActivity()
             }
-        }
-    }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun prepareRewardedAdFlow() {
         showDialog(
@@ -185,7 +196,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         skuDetailsList?.whether {
             billingResult.responseCode == BillingClient.BillingResponseCode.OK
         }?.let { detailsList ->
-            this.skuDetails = detailsList
+            skuDetails = detailsList
             adRemoveViewModel.addInAppBillingMethods(detailsList.map {
                 RemoveAdData(it.price, it.description, it.sku)
             })
@@ -201,7 +212,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList?.mapNotNull { historyRecord ->
-            RemoveAdType.getBySku(historyRecord.sku)?.let {
+            RemoveAdType.getBySku(historyRecord.skus.firstOrNull())?.let {
                 PurchaseHistory(historyRecord.purchaseTime, it)
             }
         }?.let { adRemoveViewModel.restorePurchase(it) }
@@ -214,8 +225,14 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ${billingResult.responseCode}" }
 
         purchaseList?.firstOrNull()
-            ?.mapTo { RemoveAdType.getBySku(sku) }
-            ?.let { adRemoveViewModel.updateAddFreeDate(it) }
+            ?.also {
+                acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(it.purchaseToken)
+                    .build()
+            }?.mapTo { RemoveAdType.getBySku(skus.firstOrNull()) }
+            ?.let {
+                adRemoveViewModel.updateAddFreeDate(it)
+            }
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -239,6 +256,13 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onBillingServiceDisconnected() {
         kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
         adRemoveViewModel.showLoadingView(false)
+    }
+
+    override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
+        kermit.d { "AdRemoveBottomSheet onAcknowledgePurchaseResponse" }
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            restartActivity()
+        }
     }
 }
 

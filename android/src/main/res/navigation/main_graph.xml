@@ -41,7 +41,7 @@
         android:id="@+id/adRemoveBottomSheet"
         android:name="com.github.mustafaozhan.ccc.android.ui.AdRemoveBottomSheet"
         android:label="AdRemoveBottomSheet"
-        tools:layout="@layout/bottom_sheet_ad_remove"></dialog>
+        tools:layout="@layout/bottom_sheet_ad_remove" />
 
     <fragment
         android:id="@+id/currenciesFragment"

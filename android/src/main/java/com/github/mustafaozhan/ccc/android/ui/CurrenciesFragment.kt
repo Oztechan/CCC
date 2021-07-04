@@ -12,8 +12,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
@@ -31,7 +31,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.logmob.kermit
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
@@ -82,8 +83,9 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        currenciesViewModel.state.collect {
+    private fun observeStates() = currenciesViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
@@ -107,11 +109,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     )
                 }
             }
-        }
-    }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        currenciesViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = currenciesViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 CurrenciesEffect.FewCurrency -> showSnack(
@@ -135,8 +137,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     CHANGE_BASE_EVENT
                 )
             }
-        }
-    }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(currenciesViewModel.event) {
