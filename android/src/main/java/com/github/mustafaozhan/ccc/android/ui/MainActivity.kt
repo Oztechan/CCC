@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.android.ui
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
@@ -18,7 +18,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.review.ReviewManagerFactory
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,15 +37,15 @@ class MainActivity : BaseActivity() {
         mainViewModel.checkReview()
     }
 
-    private fun observeEffect() = addRepeatingJob(Lifecycle.State.STARTED) {
-        mainViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = mainViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is MainEffect.ShowInterstitialAd -> showInterstitialAd()
                 is MainEffect.RequestReview -> requestReview()
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
     private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
         .apply {

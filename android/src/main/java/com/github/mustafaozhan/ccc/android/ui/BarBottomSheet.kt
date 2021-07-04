@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
@@ -22,7 +22,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.logmob.kermit
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetBarBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemBarBinding
@@ -56,8 +57,9 @@ class BarBottomSheet :
         binding.recyclerViewBar.adapter = barAdapter
     }
 
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        barViewModel.state.collect {
+    private fun observeStates() = barViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 barAdapter.submitList(currencyList)
 
@@ -69,11 +71,11 @@ class BarBottomSheet :
                     btnSelect.visibleIf(!enoughCurrency)
                 }
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        barViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = barViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "BarBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is BarEffect.ChangeBase -> {
@@ -89,8 +91,7 @@ class BarBottomSheet :
                     BarBottomSheetDirections.actionBarBottomSheetToCurrenciesFragment()
                 )
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
     private fun setListeners() = binding.btnSelect.setOnClickListener {
         barViewModel.event.onSelectClick()

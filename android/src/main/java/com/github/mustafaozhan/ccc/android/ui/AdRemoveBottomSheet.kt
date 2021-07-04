@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -40,7 +40,8 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
@@ -83,17 +84,18 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         binding.recyclerViewBar.adapter = removeAdsAdapter
     }
 
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        adRemoveViewModel.state.collect {
+    private fun observeStates() = adRemoveViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 binding.loadingView.showLoading(loading)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        adRemoveViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = adRemoveViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is AdRemoveEffect.RemoveAd -> {
@@ -109,8 +111,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 )
                 AdRemoveEffect.RestartActivity -> restartActivity()
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
     private fun prepareRewardedAdFlow() {
         showDialog(

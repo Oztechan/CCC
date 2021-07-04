@@ -9,8 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
@@ -21,7 +21,8 @@ import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.logmob.kermit
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -102,8 +103,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        settingsViewModel.state.collect {
+    private fun observeStates() = settingsViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 binding.loadingView.visibleIf(loading)
                 binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
@@ -124,11 +126,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                         }
                     }
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        settingsViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = settingsViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
@@ -180,8 +182,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.txt_ads_already_disabled
                 )
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(settingsViewModel.event) {

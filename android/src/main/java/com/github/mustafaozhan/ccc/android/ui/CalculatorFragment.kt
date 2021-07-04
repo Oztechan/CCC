@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
@@ -29,7 +29,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.logmob.kermit
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
@@ -78,8 +79,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        calculatorViewModel.state.collect {
+    private fun observeStates() = calculatorViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
             with(it) {
                 calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
 
@@ -94,11 +96,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
-    private fun observeEffect() = viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-        calculatorViewModel.effect.collect { viewEffect ->
+    private fun observeEffect() = calculatorViewModel.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 CalculatorEffect.Error -> showSnack(
@@ -133,8 +135,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
-        }
-    }
+        }.launchIn(lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(calculatorViewModel.event) {
