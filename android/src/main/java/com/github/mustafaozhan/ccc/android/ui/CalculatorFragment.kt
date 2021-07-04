@@ -96,7 +96,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = calculatorViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -135,7 +135,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(calculatorViewModel.event) {

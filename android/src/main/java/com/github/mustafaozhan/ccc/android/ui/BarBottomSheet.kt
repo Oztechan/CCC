@@ -71,7 +71,7 @@ class BarBottomSheet :
                     btnSelect.visibleIf(!enoughCurrency)
                 }
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = barViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -91,7 +91,7 @@ class BarBottomSheet :
                     BarBottomSheetDirections.actionBarBottomSheetToCurrenciesFragment()
                 )
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = binding.btnSelect.setOnClickListener {
         barViewModel.event.onSelectClick()

@@ -109,7 +109,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     )
                 }
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = currenciesViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -137,7 +137,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     CHANGE_BASE_EVENT
                 )
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(currenciesViewModel.event) {

@@ -126,7 +126,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                         }
                     }
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -182,7 +182,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.txt_ads_already_disabled
                 )
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = with(binding) {
         with(settingsViewModel.event) {

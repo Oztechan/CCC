@@ -91,7 +91,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 binding.loadingView.showLoading(loading)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = adRemoveViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -111,7 +111,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 )
                 AdRemoveEffect.RestartActivity -> restartActivity()
             }
-        }.launchIn(lifecycleScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun prepareRewardedAdFlow() {
         showDialog(
