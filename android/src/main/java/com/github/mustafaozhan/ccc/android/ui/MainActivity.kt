@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.main
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -39,9 +39,9 @@ class MainActivity : BaseActivity() {
 
     private fun observeEffect() = mainViewModel.effect
         .flowWithLifecycle(lifecycle)
-        .onEach { effect ->
-            kermit.d { "MainActivity observeEffect ${effect::class.simpleName}" }
-            when (effect) {
+        .onEach { viewEffect ->
+            kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
                 is MainEffect.ShowInterstitialAd -> showInterstitialAd()
                 is MainEffect.RequestReview -> requestReview()
             }

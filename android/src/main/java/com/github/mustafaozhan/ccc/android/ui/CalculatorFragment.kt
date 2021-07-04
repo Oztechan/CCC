@@ -1,14 +1,18 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.calculator
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
@@ -17,14 +21,19 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
+import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.util.getFormatted
+import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
@@ -72,26 +81,28 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     @SuppressLint("SetTextI18n")
     private fun observeStates() = calculatorViewModel.state
         .flowWithLifecycle(lifecycle)
-        .onEach { state ->
-            calculatorAdapter.submitList(state.currencyList.toValidList(calculatorViewModel.state.value.base))
+        .onEach {
+            with(it) {
+                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
 
-            binding.txtInput.text = state.input
-            with(binding.layoutBar) {
-                ivBase.setBackgroundByName(state.base)
-                txtBase.text = if (state.base.isEmpty()) state.base else "  ${state.base}"
-                txtOutput.text = if (state.output.isNotEmpty()) " = ${state.output}" else ""
-                txtSymbol.text = " ${state.symbol}"
+                binding.txtInput.text = input
+                with(binding.layoutBar) {
+                    ivBase.setBackgroundByName(base)
+                    txtBase.text = if (base.isEmpty()) base else "  $base"
+                    txtOutput.text = if (output.isNotEmpty()) " = $output" else ""
+                    txtSymbol.text = " $symbol"
+                }
+
+                binding.loadingView.showLoading(loading)
+                binding.txtAppStatus.dataState(rateState)
             }
-
-            binding.loadingView.showLoading(state.loading)
-            binding.txtAppStatus.dataState(state.rateState)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = calculatorViewModel.effect
         .flowWithLifecycle(lifecycle)
-        .onEach { effect ->
-            kermit.d { "CalculatorFragment observeEffect ${effect::class.simpleName}" }
-            when (effect) {
+        .onEach { viewEffect ->
+            kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
                 CalculatorEffect.Error -> showSnack(
                     requireView(),
                     R.string.error_text_unknown
@@ -120,8 +131,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 )
                 is CalculatorEffect.ShowRate -> showSnack(
                     requireView(),
-                    effect.text,
-                    icon = requireContext().getImageResourceByName(effect.name)
+                    viewEffect.text,
+                    icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -159,5 +170,40 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun Button.setKeyboardListener() = setOnClickListener {
         calculatorViewModel.onKeyPress(text.toString())
+    }
+}
+
+class CalculatorAdapter(
+    private val calculatorEvent: CalculatorEvent
+) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = CalculatorVBViewHolder(
+        ItemCalculatorBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
+        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
+
+        override fun onItemBind(item: Currency) = with(itemBinding) {
+            txtAmount.text = item.rate.getFormatted().toStandardDigits()
+            txtSymbol.text = item.symbol
+            txtType.text = item.name
+            imgItem.setBackgroundByName(item.name)
+            root.setOnClickListener { calculatorEvent.onItemClick(item) }
+            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
+        }
+    }
+
+    class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
+        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.CalculatorFragment"
         android:label="CalculatorFragment"
         tools:layout="@layout/fragment_calculator">
         <action
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.github.mustafaozhan.ccc.android.ui.settings.SettingsFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -39,13 +39,13 @@
 
     <dialog
         android:id="@+id/adRemoveBottomSheet"
-        android:name="com.github.mustafaozhan.ccc.android.ui.adremove.AdRemoveBottomSheet"
+        android:name="com.github.mustafaozhan.ccc.android.ui.AdRemoveBottomSheet"
         android:label="AdRemoveBottomSheet"
         tools:layout="@layout/bottom_sheet_ad_remove" />
 
     <fragment
         android:id="@+id/currenciesFragment"
-        android:name="com.github.mustafaozhan.ccc.android.ui.currencies.CurrenciesFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.CurrenciesFragment"
         android:label="CurrenciesFragment"
         tools:layout="@layout/fragment_currencies">
 
@@ -59,7 +59,7 @@
 
     <dialog
         android:id="@+id/barBottomSheet"
-        android:name="com.github.mustafaozhan.ccc.android.ui.bar.BarBottomSheet"
+        android:name="com.github.mustafaozhan.ccc.android.ui.BarBottomSheet"
         android:label="BarBottomSheet"
         tools:layout="@layout/bottom_sheet_bar">
         <action
@@ -69,7 +69,7 @@
 
     <fragment
         android:id="@+id/sliderFragment"
-        android:name="com.github.mustafaozhan.ccc.android.ui.slider.SliderFragment"
+        android:name="com.github.mustafaozhan.ccc.android.ui.SliderFragment"
         android:label="SliderFragment"
         tools:layout="@layout/fragment_slider">
 

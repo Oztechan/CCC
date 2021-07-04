@@ -21,7 +21,7 @@
         tools:targetApi="m">
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.splash.SplashActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme"
             tools:ignore="AllowBackup">
@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.main.MainActivity"
+            android:name="com.github.mustafaozhan.ccc.android.ui.MainActivity"
             android:theme="@style/AppTheme" />
 
         <uses-library

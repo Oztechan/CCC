@@ -1,19 +1,24 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.slider
+package com.github.mustafaozhan.ccc.android.ui
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.gone
 import com.github.mustafaozhan.ccc.android.util.visible
 import com.github.mustafaozhan.logmob.kermit
+import com.github.mustafaozhan.scopemob.castTo
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
@@ -121,4 +126,24 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     }
 
     private fun getNextItem() = binding.viewPager.currentItem.inc()
+}
+
+class SliderPagerAdapter(
+    var context: Context,
+    private var layouts: ArrayList<Int>
+) : PagerAdapter() {
+
+    override fun instantiateItem(container: ViewGroup, position: Int): View = context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE)
+        ?.castTo<LayoutInflater>()
+        ?.inflate(layouts[position], container, false)
+        ?.also { container.addView(it) }
+        ?: View(context)
+
+    override fun getCount() = layouts.size
+
+    override fun isViewFromObject(view: View, obj: Any) = view == obj
+
+    override fun destroyItem(container: ViewGroup, position: Int, obj: Any) =
+        container.removeView(obj.castTo<View>())
 }

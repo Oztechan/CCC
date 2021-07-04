@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.settings
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -105,33 +105,34 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun observeStates() = settingsViewModel.state
         .flowWithLifecycle(lifecycle)
-        .onEach { state ->
-            binding.loadingView.visibleIf(state.loading)
-            binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
-                R.string.settings_item_currencies_value,
-                state.activeCurrencyCount
-            )
-            binding.itemTheme.settingsItemValue.text = state.appThemeType.typeName
+        .onEach {
+            with(it) {
+                binding.loadingView.visibleIf(loading)
+                binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
+                    R.string.settings_item_currencies_value,
+                    activeCurrencyCount
+                )
+                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
 
-            binding.itemDisableAds.settingsItemValue.text =
-                if (settingsViewModel.isAdFreeNeverActivated()) "" else {
-                    if (settingsViewModel.isRewardExpired()) {
-                        getString(R.string.settings_item_remove_ads_value_expired)
-                    } else {
-                        getString(
-                            R.string.settings_item_remove_ads_value_will_expire,
-                            state.addFreeEndDate
-                        )
+                binding.itemDisableAds.settingsItemValue.text =
+                    if (settingsViewModel.isAdFreeNeverActivated()) "" else {
+                        if (settingsViewModel.isRewardExpired()) {
+                            getString(R.string.settings_item_remove_ads_value_expired)
+                        } else {
+                            getString(
+                                R.string.settings_item_remove_ads_value_will_expire,
+                                addFreeEndDate
+                            )
+                        }
                     }
-                }
-
+            }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
-        .onEach { effect ->
-            kermit.d { "SettingsFragment observeEffect ${effect::class.simpleName}" }
-            when (effect) {
+        .onEach { viewEffect ->
+            kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
                 SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
                 SettingsEffect.OpenCurrencies -> navigate(
                     R.id.settingsFragment,
@@ -163,9 +164,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
-                is SettingsEffect.ChangeTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(effect.themeValue)
-                }
+                is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
                 SettingsEffect.Synchronising -> showSnack(
                     requireView(),
                     R.string.txt_synchronising

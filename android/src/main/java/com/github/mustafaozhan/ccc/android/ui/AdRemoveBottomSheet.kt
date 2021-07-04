@@ -2,12 +2,15 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.android.ui.adremove
+package com.github.mustafaozhan.ccc.android.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
@@ -19,6 +22,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
+import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
@@ -27,6 +31,7 @@ import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
@@ -39,6 +44,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
+import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
@@ -80,21 +86,23 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     private fun observeStates() = adRemoveViewModel.state
         .flowWithLifecycle(lifecycle)
-        .onEach { state ->
-            binding.loadingView.showLoading(state.loading)
-            removeAdsAdapter.submitList(state.adRemoveTypes)
+        .onEach {
+            with(it) {
+                binding.loadingView.showLoading(loading)
+                removeAdsAdapter.submitList(adRemoveTypes)
+            }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun observeEffect() = adRemoveViewModel.effect
         .flowWithLifecycle(lifecycle)
-        .onEach { effect ->
-            kermit.d { "AdRemoveBottomSheet observeEffect ${effect::class.simpleName}" }
-            when (effect) {
+        .onEach { viewEffect ->
+            kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
                 is AdRemoveEffect.RemoveAd -> {
-                    if (effect.removeAdType == RemoveAdType.VIDEO) {
+                    if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
                         prepareRewardedAdFlow()
                     } else {
-                        launchBillingFlow(effect.removeAdType.data.skuId)
+                        launchBillingFlow(viewEffect.removeAdType.data.skuId)
                     }
                 }
                 AdRemoveEffect.AlreadyAdFree -> showSnack(
@@ -232,5 +240,37 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onBillingServiceDisconnected() {
         kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
         adRemoveViewModel.showLoadingView(false)
+    }
+}
+
+class RemoveAdsAdapter(
+    private val removeAdsEvent: AdRemoveEvent
+) : BaseVBRecyclerViewAdapter<RemoveAdType, ItemAdRemoveBinding>(RemoveAdDiffer()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = CalculatorVBViewHolder(
+        ItemAdRemoveBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
+
+    inner class CalculatorVBViewHolder(itemBinding: ItemAdRemoveBinding) :
+        BaseVBViewHolder<RemoveAdType, ItemAdRemoveBinding>(itemBinding) {
+
+        override fun onItemBind(item: RemoveAdType) = with(itemBinding) {
+            root.setOnClickListener { removeAdsEvent.onAdRemoveItemClick(item) }
+            txtReward.text = item.data.reward
+            txtCost.text = item.data.cost
+        }
+    }
+
+    class RemoveAdDiffer : DiffUtil.ItemCallback<RemoveAdType>() {
+        override fun areItemsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
+
+        override fun areContentsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
     }
 }
