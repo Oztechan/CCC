@@ -55,11 +55,7 @@ kotlin {
             val commonMain by getting {
                 dependencies {
                     implementation(dateTime)
-                    implementation(coroutines) {
-                        version {
-                            strictly(Versions.kotlinCoroutines)
-                        }
-                    }
+                    implementation(coroutines)
                     implementation(koinCore)
 
                     with(Modules) {

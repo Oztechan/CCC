@@ -30,7 +30,7 @@ object Versions {
     const val billing = "4.0.0"
     const val leakCanary = "2.7"
     const val sqlDelight = "1.5.0"
-    const val lifecycle = "2.4.0-alpha01"
+    const val lifecycle = "2.4.0-alpha02"
     const val mokoResources = "0.16.1"
     const val dependencyUpdates = "0.39.0"
     const val buildHealth = "0.74.0"
