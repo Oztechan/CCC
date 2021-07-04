@@ -45,7 +45,7 @@ class AdRemoveViewModel(
         startDate: Long = nowAsLong()
     ) = clientScope.launch {
         settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
-        _effect.emit(AdRemoveEffect.RestartActivity)
+        _effect.emit(AdRemoveEffect.AdsRemoved(adType))
     }
 
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
@@ -85,6 +85,6 @@ class AdRemoveViewModel(
     }
 
     override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launchIgnored {
-        _effect.emit(AdRemoveEffect.RemoveAd(type))
+        _effect.emit(AdRemoveEffect.LaunchRemoveAdFlow(type))
     }
 }

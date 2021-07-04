@@ -19,8 +19,8 @@ interface AdRemoveEvent : BaseEvent {
 
 // Effect
 sealed class AdRemoveEffect : BaseEffect() {
-    data class RemoveAd(val removeAdType: RemoveAdType) : AdRemoveEffect()
-    object RestartActivity : AdRemoveEffect()
+    data class LaunchRemoveAdFlow(val removeAdType: RemoveAdType) : AdRemoveEffect()
+    data class AdsRemoved(val removeAdType: RemoveAdType) : AdRemoveEffect()
     object AlreadyAdFree : AdRemoveEffect()
 }
 

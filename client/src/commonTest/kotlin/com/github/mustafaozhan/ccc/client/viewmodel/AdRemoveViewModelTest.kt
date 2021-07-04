@@ -38,11 +38,11 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun updateAddFreeDate() = RemoveAdType.values().forEach {
+    fun updateAddFreeDate() = RemoveAdType.values().forEach { adRemoveType ->
         viewModel.effect.before {
-            viewModel.updateAddFreeDate(it)
+            viewModel.updateAddFreeDate(adRemoveType)
         }.after {
-            assertEquals(AdRemoveEffect.RestartActivity, it)
+            assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType), it)
         }
     }
 
@@ -55,7 +55,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             )
         )
     }.after {
-        assertTrue { it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.RestartActivity }
+        assertTrue { it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.AdsRemoved }
     }
 
     @Test
@@ -78,31 +78,31 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.VIDEO)
         }.after {
-            assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.VIDEO), it)
+            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.VIDEO), it)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.MONTH)
         }.after {
-            assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.MONTH), it)
+            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.MONTH), it)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.QUARTER)
         }.after {
-            assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.QUARTER), it)
+            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.QUARTER), it)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.HALF_YEAR)
         }.after {
-            assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.HALF_YEAR), it)
+            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.HALF_YEAR), it)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.YEAR)
         }.after {
-            assertEquals(AdRemoveEffect.RemoveAd(RemoveAdType.YEAR), it)
+            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.YEAR), it)
         }
     }
 }
