@@ -71,7 +71,9 @@ struct CalculatorView: View {
                         )
                     }
 
-                    BannerAdView().frame(maxHeight: 50)
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue()
+                    ).frame(maxHeight: 50)
 
                 }
             }

@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
+	<key>REWARDED_AD_UNIT_ID</key>
+	<string>$(REWARDED_AD_UNIT_ID)</string>
+	<key>INTERSTITIAL_AD_ID</key>
+	<string>$(INTERSTITIAL_AD_ID)</string>
+	<key>BANNER_AD_UNIT_ID_CURRENCIES</key>
+	<string>$(BANNER_AD_UNIT_ID_CURRENCIES)</string>
+	<key>BANNER_AD_UNIT_ID_SETTINGS</key>
+	<string>$(BANNER_AD_UNIT_ID_SETTINGS)</string>
+	<key>BANNER_AD_UNIT_ID_CALCULATOR</key>
+	<string>$(BANNER_AD_UNIT_ID_CALCULATOR)</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -153,8 +165,6 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
-	<key>GADApplicationIdentifier</key>
-	<string>$(ADMOB_APP_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

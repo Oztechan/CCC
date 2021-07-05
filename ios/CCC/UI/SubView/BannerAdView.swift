@@ -11,16 +11,22 @@ import GoogleMobileAds
 import UIKit
 
 final class BannerAdView: UIViewControllerRepresentable {
-    
+
+    private var unitID: String
+
+    init(unitID: String) {
+        self.unitID = unitID
+    }
+
     let bannerView = GADBannerView(adSize: kGADAdSizeBanner)
 
     func makeUIViewController(context: Context) -> UIViewController {
 
         let viewController = UIViewController()
 
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = unitID
         bannerView.rootViewController = viewController
-        
+
         let frame = { () -> CGRect in
           // Here safe area is taken into account, hence the view frame is used
           // after the view has been laid out.
