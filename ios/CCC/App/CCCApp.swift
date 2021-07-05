@@ -9,6 +9,7 @@
 import SwiftUI
 import Client
 import Firebase
+import GoogleMobileAds
 
 @main
 struct CCCApp: App {
@@ -19,6 +20,8 @@ struct CCCApp: App {
         #if RELEASE
             FirebaseApp.configure()
         #endif
+
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         startKoin()
         LoggerKt.kermit.d(withMessage: {"CCCApp init"})
