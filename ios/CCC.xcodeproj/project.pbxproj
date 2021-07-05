@@ -27,6 +27,7 @@
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
 		5CB954C626934EFD007632DC /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5CB954C526934EFC007632DC /* Release.xcconfig */; };
 		5CB954CE269362E2007632DC /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5CB954CD269362E2007632DC /* Debug.xcconfig */; };
+		5CB954D02693A487007632DC /* InterstitialAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954CF2693A486007632DC /* InterstitialAd.swift */; };
 		5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* BarView.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		5CB954BE26932408007632DC /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		5CB954C526934EFC007632DC /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		5CB954CD269362E2007632DC /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		5CB954CF2693A486007632DC /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* CCC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				5C5D09382562EC0100DA9C4A /* Extensions.swift */,
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
 				5C48D9D425FC10D2008256B5 /* EmailHelper.swift */,
+				5CB954CF2693A486007632DC /* InterstitialAd.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				5CB954BF26932408007632DC /* BannerAdView.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
+				5CB954D02693A487007632DC /* InterstitialAd.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
 				5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */,
 				5C48D9D525FC10D2008256B5 /* EmailHelper.swift in Sources */,

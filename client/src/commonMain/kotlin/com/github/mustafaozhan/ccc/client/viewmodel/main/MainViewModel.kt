@@ -10,8 +10,6 @@ import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_NORMAL
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
-import com.github.mustafaozhan.ccc.common.model.PlatformType
-import com.github.mustafaozhan.ccc.common.platform
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
@@ -44,17 +42,15 @@ class MainViewModel(
     private fun setupInterstitialAdTimer() {
         data.adVisibility = true
 
-        if (platform == PlatformType.ANDROID) {
-            data.adJob = clientScope.launch {
-                delay(getAdDelay())
+        data.adJob = clientScope.launch {
+            delay(getAdDelay())
 
-                while (isActive && !isFistRun()) {
-                    if (data.adVisibility && settingsRepository.adFreeEndDate.isRewardExpired()) {
-                        _effect.emit(MainEffect.ShowInterstitialAd)
-                        data.isInitialAd = false
-                    }
-                    delay(getAdDelay())
+            while (isActive && !isFistRun()) {
+                if (data.adVisibility && settingsRepository.adFreeEndDate.isRewardExpired()) {
+                    _effect.emit(MainEffect.ShowInterstitialAd)
+                    data.isInitialAd = false
                 }
+                delay(getAdDelay())
             }
         }
     }

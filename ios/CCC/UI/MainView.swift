@@ -18,6 +18,8 @@ struct MainView: View {
 
     @Environment(\.scenePhase) var scenePhase
 
+    private var interstitial = InterstitialAd()
+
     var body: some View {
 
         NavigationStackView(
@@ -52,6 +54,8 @@ struct MainView: View {
     private func onEffect(effect: MainEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
+        case is MainEffect.ShowInterstitialAd:
+            self.interstitial.showAd()
         default:
             LoggerKt.kermit.d(withMessage: {"MainView unknown effect"})
         }
