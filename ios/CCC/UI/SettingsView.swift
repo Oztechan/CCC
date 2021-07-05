@@ -69,6 +69,8 @@ struct SettingsView: View {
                         onClick: observable.event.onOnGitHubClick
                     )
                 }.background(MR.colors().background.get())
+                
+                BannerAdView().frame(maxHeight: 50)
             }
             .navigationBarHidden(true)
         }

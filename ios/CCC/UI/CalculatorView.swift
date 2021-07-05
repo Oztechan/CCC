@@ -71,6 +71,8 @@ struct CalculatorView: View {
                         )
                     }
 
+                    BannerAdView().frame(maxHeight: 50)
+
                 }
             }
             .navigationBarHidden(true)

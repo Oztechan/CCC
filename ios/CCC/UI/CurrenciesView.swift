@@ -65,6 +65,8 @@ struct CurrenciesView: View {
                         onButtonClick: observable.event.onDoneClick
                     )
                 }
+                
+                BannerAdView().frame(maxHeight: 50)
 
             }
             .navigationBarHidden(true)
