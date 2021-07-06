@@ -9,6 +9,7 @@
 import SwiftUI
 import NavigationStack
 import Client
+import GoogleMobileAds
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
 
@@ -17,8 +18,6 @@ struct MainView: View {
     @StateObject var observable: MainObservable = koin.get()
 
     @Environment(\.scenePhase) var scenePhase
-
-    private var interstitial = InterstitialAd()
 
     var body: some View {
 
@@ -32,32 +31,36 @@ struct MainView: View {
                 CalculatorView()
             }
         }
-        .onAppear { observable.startObserving() }
-        .onDisappear { observable.stopObserving() }
-        .onReceive(observable.effect) { onEffect(effect: $0) }
-        .onChange(of: scenePhase) { phase in
-            switch phase {
-            case .background:
-                LoggerKt.kermit.d(withMessage: {"App is in background"})
-            case .active:
-                LoggerKt.kermit.d(withMessage: {"App is Active"})
-                observable.event.onResume()
-            case .inactive:
-                LoggerKt.kermit.d(withMessage: {"App is Inactive"})
-                observable.event.onPause()
-            @unknown default:
-                LoggerKt.kermit.d(withMessage: {"New App state not yet introduced"})
-            }
+        .onAppear {
+            observable.startObserving()
+            observable.event.onResume()
         }
+        .onDisappear {
+            observable.stopObserving()
+            observable.event.onPause()
+        }
+        .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
     private func onEffect(effect: MainEffect) {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is MainEffect.ShowInterstitialAd:
-            self.interstitial.showAd()
+            showInterstitialAd()
         default:
             LoggerKt.kermit.d(withMessage: {"MainView unknown effect"})
         }
+    }
+
+    private func showInterstitialAd() {
+        GADInterstitialAd.load(
+            withAdUnitID: "INTERSTITIAL_AD_ID".getSecretValue(),
+            request: GADRequest(),
+            completionHandler: { interstitialAd, _ in
+                interstitialAd?.present(
+                    fromRootViewController: UIApplication.shared.windows.first!.rootViewController!
+                )
+            }
+        )
     }
 }
