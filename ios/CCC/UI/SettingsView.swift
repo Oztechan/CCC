@@ -18,7 +18,12 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
-    @State var removeAdDialogVisibility: Bool = false
+    @State var dialogVisibility: Bool = false
+    @State var activeDialog: Dialogs = Dialogs.error
+
+    enum Dialogs {
+        case removeAd, error
+    }
 
     var onBaseChange: ((String) -> Void)
 
@@ -78,15 +83,24 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .alert(isPresented: $removeAdDialogVisibility) {
-            Alert(
-                title: Text(MR.strings().txt_remove_ads.get()),
-                message: Text(MR.strings().txt_remove_ads_text.get()),
-                primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                    showRewardedAd()
-                }),
-                secondaryButton: .destructive(Text(MR.strings().cancel.get()))
-            )
+        .alert(isPresented: $dialogVisibility) {
+            switch activeDialog {
+            case .error:
+                return Alert(
+                    title: Text(MR.strings().txt_remove_ads.get()),
+                    message: Text(MR.strings().error_text_unknown.get()),
+                    dismissButton: .destructive(Text(MR.strings().cancel.get()))
+                )
+            case .removeAd:
+                return Alert(
+                    title: Text(MR.strings().txt_remove_ads.get()),
+                    message: Text(MR.strings().txt_remove_ads_text.get()),
+                    primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
+                        showRewardedAd()
+                    }),
+                    secondaryButton: .destructive(Text(MR.strings().cancel.get()))
+                )
+            }
         }
         .onAppear { observable.startObserving() }
         .onDisappear { observable.stopObserving() }
@@ -113,7 +127,8 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            removeAdDialogVisibility = true
+            activeDialog = Dialogs.removeAd
+            dialogVisibility.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }
@@ -140,12 +155,17 @@ struct SettingsView: View {
             completionHandler: { rewardedAd, error in
                 if let error = error {
                     LoggerKt.kermit.d(withMessage: {"SettingsView showRewardedAd \(error.localizedDescription)"})
+
+                    activeDialog = Dialogs.error
+                    self.dialogVisibility.toggle()
                     return
                 }
 
                 rewardedAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
                     userDidEarnRewardHandler: {
+                        LoggerKt.kermit.d(withMessage: {"SettingsView showRewardedAd success"})
+
                         observable.viewModel.updateAddFreeDate()
                     }
                 )
