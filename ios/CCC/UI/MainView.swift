@@ -56,7 +56,12 @@ struct MainView: View {
         GADInterstitialAd.load(
             withAdUnitID: "INTERSTITIAL_AD_ID".getSecretValue(),
             request: GADRequest(),
-            completionHandler: { interstitialAd, _ in
+            completionHandler: { interstitialAd, error in
+                if let error = error {
+                    LoggerKt.kermit.d(withMessage: {"MainView showInterstitialAd \(error.localizedDescription)"})
+                    return
+                }
+
                 interstitialAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!
                 )

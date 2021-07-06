@@ -138,6 +138,10 @@ struct SettingsView: View {
             withAdUnitID: "REWARDED_AD_UNIT_ID".getSecretValue(),
             request: GADRequest(),
             completionHandler: { rewardedAd, error in
+                if let error = error {
+                    LoggerKt.kermit.d(withMessage: {"SettingsView showRewardedAd \(error.localizedDescription)"})
+                    return
+                }
 
                 rewardedAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
