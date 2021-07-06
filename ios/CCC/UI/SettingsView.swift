@@ -76,9 +76,11 @@ struct SettingsView: View {
                     )
                 }.background(MR.colors().background.get())
 
-                BannerAdView(
-                    unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
-                ).frame(maxHeight: 50)
+                if observable.viewModel.isRewardExpired() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
+                    ).frame(maxHeight: 50)
+                }
 
             }
             .navigationBarHidden(true)
