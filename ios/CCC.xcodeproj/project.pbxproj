@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341CA58575E08166F616E331 /* Pods_CCC.framework */; };
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
-		5C07070A2693B7A100838532 /* RewardedAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0707092693B7A100838532 /* RewardedAd.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
 		5C48D9D525FC10D2008256B5 /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C48D9D425FC10D2008256B5 /* EmailHelper.swift */; };
@@ -49,7 +48,6 @@
 /* Begin PBXFileReference section */
 		341CA58575E08166F616E331 /* Pods_CCC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CCC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
-		5C0707092693B7A100838532 /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C48D9D425FC10D2008256B5 /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
@@ -148,7 +146,6 @@
 				5C5D09382562EC0100DA9C4A /* Extensions.swift */,
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
 				5C48D9D425FC10D2008256B5 /* EmailHelper.swift */,
-				5C0707092693B7A100838532 /* RewardedAd.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -386,7 +383,6 @@
 				5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* BarView.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */,
-				5C07070A2693B7A100838532 /* RewardedAd.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
@@ -467,7 +463,6 @@
 			baseConfigurationReference = 5CB954C526934EFC007632DC /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BANNER_AD_UNIT_ID_SETTINGS = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

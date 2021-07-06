@@ -9,6 +9,7 @@
 import SwiftUI
 import Client
 import NavigationStack
+import GoogleMobileAds
 
 typealias SettingsObservable = ObservableSEED
 <SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
@@ -40,13 +41,13 @@ struct SettingsView: View {
                         ),
                         onClick: observable.event.onCurrenciesClick
                     )
-//                    SettingsItemView(
-//                        imgName: "eye.slash.fill",
-//                        title: MR.strings().settings_item_remove_ads_title.get(),
-//                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-//                        value: getAdFreeText(),
-//                        onClick: observable.event.onRemoveAdsClick
-//                    )
+                    SettingsItemView(
+                        imgName: "eye.slash.fill",
+                        title: MR.strings().settings_item_remove_ads_title.get(),
+                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+                        value: getAdFreeText(),
+                        onClick: observable.event.onRemoveAdsClick
+                    )
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: MR.strings().settings_item_sync_title.get(),
@@ -82,7 +83,7 @@ struct SettingsView: View {
                 title: Text(MR.strings().txt_remove_ads.get()),
                 message: Text(MR.strings().txt_remove_ads_text.get()),
                 primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                    // todo show rewarded ad
+                    showRewardedAd()
                 }),
                 secondaryButton: .destructive(Text(MR.strings().cancel.get()))
             )
@@ -132,6 +133,21 @@ struct SettingsView: View {
         }
     }
 
+    private func showRewardedAd() {
+        GADRewardedAd.load(
+            withAdUnitID: "REWARDED_AD_UNIT_ID".getSecretValue(),
+            request: GADRequest(),
+            completionHandler: { rewardedAd, error in
+
+                rewardedAd?.present(
+                    fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
+                    userDidEarnRewardHandler: {
+                        observable.viewModel.updateAddFreeDate()
+                    }
+                )
+            }
+        )
+    }
 }
 
 struct SettingsToolbarView: View {
