@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
 import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
@@ -151,10 +152,10 @@ class ExtensionsTest {
     @Test
     fun isRewardExpired() {
         assertFalse { nowAsLong().isRewardExpired() }
-        assertFalse { (nowAsLong() + VIDEO_REWARD).isRewardExpired() }
-        assertTrue { (nowAsLong() - 1 - VIDEO_REWARD).isRewardExpired() }
-        assertTrue { (nowAsLong() - VIDEO_REWARD).isRewardExpired() }
-        assertFalse { (nowAsLong() + 1 - VIDEO_REWARD).isRewardExpired() }
+        assertFalse { (nowAsLong() + VIDEO_REWARD * DAY).isRewardExpired() }
+        assertTrue { (nowAsLong() - 1 - VIDEO_REWARD * DAY).isRewardExpired() }
+        assertTrue { (nowAsLong() - VIDEO_REWARD * DAY).isRewardExpired() }
+        assertFalse { (nowAsLong() + 1 - VIDEO_REWARD * DAY).isRewardExpired() }
     }
 
     @Test
@@ -186,7 +187,7 @@ class ExtensionsTest {
     @Test
     fun calculateAdRewardEnd() {
         assertEquals(
-            3,
+            VIDEO_REWARD,
             RemoveAdType.VIDEO
                 .calculateAdRewardEnd()
                 .toInstant()

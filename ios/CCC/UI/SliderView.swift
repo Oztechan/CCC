@@ -35,31 +35,18 @@ struct SliderView: View {
                             buttonAction: {
                                 navigationStack.push(
 
-//                                    SlideView(
-//                                        title: MR.strings().slide_disable_ads_title.get(),
-//                                        image: Image(systemName: "eye.slash.fill"),
-//                                        subTitle1: MR.strings().slide_disable_ads_text_1.get(),
-//                                        subTitle2: MR.strings().slide_disable_ads_text_2.get(),
-//                                        buttonText: MR.strings().next.get(),
-//                                        buttonAction: {
-//                                            navigationStack.push(
-
-                                                SlideView(
-                                                    title: MR.strings().slide_dark_mode_title.get(),
-                                                    image: Image(systemName: "lightbulb.slash"),
-                                                    subTitle1: MR.strings().slide_dark_mode_text_1.get(),
-                                                    subTitle2: MR.strings().slide_dark_mode_text_2.get(),
-                                                    buttonText: MR.strings().btn_done.get(),
-                                                    buttonAction: {
-                                                        navigationStack.push(
-                                                            CurrenciesView(onBaseChange: { _ in })
-                                                        )
-                                                    }
-                                                )
-
-//                                            )
-//                                        }
-//                                    )
+                                    SlideView(
+                                        title: MR.strings().slide_disable_ads_title.get(),
+                                        image: Image(systemName: "eye.slash.fill"),
+                                        subTitle1: MR.strings().slide_disable_ads_text_1.get(),
+                                        subTitle2: MR.strings().slide_disable_ads_text_2.get(),
+                                        buttonText: MR.strings().next.get(),
+                                        buttonAction: {
+                                            navigationStack.push(
+                                                CurrenciesView(onBaseChange: { _ in })
+                                            )
+                                        }
+                                    )
 
                                 )
                             }

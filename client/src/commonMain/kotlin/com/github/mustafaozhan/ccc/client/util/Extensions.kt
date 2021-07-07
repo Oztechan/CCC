@@ -37,7 +37,7 @@ fun Long.isWeekPassed(): Boolean {
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return nowAsLong() - this >= VIDEO_REWARD
+    return nowAsLong() - this >= VIDEO_REWARD * DAY
 }
 
 fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
@@ -96,7 +96,7 @@ fun List<Currency>?.toValidList(currentBase: String) =
 @Suppress("MagicNumber")
 fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
     RemoveAdType.VIDEO -> startDate.toInstant().plus(
-        3,
+        VIDEO_REWARD,
         DateTimeUnit.DAY,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()

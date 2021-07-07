@@ -95,8 +95,9 @@ class SettingsViewModel(
 
     // used in ios
     @Suppress("unused")
-    fun updateAddFreeDate() {
-        settingsRepository.adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong())
+    fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
+        settingsRepository.adFreeEndDate = it
+        _state.update(addFreeEndDate = it.toDateString())
     }
 
     override fun onCleared() {

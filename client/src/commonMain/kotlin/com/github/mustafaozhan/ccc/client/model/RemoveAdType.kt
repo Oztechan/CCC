@@ -4,10 +4,11 @@
 
 package com.github.mustafaozhan.ccc.client.model
 
+import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
 import com.github.mustafaozhan.scopemob.whetherNot
 
 enum class RemoveAdType(val data: RemoveAdData) {
-    VIDEO(RemoveAdData("Watch Video", "3 Days", "")),
+    VIDEO(RemoveAdData("Watch Video", "$VIDEO_REWARD Days", "")),
     MONTH(RemoveAdData("", "1 Month", "one_month")),
     QUARTER(RemoveAdData("", "3 Months", "three_months")),
     HALF_YEAR(RemoveAdData("", "6 Months", "six_months")),
