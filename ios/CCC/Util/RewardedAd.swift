@@ -30,7 +30,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { (rewardedAd, error) in
                 if let error = error {
-                    LoggerKt.kermit.d(withMessage: {"RewardedAd loadRewarded error: \(error.localizedDescription)"})
+                    LoggerKt.kermit.d(withMessage: {"RewardedAd show error: \(error.localizedDescription)"})
                     self.errorFunction()
                     return
                 }

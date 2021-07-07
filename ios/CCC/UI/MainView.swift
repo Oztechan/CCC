@@ -46,26 +46,9 @@ struct MainView: View {
         LoggerKt.kermit.d(withMessage: {effect.description})
         switch effect {
         case is MainEffect.ShowInterstitialAd:
-            showInterstitialAd()
+            InterstitialAd().show()
         default:
             LoggerKt.kermit.d(withMessage: {"MainView unknown effect"})
         }
-    }
-
-    private func showInterstitialAd() {
-        GADInterstitialAd.load(
-            withAdUnitID: "INTERSTITIAL_AD_ID".getSecretValue(),
-            request: GADRequest(),
-            completionHandler: { interstitialAd, error in
-                if let error = error {
-                    LoggerKt.kermit.d(withMessage: {"MainView showInterstitialAd \(error.localizedDescription)"})
-                    return
-                }
-
-                interstitialAd?.present(
-                    fromRootViewController: UIApplication.shared.windows.first!.rootViewController!
-                )
-            }
-        )
     }
 }
