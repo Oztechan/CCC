@@ -51,6 +51,7 @@ struct CurrenciesView: View {
                                 onItemLongClick: observable.event.onItemLongClick
                             )
                         }
+                        .listRowInsets(.init())
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
@@ -64,6 +65,13 @@ struct CurrenciesView: View {
                         buttonText: MR.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick
                     )
+                }
+
+                if observable.viewModel.isRewardExpired() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
+                    ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
                 }
 
             }

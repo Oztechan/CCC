@@ -11,5 +11,6 @@ target 'CCC' do
   pod 'NavigationStack'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
+  pod 'Google-Mobile-Ads-SDK'
 
 end

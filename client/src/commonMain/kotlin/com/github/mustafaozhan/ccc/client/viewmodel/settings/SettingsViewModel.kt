@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toDateString
@@ -14,6 +16,7 @@ import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -89,6 +92,13 @@ class SettingsViewModel(
     fun isAdFreeNeverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
 
     fun getAppTheme() = settingsRepository.appTheme
+
+    // used in ios
+    @Suppress("unused")
+    fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
+        settingsRepository.adFreeEndDate = it
+        _state.update(addFreeEndDate = it.toDateString())
+    }
 
     override fun onCleared() {
         kermit.d { "SettingsViewModel onCleared" }

@@ -28,8 +28,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     companion object {
         private var layouts = arrayListOf(
             R.layout.layout_slide_intro,
-            R.layout.layout_slide_bug_report,
-            R.layout.layout_slide_disable_ads
+            R.layout.layout_slide_disable_ads,
+            R.layout.layout_slide_bug_report
         )
         private const val TEXT_SIZE = 36f
         private const val HTML_DOT_CODE = "&#8226;"

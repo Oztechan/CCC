@@ -9,6 +9,7 @@
 import SwiftUI
 import Client
 import NavigationStack
+import GoogleMobileAds
 
 typealias SettingsObservable = ObservableSEED
 <SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
@@ -17,7 +18,12 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
-    @State var removeAdDialogVisibility: Bool = false
+    @State var dialogVisibility: Bool = false
+    @State var activeDialog: Dialogs = Dialogs.error
+
+    enum Dialogs {
+        case removeAd, error
+    }
 
     var onBaseChange: ((String) -> Void)
 
@@ -40,13 +46,13 @@ struct SettingsView: View {
                         ),
                         onClick: observable.event.onCurrenciesClick
                     )
-//                    SettingsItemView(
-//                        imgName: "eye.slash.fill",
-//                        title: MR.strings().settings_item_remove_ads_title.get(),
-//                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-//                        value: getAdFreeText(),
-//                        onClick: observable.event.onRemoveAdsClick
-//                    )
+                    SettingsItemView(
+                        imgName: "eye.slash.fill",
+                        title: MR.strings().settings_item_remove_ads_title.get(),
+                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+                        value: getAdFreeText(),
+                        onClick: observable.event.onRemoveAdsClick
+                    )
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: MR.strings().settings_item_sync_title.get(),
@@ -69,18 +75,41 @@ struct SettingsView: View {
                         onClick: observable.event.onOnGitHubClick
                     )
                 }.background(MR.colors().background.get())
+
+                if observable.viewModel.isRewardExpired() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
+                    ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
+                }
+
             }
             .navigationBarHidden(true)
         }
-        .alert(isPresented: $removeAdDialogVisibility) {
-            Alert(
-                title: Text(MR.strings().txt_remove_ads.get()),
-                message: Text(MR.strings().txt_remove_ads_text.get()),
-                primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                    // todo show rewarded ad
-                }),
-                secondaryButton: .destructive(Text(MR.strings().cancel.get()))
-            )
+        .alert(isPresented: $dialogVisibility) {
+            switch activeDialog {
+            case .error:
+                return Alert(
+                    title: Text(MR.strings().txt_remove_ads.get()),
+                    message: Text(MR.strings().error_text_unknown.get()),
+                    dismissButton: .destructive(Text(MR.strings().cancel.get()))
+                )
+            case .removeAd:
+                return Alert(
+                    title: Text(MR.strings().txt_remove_ads.get()),
+                    message: Text(MR.strings().txt_remove_ads_text.get()),
+                    primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
+                        RewardedAd(
+                            rewardFunction: { observable.viewModel.updateAddFreeDate() },
+                            errorFunction: {
+                                activeDialog = Dialogs.error
+                                self.dialogVisibility.toggle()
+                            }
+                        ).show()
+                    }),
+                    secondaryButton: .destructive(Text(MR.strings().cancel.get()))
+                )
+            }
         }
         .onAppear { observable.startObserving() }
         .onDisappear { observable.stopObserving() }
@@ -107,7 +136,8 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            removeAdDialogVisibility = true
+            activeDialog = Dialogs.removeAd
+            dialogVisibility.toggle()
         default:
             LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
         }
@@ -126,7 +156,6 @@ struct SettingsView: View {
             }
         }
     }
-
 }
 
 struct SettingsToolbarView: View {
@@ -159,30 +188,36 @@ struct SettingsItemView: View {
                 .font(.system(size: 24))
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
-                .padding(.bottom, 4)
-                .padding(.top, 4)
+                .padding(.bottom, 8)
+                .padding(.top, 8)
 
             VStack {
                 HStack {
                     Text(title).font(.title3)
                     Spacer()
-                }.padding(4)
+                }
+
+                Spacer()
 
                 HStack {
                     Text(subTitle).font(.footnote)
                     Spacer()
-                }.padding(4)
-            }
+                }
+            }.frame(height: 30)
 
             Spacer()
 
-            Text(value).font(.caption)
+            Text(value)
+                .lineLimit(2)
+                .multilineTextAlignment(.trailing)
+                .font(.caption)
 
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
         }
+        .listRowInsets(.init())
         .listRowBackground(MR.colors().background.get())
         .contentShape(Rectangle())
         .onTapGesture { onClick() }

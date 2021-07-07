@@ -74,7 +74,7 @@
     <string name="slide_bug_report_text_2">Click on settings icon \nFeedback > Send us an email\nOn GitHub > Create a GitHub issue</string>
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads</string>
-    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads\nThen choose best option for yourself!</string>
+    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads</string>
     <string name="slide_dark_mode_title">Theme</string>
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
     <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
@@ -124,6 +124,7 @@
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>
-    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 3 days ?</string>
+    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?
+    </string>
     <string name="txt_watch">Watch</string>
 </resources>

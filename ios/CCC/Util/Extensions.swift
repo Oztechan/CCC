@@ -79,3 +79,9 @@ extension RateState {
         }
     }
 }
+
+extension String {
+    func getSecretValue() -> String {
+        return (Bundle.main.infoDictionary?[self] as? String) ?? "this is a secret value"
+    }
+}

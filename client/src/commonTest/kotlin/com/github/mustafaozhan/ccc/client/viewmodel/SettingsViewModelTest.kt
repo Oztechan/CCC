@@ -32,6 +32,13 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
     }
 
+    @Test
+    fun updateAddFreeDate() = viewModel.state.before {
+        viewModel.updateAddFreeDate()
+    }.after {
+        assertTrue { viewModel.state.value.addFreeEndDate.isNotEmpty() }
+    }
+
     // Event
     @Test
     fun onBackClick() = viewModel.effect.before {

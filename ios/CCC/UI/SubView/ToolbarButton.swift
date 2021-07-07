@@ -22,7 +22,7 @@ struct ToolbarButton: View {
                 Image(systemName: imgName)
                     .imageScale(.large)
                     .accentColor(MR.colors().text.get())
-                    .padding(.leading, 20)
+                    .padding(.leading, 10)
             }
         ).padding(.trailing, 10)
     }

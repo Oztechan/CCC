@@ -57,6 +57,7 @@ struct CalculatorView: View {
                                     onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
                                 )
                             }
+                            .listRowInsets(.init())
                             .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }
@@ -69,6 +70,13 @@ struct CalculatorView: View {
                             color: observable.state.rateState.getColor(),
                             text: observable.state.rateState.getText()
                         )
+                    }
+
+                    if observable.viewModel.isRewardExpired() {
+                        BannerAdView(
+                            unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue()
+                        ).frame(maxHeight: 50)
+                        .padding(.bottom, 20)
                     }
 
                 }
