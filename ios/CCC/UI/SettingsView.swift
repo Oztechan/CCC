@@ -188,25 +188,28 @@ struct SettingsItemView: View {
                 .font(.system(size: 24))
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
-                .padding(.bottom, 4)
-                .padding(.top, 4)
+                .padding(.bottom, 8)
+                .padding(.top, 8)
 
             VStack {
                 HStack {
                     Text(title).font(.title3)
                     Spacer()
-                }.padding(4)
+                }
+
+                Spacer()
 
                 HStack {
                     Text(subTitle).font(.footnote)
                     Spacer()
-                }.padding(4)
-            }
+                }
+            }.frame(height: 30)
 
             Spacer()
 
             Text(value)
                 .lineLimit(2)
+                .multilineTextAlignment(.trailing)
                 .font(.caption)
 
             Image(systemName: "chevron.right")

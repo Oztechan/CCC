@@ -19,7 +19,7 @@ func showSnack(
 
     let view = MessageView.viewFromNib(layout: .cardView)
     view.configureTheme(
-        backgroundColor: MR.colors().background.get(),
+        backgroundColor: MR.colors().background_weak.get(),
         foregroundColor: MR.colors().text.get(),
         iconImage: iconImage.resized(
             to: CGSize(width: 64, height: 64)
