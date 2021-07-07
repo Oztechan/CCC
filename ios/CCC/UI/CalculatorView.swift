@@ -57,6 +57,7 @@ struct CalculatorView: View {
                                     onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
                                 )
                             }
+                            .listRowInsets(.init())
                             .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }

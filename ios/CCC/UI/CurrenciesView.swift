@@ -51,6 +51,7 @@ struct CurrenciesView: View {
                                 onItemLongClick: observable.event.onItemLongClick
                             )
                         }
+                        .listRowInsets(.init())
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }

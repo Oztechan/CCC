@@ -205,13 +205,16 @@ struct SettingsItemView: View {
 
             Spacer()
 
-            Text(value).font(.caption)
+            Text(value)
+                .lineLimit(2)
+                .font(.caption)
 
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
         }
+        .listRowInsets(.init())
         .listRowBackground(MR.colors().background.get())
         .contentShape(Rectangle())
         .onTapGesture { onClick() }
