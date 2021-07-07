@@ -64,7 +64,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private lateinit var removeAdsAdapter: RemoveAdsAdapter
 
     private lateinit var skuDetails: List<SkuDetails>
-    private lateinit var acknowledgePurchaseParams: AcknowledgePurchaseParams
+    private var acknowledgePurchaseParams: AcknowledgePurchaseParams? = null
 
     override fun getViewBinding() = BottomSheetAdRemoveBinding.inflate(layoutInflater)
 
@@ -113,7 +113,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
                         restartActivity()
                     } else {
-                        billingClient.acknowledgePurchase(acknowledgePurchaseParams, this)
+                        acknowledgePurchaseParams?.let {
+                            billingClient.acknowledgePurchase(it, this)
+                        } ?: run {
+                            restartActivity()
+                        }
                     }
                 }
                 AdRemoveEffect.AlreadyAdFree -> showSnack(
