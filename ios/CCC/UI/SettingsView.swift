@@ -98,7 +98,13 @@ struct SettingsView: View {
                     title: Text(MR.strings().txt_remove_ads.get()),
                     message: Text(MR.strings().txt_remove_ads_text.get()),
                     primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                        showRewardedAd()
+                        RewardedAd(
+                            rewardFunction: { observable.viewModel.updateAddFreeDate() },
+                            errorFunction: {
+                                activeDialog = Dialogs.error
+                                self.dialogVisibility.toggle()
+                            }
+                        ).show()
                     }),
                     secondaryButton: .destructive(Text(MR.strings().cancel.get()))
                 )
@@ -148,31 +154,6 @@ struct SettingsView: View {
                 )
             }
         }
-    }
-
-    private func showRewardedAd() {
-        GADRewardedAd.load(
-            withAdUnitID: "REWARDED_AD_UNIT_ID".getSecretValue(),
-            request: GADRequest(),
-            completionHandler: { rewardedAd, error in
-                if let error = error {
-                    LoggerKt.kermit.d(withMessage: {"SettingsView showRewardedAd \(error.localizedDescription)"})
-
-                    activeDialog = Dialogs.error
-                    self.dialogVisibility.toggle()
-                    return
-                }
-
-                rewardedAd?.present(
-                    fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
-                    userDidEarnRewardHandler: {
-                        LoggerKt.kermit.d(withMessage: {"SettingsView showRewardedAd success"})
-
-                        observable.viewModel.updateAddFreeDate()
-                    }
-                )
-            }
-        )
     }
 }
 
