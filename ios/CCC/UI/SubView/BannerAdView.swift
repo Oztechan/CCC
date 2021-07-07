@@ -28,22 +28,19 @@ final class BannerAdView: UIViewControllerRepresentable {
         bannerView.rootViewController = viewController
 
         let frame = { () -> CGRect in
-          // Here safe area is taken into account, hence the view frame is used
-          // after the view has been laid out.
           if #available(iOS 11.0, *) {
             return viewController.view.frame.inset(by: viewController.view.safeAreaInsets)
           } else {
             return viewController.view.frame
           }
         }()
+
         let viewWidth = frame.size.width
 
         viewController.view.addSubview(bannerView)
         viewController.view.frame = CGRect(origin: .zero, size: kGADAdSizeBanner.size)
 
         bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
-
-        // Step 4 - Create an ad request and load the adaptive banner ad.
         bannerView.load(GADRequest())
 
         return viewController

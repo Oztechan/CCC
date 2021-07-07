@@ -70,6 +70,7 @@ struct CurrenciesView: View {
                     BannerAdView(
                         unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
                     ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
                 }
 
             }
