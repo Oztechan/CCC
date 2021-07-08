@@ -61,13 +61,13 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: ./gradlew build --parallel
+        run: ./gradlew build :android:bundleRelease --parallel
 
-      - name: Upload artifact
+      - name: Upload App Bundle
         uses: actions/upload-artifact@v2
         with:
-          name: apk
-          path: android/build/outputs/apk/release/android-release.apk
+          name: bundle
+          path: android/build/outputs/bundle/release/android-release.aab
 
       - name: Set Job Status
         id: status
@@ -132,30 +132,34 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  Distribution:
+  UploadGooglePlay:
     runs-on: ubuntu-latest
     needs: [ GradleBuild, XCodeBuild ]
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Download artifact
+      - name: Download App Bundle
         uses: actions/download-artifact@v2
         with:
-          name: apk
+          name: bundle
 
-      - name: Firebase App Distribution
+      - name: Adding secret files
+        run: |
+          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch service_account.json.asc > service_account.json
+
+      - name: Upload Artifact to Google Play Console
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: r0adkll/upload-google-play@v1
         with:
-          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
-          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
-          groups: QA
-          file: android-release.apk
+          serviceAccountJson: service_account.json
+          packageName: mustafaozhan.github.com.mycurrencies
+          releaseFiles: android-release.aab
+          track: internal
 
       - name: Set Job Status
         id: status
@@ -163,14 +167,14 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Distribution ]
+    needs: [ GradleBuild, XCodeBuild, UploadGooglePlay ]
     if: always()
     steps:
 
       - name: Notify slack success
         if: needs.GradleBuild.outputs.status == 'success' &&
           needs.XCodeBuild.outputs.status == 'success' &&
-          needs.Distribution.outputs.status == 'success'
+          needs.UploadGooglePlay.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
@@ -182,7 +186,7 @@ jobs:
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Distribution.outputs.status == 'success')
+          false == (needs.UploadGooglePlay.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
