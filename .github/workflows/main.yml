@@ -61,7 +61,7 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: ./gradlew :android:assembleRelease --parallel
+        run: ./gradlew build --parallel
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -73,75 +73,74 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  #  XCodeBuild:
-  #    runs-on: macos-latest
-  #    outputs:
-  #      status: ${{ steps.status.outputs.status }}
-  #    steps:
-  #
-  #      - name: Clone Repo
-  #        uses: actions/checkout@v2
-  #        with:
-  #          fetch-depth: 0
-  #
-  #      - name: Checkout submodules
-  #        run: git submodule update --init --recursive
-  #
-  #      - name: Adding secret files
-  #        run: |
-  #          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-  #          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-  #          mkdir android/src/release
-  #          echo "${{ secrets.ANDROID_GPG_FIREBASE_CONFIG }}" > google-services.json.asc
-  #          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-  #          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-  #          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
-  #          echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
-  #          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
-  #
-  #      - name: Set up JDK 11
-  #        uses: actions/setup-java@v1
-  #        with:
-  #          java-version: 11
-  #
-  #      - name: Set up Xcode
-  #        uses: maxim-lobanov/setup-xcode@v1
-  #        with:
-  #          xcode-version: latest
-  #
-  #      - name: Install Cocoapods
-  #        run: |
-  #          ./gradlew client:podGenIOS
-  #          cd ios/CCC
-  #          pod install
-  #
-  #      - name: Xcode build
-  #        run: cd ios &&
-  #          xcrun xcodebuild
-  #          -workspace CCC.xcworkspace
-  #          -scheme CCC
-  #          -sdk iphoneos
-  #          -derivedDataPath
-  #          build
-  #          CODE_SIGN_IDENTITY=""
-  #          CODE_SIGNING_REQUIRED="NO"
-  #          CODE_SIGN_ENTITLEMENTS=""
-  #          CODE_SIGNING_ALLOWED="NO"
-  #
-  #      - name: Set Job Status
-  #        id: status
-  #        run: echo "::set-output name=status::success"
-
-  Distribution:
-    runs-on: ubuntu-latest
-    needs: [ GradleBuild ]
+  XCodeBuild:
+    runs-on: macos-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - uses: actions/checkout@v2
+      - name: Clone Repo
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
+      - name: Adding secret files
+        run: |
+          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
+          mkdir android/src/release
+          echo "${{ secrets.ANDROID_GPG_FIREBASE_CONFIG }}" > google-services.json.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
+          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
+          echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+
+      - name: Install Cocoapods
+        run: |
+          ./gradlew client:podGenIOS
+          cd ios/CCC
+          pod install
+
+      - name: Xcode build
+        run: cd ios &&
+          xcrun xcodebuild
+          -workspace CCC.xcworkspace
+          -scheme CCC
+          -sdk iphoneos
+          -derivedDataPath
+          build
+          CODE_SIGN_IDENTITY=""
+          CODE_SIGNING_REQUIRED="NO"
+          CODE_SIGN_ENTITLEMENTS=""
+          CODE_SIGNING_ALLOWED="NO"
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  UploadGooglePlay:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    needs: [ GradleBuild, XCodeBuild ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -160,45 +159,36 @@ jobs:
           releaseFiles: android-release.apk
           track: internal
 
-      #      - name: Firebase App Distribution
-      #        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      #        uses: wzieba/Firebase-Distribution-Github-Action@v1
-      #        with:
-      #          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
-      #          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
-      #          groups: QA
-      #          file: android-release.apk
-
       - name: Set Job Status
         id: status
         run: echo "::set-output name=status::success"
 
-#  Notify:
-#    runs-on: ubuntu-latest
-#    needs: [ GradleBuild, XCodeBuild, Distribution ]
-#    if: always()
-#    steps:
-#
-#      - name: Notify slack success
-#        if: needs.GradleBuild.outputs.status == 'success' &&
-#          needs.XCodeBuild.outputs.status == 'success' &&
-#          needs.Distribution.outputs.status == 'success'
-#        env:
-#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-#        uses: voxmedia/github-action-slack-notify-build@v1
-#        with:
-#          channel: ccc
-#          status: SUCCESS
-#          color: good
-#
-#      - name: Notify slack fail
-#        if: false == (needs.GradleBuild.outputs.status == 'success') ||
-#          false == (needs.XCodeBuild.outputs.status == 'success') ||
-#          false == (needs.Distribution.outputs.status == 'success')
-#        env:
-#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-#        uses: voxmedia/github-action-slack-notify-build@v1
-#        with:
-#          channel: ccc
-#          status: FAILED
-#          color: danger
+  Notify:
+    runs-on: ubuntu-latest
+    needs: [ GradleBuild, XCodeBuild, UploadGooglePlay ]
+    if: always()
+    steps:
+
+      - name: Notify slack success
+        if: needs.GradleBuild.outputs.status == 'success' &&
+          needs.XCodeBuild.outputs.status == 'success' &&
+          needs.UploadGooglePlay.outputs.status == 'success'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: ccc
+          status: SUCCESS
+          color: good
+
+      - name: Notify slack fail
+        if: false == (needs.GradleBuild.outputs.status == 'success') ||
+          false == (needs.XCodeBuild.outputs.status == 'success') ||
+          false == (needs.UploadGooglePlay.outputs.status == 'success')
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: ccc
+          status: FAILED
+          color: danger
