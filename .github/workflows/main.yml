@@ -148,14 +148,21 @@ jobs:
         with:
           name: apk
 
-      - name: Firebase App Distribution
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - uses: r0adkll/upload-google-play@v1
         with:
-          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
-          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
-          groups: QA
-          file: android-release.apk
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: mustafaozhan.github.com.mycurrencies
+          releaseFiles: android-release.apk
+          track: alpha
+
+      #      - name: Firebase App Distribution
+      #        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+      #        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      #        with:
+      #          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
+      #          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
+      #          groups: QA
+      #          file: android-release.apk
 
       - name: Set Job Status
         id: status
