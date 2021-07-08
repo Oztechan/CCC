@@ -61,13 +61,13 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: ./gradlew build --parallel
+        run: ./gradlew build :android:bundleRelease --parallel
 
-      - name: Upload artifact
+      - name: Upload App Bundle
         uses: actions/upload-artifact@v2
         with:
-          name: apk
-          path: android/build/outputs/apk/release/android-release.apk
+          name: bundle
+          path: android/build/outputs/bundle/release/android-release.aab
 
       - name: Set Job Status
         id: status
@@ -98,6 +98,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
+
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -133,7 +134,6 @@ jobs:
 
   UploadGooglePlay:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     needs: [ GradleBuild, XCodeBuild ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -142,21 +142,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Download artifact
+      - name: Download App Bundle
         uses: actions/download-artifact@v2
         with:
-          name: apk
+          name: bundle
 
       - name: Adding secret files
         run: |
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
-      - uses: r0adkll/upload-google-play@v1
+      - name: Upload Artifact to Google Play Console
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
-          releaseFiles: android-release.apk
+          releaseFiles: android-release.aab
           track: internal
 
       - name: Set Job Status
