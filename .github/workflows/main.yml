@@ -158,7 +158,7 @@ jobs:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
           releaseFiles: android-release.apk
-          track: alpha
+          track: internal
 
       #      - name: Firebase App Distribution
       #        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
