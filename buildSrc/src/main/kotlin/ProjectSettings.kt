@@ -15,9 +15,9 @@ object ProjectSettings {
     const val minSdkVersion = 21
     const val targetSdkVersion = 30
 
-    fun getVersionCode(project: Project) = gitCommitCount(project).toInt()
+    fun getVersionCode(project: Project) = gitCommitCount(project).toInt() + 1
 
-    fun getVersionName(project: Project) = "$mayorVersion.$minorVersion.${gitCommitCount(project)}"
+    fun getVersionName(project: Project) = "$mayorVersion.$minorVersion.${getVersionCode(project)}"
 
     private fun gitCommitCount(project: Project): String {
         val os = ByteArrayOutputStream()
