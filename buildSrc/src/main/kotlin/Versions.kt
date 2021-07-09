@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val kotlin = "1.5.20"
-    const val androidPlugin = "7.1.0-alpha02"
+    const val androidPlugin = "7.1.0-alpha03"
     const val compose = "0.4.0"
     const val androidMaterial = "1.4.0"
     const val constraintLayout = "2.1.0-beta02"
