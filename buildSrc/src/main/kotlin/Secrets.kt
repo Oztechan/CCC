@@ -54,7 +54,7 @@ fun String.removeVariant() = replace(
 
 fun Project.getSecret(
     key: String,
-    default: String = ""
+    default: String = "secret" // this values can not be public
 ): String = System.getenv(key).let {
     if (it.isNullOrEmpty()) {
         getSecretProperties()?.get(key)?.toString() ?: default
