@@ -4,7 +4,7 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val kotlin = "1.5.20"
+    const val kotlin = "1.5.21"
     const val androidPlugin = "7.1.0-alpha03"
     const val compose = "0.4.0"
     const val androidMaterial = "1.4.0"
@@ -26,13 +26,13 @@ object Versions {
     const val navigation = "2.3.5"
     const val playCore = "1.10.0"
     const val dateTime = "0.2.1"
-    const val kotlinCoroutines = "1.5.0-native-mt"
+    const val kotlinCoroutines = "1.5.1-native-mt"
     const val billing = "4.0.0"
     const val leakCanary = "2.7"
-    const val sqlDelight = "1.5.0"
+    const val sqlDelight = "1.5.1"
     const val lifecycle = "2.4.0-alpha02"
     const val mokoResources = "0.16.1"
     const val dependencyUpdates = "0.39.0"
-    const val buildHealth = "0.74.0"
+    const val buildHealth = "0.75.0"
     const val buildKonfig = "0.8.0"
 }
