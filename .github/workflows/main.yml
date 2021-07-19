@@ -164,6 +164,11 @@ jobs:
           releaseFiles: android-release.aab
           track: internal
 
+      - name: Delete App Bundle
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: bundle
+
       - name: Set Job Status
         id: status
         run: echo "::set-output name=status::success"
@@ -190,6 +195,11 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SOURCE: "artifact/"
+
+      - name: Delete Jar
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: jar
 
       - name: Set Job Status
         id: status
