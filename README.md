@@ -11,10 +11,10 @@
   * [x] ![badge][badge-android] in production :muscle:
   * [x] ![badge][badge-backend] in production :muscle:
   * [ ] ![badge][badge-ios] in progress :bow:
-    * [ ] ![badge][badge-web] coming soon :eyes:
-    * [ ] ![badge][badge-desktop] coming soon :eyes:
-    * [x] ![badge][badge-client] shared between FE targets :recycle:
-    * [x] ![badge][badge-common] shared between all targets :recycle:
+  * [ ] ![badge][badge-web] coming soon :eyes:
+  * [ ] ![badge][badge-desktop] coming soon :eyes:
+  * [x] ![badge][badge-client] shared between FE targets :recycle:
+  * [x] ![badge][badge-common] shared between all targets :recycle:
 
 * [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android branch (retired). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
 
