@@ -8,11 +8,11 @@
 
 * [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
 
-    * [x] ![badge][badge-android] in production :muscle:
-    * [ ] ![badge][badge-ios] in progress :bow:
+  * [x] ![badge][badge-android] in production :muscle:
+  * [x] ![badge][badge-backend] in production :muscle:
+  * [ ] ![badge][badge-ios] in progress :bow:
     * [ ] ![badge][badge-web] coming soon :eyes:
     * [ ] ![badge][badge-desktop] coming soon :eyes:
-    * [x] ![badge][badge-backend] in beta :punch:
     * [x] ![badge][badge-client] shared between FE targets :recycle:
     * [x] ![badge][badge-common] shared between all targets :recycle:
 

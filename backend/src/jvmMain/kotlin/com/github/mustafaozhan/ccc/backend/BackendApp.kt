@@ -20,10 +20,6 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.koin.core.context.startKoin
 
-// Configs
-private const val PORT = 8080
-private const val HOST = "127.0.0.1"
-
 fun main() {
     initLogger()
 
@@ -38,11 +34,7 @@ fun main() {
         koin = it.koin
     }
 
-    embeddedServer(
-        Netty,
-        port = PORT,
-        host = HOST
-    ) {
+    embeddedServer(Netty, port = 8080) {
 
         kermit.d { "BackendApp main" }
 
