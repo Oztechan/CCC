@@ -4,12 +4,13 @@
 
 package com.github.mustafaozhan.ccc.backend
 
+import com.github.mustafaozhan.ccc.backend.controller.ApiController
 import com.github.mustafaozhan.ccc.backend.di.koin
 import com.github.mustafaozhan.ccc.backend.di.modules.controllerModule
 import com.github.mustafaozhan.ccc.backend.routes.getCurrencyByName
 import com.github.mustafaozhan.ccc.backend.routes.getError
 import com.github.mustafaozhan.ccc.backend.routes.getRoot
-import com.github.mustafaozhan.ccc.backend.service.startListening
+import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.github.mustafaozhan.ccc.common.di.modules.apiModule
 import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
 import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
@@ -19,6 +20,8 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.koin.core.context.startKoin
+
+private val apiController: ApiController = koin.getDependency(ApiController::class)
 
 fun main() {
     initLogger()
@@ -34,12 +37,11 @@ fun main() {
         koin = it.koin
     }
 
+    kermit.d { "BackendApp main" }
+
+    apiController.startSyncApi()
+
     embeddedServer(Netty, port = 8080) {
-
-        kermit.d { "BackendApp main" }
-
-        startListening()
-
         routing {
             kermit.d { "start rooting" }
 
