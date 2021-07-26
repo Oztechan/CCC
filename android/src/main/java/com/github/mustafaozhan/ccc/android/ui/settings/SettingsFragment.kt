@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.settings
 
 import android.content.Intent
 import android.net.Uri

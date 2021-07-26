@@ -1,18 +1,14 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.calculator
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.dataState
 import com.github.mustafaozhan.ccc.android.util.getImageResourceByName
@@ -21,19 +17,14 @@ import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
 import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.getFormatted
-import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
@@ -170,40 +161,5 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     companion object {
         const val CHANGE_BASE_EVENT = "change_base"
-    }
-}
-
-class CalculatorAdapter(
-    private val calculatorEvent: CalculatorEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ) = CalculatorVBViewHolder(
-        ItemCalculatorBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
-        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
-
-        override fun onItemBind(item: Currency) = with(itemBinding) {
-            txtAmount.text = item.rate.getFormatted().toStandardDigits()
-            txtSymbol.text = item.symbol
-            txtType.text = item.name
-            imgItem.setBackgroundByName(item.name)
-            root.setOnClickListener { calculatorEvent.onItemClick(item) }
-            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
-        }
-    }
-
-    class CalculatorDiffer : DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = oldItem == newItem
-
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
     }
 }
