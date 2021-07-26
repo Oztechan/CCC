@@ -1,3 +1,3 @@
 object Type {
-    const val string = "String"
+    const val STRING = "String"
 }

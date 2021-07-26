@@ -3,23 +3,23 @@
  */
 plugins {
     with(Plugins) {
-        id(androidApplication)
-        id(crashlytics)
-        id(googleServices)
-        id(safeargs)
-        kotlin(android)
+        id(ANDROID_APPLICATION)
+        id(CRASHLYTICS)
+        id(GOOGLE_SERVICES)
+        id(SAFE_ARGS)
+        kotlin(ANDROID)
     }
 }
 
 android {
     with(ProjectSettings) {
-        compileSdk = compileSdkVersion
+        compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
-            minSdk = minSdkVersion
-            targetSdk = targetSdkVersion
+            minSdk = MIN_SDK_VERSION
+            targetSdk = TARGET_SDK_VERSION
 
-            applicationId = projectId
+            applicationId = PROJECT_ID
 
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
@@ -45,86 +45,86 @@ android {
     }
 
     signingConfigs {
-        create(BuildType.release) {
+        create(BuildType.RELEASE) {
             with(Keys.Signing) {
-                storeFile = file(getSecret(androidKeyStorePath))
-                storePassword = getSecret(androidStorePassword)
-                keyAlias = getSecret(androidKeyAlias)
-                keyPassword = getSecret(androidKeyPassword)
+                storeFile = file(getSecret(ANDROID_KEY_STORE_PATH))
+                storePassword = getSecret(ANDROID_STORE_PASSWORD)
+                keyAlias = getSecret(ANDROID_KEY_ALIAS)
+                keyPassword = getSecret(ANDROID_KEY_PASSWORD)
             }
         }
     }
 
     buildTypes {
 
-        getByName(BuildType.release) {
-            signingConfig = signingConfigs.getByName(BuildType.release)
+        getByName(BuildType.RELEASE) {
+            signingConfig = signingConfigs.getByName(BuildType.RELEASE)
             isMinifyEnabled = false
 
             with(Keys.Release) {
                 resValue(
-                    Type.string.toLowerCase(),
-                    admobAppId.removeVariant().toLowerCase(),
-                    getSecret(admobAppId, Fakes.admobAppId)
+                    Type.STRING.toLowerCase(),
+                    ADMOB_APP_ID.removeVariant().toLowerCase(),
+                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdCalculator.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_CALCULATOR.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdSettings.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_SETTINGS.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdCurrencies.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_CURRENCIES.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    interstitialAdId.removeVariant().toLowerCase(),
-                    getSecret(interstitialAdId, Fakes.interstitialAdId)
+                    Type.STRING.toLowerCase(),
+                    INTERSTITIAL_AD_ID.removeVariant().toLowerCase(),
+                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    rewardedAdUnitId.removeVariant().toLowerCase(),
-                    getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    REWARDED_AD_UNIT_ID.removeVariant().toLowerCase(),
+                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
-        getByName(BuildType.debug) {
+        getByName(BuildType.DEBUG) {
             with(Keys.Debug) {
                 resValue(
-                    Type.string.toLowerCase(),
-                    admobAppId.removeVariant().toLowerCase(),
-                    getSecret(admobAppId, Fakes.admobAppId)
+                    Type.STRING.toLowerCase(),
+                    ADMOB_APP_ID.removeVariant().toLowerCase(),
+                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdCalculator.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdCalculator, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_CALCULATOR.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdSettings.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdSettings, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_SETTINGS.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    bannerAdUnitIdCurrencies.removeVariant().toLowerCase(),
-                    getSecret(bannerAdUnitIdCurrencies, Fakes.bannerAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    BANNER_AD_UNIT_ID_CURRENCIES.removeVariant().toLowerCase(),
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    interstitialAdId.removeVariant().toLowerCase(),
-                    getSecret(interstitialAdId, Fakes.interstitialAdId)
+                    Type.STRING.toLowerCase(),
+                    INTERSTITIAL_AD_ID.removeVariant().toLowerCase(),
+                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    Type.string.toLowerCase(),
-                    rewardedAdUnitId.removeVariant().toLowerCase(),
-                    getSecret(rewardedAdUnitId, Fakes.rewardedAdUnitId)
+                    Type.STRING.toLowerCase(),
+                    REWARDED_AD_UNIT_ID.removeVariant().toLowerCase(),
+                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
@@ -133,27 +133,27 @@ android {
 
 dependencies {
     with(Dependencies.Android) {
-        implementation(androidMaterial)
-        implementation(constraintLayout)
-        implementation(admob)
-        implementation(navigation)
-        implementation(playCore)
-        implementation(koinAndroid)
-        implementation(billing)
-        implementation(lifecycleRuntime)
-        coreLibraryDesugaring(desugaring)
-        debugImplementation(leakCanary)
+        implementation(ANDROID_MATERIAL)
+        implementation(CONSTRAINT_LAYOUT)
+        implementation(ADMOB)
+        implementation(NAVIGATION)
+        implementation(PLAY_CORE)
+        implementation(KOIN_ANDROID)
+        implementation(BILLING)
+        implementation(LIFECYCLE_RUNTIME)
+        coreLibraryDesugaring(DESUGARING)
+        debugImplementation(LEAK_CANARY)
     }
 
     with(Dependencies.Common) {
-        implementation(dateTime)
+        implementation(KOTLIN_X_DATE_TIME)
     }
 
     with(Modules) {
-        implementation(project(client))
+        implementation(project(CLIENT))
 
-        implementation(project(basemob))
-        implementation(project(scopemob))
-        implementation(project(logmob))
+        implementation(project(BASE_MOB))
+        implementation(project(SCOPE_MOB))
+        implementation(project(LOG_MOB))
     }
 }

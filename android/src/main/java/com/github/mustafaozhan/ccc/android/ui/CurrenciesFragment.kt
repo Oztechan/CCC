@@ -40,11 +40,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
-    companion object {
-        internal const val SPAN_PORTRAIT = 1
-        internal const val SPAN_LANDSCAPE = 3
-    }
-
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
@@ -180,6 +175,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             requireContext(),
             if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
         )
+    }
+
+    companion object {
+        internal const val SPAN_PORTRAIT = 1
+        internal const val SPAN_LANDSCAPE = 3
     }
 }
 

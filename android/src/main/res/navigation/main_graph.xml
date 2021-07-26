@@ -50,11 +50,11 @@
         tools:layout="@layout/fragment_currencies">
 
         <action
+            android:id="@+id/action_currenciesFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/main_graph"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_currenciesFragment_to_calculatorFragment"
-            app:destination="@id/calculatorFragment" />
+            app:popUpToInclusive="true" />
     </fragment>
 
     <dialog

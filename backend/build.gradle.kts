@@ -5,15 +5,15 @@
 plugins {
     with(Plugins) {
         application
-        kotlin(multiplatform)
+        kotlin(MULTIPLATFORM)
     }
 }
 
 with(ProjectSettings) {
     application {
-        mainClass.set("$packageName.backend.BackendAppKt")
+        mainClass.set("$PACKAGE_NAME.backend.BackendAppKt")
     }
-    group = projectId
+    group = PROJECT_ID
     version = getVersionName(project)
 }
 
@@ -27,19 +27,19 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 with(Dependencies.JVM) {
-                    implementation(ktorCore)
-                    implementation(ktorNetty)
-                    implementation(ktorSerialization)
-                    implementation(logBack)
+                    implementation(KTOR_CORE)
+                    implementation(KTOR_NETTY)
+                    implementation(KTOR_SERIALIZATIONM)
+                    implementation(LOG_BACK)
                 }
 
                 with(Dependencies.Common) {
-                    implementation(koinCore)
+                    implementation(KOIN_CORE)
                 }
 
                 with(Modules) {
-                    implementation(project(common))
-                    implementation(project(logmob))
+                    implementation(project(COMMON))
+                    implementation(project(LOG_MOB))
                 }
             }
         }
@@ -51,7 +51,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${ProjectSettings.packageName}.backend.BackendAppKt"
+        attributes["Main-Class"] = "${ProjectSettings.PACKAGE_NAME}.backend.BackendAppKt"
     }
     from(configurations.runtimeClasspath.get().map { file: File ->
         if (file.isDirectory) {

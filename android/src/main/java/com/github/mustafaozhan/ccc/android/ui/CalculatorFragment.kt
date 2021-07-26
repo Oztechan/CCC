@@ -38,10 +38,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
-    companion object {
-        const val CHANGE_BASE_EVENT = "change_base"
-    }
-
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private lateinit var calculatorAdapter: CalculatorAdapter
@@ -170,6 +166,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun Button.setKeyboardListener() = setOnClickListener {
         calculatorViewModel.onKeyPress(text.toString())
+    }
+
+    companion object {
+        const val CHANGE_BASE_EVENT = "change_base"
     }
 }
 

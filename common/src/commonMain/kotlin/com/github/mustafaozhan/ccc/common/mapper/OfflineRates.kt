@@ -21,8 +21,9 @@ internal fun OfflineRates.toRatesEntity() = RatesEntity(
     XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL
 )
 
-internal fun OfflineRates?.toCurrencyResponseEntity() =
-    this?.run { CurrencyResponseEntity(base, date, toRatesEntity()) }
+internal fun OfflineRates?.toCurrencyResponseEntity() = this?.run {
+    CurrencyResponseEntity(base, date, toRatesEntity())
+}
 
 internal fun CurrencyResponseEntity?.toSerializedString() = Json.encodeToString(this)
 

@@ -36,7 +36,11 @@ sealed class CurrenciesEffect : BaseEffect() {
 data class CurrenciesData(
     var unFilteredList: MutableList<Currency> = mutableListOf(),
     var query: String = ""
-) : BaseData()
+) : BaseData() {
+    companion object {
+        internal const val MINIMUM_ACTIVE_CURRENCY = 2
+    }
+}
 
 // Extension
 fun MutableStateFlow<CurrenciesState>.update(

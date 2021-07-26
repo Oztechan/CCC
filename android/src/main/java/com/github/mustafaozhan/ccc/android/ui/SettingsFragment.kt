@@ -30,11 +30,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @Suppress("TooManyFunctions")
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
-    companion object {
-        private const val TEXT_EMAIL_TYPE = "text/email"
-        private const val TEXT_TYPE = "text/plain"
-    }
-
     private val settingsViewModel: SettingsViewModel by viewModel()
 
     override fun getViewBinding() = FragmentSettingsBinding.inflate(layoutInflater)
@@ -232,5 +227,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_feedback_subject))
         putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_extra_text) + "")
         startActivity(Intent.createChooser(this, getString(R.string.mail_intent_title)))
+    }
+
+    companion object {
+        private const val TEXT_EMAIL_TYPE = "text/email"
+        private const val TEXT_TYPE = "text/plain"
     }
 }

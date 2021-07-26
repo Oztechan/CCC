@@ -4,24 +4,24 @@
 
 plugins {
     with(Plugins) {
-        kotlin(js)
+        kotlin(JS)
     }
 }
 
 dependencies {
     with(Dependencies.JS) {
-        implementation(kotlinXHtml)
-        implementation(kotlinReact)
-        implementation(kotlinReactDom)
+        implementation(KOTLIN_X_HTML)
+        implementation(KOTLIN_REACT)
+        implementation(KOTLIN_REACT_DOM)
     }
 
     with(Dependencies.Common) {
-        implementation(koinCore)
+        implementation(KOIN_CORE)
     }
 
     with(Modules) {
-        implementation(project(client))
-        implementation(project(logmob))
+        implementation(project(CLIENT))
+        implementation(project(LOG_MOB))
     }
 }
 

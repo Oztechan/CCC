@@ -3,11 +3,11 @@
  */
 
 object Modules {
-    const val client = ":client"
-    const val common = ":common"
+    const val CLIENT = ":client"
+    const val COMMON = ":common"
 
-    const val basemob = ":basemob"
-    const val scopemob = ":scopemob"
-    const val logmob = ":logmob"
-    const val parsermob = ":parsermob"
+    const val BASE_MOB = ":basemob"
+    const val SCOPE_MOB = ":scopemob"
+    const val LOG_MOB = ":logmob"
+    const val PARSER_MOB = ":parsermob"
 }

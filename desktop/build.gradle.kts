@@ -3,8 +3,8 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     with(Plugins) {
-        kotlin(multiplatform)
-        id(compose)
+        kotlin(MULTIPLATFORM)
+        id(COMPOSE)
     }
 }
 
@@ -18,7 +18,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(project(Modules.client))
+                implementation(project(Modules.CLIENT))
             }
         }
     }
@@ -26,7 +26,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "${ProjectSettings.packageName}.desktop.DesktopAppKt"
+        mainClass = "${ProjectSettings.PACKAGE_NAME}.desktop.DesktopAppKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
         }

@@ -7,7 +7,6 @@ import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.util.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
@@ -22,6 +21,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Co
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
+import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository

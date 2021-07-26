@@ -24,8 +24,9 @@ import com.google.android.gms.ads.MobileAds
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 
-fun ImageView.setBackgroundByName(name: String) =
-    setImageResource(context.getImageResourceByName(name))
+fun ImageView.setBackgroundByName(
+    name: String
+) = setImageResource(context.getImageResourceByName(name))
 
 fun Context.getImageResourceByName(name: String): Int = try {
     resources.getIdentifier(
@@ -68,16 +69,23 @@ fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isEx
     gone()
 }
 
-fun <T> Fragment.getNavigationResult(key: String) =
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+fun <T> Fragment.getNavigationResult(
+    key: String
+) = findNavController()
+    .currentBackStackEntry
+    ?.savedStateHandle
+    ?.getLiveData<T>(key)
 
 // todo here needs to be changed
 @SuppressLint("RestrictedApi")
-fun <T> Fragment.setNavigationResult(destinationId: Int, result: T, key: String) =
-    findNavController()
-        .backStack
-        .firstOrNull { it.destination.id == destinationId }
-        ?.savedStateHandle?.set(key, result)
+fun <T> Fragment.setNavigationResult(
+    destinationId: Int,
+    result: T,
+    key: String
+) = findNavController()
+    .backStack
+    .firstOrNull { it.destination.id == destinationId }
+    ?.savedStateHandle?.set(key, result)
 
 fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 

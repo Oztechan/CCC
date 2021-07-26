@@ -5,9 +5,7 @@ package com.github.mustafaozhan.ccc.client.extension
 
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.DAY
 import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
-import com.github.mustafaozhan.ccc.client.util.WEEK
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.doubleDigits
@@ -28,6 +26,8 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.platform
+import com.github.mustafaozhan.ccc.common.util.DAY
+import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.datetime.Instant

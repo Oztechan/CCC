@@ -23,13 +23,6 @@ import kotlinx.serialization.json.Json
 
 internal class ApiFactory : ApiService {
 
-    companion object {
-        private const val TIME_OUT: Long = 5000
-        private const val QUERY_KEY_BASE = "base"
-        private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
-        private const val PATH_CURRENCY_BY_BASE_API = "latest/"
-    }
-
     private val json = Json {
         isLenient = true
         ignoreUnknownKeys = true
@@ -80,5 +73,12 @@ internal class ApiFactory : ApiService {
                 parameter(QUERY_KEY_BASE, base)
             }
         }
+    }
+
+    companion object {
+        private const val TIME_OUT: Long = 5000
+        private const val QUERY_KEY_BASE = "base"
+        private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
+        private const val PATH_CURRENCY_BY_BASE_API = "latest/"
     }
 }

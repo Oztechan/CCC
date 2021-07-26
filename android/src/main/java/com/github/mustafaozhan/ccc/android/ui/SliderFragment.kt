@@ -25,17 +25,6 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
-    companion object {
-        private var layouts = arrayListOf(
-            R.layout.layout_slide_intro,
-            R.layout.layout_slide_disable_ads,
-            R.layout.layout_slide_bug_report
-        )
-        private const val TEXT_SIZE = 36f
-        private const val HTML_DOT_CODE = "&#8226;"
-        private var IS_THEME_SLIDE_CHECKED = false
-    }
-
     override fun getViewBinding() = FragmentSliderBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +115,17 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     }
 
     private fun getNextItem() = binding.viewPager.currentItem.inc()
+
+    companion object {
+        private var layouts = arrayListOf(
+            R.layout.layout_slide_intro,
+            R.layout.layout_slide_disable_ads,
+            R.layout.layout_slide_bug_report
+        )
+        private const val TEXT_SIZE = 36f
+        private const val HTML_DOT_CODE = "&#8226;"
+        private var IS_THEME_SLIDE_CHECKED = false
+    }
 }
 
 class SliderPagerAdapter(
@@ -133,7 +133,10 @@ class SliderPagerAdapter(
     private var layouts: ArrayList<Int>
 ) : PagerAdapter() {
 
-    override fun instantiateItem(container: ViewGroup, position: Int): View = context
+    override fun instantiateItem(
+        container: ViewGroup,
+        position: Int
+    ): View = context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE)
         ?.castTo<LayoutInflater>()
         ?.inflate(layouts[position], container, false)
@@ -144,6 +147,9 @@ class SliderPagerAdapter(
 
     override fun isViewFromObject(view: View, obj: Any) = view == obj
 
-    override fun destroyItem(container: ViewGroup, position: Int, obj: Any) =
-        container.removeView(obj.castTo<View>())
+    override fun destroyItem(
+        container: ViewGroup,
+        position: Int,
+        obj: Any
+    ) = container.removeView(obj.castTo<View>())
 }

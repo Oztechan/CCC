@@ -124,7 +124,6 @@
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>
-    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?
-    </string>
+    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?</string>
     <string name="txt_watch">Watch</string>
 </resources>
