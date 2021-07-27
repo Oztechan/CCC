@@ -3,10 +3,10 @@
  */
 package com.github.mustafaozhan.ccc.common.api
 
-import com.github.mustafaozhan.ccc.common.api.error.EmptyParameterException
-import com.github.mustafaozhan.ccc.common.api.error.ModelMappingException
-import com.github.mustafaozhan.ccc.common.api.error.NetworkException
-import com.github.mustafaozhan.ccc.common.api.error.TimeoutException
+import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
+import com.github.mustafaozhan.ccc.common.error.ModelMappingException
+import com.github.mustafaozhan.ccc.common.error.NetworkException
+import com.github.mustafaozhan.ccc.common.error.TimeoutException
 import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.platformCoroutineContext
 import com.github.mustafaozhan.ccc.common.util.Result
@@ -17,9 +17,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 
-internal class ApiRepositoryImpl(
-    private val apiFactory: ApiFactory
-) : ApiRepository {
+internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiRepository {
 
     @Suppress("TooGenericExceptionCaught")
     private suspend fun <T> apiRequest(
@@ -42,14 +40,14 @@ internal class ApiRepositoryImpl(
 
     override suspend fun getRatesViaBackend(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.getRatesViaBackend(base).toModel(base)
+        else apiService.getRatesViaBackend(base).toModel(base)
     }.also {
         kermit.d { "ApiRepositoryImpl getRatesViaBackend $base" }
     }
 
     override suspend fun getRatesViaApi(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiFactory.getRatesViaApi(base).toModel(base)
+        else apiService.getRatesViaApi(base).toModel(base)
     }.also {
         kermit.d { "ApiRepositoryImpl getRatesViaApi $base" }
     }

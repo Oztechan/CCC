@@ -5,67 +5,68 @@
 @Suppress("SpellCheckingInspection")
 object Dependencies {
     object Common {
-        const val test = "test-common"
-        const val testAnnotations = "test-annotations-common"
-        const val koinCore = "io.insert-koin:koin-core:${Versions.koin}"
-        const val kermit = "co.touchlab:kermit:${Versions.kermit}"
-        const val multiplatformSettings =
-            "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
-        const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.dateTime}"
-        const val ktorLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
-        const val ktorSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-        const val coroutines =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
-        const val sqldelightRuntime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
-        const val sqldelightCoroutineExtensions =
-            "com.squareup.sqldelight:coroutines-extensions:${Versions.sqlDelight}"
-        const val mokoResources = "dev.icerock.moko:resources:${Versions.mokoResources}"
+        const val TEST = "test-common"
+        const val TEST_ANNOTATIONS = "test-annotations-common"
+        const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
+        const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
+        const val MULTIPLATFORM_SETTINGS =
+            "com.russhwolf:multiplatform-settings:${Versions.MULTIPLATFORM_SETTINGS}"
+        const val KOTLIN_X_DATE_TIME =
+            "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KOTLIN_X_DATE_TIME}"
+        const val KTOR_LOGGING = "io.ktor:ktor-client-logging:${Versions.KTOR}"
+        const val KTOR_SETIALIZATION = "io.ktor:ktor-client-serialization:${Versions.KTOR}"
+        const val COROUTINES =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
+        const val SQL_DELIGHT_RUNTIME = "com.squareup.sqldelight:runtime:${Versions.SQL_DELIGHT}"
+        const val SQL_DELIGHT_COROUTINES_EXT =
+            "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
+        const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
     }
 
     object Android {
-        const val androidMaterial =
-            "com.google.android.material:material:${Versions.androidMaterial}"
-        const val constraintLayout =
-            "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-        const val koinAndroid = "io.insert-koin:koin-android:${Versions.koin}"
-        const val firebaseCrashlytics =
-            "com.google.firebase:firebase-crashlytics:${Versions.firebaseCrashlytics}"
-        const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
-        const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
-        const val anrWatchDog = "com.github.anrwatchdog:anrwatchdog:${Versions.anrWatchDog}"
-        const val admob = "com.google.android.gms:play-services-ads:${Versions.admob}"
-        const val lifecycleViewModel =
-            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-        const val lifecycleRuntime =
-            "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
-        const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-        const val playCore = "com.google.android.play:core:${Versions.playCore}"
-        const val ktor = "io.ktor:ktor-client-android:${Versions.ktor}"
-        const val sqlliteDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
-        const val billing = "com.android.billingclient:billing:${Versions.billing}"
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}"
+        const val ANDROID_MATERIAL =
+            "com.google.android.material:material:${Versions.ANDROID_MATERIAL}"
+        const val CONSTRAINT_LAYOUT =
+            "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
+        const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
+        const val FIREBASE_CRASHLYTICS =
+            "com.google.firebase:firebase-crashlytics:${Versions.FIREBASE_CRASHLYTICS}"
+        const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Versions.FIREBASE_CORE}"
+        const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
+        const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
+        const val ADMOB = "com.google.android.gms:play-services-ads:${Versions.ADMOB}"
+        const val LIFECYCLE_VIEWMODEL =
+            "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
+        const val LIFECYCLE_RUNTIME =
+            "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
+        const val NAVIGATION = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+        const val PLAY_CORE = "com.google.android.play:core:${Versions.PLAY_CORE}"
+        const val KTOR = "io.ktor:ktor-client-android:${Versions.KTOR}"
+        const val SQL_DELIGHT = "com.squareup.sqldelight:android-driver:${Versions.SQL_DELIGHT}"
+        const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
+        const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
     }
 
     object IOS {
-        const val ktor = "io.ktor:ktor-client-ios:${Versions.ktor}"
-        const val sqlliteDriver = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
+        const val KTOR = "io.ktor:ktor-client-ios:${Versions.KTOR}"
+        const val SQL_DELIGHT = "com.squareup.sqldelight:native-driver:${Versions.SQL_DELIGHT}"
     }
 
     object JVM {
-        const val testJUnit = "test-junit"
-        const val ktorCore = "io.ktor:ktor-server-core:${Versions.ktor}"
-        const val ktorNetty = "io.ktor:ktor-server-netty:${Versions.ktor}"
-        const val ktorSerialization = "io.ktor:ktor-serialization:${Versions.ktor}"
-        const val logBack = "ch.qos.logback:logback-classic:${Versions.logBack}"
-        const val sqlliteDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
-        const val ktor = "io.ktor:ktor-client-apache:${Versions.ktor}"
+        const val TEST_J_UNIT = "test-junit"
+        const val KTOR_CORE = "io.ktor:ktor-server-core:${Versions.KTOR}"
+        const val KTOR_NETTY = "io.ktor:ktor-server-netty:${Versions.KTOR}"
+        const val KTOR_SERIALIZATIONM = "io.ktor:ktor-serialization:${Versions.KTOR}"
+        const val LOG_BACK = "ch.qos.logback:logback-classic:${Versions.LOG_BACK}"
+        const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
+        const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
     }
 
     object JS {
-        const val test = "test-js"
-        const val kotlinXHtml = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.kotlinXHtml}"
-        const val kotlinReact = "org.jetbrains:kotlin-react:${Versions.react}"
-        const val kotlinReactDom = "org.jetbrains:kotlin-react-dom:${Versions.react}"
-        const val ktor = "io.ktor:ktor-client-js:${Versions.ktor}"
+        const val TEST = "test-js"
+        const val KOTLIN_X_HTML = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.KOTLIN_X_HTML}"
+        const val KOTLIN_REACT = "org.jetbrains:kotlin-react:${Versions.KOTLIN_REACT}"
+        const val KOTLIN_REACT_DOM = "org.jetbrains:kotlin-react-dom:${Versions.KOTLIN_REACT}"
+        const val KTOR = "io.ktor:ktor-client-js:${Versions.KTOR}"
     }
 }

@@ -6,11 +6,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     with(Plugins) {
-        kotlin(multiplatform)
-        kotlin(cocoapods)
-        id(androidLibrary)
-        id(sqldelight)
-        id(mokoResources)
+        kotlin(MULTIPLATFORM)
+        kotlin(COCOAPODS)
+        id(ANDROID_LIBRARY)
+        id(SQL_DELIGHT)
+        id(MOKO_RESOURCES)
     }
 }
 
@@ -54,22 +54,22 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(dateTime)
-                    implementation(coroutines)
-                    implementation(koinCore)
+                    implementation(KOTLIN_X_DATE_TIME)
+                    implementation(COROUTINES)
+                    implementation(KOIN_CORE)
 
                     with(Modules) {
-                        implementation(project(common))
-                        implementation(project(parsermob))
-                        implementation(project(scopemob))
-                        implementation(project(logmob))
+                        implementation(project(COMMON))
+                        implementation(project(PARSER_MOB))
+                        implementation(project(SCOPE_MOB))
+                        implementation(project(LOG_MOB))
                     }
                 }
             }
             val commonTest by getting {
                 dependencies {
-                    implementation(kotlin(test))
-                    implementation(kotlin(testAnnotations))
+                    implementation(kotlin(TEST))
+                    implementation(kotlin(TEST_ANNOTATIONS))
                 }
             }
         }
@@ -77,7 +77,7 @@ kotlin {
         val mobileMain by creating {
             dependencies {
                 dependsOn(commonMain.get())
-                implementation(Dependencies.Common.mokoResources)
+                implementation(Dependencies.Common.MOKO_RESOURCES)
             }
         }
 
@@ -85,14 +85,14 @@ kotlin {
             val androidMain by getting {
                 dependencies {
                     dependsOn(mobileMain)
-                    implementation(androidMaterial)
-                    implementation(koinAndroid)
-                    implementation(lifecycleViewModel)
+                    implementation(ANDROID_MATERIAL)
+                    implementation(KOIN_ANDROID)
+                    implementation(LIFECYCLE_VIEWMODEL)
                 }
             }
             val androidTest by getting {
                 dependencies {
-                    implementation(kotlin(Dependencies.JVM.testJUnit))
+                    implementation(kotlin(Dependencies.JVM.TEST_J_UNIT))
                 }
             }
         }
@@ -114,11 +114,11 @@ kotlin {
 
 android {
     with(ProjectSettings) {
-        compileSdk = compileSdkVersion
+        compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
-            minSdk = minSdkVersion
-            targetSdk = targetSdkVersion
+            minSdk = MIN_SDK_VERSION
+            targetSdk = TARGET_SDK_VERSION
         }
 
         // todo needed for android coroutine testing
@@ -131,7 +131,7 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.packageName}.client"
+    multiplatformResourcesPackage = "${ProjectSettings.PACKAGE_NAME}.client"
     multiplatformResourcesSourceSet = "mobileMain"
     disableStaticFrameworkWarning = true
 }

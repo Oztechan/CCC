@@ -1,49 +1,35 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.currencies
 
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.android.ui.CalculatorFragment.Companion.CHANGE_BASE_EVENT
+import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
 import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
-import com.github.mustafaozhan.ccc.android.util.setBackgroundByName
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
-
-    companion object {
-        internal const val SPAN_PORTRAIT = 1
-        internal const val SPAN_LANDSCAPE = 3
-    }
 
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
@@ -181,59 +167,9 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             if (orientation == ORIENTATION_LANDSCAPE) SPAN_LANDSCAPE else SPAN_PORTRAIT
         )
     }
-}
 
-class CurrenciesAdapter(
-    private val currenciesEvent: CurrenciesEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ) = RatesVBViewHolder(
-        ItemCurrenciesBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    override fun onBindViewHolder(
-        holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>,
-        position: Int
-    ) {
-        holder.itemView.startAnimation(
-            AnimationUtils.loadAnimation(
-                holder.itemView.context,
-                R.anim.fall_down
-            )
-        )
-        super.onBindViewHolder(holder, position)
-    }
-
-    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>) {
-        super.onViewDetachedFromWindow(holder)
-        holder.itemView.clearAnimation()
-    }
-
-    inner class RatesVBViewHolder(itemBinding: ItemCurrenciesBinding) :
-        BaseVBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
-
-        override fun onItemBind(item: Currency) = with(itemBinding) {
-            imgIcon.setBackgroundByName(item.name)
-            txtSettingItem.text = item.getVariablesOneLine()
-            checkBox.isChecked = item.isActive
-            root.setOnClickListener { currenciesEvent.onItemClick(item) }
-            root.setOnLongClickListener {
-                currenciesEvent.onItemLongClick()
-                true
-            }
-        }
-    }
-
-    class CurrenciesDiffer : DiffUtil.ItemCallback<Currency>() {
-        override fun areItemsTheSame(oldItem: Currency, newItem: Currency) = true
-
-        override fun areContentsTheSame(oldItem: Currency, newItem: Currency) = false
+    companion object {
+        internal const val SPAN_PORTRAIT = 1
+        internal const val SPAN_LANDSCAPE = 3
     }
 }

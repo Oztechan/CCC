@@ -13,7 +13,7 @@ import com.squareup.sqldelight.TransactionWithoutReturn
 @Suppress("StringLiteralDuplication", "UNCHECKED_CAST")
 object FakeOfflineRatesQueries : OfflineRatesQueries {
 
-    private val fakeOfflineRates = Offline_rates(
+    private val FAKE_OFFLINE_RATES = Offline_rates(
         "EUR", "", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -228,7 +228,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeOfflineRates
+        FAKE_OFFLINE_RATES
     } as Query<T>
 
     override fun getOfflineRatesByBase(base: String): Query<Offline_rates> = Query(
@@ -237,7 +237,7 @@ object FakeOfflineRatesQueries : OfflineRatesQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeOfflineRates
+        FAKE_OFFLINE_RATES
     }
 
     override fun insertOfflineRates(

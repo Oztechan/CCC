@@ -5,9 +5,9 @@
 package com.github.mustafaozhan.ccc.common.repo
 
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.api.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
 import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue

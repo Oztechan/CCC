@@ -7,11 +7,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     with(Plugins) {
-        kotlin(multiplatform)
-        id(kotlinXSerialization)
-        id(androidLibrary)
-        id(sqldelight)
-        id(buildKonfig)
+        kotlin(MULTIPLATFORM)
+        id(KOTLIN_X_SERIALIZATION)
+        id(ANDROID_LIBRARY)
+        id(SQL_DELIGHT)
+        id(BUILD_KONFIG)
     }
 }
 
@@ -37,21 +37,21 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Modules.logmob))
+                    implementation(project(Modules.LOG_MOB))
 
-                    implementation(multiplatformSettings)
-                    implementation(dateTime)
-                    implementation(koinCore)
-                    implementation(ktorLogging)
-                    implementation(ktorSerialization)
-                    implementation(sqldelightRuntime)
-                    implementation(sqldelightCoroutineExtensions)
+                    implementation(MULTIPLATFORM_SETTINGS)
+                    implementation(KOTLIN_X_DATE_TIME)
+                    implementation(KOIN_CORE)
+                    implementation(KTOR_LOGGING)
+                    implementation(KTOR_SETIALIZATION)
+                    implementation(SQL_DELIGHT_RUNTIME)
+                    implementation(SQL_DELIGHT_COROUTINES_EXT)
                 }
             }
             val commonTest by getting {
                 dependencies {
-                    implementation(kotlin(test))
-                    implementation(kotlin(testAnnotations))
+                    implementation(kotlin(TEST))
+                    implementation(kotlin(TEST_ANNOTATIONS))
                 }
             }
         }
@@ -59,13 +59,13 @@ kotlin {
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
-                    implementation(sqlliteDriver)
-                    implementation(ktor)
+                    implementation(SQL_DELIGHT)
+                    implementation(KTOR)
                 }
             }
             val androidTest by getting {
                 dependencies {
-                    implementation(kotlin(Dependencies.JVM.testJUnit))
+                    implementation(kotlin(Dependencies.JVM.TEST_J_UNIT))
                 }
             }
         }
@@ -73,8 +73,8 @@ kotlin {
         with(Dependencies.IOS) {
             val iosMain by getting {
                 dependencies {
-                    implementation(ktor)
-                    implementation(sqlliteDriver)
+                    implementation(KTOR)
+                    implementation(SQL_DELIGHT)
                 }
             }
             val iosTest by getting
@@ -83,13 +83,13 @@ kotlin {
         with(Dependencies.JVM) {
             val jvmMain by getting {
                 dependencies {
-                    implementation(ktor)
-                    implementation(sqlliteDriver)
+                    implementation(KTOR)
+                    implementation(SQLLITE_DRIVER)
                 }
             }
             val jvmTest by getting {
                 dependencies {
-                    implementation(kotlin(testJUnit))
+                    implementation(kotlin(TEST_J_UNIT))
                 }
             }
         }
@@ -102,11 +102,11 @@ kotlin {
 
 android {
     with(ProjectSettings) {
-        compileSdk = compileSdkVersion
+        compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
-            minSdk = minSdkVersion
-            targetSdk = targetSdkVersion
+            minSdk = MIN_SDK_VERSION
+            targetSdk = TARGET_SDK_VERSION
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -115,24 +115,24 @@ android {
 
 sqldelight {
     with(Database) {
-        database(dbName) {
-            packageName = dbPackageName
-            sourceFolders = listOf(dbSourceFolders)
+        database(DB_NAME) {
+            packageName = DB_PACKAGE_NAME
+            sourceFolders = listOf(DB_SOURCE_FOLDER)
         }
     }
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.packageName}.common"
+    packageName = "${ProjectSettings.PACKAGE_NAME}.common"
 
     defaultConfigs {
         buildConfigField(
             STRING,
-            Keys.baseUrlBackend,
-            getSecret(Keys.baseUrlBackend, Fakes.privateUrl)
+            Keys.BASE_URL_BACKEND,
+            getSecret(Keys.BASE_URL_BACKEND, Fakes.PRIVATE_URL)
         )
-        buildConfigField(STRING, Keys.baseUrlApi, getSecret(Keys.baseUrlApi, Fakes.privateUrl))
-        buildConfigField(STRING, Keys.baseUrlDev, getSecret(Keys.baseUrlDev, Fakes.privateUrl))
+        buildConfigField(STRING, Keys.BASE_URL_API, getSecret(Keys.BASE_URL_API, Fakes.PRIVATE_URL))
+        buildConfigField(STRING, Keys.BASE_URL_DEV, getSecret(Keys.BASE_URL_DEV, Fakes.PRIVATE_URL))
     }
 }
 

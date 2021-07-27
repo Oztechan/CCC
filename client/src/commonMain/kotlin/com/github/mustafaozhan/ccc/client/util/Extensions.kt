@@ -10,6 +10,8 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
+import com.github.mustafaozhan.ccc.common.util.DAY
+import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.scopemob.whether
@@ -23,6 +25,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 private const val BIGGEST_DIGIT = 9
+const val VIDEO_REWARD = 2
 
 expect fun Double.getFormatted(): String
 
@@ -57,17 +60,16 @@ fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
 
-fun Rates?.calculateResult(name: String, value: String?) =
-    this?.whetherNot { value.isNullOrEmpty() }
-        ?.getConversionByName(name)
-        ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
-        ?: 0.0
+fun Rates?.calculateResult(name: String, value: String?) = this
+    ?.whetherNot { value.isNullOrEmpty() }
+    ?.getConversionByName(name)
+    ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
+    ?: 0.0
 
-fun String.toSupportedCharacters() =
-    replace(",", ".")
-        .replace("٫", ".")
-        .replace(" ", "")
-        .replace("−", "-")
+fun String.toSupportedCharacters() = replace(",", ".")
+    .replace("٫", ".")
+    .replace(" ", "")
+    .replace("−", "-")
 
 fun String.isEmptyOrNullString() = isEmpty() || equals("null", true)
 
@@ -82,16 +84,17 @@ fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-fun Currency.getCurrencyConversionByRate(base: String, rate: Rates?) =
-    "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
+fun Currency.getCurrencyConversionByRate(
+    base: String,
+    rate: Rates?
+) = "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
 
-fun List<Currency>?.toValidList(currentBase: String) =
-    this?.filter {
-        it.name != currentBase &&
-            it.isActive &&
-            it.rate.toString() != "NaN" &&
-            it.rate.toString() != "0.0"
-    } ?: mutableListOf()
+fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
+    it.name != currentBase &&
+        it.isActive &&
+        it.rate.toString() != "NaN" &&
+        it.rate.toString() != "0.0"
+} ?: mutableListOf()
 
 @Suppress("MagicNumber")
 fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {

@@ -11,8 +11,9 @@ fun getAndroidModule(context: Context) = module {
     single { provideSharedPreferences(get()) }
 }
 
-private fun provideSharedPreferences(context: Context): SharedPreferences =
-    context.getSharedPreferences(
-        KEY_APPLICATION_PREFERENCES,
-        Context.MODE_PRIVATE
-    )
+private fun provideSharedPreferences(
+    context: Context
+): SharedPreferences = context.getSharedPreferences(
+    KEY_APPLICATION_PREFERENCES,
+    Context.MODE_PRIVATE
+)

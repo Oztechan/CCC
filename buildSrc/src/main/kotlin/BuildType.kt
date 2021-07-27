@@ -1,4 +1,4 @@
 object BuildType {
-    const val debug = "debug"
-    const val release = "release"
+    const val DEBUG = "debug"
+    const val RELEASE = "release"
 }

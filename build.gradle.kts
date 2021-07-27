@@ -4,8 +4,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id(Plugins.dependencyUpdates) version Versions.dependencyUpdates
-    id(Plugins.buildHealth) version Versions.buildHealth
+    id(Plugins.DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
+    id(Plugins.BUILD_HEALTH) version Versions.BUILD_HEALTH
 }
 
 buildscript {
@@ -13,25 +13,27 @@ buildscript {
         gradlePluginPortal()
         google()
         maven("https://dl.bintray.com/icerockdev/plugins")
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        // todo enable when implementation start
+        // maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
         with(ClassPaths) {
-            classpath(androidBuildTools)
-            classpath(kotlinGradlePlugin)
-            classpath(gsmGoogle)
-            classpath(crashlytics)
-            classpath(navigation)
-            classpath(kotlinSerialization)
-            classpath(sqldelight)
-            classpath(mokoResoruces)
-            classpath(buildKonfig)
-            classpath(compose)
+            classpath(ANDROID_GRADLE_PLUGIN)
+            classpath(KOTLIN_GRADLE_PLUGIN)
+            classpath(GSM)
+            classpath(CRASHLYTICS)
+            classpath(NAVIGATION)
+            classpath(KOTLIN_SERIALIZATION)
+            classpath(SQL_DELIGHT)
+            classpath(MOKO_RESOURCES)
+            classpath(BUILD_KONFIG)
+            // todo enable when implementation start
+            // classpath(compose)
         }
     }
 }
 
-group = ProjectSettings.projectId
+group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 allprojects {

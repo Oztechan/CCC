@@ -2,15 +2,12 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.android.ui
+package com.github.mustafaozhan.ccc.android.ui.adremove
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DiffUtil
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener
 import com.android.billingclient.api.BillingClient
@@ -24,7 +21,6 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
@@ -33,7 +29,6 @@ import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEvent
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
@@ -46,7 +41,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
-import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
@@ -267,37 +261,5 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             restartActivity()
         }
-    }
-}
-
-class RemoveAdsAdapter(
-    private val removeAdsEvent: AdRemoveEvent
-) : BaseVBRecyclerViewAdapter<RemoveAdType, ItemAdRemoveBinding>(RemoveAdDiffer()) {
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ) = CalculatorVBViewHolder(
-        ItemAdRemoveBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-    )
-
-    inner class CalculatorVBViewHolder(itemBinding: ItemAdRemoveBinding) :
-        BaseVBViewHolder<RemoveAdType, ItemAdRemoveBinding>(itemBinding) {
-
-        override fun onItemBind(item: RemoveAdType) = with(itemBinding) {
-            root.setOnClickListener { removeAdsEvent.onAdRemoveItemClick(item) }
-            txtReward.text = item.data.reward
-            txtCost.text = item.data.cost
-        }
-    }
-
-    class RemoveAdDiffer : DiffUtil.ItemCallback<RemoveAdType>() {
-        override fun areItemsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
-
-        override fun areContentsTheSame(oldItem: RemoveAdType, newItem: RemoveAdType) = false
     }
 }

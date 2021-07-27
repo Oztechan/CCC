@@ -13,7 +13,7 @@ import com.squareup.sqldelight.TransactionWithoutReturn
 @Suppress("TooManyFunctions", "StringLiteralDuplication", "UNCHECKED_CAST")
 object FakeCurrencyQueries : CurrencyQueries {
 
-    private val fakeCurrency = Currency("EUR", "Euro", "sad", 0.0, 0.toLong())
+    private val FAKE_CURRENCY = Currency("EUR", "Euro", "sad", 0.0, 0.toLong())
 
     fun getCurrencyQueries(): CurrencyQueries = this
 
@@ -34,7 +34,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     } as Query<T>
 
     override fun collectAllCurrencies(): Query<Currency> = Query(
@@ -43,7 +43,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     }
 
     override fun <T : Any> collectActiveCurrencies(
@@ -54,7 +54,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     } as Query<T>
 
     override fun collectActiveCurrencies() = Query(
@@ -63,7 +63,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     }
 
     override fun <T : Any> getActiveCurrencies(
@@ -74,7 +74,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     } as Query<T>
 
     override fun getActiveCurrencies(): Query<Currency> = Query(
@@ -83,7 +83,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     }
 
     override fun <T : Any> getCurrencyByName(
@@ -95,7 +95,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     } as Query<T>
 
     override fun getCurrencyByName(name: String) = Query(
@@ -104,7 +104,7 @@ object FakeCurrencyQueries : CurrencyQueries {
         FakeDriver.getDriver(),
         "query"
     ) {
-        fakeCurrency
+        FAKE_CURRENCY
     }
 
     override fun updateCurrencyStateByName(isActive: Long, name: String) = Unit
