@@ -1,7 +1,3 @@
-import org.gradle.api.Project
-import java.io.IOException
-import java.util.Properties
-
 object Keys {
     const val BASE_URL_BACKEND = "BASE_URL_BACKEND"
     const val BASE_URL_API = "BASE_URL_API"
@@ -31,43 +27,4 @@ object Keys {
         const val ANDROID_KEY_ALIAS = "ANDROID_KEY_ALIAS"
         const val ANDROID_KEY_PASSWORD = "ANDROID_KEY_PASSWORD"
     }
-}
-
-object Fakes {
-    const val PRIVATE_URL = "http://www.private-url.com"
-
-    const val ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713"
-    const val BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
-    const val INTERSTITIAL_AD_ID = "ca-app-pub-3940256099942544/1033173712"
-    const val REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
-}
-
-fun String.removeVariant() = replace(
-    oldValue = "_${BuildType.RELEASE}_",
-    newValue = "_",
-    ignoreCase = true
-).replace(
-    oldValue = "_${BuildType.DEBUG}_",
-    newValue = "_",
-    ignoreCase = true
-)
-
-fun Project.getSecret(
-    key: String,
-    default: String = "secret" // these values can not be public
-): String = System.getenv(key).let {
-    if (it.isNullOrEmpty()) {
-        getSecretProperties()?.get(key)?.toString() ?: default
-    } else {
-        it
-    }
-}
-
-private const val PATH_SECRET_PROPERTIES = "../secret.properties"
-
-fun Project.getSecretProperties() = try {
-    Properties().apply { load(file(PATH_SECRET_PROPERTIES).inputStream()) }
-} catch (e: IOException) {
-    logger.debug(e.message, e)
-    null
 }
