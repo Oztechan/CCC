@@ -9,7 +9,7 @@ plugins {
     with(Plugins) {
         kotlin(MULTIPLATFORM)
         id(KOTLIN_X_SERIALIZATION)
-        id(ANDROID_LIBRARY)
+        id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(BUILD_KONFIG)
     }
