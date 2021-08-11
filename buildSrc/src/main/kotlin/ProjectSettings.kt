@@ -7,7 +7,10 @@ import java.io.ByteArrayOutputStream
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 2
+    private const val MINOR_VERSION = 3
+
+    // git rev-list --first-parent --count master +1
+    private const val VERSION_DIF = 691
 
     const val PROJECT_ID = "mustafaozhan.github.com.mycurrencies"
     const val PACKAGE_NAME = "com.github.mustafaozhan.ccc"
@@ -17,8 +20,9 @@ object ProjectSettings {
 
     fun getVersionCode(project: Project) = gitCommitCount(project).toInt()
 
-    fun getVersionName(project: Project) =
-        "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project)}"
+    fun getVersionName(
+        project: Project
+    ) = "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project).toInt() - VERSION_DIF}"
 
     private fun gitCommitCount(project: Project): String {
         val os = ByteArrayOutputStream()
