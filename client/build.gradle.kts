@@ -8,7 +8,7 @@ plugins {
     with(Plugins) {
         kotlin(MULTIPLATFORM)
         kotlin(COCOAPODS)
-        id(ANDROID_LIBRARY)
+        id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(MOKO_RESOURCES)
     }
@@ -32,7 +32,6 @@ kotlin {
 
     // todo enable when implementation start
     // js { browser { binaries.executable()testTask { enabled = false } } }
-
 
     cocoapods {
         summary = "CCC"

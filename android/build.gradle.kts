@@ -3,7 +3,7 @@
  */
 plugins {
     with(Plugins) {
-        id(ANDROID_APPLICATION)
+        id(ANDROID_APP)
         id(CRASHLYTICS)
         id(GOOGLE_SERVICES)
         id(SAFE_ARGS)
