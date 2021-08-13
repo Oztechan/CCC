@@ -21,7 +21,9 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.koin.core.context.startKoin
 
-private val apiController: ApiController = koin.getDependency(ApiController::class)
+private val apiController: ApiController by lazy {
+    koin.getDependency(ApiController::class)
+}
 
 fun main() {
     initLogger()

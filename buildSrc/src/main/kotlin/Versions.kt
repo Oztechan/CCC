@@ -5,12 +5,12 @@
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val KOTLIN = "1.5.21"
-    const val ANDROID_GRADLE_PLUGIN = "7.1.0-alpha07"
+    const val ANDROID_GRADLE_PLUGIN = "7.1.0-alpha08"
     const val COMPOSE = "0.4.0"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.0"
     const val KTOR = "1.6.2"
-    const val LOG_BACK = "1.3.0-alpha7"
+    const val LOG_BACK = "1.3.0-alpha9"
     const val KOTLIN_X_HTML = "0.7.2"
     const val KOTLIN_REACT = "17.0.1-pre.148-kotlin-1.4.30"
     const val KOIN = "3.1.2"
