@@ -6,13 +6,14 @@ package com.github.mustafaozhan.ccc.client.util
 
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 private const val MAXIMUM_FLOATING_POINT = 15
 
 actual fun Double.getFormatted(): String {
 
     var decimalFormat = "###,###.###"
-    val symbols = DecimalFormatSymbols.getInstance()
+    val symbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
     symbols.groupingSeparator = ' '
 
     // increasing floating digits for too small numbers
