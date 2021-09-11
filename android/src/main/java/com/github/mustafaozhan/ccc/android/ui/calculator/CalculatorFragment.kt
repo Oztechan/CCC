@@ -41,7 +41,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         initViews()
         observeNavigationResults()
         observeStates()
-        observeEffect()
+        observeEffects()
         setListeners()
     }
 
@@ -85,7 +85,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = calculatorViewModel.effect
+    private fun observeEffects() = calculatorViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
