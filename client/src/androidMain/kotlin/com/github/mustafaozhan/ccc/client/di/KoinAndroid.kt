@@ -20,9 +20,13 @@ import org.koin.core.instance.InstanceFactory
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 
-fun initAndroid(context: Context): KoinApplication = startKoin {
+fun initAndroid(
+    context: Context,
+    platformModule: Module
+): KoinApplication = startKoin {
     modules(
         getAndroidModule(context),
+        platformModule,
         clientModule,
         apiModule,
         getDatabaseModule(),
