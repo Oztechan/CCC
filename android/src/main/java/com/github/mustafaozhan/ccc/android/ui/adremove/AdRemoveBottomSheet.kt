@@ -14,8 +14,8 @@ import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
-import com.github.mustafaozhan.ccc.client.model.RemoveAdData
+import com.github.mustafaozhan.ccc.android.util.toPurchaseHistoryList
+import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
@@ -108,26 +108,16 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         .onEach { viewEffect ->
             kermit.d { "AdRemoveBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                BillingEffect.ShowLoading -> adRemoveViewModel.showLoadingView(true)
-                BillingEffect.HideLoading -> adRemoveViewModel.showLoadingView(false)
-                BillingEffect.RestartActivity -> restartActivity()
-                is BillingEffect.RestorePurchase -> {
-                    viewEffect.purchaseHistoryList.map { purchaseHistoryRecord ->
-                        RemoveAdType.getBySku(purchaseHistoryRecord.skus.firstOrNull())?.let {
-                            PurchaseHistory(purchaseHistoryRecord.purchaseTime, it)
-                        }
-
-                    }
-                }
-
-                is BillingEffect.AddInAppBillingMethods -> adRemoveViewModel.addInAppBillingMethods(
-                    viewEffect.skuDetailList.map {
-                        RemoveAdData(it.price, it.description, it.sku)
-                    }
+                BillingEffect.SuccessfulPurchase -> restartActivity()
+                is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
+                    viewEffect.purchaseHistoryRecordList.toPurchaseHistoryList()
                 )
-                is BillingEffect.UpdateAddFreeDate -> RemoveAdType.getBySku(viewEffect.sku)?.let {
-                    adRemoveViewModel.updateAddFreeDate(it)
-                }
+                is BillingEffect.AddInAppBillingMethods -> adRemoveViewModel.addInAppBillingMethods(
+                    viewEffect.skuDetailsList.toRemoveAdDataList()
+                )
+                is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
+                    RemoveAdType.getBySku(viewEffect.sku)
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

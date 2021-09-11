@@ -4,12 +4,17 @@ import com.android.billingclient.api.PurchaseHistoryRecord
 import com.android.billingclient.api.SkuDetails
 
 sealed class BillingEffect {
-    object RestartActivity : BillingEffect()
-    object ShowLoading : BillingEffect()
-    object HideLoading : BillingEffect()
-    data class RestorePurchase(val purchaseHistoryList: List<PurchaseHistoryRecord>) :
-        BillingEffect()
+    object SuccessfulPurchase : BillingEffect()
 
-    data class AddInAppBillingMethods(val skuDetailList: List<SkuDetails>) : BillingEffect()
-    data class UpdateAddFreeDate(val sku: String?) : BillingEffect()
+    data class RestorePurchase(
+        val purchaseHistoryRecordList: List<PurchaseHistoryRecord>
+    ) : BillingEffect()
+
+    data class AddInAppBillingMethods(
+        val skuDetailsList: List<SkuDetails>
+    ) : BillingEffect()
+
+    data class UpdateAddFreeDate(
+        val sku: String?
+    ) : BillingEffect()
 }
