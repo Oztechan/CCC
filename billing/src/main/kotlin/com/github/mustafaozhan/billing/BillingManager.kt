@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.ccc.android.billing
+package com.github.mustafaozhan.billing
 
 import android.app.Activity
 import android.content.Context
@@ -16,27 +16,29 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
-import com.github.mustafaozhan.ccc.client.model.RemoveAdData
-import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.logmob.kermit
-import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-internal class BillingManager(
-    private val context: Context
-) : AcknowledgePurchaseResponseListener,
+class BillingManager(context: Context) :
+    AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
     BillingClientStateListener,
     PurchaseHistoryResponseListener,
     SkuDetailsResponseListener {
 
-    private lateinit var billingClient: BillingClient
+    private var billingClient: BillingClient = BillingClient
+        .newBuilder(context.applicationContext)
+        .enablePendingPurchases()
+        .setListener(this)
+        .build()
+        .also { it.startConnection(this) }
+
     private lateinit var scope: CoroutineScope
+    private lateinit var skuList: List<String>
 
     private lateinit var skuDetails: List<SkuDetails>
     private var acknowledgePurchaseParams: AcknowledgePurchaseParams? = null
@@ -44,29 +46,26 @@ internal class BillingManager(
     private val _effect = MutableSharedFlow<BillingEffect>()
     val effect = _effect.asSharedFlow()
 
-    internal fun setupBillingClient(lifecycleScope: LifecycleCoroutineScope) {
+    fun setupBillingClient(
+        lifecycleScope: LifecycleCoroutineScope,
+        skuList: List<String>
+    ) {
         kermit.d { "BillingManager setupBillingClient" }
+
         this.scope = lifecycleScope
+        this.skuList = skuList
 
         scope.launch {
             _effect.emit(BillingEffect.ShowLoading)
         }
-
-        billingClient = BillingClient
-            .newBuilder(context.applicationContext)
-            .enablePendingPurchases()
-            .setListener(this)
-            .build()
-
-        billingClient.startConnection(this)
     }
 
-    internal fun endConnection() {
+    fun endConnection() {
         kermit.d { "BillingManager endConnection" }
         billingClient.endConnection()
     }
 
-    internal fun launchBillingFlow(activity: Activity, skuId: String) {
+    fun launchBillingFlow(activity: Activity, skuId: String) {
         skuDetails
             .firstOrNull { it.sku == skuId }
             ?.let {
@@ -78,7 +77,7 @@ internal class BillingManager(
             }
     }
 
-    internal fun acknowledgePurchase() {
+    fun acknowledgePurchase() {
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         } ?: run {
@@ -108,10 +107,10 @@ internal class BillingManager(
                 acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
                     .setPurchaseToken(it.purchaseToken)
                     .build()
-            }?.mapTo { RemoveAdType.getBySku(skus.firstOrNull()) }
+            }
             ?.let {
                 scope.launch {
-                    _effect.emit(BillingEffect.UpdateAddFreeDate(it))
+                    _effect.emit(BillingEffect.UpdateAddFreeDate(it.skus.firstOrNull()))
                 }
             }
     }
@@ -130,7 +129,7 @@ internal class BillingManager(
             { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
         )?.apply {
             val skuDetailsParams = SkuDetailsParams.newBuilder()
-                .setSkusList(RemoveAdType.getSkuList())
+                .setSkusList(skuList)
                 .setType(BillingClient.SkuType.INAPP)
                 .build()
             querySkuDetailsAsync(skuDetailsParams, this@BillingManager)
@@ -156,11 +155,7 @@ internal class BillingManager(
             }?.let { detailsList ->
                 skuDetails = detailsList
 
-                _effect.emit(BillingEffect.AddInAppBillingMethods(
-                    detailsList.map {
-                        RemoveAdData(it.price, it.description, it.sku)
-                    }
-                ))
+                _effect.emit(BillingEffect.AddInAppBillingMethods(detailsList))
             } ?: run {
                 _effect.emit(BillingEffect.HideLoading)
             }
@@ -173,13 +168,9 @@ internal class BillingManager(
     ) {
         kermit.d { "BillingManager onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
-        purchaseHistoryList?.mapNotNull { historyRecord ->
-            RemoveAdType.getBySku(historyRecord.skus.firstOrNull())?.let {
-                PurchaseHistory(historyRecord.purchaseTime, it)
-            }
-        }?.let {
+        purchaseHistoryList?.let {
             scope.launch {
-                _effect.emit(BillingEffect.RestorePurchase(it))
+                _effect.emit(BillingEffect.RestorePurchase(purchaseHistoryList))
             }
         }
     }

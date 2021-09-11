@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
-import com.github.mustafaozhan.ccc.android.billing.BillingManager
+import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger

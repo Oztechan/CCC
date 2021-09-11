@@ -28,6 +28,8 @@ include(
     ":parsermob"
 )
 
+include(":billing")
+
 project(":basemob").projectDir = file("basemob/basemob")
 project(":scopemob").projectDir = file("scopemob/scopemob")
 project(":logmob").projectDir = file("logmob/logmob")
