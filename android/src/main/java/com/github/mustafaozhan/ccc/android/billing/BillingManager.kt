@@ -45,6 +45,7 @@ internal class BillingManager(
     val effect = _effect.asSharedFlow()
 
     internal fun setupBillingClient(lifecycleScope: LifecycleCoroutineScope) {
+        kermit.d { "BillingManager setupBillingClient" }
         this.scope = lifecycleScope
 
         scope.launch {
@@ -61,6 +62,7 @@ internal class BillingManager(
     }
 
     internal fun endConnection() {
+        kermit.d { "BillingManager endConnection" }
         billingClient.endConnection()
     }
 
@@ -87,7 +89,7 @@ internal class BillingManager(
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
-        kermit.d { "AdRemoveBottomSheet onAcknowledgePurchaseResponse" }
+        kermit.d { "BillingManager onAcknowledgePurchaseResponse" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
                 _effect.emit(BillingEffect.RestartActivity)
@@ -99,7 +101,7 @@ internal class BillingManager(
         billingResult: BillingResult,
         purchaseList: MutableList<Purchase>?
     ) {
-        kermit.d { "AdRemoveBottomSheet onPurchasesUpdated ${billingResult.responseCode}" }
+        kermit.d { "BillingManager onPurchasesUpdated ${billingResult.responseCode}" }
 
         purchaseList?.firstOrNull()
             ?.also {
@@ -115,7 +117,7 @@ internal class BillingManager(
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) {
-        kermit.d { "AdRemoveBottomSheet onBillingSetupFinished ${billingResult.responseCode}" }
+        kermit.d { "BillingManager onBillingSetupFinished ${billingResult.responseCode}" }
 
         scope.launch {
             _effect.emit(BillingEffect.HideLoading)
@@ -136,7 +138,7 @@ internal class BillingManager(
     }
 
     override fun onBillingServiceDisconnected() {
-        kermit.d { "AdRemoveBottomSheet onBillingServiceDisconnected" }
+        kermit.d { "BillingManager onBillingServiceDisconnected" }
         scope.launch {
             _effect.emit(BillingEffect.HideLoading)
         }
@@ -146,7 +148,7 @@ internal class BillingManager(
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
     ) {
-        kermit.d { "AdRemoveBottomSheet onSkuDetailsResponse ${billingResult.responseCode}" }
+        kermit.d { "BillingManager onSkuDetailsResponse ${billingResult.responseCode}" }
 
         scope.launch {
             skuDetailsList?.whether {
@@ -169,7 +171,7 @@ internal class BillingManager(
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) {
-        kermit.d { "AdRemoveBottomSheet onPurchaseHistoryResponse ${billingResult.responseCode}" }
+        kermit.d { "BillingManager onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList?.mapNotNull { historyRecord ->
             RemoveAdType.getBySku(historyRecord.skus.firstOrNull())?.let {

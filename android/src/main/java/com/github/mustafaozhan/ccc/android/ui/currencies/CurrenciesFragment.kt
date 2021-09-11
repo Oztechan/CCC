@@ -42,7 +42,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         kermit.d { "CurrenciesFragment onViewCreated" }
         initViews()
         observeStates()
-        observeEffect()
+        observeEffects()
         setListeners()
     }
 
@@ -97,7 +97,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = currenciesViewModel.effect
+    private fun observeEffects() = currenciesViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }

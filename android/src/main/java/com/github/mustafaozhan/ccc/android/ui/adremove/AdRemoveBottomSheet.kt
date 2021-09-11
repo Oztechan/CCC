@@ -9,6 +9,7 @@ import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
+import com.github.mustafaozhan.ccc.android.billing.BillingEffect
 import com.github.mustafaozhan.ccc.android.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
@@ -41,10 +42,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         kermit.d { "AdRemoveBottomSheet onViewCreated" }
+        billingManager.setupBillingClient(viewLifecycleOwner.lifecycleScope)
         initViews()
         observeStates()
-        observeEffect()
-        billingManager.setupBillingClient(viewLifecycleOwner.lifecycleScope)
+        observeEffects()
+        observeBillingEffects()
     }
 
     override fun onDestroyView() {
@@ -67,7 +69,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = adRemoveViewModel.effect
+    private fun observeEffects() = adRemoveViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
@@ -92,6 +94,26 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 AdRemoveEffect.AlreadyAdFree -> showSnack(
                     requireView(),
                     R.string.txt_ads_already_disabled
+                )
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+    private fun observeBillingEffects() = billingManager.effect
+        .flowWithLifecycle(lifecycle)
+        .onEach { viewEffect ->
+            kermit.d { "AdRemoveBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
+            when (viewEffect) {
+                BillingEffect.ShowLoading -> adRemoveViewModel.showLoadingView(true)
+                BillingEffect.HideLoading -> adRemoveViewModel.showLoadingView(false)
+                BillingEffect.RestartActivity -> restartActivity()
+                is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
+                    viewEffect.purchaseHistoryList
+                )
+                is BillingEffect.AddInAppBillingMethods -> adRemoveViewModel.addInAppBillingMethods(
+                    viewEffect.removeAdDataList
+                )
+                is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
+                    viewEffect.removeAdType
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

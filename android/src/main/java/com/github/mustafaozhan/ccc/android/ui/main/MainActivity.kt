@@ -33,11 +33,11 @@ class MainActivity : BaseActivity() {
         AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
-        observeEffect()
+        observeEffects()
         mainViewModel.checkReview()
     }
 
-    private fun observeEffect() = mainViewModel.effect
+    private fun observeEffects() = mainViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }

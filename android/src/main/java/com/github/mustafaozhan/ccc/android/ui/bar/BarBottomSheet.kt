@@ -35,7 +35,7 @@ class BarBottomSheet :
         kermit.d { "BarBottomSheet onViewCreated" }
         initViews()
         observeStates()
-        observeEffect()
+        observeEffects()
         setListeners()
     }
 
@@ -65,7 +65,7 @@ class BarBottomSheet :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = barViewModel.effect
+    private fun observeEffects() = barViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "BarBottomSheet observeEffect ${viewEffect::class.simpleName}" }
