@@ -23,20 +23,14 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-class BillingManager(context: Context) :
+class BillingManager(private val context: Context) :
     AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
     BillingClientStateListener,
     PurchaseHistoryResponseListener,
     SkuDetailsResponseListener {
 
-    private var billingClient: BillingClient = BillingClient
-        .newBuilder(context.applicationContext)
-        .enablePendingPurchases()
-        .setListener(this)
-        .build()
-        .also { it.startConnection(this) }
-
+    private lateinit var billingClient: BillingClient
     private lateinit var scope: CoroutineScope
     private lateinit var skuList: List<String>
 
@@ -55,9 +49,13 @@ class BillingManager(context: Context) :
         this.scope = lifecycleScope
         this.skuList = skuList
 
-        scope.launch {
-            _effect.emit(BillingEffect.ShowLoading)
-        }
+        this.billingClient = BillingClient
+            .newBuilder(context.applicationContext)
+            .enablePendingPurchases()
+            .setListener(this)
+            .build()
+
+        this.billingClient.startConnection(this)
     }
 
     fun endConnection() {
@@ -82,7 +80,7 @@ class BillingManager(context: Context) :
             billingClient.acknowledgePurchase(it, this)
         } ?: run {
             scope.launch {
-                _effect.emit(BillingEffect.RestartActivity)
+                _effect.emit(BillingEffect.SuccessfulPurchase)
             }
         }
     }
@@ -91,7 +89,7 @@ class BillingManager(context: Context) :
         kermit.d { "BillingManager onAcknowledgePurchaseResponse" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
-                _effect.emit(BillingEffect.RestartActivity)
+                _effect.emit(BillingEffect.SuccessfulPurchase)
             }
         }
     }
@@ -118,10 +116,6 @@ class BillingManager(context: Context) :
     override fun onBillingSetupFinished(billingResult: BillingResult) {
         kermit.d { "BillingManager onBillingSetupFinished ${billingResult.responseCode}" }
 
-        scope.launch {
-            _effect.emit(BillingEffect.HideLoading)
-        }
-
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
 
         billingClient.whether(
@@ -138,9 +132,6 @@ class BillingManager(context: Context) :
 
     override fun onBillingServiceDisconnected() {
         kermit.d { "BillingManager onBillingServiceDisconnected" }
-        scope.launch {
-            _effect.emit(BillingEffect.HideLoading)
-        }
     }
 
     override fun onSkuDetailsResponse(
@@ -156,8 +147,6 @@ class BillingManager(context: Context) :
                 skuDetails = detailsList
 
                 _effect.emit(BillingEffect.AddInAppBillingMethods(detailsList))
-            } ?: run {
-                _effect.emit(BillingEffect.HideLoading)
             }
         }
     }
