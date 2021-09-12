@@ -135,7 +135,6 @@ dependencies {
         implementation(NAVIGATION)
         implementation(PLAY_CORE)
         implementation(KOIN_ANDROID)
-        implementation(BILLING)
         implementation(LIFECYCLE_RUNTIME)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
@@ -151,5 +150,7 @@ dependencies {
         implementation(project(BASE_MOB))
         implementation(project(SCOPE_MOB))
         implementation(project(LOG_MOB))
+
+        implementation(project(BILLING))
     }
 }

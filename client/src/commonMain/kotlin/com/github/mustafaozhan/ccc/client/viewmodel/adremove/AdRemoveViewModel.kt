@@ -41,12 +41,15 @@ class AdRemoveViewModel(
     }
 
     fun updateAddFreeDate(
-        adType: RemoveAdType,
+        adType: RemoveAdType?,
         startDate: Long = nowAsLong()
-    ) = clientScope.launch {
-        settingsRepository.adFreeEndDate = adType.calculateAdRewardEnd(startDate)
-        _effect.emit(AdRemoveEffect.AdsRemoved(adType))
+    ) = adType?.let {
+        clientScope.launch {
+            settingsRepository.adFreeEndDate = it.calculateAdRewardEnd(startDate)
+            _effect.emit(AdRemoveEffect.AdsRemoved(it))
+        }
     }
+
 
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
         .maxByOrNull {
@@ -55,10 +58,8 @@ class AdRemoveViewModel(
             RemoveAdType.getSkuList().any { it == historyRecord.purchaseType.data.skuId }
         }?.whether { it.purchaseDate > settingsRepository.adFreeEndDate }
         ?.apply {
-            RemoveAdType.getBySku(purchaseType.data.skuId)?.let {
-                updateAddFreeDate(it, this.purchaseDate)
-                clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
-            }
+            updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
+            clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
         }
 
     fun showLoadingView(shouldShow: Boolean) {

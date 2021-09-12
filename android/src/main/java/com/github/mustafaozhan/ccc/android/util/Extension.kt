@@ -14,15 +14,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.android.billingclient.api.PurchaseHistoryRecord
+import com.android.billingclient.api.SkuDetails
+import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RateState
+import com.github.mustafaozhan.ccc.client.model.RemoveAdData
+import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
+import mustafaozhan.github.com.mycurrencies.R
 
 fun ImageView.setBackgroundByName(
     name: String
@@ -129,3 +134,14 @@ fun TextView.dataState(state: RateState) = when (state) {
     }
     RateState.None -> gone()
 }
+
+fun List<SkuDetails>.toRemoveAdDataList(): List<RemoveAdData> = map {
+    RemoveAdData(it.price, it.description, it.sku)
+}
+
+fun List<PurchaseHistoryRecord>.toPurchaseHistoryList(): List<PurchaseHistory> =
+    mapNotNull { purchaseHistoryRecord ->
+        RemoveAdType.getBySku(purchaseHistoryRecord.skus.firstOrNull())?.let {
+            PurchaseHistory(purchaseHistoryRecord.purchaseTime, it)
+        }
+    }

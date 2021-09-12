@@ -39,7 +39,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         kermit.d { "SettingsFragment onViewCreated" }
         initViews()
         observeStates()
-        observeEffect()
+        observeEffects()
         setListeners()
     }
 
@@ -123,7 +123,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffect() = settingsViewModel.effect
+    private fun observeEffects() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }

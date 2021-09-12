@@ -10,4 +10,6 @@ object Modules {
     const val SCOPE_MOB = ":scopemob"
     const val LOG_MOB = ":logmob"
     const val PARSER_MOB = ":parsermob"
+
+    const val BILLING = ":billing"
 }

@@ -94,7 +94,8 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it)
             _state.update(rateState = RateState.Online(it.date))
-            offlineRatesRepository.insertOfflineRates(it)
+        }.also {
+            offlineRatesRepository.insertOfflineRates(currencyResponse)
         }
 
     private fun getRatesFailed(t: Throwable) {
