@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toDateString
-import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
@@ -70,7 +69,7 @@ class SettingsViewModel(
                 delay(SYNC_DELAY)
 
                 apiRepository.getRatesViaBackend(name).execute(
-                    success = { offlineRatesRepository.insertOfflineRates(it.toRates()) },
+                    success = { offlineRatesRepository.insertOfflineRates(it) },
                     error = { error -> kermit.e(error) { error.message.toString() } }
                 )
             }
