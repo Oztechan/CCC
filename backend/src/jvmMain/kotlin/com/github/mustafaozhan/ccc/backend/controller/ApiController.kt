@@ -38,7 +38,7 @@ class ApiController(
             apiRepository
                 .getRatesViaApi(base.name)
                 .execute({ currencyResponse ->
-                    offlineRatesRepository.insertOfflineRates(currencyResponse.rates)
+                    offlineRatesRepository.insertOfflineRates(currencyResponse)
                 }, { error ->
                     kermit.e(error) { error.message.toString() }
                 })
