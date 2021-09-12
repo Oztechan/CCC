@@ -20,7 +20,7 @@ fun Route.getCurrencyByName(
     rootingController: RootingController = koin.getDependency(RootingController::class)
 ) = get(PATH_BY_BASE) {
     call.parameters[PARAMETER_BASE]?.let { base ->
-        kermit.d { "GET Request  $PARAMETER_BASE $base" }
+        kermit.d { "GET Request $PARAMETER_BASE $base" }
         rootingController.getOfflineCurrencyResponseByBase(base)?.let {
             call.respond(it)
         }
