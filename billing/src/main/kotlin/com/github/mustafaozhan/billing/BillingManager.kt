@@ -79,11 +79,6 @@ class BillingManager(private val context: Context) :
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         }
-//            ?: run {
-//            scope.launch {
-//                _effect.emit(BillingEffect.SuccessfulPurchase)
-//            }
-//        }
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
