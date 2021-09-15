@@ -10,11 +10,13 @@ import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
+import com.github.mustafaozhan.scopemob.whetherNot
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -50,16 +52,16 @@ class AdRemoveViewModel(
         }
     }
 
-
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
         .maxByOrNull {
             it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
         }?.whether { historyRecord ->
             RemoveAdType.getSkuList().any { it == historyRecord.purchaseType.data.skuId }
-        }?.whether { it.purchaseDate > settingsRepository.adFreeEndDate }
+        }?.whether { purchaseDate > settingsRepository.adFreeEndDate }
+        ?.whetherNot { purchaseDate.isRewardExpired() }
         ?.apply {
-            updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
             clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
+            updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
         }
 
     fun showLoadingView(shouldShow: Boolean) {
