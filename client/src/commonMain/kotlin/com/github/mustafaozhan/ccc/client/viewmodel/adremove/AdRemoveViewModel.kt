@@ -55,11 +55,13 @@ class AdRemoveViewModel(
     fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
         .maxByOrNull {
             it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
-        }?.whether { historyRecord ->
-            RemoveAdType.getSkuList().any { it == historyRecord.purchaseType.data.skuId }
-        }?.whether { purchaseDate > settingsRepository.adFreeEndDate }
-        ?.whetherNot { purchaseDate.isRewardExpired() }
-        ?.apply {
+        }?.whether { purchaseHistory ->
+            RemoveAdType.getSkuList().any { it == purchaseHistory.purchaseType.data.skuId }
+        }?.whether {
+            purchaseDate > settingsRepository.adFreeEndDate
+        }?.whetherNot {
+            purchaseType.calculateAdRewardEnd(purchaseDate).isRewardExpired()
+        }?.apply {
             clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
             updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
         }
