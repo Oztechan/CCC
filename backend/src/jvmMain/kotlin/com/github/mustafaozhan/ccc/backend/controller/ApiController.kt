@@ -16,6 +16,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+private const val NUMBER_OF_REFRESH_IN_DAY = 3
+
 class ApiController(
     private val apiRepository: ApiRepository,
     private val offlineRatesRepository: OfflineRatesRepository
@@ -26,7 +28,7 @@ class ApiController(
             kermit.d { "refreshing" }
             updateCurrencies()
 
-            delay(DAY)
+            delay(DAY / NUMBER_OF_REFRESH_IN_DAY)
         }
     }
 
