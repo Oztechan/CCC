@@ -10,8 +10,6 @@ object Versions {
     const val CONSTRAINT_LAYOUT = "2.1.0"
     const val KTOR = "1.6.3"
     const val LOG_BACK = "1.3.0-alpha10"
-    const val KOTLIN_X_HTML = "0.7.2"
-    const val KOTLIN_REACT = "17.0.1-pre.148-kotlin-1.4.30"
     const val KOIN = "3.1.2"
     const val KERMIT = "0.1.9"
     const val MULTIPLATFORM_SETTINGS = "0.8"

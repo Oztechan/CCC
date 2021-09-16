@@ -5,18 +5,10 @@
 // FE
 include(
     ":android",
-    // ":web", todo enable when implementation start
-)
-
-// BE
-include(
-    ":backend"
-)
-
-// Shared modules
-include(
-    ":client", // All FE targets
-    ":common", // All FE & BE targets
+    ":backend",
+    ":client", // Shared with all FE targets
+    ":common", // Shared with all FE & BE targets
+    ":billing" // android billing
 )
 
 // SubMob
@@ -27,8 +19,6 @@ include(
     ":parsermob"
 )
 
-// others
-include(":billing")
 
 project(":basemob").projectDir = file("basemob/basemob")
 project(":scopemob").projectDir = file("scopemob/scopemob")
