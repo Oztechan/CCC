@@ -28,9 +28,6 @@ kotlin {
 
     jvm()
 
-    // todo enable when implementation start
-    // js { browser { binaries.executable()testTask { enabled = false } } }
-
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
@@ -93,10 +90,6 @@ kotlin {
                 }
             }
         }
-
-        // todo enable when implementation start
-        // with(Dependencies.JS) { val jsMain by getting { dependencies { implementation(ktor) } }
-        // val jsTest by getting { dependencies { implementation(kotlin(test))  } } }
     }
 }
 

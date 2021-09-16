@@ -64,9 +64,5 @@ object Dependencies {
 
     object JS {
         const val TEST = "test-js"
-        const val KOTLIN_X_HTML = "org.jetbrains.kotlinx:kotlinx-html-js:${Versions.KOTLIN_X_HTML}"
-        const val KOTLIN_REACT = "org.jetbrains:kotlin-react:${Versions.KOTLIN_REACT}"
-        const val KOTLIN_REACT_DOM = "org.jetbrains:kotlin-react-dom:${Versions.KOTLIN_REACT}"
-        const val KTOR = "io.ktor:ktor-client-js:${Versions.KTOR}"
     }
 }
