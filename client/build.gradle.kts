@@ -30,8 +30,10 @@ kotlin {
     cocoapods {
         summary = "CCC"
         homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        frameworkName = "Client"
         ios.deploymentTarget = "14.0"
+        framework {
+            baseName = "Client"
+        }
     }
 
     @Suppress("UNUSED_VARIABLE")
@@ -39,8 +41,8 @@ kotlin {
 
         all {
             languageSettings.apply {
-                useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlinx.coroutines.FlowPreview")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
 

@@ -20,18 +20,12 @@
 
     <!-- Base Mob Colors -->
 
-    <!-- Toast -->
-    <color name="color_background_toast">@color/color_text</color>
-    <color name="color_text_toast">@color/color_background_weak</color>
-    <color name="color_icon_toast">@color/color_background_weak</color>
-
     <!-- Dialog -->
     <color name="color_text_title_dialog">@color/color_accent</color>
     <color name="color_text_message_dialog">@color/color_text</color>
     <color name="color_background_dialog">@color/color_background</color>
     <color name="color_text_positive_button_dialog">@color/color_primary</color>
     <color name="color_text_neutral_button_dialog">@color/color_primary</color>
-    <color name="color_text_negative_button_dialog">@color/color_primary</color>
 
     <!-- Snack Bar -->
     <color name="color_text_action_snack_bar">@color/color_accent</color>
