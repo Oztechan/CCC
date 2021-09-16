@@ -17,7 +17,6 @@
     <!--Margin Sizes-->
     <dimen name="margin_zero">0dp</dimen>
     <dimen name="margin_two">2dp</dimen>
-    <dimen name="margin_three">3dp</dimen>
     <dimen name="margin_four">4dp</dimen>
     <dimen name="margin_eight">8dp</dimen>
     <dimen name="margin_twelve">12dp</dimen>
