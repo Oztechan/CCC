@@ -23,20 +23,18 @@ import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
-import com.github.mustafaozhan.ccc.common.model.PlatformType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.platform
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -85,11 +83,7 @@ class ExtensionsTest {
     @Test
     fun getFormatted() {
         val actualDouble = 123456.7890
-        if (platform == PlatformType.JS) {
-            assertEquals(actualDouble.toString(), actualDouble.getFormatted())
-        } else {
-            assertEquals("123 456.789", actualDouble.getFormatted())
-        }
+        assertEquals("123 456.789", actualDouble.getFormatted())
     }
 
     @Test

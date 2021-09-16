@@ -7,6 +7,5 @@ package com.github.mustafaozhan.ccc.common.model
 enum class PlatformType {
     ANDROID,
     IOS,
-    JVM,
-    JS
+    JVM
 }
