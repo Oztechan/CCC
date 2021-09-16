@@ -8,7 +8,6 @@ object ClassPaths {
         "com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}"
     const val KOTLIN_GRADLE_PLUGIN = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
     const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
-    const val COMPOSE = "org.jetbrains.compose:compose-gradle-plugin:${Versions.COMPOSE}"
     const val SQL_DELIGHT = "com.squareup.sqldelight:gradle-plugin:${Versions.SQL_DELIGHT}"
     const val GSM = "com.google.gms:google-services:${Versions.GSM}"
     const val CRASHLYTICS =

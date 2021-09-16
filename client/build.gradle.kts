@@ -28,9 +28,6 @@ kotlin {
     }
 
     // todo enable when implementation start
-    // jvm()
-
-    // todo enable when implementation start
     // js { browser { binaries.executable()testTask { enabled = false } } }
 
     cocoapods {
@@ -102,9 +99,6 @@ kotlin {
             }
         }
         val iosTest by getting
-
-        // todo enable when implementation start
-        // with(Dependencies.JVM) { val jvmMain by getting val jvmTest by getting { dependencies { implementation(kotlin(testJUnit)) } } }
 
         // todo enable when implementation start
         // with(Dependencies.JS) { val jsMain by getting val jsTest by getting { dependencies { implementation(kotlin(test)) } } }

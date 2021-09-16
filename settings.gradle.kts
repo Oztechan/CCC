@@ -6,7 +6,6 @@
 include(
     ":android",
     // ":web", todo enable when implementation start
-    // ":desktop", todo enable when implementation start
 )
 
 // BE
