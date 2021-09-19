@@ -19,7 +19,6 @@ android {
 dependencies {
     with(Dependencies.Android) {
         api(BILLING)
-        implementation(KOIN_ANDROID)
         implementation(LIFECYCLE_RUNTIME)
     }
 

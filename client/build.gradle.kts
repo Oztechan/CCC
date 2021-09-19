@@ -27,17 +27,13 @@ kotlin {
         iosX64("ios")
     }
 
-    // todo enable when implementation start
-    // jvm()
-
-    // todo enable when implementation start
-    // js { browser { binaries.executable()testTask { enabled = false } } }
-
     cocoapods {
         summary = "CCC"
         homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        frameworkName = "Client"
         ios.deploymentTarget = "14.0"
+        framework {
+            baseName = "Client"
+        }
     }
 
     @Suppress("UNUSED_VARIABLE")
@@ -45,8 +41,8 @@ kotlin {
 
         all {
             languageSettings.apply {
-                useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                optIn("kotlinx.coroutines.FlowPreview")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
 
@@ -102,12 +98,6 @@ kotlin {
             }
         }
         val iosTest by getting
-
-        // todo enable when implementation start
-        // with(Dependencies.JVM) { val jvmMain by getting val jvmTest by getting { dependencies { implementation(kotlin(testJUnit)) } } }
-
-        // todo enable when implementation start
-        // with(Dependencies.JS) { val jsMain by getting val jsTest by getting { dependencies { implementation(kotlin(test)) } } }
     }
 }
 
