@@ -21,12 +21,13 @@
 
         <activity
             android:name="com.github.mustafaozhan.ccc.android.ui.splash.SplashActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen.SplashTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
