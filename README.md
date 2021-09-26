@@ -4,23 +4,17 @@
 <p align="center"><a href="https://www.codacy.com/gh/CurrencyConverterCalculator/CCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/CCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/CCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/CCC.svg">
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
-## Branches
+## Main modules
 
-* [master](https://github.com/CurrencyConverterCalculator/CCC/tree/master) - Kotlin Multi Platform (WIP)
+* [x] ![badge][badge-android] in production :muscle:
+* [x] ![badge][badge-backend] in production :muscle:
+* [ ] ![badge][badge-ios] in progress :bow:
+* [ ] ![badge][badge-web] coming soon :eyes:
+* [ ] ![badge][badge-desktop] coming soon :eyes:
+* [x] ![badge][badge-client] shared between FE targets :recycle:
+* [x] ![badge][badge-common] shared between all targets :recycle:
 
-  * [x] ![badge][badge-android] in production :muscle:
-  * [x] ![badge][badge-backend] in production :muscle:
-  * [ ] ![badge][badge-ios] in progress :bow:
-  * [ ] ![badge][badge-web] coming soon :eyes:
-  * [ ] ![badge][badge-desktop] coming soon :eyes:
-  * [x] ![badge][badge-client] shared between FE targets :recycle:
-  * [x] ![badge][badge-common] shared between all targets :recycle:
-
-* [android](https://github.com/CurrencyConverterCalculator/CCC/tree/android) - Pure Android branch (retired). If you want to see how the app was implemented with pure Android technologies and libraries check this branch!
-
-* [minsdk16](https://github.com/CurrencyConverterCalculator/CCC/tree/minsdk16) - Android market branch with min sdk 16 support. (in Production for SDK16 - SDK21)
-
-### :warning: Note
+### :warning: How to clone
 
 The project uses submodules, please clone it as below:
 
