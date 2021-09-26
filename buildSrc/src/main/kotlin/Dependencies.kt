@@ -45,6 +45,7 @@ object Dependencies {
         const val SQL_DELIGHT = "com.squareup.sqldelight:android-driver:${Versions.SQL_DELIGHT}"
         const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
         const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
+        const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
     }
 
     object IOS {

@@ -148,7 +148,6 @@ class CalculatorViewModel(
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
         settingsRepository.currentBase = newBase
-        calculateOutput(_state.value.input)
         _state.update(
             base = newBase,
             input = _state.value.input,
