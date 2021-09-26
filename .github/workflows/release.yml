@@ -96,7 +96,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
       - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
