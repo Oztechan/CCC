@@ -6,13 +6,13 @@
 
 ## Main modules
 
-* [x] ![badge][badge-android] in production :muscle:
-* [x] ![badge][badge-backend] in production :muscle:
-* [ ] ![badge][badge-ios] in progress :bow:
-* [ ] ![badge][badge-web] coming soon :eyes:
-* [ ] ![badge][badge-desktop] coming soon :eyes:
-* [x] ![badge][badge-client] shared between FE targets :recycle:
-* [x] ![badge][badge-common] shared between all targets :recycle:
+*  [x] ![badge-android] in production :muscle:
+*  [x] ![badge-backend] in production :muscle:
+*  [ ] ![badge-ios] in progress :bow:
+*  [ ] ![badge-web] coming soon :eyes:
+*  [ ] ![badge-desktop] coming soon :eyes:
+*  [x] ![badge-client] shared between FE targets :recycle:
+*  [x] ![badge-common] shared between all targets :recycle:
 
 ### :warning: How to clone
 
