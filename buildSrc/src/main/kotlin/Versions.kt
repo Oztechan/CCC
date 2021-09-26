@@ -32,4 +32,5 @@ object Versions {
     const val DEPENDENCY_UPDATES = "0.39.0"
     const val BUILD_HEALTH = "0.78.0"
     const val BUILD_KONFIG = "0.10.1"
+    const val WORK_RUNTIME = "2.7.0-beta01"
 }
