@@ -8,11 +8,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.github.mustafaozhan.ad.showRewardedAd
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.billing.BillingEffect
 import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
-import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.toPurchaseHistoryList
 import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
@@ -20,13 +20,9 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.github.mustafaozhan.mycurrencies.R
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -81,7 +77,15 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             when (viewEffect) {
                 is AdRemoveEffect.LaunchRemoveAdFlow -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
-                        prepareRewardedAdFlow()
+                        showDialog(
+                            activity = requireActivity(),
+                            title = R.string.txt_remove_ads,
+                            message = R.string.txt_remove_ads_text,
+                            positiveButton = R.string.txt_watch
+                        ) {
+                            adRemoveViewModel.showLoadingView(true)
+                            showRewardedAd()
+                        }
                     } else {
                         billingManager.launchBillingFlow(
                             requireActivity(),
@@ -121,47 +125,22 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun prepareRewardedAdFlow() {
-        showDialog(
-            requireActivity(),
-            R.string.txt_remove_ads,
-            R.string.txt_remove_ads_text,
-            R.string.txt_watch
-        ) {
-            adRemoveViewModel.showLoadingView(true)
-            prepareRewardedAd()
+    private fun showRewardedAd() = requireActivity().showRewardedAd(
+        adId = getString(R.string.android_rewarded_ad_unit_id),
+        onAdFailedToLoad = {
+            adRemoveViewModel.showLoadingView(false)
+            view?.let { showSnack(it, R.string.error_text_unknown) }
+        },
+        onAdLoaded = {
+            adRemoveViewModel.showLoadingView(false)
+        },
+        onReward = {
+            adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
         }
-    }
+    )
 
     private fun restartActivity() = activity?.run {
         finish()
         startActivity(intent)
-    }
-
-    private fun prepareRewardedAd() = context?.applicationContext?.let { applicationContext ->
-        RewardedAd.load(
-            applicationContext,
-            getString(R.string.android_rewarded_ad_unit_id),
-            AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    kermit.d { "AdRemoveBottomSheet onRewardedAdFailedToLoad" }
-                    adRemoveViewModel.showLoadingView(false)
-                    view?.let { showSnack(it, R.string.error_text_unknown) }
-                }
-
-                override fun onAdLoaded(rewardedAd: RewardedAd) {
-                    adRemoveViewModel.showLoadingView(false)
-                    kermit.d { "AdRemoveBottomSheet onRewardedAdLoaded" }
-
-                    activity?.let {
-                        rewardedAd.show(it) {
-                            kermit.d { "AdRemoveBottomSheet onUserEarnedReward" }
-                            adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
-                        }
-                    }
-                }
-            }
-        )
     }
 }
