@@ -8,7 +8,8 @@ include(
     ":backend",
     ":client", // Shared with all FE targets
     ":common", // Shared with all FE & BE targets
-    ":billing" // android billing
+    ":billing", // android billing
+    ":ad"
 )
 
 // SubMob
