@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    with(Dependencies.Android) {
-        implementation(ADMOB)
-    }
+    implementation(Dependencies.Android.ADMOB)
+
+    implementation(project(Modules.LOG_MOB))
 }
