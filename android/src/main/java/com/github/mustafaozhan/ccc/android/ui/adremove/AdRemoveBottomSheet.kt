@@ -20,7 +20,8 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
-import com.github.mustafaozhan.mycurrencies.R
+import mustafaozhan.github.com.mycurrencies.R
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
