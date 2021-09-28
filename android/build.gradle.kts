@@ -131,7 +131,6 @@ dependencies {
     with(Dependencies.Android) {
         implementation(ANDROID_MATERIAL)
         implementation(CONSTRAINT_LAYOUT)
-        implementation(ADMOB)
         implementation(NAVIGATION)
         implementation(PLAY_CORE)
         implementation(KOIN_ANDROID)
@@ -153,5 +152,6 @@ dependencies {
         implementation(project(LOG_MOB))
 
         implementation(project(BILLING))
+        implementation(project(AD))
     }
 }
