@@ -16,16 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.billingclient.api.PurchaseHistoryRecord
 import com.android.billingclient.api.SkuDetails
+import com.github.mustafaozhan.ad.loadBannerAd
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
 import mustafaozhan.github.com.mycurrencies.R
 
@@ -49,25 +46,7 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
     ?.hideSoftInputFromWindow(windowToken, 0)
 
 fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isExpired) {
-    with(context.applicationContext) {
-        MobileAds.initialize(this)
-
-        var adWidthPixels = width.toFloat()
-        if (adWidthPixels == 0f) {
-            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
-        }
-        removeAllViews()
-        addView(
-            AdView(this).apply {
-                adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                    context,
-                    (adWidthPixels / resources.displayMetrics.density).toInt()
-                )
-                adUnitId = adId
-                loadAd(AdRequest.Builder().build())
-            }
-        )
-    }
+    loadBannerAd(adId = adId)
     visible()
 } else {
     isEnabled = false
