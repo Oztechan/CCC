@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
+import com.github.mustafaozhan.ad.initMobileAds
 import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initCrashlytics
@@ -23,7 +24,8 @@ class CCCApplication : Application() {
                 single { BillingManager(get()) }
             }
         )
-        kermit.d { "CCCApplication onCreate" }
+        initMobileAds(this)
         initCrashlytics(this, enableAnalytics = true)
+        kermit.d { "CCCApplication onCreate" }
     }
 }
