@@ -51,6 +51,18 @@ android {
         }
     }
 
+    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+
+    productFlavors {
+        create(DeviceType.GOOGLE) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+
+        create(DeviceType.HUAWEI) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+    }
+
     buildTypes {
 
         getByName(BuildType.RELEASE) {
