@@ -14,6 +14,18 @@ android {
             targetSdk = TARGET_SDK_VERSION
         }
     }
+
+    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+
+    productFlavors {
+        create(DeviceType.GOOGLE) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+
+        create(DeviceType.HUAWEI) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+    }
 }
 
 dependencies {
