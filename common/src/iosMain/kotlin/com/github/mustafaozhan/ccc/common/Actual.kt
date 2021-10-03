@@ -4,13 +4,10 @@
 
 package com.github.mustafaozhan.ccc.common
 
-import com.github.mustafaozhan.ccc.common.model.PlatformType
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-
-actual val platform = PlatformType.IOS
 
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.Default
 
