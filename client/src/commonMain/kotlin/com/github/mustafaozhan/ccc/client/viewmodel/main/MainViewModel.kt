@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel.main
 
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
+import com.github.mustafaozhan.ccc.client.device
+import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
@@ -63,6 +65,7 @@ class MainViewModel(
 
     fun checkReview() = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
+        ?.whether { device == Device.ANDROID.GOOGLE }
         ?.launch {
             delay(REVIEW_DELAY)
             _effect.emit(MainEffect.RequestReview)
@@ -83,7 +86,10 @@ class MainViewModel(
 
     override fun onResume() {
         kermit.d { "MainViewModel onResume" }
-        setupInterstitialAdTimer()
+
+        if (device == Device.ANDROID.GOOGLE) {
+            setupInterstitialAdTimer()
+        }
     }
     // endregion
 }
