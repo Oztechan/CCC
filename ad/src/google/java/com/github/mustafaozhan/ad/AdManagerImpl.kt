@@ -1,0 +1,91 @@
+package com.github.mustafaozhan.ad
+
+import android.app.Activity
+import android.content.Context
+import android.view.ViewGroup
+import com.github.mustafaozhan.logmob.kermit
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+
+class AdManagerImpl : AdManager {
+
+    override fun initMobileAds(context: Context) {
+        MobileAds.initialize(context)
+    }
+
+    override fun loadBannerAd(
+        viewGroup: ViewGroup,
+        adId: String
+    ) = with(viewGroup) {
+        var adWidthPixels = width.toFloat()
+
+        if (adWidthPixels == 0f) {
+            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
+        }
+
+        removeAllViews()
+        addView(
+            AdView(viewGroup.context).apply {
+                adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                    context,
+                    (adWidthPixels / resources.displayMetrics.density).toInt()
+                )
+                adUnitId = adId
+                loadAd(AdRequest.Builder().build())
+            }
+        )
+    }
+
+    override fun showInterstitialAd(
+        activity: Activity,
+        adId: String
+    ) = InterstitialAd.load(
+        activity,
+        adId,
+        AdRequest.Builder().build(),
+        object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                kermit.d { "InterstitialAd onAdFailedToLoad ${adError.message}" }
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                kermit.d { "InterstitialAd onAdLoaded" }
+                interstitialAd.show(activity)
+            }
+        })
+
+    override fun showRewardedAd(
+        activity: Activity,
+        adId: String,
+        onAdFailedToLoad: () -> Unit,
+        onAdLoaded: () -> Unit,
+        onReward: () -> Unit
+    ) = RewardedAd.load(
+        activity,
+        adId,
+        AdRequest.Builder().build(),
+        object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                kermit.d { "RewardedAd onRewardedAdFailedToLoad" }
+                onAdFailedToLoad()
+            }
+
+            override fun onAdLoaded(rewardedAd: RewardedAd) {
+                kermit.d { "RewardedAd onRewardedAdLoaded" }
+                onAdLoaded()
+
+                rewardedAd.show(activity) {
+                    kermit.d { "RewardedAd onUserEarnedReward" }
+                    onReward()
+                }
+            }
+        }
+    )
+}
