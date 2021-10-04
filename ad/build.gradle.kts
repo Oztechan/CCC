@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.Android.ADMOB)
+    "googleImplementation"(Dependencies.Android.ADMOB)
 
     implementation(project(Modules.LOG_MOB))
 }
