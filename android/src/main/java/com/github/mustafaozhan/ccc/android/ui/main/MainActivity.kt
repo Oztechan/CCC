@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.github.mustafaozhan.ad.showInterstitialAd
+import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
@@ -18,10 +18,12 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
+    private val adManager: AdManager by inject()
     private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,10 @@ class MainActivity : BaseActivity() {
         .onEach { viewEffect ->
             kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is MainEffect.ShowInterstitialAd -> showInterstitialAd(getString(R.string.android_interstitial_ad_id))
+                is MainEffect.ShowInterstitialAd -> adManager.showInterstitialAd(
+                    this@MainActivity,
+                    getString(R.string.android_interstitial_ad_id)
+                )
                 is MainEffect.RequestReview -> requestReview()
             }
         }.launchIn(lifecycleScope)

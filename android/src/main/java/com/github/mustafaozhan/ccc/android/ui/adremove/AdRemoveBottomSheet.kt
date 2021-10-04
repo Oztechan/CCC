@@ -8,11 +8,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.github.mustafaozhan.ad.showRewardedAd
+import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.billing.BillingEffect
 import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
+import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.toPurchaseHistoryList
 import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
@@ -20,10 +21,9 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.logmob.kermit
-import mustafaozhan.github.com.mycurrencies.R
-import com.github.mustafaozhan.ccc.android.util.showLoading
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @Suppress("TooManyFunctions")
 class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
 
+    private val adManager: AdManager by inject()
     private val billingManager: BillingManager by inject()
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
 
@@ -126,19 +127,22 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun showRewardedAd() = requireActivity().showRewardedAd(
-        adId = getString(R.string.android_rewarded_ad_unit_id),
-        onAdFailedToLoad = {
-            adRemoveViewModel.showLoadingView(false)
-            view?.let { showSnack(it, R.string.error_text_unknown) }
-        },
-        onAdLoaded = {
-            adRemoveViewModel.showLoadingView(false)
-        },
-        onReward = {
-            adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
-        }
-    )
+    private fun showRewardedAd() {
+        adManager.showRewardedAd(
+            activity = requireActivity(),
+            adId = getString(R.string.android_rewarded_ad_unit_id),
+            onAdFailedToLoad = {
+                adRemoveViewModel.showLoadingView(false)
+                view?.let { showSnack(it, R.string.error_text_unknown) }
+            },
+            onAdLoaded = {
+                adRemoveViewModel.showLoadingView(false)
+            },
+            onReward = {
+                adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
+            }
+        )
+    }
 
     private fun restartActivity() = activity?.run {
         finish()

@@ -8,15 +8,15 @@ package com.github.mustafaozhan.ccc.android.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.billingclient.api.PurchaseHistoryRecord
 import com.android.billingclient.api.SkuDetails
-import com.github.mustafaozhan.ad.loadBannerAd
+import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
@@ -45,12 +45,15 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
 
-fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isExpired) {
-    loadBannerAd(adId = adId)
-    visible()
+fun AdManager.setBannerAd(
+    viewGroup: ViewGroup,
+    adId: String,
+    isExpired: Boolean
+) = if (isExpired) {
+    loadBannerAd(viewGroup, adId)
+    viewGroup.visible()
 } else {
-    isEnabled = false
-    gone()
+    viewGroup.gone()
 }
 
 fun <T> Fragment.getNavigationResult(
