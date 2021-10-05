@@ -1,8 +1,6 @@
 package com.github.mustafaozhan.ccc.client.di.module
 
-import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.di.viewModelDefinition
-import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
@@ -17,8 +15,5 @@ var clientModule = module {
     viewModelDefinition { CurrenciesViewModel(get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get()) }
     viewModelDefinition { BarViewModel(get()) }
-
-    if (device == Device.ANDROID.GOOGLE) {
-        viewModelDefinition { AdRemoveViewModel(get()) }
-    }
+    viewModelDefinition { AdRemoveViewModel(get()) }
 }
