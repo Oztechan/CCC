@@ -4,4 +4,6 @@ object DeviceType {
 
     const val googleImplementation = "googleImplementation"
     const val huaweiImplementation = "huaweiImplementation"
+    const val googleApi = "googleApi"
+    const val huaweiApi = "huaweiApi"
 }
