@@ -29,10 +29,8 @@ android {
 }
 
 dependencies {
-    with(Dependencies.Android) {
-        api(BILLING)
-        implementation(LIFECYCLE_RUNTIME)
-    }
+    api(Dependencies.Android.GOOGLE.BILLING)
+    implementation(Dependencies.Android.LIFECYCLE_RUNTIME)
 
     with(Modules) {
         implementation(project(SCOPE_MOB))

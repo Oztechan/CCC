@@ -30,7 +30,7 @@ android {
 
 dependencies {
 
-    DeviceType.googleImplementation(Dependencies.Android.ADMOB)
+    DeviceType.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
 
     implementation(project(Modules.LOG_MOB))
 }
