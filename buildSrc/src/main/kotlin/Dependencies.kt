@@ -34,18 +34,23 @@ object Dependencies {
         const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Versions.FIREBASE_CORE}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
         const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
-        const val ADMOB = "com.google.android.gms:play-services-ads:${Versions.ADMOB}"
         const val LIFECYCLE_VIEWMODEL =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
         const val LIFECYCLE_RUNTIME =
             "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
         const val NAVIGATION = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
-        const val PLAY_CORE = "com.google.android.play:core:${Versions.PLAY_CORE}"
         const val KTOR = "io.ktor:ktor-client-android:${Versions.KTOR}"
         const val SQL_DELIGHT = "com.squareup.sqldelight:android-driver:${Versions.SQL_DELIGHT}"
-        const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
         const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
+
+        object GOOGLE {
+            const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
+            const val ADMOB = "com.google.android.gms:play-services-ads:${Versions.ADMOB}"
+            const val PLAY_CORE = "com.google.android.play:core:${Versions.PLAY_CORE}"
+        }
+
+        object HUAWEI
     }
 
     object IOS {
