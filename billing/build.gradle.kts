@@ -29,7 +29,9 @@ android {
 }
 
 dependencies {
-    api(Dependencies.Android.GOOGLE.BILLING)
+
+    DeviceType.googleApi(Dependencies.Android.GOOGLE.BILLING)
+
     implementation(Dependencies.Android.LIFECYCLE_RUNTIME)
 
     with(Modules) {
