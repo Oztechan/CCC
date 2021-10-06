@@ -65,7 +65,7 @@ class MainViewModel(
 
     fun checkReview() = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
-        ?.whether { device == Device.ANDROID.GOOGLE }
+        ?.whether { device is Device.ANDROID.GOOGLE }
         ?.launch {
             delay(REVIEW_DELAY)
             _effect.emit(MainEffect.RequestReview)
@@ -87,7 +87,7 @@ class MainViewModel(
     override fun onResume() {
         kermit.d { "MainViewModel onResume" }
 
-        if (device == Device.ANDROID.GOOGLE) {
+        if (device is Device.ANDROID.GOOGLE) {
             setupInterstitialAdTimer()
         }
     }
