@@ -29,7 +29,8 @@ android {
 }
 
 dependencies {
-    "googleImplementation"(Dependencies.Android.ADMOB)
+
+    DeviceType.googleImplementation(Dependencies.Android.ADMOB)
 
     implementation(project(Modules.LOG_MOB))
 }
