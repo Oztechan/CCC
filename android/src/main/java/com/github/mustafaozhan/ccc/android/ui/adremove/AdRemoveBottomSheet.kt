@@ -44,7 +44,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onViewCreated" }
         billingManager.setupBillingClient(
             viewLifecycleOwner.lifecycleScope,
-            RemoveAdType.getSkuList()
+            RemoveAdType.getBillingIds()
         )
         initViews()
         observeStates()
@@ -91,7 +91,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     } else {
                         billingManager.launchBillingFlow(
                             requireActivity(),
-                            viewEffect.removeAdType.data.skuId
+                            viewEffect.removeAdType.data.id
                         )
                     }
                 }
@@ -122,7 +122,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     viewEffect.skuDetailsList.toRemoveAdDataList()
                 )
                 is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
-                    RemoveAdType.getBySku(viewEffect.sku)
+                    RemoveAdType.getById(viewEffect.sku)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

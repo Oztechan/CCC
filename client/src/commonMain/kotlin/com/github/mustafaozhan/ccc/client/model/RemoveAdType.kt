@@ -15,12 +15,12 @@ enum class RemoveAdType(val data: RemoveAdData) {
     YEAR(RemoveAdData("", "1 Year", "one_year"));
 
     companion object {
-        fun getBySku(sku: String?) = values()
+        fun getById(sku: String?) = values()
             .whetherNot { sku == null }
-            ?.firstOrNull { it.data.skuId == sku }
+            ?.firstOrNull { it.data.id == sku }
 
-        fun getSkuList() = values()
-            .map { it.data.skuId }
+        fun getBillingIds() = values()
+            .map { it.data.id }
             .filter { it.isNotEmpty() }
     }
 }

@@ -123,7 +123,7 @@ fun List<SkuDetails>.toRemoveAdDataList(): List<RemoveAdData> = map {
 
 fun List<PurchaseHistoryRecord>.toPurchaseHistoryList(): List<PurchaseHistory> =
     mapNotNull { purchaseHistoryRecord ->
-        RemoveAdType.getBySku(purchaseHistoryRecord.skus.firstOrNull())?.let {
+        RemoveAdType.getById(purchaseHistoryRecord.skus.firstOrNull())?.let {
             PurchaseHistory(purchaseHistoryRecord.purchaseTime, it)
         }
     }
