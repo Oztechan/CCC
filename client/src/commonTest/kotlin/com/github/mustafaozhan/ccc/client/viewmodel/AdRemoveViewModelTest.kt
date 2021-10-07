@@ -67,7 +67,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             }.after {
                 assertEquals(
                     true,
-                    it?.adRemoveTypes?.contains(RemoveAdType.getBySku(removeAdData.skuId))
+                    it?.adRemoveTypes?.contains(RemoveAdType.getById(removeAdData.id))
                 )
             }
         }

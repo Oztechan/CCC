@@ -56,14 +56,14 @@ class AdRemoveViewModel(
         .maxByOrNull {
             it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
         }?.whether { purchaseHistory ->
-            RemoveAdType.getSkuList().any { it == purchaseHistory.purchaseType.data.skuId }
+            RemoveAdType.getBillingIds().any { it == purchaseHistory.purchaseType.data.id }
         }?.whether {
             purchaseDate > settingsRepository.adFreeEndDate
         }?.whetherNot {
             purchaseType.calculateAdRewardEnd(purchaseDate).isRewardExpired()
         }?.apply {
             clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
-            updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
+            updateAddFreeDate(RemoveAdType.getById(purchaseType.data.id), this.purchaseDate)
         }
 
     fun showLoadingView(shouldShow: Boolean) {
@@ -73,7 +73,7 @@ class AdRemoveViewModel(
     fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) = billingMethods
         .forEach { billingMethod ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.getBySku(billingMethod.skuId)
+            RemoveAdType.getById(billingMethod.id)
                 ?.apply {
                     data.cost = billingMethod.cost
                     data.reward = billingMethod.reward
