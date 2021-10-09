@@ -15,6 +15,6 @@ sealed class BillingEffect {
     ) : BillingEffect()
 
     data class UpdateAddFreeDate(
-        val sku: String?
+        val id: String
     ) : BillingEffect()
 }

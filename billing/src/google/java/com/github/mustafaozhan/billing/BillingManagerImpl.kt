@@ -103,9 +103,11 @@ class BillingManagerImpl(private val context: Context) :
                     .setPurchaseToken(it.purchaseToken)
                     .build()
             }
+            ?.skus
+            ?.firstOrNull()
             ?.let {
                 scope.launch {
-                    _effect.emit(BillingEffect.UpdateAddFreeDate(it.skus.firstOrNull()))
+                    _effect.emit(BillingEffect.UpdateAddFreeDate(it))
                 }
             }
     }
