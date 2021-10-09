@@ -122,7 +122,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     viewEffect.skuDetailsList.toRemoveAdDataList()
                 )
                 is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
-                    RemoveAdType.getById(viewEffect.sku)
+                    RemoveAdType.getById(viewEffect.id)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
