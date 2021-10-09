@@ -16,6 +16,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
+import com.github.mustafaozhan.billing.model.PurchaseHistory
 import com.github.mustafaozhan.billing.model.PurchaseMethod
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
@@ -165,10 +166,12 @@ class BillingManagerImpl(private val context: Context) :
     ) {
         kermit.d { "BillingManager onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
-        purchaseHistoryList?.let {
-            scope.launch {
-                _effect.emit(BillingEffect.RestorePurchase(purchaseHistoryList))
+        purchaseHistoryList
+            ?.map { PurchaseHistory(it.skus, it.purchaseTime) }
+            ?.let {
+                scope.launch {
+                    _effect.emit(BillingEffect.RestorePurchase(it))
+                }
             }
-        }
     }
 }
