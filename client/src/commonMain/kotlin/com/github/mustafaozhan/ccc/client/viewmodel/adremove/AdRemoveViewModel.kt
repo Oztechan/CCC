@@ -70,13 +70,13 @@ class AdRemoveViewModel(
         _state.update(loading = shouldShow)
     }
 
-    fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) = billingMethods
-        .forEach { billingMethod ->
+    fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
+        .forEach { removeAdData ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.getById(billingMethod.id)
+            RemoveAdType.getById(removeAdData.id)
                 ?.apply {
-                    data.cost = billingMethod.cost
-                    data.reward = billingMethod.reward
+                    data.cost = removeAdData.cost
+                    data.reward = removeAdData.reward
                 }?.let {
                     tempList.add(it)
                 }
