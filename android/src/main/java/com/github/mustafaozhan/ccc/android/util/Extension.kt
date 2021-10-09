@@ -121,7 +121,7 @@ fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
     RemoveAdData(it.price, it.description, it.id)
 }
 
-fun List<PurchaseHistory>.toPreviousPurchaseList(): List<OldPurchase> =
+fun List<PurchaseHistory>.toOldPurchaseList(): List<OldPurchase> =
     mapNotNull { purchaseHistoryRecord ->
         RemoveAdType.getById(purchaseHistoryRecord.ids.firstOrNull())?.let {
             OldPurchase(purchaseHistoryRecord.date, it)

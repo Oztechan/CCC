@@ -19,7 +19,7 @@ enum class RemoveAdType(val data: RemoveAdData) {
             .whetherNot { sku == null }
             ?.firstOrNull { it.data.id == sku }
 
-        fun getBillingIds() = values()
+        fun getPurchaseIds() = values()
             .map { it.data.id }
             .filter { it.isNotEmpty() }
     }

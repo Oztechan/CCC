@@ -15,7 +15,7 @@ import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import com.github.mustafaozhan.ccc.android.util.toPreviousPurchaseList
+import com.github.mustafaozhan.ccc.android.util.toOldPurchaseList
 import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
@@ -44,7 +44,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         kermit.d { "AdRemoveBottomSheet onViewCreated" }
         billingManager.setupBillingClient(
             viewLifecycleOwner.lifecycleScope,
-            RemoveAdType.getBillingIds()
+            RemoveAdType.getPurchaseIds()
         )
         initViews()
         observeStates()
@@ -116,7 +116,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
                 is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
-                    viewEffect.purchaseHistoryRecordList.toPreviousPurchaseList()
+                    viewEffect.purchaseHistoryRecordList.toOldPurchaseList()
                 )
                 is BillingEffect.AddPurchaseMethods -> adRemoveViewModel.addPurchaseMethods(
                     viewEffect.purchaseMethodList.toRemoveAdDataList()
