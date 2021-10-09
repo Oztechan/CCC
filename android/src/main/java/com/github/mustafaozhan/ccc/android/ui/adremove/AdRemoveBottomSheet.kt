@@ -15,7 +15,7 @@ import com.github.mustafaozhan.billing.BillingManager
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
-import com.github.mustafaozhan.ccc.android.util.toPurchaseHistoryList
+import com.github.mustafaozhan.ccc.android.util.toPreviousPurchaseList
 import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
@@ -116,7 +116,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
                 is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
-                    viewEffect.purchaseHistoryRecordList.toPurchaseHistoryList()
+                    viewEffect.purchaseHistoryRecordList.toPreviousPurchaseList()
                 )
                 is BillingEffect.AddPurchaseMethods -> adRemoveViewModel.addPurchaseMethods(
                     viewEffect.purchaseMethodList.toRemoveAdDataList()

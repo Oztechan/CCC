@@ -14,10 +14,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.billingclient.api.PurchaseHistoryRecord
 import com.github.mustafaozhan.ad.AdManager
+import com.github.mustafaozhan.billing.model.PurchaseHistory
 import com.github.mustafaozhan.billing.model.PurchaseMethod
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
+import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -121,9 +121,9 @@ fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
     RemoveAdData(it.price, it.description, it.id)
 }
 
-fun List<PurchaseHistoryRecord>.toPurchaseHistoryList(): List<PurchaseHistory> =
+fun List<PurchaseHistory>.toPreviousPurchaseList(): List<OldPurchase> =
     mapNotNull { purchaseHistoryRecord ->
-        RemoveAdType.getById(purchaseHistoryRecord.skus.firstOrNull())?.let {
-            PurchaseHistory(purchaseHistoryRecord.purchaseTime, it)
+        RemoveAdType.getById(purchaseHistoryRecord.ids.firstOrNull())?.let {
+            OldPurchase(purchaseHistoryRecord.date, it)
         }
     }

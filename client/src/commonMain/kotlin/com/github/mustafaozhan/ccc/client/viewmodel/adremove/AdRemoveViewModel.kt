@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel.adremove
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
+import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
@@ -52,18 +52,18 @@ class AdRemoveViewModel(
         }
     }
 
-    fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
+    fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
-            it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
-        }?.whether { purchaseHistory ->
-            RemoveAdType.getBillingIds().any { it == purchaseHistory.purchaseType.data.id }
+            it.type.calculateAdRewardEnd(it.date)
+        }?.whether { oldPurchase ->
+            RemoveAdType.getBillingIds().any { it == oldPurchase.type.data.id }
         }?.whether {
-            purchaseDate > settingsRepository.adFreeEndDate
+            date > settingsRepository.adFreeEndDate
         }?.whetherNot {
-            purchaseType.calculateAdRewardEnd(purchaseDate).isRewardExpired()
+            type.calculateAdRewardEnd(date).isRewardExpired()
         }?.apply {
             clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
-            updateAddFreeDate(RemoveAdType.getById(purchaseType.data.id), this.purchaseDate)
+            updateAddFreeDate(RemoveAdType.getById(type.data.id), this.date)
         }
 
     fun showLoadingView(shouldShow: Boolean) {
