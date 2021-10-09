@@ -56,7 +56,7 @@ class AdRemoveViewModel(
         .maxByOrNull {
             it.type.calculateAdRewardEnd(it.date)
         }?.whether { oldPurchase ->
-            RemoveAdType.getBillingIds().any { it == oldPurchase.type.data.id }
+            RemoveAdType.getPurchaseIds().any { it == oldPurchase.type.data.id }
         }?.whether {
             date > settingsRepository.adFreeEndDate
         }?.whetherNot {
