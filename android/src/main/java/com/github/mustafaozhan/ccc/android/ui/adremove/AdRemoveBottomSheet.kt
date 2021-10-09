@@ -118,8 +118,8 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
                     viewEffect.purchaseHistoryRecordList.toPurchaseHistoryList()
                 )
-                is BillingEffect.AddInAppBillingMethods -> adRemoveViewModel.addInAppBillingMethods(
-                    viewEffect.skuDetailsList.toRemoveAdDataList()
+                is BillingEffect.AddPurchaseMethods -> adRemoveViewModel.addPurchaseMethods(
+                    viewEffect.purchaseMethodList.toRemoveAdDataList()
                 )
                 is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
                     RemoveAdType.getById(viewEffect.id)

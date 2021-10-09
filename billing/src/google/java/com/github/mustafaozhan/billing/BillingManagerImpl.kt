@@ -16,6 +16,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
+import com.github.mustafaozhan.billing.model.PurchaseMethod
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.CoroutineScope
@@ -145,7 +146,15 @@ class BillingManagerImpl(private val context: Context) :
             }?.let { detailsList ->
                 skuDetails = detailsList
 
-                _effect.emit(BillingEffect.AddInAppBillingMethods(detailsList))
+                detailsList.map {
+                    PurchaseMethod(
+                        price = it.price,
+                        description = it.description,
+                        id = it.sku
+                    )
+                }.let {
+                    _effect.emit(BillingEffect.AddPurchaseMethods(it))
+                }
             }
         }
     }

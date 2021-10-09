@@ -15,8 +15,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.billingclient.api.PurchaseHistoryRecord
-import com.android.billingclient.api.SkuDetails
 import com.github.mustafaozhan.ad.AdManager
+import com.github.mustafaozhan.billing.model.PurchaseMethod
 import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
@@ -117,8 +117,8 @@ fun TextView.dataState(state: RateState) = when (state) {
     RateState.None -> gone()
 }
 
-fun List<SkuDetails>.toRemoveAdDataList(): List<RemoveAdData> = map {
-    RemoveAdData(it.price, it.description, it.sku)
+fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
+    RemoveAdData(it.price, it.description, it.id)
 }
 
 fun List<PurchaseHistoryRecord>.toPurchaseHistoryList(): List<PurchaseHistory> =

@@ -59,11 +59,11 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun addInAppBillingMethods() = RemoveAdType.values()
+    fun addPurchaseMethods() = RemoveAdType.values()
         .map { it.data }
         .forEach { removeAdData ->
             viewModel.state.before {
-                viewModel.addInAppBillingMethods(listOf(removeAdData))
+                viewModel.addPurchaseMethods(listOf(removeAdData))
             }.after {
                 assertEquals(
                     true,
