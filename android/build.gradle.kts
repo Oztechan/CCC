@@ -147,6 +147,7 @@ dependencies {
         implementation(KOIN_ANDROID)
         implementation(LIFECYCLE_RUNTIME)
         implementation(WORK_RUNTIME) // android 12 crash fix
+        implementation(SPLASH_SCREEN)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
     }
