@@ -33,10 +33,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.main.MainActivity"
-            android:theme="@style/AppTheme" />
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
