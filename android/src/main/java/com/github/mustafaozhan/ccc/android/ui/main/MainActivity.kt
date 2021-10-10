@@ -6,6 +6,7 @@ package com.github.mustafaozhan.ccc.android.ui.main
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.github.mustafaozhan.ad.AdManager
@@ -29,6 +30,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         kermit.d { "MainActivity onCreate" }
+        installSplashScreen()
         AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()

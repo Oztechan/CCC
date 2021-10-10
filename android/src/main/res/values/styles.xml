@@ -23,6 +23,13 @@
 
     <style name="AppTheme" parent="BaseAppTheme" />
 
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/color_background_strong</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_app_logo</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
     <!-- Dialog -->
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/color_background_dialog</item>
@@ -71,16 +78,6 @@
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/color_text</item>
-    </style>
-
-    <style name="AppTheme.Fullscreen.SplashTheme">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-    </style>
-
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!-- Size -->

@@ -15,16 +15,13 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/SplashTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 
         <activity
-            android:name="com.github.mustafaozhan.ccc.android.ui.splash.SplashActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Fullscreen.SplashTheme"
-            tools:ignore="LockedOrientationActivity">
+            android:name="com.github.mustafaozhan.ccc.android.ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
