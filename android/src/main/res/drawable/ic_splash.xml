@@ -4,7 +4,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:bottom="@dimen/padding_splash_icon"
-        android:drawable="@drawable/app_icon"
+        android:drawable="@drawable/ic_launcher_foreground"
         android:left="@dimen/padding_splash_icon"
         android:right="@dimen/padding_splash_icon"
         android:top="@dimen/padding_splash_icon" />
