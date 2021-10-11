@@ -220,8 +220,8 @@
     </style>
 
     <style name="SlideSubTitle" parent="BaseSlideStyle">
-        <item name="android:textSize">@dimen/text_size_l</item>
-        <item name="android:lineSpacingMultiplier">1.25</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>
