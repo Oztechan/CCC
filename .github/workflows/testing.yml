@@ -72,7 +72,7 @@ jobs:
     steps:
 
       - name: Notify slack fail
-        if: false == (needs.GradleBuild.outputs.status == 'success'))
+        if: false == (needs.GradleBuild.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1
