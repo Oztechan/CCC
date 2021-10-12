@@ -28,7 +28,9 @@ class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     @Test
     fun onResume() = with(viewModel) {
         event.onResume()
-        if (device is Device.ANDROID.GOOGLE) {
+        if (device is Device.ANDROID.GOOGLE ||
+            device is Device.IOS
+        ) {
             assertEquals(true, data.adVisibility)
             assertEquals(true, data.adJob.isActive)
         }
