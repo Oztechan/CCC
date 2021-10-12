@@ -87,7 +87,9 @@ class MainViewModel(
     override fun onResume() {
         kermit.d { "MainViewModel onResume" }
 
-        if (device is Device.ANDROID.GOOGLE) {
+        if (device is Device.ANDROID.GOOGLE ||
+            device is Device.IOS
+        ) {
             setupInterstitialAdTimer()
         }
     }
