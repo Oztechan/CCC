@@ -73,10 +73,9 @@ struct CalculatorView: View {
                     }
 
                     if observable.viewModel.isRewardExpired() {
-                        BannerAdView(
-                            unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue()
-                        ).frame(maxHeight: 50)
-                        .padding(.bottom, 20)
+                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+                            .frame(maxHeight: 50)
+                            .padding(.bottom, 20)
                     }
 
                 }
