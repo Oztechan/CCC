@@ -67,16 +67,25 @@ class CalculatorViewModel(
 
         state.map { it.base }
             .distinctUntilChanged()
-            .onEach { currentBaseChanged(it) }
+            .onEach {
+                kermit.d { "CalculatorViewModel base changed $it" }
+                currentBaseChanged(it)
+            }
             .launchIn(clientScope)
 
         state.map { it.input }
             .distinctUntilChanged()
-            .onEach { calculateOutput(it) }
+            .onEach {
+                kermit.d { "CalculatorViewModel input changed $it" }
+                calculateOutput(it)
+            }
             .launchIn(clientScope)
 
         currencyRepository.collectActiveCurrencies()
-            .onEach { _state.update(currencyList = it.toUIModelList()) }
+            .onEach {
+                kermit.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
+                _state.update(currencyList = it.toUIModelList())
+            }
             .launchIn(clientScope)
     }
 
@@ -191,7 +200,10 @@ class CalculatorViewModel(
             finalResult = finalResult.dropLast(1)
         }
 
-        _state.update(base = currency.name, input = finalResult)
+        _state.update(
+            base = currency.name,
+            input = finalResult
+        )
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
@@ -225,6 +237,10 @@ class CalculatorViewModel(
         _effect.emit(CalculatorEffect.OpenSettings)
     }
 
-    override fun onBaseChange(base: String) = currentBaseChanged(base)
+    override fun onBaseChange(base: String) {
+        kermit.d { "CalculatorViewModel onBaseChange" }
+        currentBaseChanged(base)
+        calculateOutput(_state.value.input)
+    }
     // endregion
 }
