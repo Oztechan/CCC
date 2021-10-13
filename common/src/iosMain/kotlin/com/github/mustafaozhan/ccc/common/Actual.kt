@@ -16,5 +16,3 @@ actual fun runTest(block: suspend () -> Unit) {
         block()
     }
 }
-
-actual fun isDebug() = Platform.isDebugBinary

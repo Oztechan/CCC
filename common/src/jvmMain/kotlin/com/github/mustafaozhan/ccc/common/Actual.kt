@@ -11,7 +11,3 @@ import kotlinx.coroutines.runBlocking
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }
-
-// todo need to find correct implementation for JVM
-@Suppress("FunctionOnlyReturningConstant")
-actual fun isDebug() = false
