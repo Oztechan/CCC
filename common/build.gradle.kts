@@ -125,7 +125,6 @@ configure<BuildKonfigExtension> {
             getSecret(Keys.BASE_URL_BACKEND, Fakes.PRIVATE_URL)
         )
         buildConfigField(STRING, Keys.BASE_URL_API, getSecret(Keys.BASE_URL_API, Fakes.PRIVATE_URL))
-        buildConfigField(STRING, Keys.BASE_URL_DEV, getSecret(Keys.BASE_URL_DEV, Fakes.PRIVATE_URL))
     }
 }
 
