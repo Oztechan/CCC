@@ -14,13 +14,25 @@ android {
             targetSdk = TARGET_SDK_VERSION
         }
     }
+
+    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+
+    productFlavors {
+        create(DeviceType.GOOGLE) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+
+        create(DeviceType.HUAWEI) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+    }
 }
 
 dependencies {
-    with(Dependencies.Android) {
-        api(BILLING)
-        implementation(LIFECYCLE_RUNTIME)
-    }
+
+    DeviceType.googleApi(Dependencies.Android.GOOGLE.BILLING)
+
+    implementation(Dependencies.Android.LIFECYCLE_RUNTIME)
 
     with(Modules) {
         implementation(project(SCOPE_MOB))

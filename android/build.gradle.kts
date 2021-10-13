@@ -51,6 +51,18 @@ android {
         }
     }
 
+    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+
+    productFlavors {
+        create(DeviceType.GOOGLE) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+
+        create(DeviceType.HUAWEI) {
+            dimension = DeviceType::class.simpleName.toString()
+        }
+    }
+
     buildTypes {
 
         getByName(BuildType.RELEASE) {
@@ -131,15 +143,17 @@ dependencies {
     with(Dependencies.Android) {
         implementation(ANDROID_MATERIAL)
         implementation(CONSTRAINT_LAYOUT)
-        implementation(ADMOB)
         implementation(NAVIGATION)
-        implementation(PLAY_CORE)
         implementation(KOIN_ANDROID)
         implementation(LIFECYCLE_RUNTIME)
         implementation(WORK_RUNTIME) // android 12 crash fix
+        implementation(SPLASH_SCREEN)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
     }
+
+    implementation(Dependencies.Android.GOOGLE.PLAY_CORE)
+
 
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
@@ -153,5 +167,6 @@ dependencies {
         implementation(project(LOG_MOB))
 
         implementation(project(BILLING))
+        implementation(project(AD))
     }
 }

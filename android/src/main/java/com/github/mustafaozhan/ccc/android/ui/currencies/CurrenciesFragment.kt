@@ -12,10 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.hideKeyboard
-import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ccc.android.util.setBannerAd
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.showSnack
@@ -27,10 +28,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
+    private val adManager: AdManager by inject()
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
@@ -53,9 +56,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.android_banner_ad_unit_id_currencies),
-            currenciesViewModel.isRewardExpired()
+        adManager.setBannerAd(
+            viewGroup = adViewContainer,
+            adId = getString(R.string.android_banner_ad_unit_id_currencies),
+            isExpired = currenciesViewModel.isRewardExpired()
         )
         currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
         setSpanByOrientation(resources.configuration.orientation)

@@ -6,7 +6,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel.adremove
 
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
+import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
@@ -52,31 +52,31 @@ class AdRemoveViewModel(
         }
     }
 
-    fun restorePurchase(purchaseHistoryList: List<PurchaseHistory>) = purchaseHistoryList
+    fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
-            it.purchaseType.calculateAdRewardEnd(it.purchaseDate)
-        }?.whether { purchaseHistory ->
-            RemoveAdType.getSkuList().any { it == purchaseHistory.purchaseType.data.skuId }
+            it.type.calculateAdRewardEnd(it.date)
+        }?.whether { oldPurchase ->
+            RemoveAdType.getPurchaseIds().any { it == oldPurchase.type.data.id }
         }?.whether {
-            purchaseDate > settingsRepository.adFreeEndDate
+            date > settingsRepository.adFreeEndDate
         }?.whetherNot {
-            purchaseType.calculateAdRewardEnd(purchaseDate).isRewardExpired()
+            type.calculateAdRewardEnd(date).isRewardExpired()
         }?.apply {
             clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
-            updateAddFreeDate(RemoveAdType.getBySku(purchaseType.data.skuId), this.purchaseDate)
+            updateAddFreeDate(RemoveAdType.getById(type.data.id), this.date)
         }
 
     fun showLoadingView(shouldShow: Boolean) {
         _state.update(loading = shouldShow)
     }
 
-    fun addInAppBillingMethods(billingMethods: List<RemoveAdData>) = billingMethods
-        .forEach { billingMethod ->
+    fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
+        .forEach { removeAdData ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.getBySku(billingMethod.skuId)
+            RemoveAdType.getById(removeAdData.id)
                 ?.apply {
-                    data.cost = billingMethod.cost
-                    data.reward = billingMethod.reward
+                    data.cost = removeAdData.cost
+                    data.reward = removeAdData.reward
                 }?.let {
                     tempList.add(it)
                 }

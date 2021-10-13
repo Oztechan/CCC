@@ -5,6 +5,8 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
+import com.github.mustafaozhan.ccc.client.device
+import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.di.getDependency
 import kotlin.test.Test
@@ -26,7 +28,11 @@ class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     @Test
     fun onResume() = with(viewModel) {
         event.onResume()
-        assertEquals(true, data.adVisibility)
-        assertEquals(true, data.adJob.isActive)
+        if (device is Device.ANDROID.GOOGLE ||
+            device is Device.IOS
+        ) {
+            assertEquals(true, data.adVisibility)
+            assertEquals(true, data.adJob.isActive)
+        }
     }
 }

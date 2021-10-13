@@ -1,5 +1,5 @@
 PODS:
-  - client (2.2.683)
+  - client (2.3.59)
   - Firebase/Analytics (8.2.0):
     - Firebase/Core
   - Firebase/Core (8.2.0):
@@ -95,9 +95,9 @@ PODS:
   - nanopb/encode (2.30908.0)
   - NavigationStack (1.0.2)
   - PromisesObjC (1.2.12)
-  - SwiftMessages (9.0.3):
-    - SwiftMessages/App (= 9.0.3)
-  - SwiftMessages/App (9.0.3)
+  - SwiftMessages (9.0.4):
+    - SwiftMessages/App (= 9.0.4)
+  - SwiftMessages/App (9.0.4)
 
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
@@ -105,7 +105,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - Google-Mobile-Ads-SDK
   - NavigationStack
-  - SwiftMessages
+  - SwiftMessages (= 9.0.4)
 
 SPEC REPOS:
   trunk:
@@ -130,7 +130,7 @@ EXTERNAL SOURCES:
     :path: "../client/client.podspec"
 
 SPEC CHECKSUMS:
-  client: 8a1a6f4a1cf843b554d2fbc52c1bbc5bfef632f2
+  client: eccf2e72aa314af92d673fe1626a7e72ed791c55
   Firebase: 12c568897b807321964e89d2b263ef4c6cff3db6
   FirebaseAnalytics: 7a744b1e7dc50125cb37714c6bdaea167e412082
   FirebaseCore: 3a83f24c3de69ec9f9a426e2598125ea51f3a2ce
@@ -145,8 +145,8 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NavigationStack: bb6c4f3d1b9fe92f1f6d47370f73c9233ad56272
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  SwiftMessages: 077f19126c24033fe24042237ecc20261adb46e4
+  SwiftMessages: 082ed63613a49fa8e749cd6000bb0a8b9bbc736f
 
-PODFILE CHECKSUM: 59b2f19e9f3218b57fa25eb1a7f8b2342c2502c3
+PODFILE CHECKSUM: a17f8049937b987fb310f90087d0b09cb26aeec9
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

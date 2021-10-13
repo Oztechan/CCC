@@ -11,8 +11,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.android.util.setAdaptiveBannerAd
+import com.github.mustafaozhan.ccc.android.util.setBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.showSnack
@@ -25,11 +26,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
+    private val adManager: AdManager by inject()
     private val settingsViewModel: SettingsViewModel by viewModel()
 
     override fun getViewBinding() = FragmentSettingsBinding.inflate(layoutInflater)
@@ -49,11 +52,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adViewContainer.setAdaptiveBannerAd(
-            getString(R.string.android_banner_ad_unit_id_settings),
-            settingsViewModel.isRewardExpired()
+        adManager.setBannerAd(
+            viewGroup = adViewContainer,
+            adId = getString(R.string.android_banner_ad_unit_id_settings),
+            isExpired = settingsViewModel.isRewardExpired()
         )
-
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)

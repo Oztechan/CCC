@@ -30,4 +30,7 @@
     <!-- Snack Bar -->
     <color name="color_text_action_snack_bar">@color/color_accent</color>
     <color name="color_background_snack_bar">@color/color_background_weak</color>
+
+    <!--- Launcher icon -->
+    <color name="ic_launcher_background">#445963</color>
 </resources>

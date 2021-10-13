@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground">@color/background_strong</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/background_strong</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="android:windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+</resources>

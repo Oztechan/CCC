@@ -12,4 +12,5 @@ object Modules {
     const val PARSER_MOB = ":parsermob"
 
     const val BILLING = ":billing"
+    const val AD = ":ad"
 }

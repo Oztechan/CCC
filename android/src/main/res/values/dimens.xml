@@ -54,4 +54,7 @@
 
     <!-- Ad Remove -->
     <dimen name="padding_ad_remove_item_layout">16dp</dimen>
+
+    <!-- Splash  -->
+    <dimen name="padding_splash_icon">32dp</dimen>
 </resources>

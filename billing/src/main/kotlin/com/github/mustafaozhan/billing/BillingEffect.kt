@@ -1,20 +1,20 @@
 package com.github.mustafaozhan.billing
 
-import com.android.billingclient.api.PurchaseHistoryRecord
-import com.android.billingclient.api.SkuDetails
+import com.github.mustafaozhan.billing.model.PurchaseHistory
+import com.github.mustafaozhan.billing.model.PurchaseMethod
 
 sealed class BillingEffect {
     object SuccessfulPurchase : BillingEffect()
 
     data class RestorePurchase(
-        val purchaseHistoryRecordList: List<PurchaseHistoryRecord>
+        val purchaseHistoryRecordList: List<PurchaseHistory>
     ) : BillingEffect()
 
-    data class AddInAppBillingMethods(
-        val skuDetailsList: List<SkuDetails>
+    data class AddPurchaseMethods(
+        val purchaseMethodList: List<PurchaseMethod>
     ) : BillingEffect()
 
     data class UpdateAddFreeDate(
-        val sku: String?
+        val id: String
     ) : BillingEffect()
 }

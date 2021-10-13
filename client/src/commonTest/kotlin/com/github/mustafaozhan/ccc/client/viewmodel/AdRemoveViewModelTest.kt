@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
+import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
@@ -50,8 +50,8 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     fun restorePurchase() = viewModel.effect.before {
         viewModel.restorePurchase(
             listOf(
-                PurchaseHistory(nowAsLong(), RemoveAdType.MONTH),
-                PurchaseHistory(nowAsLong(), RemoveAdType.YEAR)
+                OldPurchase(nowAsLong(), RemoveAdType.MONTH),
+                OldPurchase(nowAsLong(), RemoveAdType.YEAR)
             )
         )
     }.after {
@@ -59,15 +59,15 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun addInAppBillingMethods() = RemoveAdType.values()
+    fun addPurchaseMethods() = RemoveAdType.values()
         .map { it.data }
         .forEach { removeAdData ->
             viewModel.state.before {
-                viewModel.addInAppBillingMethods(listOf(removeAdData))
+                viewModel.addPurchaseMethods(listOf(removeAdData))
             }.after {
                 assertEquals(
                     true,
-                    it?.adRemoveTypes?.contains(RemoveAdType.getBySku(removeAdData.skuId))
+                    it?.adRemoveTypes?.contains(RemoveAdType.getById(removeAdData.id))
                 )
             }
         }

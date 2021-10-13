@@ -23,6 +23,13 @@
 
     <style name="AppTheme" parent="BaseAppTheme" />
 
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/color_background_strong</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
     <!-- Dialog -->
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/color_background_dialog</item>
@@ -71,16 +78,6 @@
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/color_text</item>
-    </style>
-
-    <style name="AppTheme.Fullscreen.SplashTheme">
-        <item name="android:windowBackground">@drawable/background_splash</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
-    </style>
-
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!-- Size -->
@@ -223,8 +220,8 @@
     </style>
 
     <style name="SlideSubTitle" parent="BaseSlideStyle">
-        <item name="android:textSize">@dimen/text_size_l</item>
-        <item name="android:lineSpacingMultiplier">1.25</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>

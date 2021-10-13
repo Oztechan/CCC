@@ -8,24 +8,21 @@ package com.github.mustafaozhan.ccc.android.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.billingclient.api.PurchaseHistoryRecord
-import com.android.billingclient.api.SkuDetails
-import com.github.mustafaozhan.ccc.client.model.PurchaseHistory
+import com.github.mustafaozhan.ad.AdManager
+import com.github.mustafaozhan.billing.model.PurchaseHistory
+import com.github.mustafaozhan.billing.model.PurchaseMethod
+import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import java.io.FileNotFoundException
 import mustafaozhan.github.com.mycurrencies.R
 
@@ -48,30 +45,15 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
 
-fun FrameLayout.setAdaptiveBannerAd(adId: String, isExpired: Boolean) = if (isExpired) {
-    with(context.applicationContext) {
-        MobileAds.initialize(this)
-
-        var adWidthPixels = width.toFloat()
-        if (adWidthPixels == 0f) {
-            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
-        }
-        removeAllViews()
-        addView(
-            AdView(this).apply {
-                adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                    context,
-                    (adWidthPixels / resources.displayMetrics.density).toInt()
-                )
-                adUnitId = adId
-                loadAd(AdRequest.Builder().build())
-            }
-        )
-    }
-    visible()
+fun AdManager.setBannerAd(
+    viewGroup: ViewGroup,
+    adId: String,
+    isExpired: Boolean
+) = if (isExpired) {
+    loadBannerAd(viewGroup, adId)
+    viewGroup.visible()
 } else {
-    isEnabled = false
-    gone()
+    viewGroup.gone()
 }
 
 fun <T> Fragment.getNavigationResult(
@@ -135,13 +117,13 @@ fun TextView.dataState(state: RateState) = when (state) {
     RateState.None -> gone()
 }
 
-fun List<SkuDetails>.toRemoveAdDataList(): List<RemoveAdData> = map {
-    RemoveAdData(it.price, it.description, it.sku)
+fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
+    RemoveAdData(it.price, it.description, it.id)
 }
 
-fun List<PurchaseHistoryRecord>.toPurchaseHistoryList(): List<PurchaseHistory> =
+fun List<PurchaseHistory>.toOldPurchaseList(): List<OldPurchase> =
     mapNotNull { purchaseHistoryRecord ->
-        RemoveAdType.getBySku(purchaseHistoryRecord.skus.firstOrNull())?.let {
-            PurchaseHistory(purchaseHistoryRecord.purchaseTime, it)
+        RemoveAdType.getById(purchaseHistoryRecord.ids.firstOrNull())?.let {
+            OldPurchase(purchaseHistoryRecord.date, it)
         }
     }
