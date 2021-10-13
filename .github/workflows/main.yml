@@ -25,7 +25,6 @@ env:
   ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
-  BASE_URL_DEV: ${{ secrets.BASE_URL_DEV }}
 
 jobs:
 
