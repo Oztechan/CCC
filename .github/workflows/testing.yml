@@ -65,6 +65,10 @@ jobs:
           groups: QA
           file: android/build/outputs/apk/google/release/android-google-release.apk
 
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Notify:
     runs-on: ubuntu-latest
     needs: [ Distribute ]
