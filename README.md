@@ -30,11 +30,22 @@ git submodule update --init --recursive
 
 ## How to run
 
-Be sure that you have latest Android Studio Canary build installed
+Be sure that you have latest Android Studio Canary build installed and XCode 13.0 or later.
 
 ### Android
 
 Select `android` from configurations and run
+
+### iOS
+
+```shell
+cd CCC &&
+./gradlew :client:podspec &&
+cd ios/CCC
+pod install --repo-update
+```
+
+Then open CCC/ios/CCC.xcworkspace with XCode and run the build
 
 ## Screenshots
 
