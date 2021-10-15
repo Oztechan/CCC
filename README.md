@@ -4,6 +4,10 @@
 <p align="center"><a href="https://www.codacy.com/gh/CurrencyConverterCalculator/CCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/CCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/CCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/CCC.svg">
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
+## Included Currencies
+
+[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)
+
 ## Main modules
 
 *  [x] ![badge-android][badge-android] in production :muscle:
@@ -24,11 +28,17 @@ cd CCC &&
 git submodule update --init --recursive
 ```
 
-## Included Currencies
+## How to run
 
-[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)
+Be sure that you have latest Android Studio Canary build installed
 
-## Android
+### Android
+
+Select `android` from configurations and run
+
+## Screenshots
+
+### Android
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/4.png" width="400px"/>
 
