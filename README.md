@@ -14,7 +14,7 @@
 *  [x] ![badge-client][badge-client] shared between FE targets :recycle:
 *  [x] ![badge-common][badge-common] shared between all targets :recycle:
 
-### :warning: How to clone
+## How to clone
 
 The project uses submodules, please clone it as below:
 
@@ -34,11 +34,11 @@ git submodule update --init --recursive
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/5.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/7.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/>
 
-## iOS
+### iOS
 
 <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/dark.gif?raw=true" width="400px"/> <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/light.gif?raw=true" width="400px"/>
 
-### License
+## License
 ```markdown
 Copyright 2017 Mustafa Ozhan
 
