@@ -47,6 +47,13 @@ pod install --repo-update
 
 Then open CCC/ios/CCC.xcworkspace with XCode and run the build
 
+### backend
+
+```shell
+cd CCC &&
+./gradlew :backend:run
+```
+
 ## Screenshots
 
 ### Android
