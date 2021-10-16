@@ -154,7 +154,6 @@ dependencies {
 
     implementation(Dependencies.Android.GOOGLE.PLAY_CORE)
 
-
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
     }
