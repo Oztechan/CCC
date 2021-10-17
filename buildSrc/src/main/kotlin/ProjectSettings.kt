@@ -43,6 +43,6 @@ object ProjectSettings {
             commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
             standardOutput = os
         }
-        return String(os.toByteArray()) == "master"
+        return String(os.toByteArray()).trim() == "master"
     }
 }
