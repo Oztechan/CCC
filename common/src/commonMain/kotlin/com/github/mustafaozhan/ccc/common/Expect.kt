@@ -9,5 +9,3 @@ import kotlin.coroutines.CoroutineContext
 expect val platformCoroutineContext: CoroutineContext
 
 expect fun runTest(block: suspend () -> Unit)
-
-expect fun isDebug(): Boolean

@@ -22,7 +22,11 @@ object ProjectSettings {
 
     fun getVersionName(
         project: Project
-    ) = "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project).toInt() - VERSION_DIF}"
+    ) = if (isMaster(project)) {
+        "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project).toInt() - VERSION_DIF}"
+    } else {
+        gitCommitCount(project) // testing build
+    }
 
     private fun gitCommitCount(project: Project): String {
         val os = ByteArrayOutputStream()
@@ -31,5 +35,14 @@ object ProjectSettings {
             standardOutput = os
         }
         return String(os.toByteArray()).trim()
+    }
+
+    private fun isMaster(project: Project): Boolean {
+        val os = ByteArrayOutputStream()
+        project.exec {
+            commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
+            standardOutput = os
+        }
+        return String(os.toByteArray()) == "master"
     }
 }

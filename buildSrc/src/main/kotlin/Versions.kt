@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Versions {
     const val KOTLIN = "1.5.31"
-    const val ANDROID_GRADLE_PLUGIN = "7.1.0-alpha13"
+    const val ANDROID_GRADLE_PLUGIN = "7.2.0-alpha01"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.1"
     const val KTOR = "1.6.4"
@@ -22,16 +22,16 @@ object Versions {
     const val ADMOB = "20.4.0"
     const val NAVIGATION = "2.3.5"
     const val PLAY_CORE = "1.10.2"
-    const val KOTLIN_X_DATE_TIME = "0.3.0"
+    const val KOTLIN_X_DATE_TIME = "0.2.1"
     const val COROUTINES = "1.5.2-native-mt"
     const val BILLING = "4.0.0"
     const val LEAK_CANARY = "2.7"
-    const val SQL_DELIGHT = "1.5.1"
+    const val SQL_DELIGHT = "1.5.2"
     const val LIFECYCLE = "2.4.0-rc01"
     const val MOKO_RESOURCES = "0.17.2"
     const val DEPENDENCY_UPDATES = "0.39.0"
     const val BUILD_HEALTH = "0.78.0"
     const val BUILD_KONFIG = "0.10.2"
-    const val WORK_RUNTIME = "2.7.0-rc01"
+    const val WORK_RUNTIME = "2.7.0"
     const val SPLASH_SCREEN = "1.0.0-alpha02"
 }

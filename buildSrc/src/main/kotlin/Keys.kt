@@ -1,7 +1,6 @@
 object Keys {
     const val BASE_URL_BACKEND = "BASE_URL_BACKEND"
     const val BASE_URL_API = "BASE_URL_API"
-    const val BASE_URL_DEV = "BASE_URL_DEV"
 
     object Release {
         const val ADMOB_APP_ID = "ANDROID_RELEASE_ADMOB_APP_ID"

@@ -11,5 +11,3 @@ import kotlinx.coroutines.runBlocking
 actual val platformCoroutineContext: CoroutineContext = Dispatchers.IO
 
 actual fun runTest(block: suspend () -> Unit) = runBlocking { block() }
-
-actual fun isDebug() = BuildConfig.DEBUG
