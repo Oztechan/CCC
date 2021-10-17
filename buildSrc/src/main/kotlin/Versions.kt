@@ -22,7 +22,7 @@ object Versions {
     const val ADMOB = "20.4.0"
     const val NAVIGATION = "2.3.5"
     const val PLAY_CORE = "1.10.2"
-    const val KOTLIN_X_DATE_TIME = "0.3.0"
+    const val KOTLIN_X_DATE_TIME = "0.2.1"
     const val COROUTINES = "1.5.2-native-mt"
     const val BILLING = "4.0.0"
     const val LEAK_CANARY = "2.7"
