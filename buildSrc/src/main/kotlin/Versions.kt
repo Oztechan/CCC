@@ -31,7 +31,7 @@ object Versions {
     const val MOKO_RESOURCES = "0.17.2"
     const val DEPENDENCY_UPDATES = "0.39.0"
     const val BUILD_HEALTH = "0.78.0"
-    const val BUILD_KONFIG = "0.10.2"
+    const val BUILD_KONFIG = "0.11.0"
     const val WORK_RUNTIME = "2.7.0"
     const val SPLASH_SCREEN = "1.0.0-alpha02"
 }
