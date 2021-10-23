@@ -38,7 +38,7 @@ class AdManagerImpl(private val context: Context) : AdManager {
                     (adWidthPixels / resources.displayMetrics.density).toInt()
                 )
                 adUnitId = adId
-                loadAd(AdRequest.Builder().build())
+                loadAd(getAdRequest())
             }
         )
     }
@@ -49,7 +49,7 @@ class AdManagerImpl(private val context: Context) : AdManager {
     ) = InterstitialAd.load(
         context,
         adId,
-        AdRequest.Builder().build(),
+        getAdRequest(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "InterstitialAd onAdFailedToLoad ${adError.message}" }
@@ -70,7 +70,7 @@ class AdManagerImpl(private val context: Context) : AdManager {
     ) = RewardedAd.load(
         context,
         adId,
-        AdRequest.Builder().build(),
+        getAdRequest(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "RewardedAd onRewardedAdFailedToLoad" }
@@ -88,4 +88,6 @@ class AdManagerImpl(private val context: Context) : AdManager {
             }
         }
     )
+
+    private fun getAdRequest() = AdRequest.Builder().build()
 }

@@ -1,10 +1,9 @@
 package com.github.mustafaozhan.ad
 
-import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
 
-class AdManagerImpl : AdManager {
+class AdManagerImpl(private val context: Context) : AdManager {
 
     override fun loadBannerAd(
         viewGroup: ViewGroup,
