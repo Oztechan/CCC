@@ -6,12 +6,13 @@ package com.github.mustafaozhan.ccc.client.di
 
 import android.content.Context
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
+import com.github.mustafaozhan.ccc.client.di.module.androidModule
 import com.github.mustafaozhan.ccc.client.di.module.clientModule
-import com.github.mustafaozhan.ccc.client.di.module.getAndroidModule
 import com.github.mustafaozhan.ccc.common.di.modules.apiModule
 import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
 import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
 import com.github.mustafaozhan.logmob.kermit
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -24,8 +25,9 @@ fun initAndroid(
     context: Context,
     platformModule: Module
 ): KoinApplication = startKoin {
+    androidContext(context)
     modules(
-        getAndroidModule(context),
+        androidModule,
         platformModule,
         clientModule,
         apiModule,

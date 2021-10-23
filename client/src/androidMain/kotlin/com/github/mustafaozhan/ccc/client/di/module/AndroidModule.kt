@@ -6,8 +6,7 @@ import org.koin.dsl.module
 
 private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
 
-fun getAndroidModule(context: Context) = module {
-    single { context }
+val androidModule = module {
     single { provideSharedPreferences(get()) }
 }
 

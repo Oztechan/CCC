@@ -14,42 +14,42 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-class AdManagerImpl : AdManager {
+class AdManagerImpl(private val context: Context) : AdManager {
 
-    override fun initMobileAds(context: Context) {
+    init {
+        kermit.d { "AdManagerImpl init" }
         MobileAds.initialize(context)
+        MobileAds.setAppVolume(0.0f)
+        MobileAds.setAppMuted(true)
     }
 
-    override fun loadBannerAd(
-        viewGroup: ViewGroup,
+    override fun getBannerAd(
+        width: Int,
         adId: String
-    ) = with(viewGroup) {
+    ): ViewGroup {
         var adWidthPixels = width.toFloat()
 
         if (adWidthPixels == 0f) {
-            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
+            adWidthPixels = context.resources.displayMetrics.widthPixels.toFloat()
         }
 
-        removeAllViews()
-        addView(
-            AdView(viewGroup.context).apply {
-                adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                    context,
-                    (adWidthPixels / resources.displayMetrics.density).toInt()
-                )
-                adUnitId = adId
-                loadAd(AdRequest.Builder().build())
-            }
-        )
+        return AdView(context).apply {
+            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                context,
+                (adWidthPixels / resources.displayMetrics.density).toInt()
+            )
+            adUnitId = adId
+            loadAd(getAdRequest())
+        }
     }
 
     override fun showInterstitialAd(
         activity: Activity,
         adId: String
     ) = InterstitialAd.load(
-        activity,
+        context,
         adId,
-        AdRequest.Builder().build(),
+        getAdRequest(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "InterstitialAd onAdFailedToLoad ${adError.message}" }
@@ -68,9 +68,9 @@ class AdManagerImpl : AdManager {
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
     ) = RewardedAd.load(
-        activity,
+        context,
         adId,
-        AdRequest.Builder().build(),
+        getAdRequest(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 kermit.d { "RewardedAd onRewardedAdFailedToLoad" }
@@ -88,4 +88,6 @@ class AdManagerImpl : AdManager {
             }
         }
     )
+
+    private fun getAdRequest() = AdRequest.Builder().build()
 }

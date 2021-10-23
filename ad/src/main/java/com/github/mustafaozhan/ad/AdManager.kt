@@ -1,17 +1,14 @@
 package com.github.mustafaozhan.ad
 
 import android.app.Activity
-import android.content.Context
 import android.view.ViewGroup
 
 interface AdManager {
 
-    fun initMobileAds(context: Context)
-
-    fun loadBannerAd(
-        viewGroup: ViewGroup,
+    fun getBannerAd(
+        width: Int,
         adId: String
-    )
+    ): ViewGroup
 
     fun showInterstitialAd(
         activity: Activity,

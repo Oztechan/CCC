@@ -1,6 +1,8 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 plugins {
     with(Plugins) {
@@ -67,4 +69,10 @@ tasks.register<Jar>("fatJar") {
 @Suppress("UnstableApiUsage")
 tasks.named<ProcessResources>("jvmProcessResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }

@@ -3,15 +3,13 @@ package com.github.mustafaozhan.ad
 import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
+import android.widget.FrameLayout
 
-class AdManagerImpl : AdManager {
+class AdManagerImpl(private val context: Context) : AdManager {
 
-    override fun initMobileAds(context: Context) = Unit
-
-    override fun loadBannerAd(
-        viewGroup: ViewGroup,
-        adId: String
-    ) = Unit
+    override fun getBannerAd(width: Int, adId: String): ViewGroup {
+        return FrameLayout(context)
+    }
 
     override fun showInterstitialAd(
         activity: Activity,
