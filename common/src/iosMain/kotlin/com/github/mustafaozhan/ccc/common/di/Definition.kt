@@ -5,12 +5,9 @@ import com.russhwolf.settings.AppleSettings
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import org.koin.core.module.Module
-import platform.Foundation.NSUserDefaults
-
-lateinit var nsUserDefaults: NSUserDefaults
 
 actual fun Module.getSettingsDefinition() = single<Settings> {
-    AppleSettings(nsUserDefaults)
+    AppleSettings(get<NativeDependencyWrapper>().userDefaults)
 }
 
 actual fun Module.getDatabaseDefinition(databaseName: String) = single {
