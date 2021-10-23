@@ -26,6 +26,6 @@ data class MainData(
     companion object {
         internal const val AD_DELAY_INITIAL: Long = 60000
         internal const val AD_DELAY_NORMAL: Long = 180000
-        internal const val REVIEW_DELAY: Long = 10000
+        internal const val REVIEW_DELAY: Long = 20000
     }
 }

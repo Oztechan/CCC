@@ -17,7 +17,10 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 class AdManagerImpl(private val context: Context) : AdManager {
 
     init {
+        kermit.d { "AdManagerImpl init" }
         MobileAds.initialize(context)
+        MobileAds.setAppVolume(0.0f)
+        MobileAds.setAppMuted(true)
     }
 
     override fun getBannerAd(
