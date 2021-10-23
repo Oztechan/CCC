@@ -4,7 +4,7 @@
 package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
-import com.github.mustafaozhan.ccc.android.di.getPlatformModule
+import com.github.mustafaozhan.ccc.android.di.platformModule
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger
@@ -18,7 +18,7 @@ class CCCApplication : Application() {
         initLogger()
         initAndroid(
             context = this,
-            platformModule = getPlatformModule(this)
+            platformModule = platformModule
         )
         initCrashlytics(this, enableAnalytics = true)
         kermit.d { "CCCApplication onCreate" }

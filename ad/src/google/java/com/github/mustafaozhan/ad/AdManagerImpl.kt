@@ -14,9 +14,9 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-class AdManagerImpl : AdManager {
+class AdManagerImpl(private val context: Context) : AdManager {
 
-    override fun initMobileAds(context: Context) {
+    init {
         MobileAds.initialize(context)
     }
 
@@ -47,7 +47,7 @@ class AdManagerImpl : AdManager {
         activity: Activity,
         adId: String
     ) = InterstitialAd.load(
-        activity,
+        context,
         adId,
         AdRequest.Builder().build(),
         object : InterstitialAdLoadCallback() {
@@ -68,7 +68,7 @@ class AdManagerImpl : AdManager {
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
     ) = RewardedAd.load(
-        activity,
+        context,
         adId,
         AdRequest.Builder().build(),
         object : RewardedAdLoadCallback() {
