@@ -20,27 +20,24 @@ class AdManagerImpl(private val context: Context) : AdManager {
         MobileAds.initialize(context)
     }
 
-    override fun loadBannerAd(
-        viewGroup: ViewGroup,
+    override fun getBannerAd(
+        width: Int,
         adId: String
-    ) = with(viewGroup) {
+    ): ViewGroup {
         var adWidthPixels = width.toFloat()
 
         if (adWidthPixels == 0f) {
-            adWidthPixels = resources.displayMetrics.widthPixels.toFloat()
+            adWidthPixels = context.resources.displayMetrics.widthPixels.toFloat()
         }
 
-        removeAllViews()
-        addView(
-            AdView(viewGroup.context).apply {
-                adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                    context,
-                    (adWidthPixels / resources.displayMetrics.density).toInt()
-                )
-                adUnitId = adId
-                loadAd(getAdRequest())
-            }
-        )
+        return AdView(context).apply {
+            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                context,
+                (adWidthPixels / resources.displayMetrics.density).toInt()
+            )
+            adUnitId = adId
+            loadAd(getAdRequest())
+        }
     }
 
     override fun showInterstitialAd(

@@ -5,10 +5,10 @@ import android.view.ViewGroup
 
 interface AdManager {
 
-    fun loadBannerAd(
-        viewGroup: ViewGroup,
+    fun getBannerAd(
+        width: Int,
         adId: String
-    )
+    ): ViewGroup
 
     fun showInterstitialAd(
         activity: Activity,
