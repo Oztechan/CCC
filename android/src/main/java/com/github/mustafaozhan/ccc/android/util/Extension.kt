@@ -8,8 +8,8 @@ package com.github.mustafaozhan.ccc.android.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -45,15 +45,16 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
 
-fun AdManager.setBannerAd(
-    viewGroup: ViewGroup,
+fun FrameLayout.setBannerAd(
+    adManager: AdManager,
     adId: String,
     isExpired: Boolean
 ) = if (isExpired) {
-    loadBannerAd(viewGroup, adId)
-    viewGroup.visible()
+    removeAllViews()
+    addView(adManager.getBannerAd(width, adId))
+    visible()
 } else {
-    viewGroup.gone()
+    gone()
 }
 
 fun <T> Fragment.getNavigationResult(

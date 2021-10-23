@@ -52,8 +52,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     private fun initViews() = with(binding) {
-        adManager.setBannerAd(
-            viewGroup = adViewContainer,
+        adViewContainer.setBannerAd(
+            adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_settings),
             isExpired = settingsViewModel.isRewardExpired()
         )
