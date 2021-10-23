@@ -6,8 +6,6 @@ import android.view.ViewGroup
 
 class AdManagerImpl : AdManager {
 
-    override fun initMobileAds(context: Context) = Unit
-
     override fun loadBannerAd(
         viewGroup: ViewGroup,
         adId: String
