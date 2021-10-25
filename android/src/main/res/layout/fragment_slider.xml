@@ -17,10 +17,11 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/SlideProgressBar"
+        style="@style/SliderProgressBarStyle"
         android:layout_above="@id/layout_dots" />
 
     <View
+        android:id="@+id/bottom_bar_separator"
         style="@style/SlideViewLayout"
         android:layout_above="@id/layout_dots" />
 
