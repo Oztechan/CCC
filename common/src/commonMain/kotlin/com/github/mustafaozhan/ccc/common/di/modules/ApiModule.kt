@@ -36,6 +36,7 @@ private fun provideHttpClient(kotlinxSerializer: KotlinxSerializer) = HttpClient
         serializer = kotlinxSerializer
         accept(ContentType.Application.Json)
         accept(ContentType.Text.Plain)
+        accept(ContentType.Text.Html)
     }
     install(HttpTimeout) {
         connectTimeoutMillis = TIME_OUT
