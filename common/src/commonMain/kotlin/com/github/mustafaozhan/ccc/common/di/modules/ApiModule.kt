@@ -15,7 +15,7 @@ import io.ktor.http.ContentType
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-private const val TIME_OUT: Long = 3000
+private const val TIME_OUT: Long = 3333
 
 val apiModule = module {
     single { provideSerializer() }
@@ -36,6 +36,7 @@ private fun provideHttpClient(kotlinxSerializer: KotlinxSerializer) = HttpClient
         serializer = kotlinxSerializer
         accept(ContentType.Application.Json)
         accept(ContentType.Text.Plain)
+        accept(ContentType.Text.Html)
     }
     install(HttpTimeout) {
         connectTimeoutMillis = TIME_OUT

@@ -15,7 +15,7 @@ import io.ktor.routing.get
 private const val PATH_ERROR = "/error"
 private const val ERROR_HTML = "error.html"
 
-fun Route.getError() = get(PATH_ERROR) {
+suspend fun Route.getError() = get(PATH_ERROR) {
     kermit.d { "GET Request $ERROR_HTML" }
     call.respondText(
         javaClass.classLoader.getResourceByName(ERROR_HTML),

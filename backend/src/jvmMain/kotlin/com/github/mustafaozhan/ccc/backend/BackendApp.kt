@@ -19,8 +19,14 @@ import com.github.mustafaozhan.logmob.kermit
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.context.startKoin
 
+private const val DEFAULT_PORT = 8080
+private const val REQUEST_QUEUE_LIMIT = 24
+private const val RUNNING_LIMIT = 12
 private val apiController: ApiController by lazy {
     koin.getDependency(ApiController::class)
 }
@@ -43,13 +49,22 @@ fun main() {
 
     apiController.startSyncApi()
 
-    embeddedServer(Netty, port = 8080) {
+    embeddedServer(
+        factory = Netty,
+        port = DEFAULT_PORT,
+        configure = {
+            requestQueueLimit = REQUEST_QUEUE_LIMIT
+            runningLimit = RUNNING_LIMIT
+        }
+    ) {
         routing {
             kermit.d { "start rooting" }
 
-            getError()
-            getRoot()
-            getCurrencyByName()
+            CoroutineScope(Dispatchers.IO).launch {
+                getError()
+                getRoot()
+                getCurrencyByName()
+            }
         }
     }.start(wait = true)
 }
