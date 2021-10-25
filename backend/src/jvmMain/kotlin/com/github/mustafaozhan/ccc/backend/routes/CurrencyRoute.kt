@@ -16,7 +16,7 @@ import io.ktor.routing.get
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-fun Route.getCurrencyByName(
+suspend fun Route.getCurrencyByName(
     rootingController: RootingController = koin.getDependency(RootingController::class)
 ) = get(PATH_BY_BASE) {
     call.parameters[PARAMETER_BASE]?.let { base ->
