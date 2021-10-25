@@ -70,6 +70,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
                 .whether { it < layouts.size }
                 ?.let { binding.viewPager.currentItem = it }
                 ?: run {
+                    binding.bottomBarSeparator.gone()
                     binding.progressBar.visible()
                     navigate(
                         R.id.sliderFragment,
