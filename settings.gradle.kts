@@ -2,7 +2,6 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-// FE
 include(
     ":android",
     ":backend",
@@ -12,14 +11,13 @@ include(
     ":ad"
 )
 
-// SubMob
+// SubMobs
 include(
     ":basemob",
     ":scopemob",
     ":logmob",
     ":parsermob"
 )
-
 
 project(":basemob").projectDir = file("basemob/basemob")
 project(":scopemob").projectDir = file("scopemob/scopemob")
