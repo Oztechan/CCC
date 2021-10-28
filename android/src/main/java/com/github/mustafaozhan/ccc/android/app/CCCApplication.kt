@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
+import com.github.mustafaozhan.ad.initAds
 import com.github.mustafaozhan.ccc.android.di.platformModule
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initCrashlytics
@@ -16,6 +17,7 @@ class CCCApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         initLogger()
+        initAds(this)
         initAndroid(
             context = this,
             platformModule = platformModule
