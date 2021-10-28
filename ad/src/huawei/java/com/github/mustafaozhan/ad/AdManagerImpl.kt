@@ -5,9 +5,13 @@ import android.content.Context
 import android.view.ViewGroup
 import android.widget.FrameLayout
 
-class AdManagerImpl(private val context: Context) : AdManager {
+class AdManagerImpl : AdManager {
 
-    override fun getBannerAd(width: Int, adId: String): ViewGroup {
+    override fun getBannerAd(
+        context: Context,
+        width: Int,
+        adId: String
+    ): ViewGroup {
         return FrameLayout(context)
     }
 
