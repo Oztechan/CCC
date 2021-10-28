@@ -1,11 +1,13 @@
 package com.github.mustafaozhan.ad
 
 import android.app.Activity
+import android.content.Context
 import android.view.ViewGroup
 
 interface AdManager {
 
     fun getBannerAd(
+        context: Context,
         width: Int,
         adId: String
     ): ViewGroup

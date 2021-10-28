@@ -14,16 +14,16 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-class AdManagerImpl(private val context: Context) : AdManager {
+class AdManagerImpl : AdManager {
 
     init {
         kermit.d { "AdManagerImpl init" }
-        MobileAds.initialize(context)
         MobileAds.setAppVolume(0.0f)
         MobileAds.setAppMuted(true)
     }
 
     override fun getBannerAd(
+        context: Context,
         width: Int,
         adId: String
     ): ViewGroup {
@@ -47,7 +47,7 @@ class AdManagerImpl(private val context: Context) : AdManager {
         activity: Activity,
         adId: String
     ) = InterstitialAd.load(
-        context,
+        activity,
         adId,
         getAdRequest(),
         object : InterstitialAdLoadCallback() {
@@ -68,7 +68,7 @@ class AdManagerImpl(private val context: Context) : AdManager {
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
     ) = RewardedAd.load(
-        context,
+        activity,
         adId,
         getAdRequest(),
         object : RewardedAdLoadCallback() {

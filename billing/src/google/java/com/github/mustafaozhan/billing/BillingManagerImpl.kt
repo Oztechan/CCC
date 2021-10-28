@@ -54,8 +54,8 @@ class BillingManagerImpl(private val context: Context) :
 
         this.billingClient = BillingClient
             .newBuilder(context.applicationContext)
-            .enablePendingPurchases()
             .setListener(this)
+            .enablePendingPurchases()
             .build()
 
         this.billingClient.startConnection(this)
