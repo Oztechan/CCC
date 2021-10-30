@@ -4,6 +4,7 @@
 
 package com.github.mustafaozhan.ccc.client.base
 
+import co.touchlab.kermit.Logger
 import io.ktor.utils.io.core.Closeable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,9 +23,14 @@ actual open class BaseViewModel actual constructor() {
         Dispatchers.Main + viewModelJob
     )
 
+    init {
+        Logger.d { "${this::class.simpleName} init" }
+    }
+
     protected actual val clientScope: CoroutineScope = viewModelScope
 
     protected actual open fun onCleared() {
+        Logger.d { "${this::class.simpleName} onCleared" }
         viewModelJob.cancelChildren()
     }
 

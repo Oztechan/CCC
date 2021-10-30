@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
@@ -28,7 +29,6 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -62,13 +62,12 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        kermit.d { "CalculatorViewModel init" }
         _state.update(base = settingsRepository.currentBase, input = "")
 
         state.map { it.base }
             .distinctUntilChanged()
             .onEach {
-                kermit.d { "CalculatorViewModel base changed $it" }
+                Logger.d { "CalculatorViewModel base changed $it" }
                 currentBaseChanged(it)
             }
             .launchIn(clientScope)
@@ -76,14 +75,14 @@ class CalculatorViewModel(
         state.map { it.input }
             .distinctUntilChanged()
             .onEach {
-                kermit.d { "CalculatorViewModel input changed $it" }
+                Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
             }
             .launchIn(clientScope)
 
         currencyRepository.collectActiveCurrencies()
             .onEach {
-                kermit.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
+                Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
             }
             .launchIn(clientScope)
@@ -108,14 +107,14 @@ class CalculatorViewModel(
         }
 
     private fun getRatesFailed(t: Throwable) {
-        kermit.w(t) { "CalculatorViewModel getRatesFailed" }
+        Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesRepository.getOfflineRatesByBase(
             settingsRepository.currentBase
         )?.let { offlineRates ->
             calculateConversions(offlineRates)
             _state.update(rateState = RateState.Offline(offlineRates.date))
         } ?: clientScope.launch {
-            kermit.w { "no offline rate found" }
+            Logger.w { "no offline rate found" }
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.emit(CalculatorEffect.Error) }
@@ -166,14 +165,9 @@ class CalculatorViewModel(
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 
-    override fun onCleared() {
-        kermit.d { "CalculatorViewModel onCleared" }
-        super.onCleared()
-    }
-
     // region Event
     override fun onKeyPress(key: String) {
-        kermit.d { "CalculatorViewModel onKeyPress $key" }
+        Logger.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
             KEY_AC -> _state.update(input = "")
             KEY_DEL -> state.value.input
@@ -186,7 +180,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency) {
-        kermit.d { "CalculatorViewModel onItemClick ${currency.name}" }
+        Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
         var finalResult = currency.rate
             .getFormatted()
             .toStandardDigits()
@@ -207,7 +201,7 @@ class CalculatorViewModel(
     }
 
     override fun onItemLongClick(currency: Currency): Boolean {
-        kermit.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
+        Logger.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
         clientScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
@@ -223,22 +217,22 @@ class CalculatorViewModel(
     }
 
     override fun onBarClick() = clientScope.launchIgnored {
-        kermit.d { "CalculatorViewModel onBarClick" }
+        Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)
     }
 
     override fun onSpinnerItemSelected(base: String) {
-        kermit.d { "CalculatorViewModel onSpinnerItemSelected $base" }
+        Logger.d { "CalculatorViewModel onSpinnerItemSelected $base" }
         _state.update(base = base)
     }
 
     override fun onSettingsClicked() = clientScope.launchIgnored {
-        kermit.d { "CalculatorViewModel onSettingsClicked" }
+        Logger.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
     }
 
     override fun onBaseChange(base: String) {
-        kermit.d { "CalculatorViewModel onBaseChange" }
+        Logger.d { "CalculatorViewModel onBaseChange $base" }
         currentBaseChanged(base)
         calculateOutput(_state.value.input)
     }
