@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.setBannerAd
@@ -21,7 +22,6 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -39,7 +39,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "SettingsFragment onViewCreated" }
+        Logger.i { "SettingsFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffects()
@@ -47,6 +47,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     override fun onDestroyView() {
+        Logger.i { "SettingsFragment onDestroyView" }
         binding.adViewContainer.removeAllViews()
         super.onDestroyView()
     }
@@ -129,7 +130,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun observeEffects() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "SettingsFragment observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "SettingsFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
                 SettingsEffect.OpenCurrencies -> navigate(
@@ -199,7 +200,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        kermit.d { "SettingsFragment onResume" }
+        Logger.i { "SettingsFragment onResume" }
     }
 
     private fun changeTheme() = AppTheme.getThemeByValue(settingsViewModel.getAppTheme())

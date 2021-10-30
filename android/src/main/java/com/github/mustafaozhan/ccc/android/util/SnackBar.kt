@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.github.mustafaozhan.logmob.kermit
+import co.touchlab.kermit.Logger
 import com.google.android.material.snackbar.Snackbar
 import mustafaozhan.github.com.mycurrencies.R
 
@@ -26,7 +26,7 @@ fun showSnack(
     if (isIndefinite) Snackbar.LENGTH_INDEFINITE else Snackbar.LENGTH_LONG
 ).apply {
     setAction(actionText) {
-        kermit.d { "Snackbar action click" }
+        Logger.i { "Snackbar action click" }
         action?.invoke()
     }
     this.view.apply {

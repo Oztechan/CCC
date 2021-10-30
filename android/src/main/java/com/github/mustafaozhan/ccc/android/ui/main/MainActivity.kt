@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.activity.BaseActivity
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.logmob.kermit
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        kermit.d { "MainActivity onCreate" }
+        Logger.i { "MainActivity onCreate" }
         installSplashScreen()
         AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
@@ -41,7 +41,7 @@ class MainActivity : BaseActivity() {
     private fun observeEffects() = mainViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "MainActivity observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "MainActivity observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is MainEffect.ShowInterstitialAd -> adManager.showInterstitialAd(
                     this@MainActivity,
@@ -71,12 +71,12 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        kermit.d { "MainActivity onResume" }
+        Logger.i { "MainActivity onResume" }
         mainViewModel.event.onResume()
     }
 
     override fun onPause() {
-        kermit.d { "MainActivity onPause" }
+        Logger.i { "MainActivity onPause" }
         mainViewModel.event.onPause()
         super.onPause()
     }

@@ -3,7 +3,7 @@ package com.github.mustafaozhan.ad
 import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
-import com.github.mustafaozhan.logmob.kermit
+import co.touchlab.kermit.Logger
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -17,7 +17,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 class AdManagerImpl : AdManager {
 
     init {
-        kermit.d { "AdManagerImpl init" }
+        Logger.i { "AdManagerImpl init" }
         MobileAds.setAppVolume(0.0f)
         MobileAds.setAppMuted(true)
     }
@@ -27,6 +27,7 @@ class AdManagerImpl : AdManager {
         width: Int,
         adId: String
     ): ViewGroup {
+        Logger.i { "AdManagerImpl getBannerAd" }
         var adWidthPixels = width.toFloat()
 
         if (adWidthPixels == 0f) {
@@ -52,14 +53,17 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                kermit.d { "InterstitialAd onAdFailedToLoad ${adError.message}" }
+                Logger.i { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                kermit.d { "InterstitialAd onAdLoaded" }
+                Logger.i { "AdManagerImpl onAdLoaded" }
                 interstitialAd.show(activity)
             }
-        })
+        }
+    ).also {
+        Logger.i { "AdManagerImpl showInterstitialAd" }
+    }
 
     override fun showRewardedAd(
         activity: Activity,
@@ -73,21 +77,23 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                kermit.d { "RewardedAd onRewardedAdFailedToLoad" }
+                Logger.i { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
                 onAdFailedToLoad()
             }
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
-                kermit.d { "RewardedAd onRewardedAdLoaded" }
+                Logger.i { "AdManagerImpl onAdLoaded" }
                 onAdLoaded()
 
                 rewardedAd.show(activity) {
-                    kermit.d { "RewardedAd onUserEarnedReward" }
+                    Logger.i { "AdManagerImpl onUserEarnedReward" }
                     onReward()
                 }
             }
         }
-    )
+    ).also {
+        Logger.i { "AdManagerImpl showRewardedAd" }
+    }
 
     private fun getAdRequest() = AdRequest.Builder().build()
 }

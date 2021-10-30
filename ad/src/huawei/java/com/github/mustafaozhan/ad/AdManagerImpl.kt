@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import co.touchlab.kermit.Logger
 
 class AdManagerImpl : AdManager {
 
@@ -12,13 +13,16 @@ class AdManagerImpl : AdManager {
         width: Int,
         adId: String
     ): ViewGroup {
+        Logger.i { "AdManagerImpl getBannerAd" }
         return FrameLayout(context)
     }
 
     override fun showInterstitialAd(
         activity: Activity,
         adId: String
-    ) = Unit
+    ) {
+        Logger.i { "AdManagerImpl showInterstitialAd" }
+    }
 
     override fun showRewardedAd(
         activity: Activity,
@@ -26,5 +30,7 @@ class AdManagerImpl : AdManager {
         onAdFailedToLoad: () -> Unit,
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
-    ) = Unit
+    ) {
+        Logger.i { "AdManagerImpl showRewardedAd" }
+    }
 }

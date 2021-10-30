@@ -10,10 +10,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.gone
 import com.github.mustafaozhan.ccc.android.util.visible
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
@@ -24,7 +24,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        kermit.d { "SliderActivity onCreate" }
+        Logger.i { "SliderFragment onCreate" }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !IS_THEME_SLIDE_CHECKED) {
             layouts.add(R.layout.layout_slide_dark_mode)
@@ -34,23 +34,24 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Logger.i { "SliderFragment onViewCreated" }
         addBottomDots(0)
         setListeners()
     }
 
     override fun onResume() {
         super.onResume()
+        Logger.i { "SliderFragment onResume" }
         binding.progressBar.gone()
     }
 
     private fun setListeners() {
-
         binding.viewPager.apply {
             adapter = SliderPagerAdapter(requireContext(), layouts)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
-                    kermit.d { "SliderActivity onPageSelected" }
+                    Logger.i { "SliderFragment onPageSelected $position" }
                     addBottomDots(position)
 
                     binding.btnNext.text = if (position == layouts.size - 1) {

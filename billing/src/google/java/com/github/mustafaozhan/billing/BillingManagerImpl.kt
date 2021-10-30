@@ -3,6 +3,7 @@ package com.github.mustafaozhan.billing
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
+import co.touchlab.kermit.Logger
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener
 import com.android.billingclient.api.BillingClient
@@ -18,7 +19,6 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
 import com.github.mustafaozhan.billing.model.PurchaseHistory
 import com.github.mustafaozhan.billing.model.PurchaseMethod
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,7 +47,7 @@ class BillingManagerImpl(private val context: Context) :
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        kermit.d { "BillingManager setupBillingClient" }
+        Logger.i { "BillingManagerImpl setupBillingClient" }
 
         this.scope = lifecycleScope
         this.skuList = skuList
@@ -62,11 +62,12 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun endConnection() {
-        kermit.d { "BillingManager endConnection" }
+        Logger.i { "BillingManagerImpl endConnection" }
         billingClient.endConnection()
     }
 
     override fun launchBillingFlow(activity: Activity, skuId: String) {
+        Logger.i { "BillingManagerImpl launchBillingFlow" }
         skuDetails
             .firstOrNull { it.sku == skuId }
             ?.let {
@@ -79,13 +80,14 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun acknowledgePurchase() {
+        Logger.i { "BillingManagerImpl acknowledgePurchase" }
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         }
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
-        kermit.d { "BillingManager onAcknowledgePurchaseResponse" }
+        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse $billingResult" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
@@ -97,7 +99,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseList: MutableList<Purchase>?
     ) {
-        kermit.d { "BillingManager onPurchasesUpdated ${billingResult.responseCode}" }
+        Logger.i { "BillingManagerImpl onPurchasesUpdated ${billingResult.responseCode}" }
 
         purchaseList?.firstOrNull()
             ?.also {
@@ -115,7 +117,7 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) {
-        kermit.d { "BillingManager onBillingSetupFinished ${billingResult.responseCode}" }
+        Logger.i { "BillingManagerImpl onBillingSetupFinished ${billingResult.responseCode}" }
 
         billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
 
@@ -132,14 +134,14 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onBillingServiceDisconnected() {
-        kermit.d { "BillingManager onBillingServiceDisconnected" }
+        Logger.i { "BillingManagerImpl onBillingServiceDisconnected" }
     }
 
     override fun onSkuDetailsResponse(
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
     ) {
-        kermit.d { "BillingManager onSkuDetailsResponse ${billingResult.responseCode}" }
+        Logger.i { "BillingManagerImpl onSkuDetailsResponse $billingResult" }
 
         scope.launch {
             skuDetailsList?.whether {
@@ -164,7 +166,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) {
-        kermit.d { "BillingManager onPurchaseHistoryResponse ${billingResult.responseCode}" }
+        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse $billingResult" }
 
         purchaseHistoryList
             ?.map { PurchaseHistory(it.skus, it.purchaseTime) }
