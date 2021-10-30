@@ -4,12 +4,12 @@
 
 package com.github.mustafaozhan.ccc.backend.controller
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.SECOND
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -23,9 +23,9 @@ class ApiController(
     private val offlineRatesRepository: OfflineRatesRepository
 ) {
     fun startSyncApi() = CoroutineScope(Dispatchers.IO).launch {
-        kermit.d { "Api refreshApi" }
+        Logger.i { "Api refreshApi" }
         while (isActive) {
-            kermit.d { "refreshing" }
+            Logger.i { "refreshing" }
             updateCurrencies()
 
             delay(DAY / NUMBER_OF_REFRESH_IN_DAY)
@@ -42,7 +42,7 @@ class ApiController(
                 .execute({ currencyResponse ->
                     offlineRatesRepository.insertOfflineRates(currencyResponse)
                 }, { error ->
-                    kermit.e(error) { error.message.toString() }
+                    Logger.e(error) { error.message.toString() }
                 })
         }
     }
