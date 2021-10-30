@@ -11,11 +11,13 @@ import Client
 import Firebase
 import GoogleMobileAds
 
+let logger = LoggerKt.doInitLogger()
+
 @main
 struct CCCApp: App {
 
     init() {
-        LoggerKt.doInitLogger()
+        logger.i(message: {"CCCApp init"})
 
         #if RELEASE
             FirebaseApp.configure()
@@ -24,7 +26,7 @@ struct CCCApp: App {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         startKoin()
-        LoggerKt.kermit.d(withMessage: {"CCCApp init"})
+
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
             y: 0,

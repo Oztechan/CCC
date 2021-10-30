@@ -36,6 +36,7 @@ func showSnack(
         buttonImage: nil,
         buttonTitle: buttonText,
         buttonTapHandler: { _ in
+            logger.i(message: {"Snackbar buttonTab"})
             action?()
         })
 

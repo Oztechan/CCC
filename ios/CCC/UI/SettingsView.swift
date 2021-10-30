@@ -117,7 +117,7 @@ struct SettingsView: View {
     }
 
     private func onEffect(effect: SettingsEffect) {
-        LoggerKt.kermit.d(withMessage: {effect.description})
+        logger.i(message: {effect.description})
         switch effect {
         case is SettingsEffect.Back:
             navigationStack.pop()
@@ -139,7 +139,7 @@ struct SettingsView: View {
             activeDialog = Dialogs.removeAd
             dialogVisibility.toggle()
         default:
-            LoggerKt.kermit.d(withMessage: {"SettingsView unknown effect"})
+            logger.i(message: {"SettingsView unknown effect"})
         }
     }
 

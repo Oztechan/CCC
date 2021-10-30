@@ -17,7 +17,9 @@ class CCCApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        initLogger()
+        initLogger().let {
+            it.i { "Logger initialized" }
+        }
 
         Logger.i { "CCCApplication onCreate" }
 
