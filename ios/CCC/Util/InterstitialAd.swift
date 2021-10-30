@@ -21,7 +21,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
-                    LoggerKt.kermit.d(withMessage: {"InterstitialAd show \(error.localizedDescription)"})
+                    logger.w(message: {"InterstitialAd show \(error.localizedDescription)"})
                     self.errorFunction?()
                     return
                 }

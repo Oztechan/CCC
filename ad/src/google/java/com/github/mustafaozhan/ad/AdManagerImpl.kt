@@ -53,7 +53,7 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.i { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
+                Logger.w { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -77,7 +77,7 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.i { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
+                Logger.w { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
                 onAdFailedToLoad()
             }
 

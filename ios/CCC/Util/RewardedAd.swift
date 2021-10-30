@@ -30,7 +30,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { (rewardedAd, error) in
                 if let error = error {
-                    LoggerKt.kermit.d(withMessage: {"RewardedAd show error: \(error.localizedDescription)"})
+                    logger.w(message: {"RewardedAd show error: \(error.localizedDescription)"})
                     self.errorFunction()
                     return
                 }
@@ -41,6 +41,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                 self.rewardedAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
                     userDidEarnRewardHandler: {
+                        logger.i(message: {"RewardedAd userDidEarnReward"})
                         self.rewardFunction()
                     }
                 )

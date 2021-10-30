@@ -30,7 +30,7 @@ final class ObservableSEED<
 
     // swiftlint:disable force_cast
     init(viewModel: ViewModel) {
-        LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) init"})
+        logger.i(message: {"ObservableSEED \(ViewModel.description()) init"})
 
         self.viewModel = viewModel
         self.state = State()
@@ -43,7 +43,7 @@ final class ObservableSEED<
     }
 
     func startObserving() {
-        LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) startObserving"})
+        logger.i(message: {"ObservableSEED \(ViewModel.description()) startObserving"})
 
         if viewModel.state != nil {
             closeable = viewModel.observe(viewModel.state!, onChange: {
@@ -58,7 +58,7 @@ final class ObservableSEED<
     }
 
     func stopObserving() {
-        LoggerKt.kermit.d(withMessage: {"ObservableSEED \(ViewModel.description()) stopObserving"})
+        logger.i(message: {"ObservableSEED \(ViewModel.description()) stopObserving"})
         closeable.close()
     }
 }
