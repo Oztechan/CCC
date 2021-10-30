@@ -3,6 +3,7 @@ package com.github.mustafaozhan.billing
 import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
@@ -15,11 +16,19 @@ class BillingManagerImpl(private val context: Context) : BillingManager {
     override fun setupBillingClient(
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
-    ) = Unit
+    ) {
+        Logger.i { "BillingManagerImpl setupBillingClient" }
+    }
 
-    override fun endConnection() = Unit
+    override fun endConnection() {
+        Logger.i { "BillingManagerImpl endConnection" }
+    }
 
-    override fun launchBillingFlow(activity: Activity, skuId: String) = Unit
+    override fun launchBillingFlow(activity: Activity, skuId: String) {
+        Logger.i { "BillingManagerImpl launchBillingFlow" }
+    }
 
-    override fun acknowledgePurchase() = Unit
+    override fun acknowledgePurchase() {
+        Logger.i { "BillingManagerImpl acknowledgePurchase" }
+    }
 }

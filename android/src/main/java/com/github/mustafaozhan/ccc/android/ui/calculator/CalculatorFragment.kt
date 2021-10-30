@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.dataState
@@ -21,7 +22,6 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -40,7 +40,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "CalculatorFragment onViewCreated" }
+        Logger.i { "CalculatorFragment onViewCreated" }
         initViews()
         observeNavigationResults()
         observeStates()
@@ -49,6 +49,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     override fun onDestroyView() {
+        Logger.i { "CalculatorFragment onDestroyView" }
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
@@ -56,6 +57,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
         ?.observe(viewLifecycleOwner) {
+            Logger.i { "CalculatorFragment observeNavigationResults $it" }
             calculatorViewModel.event.onBaseChange(it)
         }
 
@@ -92,7 +94,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeEffects() = calculatorViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "CalculatorFragment observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "CalculatorFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 CalculatorEffect.Error -> showSnack(
                     requireView(),
@@ -160,7 +162,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun Button.setKeyboardListener() = setOnClickListener {
-        calculatorViewModel.onKeyPress(text.toString())
+        calculatorViewModel.event.onKeyPress(text.toString())
     }
 
     companion object {
