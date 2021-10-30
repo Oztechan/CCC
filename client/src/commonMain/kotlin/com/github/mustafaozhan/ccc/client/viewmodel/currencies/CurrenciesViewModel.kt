@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
@@ -12,7 +13,6 @@ import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -44,8 +44,6 @@ class CurrenciesViewModel(
     // endregion
 
     init {
-        kermit.d { "CurrenciesViewModel init" }
-
         currencyRepository.collectAllCurrencies()
             .map { it.toUIModelList() }
             .onEach { currencyList ->
@@ -104,24 +102,19 @@ class CurrenciesViewModel(
 
     fun isFirstRun() = settingsRepository.firstRun
 
-    override fun onCleared() {
-        kermit.d { "CurrenciesViewModel onCleared" }
-        super.onCleared()
-    }
-
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) {
-        kermit.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
+        Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
         currencyRepository.updateAllCurrencyState(state)
     }
 
     override fun onItemClick(currency: Currency) {
-        kermit.d { "CurrenciesViewModel onItemClick ${currency.name}" }
+        Logger.d { "CurrenciesViewModel onItemClick ${currency.name}" }
         currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
     override fun onDoneClick() = clientScope.launchIgnored {
-        kermit.d { "CurrenciesViewModel onDoneClick" }
+        Logger.d { "CurrenciesViewModel onDoneClick" }
         data.unFilteredList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
@@ -133,12 +126,12 @@ class CurrenciesViewModel(
     }
 
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
-        kermit.d { "CurrenciesViewModel onItemLongClick" }
+        Logger.d { "CurrenciesViewModel onItemLongClick" }
         _state.update(selectionVisibility = !it)
     }
 
     override fun onCloseClick() = clientScope.launchIgnored {
-        kermit.d { "CurrenciesViewModel onCloseClick" }
+        Logger.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)
         } else {
@@ -149,7 +142,7 @@ class CurrenciesViewModel(
     }
 
     override fun onQueryChange(query: String) {
-        kermit.d { "CurrenciesViewModel onQueryChange $query" }
+        Logger.d { "CurrenciesViewModel onQueryChange $query" }
         filterList(query)
     }
     // endregion

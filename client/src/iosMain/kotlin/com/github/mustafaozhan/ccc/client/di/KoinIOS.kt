@@ -6,13 +6,13 @@
 
 package com.github.mustafaozhan.ccc.client.di
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseViewModel
 import com.github.mustafaozhan.ccc.client.di.module.clientModule
 import com.github.mustafaozhan.ccc.client.di.module.getIOSModule
 import com.github.mustafaozhan.ccc.common.di.modules.apiModule
 import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
 import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
@@ -32,7 +32,7 @@ fun initIOS(userDefaults: NSUserDefaults) = startKoin {
         getSettingsModule()
     )
 }.also {
-    kermit.d { "KoinIOS initIOS" }
+    Logger.d { "KoinIOS initIOS" }
 }
 
 actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(

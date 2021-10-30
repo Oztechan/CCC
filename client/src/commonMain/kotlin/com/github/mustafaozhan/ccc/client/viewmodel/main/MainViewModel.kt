@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.main
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.device
@@ -14,7 +15,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_D
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,10 +36,6 @@ class MainViewModel(
 
     override val data = MainData()
     // endregion
-
-    init {
-        kermit.d { "MainViewModel init" }
-    }
 
     private fun setupInterstitialAdTimer() {
         data.adVisibility = true
@@ -72,20 +68,15 @@ class MainViewModel(
             settingsRepository.lastReviewRequest = nowAsLong()
         }
 
-    override fun onCleared() {
-        kermit.d { "MainViewModel onCleared" }
-        super.onCleared()
-    }
-
     // region Event
     override fun onPause() = with(data) {
-        kermit.d { "MainViewModel onPause" }
+        Logger.d { "MainViewModel onPause" }
         adJob.cancel()
         adVisibility = false
     }
 
     override fun onResume() {
-        kermit.d { "MainViewModel onResume" }
+        Logger.d { "MainViewModel onResume" }
 
         if (device is Device.ANDROID.GOOGLE ||
             device is Device.IOS
