@@ -4,15 +4,16 @@
 
 package com.github.mustafaozhan.ccc.common.base
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.common.di.modules.apiModule
 import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
 import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
 import com.github.mustafaozhan.logmob.initLogger
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 
 abstract class BaseRepositoryTest<SubjectType> {
     protected lateinit var koin: Koin
@@ -20,7 +21,12 @@ abstract class BaseRepositoryTest<SubjectType> {
 
     @BeforeTest
     fun setup() {
-        initLogger(true)
+        initLogger(true).let {
+            it.v { "Logger initialized" }
+        }
+
+        Logger.v { "BaseRepositoryTest setup" }
+
         startKoin {
             modules(
                 apiModule,
@@ -33,5 +39,8 @@ abstract class BaseRepositoryTest<SubjectType> {
     }
 
     @AfterTest
-    fun destroy() = stopKoin()
+    fun destroy() {
+        Logger.v { "BaseRepositoryTest destroy" }
+        stopKoin()
+    }
 }
