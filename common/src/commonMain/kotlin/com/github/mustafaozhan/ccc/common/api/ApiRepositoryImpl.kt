@@ -42,13 +42,13 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
         if (base.isEmpty()) throw EmptyParameterException()
         else apiService.getRatesViaBackend(base).toModel(base)
     }.also {
-        Logger.d { "ApiRepositoryImpl getRatesViaBackend $base" }
+        Logger.v { "ApiRepositoryImpl getRatesViaBackend $base" }
     }
 
     override suspend fun getRatesViaApi(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
         else apiService.getRatesViaApi(base).toModel(base)
     }.also {
-        Logger.d { "ApiRepositoryImpl getRatesViaApi $base" }
+        Logger.v { "ApiRepositoryImpl getRatesViaApi $base" }
     }
 }
