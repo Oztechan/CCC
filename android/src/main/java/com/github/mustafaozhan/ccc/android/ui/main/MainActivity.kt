@@ -31,11 +31,18 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
         installSplashScreen()
-        AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
+        AppCompatDelegate.setDefaultNightMode(mapAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
         mainViewModel.checkReview()
+    }
+
+    private fun mapAppTheme(): Int = when (mainViewModel.getAppTheme()) {
+        -1 -> AppCompatDelegate.MODE_NIGHT_NO
+        0 -> AppCompatDelegate.MODE_NIGHT_YES
+        1 -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        else -> AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
     }
 
     private fun observeEffects() = mainViewModel.effect
