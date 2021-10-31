@@ -32,9 +32,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
+import kotlinx.datetime.daysUntil
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -178,46 +180,38 @@ class ExtensionsTest {
         assertEquals("10", 10.doubleDigits())
     }
 
+    @ExperimentalTime
     @Test
     fun calculateAdRewardEnd() {
-        assertEquals(
-            VIDEO_REWARD,
-            RemoveAdType.VIDEO
-                .calculateAdRewardEnd()
-                .toInstant()
-                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
-                .days
-        )
-        assertEquals(
-            1,
-            RemoveAdType.MONTH.calculateAdRewardEnd()
-                .toInstant()
-                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
-                .months
-        )
-        assertEquals(
-            3,
-            RemoveAdType.QUARTER
-                .calculateAdRewardEnd()
-                .toInstant()
-                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
-                .months
-        )
-        assertEquals(
-            6,
-            RemoveAdType.HALF_YEAR
-                .calculateAdRewardEnd()
-                .toInstant()
-                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
-                .months
-        )
-        assertEquals(
-            1,
-            RemoveAdType.YEAR
-                .calculateAdRewardEnd()
-                .toInstant()
-                .minus((nowAsLong() - 100).toInstant(), TimeZone.currentSystemDefault())
-                .years
-        )
+        assertTrue {
+            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
+                RemoveAdType.VIDEO.calculateAdRewardEnd().toInstant(),
+                TimeZone.currentSystemDefault()
+            ) >= VIDEO_REWARD
+        }
+        assertTrue {
+            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
+                RemoveAdType.MONTH.calculateAdRewardEnd().toInstant(),
+                TimeZone.currentSystemDefault()
+            ) >= 30
+        }
+        assertTrue {
+            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
+                RemoveAdType.QUARTER.calculateAdRewardEnd().toInstant(),
+                TimeZone.currentSystemDefault()
+            ) >= 90
+        }
+        assertTrue {
+            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
+                RemoveAdType.HALF_YEAR.calculateAdRewardEnd().toInstant(),
+                TimeZone.currentSystemDefault()
+            ) >= 180
+        }
+        assertTrue {
+            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
+                RemoveAdType.YEAR.calculateAdRewardEnd().toInstant(),
+                TimeZone.currentSystemDefault()
+            ) >= 365
+        }
     }
 }
