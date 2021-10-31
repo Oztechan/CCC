@@ -15,7 +15,7 @@
         style="@style/SlideLinearLayout"
         android:layout_alignParentBottom="true" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
         style="@style/SliderProgressBarStyle"
         android:layout_above="@id/layout_dots" />

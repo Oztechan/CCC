@@ -266,19 +266,15 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
-    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:theme">@style/AppTheme</item>
-        <item name="android:scaleY">3</item>
+    <style name="ProgressBarStyle">
         <item name="android:indeterminate">true</item>
         <item name="android:layout_width">@dimen/margin_zero</item>
-        <item name="android:layout_height">@dimen/progress_bar_height</item>
-        <item name="android:layout_marginTop">@dimen/progress_bar_margin_top_bottom</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="SliderProgressBarStyle" parent="ProgressBarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:visibility">gone</item>
-        <item name="android:layout_marginBottom">@dimen/progress_bar_margin_top_bottom</item>
     </style>
 
     <style name="DataStateStyle" parent="WrapStyle">
