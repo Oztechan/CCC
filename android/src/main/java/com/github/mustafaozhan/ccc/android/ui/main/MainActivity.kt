@@ -5,13 +5,13 @@ package com.github.mustafaozhan.ccc.android.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.ccc.android.util.updateAppTheme
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
@@ -31,7 +31,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
         installSplashScreen()
-        AppCompatDelegate.setDefaultNightMode(mainViewModel.getAppTheme())
+        updateAppTheme(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
