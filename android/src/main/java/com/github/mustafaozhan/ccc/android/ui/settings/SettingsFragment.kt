@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
@@ -18,6 +17,7 @@ import com.github.mustafaozhan.ccc.android.util.setBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.showSingleChoiceDialog
 import com.github.mustafaozhan.ccc.android.util.showSnack
+import com.github.mustafaozhan.ccc.android.util.updateAppTheme
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
@@ -163,7 +163,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
-                is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(viewEffect.themeValue)
+                is SettingsEffect.ChangeTheme -> updateAppTheme(viewEffect.themeValue)
                 SettingsEffect.Synchronising -> showSnack(
                     requireView(),
                     R.string.txt_synchronising

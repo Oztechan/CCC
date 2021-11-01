@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import com.github.mustafaozhan.ccc.client.model.AppTheme
 import java.util.Locale
 
 fun updateBaseContextLocale(context: Context): Context? {
@@ -19,6 +21,14 @@ fun updateBaseContextLocale(context: Context): Context? {
         updateResourcesLocaleLegacy(context, locale)
     }
 }
+
+fun updateAppTheme(appThemeValue: Int) = AppCompatDelegate.setDefaultNightMode(
+    when (AppTheme.getThemeByValue(appThemeValue)) {
+        AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+        AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    }
+)
 
 @TargetApi(Build.VERSION_CODES.N)
 private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
