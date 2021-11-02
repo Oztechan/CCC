@@ -1,0 +1,99 @@
+name: Project Automations
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - closed
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - review_requested
+      - closed
+      - converted_to_draft
+jobs:
+  IssueOpenedAndReopened:
+    name: IssueOpenedAndReopened
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'opened' || github.event.action == 'reopened'
+    steps:
+      - name: 'Move issue to "📖 To do"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: "📖 To do"
+
+  IssueClosed:
+    name: IssueClosed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: 'Moved issue to "✅ Done"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.issue.node_id }}
+          status_value: "✅ Done"
+
+  ConvertedToDraft:
+    name: ConvertedToDraft
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'converted_to_draft'
+    steps:
+      - name: 'Move PR to "🙇 In Progress"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "🙇 In Progress"
+
+  PrOpenedReopenedReviewRequested:
+    name: PrOpenedReopenedReviewRequested
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'review_requested'
+    steps:
+      - name: 'Move PR to "🏗 PR Review"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "🏗 PR Review"
+
+  PrReadyForReview:
+    name: PrReadyForReview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'ready_for_review'
+    steps:
+      - name: 'Move PR to "🏗 PR Review"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "🏗 PR Review"
+
+  PrClosed:
+    name: PrClosed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: 'Move PR to "✅ Done"'
+        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "✅ Done"
