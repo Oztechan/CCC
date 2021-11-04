@@ -7,10 +7,10 @@ import org.gradle.api.Project
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 3
+    private const val MINOR_VERSION = 4
 
     // git rev-list --first-parent --count master +1
-    private const val VERSION_DIF = 691
+    private const val VERSION_DIF = 707
 
     const val PROJECT_ID = "mustafaozhan.github.com.mycurrencies"
     const val PACKAGE_NAME = "com.github.mustafaozhan.ccc"
