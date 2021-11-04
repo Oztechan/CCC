@@ -2,7 +2,6 @@ package com.github.mustafaozhan.ad
 
 import android.app.Activity
 import android.content.Context
-import android.view.ViewGroup
 import co.touchlab.kermit.Logger
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -26,22 +25,24 @@ class AdManagerImpl : AdManager {
         context: Context,
         width: Int,
         adId: String
-    ): ViewGroup {
+    ) = AdView(context).apply {
+        MobileAds.initialize(context)
         Logger.i { "AdManagerImpl getBannerAd" }
-        var adWidthPixels = width.toFloat()
 
-        if (adWidthPixels == 0f) {
-            adWidthPixels = context.resources.displayMetrics.widthPixels.toFloat()
+
+        val adWidthPixels = if (width == 0) {
+            context.resources.displayMetrics.widthPixels.toFloat()
+        } else {
+            width.toFloat()
         }
 
-        return AdView(context).apply {
-            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                context,
-                (adWidthPixels / resources.displayMetrics.density).toInt()
-            )
-            adUnitId = adId
-            loadAd(getAdRequest())
-        }
+
+        adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            context,
+            (adWidthPixels / resources.displayMetrics.density).toInt()
+        )
+        adUnitId = adId
+        loadAd(getAdRequest())
     }
 
     override fun showInterstitialAd(

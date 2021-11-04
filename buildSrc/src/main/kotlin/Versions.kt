@@ -8,7 +8,7 @@ object Versions {
     const val ANDROID_GRADLE_PLUGIN = "7.2.0-alpha03"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.1"
-    const val KTOR = "1.6.4"
+    const val KTOR = "1.6.5"
     const val LOG_BACK = "1.3.0-alpha10"
     const val KOIN = "3.1.3"
     const val KERMIT = "1.0.0-rc4"
