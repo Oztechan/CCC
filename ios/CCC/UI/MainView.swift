@@ -43,12 +43,12 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        LoggerKt.kermit.d(withMessage: {effect.description})
+        logger.i(message: {effect.description})
         switch effect {
         case is MainEffect.ShowInterstitialAd:
             InterstitialAd().show()
         default:
-            LoggerKt.kermit.d(withMessage: {"MainView unknown effect"})
+            logger.i(message: {"MainView unknown effect"})
         }
     }
 }

@@ -18,7 +18,7 @@ class EmailHelper: UIViewController, MFMailComposeViewControllerDelegate {
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
         } else {
-            LoggerKt.kermit.d(withMessage: { "Mail services are not available" })
+            logger.w(message: { "Mail services are not available" })
         }
     }
 

@@ -83,7 +83,7 @@ struct CurrenciesView: View {
     }
 
     private func onEffect(effect: CurrenciesEffect) {
-        LoggerKt.kermit.d(withMessage: {effect.description})
+        logger.i(message: {effect.description})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
             showSnack(text: MR.strings().choose_at_least_two_currency.get())
@@ -95,7 +95,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
-            LoggerKt.kermit.d(withMessage: {"CurrenciesView unknown effect"})
+            logger.i(message: {"CurrenciesView unknown effect"})
         }
     }
 }

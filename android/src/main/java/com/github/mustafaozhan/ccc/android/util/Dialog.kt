@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.android.util
 
 import android.app.Activity
 import android.app.AlertDialog
-import com.github.mustafaozhan.logmob.kermit
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.scopemob.inCase
 import com.github.mustafaozhan.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
@@ -23,7 +23,7 @@ fun showDialog(
 ) = buildDialog(activity, title)
     ?.setMessage(message)
     ?.setPositiveButton(positiveButton) { dialog, _ ->
-        kermit.d { "Dialog positive button click" }
+        Logger.i { "Dialog positive button click" }
         function?.invoke()
         dialog.dismiss()
     }
@@ -58,7 +58,7 @@ fun showSingleChoiceDialog(
     choiceAction: ((Int) -> Unit)? = null
 ) = buildDialog(activity, title)
     ?.setSingleChoiceItems(items, selectedIndex) { dialog, which ->
-        kermit.d { "Dialog choice click $which" }
+        Logger.i { "Dialog choice click $which" }
         choiceAction?.invoke(which)
         dialog.dismiss()
     }?.show()

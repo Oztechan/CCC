@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.billing.BillingEffect
@@ -20,7 +21,6 @@ import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -41,7 +41,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "AdRemoveBottomSheet onViewCreated" }
+        Logger.i { "AdRemoveBottomSheet onViewCreated" }
         billingManager.setupBillingClient(
             viewLifecycleOwner.lifecycleScope,
             RemoveAdType.getPurchaseIds()
@@ -53,6 +53,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }
 
     override fun onDestroyView() {
+        Logger.i { "AdRemoveBottomSheet onDestroyView" }
         billingManager.endConnection()
         binding.recyclerViewBar.adapter = null
         super.onDestroyView()
@@ -75,7 +76,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun observeEffects() = adRemoveViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "AdRemoveBottomSheet observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "AdRemoveBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is AdRemoveEffect.LaunchRemoveAdFlow -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
@@ -112,7 +113,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun observeBillingEffects() = billingManager.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "AdRemoveBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
+            Logger.i { "AdRemoveBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
                 is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(

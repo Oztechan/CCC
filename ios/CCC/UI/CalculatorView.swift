@@ -97,7 +97,7 @@ struct CalculatorView: View {
     }
 
     private func onEffect(effect: CalculatorEffect) {
-        LoggerKt.kermit.d(withMessage: {effect.description})
+        logger.i(message: {effect.description})
         switch effect {
         case is CalculatorEffect.Error:
             showSnack(text: MR.strings().error_text_unknown.get())
@@ -122,7 +122,7 @@ struct CalculatorView: View {
                 iconImage: (effect as! CalculatorEffect.ShowRate).name.getImage()
             )
         default:
-            LoggerKt.kermit.d(withMessage: {"CalculatorView unknown effect"})
+            logger.i(message: {"CalculatorView unknown effect"})
         }
     }
 }

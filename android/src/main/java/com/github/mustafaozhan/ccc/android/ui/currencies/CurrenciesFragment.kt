@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
@@ -23,7 +24,6 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -42,7 +42,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "CurrenciesFragment onViewCreated" }
+        Logger.i { "CurrenciesFragment onViewCreated" }
         initViews()
         observeStates()
         observeEffects()
@@ -50,6 +50,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     override fun onDestroyView() {
+        Logger.i { "CurrenciesFragment onDestroyView" }
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewCurrencies.adapter = null
         super.onDestroyView()
@@ -104,7 +105,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     private fun observeEffects() = currenciesViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "CurrenciesFragment observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "CurrenciesFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 CurrenciesEffect.FewCurrency -> showSnack(
                     requireView(),
@@ -143,7 +144,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String) = false
                     override fun onQueryTextChange(newText: String): Boolean {
-                        kermit.d { "CurrenciesFragment onQueryTextChange" }
+                        Logger.i { "CurrenciesFragment onQueryTextChange $newText" }
                         currenciesViewModel.event.onQueryChange(newText)
                         return true
                     }
@@ -154,14 +155,14 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
-        kermit.d { "CurrenciesFragment onResume" }
+        Logger.i { "CurrenciesFragment onResume" }
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.event.onQueryChange("")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        kermit.d { "CurrenciesFragment onConfigurationChanged" }
+        Logger.i { "CurrenciesFragment onConfigurationChanged $newConfig" }
         setSpanByOrientation(newConfig.orientation)
     }
 

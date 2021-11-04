@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-@file:Suppress("unused", "TooManyFunctions")
+@file:Suppress("TooManyFunctions")
 
 package com.github.mustafaozhan.ccc.android.util
 
@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.billing.model.PurchaseHistory
 import com.github.mustafaozhan.billing.model.PurchaseMethod
@@ -21,10 +22,9 @@ import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.logmob.kermit
 import com.github.mustafaozhan.scopemob.castTo
-import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
+import mustafaozhan.github.com.mycurrencies.R
 
 fun ImageView.setBackgroundByName(
     name: String
@@ -37,7 +37,7 @@ fun Context.getImageResourceByName(name: String): Int = try {
         packageName
     )
 } catch (e: FileNotFoundException) {
-    kermit.w(e) { e.message.toString() }
+    Logger.e(e) { e.message.toString() }
     R.drawable.transparent
 }
 

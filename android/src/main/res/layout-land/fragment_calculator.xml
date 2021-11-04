@@ -52,7 +52,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loading_view"
         style="@style/ProgressBarStyle"
         app:layout_constraintEnd_toStartOf="@+id/guideline"

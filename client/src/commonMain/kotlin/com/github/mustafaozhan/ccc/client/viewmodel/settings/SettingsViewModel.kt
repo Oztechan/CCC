@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
@@ -16,7 +17,6 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,8 +45,6 @@ class SettingsViewModel(
     // endregion
 
     init {
-        kermit.d { "SettingsViewModel init" }
-
         _state.update(
             appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme)
                 ?: AppTheme.SYSTEM_DEFAULT,
@@ -70,7 +68,7 @@ class SettingsViewModel(
 
                 apiRepository.getRatesViaBackend(name).execute(
                     success = { offlineRatesRepository.insertOfflineRates(it) },
-                    error = { error -> kermit.e(error) { error.message.toString() } }
+                    error = { error -> Logger.e(error) { error.message.toString() } }
                 )
             }
 
@@ -99,54 +97,49 @@ class SettingsViewModel(
         _state.update(addFreeEndDate = it.toDateString())
     }
 
-    override fun onCleared() {
-        kermit.d { "SettingsViewModel onCleared" }
-        super.onCleared()
-    }
-
     // region Event
     override fun onBackClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onBackClick" }
+        Logger.d { "SettingsViewModel onBackClick" }
         _effect.emit(SettingsEffect.Back)
     }
 
     override fun onCurrenciesClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onCurrenciesClick" }
+        Logger.d { "SettingsViewModel onCurrenciesClick" }
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
 
     override fun onFeedBackClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onFeedBackClick" }
+        Logger.d { "SettingsViewModel onFeedBackClick" }
         _effect.emit(SettingsEffect.FeedBack)
     }
 
     override fun onShareClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onShareClick" }
+        Logger.d { "SettingsViewModel onShareClick" }
         _effect.emit(SettingsEffect.Share)
     }
 
     override fun onSupportUsClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onSupportUsClick" }
+        Logger.d { "SettingsViewModel onSupportUsClick" }
         _effect.emit(SettingsEffect.SupportUs)
     }
 
     override fun onOnGitHubClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onOnGitHubClick" }
+        Logger.d { "SettingsViewModel onOnGitHubClick" }
         _effect.emit(SettingsEffect.OnGitHub)
     }
 
     override fun onRemoveAdsClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onRemoveAdsClick" }
+        Logger.d { "SettingsViewModel onRemoveAdsClick" }
         _effect.emit(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
     }
 
     override fun onThemeClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onThemeClick" }
+        Logger.d { "SettingsViewModel onThemeClick" }
         _effect.emit(SettingsEffect.ThemeDialog)
     }
 
     override fun onSyncClick() = clientScope.launchIgnored {
-        kermit.d { "SettingsViewModel onSyncClick" }
+        Logger.d { "SettingsViewModel onSyncClick" }
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
@@ -14,7 +15,6 @@ import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
-import com.github.mustafaozhan.logmob.kermit
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -32,7 +32,7 @@ class BarBottomSheet :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        kermit.d { "BarBottomSheet onViewCreated" }
+        Logger.i { "BarBottomSheet onViewCreated" }
         initViews()
         observeStates()
         observeEffects()
@@ -40,6 +40,7 @@ class BarBottomSheet :
     }
 
     override fun onDestroyView() {
+        Logger.i { "BarBottomSheet onDestroyView" }
         binding.recyclerViewBar.adapter = null
         super.onDestroyView()
     }
@@ -68,7 +69,7 @@ class BarBottomSheet :
     private fun observeEffects() = barViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            kermit.d { "BarBottomSheet observeEffect ${viewEffect::class.simpleName}" }
+            Logger.i { "BarBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is BarEffect.ChangeBase -> {
                     setNavigationResult(
