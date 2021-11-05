@@ -50,3 +50,7 @@ tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf { candidate.version.isNonStable() }
 }
+
+tasks.koverCollectReports {
+    outputDir.set(layout.buildDirectory.dir("$buildDir/kover"))
+}
