@@ -4,8 +4,11 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    id(Plugins.DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
-    id(Plugins.BUILD_HEALTH) version Versions.BUILD_HEALTH
+    with(Plugins) {
+        id(DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
+        id(BUILD_HEALTH) version Versions.BUILD_HEALTH
+        id(KOVER) version Versions.KOVER
+    }
 }
 
 buildscript {
@@ -25,6 +28,7 @@ buildscript {
             classpath(SQL_DELIGHT)
             classpath(MOKO_RESOURCES)
             classpath(BUILD_KONFIG)
+            classpath(KOVER)
         }
     }
 }

@@ -17,4 +17,5 @@ object ClassPaths {
     const val MOKO_RESOURCES = "dev.icerock.moko:resources-generator:${Versions.MOKO_RESOURCES}"
     const val BUILD_KONFIG =
         "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.BUILD_KONFIG}"
+    const val KOVER = "org.jetbrains.kotlinx:kover:${Versions.KOVER}"
 }

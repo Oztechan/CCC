@@ -19,4 +19,5 @@ object Plugins {
     const val MOKO_RESOURCES = "dev.icerock.mobile.multiplatform-resources"
     const val DEPENDENCY_UPDATES = "com.github.ben-manes.versions"
     const val BUILD_HEALTH = "com.autonomousapps.dependency-analysis"
+    const val KOVER = "org.jetbrains.kotlinx.kover"
 }
