@@ -28,7 +28,7 @@ env:
 jobs:
 
   GenerateArtifacts:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:

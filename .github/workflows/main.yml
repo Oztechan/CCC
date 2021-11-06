@@ -30,7 +30,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -123,7 +123,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   Kover:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
