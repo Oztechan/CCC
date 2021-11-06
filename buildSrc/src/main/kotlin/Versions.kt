@@ -34,4 +34,5 @@ object Versions {
     const val BUILD_KONFIG = "0.11.0"
     const val WORK_RUNTIME = "2.7.0"
     const val SPLASH_SCREEN = "1.0.0-alpha02"
+    const val KOVER = "0.4.1"
 }
