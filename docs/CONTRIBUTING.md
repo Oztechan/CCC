@@ -30,6 +30,12 @@ Example:
 [#123] implementing bla bla
 ```
 
+In case commit is for one of the submodule:
+
+```
+[Oztechan/CCC#123] implementing bla bla
+```
+
 ## Pull Request
 
 ### Title
