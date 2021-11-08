@@ -42,7 +42,7 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         viewModel.effect.before {
             viewModel.updateAddFreeDate(adRemoveType)
         }.after {
-            assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType), it)
+            assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType, false), it)
         }
     }
 
@@ -55,7 +55,8 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             )
         )
     }.after {
-        assertTrue { it is AdRemoveEffect.AlreadyAdFree || it is AdRemoveEffect.AdsRemoved }
+        assertTrue { it is AdRemoveEffect.AdsRemoved }
+        assertEquals(true, (it as? AdRemoveEffect.AdsRemoved)?.isRestorePurchase == true)
     }
 
     @Test

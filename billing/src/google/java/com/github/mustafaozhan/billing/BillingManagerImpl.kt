@@ -87,7 +87,7 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
-        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse ${billingResult.responseCode}" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
@@ -141,7 +141,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
     ) {
-        Logger.i { "BillingManagerImpl onSkuDetailsResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onSkuDetailsResponse ${billingResult.responseCode}" }
 
         scope.launch {
             skuDetailsList?.whether {
@@ -166,7 +166,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) {
-        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList
             ?.map { PurchaseHistory(it.skus, it.purchaseTime) }
