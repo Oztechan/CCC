@@ -12,7 +12,8 @@ enum class RemoveAdType(val data: RemoveAdData) {
     MONTH(RemoveAdData("", "1 Month", "one_month")),
     QUARTER(RemoveAdData("", "3 Months", "three_months")),
     HALF_YEAR(RemoveAdData("", "6 Months", "six_months")),
-    YEAR(RemoveAdData("", "1 Year", "one_year"));
+    YEAR(RemoveAdData("", "1 Year", "one_year")),
+    LIFE_TIME(RemoveAdData("", "Life time", "life_time"));
 
     companion object {
         fun getById(sku: String?) = values()
