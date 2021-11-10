@@ -1,0 +1,11 @@
+coverage:
+  precision: 2
+  round: down
+  range: "50...90"
+
+comment:
+  layout: "reach, header, diff, changes, uncovered, tree, flags, files"
+  behavior: default
+
+ignore:
+  - "src/main/res/values*/*"
