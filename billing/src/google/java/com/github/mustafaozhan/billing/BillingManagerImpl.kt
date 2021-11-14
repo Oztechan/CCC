@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-class BillingManagerImpl(private val context: Context) :
+class BillingManagerImpl(context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
@@ -33,7 +33,12 @@ class BillingManagerImpl(private val context: Context) :
     PurchaseHistoryResponseListener,
     SkuDetailsResponseListener {
 
-    private lateinit var billingClient: BillingClient
+    private val billingClient: BillingClient = BillingClient
+        .newBuilder(context.applicationContext)
+        .setListener(this)
+        .enablePendingPurchases()
+        .build()
+
     private lateinit var scope: CoroutineScope
     private lateinit var skuList: List<String>
 
@@ -43,22 +48,16 @@ class BillingManagerImpl(private val context: Context) :
     private val _effect = MutableSharedFlow<BillingEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override fun setupBillingClient(
+    override fun startConnection(
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        Logger.i { "BillingManagerImpl setupBillingClient" }
+        Logger.i { "BillingManagerImpl startConnection" }
 
         this.scope = lifecycleScope
         this.skuList = skuList
 
-        this.billingClient = BillingClient
-            .newBuilder(context.applicationContext)
-            .setListener(this)
-            .enablePendingPurchases()
-            .build()
-
-        this.billingClient.startConnection(this)
+        billingClient.startConnection(this)
     }
 
     override fun endConnection() {

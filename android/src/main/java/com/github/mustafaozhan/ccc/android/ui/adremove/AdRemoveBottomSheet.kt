@@ -42,7 +42,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "AdRemoveBottomSheet onViewCreated" }
-        billingManager.setupBillingClient(
+        billingManager.startConnection(
             viewLifecycleOwner.lifecycleScope,
             RemoveAdType.getPurchaseIds()
         )

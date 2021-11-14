@@ -13,11 +13,11 @@ class BillingManagerImpl(private val context: Context) : BillingManager {
     private val _effect = MutableSharedFlow<BillingEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override fun setupBillingClient(
+    override fun startConnection(
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        Logger.i { "BillingManagerImpl setupBillingClient" }
+        Logger.i { "BillingManagerImpl startConnection" }
     }
 
     override fun endConnection() {

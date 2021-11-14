@@ -23,16 +23,16 @@ class CCCApplication : Application() {
 
         Logger.i { "CCCApplication onCreate" }
 
+        initCrashlytics(
+            context = this,
+            enableAnalytics = true
+        )
+
         initAds(this)
 
         initAndroid(
             context = this,
             platformModule = platformModule
-        )
-
-        initCrashlytics(
-            context = this,
-            enableAnalytics = true
         )
     }
 }
