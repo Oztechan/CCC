@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.SharedFlow
 interface BillingManager {
     val effect: SharedFlow<BillingEffect>
 
-    fun setupBillingClient(
+    fun startConnection(
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     )
