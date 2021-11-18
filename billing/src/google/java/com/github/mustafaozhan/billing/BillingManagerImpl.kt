@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-class BillingManagerImpl(context: Context) :
+class BillingManagerImpl(private val context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
@@ -33,12 +33,7 @@ class BillingManagerImpl(context: Context) :
     PurchaseHistoryResponseListener,
     SkuDetailsResponseListener {
 
-    private val billingClient: BillingClient = BillingClient
-        .newBuilder(context.applicationContext)
-        .setListener(this)
-        .enablePendingPurchases()
-        .build()
-
+    private lateinit var billingClient: BillingClient
     private lateinit var scope: CoroutineScope
     private lateinit var skuList: List<String>
 
@@ -56,6 +51,12 @@ class BillingManagerImpl(context: Context) :
 
         this.scope = lifecycleScope
         this.skuList = skuList
+
+        billingClient = BillingClient
+            .newBuilder(context.applicationContext)
+            .setListener(this)
+            .enablePendingPurchases()
+            .build()
 
         billingClient.startConnection(this)
     }
