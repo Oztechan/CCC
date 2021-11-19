@@ -25,8 +25,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.context.startKoin
 
 private const val DEFAULT_PORT = 8080
-private const val REQUEST_QUEUE_LIMIT = 32
-private const val RUNNING_LIMIT = 16
+private const val REQUEST_QUEUE_LIMIT = 48
+private const val RUNNING_LIMIT = 30
 private val apiController: ApiController by lazy {
     koin.getDependency(ApiController::class)
 }
