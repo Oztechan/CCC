@@ -42,7 +42,7 @@ android {
 
     signingConfigs {
         create(Build.Type.RELEASE) {
-            with(Keys.Signing) {
+            with(BuildValues.Signing) {
                 storeFile = file(getSecret(ANDROID_KEY_STORE_PATH))
                 storePassword = getSecret(ANDROID_STORE_PASSWORD)
                 keyAlias = getSecret(ANDROID_KEY_ALIAS)
@@ -70,71 +70,71 @@ android {
             signingConfig = signingConfigs.getByName(Build.Type.RELEASE)
             isMinifyEnabled = false
 
-            with(Keys.Release) {
+            with(BuildValues.Release) {
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     ADMOB_APP_ID.toResourceName(),
-                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
+                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     INTERSTITIAL_AD_ID.toResourceName(),
-                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
+                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     REWARDED_AD_UNIT_ID.toResourceName(),
-                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
+                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
 
         getByName(Build.Type.DEBUG) {
-            with(Keys.Debug) {
+            with(BuildValues.Debug) {
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     ADMOB_APP_ID.toResourceName(),
-                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
+                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     INTERSTITIAL_AD_ID.toResourceName(),
-                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
+                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    "string",
+                    BuildValues.Type.STRING,
                     REWARDED_AD_UNIT_ID.toResourceName(),
-                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
+                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
