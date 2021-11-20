@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         application
         kotlin(MULTIPLATFORM)
     }
@@ -39,7 +39,7 @@ kotlin {
                     implementation(KOIN_CORE)
                 }
 
-                with(Modules) {
+                with(Dependencies.Modules) {
                     implementation(project(COMMON))
                     implementation(project(LOG_MOB))
                 }

@@ -1,5 +1,5 @@
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         id(ANDROID_LIB)
         kotlin(ANDROID)
     }
@@ -15,22 +15,27 @@ android {
         }
     }
 
-    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+    with(Build.Flavor) {
+        flavorDimensions.addAll(listOf(getFlavorName()))
 
-    productFlavors {
-        create(DeviceType.GOOGLE) {
-            dimension = DeviceType::class.simpleName.toString()
-        }
+        productFlavors {
+            create(GOOGLE) {
+                dimension = getFlavorName()
+            }
 
-        create(DeviceType.HUAWEI) {
-            dimension = DeviceType::class.simpleName.toString()
+            create(HUAWEI) {
+                dimension = getFlavorName()
+            }
         }
     }
 }
 
 dependencies {
+    with(Build.Flavor.Implementation) {
+        googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
+    }
 
-    DeviceType.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
-
-    implementation(project(Modules.LOG_MOB))
+    with(Dependencies.Modules) {
+        implementation(project(LOG_MOB))
+    }
 }
