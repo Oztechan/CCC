@@ -72,4 +72,55 @@ object Dependencies {
     object JS {
         const val TEST = "test-js"
     }
+
+    object ClassPaths {
+        const val ANDROID_GRADLE_PLUGIN =
+            "com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}"
+        const val KOTLIN_GRADLE_PLUGIN =
+            "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+        const val KOTLIN_SERIALIZATION =
+            "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
+        const val SQL_DELIGHT = "com.squareup.sqldelight:gradle-plugin:${Versions.SQL_DELIGHT}"
+        const val GSM = "com.google.gms:google-services:${Versions.GSM}"
+        const val CRASHLYTICS =
+            "com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS}"
+        const val NAVIGATION =
+            "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}"
+        const val MOKO_RESOURCES = "dev.icerock.moko:resources-generator:${Versions.MOKO_RESOURCES}"
+        const val BUILD_KONFIG =
+            "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Versions.BUILD_KONFIG}"
+        const val KOVER = "org.jetbrains.kotlinx:kover:${Versions.KOVER}"
+    }
+
+    object Plugins {
+        const val MULTIPLATFORM = "multiplatform"
+        const val ANDROID = "android"
+        const val JS = "js"
+        const val ANDROID_APP = "com.android.application"
+        const val ANDROID_LIB = "com.android.library"
+        const val COCOAPODS = "native.cocoapods"
+        const val BUILD_KONFIG = "com.codingfeline.buildkonfig"
+        const val CRASHLYTICS = "com.google.firebase.crashlytics"
+        const val GOOGLE_SERVICES = "com.google.gms.google-services"
+        const val SAFE_ARGS = "androidx.navigation.safeargs"
+        const val KOTLIN_X_SERIALIZATION = "kotlinx-serialization"
+        const val SQL_DELIGHT = "com.squareup.sqldelight"
+        const val MOKO_RESOURCES = "dev.icerock.mobile.multiplatform-resources"
+        const val DEPENDENCY_UPDATES = "com.github.ben-manes.versions"
+        const val BUILD_HEALTH = "com.autonomousapps.dependency-analysis"
+        const val KOVER = "org.jetbrains.kotlinx.kover"
+    }
+
+    object Modules {
+        const val CLIENT = ":client"
+        const val COMMON = ":common"
+
+        const val BASE_MOB = ":basemob"
+        const val SCOPE_MOB = ":scopemob"
+        const val LOG_MOB = ":logmob"
+        const val PARSER_MOB = ":parsermob"
+
+        const val BILLING = ":billing"
+        const val AD = ":ad"
+    }
 }

@@ -1,5 +1,5 @@
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         id(ANDROID_LIB)
         kotlin(ANDROID)
     }
@@ -15,26 +15,32 @@ android {
         }
     }
 
-    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+    with(Build.Flavor) {
+        flavorDimensions.addAll(listOf(getFlavorName()))
 
-    productFlavors {
-        create(DeviceType.GOOGLE) {
-            dimension = DeviceType::class.simpleName.toString()
-        }
+        productFlavors {
+            create(GOOGLE) {
+                dimension = getFlavorName()
+            }
 
-        create(DeviceType.HUAWEI) {
-            dimension = DeviceType::class.simpleName.toString()
+            create(HUAWEI) {
+                dimension = getFlavorName()
+            }
         }
     }
 }
 
 dependencies {
 
-    DeviceType.googleApi(Dependencies.Android.GOOGLE.BILLING)
+    with(Build.Flavor.Implementation) {
+        googleApi(Dependencies.Android.GOOGLE.BILLING)
+    }
 
-    implementation(Dependencies.Android.LIFECYCLE_RUNTIME)
+    with(Dependencies.Android) {
+        implementation(LIFECYCLE_RUNTIME)
+    }
 
-    with(Modules) {
+    with(Dependencies.Modules) {
         implementation(project(SCOPE_MOB))
         implementation(project(LOG_MOB))
     }

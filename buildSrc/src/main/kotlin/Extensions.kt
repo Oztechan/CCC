@@ -1,15 +1,9 @@
-import org.gradle.api.Project
 import java.io.IOException
+import java.util.Locale
 import java.util.Properties
+import org.gradle.api.Project
 
 private const val PATH_SECRET_PROPERTIES = "../secret.properties"
-
-fun Project.getSecretProperties() = try {
-    Properties().apply { load(file(PATH_SECRET_PROPERTIES).inputStream()) }
-} catch (e: IOException) {
-    logger.debug(e.message, e)
-    null
-}
 
 fun Project.getSecret(
     key: String,
@@ -22,12 +16,35 @@ fun Project.getSecret(
     }
 }
 
+private fun Project.getSecretProperties() = try {
+    Properties().apply { load(file(PATH_SECRET_PROPERTIES).inputStream()) }
+} catch (e: IOException) {
+    logger.debug(e.message, e)
+    null
+}
+
+fun String.toResourceName() = removeVariant().toLowerCase(Locale.ROOT)
+
 fun String.removeVariant() = replace(
-    oldValue = "_${BuildType.RELEASE}_",
+    oldValue = "_${Build.Type.RELEASE}_",
     newValue = "_",
     ignoreCase = true
 ).replace(
-    oldValue = "_${BuildType.DEBUG}_",
+    oldValue = "_${Build.Type.DEBUG}_",
     newValue = "_",
     ignoreCase = true
 )
+
+fun String.isNonStable(): Boolean {
+    val stableKeyword = listOf(
+        "RELEASE",
+        "FINAL",
+        "GA"
+    ).any {
+        this.toUpperCase(Locale.ROOT).contains(it)
+    }
+
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(this)
+    return isStable.not()
+}
