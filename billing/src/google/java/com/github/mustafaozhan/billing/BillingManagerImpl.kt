@@ -43,22 +43,22 @@ class BillingManagerImpl(private val context: Context) :
     private val _effect = MutableSharedFlow<BillingEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override fun setupBillingClient(
+    override fun startConnection(
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        Logger.i { "BillingManagerImpl setupBillingClient" }
+        Logger.i { "BillingManagerImpl startConnection" }
 
         this.scope = lifecycleScope
         this.skuList = skuList
 
-        this.billingClient = BillingClient
+        billingClient = BillingClient
             .newBuilder(context.applicationContext)
             .setListener(this)
             .enablePendingPurchases()
             .build()
 
-        this.billingClient.startConnection(this)
+        billingClient.startConnection(this)
     }
 
     override fun endConnection() {
@@ -87,7 +87,7 @@ class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
-        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse ${billingResult.responseCode}" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
@@ -141,7 +141,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         skuDetailsList: MutableList<SkuDetails>?
     ) {
-        Logger.i { "BillingManagerImpl onSkuDetailsResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onSkuDetailsResponse ${billingResult.responseCode}" }
 
         scope.launch {
             skuDetailsList?.whether {
@@ -166,7 +166,7 @@ class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) {
-        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse $billingResult" }
+        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList
             ?.map { PurchaseHistory(it.skus, it.purchaseTime) }

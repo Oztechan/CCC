@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-private const val NUMBER_OF_REFRESH_IN_DAY = 3
+private const val NUMBER_OF_REFRESH_IN_DAY = 4
 
 class ApiController(
     private val apiRepository: ApiRepository,

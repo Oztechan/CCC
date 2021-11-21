@@ -6,7 +6,7 @@ import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
         id(KOTLIN_X_SERIALIZATION)
         id(ANDROID_LIB)
@@ -34,7 +34,7 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Modules.LOG_MOB))
+                    implementation(project(Dependencies.Modules.LOG_MOB))
 
                     implementation(MULTIPLATFORM_SETTINGS)
                     implementation(KOTLIN_X_DATE_TIME)
@@ -107,11 +107,9 @@ android {
 }
 
 sqldelight {
-    with(Database) {
-        database(DB_NAME) {
-            packageName = DB_PACKAGE_NAME
-            sourceFolders = listOf(DB_SOURCE_FOLDER)
-        }
+    database("CurrencyConverterCalculatorDatabase") {
+        packageName = "${ProjectSettings.PACKAGE_NAME}.common.db.sql"
+        sourceFolders = listOf("kotlin")
     }
 }
 
@@ -119,12 +117,18 @@ configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.PACKAGE_NAME}.common"
 
     defaultConfigs {
-        buildConfigField(
-            STRING,
-            Keys.BASE_URL_BACKEND,
-            getSecret(Keys.BASE_URL_BACKEND, Fakes.PRIVATE_URL)
-        )
-        buildConfigField(STRING, Keys.BASE_URL_API, getSecret(Keys.BASE_URL_API, Fakes.PRIVATE_URL))
+        with(BuildValues) {
+            buildConfigField(
+                STRING,
+                BASE_URL_BACKEND,
+                getSecret(BASE_URL_BACKEND, BuildValues.Fakes.PRIVATE_URL)
+            )
+            buildConfigField(
+                STRING,
+                BASE_URL_API,
+                getSecret(BASE_URL_API, BuildValues.Fakes.PRIVATE_URL)
+            )
+        }
     }
 }
 

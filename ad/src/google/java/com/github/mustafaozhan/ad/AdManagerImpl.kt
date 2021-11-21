@@ -29,13 +29,11 @@ class AdManagerImpl : AdManager {
         MobileAds.initialize(context)
         Logger.i { "AdManagerImpl getBannerAd" }
 
-
         val adWidthPixels = if (width == 0) {
             context.resources.displayMetrics.widthPixels.toFloat()
         } else {
             width.toFloat()
         }
-
 
         adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
             context,
@@ -54,7 +52,9 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
+                Logger.w(Exception(adError.message)) {
+                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
+                }
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -78,7 +78,9 @@ class AdManagerImpl : AdManager {
         getAdRequest(),
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w { "AdManagerImpl onAdFailedToLoad ${adError.message}" }
+                Logger.w(Exception(adError.message)) {
+                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
+                }
                 onAdFailedToLoad()
             }
 

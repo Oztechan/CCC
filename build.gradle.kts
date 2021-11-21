@@ -4,7 +4,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         id(DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
         id(BUILD_HEALTH) version Versions.BUILD_HEALTH
         id(KOVER) version Versions.KOVER
@@ -18,7 +18,7 @@ buildscript {
         maven("https://dl.bintray.com/icerockdev/plugins")
     }
     dependencies {
-        with(ClassPaths) {
+        with(Dependencies.ClassPaths) {
             classpath(ANDROID_GRADLE_PLUGIN)
             classpath(KOTLIN_GRADLE_PLUGIN)
             classpath(GSM)
@@ -47,19 +47,6 @@ allprojects {
 }
 
 tasks.withType<DependencyUpdatesTask> {
-    // show only stable version of gradle
     gradleReleaseChannel = "current"
-    rejectVersionIf {
-        // show only stable versions
-        isNonStable(candidate.version) &&
-            // hide warnings for current unstable versions
-            !isNonStable(currentVersion)
-    }
-}
-
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
+    rejectVersionIf { candidate.version.isNonStable() }
 }

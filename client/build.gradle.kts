@@ -5,7 +5,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
         kotlin(COCOAPODS)
         id(ANDROID_LIB)
@@ -53,7 +53,7 @@ kotlin {
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
 
-                    with(Modules) {
+                    with(Dependencies.Modules) {
                         implementation(project(COMMON))
                         implementation(project(PARSER_MOB))
                         implementation(project(SCOPE_MOB))
@@ -118,15 +118,17 @@ android {
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
-    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+    with(Build.Flavor) {
+        flavorDimensions.addAll(listOf(getFlavorName()))
 
-    productFlavors {
-        create(DeviceType.GOOGLE) {
-            dimension = DeviceType::class.simpleName.toString()
-        }
+        productFlavors {
+            create(GOOGLE) {
+                dimension = getFlavorName()
+            }
 
-        create(DeviceType.HUAWEI) {
-            dimension = DeviceType::class.simpleName.toString()
+            create(HUAWEI) {
+                dimension = getFlavorName()
+            }
         }
     }
 }

@@ -2,4 +2,4 @@
 
 ### Issue Checklist
 
-* [] I have added a valid description.
+* [ ] I have added a valid description.

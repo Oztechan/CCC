@@ -42,7 +42,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "AdRemoveBottomSheet onViewCreated" }
-        billingManager.setupBillingClient(
+        billingManager.startConnection(
             viewLifecycleOwner.lifecycleScope,
             RemoveAdType.getPurchaseIds()
         )
@@ -97,16 +97,14 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                     }
                 }
                 is AdRemoveEffect.AdsRemoved -> {
-                    if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
+                    if (viewEffect.removeAdType == RemoveAdType.VIDEO ||
+                        viewEffect.isRestorePurchase
+                    ) {
                         restartActivity()
                     } else {
                         billingManager.acknowledgePurchase()
                     }
                 }
-                AdRemoveEffect.AlreadyAdFree -> showSnack(
-                    requireView(),
-                    R.string.txt_ads_already_disabled
-                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

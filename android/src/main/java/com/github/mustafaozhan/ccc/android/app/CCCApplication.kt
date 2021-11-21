@@ -4,6 +4,7 @@
 package com.github.mustafaozhan.ccc.android.app
 
 import android.app.Application
+import android.os.Build
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.initAds
 import com.github.mustafaozhan.ccc.android.di.platformModule
@@ -23,16 +24,17 @@ class CCCApplication : Application() {
 
         Logger.i { "CCCApplication onCreate" }
 
+        initCrashlytics(
+            context = this,
+            enableAnalytics = true,
+            enableAnrWatchDog = Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+        )
+
         initAds(this)
 
         initAndroid(
             context = this,
             platformModule = platformModule
-        )
-
-        initCrashlytics(
-            context = this,
-            enableAnalytics = true
         )
     }
 }

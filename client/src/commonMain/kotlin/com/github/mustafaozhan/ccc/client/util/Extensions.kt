@@ -123,6 +123,11 @@ fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (thi
         DateTimeUnit.YEAR,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
+    RemoveAdType.LIFE_TIME -> startDate.toInstant().plus(
+        1,
+        DateTimeUnit.CENTURY,
+        TimeZone.currentSystemDefault()
+    ).toEpochMilliseconds()
 }
 
 @Suppress("ComplexMethod", "LongMethod")

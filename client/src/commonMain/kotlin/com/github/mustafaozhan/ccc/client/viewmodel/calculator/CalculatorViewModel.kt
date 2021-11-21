@@ -114,7 +114,8 @@ class CalculatorViewModel(
             calculateConversions(offlineRates)
             _state.update(rateState = RateState.Offline(offlineRates.date))
         } ?: clientScope.launch {
-            Logger.w { "no offline rate found" }
+            Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
+
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.emit(CalculatorEffect.Error) }

@@ -40,11 +40,12 @@ class AdRemoveViewModel(
 
     fun updateAddFreeDate(
         adType: RemoveAdType?,
-        startDate: Long = nowAsLong()
+        startDate: Long = nowAsLong(),
+        isRestorePurchase: Boolean = false
     ) = adType?.let {
         clientScope.launch {
             settingsRepository.adFreeEndDate = it.calculateAdRewardEnd(startDate)
-            _effect.emit(AdRemoveEffect.AdsRemoved(it))
+            _effect.emit(AdRemoveEffect.AdsRemoved(it, isRestorePurchase))
         }
     }
 
@@ -58,8 +59,11 @@ class AdRemoveViewModel(
         }?.whetherNot {
             type.calculateAdRewardEnd(date).isRewardExpired()
         }?.apply {
-            clientScope.launch { _effect.emit(AdRemoveEffect.AlreadyAdFree) }
-            updateAddFreeDate(RemoveAdType.getById(type.data.id), this.date)
+            updateAddFreeDate(
+                adType = RemoveAdType.getById(type.data.id),
+                startDate = this.date,
+                isRestorePurchase = true
+            )
         }
 
     fun showLoadingView(shouldShow: Boolean) {

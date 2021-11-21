@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 plugins {
-    with(Plugins) {
+    with(Dependencies.Plugins) {
         id(ANDROID_APP)
         id(CRASHLYTICS)
         id(GOOGLE_SERVICES)
@@ -41,8 +41,8 @@ android {
     }
 
     signingConfigs {
-        create(BuildType.RELEASE) {
-            with(Keys.Signing) {
+        create(Build.Type.RELEASE) {
+            with(BuildValues.Signing) {
                 storeFile = file(getSecret(ANDROID_KEY_STORE_PATH))
                 storePassword = getSecret(ANDROID_STORE_PASSWORD)
                 keyAlias = getSecret(ANDROID_KEY_ALIAS)
@@ -51,88 +51,90 @@ android {
         }
     }
 
-    flavorDimensions.addAll(listOf(DeviceType::class.simpleName.toString()))
+    with(Build.Flavor) {
+        flavorDimensions.addAll(listOf(getFlavorName()))
 
-    productFlavors {
-        create(DeviceType.GOOGLE) {
-            dimension = DeviceType::class.simpleName.toString()
-        }
+        productFlavors {
+            create(GOOGLE) {
+                dimension = getFlavorName()
+            }
 
-        create(DeviceType.HUAWEI) {
-            dimension = DeviceType::class.simpleName.toString()
+            create(HUAWEI) {
+                dimension = getFlavorName()
+            }
         }
     }
 
     buildTypes {
-
-        getByName(BuildType.RELEASE) {
-            signingConfig = signingConfigs.getByName(BuildType.RELEASE)
+        getByName(Build.Type.RELEASE) {
+            signingConfig = signingConfigs.getByName(Build.Type.RELEASE)
             isMinifyEnabled = false
 
-            with(Keys.Release) {
+            with(BuildValues.Release) {
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    ADMOB_APP_ID.removeVariant().toLowerCase(),
-                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
+                    BuildValues.Type.STRING,
+                    ADMOB_APP_ID.toResourceName(),
+                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_CALCULATOR.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_SETTINGS.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_CURRENCIES.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    INTERSTITIAL_AD_ID.removeVariant().toLowerCase(),
-                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
+                    BuildValues.Type.STRING,
+                    INTERSTITIAL_AD_ID.toResourceName(),
+                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    REWARDED_AD_UNIT_ID.removeVariant().toLowerCase(),
-                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    REWARDED_AD_UNIT_ID.toResourceName(),
+                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
-        getByName(BuildType.DEBUG) {
-            with(Keys.Debug) {
+
+        getByName(Build.Type.DEBUG) {
+            with(BuildValues.Debug) {
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    ADMOB_APP_ID.removeVariant().toLowerCase(),
-                    getSecret(ADMOB_APP_ID, Fakes.ADMOB_APP_ID)
+                    BuildValues.Type.STRING,
+                    ADMOB_APP_ID.toResourceName(),
+                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_CALCULATOR.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_SETTINGS.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    BANNER_AD_UNIT_ID_CURRENCIES.removeVariant().toLowerCase(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, Fakes.BANNER_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
+                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    INTERSTITIAL_AD_ID.removeVariant().toLowerCase(),
-                    getSecret(INTERSTITIAL_AD_ID, Fakes.INTERSTITIAL_AD_ID)
+                    BuildValues.Type.STRING,
+                    INTERSTITIAL_AD_ID.toResourceName(),
+                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
                 )
                 resValue(
-                    Type.STRING.toLowerCase(),
-                    REWARDED_AD_UNIT_ID.removeVariant().toLowerCase(),
-                    getSecret(REWARDED_AD_UNIT_ID, Fakes.REWARDED_AD_UNIT_ID)
+                    BuildValues.Type.STRING,
+                    REWARDED_AD_UNIT_ID.toResourceName(),
+                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
                 )
             }
         }
@@ -158,7 +160,7 @@ dependencies {
         implementation(KOTLIN_X_DATE_TIME)
     }
 
-    with(Modules) {
+    with(Dependencies.Modules) {
         implementation(project(CLIENT))
 
         implementation(project(BASE_MOB))
