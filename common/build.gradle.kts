@@ -128,6 +128,16 @@ configure<BuildKonfigExtension> {
                 BASE_URL_API,
                 getSecret(BASE_URL_API, BuildValues.Fakes.PRIVATE_URL)
             )
+            buildConfigField(
+                STRING,
+                BASE_URL_API_POPULAR,
+                getSecret(BASE_URL_API_POPULAR, BuildValues.Fakes.PRIVATE_URL)
+            )
+            buildConfigField(
+                STRING,
+                API_KEY_POPULAR,
+                getSecret(API_KEY_POPULAR, BuildValues.Fakes.PRIVATE_URL)
+            )
         }
     }
 }

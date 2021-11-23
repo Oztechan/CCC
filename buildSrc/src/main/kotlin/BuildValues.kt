@@ -1,6 +1,8 @@
 object BuildValues {
     const val BASE_URL_BACKEND = "BASE_URL_BACKEND"
     const val BASE_URL_API = "BASE_URL_API"
+    const val BASE_URL_API_POPULAR = "BASE_URL_API_POPULAR"
+    const val API_KEY_POPULAR = "API_KEY_POPULAR"
 
     object Release {
         const val ADMOB_APP_ID = "ANDROID_RELEASE_ADMOB_APP_ID"

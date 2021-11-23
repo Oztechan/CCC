@@ -16,21 +16,33 @@ internal class ApiService(private val client: HttpClient) {
         url {
             takeFrom(BuildKonfig.BASE_URL_BACKEND)
             path(PATH_CURRENCY_BY_BASE_BACKEND)
-            parameter(QUERY_KEY_BASE, base)
+            parameter(QUERY_BASE, base)
         }
     }
 
-    suspend fun getRatesViaApi(base: String) = client.get<CurrencyResponseEntity> {
+    suspend fun getUnPopularRates(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_API)
             path(PATH_CURRENCY_BY_BASE_API)
-            parameter(QUERY_KEY_BASE, base)
+            parameter(QUERY_BASE, base)
+        }
+    }
+
+    suspend fun getPopularRates(base: String) = client.get<CurrencyResponseEntity> {
+        url {
+            takeFrom(BuildKonfig.BASE_URL_API_POPULAR)
+            path(PATH_POPULAR)
+            parameter(QUERY_KEY, BuildKonfig.API_KEY_POPULAR)
+            parameter(QUERY_BASE, base)
         }
     }
 
     companion object {
-        private const val QUERY_KEY_BASE = "base"
+        private const val QUERY_BASE = "base"
+        private const val QUERY_KEY = "key"
+
         private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
         private const val PATH_CURRENCY_BY_BASE_API = "latest/"
+        private const val PATH_POPULAR = "/api/v1/rates"
     }
 }
