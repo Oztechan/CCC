@@ -16,34 +16,61 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-private const val NUMBER_OF_REFRESH_IN_DAY = 4
+private const val NUMBER_OF_REFRESH_IN_DAY_POPULAR = 24
+private const val NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR = 4
 
 class ApiController(
     private val apiRepository: ApiRepository,
     private val offlineRatesRepository: OfflineRatesRepository
 ) {
-    fun startSyncApi() = CoroutineScope(Dispatchers.IO).launch {
-        Logger.i { "Api refreshApi" }
-        while (isActive) {
-            Logger.i { "refreshing" }
-            updateCurrencies()
+    fun startSyncApi() {
+        Logger.i { "ApiController startSyncApi" }
 
-            delay(DAY / NUMBER_OF_REFRESH_IN_DAY)
+        updatePopularCurrencies()
+        updateUnPopularCurrencies()
+    }
+
+    private fun updatePopularCurrencies() = CoroutineScope(Dispatchers.IO).launch {
+        Logger.i { "ApiController updatePopularCurrencies" }
+
+        while (isActive) {
+            CurrencyType.getPopularCurrencies().forEach { base ->
+
+                delay(SECOND)
+
+                apiRepository
+                    .getPopularRates(base.name)
+                    .execute({ currencyResponse ->
+                        offlineRatesRepository.insertOfflineRates(currencyResponse)
+                    }, { error ->
+                        Logger.e(error) { error.message.toString() }
+                    })
+            }
+
+            delay(DAY / NUMBER_OF_REFRESH_IN_DAY_POPULAR)
         }
     }
 
-    private suspend fun updateCurrencies() {
-        CurrencyType.values().forEach { base ->
+    private fun updateUnPopularCurrencies() = CoroutineScope(Dispatchers.IO).launch {
+        Logger.i { "ApiController updateUnPopularCurrencies" }
 
-            delay(SECOND)
+        while (isActive) {
+            CurrencyType.values()
+                .filter { !CurrencyType.getPopularCurrencies().contains(it) }
+                .forEach { base ->
 
-            apiRepository
-                .getRatesViaApi(base.name)
-                .execute({ currencyResponse ->
-                    offlineRatesRepository.insertOfflineRates(currencyResponse)
-                }, { error ->
-                    Logger.e(error) { error.message.toString() }
-                })
+                    delay(SECOND)
+
+                    apiRepository
+                        .getUnPopularRates(base.name)
+                        .execute({ currencyResponse ->
+                            offlineRatesRepository.insertOfflineRates(currencyResponse)
+                        }, { error ->
+                            Logger.e(error) { error.message.toString() }
+                        })
+                }
+
+            delay(DAY / NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR)
         }
     }
 }

@@ -6,5 +6,7 @@ import com.github.mustafaozhan.ccc.common.util.Result
 interface ApiRepository {
     suspend fun getRatesViaBackend(base: String): Result<out CurrencyResponse>
 
-    suspend fun getRatesViaApi(base: String): Result<out CurrencyResponse>
+    suspend fun getUnPopularRates(base: String): Result<out CurrencyResponse>
+
+    suspend fun getPopularRates(base: String): Result<out CurrencyResponse>
 }
