@@ -45,10 +45,17 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
         Logger.v { "ApiRepositoryImpl getRatesViaBackend $base" }
     }
 
-    override suspend fun getRatesViaApi(base: String) = apiRequest {
+    override suspend fun getUnPopularRates(base: String) = apiRequest {
         if (base.isEmpty()) throw EmptyParameterException()
-        else apiService.getRatesViaApi(base).toModel(base)
+        else apiService.getUnPopularRates(base).toModel(base)
     }.also {
-        Logger.v { "ApiRepositoryImpl getRatesViaApi $base" }
+        Logger.v { "ApiRepositoryImpl getUnPopularRates $base" }
+    }
+
+    override suspend fun getPopularRates(base: String) = apiRequest {
+        if (base.isEmpty()) throw EmptyParameterException()
+        else apiService.getPopularRates(base).toModel(base)
+    }.also {
+        Logger.v { "ApiRepositoryImpl getPopularRates $base" }
     }
 }
