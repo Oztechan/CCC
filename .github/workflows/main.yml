@@ -25,6 +25,8 @@ env:
   ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
+  BASE_URL_API_POPULAR: ${{ secrets.BASE_URL_API_POPULAR }}
+  API_KEY_POPULAR: ${{ secrets.API_KEY_POPULAR }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
