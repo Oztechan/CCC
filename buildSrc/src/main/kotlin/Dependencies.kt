@@ -30,8 +30,9 @@ object Dependencies {
             "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
         const val FIREBASE_CRASHLYTICS =
-            "com.google.firebase:firebase-crashlytics:${Versions.FIREBASE_CRASHLYTICS}"
-        const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Versions.FIREBASE_CORE}"
+            "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
+        const val FIREBASE_ANALYTICS =
+            "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
         const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
         const val LIFECYCLE_VIEWMODEL =
@@ -122,5 +123,6 @@ object Dependencies {
 
         const val BILLING = ":billing"
         const val AD = ":ad"
+        const val ANALYTICS = ":analytics"
     }
 }

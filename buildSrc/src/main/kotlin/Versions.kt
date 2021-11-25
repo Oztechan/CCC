@@ -13,7 +13,7 @@ object Versions {
     const val KOIN = "3.1.3"
     const val KERMIT = "1.0.0"
     const val MULTIPLATFORM_SETTINGS = "0.8.1"
-    const val FIREBASE_CORE = "20.0.0"
+    const val FIREBASE_ANALYTICS = "20.0.0"
     const val FIREBASE_CRASHLYTICS = "18.2.4"
     const val DESUGARING = "1.1.5"
     const val ANR_WATCH_DOG = "1.4.0"
