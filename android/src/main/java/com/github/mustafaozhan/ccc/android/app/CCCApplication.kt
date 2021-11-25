@@ -14,6 +14,7 @@ import com.github.mustafaozhan.ccc.android.di.platformModule
 import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger
+import com.mustafaozhan.github.analytics.initAnalytics
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 @Suppress("unused")
@@ -32,9 +33,11 @@ class CCCApplication : Application() {
 
         Logger.i { "CCCApplication onCreate" }
 
+        if (!BuildConfig.DEBUG) {
+            initAnalytics(this)
+        }
+
         initCrashlytics(
-            context = this,
-            enableAnalytics = true,
             enableAnrWatchDog = Build.VERSION.SDK_INT < Build.VERSION_CODES.R
         )
 

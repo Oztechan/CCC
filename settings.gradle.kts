@@ -4,11 +4,17 @@
 
 include(
     ":android",
-    ":backend",
-    ":client", // Shared with all FE targets
-    ":common", // Shared with all FE & BE targets
     ":billing", // android billing
-    ":ad"
+    ":ad", // android ads
+    ":analytics"
+)
+
+include(":backend")
+
+// KMP
+include(
+    ":client", // Shared with all FE targets
+    ":common" // Shared with all FE & BE targets
 )
 
 // SubMobs
