@@ -356,7 +356,7 @@
         <item name="android:paddingRight">@dimen/margin_zero</item>
     </style>
 
-    <style name="BottomSheetItemLayout" parent="BaseItemLayout">
+    <style name="ChangeBaseItemLayout" parent="BaseItemLayout">
         <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
 
