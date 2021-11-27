@@ -142,14 +142,19 @@ jobs:
           java-version: 11
 
       - name: Run Kover
-        run: |
-          ./gradlew koverCollectReports --parallel
+        run: ./gradlew koverXmlReport koverCollectReports
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: client/build/reports/kover/report.xml, common/build/reports/kover/report.xml, scopemob/build/reports/kover/report.xml, parsermob/build/reports/kover/report.xml
+          files: build/kover/client.xml,build/kover/common.xml,build/kover/scopemob.xml,build/kover/parsermob.xml
+
+      - name: Upload to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: build/kover/client.xml,build/kover/common.xml,build/kover/scopemob.xml,build/kover/parsermob.xml
 
       - name: Set Job Status
         id: status
