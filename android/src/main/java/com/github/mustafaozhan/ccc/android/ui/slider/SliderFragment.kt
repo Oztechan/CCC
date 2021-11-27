@@ -15,10 +15,14 @@ import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.gone
 import com.github.mustafaozhan.ccc.android.util.visible
 import com.github.mustafaozhan.scopemob.whether
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
+import org.koin.android.ext.android.inject
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
+
+    private val analyticsManager: AnalyticsManager by inject()
 
     override fun getViewBinding() = FragmentSliderBinding.inflate(layoutInflater)
 
@@ -41,6 +45,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
     override fun onResume() {
         super.onResume()
+        analyticsManager.trackScreen("${this::class.simpleName} 0")
+
         Logger.i { "SliderFragment onResume" }
         binding.progressBar.gone()
     }
@@ -51,7 +57,10 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
+                    analyticsManager.trackScreen("${this::class.simpleName} $position")
+
                     Logger.i { "SliderFragment onPageSelected $position" }
+
                     addBottomDots(position)
 
                     binding.btnNext.text = if (position == layouts.size - 1) {

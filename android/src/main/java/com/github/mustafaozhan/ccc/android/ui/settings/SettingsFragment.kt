@@ -22,6 +22,7 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -32,6 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @Suppress("TooManyFunctions")
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val settingsViewModel: SettingsViewModel by viewModel()
 
@@ -200,6 +202,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
         Logger.i { "SettingsFragment onResume" }
     }
 

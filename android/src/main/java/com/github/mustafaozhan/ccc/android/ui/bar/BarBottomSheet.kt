@@ -15,15 +15,17 @@ import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetBarBinding
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BarBottomSheet :
-    BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() {
+class BarBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val barViewModel: BarViewModel by viewModel()
 
     private lateinit var barAdapter: BarAdapter
@@ -43,6 +45,11 @@ class BarBottomSheet :
         Logger.i { "BarBottomSheet onDestroyView" }
         binding.recyclerViewBar.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
     }
 
     private fun initViews() {
