@@ -222,11 +222,6 @@ class CalculatorViewModel(
         _effect.emit(CalculatorEffect.OpenBar)
     }
 
-    override fun onSpinnerItemSelected(base: String) {
-        Logger.d { "CalculatorViewModel onSpinnerItemSelected $base" }
-        _state.update(base = base)
-    }
-
     override fun onSettingsClicked() = clientScope.launchIgnored {
         Logger.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
