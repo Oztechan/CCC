@@ -57,7 +57,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onDestroyView() {
         Logger.i { "AdRemoveBottomSheet onDestroyView" }
         billingManager.endConnection()
-        binding.recyclerViewBar.adapter = null
+        binding.recyclerViewRemoveAds.adapter = null
         super.onDestroyView()
     }
 
@@ -68,7 +68,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     private fun initViews() {
         removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
-        binding.recyclerViewBar.adapter = removeAdsAdapter
+        binding.recyclerViewRemoveAds.adapter = removeAdsAdapter
     }
 
     private fun observeStates() = adRemoveViewModel.state

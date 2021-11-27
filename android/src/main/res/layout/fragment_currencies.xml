@@ -16,7 +16,7 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loading_view"
-        style="@style/ProgressBarStyle"
+        style="@style/HorizontalProgressBarStyle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_currencies_toolbar" />
