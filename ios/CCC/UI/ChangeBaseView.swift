@@ -10,14 +10,14 @@ import SwiftUI
 import Client
 import NavigationStack
 
-typealias BarObservable = ObservableSEED
-<BarViewModel, BarState, BarEffect, BarEvent, BaseData>
+typealias ChangeBaseObservable = ObservableSEED
+<ChangeBaseViewModel, ChangeBaseState, ChangeBaseEffect, ChangeBaseEvent, BaseData>
 
-struct BarView: View {
+struct ChangeBaseView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: BarObservable = koin.get()
+    @StateObject var observable: ChangeBaseObservable = koin.get()
     @Binding var isBarShown: Bool
 
     var onBaseChange: (String) -> Void
@@ -65,14 +65,14 @@ struct BarView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    private func onEffect(effect: BarEffect) {
+    private func onEffect(effect: ChangeBaseEffect) {
         logger.i(message: {effect.description})
         switch effect {
         // swiftlint:disable force_cast
-        case is BarEffect.ChangeBase:
-            onBaseChange((effect as! BarEffect.ChangeBase).newBase)
+        case is ChangeBaseEffect.BaseChange:
+            onBaseChange((effect as! ChangeBaseEffect.BaseChange).newBase)
             isBarShown = false
-        case is BarEffect.OpenCurrencies:
+        case is ChangeBaseEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         default:
             logger.i(message: {"BarView unknown effect"})
