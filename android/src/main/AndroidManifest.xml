@@ -38,6 +38,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/android_admob_app_id" />
 
+        <meta-data
+            android:name="google_analytics_automatic_screen_reporting_enabled"
+            android:value="false" />
+
     </application>
 
     <queries>

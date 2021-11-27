@@ -22,6 +22,7 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -31,6 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
@@ -46,6 +48,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         observeStates()
         observeEffects()
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
     }
 
     override fun onDestroyView() {

@@ -24,6 +24,7 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -33,6 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
@@ -155,6 +157,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
         Logger.i { "CurrenciesFragment onResume" }
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.event.onQueryChange("")
