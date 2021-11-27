@@ -266,13 +266,13 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
     </style>
 
-    <style name="ProgressBarStyle">
+    <style name="HorizontalProgressBarStyle">
         <item name="android:indeterminate">true</item>
         <item name="android:layout_width">@dimen/margin_zero</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="SliderProgressBarStyle" parent="ProgressBarStyle">
+    <style name="SliderProgressBarStyle" parent="HorizontalProgressBarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:visibility">gone</item>
     </style>
@@ -289,7 +289,7 @@
         <item name="android:padding">@dimen/margin_eight</item>
     </style>
 
-    <!-- Bar Bottom Sheet Dialog -->
+    <!-- ChangeBase Bottom Sheet Dialog -->
     <style name="BottomSheetTitleStyle" parent="WrapStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
@@ -356,8 +356,8 @@
         <item name="android:paddingRight">@dimen/margin_zero</item>
     </style>
 
-    <style name="BarItemLayout" parent="BaseItemLayout">
-        <item name="android:background">@drawable/selector_bar</item>
+    <style name="BottomSheetItemLayout" parent="BaseItemLayout">
+        <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
 
     <!-- Calculator Item -->
@@ -503,14 +503,14 @@
         <item name="android:focusable">false</item>
     </style>
 
-    <!-- Bar -->
-    <style name="BarItemText" parent="CurrenciesItemText">
+    <!-- BottomSheet -->
+    <style name="ChangeBaseItemText" parent="CurrenciesItemText">
         <item name="android:textAppearance">@style/ItemTextStyle</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
-    <style name="BarItemImageView" parent="CurrenciesItemImageView">
+    <style name="ChangeBaseItemImageView" parent="CurrenciesItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
@@ -524,7 +524,7 @@
 
     <!-- Ad Remove -->
     <style name="AdRemoveItemLayoutStyle" parent="WideStyle">
-        <item name="android:background">@drawable/selector_bar</item>
+        <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
 
     <style name="TextAdRemoveItemStyle" parent="WrapStyle">

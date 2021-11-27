@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.viewmodel.bar
+package com.github.mustafaozhan.ccc.client.viewmodel.changebase
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseData
@@ -18,17 +18,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class BarViewModel(
+class ChangeBaseViewModel(
     currencyRepository: CurrencyRepository
-) : BaseSEEDViewModel(), BarEvent {
+) : BaseSEEDViewModel(), ChangeBaseEvent {
     // region SEED
-    private val _state = MutableStateFlow(BarState())
+    private val _state = MutableStateFlow(ChangeBaseState())
     override val state = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<BarEffect>()
+    private val _effect = MutableSharedFlow<ChangeBaseEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override val event = this as BarEvent
+    override val event = this as ChangeBaseEvent
 
     override val data: BaseData? = null
     // endregion
@@ -46,13 +46,13 @@ class BarViewModel(
 
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launchIgnored {
-        Logger.d { "BarViewModel onItemClick ${currency.name}" }
-        _effect.emit(BarEffect.ChangeBase(currency.name))
+        Logger.d { "ChangeBaseViewModel onItemClick ${currency.name}" }
+        _effect.emit(ChangeBaseEffect.BaseChange(currency.name))
     }
 
     override fun onSelectClick() = clientScope.launchIgnored {
-        Logger.d { "BarViewModel onSelectClick" }
-        _effect.emit(BarEffect.OpenCurrencies)
+        Logger.d { "ChangeBaseViewModel onSelectClick" }
+        _effect.emit(ChangeBaseEffect.OpenCurrencies)
     }
     // endregion
 }

@@ -54,7 +54,7 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loading_view"
-        style="@style/ProgressBarStyle"
+        style="@style/HorizontalProgressBarStyle"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

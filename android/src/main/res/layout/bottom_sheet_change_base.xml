@@ -15,13 +15,13 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loading_view"
-        style="@style/ProgressBarStyle"
+        style="@style/HorizontalProgressBarStyle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_bar"
+        android:id="@+id/recycler_view_change_base"
         style="@style/BaseBottomSheetDialogRecyclerViewStyle"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,5 +39,5 @@
         android:id="@+id/btn_select"
         style="@style/SelectButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view_change_base" />
 </androidx.constraintlayout.widget.ConstraintLayout>

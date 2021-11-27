@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.android.ui.bar
+package com.github.mustafaozhan.ccc.android.ui.changebase
 
 import android.os.Bundle
 import android.view.View
@@ -13,28 +13,28 @@ import com.github.mustafaozhan.ccc.android.ui.calculator.CalculatorFragment.Comp
 import com.github.mustafaozhan.ccc.android.util.setNavigationResult
 import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.bar.BarViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetBarBinding
+import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetChangeBaseBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BarBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() {
+class ChangeBaseBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetChangeBaseBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
-    private val barViewModel: BarViewModel by viewModel()
+    private val changeBaseViewModel: ChangeBaseViewModel by viewModel()
 
-    private lateinit var barAdapter: BarAdapter
+    private lateinit var changeBaseAdapter: ChangeBaseAdapter
 
-    override fun getViewBinding() = BottomSheetBarBinding.inflate(layoutInflater)
+    override fun getViewBinding() = BottomSheetChangeBaseBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Logger.i { "BarBottomSheet onViewCreated" }
+        Logger.i { "ChangeBaserBottomSheet onViewCreated" }
         initViews()
         observeStates()
         observeEffects()
@@ -42,8 +42,8 @@ class BarBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() 
     }
 
     override fun onDestroyView() {
-        Logger.i { "BarBottomSheet onDestroyView" }
-        binding.recyclerViewBar.adapter = null
+        Logger.i { "ChangeBaseBottomSheet onDestroyView" }
+        binding.recyclerViewChangeBase.adapter = null
         super.onDestroyView()
     }
 
@@ -53,32 +53,32 @@ class BarBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() 
     }
 
     private fun initViews() {
-        barAdapter = BarAdapter(barViewModel.event)
-        binding.recyclerViewBar.adapter = barAdapter
+        changeBaseAdapter = ChangeBaseAdapter(changeBaseViewModel.event)
+        binding.recyclerViewChangeBase.adapter = changeBaseAdapter
     }
 
-    private fun observeStates() = barViewModel.state
+    private fun observeStates() = changeBaseViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                barAdapter.submitList(currencyList)
+                changeBaseAdapter.submitList(currencyList)
 
                 with(binding) {
                     loadingView.showLoading(loading)
 
-                    recyclerViewBar.visibleIf(enoughCurrency)
+                    recyclerViewChangeBase.visibleIf(enoughCurrency)
                     txtNoEnoughCurrency.visibleIf(!enoughCurrency)
                     btnSelect.visibleIf(!enoughCurrency)
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = barViewModel.effect
+    private fun observeEffects() = changeBaseViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            Logger.i { "BarBottomSheet observeEffects ${viewEffect::class.simpleName}" }
+            Logger.i { "ChangeBaseBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is BarEffect.ChangeBase -> {
+                is ChangeBaseEffect.BaseChange -> {
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,
@@ -86,14 +86,14 @@ class BarBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetBarBinding>() 
                     )
                     dismissDialog()
                 }
-                BarEffect.OpenCurrencies -> navigate(
-                    R.id.barBottomSheet,
-                    BarBottomSheetDirections.actionBarBottomSheetToCurrenciesFragment()
+                ChangeBaseEffect.OpenCurrencies -> navigate(
+                    R.id.changeBaseBottomSheet,
+                    ChangeBaseBottomSheetDirections.actionChangeBaseBottomSheetToCurrenciesFragment()
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun setListeners() = binding.btnSelect.setOnClickListener {
-        barViewModel.event.onSelectClick()
+        changeBaseViewModel.event.onSelectClick()
     }
 }
