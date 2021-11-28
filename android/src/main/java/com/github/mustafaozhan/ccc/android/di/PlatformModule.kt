@@ -11,5 +11,5 @@ import org.koin.dsl.module
 var platformModule = module {
     single<BillingManager> { BillingManagerImpl(get()) }
     single<AdManager> { AdManagerImpl() }
-    single<AnalyticsManager> { AnalyticsManagerImpl() }
+    single<AnalyticsManager> { AnalyticsManagerImpl(get()) }
 }

@@ -10,6 +10,8 @@ enum class AppTheme(val order: Int, val typeName: String, val themeValue: Int) {
     SYSTEM_DEFAULT(2, "System default", -1);
 
     companion object {
+        // dark theme applies below SDK 29
+        const val SYSTEM_DARK = "System dark"
         fun getThemeByValue(value: Int) = values().firstOrNull { it.themeValue == value }
         fun getThemeByOrder(order: Int) = values().firstOrNull { it.order == order }
     }

@@ -27,7 +27,6 @@ interface CalculatorEvent : BaseEvent {
     fun onItemClick(currency: Currency)
     fun onItemLongClick(currency: Currency): Boolean
     fun onBarClick()
-    fun onSpinnerItemSelected(base: String)
     fun onSettingsClicked()
     fun onBaseChange(base: String)
 }

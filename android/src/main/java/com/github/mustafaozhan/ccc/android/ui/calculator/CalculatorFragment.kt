@@ -23,6 +23,7 @@ import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -95,6 +96,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
                 binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
+
+                analyticsManager.setUserProperty(UserProperty.BASE_CURRENCY, base)
+                analyticsManager.setUserProperty(
+                    UserProperty.ACTIVE_CURRENCIES,
+                    currencyList.joinToString(",") { currency -> currency.name }
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
