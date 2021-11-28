@@ -97,11 +97,13 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
 
-                analyticsManager.setUserProperty(UserProperty.BASE_CURRENCY, base)
-                analyticsManager.setUserProperty(
-                    UserProperty.ACTIVE_CURRENCIES,
-                    currencyList.joinToString(",") { currency -> currency.name }
-                )
+                analyticsManager.apply {
+                    setUserProperty(UserProperty.BASE_CURRENCY, base)
+                    setUserProperty(UserProperty.CURRENCY_COUNT, currencyList.count().toString())
+                    setUserProperty(
+                        UserProperty.ACTIVE_CURRENCIES,
+                        currencyList.joinToString(",") { currency -> currency.name })
+                }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
