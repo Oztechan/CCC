@@ -66,16 +66,19 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         super.onPause()
     }
 
-    private fun trackUserProperties() = with(currenciesViewModel.state.value) {
-        analyticsManager.setUserProperty(
-            UserProperty.CURRENCY_COUNT,
-            currencyList.count().toString()
-        )
-        analyticsManager.setUserProperty(
-            UserProperty.ACTIVE_CURRENCIES,
-            currencyList.joinToString(",") { currency -> currency.name }
-        )
-    }
+    private fun trackUserProperties() = currenciesViewModel.state.value
+        .currencyList
+        .filter { it.isActive }
+        .run {
+            analyticsManager.setUserProperty(
+                UserProperty.CURRENCY_COUNT,
+                this.count().toString()
+            )
+            analyticsManager.setUserProperty(
+                UserProperty.ACTIVE_CURRENCIES,
+                this.joinToString(",") { currency -> currency.name }
+            )
+        }
 
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
@@ -144,7 +147,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     view?.hideKeyboard()
                 }
                 is CurrenciesEffect.ChangeBase -> {
-                    analyticsManager.setUserProperty(UserProperty.BASE_CURRENCY, viewEffect.newBase)
+                    analyticsManager.setUserProperty(
+                        UserProperty.BASE_CURRENCY,
+                        viewEffect.newBase
+                    )
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,
