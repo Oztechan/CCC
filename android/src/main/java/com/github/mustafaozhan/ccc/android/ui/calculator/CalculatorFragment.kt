@@ -31,6 +31,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
@@ -61,6 +62,19 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onPause() {
+        Logger.i { "CalculatorFragment onPause" }
+        trackUserProperties()
+        super.onPause()
+    }
+
+    private fun trackUserProperties() {
+        analyticsManager.setUserProperty(
+            UserProperty.BASE_CURRENCY,
+            calculatorViewModel.state.value.base
+        )
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
@@ -96,14 +110,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
                 binding.loadingView.showLoading(loading)
                 binding.txtAppStatus.dataState(rateState)
-
-                analyticsManager.apply {
-                    setUserProperty(UserProperty.BASE_CURRENCY, base)
-                    setUserProperty(UserProperty.CURRENCY_COUNT, currencyList.count().toString())
-                    setUserProperty(
-                        UserProperty.ACTIVE_CURRENCIES,
-                        currencyList.joinToString(",") { currency -> currency.name })
-                }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

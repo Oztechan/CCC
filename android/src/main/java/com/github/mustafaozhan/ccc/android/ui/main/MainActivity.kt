@@ -41,7 +41,6 @@ class MainActivity : BaseActivity() {
         checkDestination()
         observeEffects()
         mainViewModel.checkReview()
-        setUserProperties()
     }
 
     private fun observeEffects() = mainViewModel.effect
@@ -98,6 +97,7 @@ class MainActivity : BaseActivity() {
 
     override fun onPause() {
         Logger.i { "MainActivity onPause" }
+        setUserProperties()
         mainViewModel.event.onPause()
         super.onPause()
     }

@@ -25,6 +25,7 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -32,6 +33,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBindin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
@@ -56,6 +58,23 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewCurrencies.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onPause() {
+        Logger.i { "CurrenciesFragment onPause" }
+        trackUserProperties()
+        super.onPause()
+    }
+
+    private fun trackUserProperties() = with(currenciesViewModel.state.value) {
+        analyticsManager.setUserProperty(
+            UserProperty.CURRENCY_COUNT,
+            currencyList.count().toString()
+        )
+        analyticsManager.setUserProperty(
+            UserProperty.ACTIVE_CURRENCIES,
+            currencyList.joinToString(",") { currency -> currency.name }
+        )
     }
 
     private fun initViews() = with(binding) {
@@ -124,11 +143,14 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     getBaseActivity()?.onBackPressed()
                     view?.hideKeyboard()
                 }
-                is CurrenciesEffect.ChangeBase -> setNavigationResult(
-                    R.id.calculatorFragment,
-                    viewEffect.newBase,
-                    CHANGE_BASE_EVENT
-                )
+                is CurrenciesEffect.ChangeBase -> {
+                    analyticsManager.setUserProperty(UserProperty.BASE_CURRENCY, viewEffect.newBase)
+                    setNavigationResult(
+                        R.id.calculatorFragment,
+                        viewEffect.newBase,
+                        CHANGE_BASE_EVENT
+                    )
+                }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
