@@ -34,7 +34,7 @@ object Versions {
     const val BUILD_KONFIG = "0.11.0"
     const val WORK_RUNTIME = "2.7.1"
     const val SPLASH_SCREEN = "1.0.0-alpha02"
-    const val KOVER = "0.4.2"
+    const val KOVER = "0.4.4"
     const val HUAWEI_HSM_BASE = "6.2.0.300"
     const val ROOT_BEER = "0.1.0"
 }
