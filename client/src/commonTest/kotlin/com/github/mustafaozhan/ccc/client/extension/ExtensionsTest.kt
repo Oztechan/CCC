@@ -32,13 +32,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
+import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.daysUntil
-import kotlinx.datetime.monthsUntil
-import kotlinx.datetime.yearsUntil
+import kotlinx.datetime.plus
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -184,48 +182,49 @@ class ExtensionsTest {
 
     @ExperimentalTime
     @Test
-    fun calculateAdRewardEnd() {
+    fun calculateAdRewardEnd() = nowAsLong().let {
         assertEquals(
-            VIDEO_REWARD,
-            nowAsInstant().minus(Duration.minutes(1)).daysUntil(
-                RemoveAdType.VIDEO.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(days = VIDEO_REWARD),
                 TimeZone.currentSystemDefault()
-            )
+            ),
+            RemoveAdType.VIDEO.calculateAdRewardEnd(it).toInstant()
         )
+
         assertEquals(
-            1,
-            nowAsInstant().minus(Duration.minutes(1)).monthsUntil(
-                RemoveAdType.MONTH.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(months = 1),
                 TimeZone.currentSystemDefault()
-            )
+            ), RemoveAdType.MONTH.calculateAdRewardEnd(it).toInstant()
         )
+
         assertEquals(
-            3,
-            nowAsInstant().minus(Duration.minutes(1)).monthsUntil(
-                RemoveAdType.QUARTER.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(months = 3),
                 TimeZone.currentSystemDefault()
-            )
+            ), RemoveAdType.QUARTER.calculateAdRewardEnd(it).toInstant()
         )
+
         assertEquals(
-            6,
-            nowAsInstant().minus(Duration.minutes(1)).monthsUntil(
-                RemoveAdType.HALF_YEAR.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(months = 6),
                 TimeZone.currentSystemDefault()
-            )
+            ), RemoveAdType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
         )
+
         assertEquals(
-            1,
-            nowAsInstant().minus(Duration.minutes(1)).yearsUntil(
-                RemoveAdType.YEAR.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(years = 1),
                 TimeZone.currentSystemDefault()
-            )
+            ), RemoveAdType.YEAR.calculateAdRewardEnd(it).toInstant()
         )
+
         assertEquals(
-            100,
-            nowAsInstant().minus(Duration.minutes(1)).yearsUntil(
-                RemoveAdType.LIFE_TIME.calculateAdRewardEnd().toInstant(),
+            it.toInstant().plus(
+                DateTimePeriod(years = 100),
                 TimeZone.currentSystemDefault()
-            )
+            ),
+            RemoveAdType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
         )
     }
 }
