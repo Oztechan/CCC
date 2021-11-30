@@ -2,7 +2,8 @@ coverage:
   precision: 2
   round: nearest
   range: "0..100"
-
-comment:
-  layout: "reach, diff"
-  behavior: default
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
