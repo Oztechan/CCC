@@ -89,7 +89,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             adId = getString(R.string.android_banner_ad_unit_id_calculator),
             isExpired = calculatorViewModel.isRewardExpired()
         )
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
+        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event, analyticsManager)
         recyclerViewMain.adapter = calculatorAdapter
     }
 

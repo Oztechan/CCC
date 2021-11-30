@@ -25,6 +25,8 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.EventParam
+import com.mustafaozhan.github.analytics.model.FirebaseEvent
 import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -150,6 +152,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     analyticsManager.setUserProperty(
                         UserProperty.BASE_CURRENCY,
                         viewEffect.newBase
+                    )
+                    analyticsManager.trackEvent(
+                        FirebaseEvent.CHANGE_BASE,
+                        mapOf(EventParam.NEW_BASE to viewEffect.newBase)
                     )
                     setNavigationResult(
                         R.id.calculatorFragment,
