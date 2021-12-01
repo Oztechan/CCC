@@ -38,15 +38,24 @@ class CalculatorAdapter(
             txtSymbol.text = item.symbol
             txtType.text = item.name
             imgItem.setBackgroundByName(item.name)
-            root.setOnClickListener {
-                calculatorEvent.onItemClick(item)
 
+            root.setOnClickListener {
                 analyticsManager.trackEvent(
-                    FirebaseEvent.CHANGE_BASE,
-                    mapOf(EventParam.NEW_BASE to item.name)
+                    FirebaseEvent.BASE_CHANGE,
+                    mapOf(EventParam.BASE to item.name)
                 )
+
+                calculatorEvent.onItemClick(item)
             }
-            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
+
+            root.setOnLongClickListener {
+                analyticsManager.trackEvent(
+                    FirebaseEvent.SHOW_CONVERSION,
+                    mapOf(EventParam.BASE to item.name)
+                )
+
+                calculatorEvent.onItemLongClick(item)
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.mustafaozhan.github.analytics.model
 
 enum class FirebaseEvent(val key: String) {
-    CHANGE_BASE("change_base")
+    BASE_CHANGE("base_change"),
+    SHOW_CONVERSION("show_conversion")
 }

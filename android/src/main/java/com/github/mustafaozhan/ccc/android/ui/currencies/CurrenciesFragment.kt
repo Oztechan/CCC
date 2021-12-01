@@ -154,8 +154,8 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                         viewEffect.newBase
                     )
                     analyticsManager.trackEvent(
-                        FirebaseEvent.CHANGE_BASE,
-                        mapOf(EventParam.NEW_BASE to viewEffect.newBase)
+                        FirebaseEvent.BASE_CHANGE,
+                        mapOf(EventParam.BASE to viewEffect.newBase)
                     )
                     setNavigationResult(
                         R.id.calculatorFragment,
