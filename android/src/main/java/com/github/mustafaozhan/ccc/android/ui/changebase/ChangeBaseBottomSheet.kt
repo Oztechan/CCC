@@ -16,6 +16,8 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.EventParam
+import com.mustafaozhan.github.analytics.model.FirebaseEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -79,6 +81,10 @@ class ChangeBaseBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetChangeB
             Logger.i { "ChangeBaseBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is ChangeBaseEffect.BaseChange -> {
+                    analyticsManager.trackEvent(
+                        FirebaseEvent.CHANGE_BASE,
+                        mapOf(EventParam.NEW_BASE to viewEffect.newBase)
+                    )
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,

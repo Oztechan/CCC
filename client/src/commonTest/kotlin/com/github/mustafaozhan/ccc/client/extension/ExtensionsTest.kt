@@ -32,7 +32,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlin.time.ExperimentalTime
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -180,7 +179,6 @@ class ExtensionsTest {
         assertEquals("10", 10.doubleDigits())
     }
 
-    @ExperimentalTime
     @Test
     fun calculateAdRewardEnd() = nowAsLong().let {
         assertEquals(
