@@ -38,23 +38,26 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
         }
     }
 
-    override suspend fun getRatesViaBackend(base: String) = apiRequest {
-        if (base.isEmpty()) throw EmptyParameterException()
-        else apiService.getRatesViaBackend(base).toModel(base)
+    override suspend fun getRatesByBackend(base: String) = apiRequest {
+        apiService.getRatesByBackend(
+            base.ifEmpty { throw EmptyParameterException() }
+        ).toModel(base)
     }.also {
         Logger.v { "ApiRepositoryImpl getRatesViaBackend $base" }
     }
 
-    override suspend fun getUnPopularRates(base: String) = apiRequest {
-        if (base.isEmpty()) throw EmptyParameterException()
-        else apiService.getUnPopularRates(base).toModel(base)
+    override suspend fun getRatesByAPI(base: String) = apiRequest {
+        apiService.getRatesByAPI(
+            base.ifEmpty { throw EmptyParameterException() }
+        ).toModel(base)
     }.also {
         Logger.v { "ApiRepositoryImpl getUnPopularRates $base" }
     }
 
-    override suspend fun getPopularRates(base: String) = apiRequest {
-        if (base.isEmpty()) throw EmptyParameterException()
-        else apiService.getPopularRates(base).toModel(base)
+    override suspend fun getRatesByPremiumAPI(base: String) = apiRequest {
+        apiService.getRatesByPremiumAPI(
+            base.ifEmpty { throw EmptyParameterException() }
+        ).toModel(base)
     }.also {
         Logger.v { "ApiRepositoryImpl getPopularRates $base" }
     }

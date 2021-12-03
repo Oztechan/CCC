@@ -12,7 +12,7 @@ import io.ktor.http.takeFrom
 
 internal class ApiService(private val client: HttpClient) {
 
-    suspend fun getRatesViaBackend(base: String) = client.get<CurrencyResponseEntity> {
+    suspend fun getRatesByBackend(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_BACKEND)
             path(PATH_CURRENCY_BY_BASE_BACKEND)
@@ -20,7 +20,7 @@ internal class ApiService(private val client: HttpClient) {
         }
     }
 
-    suspend fun getUnPopularRates(base: String) = client.get<CurrencyResponseEntity> {
+    suspend fun getRatesByAPI(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_API)
             path(PATH_CURRENCY_BY_BASE_API)
@@ -28,7 +28,7 @@ internal class ApiService(private val client: HttpClient) {
         }
     }
 
-    suspend fun getPopularRates(base: String) = client.get<CurrencyResponseEntity> {
+    suspend fun getRatesByPremiumAPI(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_API_POPULAR)
             path(PATH_POPULAR)
