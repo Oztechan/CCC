@@ -1,4 +1,3 @@
-import config.BuildType
 import java.io.IOException
 import java.util.Locale
 import java.util.Properties
@@ -23,18 +22,6 @@ private fun Project.getSecretProperties() = try {
     logger.debug(e.message, e)
     null
 }
-
-fun String.toResourceName() = removeVariant().toLowerCase(Locale.ROOT)
-
-fun String.removeVariant() = replace(
-    oldValue = "_${BuildType.release}_",
-    newValue = "_",
-    ignoreCase = true
-).replace(
-    oldValue = "_${BuildType.debug}_",
-    newValue = "_",
-    ignoreCase = true
-)
 
 fun String.isNonStable(): Boolean {
     val stableKeyword = listOf(
