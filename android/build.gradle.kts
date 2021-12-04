@@ -3,6 +3,7 @@
  */
 import config.BuildType
 import config.DeviceFlavour
+import config.Keys
 
 plugins {
     with(Dependencies.Plugins) {
@@ -45,11 +46,11 @@ android {
 
     signingConfigs {
         create(BuildType.release) {
-            with(BuildValues.Signing) {
-                storeFile = file(getSecret(ANDROID_KEY_STORE_PATH))
-                storePassword = getSecret(ANDROID_STORE_PASSWORD)
-                keyAlias = getSecret(ANDROID_KEY_ALIAS)
-                keyPassword = getSecret(ANDROID_KEY_PASSWORD)
+            with(Keys(project)) {
+                storeFile = file(androidKeyStorePath.value)
+                storePassword = androidStorePassword.value
+                keyAlias = androidKeyAlias.value
+                keyPassword = androidKeyPassword.value
             }
         }
     }
@@ -73,72 +74,24 @@ android {
             signingConfig = signingConfigs.getByName(BuildType.release)
             isMinifyEnabled = false
 
-            with(BuildValues.Release) {
-                resValue(
-                    BuildValues.Type.STRING,
-                    ADMOB_APP_ID.toResourceName(),
-                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    INTERSTITIAL_AD_ID.toResourceName(),
-                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    REWARDED_AD_UNIT_ID.toResourceName(),
-                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
-                )
+            with(Keys(project, BuildType.RELEASE)) {
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
         }
 
         getByName(BuildType.debug) {
-            with(BuildValues.Debug) {
-                resValue(
-                    BuildValues.Type.STRING,
-                    ADMOB_APP_ID.toResourceName(),
-                    getSecret(ADMOB_APP_ID, BuildValues.Fakes.ADMOB_APP_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_CALCULATOR.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CALCULATOR, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_SETTINGS.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_SETTINGS, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    BANNER_AD_UNIT_ID_CURRENCIES.toResourceName(),
-                    getSecret(BANNER_AD_UNIT_ID_CURRENCIES, BuildValues.Fakes.BANNER_AD_UNIT_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    INTERSTITIAL_AD_ID.toResourceName(),
-                    getSecret(INTERSTITIAL_AD_ID, BuildValues.Fakes.INTERSTITIAL_AD_ID)
-                )
-                resValue(
-                    BuildValues.Type.STRING,
-                    REWARDED_AD_UNIT_ID.toResourceName(),
-                    getSecret(REWARDED_AD_UNIT_ID, BuildValues.Fakes.REWARDED_AD_UNIT_ID)
-                )
+            with(Keys(project, BuildType.DEBUG)) {
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
         }
     }
