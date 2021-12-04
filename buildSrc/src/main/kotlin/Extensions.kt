@@ -1,3 +1,4 @@
+import config.BuildType
 import java.io.IOException
 import java.util.Locale
 import java.util.Properties
@@ -26,11 +27,11 @@ private fun Project.getSecretProperties() = try {
 fun String.toResourceName() = removeVariant().toLowerCase(Locale.ROOT)
 
 fun String.removeVariant() = replace(
-    oldValue = "_${Build.Type.RELEASE}_",
+    oldValue = "_${BuildType.release}_",
     newValue = "_",
     ignoreCase = true
 ).replace(
-    oldValue = "_${Build.Type.DEBUG}_",
+    oldValue = "_${BuildType.debug}_",
     newValue = "_",
     ignoreCase = true
 )

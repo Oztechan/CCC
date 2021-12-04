@@ -2,6 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -118,16 +119,16 @@ android {
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
-    with(Build.Flavor) {
-        flavorDimensions.addAll(listOf(getFlavorName()))
+    with(DeviceFlavour) {
+        flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
-            create(GOOGLE) {
-                dimension = getFlavorName()
+            create(google) {
+                dimension = flavorDimension
             }
 
-            create(HUAWEI) {
-                dimension = getFlavorName()
+            create(huawei) {
+                dimension = flavorDimension
             }
         }
     }

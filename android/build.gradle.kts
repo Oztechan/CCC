@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import config.BuildType
+import config.DeviceFlavour
+
 plugins {
     with(Dependencies.Plugins) {
         id(ANDROID_APP)
@@ -41,7 +44,7 @@ android {
     }
 
     signingConfigs {
-        create(Build.Type.RELEASE) {
+        create(BuildType.release) {
             with(BuildValues.Signing) {
                 storeFile = file(getSecret(ANDROID_KEY_STORE_PATH))
                 storePassword = getSecret(ANDROID_STORE_PASSWORD)
@@ -51,23 +54,23 @@ android {
         }
     }
 
-    with(Build.Flavor) {
-        flavorDimensions.addAll(listOf(getFlavorName()))
+    with(DeviceFlavour) {
+        flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
-            create(GOOGLE) {
-                dimension = getFlavorName()
+            create(google) {
+                dimension = flavorDimension
             }
 
-            create(HUAWEI) {
-                dimension = getFlavorName()
+            create(huawei) {
+                dimension = flavorDimension
             }
         }
     }
 
     buildTypes {
-        getByName(Build.Type.RELEASE) {
-            signingConfig = signingConfigs.getByName(Build.Type.RELEASE)
+        getByName(BuildType.release) {
+            signingConfig = signingConfigs.getByName(BuildType.release)
             isMinifyEnabled = false
 
             with(BuildValues.Release) {
@@ -104,7 +107,7 @@ android {
             }
         }
 
-        getByName(Build.Type.DEBUG) {
+        getByName(BuildType.debug) {
             with(BuildValues.Debug) {
                 resValue(
                     BuildValues.Type.STRING,
