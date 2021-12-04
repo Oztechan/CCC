@@ -8,6 +8,8 @@ class Keys(private val project: Project) {
 
     private var buildType: BuildType? = null
 
+    val typeString = "string"
+
     constructor(project: Project, buildType: BuildType) : this(project) {
         this.buildType = buildType
     }

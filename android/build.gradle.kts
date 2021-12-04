@@ -75,23 +75,23 @@ android {
             isMinifyEnabled = false
 
             with(Keys(project, BuildType.RELEASE)) {
-                resValue("string", admobAppId.resourceKey, admobAppId.value)
-                resValue("string", bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue("string", bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue("string", bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue("string", interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue("string", rewardedAdId.resourceKey, rewardedAdId.value)
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
         }
 
         getByName(BuildType.debug) {
             with(Keys(project, BuildType.DEBUG)) {
-                resValue("string", admobAppId.resourceKey, admobAppId.value)
-                resValue("string", bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue("string", bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue("string", bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue("string", interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue("string", rewardedAdId.resourceKey, rewardedAdId.value)
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
         }
     }
