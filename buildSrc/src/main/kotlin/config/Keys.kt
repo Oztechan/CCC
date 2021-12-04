@@ -1,8 +1,8 @@
 package config
 
 import getSecret
-import java.util.Locale
 import org.gradle.api.Project
+import java.util.Locale
 
 class Keys(private val project: Project) {
 
@@ -45,28 +45,36 @@ class Keys(private val project: Project) {
         fakeKey = BuildValues.Fakes.REWARDED_AD_UNIT_ID
     )
     val baseUrlBackend = UnFlavoredVariable(
-        onlyKey = BuildValues.BASE_URL_BACKEND,
+        key = BuildValues.BASE_URL_BACKEND,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
     val baseUrlApi = UnFlavoredVariable(
-        onlyKey = BuildValues.BASE_URL_API,
+        key = BuildValues.BASE_URL_API,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
     val baseUrlApiPopular = UnFlavoredVariable(
-        onlyKey = BuildValues.BASE_URL_API_POPULAR,
+        key = BuildValues.BASE_URL_API_POPULAR,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
     val apiKeyPopular = UnFlavoredVariable(
-        onlyKey = BuildValues.API_KEY_POPULAR,
+        key = BuildValues.API_KEY_POPULAR,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
-    val androidKeyStorePath = UnFlavoredVariable(BuildValues.Signing.ANDROID_KEY_STORE_PATH)
-    val androidStorePassword = UnFlavoredVariable(BuildValues.Signing.ANDROID_STORE_PASSWORD)
-    val androidKeyAlias = UnFlavoredVariable(BuildValues.Signing.ANDROID_KEY_ALIAS)
-    val androidKeyPassword = UnFlavoredVariable(BuildValues.Signing.ANDROID_KEY_PASSWORD)
+    val androidKeyStorePath = UnFlavoredVariable(
+        key = BuildValues.Signing.ANDROID_KEY_STORE_PATH
+    )
+    val androidStorePassword = UnFlavoredVariable(
+        key = BuildValues.Signing.ANDROID_STORE_PASSWORD
+    )
+    val androidKeyAlias = UnFlavoredVariable(
+        key = BuildValues.Signing.ANDROID_KEY_ALIAS
+    )
+    val androidKeyPassword = UnFlavoredVariable(
+        key = BuildValues.Signing.ANDROID_KEY_PASSWORD
+    )
 
     inner class UnFlavoredVariable(
-        val onlyKey: String,
+        override val key: String,
         fakeKey: String = ""
     ) : BaseVariable(fakeKey)
 
@@ -77,7 +85,7 @@ class Keys(private val project: Project) {
     ) : BaseVariable(fakeKey)
 
     open inner class BaseVariable(fakeKey: String) {
-        val key: String by lazy {
+        open val key: String by lazy {
             getVariantKey().removeVariant()
         }
         val resourceKey: String by lazy {
@@ -93,7 +101,7 @@ class Keys(private val project: Project) {
                 BuildType.RELEASE -> releaseKey
                 else -> ""
             }
-            is UnFlavoredVariable -> onlyKey
+            is UnFlavoredVariable -> key
             else -> ""
         }
 

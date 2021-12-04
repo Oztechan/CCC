@@ -119,10 +119,10 @@ configure<BuildKonfigExtension> {
 
     defaultConfigs {
         with(Keys(project)) {
-            buildConfigField(STRING, baseUrlBackend.onlyKey, baseUrlBackend.value)
-            buildConfigField(STRING, baseUrlApi.onlyKey, baseUrlApi.value)
-            buildConfigField(STRING, baseUrlApiPopular.onlyKey, baseUrlApiPopular.value)
-            buildConfigField(STRING, apiKeyPopular.onlyKey, apiKeyPopular.value)
+            buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value)
+            buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value)
+            buildConfigField(STRING, baseUrlApiPopular.key, baseUrlApiPopular.value)
+            buildConfigField(STRING, apiKeyPopular.key, apiKeyPopular.value)
         }
     }
 }
