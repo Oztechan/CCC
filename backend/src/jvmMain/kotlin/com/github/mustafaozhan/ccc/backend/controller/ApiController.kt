@@ -26,51 +26,48 @@ class ApiController(
     fun startSyncApi() {
         Logger.i { "ApiController startSyncApi" }
 
-        updatePopularCurrencies()
-        updateUnPopularCurrencies()
-    }
-
-    private fun updatePopularCurrencies() = CoroutineScope(Dispatchers.IO).launch {
-        Logger.i { "ApiController updatePopularCurrencies" }
-
-        while (isActive) {
-            CurrencyType.getPopularCurrencies().forEach { base ->
-
-                delay(SECOND)
-
-                apiRepository
-                    .getPopularRates(base.name)
-                    .execute({ currencyResponse ->
-                        offlineRatesRepository.insertOfflineRates(currencyResponse)
-                    }, { error ->
-                        Logger.e(error) { error.message.toString() }
-                    })
+        CoroutineScope(Dispatchers.IO).launch {
+            while (isActive) {
+                updatePopularCurrencies()
+                delay(DAY / NUMBER_OF_REFRESH_IN_DAY_POPULAR)
             }
+        }
 
-            delay(DAY / NUMBER_OF_REFRESH_IN_DAY_POPULAR)
+        CoroutineScope(Dispatchers.IO).launch {
+            while (isActive) {
+                updateUnPopularCurrencies()
+                delay(DAY / NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR)
+            }
         }
     }
 
-    private fun updateUnPopularCurrencies() = CoroutineScope(Dispatchers.IO).launch {
+    private suspend fun updatePopularCurrencies() {
+        Logger.i { "ApiController updatePopularCurrencies" }
+
+        CurrencyType.getPopularCurrencies().forEach { base ->
+
+            delay(SECOND)
+
+            apiRepository.getRatesByPremiumAPI(base.name)
+                .execute(
+                    success = { offlineRatesRepository.insertOfflineRates(it) },
+                    error = { Logger.e(it) { it.message.toString() } }
+                )
+        }
+    }
+
+    private suspend fun updateUnPopularCurrencies() {
         Logger.i { "ApiController updateUnPopularCurrencies" }
 
-        while (isActive) {
-            CurrencyType.values()
-                .filter { !CurrencyType.getPopularCurrencies().contains(it) }
-                .forEach { base ->
+        CurrencyType.getNonPopularCurrencies().forEach { base ->
 
-                    delay(SECOND)
+            delay(SECOND)
 
-                    apiRepository
-                        .getUnPopularRates(base.name)
-                        .execute({ currencyResponse ->
-                            offlineRatesRepository.insertOfflineRates(currencyResponse)
-                        }, { error ->
-                            Logger.e(error) { error.message.toString() }
-                        })
-                }
-
-            delay(DAY / NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR)
+            apiRepository.getRatesByAPI(base.name)
+                .execute(
+                    success = { offlineRatesRepository.insertOfflineRates(it) },
+                    error = { Logger.e(it) { it.message.toString() } }
+                )
         }
     }
 }

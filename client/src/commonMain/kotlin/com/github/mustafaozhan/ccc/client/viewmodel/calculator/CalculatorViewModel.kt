@@ -93,7 +93,7 @@ class CalculatorViewModel(
         _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
-            .getRatesViaBackend(settingsRepository.currentBase)
+            .getRatesByBackend(settingsRepository.currentBase)
             .execute(::getRatesSuccess, ::getRatesFailed)
     }
 

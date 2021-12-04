@@ -19,5 +19,9 @@ enum class CurrencyType {
         fun getPopularCurrencies() = listOf(
             EUR, USD, TRY, GBP, JPY, AUD, CAD, CHF, CNY, HKD, KRW, SGD, MXN, INR, RUB, ZAR
         )
+
+        fun getNonPopularCurrencies() = values().filterNot {
+            getPopularCurrencies().contains(it)
+        }
     }
 }
