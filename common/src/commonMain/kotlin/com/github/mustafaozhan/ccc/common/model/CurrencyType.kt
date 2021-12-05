@@ -17,7 +17,10 @@ enum class CurrencyType {
 
     companion object {
         fun getPopularCurrencies() = listOf(
-            EUR, USD, TRY, GBP, JPY, AUD, CAD, CHF, CNY, HKD, KRW, SGD, MXN, INR, RUB, ZAR
+            EUR, USD, TRY, GBP, JPY, AUD, CAD, CHF, CNY, HKD,
+            KRW, SGD, MXN, INR, RUB, ZAR, AZN, IQD, NGN, DZD,
+            GHS, PKR, UZS, MAD, PHP, AOA, XAF, ILS, MZN, BDT,
+            EGP, ZMW, LBP, UAH, KES, COP, GEL, BRL, IRR, BYN
         )
 
         fun getNonPopularCurrencies() = values().filterNot {
