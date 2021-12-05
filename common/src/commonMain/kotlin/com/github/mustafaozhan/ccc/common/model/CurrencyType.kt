@@ -26,5 +26,9 @@ enum class CurrencyType {
         fun getNonPopularCurrencies() = values().filterNot {
             getPopularCurrencies().contains(it)
         }
+
+        fun getUnsortedCurrencies() = listOf(
+            BTC, CLF, CNH, JEP, KPW, MRO, STD, SVC, XAG, XAU, XPD, XPT, ZWL
+        )
     }
 }

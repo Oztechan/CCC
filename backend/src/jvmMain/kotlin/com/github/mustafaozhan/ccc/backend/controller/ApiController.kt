@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.backend.controller
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.SECOND
@@ -17,7 +18,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
-private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 4
+private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
 
 class ApiController(
     private val apiRepository: ApiRepository,
@@ -48,9 +49,25 @@ class ApiController(
 
             delay(SECOND)
 
-            apiRepository.getRatesByPremiumAPI(base.name)
+            // non premium call for filling null values
+            apiRepository.getRatesByAPI(base.name)
                 .execute(
-                    success = { offlineRatesRepository.insertOfflineRates(it) },
+                    success = { nonPremiumResponse ->
+
+                        // premium api call
+                        CoroutineScope(Dispatchers.IO).launch {
+                            apiRepository.getRatesByPremiumAPI(base.name)
+                                .execute(
+                                    success = { premiumResponse ->
+                                        offlineRatesRepository.insertOfflineRates(
+                                            getModifiedResponse(nonPremiumResponse, premiumResponse)
+                                        )
+                                    },
+                                    error = { Logger.e(it) { it.message.toString() } }
+                                )
+                        }
+
+                    },
                     error = { Logger.e(it) { it.message.toString() } }
                 )
         }
@@ -69,5 +86,29 @@ class ApiController(
                     error = { Logger.e(it) { it.message.toString() } }
                 )
         }
+    }
+
+    private fun getModifiedResponse(
+        nonPremiumResponse: CurrencyResponse,
+        premiumResponse: CurrencyResponse
+    ): CurrencyResponse {
+
+        premiumResponse.rates = premiumResponse.rates.copy(
+            btc = nonPremiumResponse.rates.btc,
+            clf = nonPremiumResponse.rates.clf,
+            cnh = nonPremiumResponse.rates.cnh,
+            jep = nonPremiumResponse.rates.jep,
+            kpw = nonPremiumResponse.rates.kpw,
+            mro = nonPremiumResponse.rates.mro,
+            std = nonPremiumResponse.rates.std,
+            svc = nonPremiumResponse.rates.svc,
+            xag = nonPremiumResponse.rates.xag,
+            xau = nonPremiumResponse.rates.xau,
+            xpd = nonPremiumResponse.rates.xpd,
+            xpt = nonPremiumResponse.rates.xpt,
+            zwl = nonPremiumResponse.rates.zwl
+        )
+
+        return premiumResponse
     }
 }
