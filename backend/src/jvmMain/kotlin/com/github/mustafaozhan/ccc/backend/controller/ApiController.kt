@@ -16,8 +16,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-private const val NUMBER_OF_REFRESH_IN_DAY_POPULAR = 24
-private const val NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR = 4
+private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
+private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 4
 
 class ApiController(
     private val apiRepository: ApiRepository,
@@ -29,14 +29,14 @@ class ApiController(
         CoroutineScope(Dispatchers.IO).launch {
             while (isActive) {
                 updatePopularCurrencies()
-                delay(DAY / NUMBER_OF_REFRESH_IN_DAY_POPULAR)
+                delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
             }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             while (isActive) {
                 updateUnPopularCurrencies()
-                delay(DAY / NUMBER_OF_REFRESH_IN_DAY_UN_POPULAR)
+                delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR)
             }
         }
     }

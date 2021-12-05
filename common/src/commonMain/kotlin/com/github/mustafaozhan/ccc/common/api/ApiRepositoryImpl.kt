@@ -43,7 +43,7 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
             base.ifEmpty { throw EmptyParameterException() }
         ).toModel(base)
     }.also {
-        Logger.v { "ApiRepositoryImpl getRatesViaBackend $base" }
+        Logger.v { "ApiRepositoryImpl getRatesByBackend $base" }
     }
 
     override suspend fun getRatesByAPI(base: String) = apiRequest {
@@ -51,7 +51,7 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
             base.ifEmpty { throw EmptyParameterException() }
         ).toModel(base)
     }.also {
-        Logger.v { "ApiRepositoryImpl getUnPopularRates $base" }
+        Logger.v { "ApiRepositoryImpl getRatesByAPI $base" }
     }
 
     override suspend fun getRatesByPremiumAPI(base: String) = apiRequest {
@@ -59,6 +59,6 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
             base.ifEmpty { throw EmptyParameterException() }
         ).toModel(base)
     }.also {
-        Logger.v { "ApiRepositoryImpl getPopularRates $base" }
+        Logger.v { "ApiRepositoryImpl getRatesByPremiumAPI $base" }
     }
 }

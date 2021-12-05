@@ -52,12 +52,12 @@ class Keys(private val project: Project) {
         key = BuildValues.BASE_URL_API,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
-    val baseUrlApiPopular = UnFlavoredVariable(
-        key = BuildValues.BASE_URL_API_POPULAR,
+    val baseUrlApiPremium = UnFlavoredVariable(
+        key = BuildValues.BASE_URL_API_PREMIUM,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
-    val apiKeyPopular = UnFlavoredVariable(
-        key = BuildValues.API_KEY_POPULAR,
+    val apiKeyPremium = UnFlavoredVariable(
+        key = BuildValues.API_KEY_PREMIUM,
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
     val androidKeyStorePath = UnFlavoredVariable(
