@@ -15,7 +15,7 @@ internal class ApiService(private val client: HttpClient) {
     suspend fun getRatesByBackend(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_BACKEND)
-            path(PATH_CURRENCY_BY_BASE_BACKEND)
+            path(PATH_CURRENCY, PATH_BY_BASE)
             parameter(QUERY_BASE, base)
         }
     }
@@ -23,7 +23,7 @@ internal class ApiService(private val client: HttpClient) {
     suspend fun getRatesByAPI(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_API)
-            path(PATH_CURRENCY_BY_BASE_API)
+            path(PATH_LATEST)
             parameter(QUERY_BASE, base)
         }
     }
@@ -31,20 +31,16 @@ internal class ApiService(private val client: HttpClient) {
     suspend fun getRatesByPremiumAPI(base: String) = client.get<CurrencyResponseEntity> {
         url {
             takeFrom(BuildKonfig.BASE_URL_API_PREMIUM)
-            path(
-                PATH_PREMIUM,
-                BuildKonfig.API_KEY_PREMIUM,
-                PATH_CURRENCY_BY_BASE_API,
-                base
-            )
+            path(PATH_PREMIUM_VERSION, BuildKonfig.API_KEY_PREMIUM, PATH_LATEST, base)
         }
     }
 
     companion object {
         private const val QUERY_BASE = "base"
 
-        private const val PATH_CURRENCY_BY_BASE_BACKEND = "currency/byBase/"
-        private const val PATH_CURRENCY_BY_BASE_API = "latest"
-        private const val PATH_PREMIUM = "v6"
+        private const val PATH_CURRENCY = "currency"
+        private const val PATH_BY_BASE = "byBase/"
+        private const val PATH_LATEST = "latest"
+        private const val PATH_PREMIUM_VERSION = "v6"
     }
 }
