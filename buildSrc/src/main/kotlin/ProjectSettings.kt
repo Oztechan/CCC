@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import java.io.ByteArrayOutputStream
 import org.gradle.api.Project
+import java.io.ByteArrayOutputStream
 
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 4
+    private const val MINOR_VERSION = 5
 
     // git rev-list --first-parent --count master +1
-    private const val VERSION_DIF = 707
+    private const val VERSION_DIF = 713
 
     const val PROJECT_ID = "mustafaozhan.github.com.mycurrencies"
     const val PACKAGE_NAME = "com.github.mustafaozhan.ccc"
