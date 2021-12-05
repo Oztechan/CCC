@@ -66,11 +66,12 @@ class MainActivity : BaseActivity() {
         }
 
     private fun checkDestination() = with(getNavigationController()) {
-        if (mainViewModel.isFistRun()) {
-            graph = navInflater.inflate(R.navigation.main_graph)
-                .apply {
-                    startDestination = R.id.sliderFragment
-                }
+        graph = navInflater.inflate(R.navigation.main_graph).apply {
+            startDestination = if (mainViewModel.isFistRun()) {
+                R.id.sliderFragment
+            } else {
+                R.id.calculatorFragment
+            }
         }
     }
 
