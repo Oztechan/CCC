@@ -66,7 +66,7 @@ class SettingsViewModel(
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                apiRepository.getRatesViaBackend(name).execute(
+                apiRepository.getRatesByBackend(name).execute(
                     success = { offlineRatesRepository.insertOfflineRates(it) },
                     error = { error -> Logger.e(error) { error.message.toString() } }
                 )

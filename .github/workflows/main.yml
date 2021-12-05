@@ -25,8 +25,8 @@ env:
   ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
-  BASE_URL_API_POPULAR: ${{ secrets.BASE_URL_API_POPULAR }}
-  API_KEY_POPULAR: ${{ secrets.API_KEY_POPULAR }}
+  BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
+  API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
@@ -142,14 +142,19 @@ jobs:
           java-version: 11
 
       - name: Run Kover
-        run: |
-          ./gradlew koverCollectReports --parallel
+        run: ./gradlew koverXmlReport koverCollectReports
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: client/build/reports/kover/report.xml, common/build/reports/kover/report.xml, scopemob/build/reports/kover/report.xml, parsermob/build/reports/kover/report.xml
+          files: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
+
+      - name: Upload to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
 
       - name: Set Job Status
         id: status

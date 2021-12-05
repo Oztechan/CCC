@@ -93,7 +93,7 @@ class CalculatorViewModel(
         _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
         apiRepository
-            .getRatesViaBackend(settingsRepository.currentBase)
+            .getRatesByBackend(settingsRepository.currentBase)
             .execute(::getRatesSuccess, ::getRatesFailed)
     }
 
@@ -220,11 +220,6 @@ class CalculatorViewModel(
     override fun onBarClick() = clientScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)
-    }
-
-    override fun onSpinnerItemSelected(base: String) {
-        Logger.d { "CalculatorViewModel onSpinnerItemSelected $base" }
-        _state.update(base = base)
     }
 
     override fun onSettingsClicked() = clientScope.launchIgnored {

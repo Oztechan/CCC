@@ -26,12 +26,6 @@ class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
     private val currency = Currency("USD", "Dollar", "$", 12345.6789, true)
 
     // Event
-    @Test
-    fun onSpinnerItemSelected() = viewModel.state.before {
-        viewModel.event.onSpinnerItemSelected(currency.name)
-    }.after {
-        assertEquals(currency.name, it?.base)
-    }
 
     @Test
     fun onBarClick() = viewModel.effect.before {

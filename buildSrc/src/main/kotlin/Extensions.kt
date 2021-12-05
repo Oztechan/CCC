@@ -23,18 +23,6 @@ private fun Project.getSecretProperties() = try {
     null
 }
 
-fun String.toResourceName() = removeVariant().toLowerCase(Locale.ROOT)
-
-fun String.removeVariant() = replace(
-    oldValue = "_${Build.Type.RELEASE}_",
-    newValue = "_",
-    ignoreCase = true
-).replace(
-    oldValue = "_${Build.Type.DEBUG}_",
-    newValue = "_",
-    ignoreCase = true
-)
-
 fun String.isNonStable(): Boolean {
     val stableKeyword = listOf(
         "RELEASE",

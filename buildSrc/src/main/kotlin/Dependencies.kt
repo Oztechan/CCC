@@ -30,8 +30,9 @@ object Dependencies {
             "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
         const val FIREBASE_CRASHLYTICS =
-            "com.google.firebase:firebase-crashlytics:${Versions.FIREBASE_CRASHLYTICS}"
-        const val FIREBASE_CORE = "com.google.firebase:firebase-core:${Versions.FIREBASE_CORE}"
+            "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
+        const val FIREBASE_ANALYTICS =
+            "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
         const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
         const val LIFECYCLE_VIEWMODEL =
@@ -44,6 +45,8 @@ object Dependencies {
         const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
+        const val HUAWEI_HSM_BASE = "com.huawei.hms:base:${Versions.HUAWEI_HSM_BASE}"
+        const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
@@ -122,5 +125,6 @@ object Dependencies {
 
         const val BILLING = ":billing"
         const val AD = ":ad"
+        const val ANALYTICS = ":analytics"
     }
 }

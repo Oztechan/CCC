@@ -9,10 +9,14 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
+import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.EventParam
+import com.mustafaozhan.github.analytics.model.FirebaseEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
-    private val calculatorEvent: CalculatorEvent
+    private val calculatorEvent: CalculatorEvent,
+    private val analyticsManager: AnalyticsManager
 ) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
@@ -34,8 +38,24 @@ class CalculatorAdapter(
             txtSymbol.text = item.symbol
             txtType.text = item.name
             imgItem.setBackgroundByName(item.name)
-            root.setOnClickListener { calculatorEvent.onItemClick(item) }
-            root.setOnLongClickListener { calculatorEvent.onItemLongClick(item) }
+
+            root.setOnClickListener {
+                analyticsManager.trackEvent(
+                    FirebaseEvent.BASE_CHANGE,
+                    mapOf(EventParam.BASE to item.name)
+                )
+
+                calculatorEvent.onItemClick(item)
+            }
+
+            root.setOnLongClickListener {
+                analyticsManager.trackEvent(
+                    FirebaseEvent.SHOW_CONVERSION,
+                    mapOf(EventParam.BASE to item.name)
+                )
+
+                calculatorEvent.onItemLongClick(item)
+            }
         }
     }
 

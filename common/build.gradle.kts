@@ -3,6 +3,7 @@
  */
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
+import config.Keys
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -117,27 +118,11 @@ configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.PACKAGE_NAME}.common"
 
     defaultConfigs {
-        with(BuildValues) {
-            buildConfigField(
-                STRING,
-                BASE_URL_BACKEND,
-                getSecret(BASE_URL_BACKEND, BuildValues.Fakes.PRIVATE_URL)
-            )
-            buildConfigField(
-                STRING,
-                BASE_URL_API,
-                getSecret(BASE_URL_API, BuildValues.Fakes.PRIVATE_URL)
-            )
-            buildConfigField(
-                STRING,
-                BASE_URL_API_POPULAR,
-                getSecret(BASE_URL_API_POPULAR, BuildValues.Fakes.PRIVATE_URL)
-            )
-            buildConfigField(
-                STRING,
-                API_KEY_POPULAR,
-                getSecret(API_KEY_POPULAR, BuildValues.Fakes.PRIVATE_URL)
-            )
+        with(Keys(project)) {
+            buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value)
+            buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value)
+            buildConfigField(STRING, baseUrlApiPremium.key, baseUrlApiPremium.value)
+            buildConfigField(STRING, apiKeyPremium.key, apiKeyPremium.value)
         }
     }
 }

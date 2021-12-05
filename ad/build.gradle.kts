@@ -1,3 +1,5 @@
+import config.DeviceFlavour
+
 plugins {
     with(Dependencies.Plugins) {
         id(ANDROID_LIB)
@@ -15,23 +17,23 @@ android {
         }
     }
 
-    with(Build.Flavor) {
-        flavorDimensions.addAll(listOf(getFlavorName()))
+    with(DeviceFlavour) {
+        flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
-            create(GOOGLE) {
-                dimension = getFlavorName()
+            create(google) {
+                dimension = flavorDimension
             }
 
-            create(HUAWEI) {
-                dimension = getFlavorName()
+            create(huawei) {
+                dimension = flavorDimension
             }
         }
     }
 }
 
 dependencies {
-    with(Build.Flavor.Implementation) {
+    with(DeviceFlavour) {
         googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
     }
 

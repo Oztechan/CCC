@@ -24,6 +24,10 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.EventParam
+import com.mustafaozhan.github.analytics.model.FirebaseEvent
+import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -31,8 +35,10 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBindin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
@@ -55,6 +61,26 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         binding.recyclerViewCurrencies.adapter = null
         super.onDestroyView()
     }
+
+    override fun onPause() {
+        Logger.i { "CurrenciesFragment onPause" }
+        trackUserProperties()
+        super.onPause()
+    }
+
+    private fun trackUserProperties() = currenciesViewModel.state.value
+        .currencyList
+        .filter { it.isActive }
+        .run {
+            analyticsManager.setUserProperty(
+                UserProperty.CURRENCY_COUNT,
+                this.count().toString()
+            )
+            analyticsManager.setUserProperty(
+                UserProperty.ACTIVE_CURRENCIES,
+                this.joinToString(",") { currency -> currency.name }
+            )
+        }
 
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
@@ -122,11 +148,21 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     getBaseActivity()?.onBackPressed()
                     view?.hideKeyboard()
                 }
-                is CurrenciesEffect.ChangeBase -> setNavigationResult(
-                    R.id.calculatorFragment,
-                    viewEffect.newBase,
-                    CHANGE_BASE_EVENT
-                )
+                is CurrenciesEffect.ChangeBase -> {
+                    analyticsManager.setUserProperty(
+                        UserProperty.BASE_CURRENCY,
+                        viewEffect.newBase
+                    )
+                    analyticsManager.trackEvent(
+                        FirebaseEvent.BASE_CHANGE,
+                        mapOf(EventParam.BASE to viewEffect.newBase)
+                    )
+                    setNavigationResult(
+                        R.id.calculatorFragment,
+                        viewEffect.newBase,
+                        CHANGE_BASE_EVENT
+                    )
+                }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -155,6 +191,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
         Logger.i { "CurrenciesFragment onResume" }
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.event.onQueryChange("")

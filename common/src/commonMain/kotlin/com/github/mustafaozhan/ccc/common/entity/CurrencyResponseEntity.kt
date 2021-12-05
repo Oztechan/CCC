@@ -5,10 +5,12 @@ package com.github.mustafaozhan.ccc.common.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 @Serializable
 internal data class CurrencyResponseEntity(
-    @SerialName("base") var base: String,
+    @JsonNames("base", "base_code") var base: String,
     @SerialName("date") var date: String? = null,
-    @SerialName("rates") var rates: RatesEntity
+    @JsonNames("rates", "conversion_rates") var rates: RatesEntity
 )

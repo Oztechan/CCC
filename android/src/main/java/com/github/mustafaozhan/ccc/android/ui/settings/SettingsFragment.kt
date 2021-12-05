@@ -22,6 +22,8 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.FirebaseEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -32,6 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @Suppress("TooManyFunctions")
 class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val settingsViewModel: SettingsViewModel by viewModel()
 
@@ -190,7 +193,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
             itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
-            itemSync.root.setOnClickListener { onSyncClick() }
+            itemSync.root.setOnClickListener {
+                onSyncClick()
+                analyticsManager.trackEvent(FirebaseEvent.OFFLINE_SYNC)
+            }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }
             itemShare.root.setOnClickListener { onShareClick() }
@@ -200,6 +206,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
         Logger.i { "SettingsFragment onResume" }
     }
 

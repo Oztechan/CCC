@@ -22,6 +22,8 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -29,8 +31,10 @@ import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBindin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
@@ -48,11 +52,29 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         setListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
+    }
+
     override fun onDestroyView() {
         Logger.i { "CalculatorFragment onDestroyView" }
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onPause() {
+        Logger.i { "CalculatorFragment onPause" }
+        trackUserProperties()
+        super.onPause()
+    }
+
+    private fun trackUserProperties() {
+        analyticsManager.setUserProperty(
+            UserProperty.BASE_CURRENCY,
+            calculatorViewModel.state.value.base
+        )
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
@@ -67,7 +89,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             adId = getString(R.string.android_banner_ad_unit_id_calculator),
             isExpired = calculatorViewModel.isRewardExpired()
         )
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event)
+        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event, analyticsManager)
         recyclerViewMain.adapter = calculatorAdapter
     }
 
@@ -116,7 +138,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 )
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
-                    CalculatorFragmentDirections.actionCalculatorFragmentToBarBottomSheet()
+                    CalculatorFragmentDirections.actionCalculatorFragmentToChangeBaseBottomSheet()
                 )
                 CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,

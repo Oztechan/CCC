@@ -44,7 +44,7 @@ class MainViewModel(
             delay(getAdDelay())
 
             while (isActive && !isFistRun()) {
-                if (data.adVisibility && settingsRepository.adFreeEndDate.isRewardExpired()) {
+                if (data.adVisibility && isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                     data.isInitialAd = false
                 }
@@ -58,6 +58,8 @@ class MainViewModel(
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
+
+    fun isAdFree() = settingsRepository.adFreeEndDate.isRewardExpired()
 
     fun checkReview() = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }

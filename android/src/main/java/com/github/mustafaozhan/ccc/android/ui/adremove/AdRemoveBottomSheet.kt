@@ -21,6 +21,7 @@ import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
+import com.mustafaozhan.github.analytics.AnalyticsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -31,6 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @Suppress("TooManyFunctions")
 class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
 
+    private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val billingManager: BillingManager by inject()
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
@@ -55,13 +57,18 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onDestroyView() {
         Logger.i { "AdRemoveBottomSheet onDestroyView" }
         billingManager.endConnection()
-        binding.recyclerViewBar.adapter = null
+        binding.recyclerViewRemoveAds.adapter = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        analyticsManager.trackScreen(this::class.simpleName.toString())
     }
 
     private fun initViews() {
         removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
-        binding.recyclerViewBar.adapter = removeAdsAdapter
+        binding.recyclerViewRemoveAds.adapter = removeAdsAdapter
     }
 
     private fun observeStates() = adRemoveViewModel.state
