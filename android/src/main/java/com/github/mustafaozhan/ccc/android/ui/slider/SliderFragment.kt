@@ -57,7 +57,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
-                    analyticsManager.trackScreen("${this::class.simpleName} $position")
+                    analyticsManager.trackScreen("${this@SliderFragment::class.simpleName} $position")
 
                     Logger.i { "SliderFragment onPageSelected $position" }
 
