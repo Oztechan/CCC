@@ -125,7 +125,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   Kover:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
