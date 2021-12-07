@@ -44,6 +44,11 @@ kotlin {
                     implementation(KTOR_SETIALIZATION)
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
+                    implementation(COROUTINES) {
+                        version {
+                            strictly(Versions.COROUTINES)
+                        }
+                    }
                 }
             }
             val commonTest by getting {
