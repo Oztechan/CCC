@@ -171,11 +171,12 @@ class CalculatorViewModel(
         Logger.d { "CalculatorViewModel onKeyPress $key" }
         when (key) {
             KEY_AC -> _state.update(input = "")
-            KEY_DEL -> state.value.input
-                .whetherNot { isEmpty() }
-                ?.apply {
-                    _state.update(input = substring(0, length - 1))
-                }
+            KEY_DEL ->
+                state.value.input
+                    .whetherNot { isEmpty() }
+                    ?.apply {
+                        _state.update(input = substring(0, length - 1))
+                    }
             else -> _state.update(input = if (key.isEmpty()) "" else state.value.input + key)
         }
     }

@@ -1,7 +1,7 @@
+import org.gradle.api.Project
 import java.io.IOException
 import java.util.Locale
 import java.util.Properties
-import org.gradle.api.Project
 
 private const val PATH_SECRET_PROPERTIES = "../secret.properties"
 
