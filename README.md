@@ -10,13 +10,13 @@
 
 ## Main modules
 
-* [x] ![badge-android][badge-android] in production :muscle:
-* [x] ![badge-backend][badge-backend] in production :muscle:
-* [ ] ![badge-ios][badge-ios] in progress :bow:
-* [ ] ![badge-web][badge-web] coming soon :eyes:
-* [ ] ![badge-desktop][badge-desktop] coming soon :eyes:
-* [x] ![badge-client][badge-client] shared between FE targets :recycle:
-* [x] ![badge-common][badge-common] shared between all targets :recycle:
+*[x]![badge-android](https://img.shields.io/badge/app-android-green) in production :muscle:
+*[x]![badge-backend](https://img.shields.io/badge/app-backend-blue) in production :muscle:
+*[ ]![badge-ios](https://img.shields.io/badge/app-ios-orange) in progress :bow:
+*[ ]![badge-web](https://img.shields.io/badge/app-web-yellow) coming soon :eyes:
+*[ ]![badge-desktop](https://img.shields.io/badge/app-desktop-red) coming soon :eyes:
+*[x]![badge-client](https://img.shields.io/badge/shared-client-white) shared between FE targets :recycle:
+*[x]![badge-common](https://img.shields.io/badge/shared-common-darkgrey) shared between all targets :recycle:
 
 ## How to clone
 
@@ -79,17 +79,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-[badge-android]: https://img.shields.io/badge/app-android-green
-
-[badge-ios]: https://img.shields.io/badge/app-ios-orange
-
-[badge-backend]: https://img.shields.io/badge/app-backend-blue
-
-[badge-web]: https://img.shields.io/badge/app-web-yellow
-
-[badge-desktop]: https://img.shields.io/badge/app-desktop-red
-
-[badge-client]: https://img.shields.io/badge/shared-client-white
-
-[badge-common]: https://img.shields.io/badge/shared-common-darkgrey
