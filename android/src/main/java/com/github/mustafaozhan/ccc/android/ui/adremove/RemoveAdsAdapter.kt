@@ -10,7 +10,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding
 
 class RemoveAdsAdapter(
     private val removeAdsEvent: AdRemoveEvent
-) : BaseVBRecyclerViewAdapter<RemoveAdType, ItemAdRemoveBinding>(RemoveAdDiffer()) {
+) : BaseVBRecyclerViewAdapter<RemoveAdType>(RemoveAdDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,8 +23,8 @@ class RemoveAdsAdapter(
         )
     )
 
-    inner class CalculatorVBViewHolder(itemBinding: ItemAdRemoveBinding) :
-        BaseVBViewHolder<RemoveAdType, ItemAdRemoveBinding>(itemBinding) {
+    inner class CalculatorVBViewHolder(private val itemBinding: ItemAdRemoveBinding) :
+        BaseVBViewHolder<RemoveAdType>(itemBinding) {
 
         override fun onItemBind(item: RemoveAdType) = with(itemBinding) {
             root.setOnClickListener { removeAdsEvent.onAdRemoveItemClick(item) }
