@@ -11,7 +11,7 @@ object Versions {
     const val KTOR = "1.6.6"
     const val LOG_BACK = "1.2.7"
     const val KOIN = "3.1.4"
-    const val KERMIT = "1.0.2"
+    const val KERMIT = "1.0.0"
     const val MULTIPLATFORM_SETTINGS = "0.8.1"
     const val FIREBASE_ANALYTICS = "20.0.0"
     const val FIREBASE_CRASHLYTICS = "18.2.5"
