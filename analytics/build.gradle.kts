@@ -19,7 +19,8 @@ android {
 dependencies {
     with(Dependencies.Android) {
         implementation(FIREBASE_ANALYTICS)
-        implementation(HUAWEI_HSM_BASE)
+        // todo https://github.com/Oztechan/CCC/issues/303
+        // implementation(HUAWEI_HSM_BASE)
         implementation(ROOT_BEER)
     }
 }
