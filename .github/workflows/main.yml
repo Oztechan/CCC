@@ -60,21 +60,41 @@ jobs:
           java-version: 11
 
       - name: Gradle Build
-        run: |
-          ./gradlew build --parallel
-          ./gradlew koverCollectReports
+        run: ./gradlew build --parallel
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
+          files: |
+            ad/build/reports/kover/report.xml
+            analytics/build/reports/kover/report.xml
+            android/build/reports/kover/report.xml
+            backend/build/reports/kover/report.xml
+            basemob/basemob/build/reports/kover/report.xml
+            billing/build/reports/kover/report.xml
+            client/build/reports/kover/report.xml
+            common/build/reports/kover/report.xml
+            logmob/logmob/build/reports/kover/report.xml
+            parsermob/parsermob/build/reports/kover/report.xml
+            scopemob/scopemob/build/reports/kover/report.xml
 
       - name: Upload to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
+          coverage-reports: |
+            ad/build/reports/kover/report.xml
+            analytics/build/reports/kover/report.xml
+            android/build/reports/kover/report.xml
+            backend/build/reports/kover/report.xml
+            basemob/basemob/build/reports/kover/report.xml
+            billing/build/reports/kover/report.xml
+            client/build/reports/kover/report.xml
+            common/build/reports/kover/report.xml
+            logmob/logmob/build/reports/kover/report.xml
+            parsermob/parsermob/build/reports/kover/report.xml
+            scopemob/scopemob/build/reports/kover/report.xml
 
       - name: Set Job Status
         id: status
