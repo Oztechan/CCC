@@ -27,12 +27,11 @@ env:
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
   API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
 
   GradleBuild:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -62,6 +61,18 @@ jobs:
 
       - name: Gradle Build
         run: ./gradlew build --parallel
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ad/build/reports/kover/report.xml,analytics/build/reports/kover/report.xml,android/build/reports/kover/report.xml,backend/build/reports/kover/report.xml,basemob/basemob/build/reports/kover/report.xml,billing/build/reports/kover/report.xml,client/build/reports/kover/report.xml,common/build/reports/kover/report.xml,logmob/logmob/build/reports/kover/report.xml,parsermob/parsermob/build/reports/kover/report.xml,scopemob/scopemob/build/reports/kover/report.xml
+
+      - name: Upload to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ad/build/reports/kover/report.xml,analytics/build/reports/kover/report.xml,android/build/reports/kover/report.xml,backend/build/reports/kover/report.xml,basemob/basemob/build/reports/kover/report.xml,billing/build/reports/kover/report.xml,client/build/reports/kover/report.xml,common/build/reports/kover/report.xml,logmob/logmob/build/reports/kover/report.xml,parsermob/parsermob/build/reports/kover/report.xml,scopemob/scopemob/build/reports/kover/report.xml
 
       - name: Set Job Status
         id: status
@@ -124,45 +135,9 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  Kover:
-    runs-on: macos-latest
-    outputs:
-      status: ${{ steps.status.outputs.status }}
-    steps:
-
-      - name: Clone Repo
-        uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Run Kover
-        run: ./gradlew koverXmlReport koverCollectReports
-
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
-
-      - name: Upload to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/kover/ad.xml,build/kover/analytics.xml,build/kover/android.xml,build/kover/backend.xml,build/kover/basemob.xml,build/kover/billing.xml,build/kover/client.xml,build/kover/common.xml,build/kover/logmob.xml,build/kover/parsermob.xml,build/kover/scopemob.xml
-
-      - name: Set Job Status
-        id: status
-        run: echo "::set-output name=status::success"
-
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Kover ]
+    needs: [ GradleBuild, XCodeBuild ]
     if: always()
     steps:
 
