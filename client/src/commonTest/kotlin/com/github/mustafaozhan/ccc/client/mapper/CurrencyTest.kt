@@ -1,8 +1,8 @@
 package com.github.mustafaozhan.ccc.client.mapper
 
-import com.github.mustafaozhan.ccc.client.util.assertAllTrue
 import com.github.mustafaozhan.ccc.common.model.Currency
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class CurrencyTest {
 
@@ -12,13 +12,11 @@ class CurrencyTest {
     fun toUIModel() {
         val currencyDollarUIModel = currencyDollar.toUIModel()
 
-        assertAllTrue(
-            currencyDollar.name == currencyDollarUIModel.name,
-            currencyDollar.longName == currencyDollarUIModel.longName,
-            currencyDollar.symbol == currencyDollarUIModel.symbol,
-            currencyDollar.rate == currencyDollarUIModel.rate,
-            currencyDollar.isActive == currencyDollarUIModel.isActive
-        )
+        assertEquals(currencyDollar.name, currencyDollarUIModel.name)
+        assertEquals(currencyDollar.longName, currencyDollarUIModel.longName)
+        assertEquals(currencyDollar.symbol, currencyDollarUIModel.symbol)
+        assertEquals(currencyDollar.rate, currencyDollarUIModel.rate)
+        assertEquals(currencyDollar.isActive, currencyDollarUIModel.isActive)
     }
 
     @Test
@@ -29,13 +27,11 @@ class CurrencyTest {
         val currencyUIModelList = currencyList.toUIModelList()
 
         currencyList.zip(currencyUIModelList) { first, second ->
-            assertAllTrue(
-                first.name == second.name,
-                first.longName == second.longName,
-                first.symbol == second.symbol,
-                first.rate == second.rate,
-                first.isActive == second.isActive
-            )
+            assertEquals(first.name, second.name)
+            assertEquals(first.longName, second.longName)
+            assertEquals(first.symbol, second.symbol)
+            assertEquals(first.rate, second.rate)
+            assertEquals(first.isActive, second.isActive)
         }
     }
 }
