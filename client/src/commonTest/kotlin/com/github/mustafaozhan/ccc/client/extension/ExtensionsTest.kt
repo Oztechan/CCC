@@ -28,14 +28,14 @@ import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
 class ExtensionsTest {
@@ -193,28 +193,32 @@ class ExtensionsTest {
             it.toInstant().plus(
                 DateTimePeriod(months = 1),
                 TimeZone.currentSystemDefault()
-            ), RemoveAdType.MONTH.calculateAdRewardEnd(it).toInstant()
+            ),
+            RemoveAdType.MONTH.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
             it.toInstant().plus(
                 DateTimePeriod(months = 3),
                 TimeZone.currentSystemDefault()
-            ), RemoveAdType.QUARTER.calculateAdRewardEnd(it).toInstant()
+            ),
+            RemoveAdType.QUARTER.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
             it.toInstant().plus(
                 DateTimePeriod(months = 6),
                 TimeZone.currentSystemDefault()
-            ), RemoveAdType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
+            ),
+            RemoveAdType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
             it.toInstant().plus(
                 DateTimePeriod(years = 1),
                 TimeZone.currentSystemDefault()
-            ), RemoveAdType.YEAR.calculateAdRewardEnd(it).toInstant()
+            ),
+            RemoveAdType.YEAR.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
