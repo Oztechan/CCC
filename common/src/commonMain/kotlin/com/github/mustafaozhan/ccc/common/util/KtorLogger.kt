@@ -5,8 +5,8 @@ import io.ktor.client.features.logging.Logger as LoggerKtor
 
 class KtorLogger : LoggerKtor {
     override fun log(message: String) {
-        if (message.contains(KTOR_LOG_MASK_REQUEST)
-            || message.contains(KTOR_LOG_MASK_RESPONSE)
+        if (message.contains(KTOR_LOG_MASK_REQUEST) ||
+            message.contains(KTOR_LOG_MASK_RESPONSE)
         ) {
             Logger.v { "$TAG: $message" }
         }
