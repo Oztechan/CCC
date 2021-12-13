@@ -47,6 +47,8 @@ class ExtensionsTest {
         val target = "USD"
         val rates = Rates(base, date, usd = 5.0)
 
+        assertEquals(0.0, rates.calculateResult(target, ""))
+        assertEquals(0.0, rates.calculateResult(target, null))
         assertEquals(25.0, rates.calculateResult(target, "5.0"))
     }
 

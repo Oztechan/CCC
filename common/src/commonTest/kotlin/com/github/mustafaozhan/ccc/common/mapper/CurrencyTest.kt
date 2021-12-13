@@ -1,7 +1,8 @@
 package com.github.mustafaozhan.ccc.common.mapper
 
+import com.github.mustafaozhan.ccc.common.runTest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.zip
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.github.mustafaozhan.ccc.common.db.sql.Currency as CurrencyEntity
@@ -18,7 +19,7 @@ class CurrencyTest {
         assertEquals(entity.longName, model.longName)
         assertEquals(entity.symbol, model.symbol)
         assertEquals(entity.rate, model.rate)
-        assertEquals(entity.isActive == 1.toLong(), model.isActive)
+        assertEquals(true, model.isActive)
     }
 
     @Test
@@ -47,19 +48,17 @@ class CurrencyTest {
 
     @Test
     fun mapToModel() {
-        val entityEuro = CurrencyEntity("Euro", "Euro", "", 321.321, 0)
-        val currencyList = listOf(entity, entityEuro)
+        val currencyList = listOf(entity)
 
         val currencyListFlow = flowOf(currencyList)
-        val modelListFlow = currencyListFlow.mapToModel()
 
-        currencyListFlow.zip(modelListFlow) { firstFlow, secondFlow ->
-            firstFlow.zip(secondFlow) { first, second ->
-                assertEquals(first.name, second.name)
-                assertEquals(first.longName, second.longName)
-                assertEquals(first.symbol, second.symbol)
-                assertEquals(first.rate, second.rate)
-                assertEquals(first.isActive == 1.toLong(), second.isActive)
+        runTest {
+            currencyListFlow.mapToModel().firstOrNull()?.firstOrNull()?.let {
+                assertEquals(entity.name, it.name)
+                assertEquals(entity.longName, it.longName)
+                assertEquals(entity.symbol, it.symbol)
+                assertEquals(entity.rate, it.rate)
+                assertEquals(true, it.isActive)
             }
         }
     }

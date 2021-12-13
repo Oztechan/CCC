@@ -5,6 +5,7 @@ import com.github.mustafaozhan.ccc.common.util.assertAllTrue
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.github.mustafaozhan.ccc.common.db.sql.Offline_rates as OfflineRates
 
@@ -96,95 +97,9 @@ class OfflineRatesTest {
     fun toCurrencyResponseEntity() {
         val response = offline.toCurrencyResponseEntity()
 
-        assertAllTrue(
-            offline.base == response?.base, offline.date == response?.date,
-            offline.base == response?.rates?.base, offline.date == response?.rates?.date,
-            offline.AED == response?.rates?.aed, offline.AFN == response?.rates?.afn,
-            offline.ALL == response?.rates?.all, offline.AMD == response?.rates?.amd,
-            offline.ANG == response?.rates?.ang, offline.AOA == response?.rates?.aoa,
-            offline.ARS == response?.rates?.ars, offline.AUD == response?.rates?.aud,
-            offline.AWG == response?.rates?.awg, offline.AZN == response?.rates?.azn,
-            offline.BAM == response?.rates?.bam, offline.BBD == response?.rates?.bbd,
-            offline.BDT == response?.rates?.bdt, offline.BGN == response?.rates?.bgn,
-            offline.BHD == response?.rates?.bhd, offline.BIF == response?.rates?.bif,
-            offline.BMD == response?.rates?.bmd, offline.BND == response?.rates?.bnd,
-            offline.BOB == response?.rates?.bob, offline.BRL == response?.rates?.brl,
-            offline.BSD == response?.rates?.bsd, offline.BTC == response?.rates?.btc,
-            offline.BTN == response?.rates?.btn, offline.BWP == response?.rates?.bwp,
-            offline.BYN == response?.rates?.byn, offline.BZD == response?.rates?.bzd,
-            offline.CAD == response?.rates?.cad, offline.CDF == response?.rates?.cdf,
-            offline.CHF == response?.rates?.chf, offline.CLF == response?.rates?.clf,
-            offline.CLP == response?.rates?.clp, offline.CNH == response?.rates?.cnh,
-            offline.CNY == response?.rates?.cny, offline.COP == response?.rates?.cop,
-            offline.CRC == response?.rates?.crc, offline.CUC == response?.rates?.cuc,
-            offline.CUP == response?.rates?.cup, offline.CVE == response?.rates?.cve,
-            offline.CZK == response?.rates?.czk, offline.DJF == response?.rates?.djf,
-            offline.DKK == response?.rates?.dkk, offline.DOP == response?.rates?.dop,
-            offline.DZD == response?.rates?.dzd, offline.EGP == response?.rates?.egp,
-            offline.ERN == response?.rates?.ern, offline.ETB == response?.rates?.etb,
-            offline.EUR == response?.rates?.eur, offline.FJD == response?.rates?.fjd,
-            offline.FKP == response?.rates?.fkp, offline.GBP == response?.rates?.gbp,
-            offline.GEL == response?.rates?.gel, offline.GGP == response?.rates?.ggp,
-            offline.GHS == response?.rates?.ghs, offline.GIP == response?.rates?.gip,
-            offline.GMD == response?.rates?.gmd, offline.GNF == response?.rates?.gnf,
-            offline.GTQ == response?.rates?.gtq, offline.GYD == response?.rates?.gyd,
-            offline.HKD == response?.rates?.hkd, offline.HNL == response?.rates?.hnl,
-            offline.HRK == response?.rates?.hrk, offline.HTG == response?.rates?.htg,
-            offline.HUF == response?.rates?.huf, offline.IDR == response?.rates?.idr,
-            offline.ILS == response?.rates?.ils, offline.IMP == response?.rates?.imp,
-            offline.INR == response?.rates?.inr, offline.IQD == response?.rates?.iqd,
-            offline.IRR == response?.rates?.irr, offline.ISK == response?.rates?.isk,
-            offline.JEP == response?.rates?.jep, offline.JMD == response?.rates?.jmd,
-            offline.JOD == response?.rates?.jod, offline.JPY == response?.rates?.jpy,
-            offline.KES == response?.rates?.kes, offline.KGS == response?.rates?.kgs,
-            offline.KHR == response?.rates?.khr, offline.KMF == response?.rates?.kmf,
-            offline.KPW == response?.rates?.kpw, offline.KRW == response?.rates?.krw,
-            offline.KWD == response?.rates?.kwd, offline.KYD == response?.rates?.kyd,
-            offline.KZT == response?.rates?.kzt, offline.LAK == response?.rates?.lak,
-            offline.LBP == response?.rates?.lbp, offline.LKR == response?.rates?.lkr,
-            offline.LRD == response?.rates?.lrd, offline.LSL == response?.rates?.lsl,
-            offline.LYD == response?.rates?.lyd, offline.MAD == response?.rates?.mad,
-            offline.MDL == response?.rates?.mdl, offline.MGA == response?.rates?.mga,
-            offline.MKD == response?.rates?.mkd, offline.MMK == response?.rates?.mmk,
-            offline.MNT == response?.rates?.mnt, offline.MOP == response?.rates?.mop,
-            offline.MRO == response?.rates?.mro, offline.MRU == response?.rates?.mru,
-            offline.MUR == response?.rates?.mur, offline.MVR == response?.rates?.mvr,
-            offline.MWK == response?.rates?.mwk, offline.MXN == response?.rates?.mxn,
-            offline.MYR == response?.rates?.myr, offline.MZN == response?.rates?.mzn,
-            offline.NAD == response?.rates?.nad, offline.NGN == response?.rates?.ngn,
-            offline.NIO == response?.rates?.nio, offline.NOK == response?.rates?.nok,
-            offline.NPR == response?.rates?.npr, offline.NZD == response?.rates?.nzd,
-            offline.OMR == response?.rates?.omr, offline.PAB == response?.rates?.pab,
-            offline.PEN == response?.rates?.pen, offline.PGK == response?.rates?.pgk,
-            offline.PHP == response?.rates?.php, offline.PKR == response?.rates?.pkr,
-            offline.PLN == response?.rates?.pln, offline.PYG == response?.rates?.pyg,
-            offline.QAR == response?.rates?.qar, offline.RON == response?.rates?.ron,
-            offline.RSD == response?.rates?.rsd, offline.RUB == response?.rates?.rub,
-            offline.RWF == response?.rates?.rwf, offline.SAR == response?.rates?.sar,
-            offline.SBD == response?.rates?.sbd, offline.SCR == response?.rates?.scr,
-            offline.SDG == response?.rates?.sdg, offline.SEK == response?.rates?.sek,
-            offline.SGD == response?.rates?.sgd, offline.SHP == response?.rates?.shp,
-            offline.SLL == response?.rates?.sll, offline.SOS == response?.rates?.sos,
-            offline.SRD == response?.rates?.srd, offline.SSP == response?.rates?.ssp,
-            offline.STD == response?.rates?.std, offline.STN == response?.rates?.stn,
-            offline.SVC == response?.rates?.svc, offline.SYP == response?.rates?.syp,
-            offline.SZL == response?.rates?.szl, offline.THB == response?.rates?.thb,
-            offline.TJS == response?.rates?.tjs, offline.TMT == response?.rates?.tmt,
-            offline.TND == response?.rates?.tnd, offline.TOP == response?.rates?.top,
-            offline.TRY == response?.rates?.`try`, offline.TTD == response?.rates?.ttd,
-            offline.TWD == response?.rates?.twd, offline.TZS == response?.rates?.tzs,
-            offline.UAH == response?.rates?.uah, offline.UGX == response?.rates?.ugx,
-            offline.USD == response?.rates?.usd, offline.UYU == response?.rates?.uyu,
-            offline.UZS == response?.rates?.uzs, offline.VES == response?.rates?.ves,
-            offline.VND == response?.rates?.vnd, offline.VUV == response?.rates?.vuv,
-            offline.WST == response?.rates?.wst, offline.XAF == response?.rates?.xaf,
-            offline.XAG == response?.rates?.xag, offline.XAU == response?.rates?.xau,
-            offline.XCD == response?.rates?.xcd, offline.XDR == response?.rates?.xdr,
-            offline.XOF == response?.rates?.xof, offline.XPD == response?.rates?.xpd,
-            offline.XPF == response?.rates?.xpf, offline.XPT == response?.rates?.xpt,
-            offline.YER == response?.rates?.yer, offline.ZAR == response?.rates?.zar,
-            offline.ZMW == response?.rates?.zmw, offline.ZWL == response?.rates?.zwl
-        )
+        assertEquals(offline.base, response?.base)
+        assertEquals(offline.date, response?.date)
+        assertEquals(offline.toRatesEntity(), response?.rates)
     }
 
     @Test
