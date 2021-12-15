@@ -4,12 +4,12 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val KOTLIN = "1.6.0"
+    const val KOTLIN = "1.6.10"
     const val ANDROID_GRADLE_PLUGIN = "7.0.4"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.2"
     const val KTOR = "1.6.7"
-    const val LOG_BACK = "1.2.7"
+    const val LOG_BACK = "1.2.8"
     const val KOIN = "3.1.4"
     const val KERMIT = "1.0.2"
     const val MULTIPLATFORM_SETTINGS = "0.8.1"
@@ -35,6 +35,6 @@ object Versions {
     const val WORK_RUNTIME = "2.7.1"
     const val SPLASH_SCREEN = "1.0.0-alpha02"
     const val KOVER = "0.4.4"
-    const val HUAWEI_HSM_BASE = "6.2.0.300"
+    const val HUAWEI_HSM_BASE = "6.3.0.300"
     const val ROOT_BEER = "0.1.0"
 }
