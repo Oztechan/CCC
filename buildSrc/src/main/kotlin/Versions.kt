@@ -28,7 +28,7 @@ object Versions {
     const val LEAK_CANARY = "2.7"
     const val SQL_DELIGHT = "1.5.3"
     const val LIFECYCLE = "2.4.0"
-    const val MOKO_RESOURCES = "0.17.3"
+    const val MOKO_RESOURCES = "0.17.2"
     const val DEPENDENCY_UPDATES = "0.39.0"
     const val BUILD_HEALTH = "0.78.0"
     const val BUILD_KONFIG = "0.11.0"
