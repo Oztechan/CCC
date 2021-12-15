@@ -4,17 +4,17 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val KOTLIN = "1.6.0"
-    const val ANDROID_GRADLE_PLUGIN = "7.0.3"
+    const val KOTLIN = "1.6.10"
+    const val ANDROID_GRADLE_PLUGIN = "7.0.4"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.2"
-    const val KTOR = "1.6.6"
-    const val LOG_BACK = "1.2.7"
+    const val KTOR = "1.6.7"
+    const val LOG_BACK = "1.2.8"
     const val KOIN = "3.1.4"
     const val KERMIT = "1.0.0"
     const val MULTIPLATFORM_SETTINGS = "0.8.1"
-    const val FIREBASE_ANALYTICS = "20.0.0"
-    const val FIREBASE_CRASHLYTICS = "18.2.5"
+    const val FIREBASE_ANALYTICS = "20.0.1"
+    const val FIREBASE_CRASHLYTICS = "18.2.6"
     const val DESUGARING = "1.1.5"
     const val ANR_WATCH_DOG = "1.4.0"
     const val GSM = "4.3.10"
