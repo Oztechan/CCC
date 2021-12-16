@@ -54,6 +54,7 @@ object Dependencies {
             const val PLAY_CORE = "com.google.android.play:core:${Versions.PLAY_CORE}"
         }
 
+        @Suppress("unused")
         object HUAWEI
     }
 

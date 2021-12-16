@@ -11,7 +11,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemChangeBaseBinding
 
 class ChangeBaseAdapter(
     private val changeBaseEvent: ChangeBaseEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemChangeBaseBinding>(CalculatorDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,8 +24,8 @@ class ChangeBaseAdapter(
         )
     )
 
-    inner class CalculatorVBViewHolder(itemBinding: ItemChangeBaseBinding) :
-        BaseVBViewHolder<Currency, ItemChangeBaseBinding>(itemBinding) {
+    inner class CalculatorVBViewHolder(private val itemBinding: ItemChangeBaseBinding) :
+        BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             imgIcon.setBackgroundByName(item.name)

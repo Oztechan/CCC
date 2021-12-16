@@ -18,35 +18,9 @@ internal fun CurrencyEntity.toModel() = Currency(
 )
 
 internal fun List<CurrencyEntity>.toModelList(): List<Currency> {
-    val temp = mutableListOf<Currency>()
-    forEach {
-        temp.add(
-            Currency(
-                name = it.name,
-                longName = it.longName,
-                symbol = it.symbol,
-                rate = it.rate,
-                isActive = it.isActive == 1.toLong()
-            )
-        )
-    }
-    return temp.toList()
+    return map { it.toModel() }
 }
 
 internal fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<Currency>> {
-    return this.map {
-        mutableListOf<Currency>().apply {
-            it.forEach {
-                add(
-                    Currency(
-                        name = it.name,
-                        longName = it.longName,
-                        symbol = it.symbol,
-                        rate = it.rate,
-                        isActive = it.isActive == 1.toLong()
-                    )
-                )
-            }
-        }.toList()
-    }
+    return this.map { it.toModelList() }
 }

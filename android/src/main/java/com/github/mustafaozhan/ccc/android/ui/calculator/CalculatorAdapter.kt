@@ -17,7 +17,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent,
     private val analyticsManager: AnalyticsManager
-) : BaseVBRecyclerViewAdapter<Currency, ItemCalculatorBinding>(CalculatorDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,8 +30,8 @@ class CalculatorAdapter(
         )
     )
 
-    inner class CalculatorVBViewHolder(itemBinding: ItemCalculatorBinding) :
-        BaseVBViewHolder<Currency, ItemCalculatorBinding>(itemBinding) {
+    inner class CalculatorVBViewHolder(private val itemBinding: ItemCalculatorBinding) :
+        BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             txtAmount.text = item.rate.getFormatted().toStandardDigits()

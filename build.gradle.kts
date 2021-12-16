@@ -40,18 +40,14 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        maven("https://developer.huawei.com/repo/")
         maven("https://dl.bintray.com/ekito/koin")
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlinx/")
-        maven("https://developer.huawei.com/repo/")
     }
 }
 
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf { candidate.version.isNonStable() }
-}
-
-tasks.koverCollectReports {
-    outputDir.set(layout.buildDirectory.dir("$buildDir/kover"))
 }

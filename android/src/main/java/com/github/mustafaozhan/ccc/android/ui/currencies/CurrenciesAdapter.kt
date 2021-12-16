@@ -13,7 +13,7 @@ import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 
 class CurrenciesAdapter(
     private val currenciesEvent: CurrenciesEvent
-) : BaseVBRecyclerViewAdapter<Currency, ItemCurrenciesBinding>(CurrenciesDiffer()) {
+) : BaseVBRecyclerViewAdapter<Currency>(CurrenciesDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,10 +26,7 @@ class CurrenciesAdapter(
         )
     )
 
-    override fun onBindViewHolder(
-        holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: BaseVBViewHolder<Currency>, position: Int) {
         holder.itemView.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.itemView.context,
@@ -39,13 +36,13 @@ class CurrenciesAdapter(
         super.onBindViewHolder(holder, position)
     }
 
-    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency, ItemCurrenciesBinding>) {
+    override fun onViewDetachedFromWindow(holder: BaseVBViewHolder<Currency>) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.clearAnimation()
     }
 
-    inner class RatesVBViewHolder(itemBinding: ItemCurrenciesBinding) :
-        BaseVBViewHolder<Currency, ItemCurrenciesBinding>(itemBinding) {
+    inner class RatesVBViewHolder(private val itemBinding: ItemCurrenciesBinding) :
+        BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             imgIcon.setBackgroundByName(item.name)

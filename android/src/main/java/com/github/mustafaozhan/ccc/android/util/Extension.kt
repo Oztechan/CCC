@@ -23,8 +23,8 @@ import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.scopemob.castTo
-import java.io.FileNotFoundException
 import mustafaozhan.github.com.mycurrencies.R
+import java.io.FileNotFoundException
 
 fun ImageView.setBackgroundByName(
     name: String

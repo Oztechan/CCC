@@ -1,22 +1,23 @@
+<h1 align="center">Currency Converter & Calculator</h1>
 <p align="center">A currency converter application for most of the currencies used in the world.</p>
 <p align="center">You can quickly convert and make mathematical operations between currencies.</p>
 <p align="center"><a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300px"></a></p>
-<p align="center"><a href="https://www.codacy.com/gh/CurrencyConverterCalculator/CCC?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <img src="https://codecov.io/gh/Oztechan/CCC/branch/develop/graph/badge.svg?token=Lenq2MZgM7"/>  <img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/CCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/CCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/CCC.svg">
+<p align="center"><a href="https://www.codacy.com/gh/Oztechan/CCC/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>   <a href="https://codecov.io/gh/Oztechan/CCC"><img src="https://codecov.io/gh/Oztechan/CCC/branch/develop/graph/badge.svg?token=Lenq2MZgM7"/></a>  <img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg">  <img src="https://img.shields.io/github/last-commit/CurrencyConverterCalculator/CCC.svg">  <img src="https://img.shields.io/github/issues/CurrencyConverterCalculator/CCC.svg">   <img src="https://img.shields.io/github/issues-closed/CurrencyConverterCalculator/CCC.svg">
 <p align="center"><a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
-## Included Currencies
+<div align="center">
 
-[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)
+Main Modules | Completed | State | Tech |
+:------------ | :-------------| :-------------| :-------------|  
+![badge-android](https://img.shields.io/badge/app-android-green) | :white_check_mark:| in production :muscle: | ViewBinding (State/Shared)Flow
+![badge-backend](https://img.shields.io/badge/app-backend-blue) | :white_check_mark: | in production :muscle: | Ktor (server/client) Sqldelight
+![badge-ios](https://img.shields.io/badge/app-ios-orange) || in progress :bow: | SwiftUI Combine
+![badge-web](https://img.shields.io/badge/app-web-yellow) || coming soon :eyes: | :grey_question:
+![badge-desktop](https://img.shields.io/badge/app-desktop-red) || coming soon :eyes: | :grey_question:
+![badge-client](https://img.shields.io/badge/shared-client-white) | :white_check_mark: | used in FE targets :recycle: | KMP (android/ios)
+![badge-common](https://img.shields.io/badge/shared-common-darkgrey) | :white_check_mark: | used in all targets :recycle: | KMP (android/ios/jvm)
 
-## Main modules
-
-*  [x] ![badge-android][badge-android] in production :muscle:
-*  [x] ![badge-backend][badge-backend] in production :muscle:
-*  [ ] ![badge-ios][badge-ios] in progress :bow:
-*  [ ] ![badge-web][badge-web] coming soon :eyes:
-*  [ ] ![badge-desktop][badge-desktop] coming soon :eyes:
-*  [x] ![badge-client][badge-client] shared between FE targets :recycle:
-*  [x] ![badge-common][badge-common] shared between all targets :recycle:
+</div>
 
 ## How to clone
 
@@ -32,10 +33,11 @@ git submodule update --init --recursive
 
 Be sure that you have latest Android Studio Canary build installed and XCode 13.0 or later.
 
-#### Android
+### Android
+
 Open CCC folder with Android Studio and select `android` from configurations and run
 
-#### iOS
+### iOS
 
 ```shell
 ./gradlew :client:podspec &&
@@ -43,28 +45,31 @@ cd ios/CCC
 pod install --repo-update
 ```
 
-Then open CCC/ios/CCC.xcworkspace with XCode and run the build
+Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
 
-#### Backend
+### Backend
 
 ```shell
 ./gradlew :backend:run
 ```
 
-## Screenshots
-
-### Android
+## Android Preview
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/4.png" width="400px"/>
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/5.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/7.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/>
 
-### iOS
+## iOS Preview
 
 <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/dark.gif?raw=true" width="400px"/> <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/light.gif?raw=true" width="400px"/>
 
+## Included Currencies
+
+[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)
+
 ## License
-```markdown
+
+```text
 Copyright 2017 Mustafa Ozhan
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,11 +84,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-[badge-android]: https://img.shields.io/badge/app-android-green
-[badge-ios]: https://img.shields.io/badge/app-ios-orange
-[badge-backend]: https://img.shields.io/badge/app-backend-blue
-[badge-web]: https://img.shields.io/badge/app-web-yellow
-[badge-desktop]: https://img.shields.io/badge/app-desktop-red
-[badge-client]: https://img.shields.io/badge/shared-client-white
-[badge-common]: https://img.shields.io/badge/shared-common-darkgrey
