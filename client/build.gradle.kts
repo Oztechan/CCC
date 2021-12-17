@@ -12,6 +12,7 @@ plugins {
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(MOKO_RESOURCES)
+        id(KSP) version (Versions.KSP)
     }
 }
 
@@ -66,6 +67,7 @@ kotlin {
                 dependencies {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
+                    implementation(MOCKATIVE)
                 }
             }
         }
@@ -100,6 +102,10 @@ kotlin {
         }
         val iosTest by getting
     }
+}
+
+dependencies {
+    ksp(Dependencies.Processors.MOCKATIVE)
 }
 
 android {
