@@ -21,9 +21,8 @@ abstract class BaseViewModelTest<ViewModelType> {
 
     @BeforeTest
     fun setup() {
-        initLogger(true).let {
-            it.d { "Logger initialized" }
-        }
+        initLogger(true)
+
         startKoin {
             modules(
                 clientModule,

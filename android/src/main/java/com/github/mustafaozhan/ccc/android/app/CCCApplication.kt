@@ -27,9 +27,7 @@ class CCCApplication : Application() {
             enableStrictMode()
         }
 
-        initLogger().let {
-            it.i { "Logger initialized" }
-        }
+        initLogger()
 
         Logger.i { "CCCApplication onCreate" }
 

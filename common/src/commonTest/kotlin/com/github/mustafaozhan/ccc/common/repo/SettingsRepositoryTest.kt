@@ -22,7 +22,6 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.matching
 import io.mockative.mock
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,11 +30,8 @@ class SettingsRepositoryTest {
     @Mock
     private val settings = mock(classOf<Settings>())
 
-    private lateinit var repository: SettingsRepository
-
-    @BeforeTest
-    fun setup() {
-        repository = SettingsRepositoryImp(settings)
+    private val repository: SettingsRepository by lazy {
+        SettingsRepositoryImp(settings)
     }
 
     // defaults
