@@ -5,17 +5,27 @@
 package com.github.mustafaozhan.ccc.common.repo
 
 import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
-import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.api.ApiRepositoryImpl
+import com.github.mustafaozhan.ccc.common.api.ApiService
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
+import io.mockative.Mock
+import io.mockative.classOf
+import io.mockative.mock
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class ApiRepositoryTest : BaseRepositoryTest<ApiRepository>() {
+class ApiRepositoryTest {
 
-    override val repository: ApiRepository by lazy {
-        koin.getDependency(ApiRepository::class)
+    @Mock
+    private val apiService = mock(classOf<ApiService>())
+
+    private lateinit var repository: ApiRepository
+
+    @BeforeTest
+    fun setup() {
+        repository = ApiRepositoryImpl(apiService)
     }
 
     @Test
