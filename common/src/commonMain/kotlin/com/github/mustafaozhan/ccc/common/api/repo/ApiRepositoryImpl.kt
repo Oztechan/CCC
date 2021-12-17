@@ -1,9 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.api
+package com.github.mustafaozhan.ccc.common.api.repo
 
 import co.touchlab.kermit.Logger
+import com.github.mustafaozhan.ccc.common.api.service.ApiService
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.error.ModelMappingException
 import com.github.mustafaozhan.ccc.common.error.NetworkException

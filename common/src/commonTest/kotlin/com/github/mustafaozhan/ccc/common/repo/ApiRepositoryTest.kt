@@ -4,9 +4,9 @@
 
 package com.github.mustafaozhan.ccc.common.repo
 
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.api.ApiRepositoryImpl
-import com.github.mustafaozhan.ccc.common.api.ApiService
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepositoryImpl
+import com.github.mustafaozhan.ccc.common.api.service.ApiService
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
 import io.mockative.Mock

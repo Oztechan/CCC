@@ -1,9 +1,9 @@
 package com.github.mustafaozhan.ccc.common.di.modules
 
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.api.ApiRepositoryImpl
-import com.github.mustafaozhan.ccc.common.api.ApiService
-import com.github.mustafaozhan.ccc.common.api.ApiServiceImpl
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepositoryImpl
+import com.github.mustafaozhan.ccc.common.api.service.ApiService
+import com.github.mustafaozhan.ccc.common.api.service.ApiServiceImpl
 import com.github.mustafaozhan.ccc.common.util.KtorLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpTimeout

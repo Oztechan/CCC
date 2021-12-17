@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.ccc.common.api
+package com.github.mustafaozhan.ccc.common.api.repo
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.util.Result

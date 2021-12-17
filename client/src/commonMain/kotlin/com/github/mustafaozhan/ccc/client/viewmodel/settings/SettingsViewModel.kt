@@ -12,7 +12,7 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toDateString
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
