@@ -3,40 +3,101 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.Mock
+import io.mockative.any
+import io.mockative.classOf
+import io.mockative.given
+import io.mockative.mock
+import kotlinx.coroutines.flow.flow
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
+class SettingsViewModelTest {
 
-    override val viewModel: SettingsViewModel by lazy {
-        koin.getDependency(SettingsViewModel::class)
+    @Mock
+    private val settingsRepository = mock(classOf<SettingsRepository>())
+
+    @Mock
+    private val apiRepository = mock(classOf<ApiRepository>())
+
+    @Mock
+    private val currencyRepository = mock(classOf<CurrencyRepository>())
+
+    @Mock
+    private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
+
+    private val viewModel: SettingsViewModel by lazy {
+        SettingsViewModel(
+            settingsRepository,
+            apiRepository,
+            currencyRepository,
+            offlineRatesRepository
+        )
+    }
+
+    @BeforeTest
+    fun setup() {
+        initLogger(true)
+
+        given(settingsRepository)
+            .getter(settingsRepository::appTheme)
+            .whenInvoked()
+            .thenReturn(-1)
+
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(0)
+
+        given(currencyRepository)
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flow { })
     }
 
     @Test
-    fun updateTheme() = with(viewModel) {
-        val appTheme = AppTheme.DARK
-        effect.before {
-            viewModel.updateTheme(appTheme)
-        }.after {
-            assertEquals(appTheme, viewModel.state.value.appThemeType)
-            assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), it)
+    fun updateTheme() {
+
+        given(settingsRepository)
+            .setter(settingsRepository::appTheme)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+
+        with(viewModel) {
+            val appTheme = AppTheme.DARK
+            effect.before {
+                updateTheme(appTheme)
+            }.after {
+                assertEquals(appTheme, state.value.appThemeType)
+                assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), it)
+            }
         }
     }
 
     @Test
-    fun updateAddFreeDate() = viewModel.state.before {
-        viewModel.updateAddFreeDate()
-    }.after {
-        assertTrue { viewModel.state.value.addFreeEndDate.isNotEmpty() }
+    fun updateAddFreeDate() {
+        given(settingsRepository)
+            .setter(settingsRepository::adFreeEndDate)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+
+        viewModel.state.before {
+            viewModel.updateAddFreeDate()
+        }.after {
+            assertTrue { viewModel.state.value.addFreeEndDate.isNotEmpty() }
+        }
     }
 
     // Event
@@ -104,6 +165,12 @@ class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun onSyncClick() {
+
+        given(currencyRepository)
+            .function(currencyRepository::getActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(listOf())
+
         viewModel.effect.before {
             viewModel.event.onSyncClick()
         }.after {

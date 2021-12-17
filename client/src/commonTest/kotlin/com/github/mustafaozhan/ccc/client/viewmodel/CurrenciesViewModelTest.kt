@@ -3,21 +3,45 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.Mock
+import io.mockative.classOf
+import io.mockative.given
+import io.mockative.mock
+import kotlinx.coroutines.flow.flow
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
+class CurrenciesViewModelTest {
 
-    override val viewModel: CurrenciesViewModel by lazy {
-        koin.getDependency(CurrenciesViewModel::class)
+    @Mock
+    private val settingsRepository = mock(classOf<SettingsRepository>())
+
+    @Mock
+    private val currencyRepository = mock(classOf<CurrencyRepository>())
+
+    private val viewModel: CurrenciesViewModel by lazy {
+        CurrenciesViewModel(settingsRepository, currencyRepository)
+    }
+
+    private val euro = Currency("EUR", "Euro", "€")
+
+    @BeforeTest
+    fun setup() {
+        initLogger(true)
+
+        given(currencyRepository)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(flow { listOf(euro) })
     }
 
     @Test
@@ -37,7 +61,6 @@ class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
     // Event
     @Test
     fun onQueryChange() = with(viewModel) {
-        val euro = Currency("EUR", "Euro", "€")
         val dollar = Currency("USD", "American Dollar", "$")
 
         val originalList = mutableListOf<Currency>().apply {
