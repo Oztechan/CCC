@@ -4,23 +4,34 @@
 
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
+import io.mockative.Mock
+import io.mockative.any
+import io.mockative.classOf
+import io.mockative.given
+import io.mockative.mock
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
+class AdRemoveViewModelTest {
 
-    override val viewModel: AdRemoveViewModel by lazy {
-        koin.getDependency(AdRemoveViewModel::class)
+    @Mock
+    private val settingsRepository = mock(classOf<SettingsRepository>())
+
+    private lateinit var viewModel: AdRemoveViewModel
+
+    @BeforeTest
+    fun setup() {
+        viewModel = AdRemoveViewModel(settingsRepository)
     }
 
     @Test
@@ -38,25 +49,44 @@ class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun updateAddFreeDate() = RemoveAdType.values().forEach { adRemoveType ->
-        viewModel.effect.before {
-            viewModel.updateAddFreeDate(adRemoveType)
-        }.after {
-            assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType, false), it)
+    fun updateAddFreeDate() {
+        given(settingsRepository)
+            .setter(settingsRepository::adFreeEndDate)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+
+        RemoveAdType.values().forEach { adRemoveType ->
+            viewModel.effect.before {
+                viewModel.updateAddFreeDate(adRemoveType)
+            }.after {
+                assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType, false), it)
+            }
         }
     }
 
     @Test
-    fun restorePurchase() = viewModel.effect.before {
-        viewModel.restorePurchase(
-            listOf(
-                OldPurchase(nowAsLong(), RemoveAdType.MONTH),
-                OldPurchase(nowAsLong(), RemoveAdType.YEAR)
+    fun restorePurchase() {
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(0)
+
+        given(settingsRepository)
+            .setter(settingsRepository::adFreeEndDate)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
+
+        viewModel.effect.before {
+            viewModel.restorePurchase(
+                listOf(
+                    OldPurchase(nowAsLong(), RemoveAdType.MONTH),
+                    OldPurchase(nowAsLong(), RemoveAdType.YEAR)
+                )
             )
-        )
-    }.after {
-        assertTrue { it is AdRemoveEffect.AdsRemoved }
-        assertEquals(true, (it as? AdRemoveEffect.AdsRemoved)?.isRestorePurchase == true)
+        }.after {
+            assertTrue { it is AdRemoveEffect.AdsRemoved }
+            assertEquals(true, (it as? AdRemoveEffect.AdsRemoved)?.isRestorePurchase == true)
+        }
     }
 
     @Test
