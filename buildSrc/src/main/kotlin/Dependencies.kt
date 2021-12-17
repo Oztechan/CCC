@@ -21,6 +21,7 @@ object Dependencies {
         const val SQL_DELIGHT_COROUTINES_EXT =
             "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
+        const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
     }
 
     object Android {
@@ -113,6 +114,11 @@ object Dependencies {
         const val DEPENDENCY_UPDATES = "com.github.ben-manes.versions"
         const val BUILD_HEALTH = "com.autonomousapps.dependency-analysis"
         const val KOVER = "org.jetbrains.kotlinx.kover"
+        const val KSP = "com.google.devtools.ksp"
+    }
+
+    object Processors {
+        const val MOCKATIVE = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
     }
 
     object Modules {

@@ -13,6 +13,7 @@ plugins {
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(BUILD_KONFIG)
+        id(KSP) version (Versions.KSP)
     }
 }
 
@@ -55,6 +56,7 @@ kotlin {
                 dependencies {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
+                    implementation(MOCKATIVE)
                 }
             }
         }
@@ -97,6 +99,10 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    ksp(Dependencies.Processors.MOCKATIVE)
 }
 
 android {
