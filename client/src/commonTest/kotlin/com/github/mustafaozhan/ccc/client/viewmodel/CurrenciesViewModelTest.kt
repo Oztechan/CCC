@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
@@ -54,8 +55,11 @@ class CurrenciesViewModelTest {
     @Test
     fun queryGetUpdatedOnFilteringList() {
         val query = "query"
-        viewModel.event.onQueryChange(query)
-        assertEquals(query, viewModel.data.query)
+        // runTest can be removed after kotlin move to new memory management
+        runTest {
+            viewModel.event.onQueryChange(query)
+            assertEquals(query, viewModel.data.query)
+        }
     }
 
     // Event
