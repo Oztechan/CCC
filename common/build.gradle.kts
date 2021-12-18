@@ -114,10 +114,6 @@ android {
             targetSdk = TARGET_SDK_VERSION
         }
 
-        testOptions {
-            unitTests.isReturnDefaultValues = true
-        }
-
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

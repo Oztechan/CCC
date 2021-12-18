@@ -17,7 +17,6 @@ import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -27,11 +26,8 @@ class AdRemoveViewModelTest {
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
-    private lateinit var viewModel: AdRemoveViewModel
-
-    @BeforeTest
-    fun setup() {
-        viewModel = AdRemoveViewModel(settingsRepository)
+    private val viewModel: AdRemoveViewModel by lazy {
+        AdRemoveViewModel(settingsRepository)
     }
 
     @Test

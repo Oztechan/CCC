@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.api.repo.ApiRepositoryImpl
 import com.github.mustafaozhan.ccc.common.api.service.ApiService
 import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
+import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
@@ -21,11 +22,13 @@ class ApiRepositoryTest {
     @Mock
     private val apiService = mock(classOf<ApiService>())
 
-    private lateinit var repository: ApiRepository
+    private val repository: ApiRepository by lazy {
+        ApiRepositoryImpl(apiService)
+    }
 
     @BeforeTest
     fun setup() {
-        repository = ApiRepositoryImpl(apiService)
+        initLogger(true)
     }
 
     @Test
