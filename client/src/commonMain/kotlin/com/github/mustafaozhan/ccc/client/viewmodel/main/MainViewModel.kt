@@ -37,6 +37,12 @@ class MainViewModel(
     override val data = MainData()
     // endregion
 
+    init {
+        if (settingsRepository.adFreeEndDate == 0L) {
+            settingsRepository.adFreeEndDate = nowAsLong()
+        }
+    }
+
     private fun setupInterstitialAdTimer() {
         data.adVisibility = true
 

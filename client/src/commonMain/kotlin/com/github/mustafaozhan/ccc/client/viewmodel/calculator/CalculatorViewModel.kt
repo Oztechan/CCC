@@ -23,7 +23,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Co
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse

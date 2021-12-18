@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.ccc.common.api
+package com.github.mustafaozhan.ccc.common.api.service
 
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
 

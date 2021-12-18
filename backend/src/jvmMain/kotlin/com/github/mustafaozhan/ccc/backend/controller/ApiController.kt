@@ -5,7 +5,7 @@
 package com.github.mustafaozhan.ccc.backend.controller
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.common.api
+package com.github.mustafaozhan.ccc.common.api.service
 
 import com.github.mustafaozhan.ccc.common.BuildKonfig
 import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
@@ -10,9 +10,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.takeFrom
 
-internal class ApiServiceImpl(
-    private val client: HttpClient
-) : ApiService {
+internal class ApiServiceImpl(private val client: HttpClient) : ApiService {
 
     override suspend fun getRatesByBackend(base: String) = client.get<CurrencyResponseEntity> {
         url {
