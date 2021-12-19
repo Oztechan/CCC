@@ -4,18 +4,42 @@
 
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.base.BaseViewModelTest
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.Mock
+import io.mockative.any
+import io.mockative.classOf
+import io.mockative.given
+import io.mockative.mock
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
+class MainViewModelTest {
 
-    override val viewModel: MainViewModel by lazy {
-        koin.getDependency(MainViewModel::class)
+    @Mock
+    private val settingsRepository = mock(classOf<SettingsRepository>())
+
+    private val viewModel: MainViewModel by lazy {
+        MainViewModel(settingsRepository)
+    }
+
+    @BeforeTest
+    fun setup() {
+        initLogger(true)
+
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(0)
+
+        given(settingsRepository)
+            .setter(settingsRepository::adFreeEndDate)
+            .whenInvokedWith(any())
+            .thenReturn(Unit)
     }
 
     @Test
