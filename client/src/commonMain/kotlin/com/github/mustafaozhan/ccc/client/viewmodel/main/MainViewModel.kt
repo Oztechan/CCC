@@ -67,11 +67,11 @@ class MainViewModel(
 
     fun isAdFree() = settingsRepository.adFreeEndDate.isRewardExpired()
 
-    fun checkReview() = clientScope
+    fun checkReview(delay: Long = REVIEW_DELAY) = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
         ?.whether { device is Device.ANDROID.GOOGLE }
         ?.launch {
-            delay(REVIEW_DELAY)
+            delay(delay)
             _effect.emit(MainEffect.RequestReview)
             settingsRepository.lastReviewRequest = nowAsLong()
         }

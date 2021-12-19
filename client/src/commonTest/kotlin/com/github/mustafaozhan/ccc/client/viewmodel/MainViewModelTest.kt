@@ -6,17 +6,31 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
+import com.github.mustafaozhan.ccc.client.util.after
+import com.github.mustafaozhan.ccc.client.util.before
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.nowAsInstant
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
+import io.mockative.matching
 import io.mockative.mock
+import io.mockative.verify
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class MainViewModelTest {
 
@@ -32,16 +46,119 @@ class MainViewModelTest {
         initLogger(true)
 
         given(settingsRepository)
-            .getter(settingsRepository::adFreeEndDate)
+            .getter(settingsRepository::lastReviewRequest)
             .whenInvoked()
             .thenReturn(0)
 
         given(settingsRepository)
-            .setter(settingsRepository::adFreeEndDate)
+            .setter(settingsRepository::lastReviewRequest)
             .whenInvokedWith(any())
             .thenReturn(Unit)
     }
 
+    // SEED
+    @Test
+    fun check_state_is_null() {
+        assertNull(viewModel.state)
+    }
+
+    // init
+    @Test
+    fun set_lastReviewRequest_now_if_not_initialised_before() {
+        given(settingsRepository)
+            .getter(settingsRepository::lastReviewRequest)
+            .whenInvoked()
+            .thenReturn(0)
+
+        viewModel // init
+
+        verify(settingsRepository)
+            .setter(settingsRepository::lastReviewRequest)
+            .with(matching { it == nowAsLong() })
+            .wasInvoked()
+    }
+
+    // public methods
+    @Test
+    fun isFirstRun() {
+        val boolean: Boolean = Random.nextBoolean()
+
+        given(settingsRepository)
+            .getter(settingsRepository::firstRun)
+            .whenInvoked()
+            .thenReturn(boolean)
+
+        viewModel.isFistRun()
+
+        verify(settingsRepository)
+            .getter(settingsRepository::firstRun)
+            .wasInvoked()
+
+        assertEquals(boolean, viewModel.isFistRun())
+    }
+
+    @Test
+    fun getAppTheme() {
+        val int: Int = Random.nextInt()
+
+        given(settingsRepository)
+            .getter(settingsRepository::appTheme)
+            .whenInvoked()
+            .thenReturn(int)
+
+        viewModel.getAppTheme()
+
+        verify(settingsRepository)
+            .getter(settingsRepository::firstRun)
+            .wasInvoked()
+
+        assertEquals(int, viewModel.getAppTheme())
+    }
+
+    @Test
+    fun isAdFree() {
+        val long: Long = Random.nextLong()
+
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(long)
+
+        viewModel.isAdFree()
+
+        verify(settingsRepository)
+            .getter(settingsRepository::firstRun)
+            .wasInvoked()
+
+        assertEquals(long, settingsRepository.adFreeEndDate)
+        assertEquals(long.isRewardExpired(), viewModel.isAdFree())
+    }
+
+    @Test
+    fun checkReview() {
+        given(settingsRepository)
+            .getter(settingsRepository::lastReviewRequest)
+            .whenInvoked()
+            .thenReturn(
+                nowAsInstant().plus(
+                    DateTimePeriod(days = 8),
+                    TimeZone.currentSystemDefault()
+                ).toEpochMilliseconds()
+            )
+
+        viewModel.effect.before {
+            viewModel.checkReview(0)
+        }.after {
+            assertTrue { it is MainEffect.RequestReview }
+
+            verify(settingsRepository)
+                .setter(settingsRepository::lastReviewRequest)
+                .with(matching { it == nowAsLong() })
+                .wasInvoked()
+        }
+    }
+
+    // event
     @Test
     fun onPause() = with(viewModel) {
         event.onPause()
