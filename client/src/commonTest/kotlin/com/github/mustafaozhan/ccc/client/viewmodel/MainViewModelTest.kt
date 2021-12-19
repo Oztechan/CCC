@@ -136,25 +136,27 @@ class MainViewModelTest {
 
     @Test
     fun checkReview() {
-        given(settingsRepository)
-            .getter(settingsRepository::lastReviewRequest)
-            .whenInvoked()
-            .thenReturn(
-                nowAsInstant().plus(
-                    DateTimePeriod(days = 8),
-                    TimeZone.currentSystemDefault()
-                ).toEpochMilliseconds()
-            )
+        if (device == Device.ANDROID.GOOGLE) {
+            given(settingsRepository)
+                .getter(settingsRepository::lastReviewRequest)
+                .whenInvoked()
+                .thenReturn(
+                    nowAsInstant().plus(
+                        DateTimePeriod(days = 8),
+                        TimeZone.currentSystemDefault()
+                    ).toEpochMilliseconds()
+                )
 
-        viewModel.effect.before {
-            viewModel.checkReview(0)
-        }.after {
-            assertTrue { it is MainEffect.RequestReview }
+            viewModel.effect.before {
+                viewModel.checkReview(0)
+            }.after {
+                assertTrue { it is MainEffect.RequestReview }
 
-            verify(settingsRepository)
-                .setter(settingsRepository::lastReviewRequest)
-                .with(matching { it == nowAsLong() })
-                .wasInvoked()
+                verify(settingsRepository)
+                    .setter(settingsRepository::lastReviewRequest)
+                    .with(matching { it == nowAsLong() })
+                    .wasInvoked()
+            }
         }
     }
 
