@@ -23,6 +23,13 @@ data class MainData(
     var adVisibility: Boolean = false,
     var isInitialAd: Boolean = true
 ) : BaseData() {
+    val adDelay: Long
+        get() = if (isInitialAd) {
+            AD_DELAY_INITIAL
+        } else {
+            AD_DELAY_NORMAL
+        }
+
     companion object {
         internal const val AD_DELAY_INITIAL: Long = 60000
         internal const val AD_DELAY_NORMAL: Long = 180000

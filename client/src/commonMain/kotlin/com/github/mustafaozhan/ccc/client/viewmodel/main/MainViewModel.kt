@@ -10,8 +10,6 @@ import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_NORMAL
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
@@ -47,19 +45,17 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = clientScope.launch {
-            delay(getAdDelay())
+            delay(data.adDelay)
 
             while (isActive && !isFistRun()) {
                 if (data.adVisibility && isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                     data.isInitialAd = false
                 }
-                delay(getAdDelay())
+                delay(data.adDelay)
             }
         }
     }
-
-    private fun getAdDelay() = if (data.isInitialAd) AD_DELAY_INITIAL else AD_DELAY_NORMAL
 
     fun isFistRun() = settingsRepository.firstRun
 
