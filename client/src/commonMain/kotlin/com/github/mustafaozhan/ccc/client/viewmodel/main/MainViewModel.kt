@@ -38,8 +38,8 @@ class MainViewModel(
     // endregion
 
     init {
-        if (settingsRepository.adFreeEndDate == 0L) {
-            settingsRepository.adFreeEndDate = nowAsLong()
+        if (settingsRepository.lastReviewRequest == 0L) {
+            settingsRepository.lastReviewRequest = nowAsLong()
         }
     }
 
