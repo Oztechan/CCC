@@ -7,7 +7,7 @@ package com.github.mustafaozhan.ccc.common.repo
 import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
 import com.github.mustafaozhan.ccc.common.api.repo.ApiRepositoryImpl
 import com.github.mustafaozhan.ccc.common.api.service.ApiService
-import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
+import com.github.mustafaozhan.ccc.common.model.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
