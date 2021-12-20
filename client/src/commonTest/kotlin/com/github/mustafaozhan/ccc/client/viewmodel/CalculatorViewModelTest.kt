@@ -21,7 +21,6 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.Result
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
@@ -94,7 +93,7 @@ class CalculatorViewModelTest {
             given(apiRepository)
                 .suspendFunction(apiRepository::getRatesByBackend)
                 .whenInvokedWith(any())
-                .thenReturn(Result.Success(currencyResponse))
+                .thenReturn(currencyResponse)
         }
 
         given(currencyRepository)

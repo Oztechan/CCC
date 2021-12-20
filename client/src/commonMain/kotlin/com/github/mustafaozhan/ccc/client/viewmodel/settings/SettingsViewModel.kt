@@ -69,10 +69,9 @@ class SettingsViewModel(
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                apiRepository.getRatesByBackend(name).execute(
-                    success = { offlineRatesRepository.insertOfflineRates(it) },
-                    error = { error -> Logger.e(error) }
-                )
+                runCatching { apiRepository.getRatesByBackend(name) }
+                    .onFailure { error -> Logger.e(error) }
+                    .onSuccess { offlineRatesRepository.insertOfflineRates(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)

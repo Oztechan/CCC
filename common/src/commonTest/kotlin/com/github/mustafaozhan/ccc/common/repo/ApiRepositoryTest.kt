@@ -44,12 +44,10 @@ class ApiRepositoryTest {
 
     @Test
     fun getRatesByAPI_parameter_can_not_be_empty() = runTest {
-        repository.getRatesByAPI("").execute(
-            error = {
+        runCatching { repository.getRatesByAPI("") }
+            .onFailure {
                 assertTrue { it is EmptyParameterException }
             }
-        )
-
         verify(apiService)
             .coroutine { apiService.getRatesByAPI("") }
             .wasInvoked()
@@ -57,11 +55,10 @@ class ApiRepositoryTest {
 
     @Test
     fun getRatesByPremiumAPI_parameter_can_not_be_empty() = runTest {
-        repository.getRatesByPremiumAPI("").execute(
-            error = {
+        runCatching { repository.getRatesByPremiumAPI("") }
+            .onFailure {
                 assertTrue { it is EmptyParameterException }
             }
-        )
 
         verify(apiService)
             .coroutine { apiService.getRatesByPremiumAPI("") }
@@ -70,11 +67,10 @@ class ApiRepositoryTest {
 
     @Test
     fun getRatesByBackend_parameter_can_not_be_empty() = runTest {
-        repository.getRatesByBackend("").execute(
-            error = {
+        runCatching { repository.getRatesByBackend("") }
+            .onFailure {
                 assertTrue { it is EmptyParameterException }
             }
-        )
 
         verify(apiService)
             .coroutine { apiService.getRatesByBackend("") }
@@ -88,13 +84,12 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenThrow(mockThrowable)
 
-        repository.getRatesByAPI(mockBase).execute(
-            success = { assertTrue { false } },
-            error = {
+        runCatching { repository.getRatesByAPI(mockBase) }
+            .onSuccess { assertTrue { false } }
+            .onFailure {
                 assertEquals(mockThrowable.message, it.message)
                 assertEquals(mockThrowable.toString(), it.toString())
             }
-        )
 
         verify(apiService)
             .coroutine { getRatesByAPI(mockBase) }
@@ -108,13 +103,12 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenThrow(mockThrowable)
 
-        repository.getRatesByPremiumAPI(mockBase).execute(
-            success = { assertTrue { false } },
-            error = {
+        runCatching { repository.getRatesByPremiumAPI(mockBase) }
+            .onSuccess { assertTrue { false } }
+            .onFailure {
                 assertEquals(mockThrowable.message, it.message)
                 assertEquals(mockThrowable.toString(), it.toString())
             }
-        )
 
         verify(apiService)
             .coroutine { getRatesByPremiumAPI(mockBase) }
@@ -128,13 +122,12 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenThrow(mockThrowable)
 
-        repository.getRatesByBackend(mockBase).execute(
-            success = { assertTrue { false } },
-            error = {
+        runCatching { repository.getRatesByBackend(mockBase) }
+            .onSuccess { assertTrue { false } }
+            .onFailure {
                 assertEquals(mockThrowable.message, it.message)
                 assertEquals(mockThrowable.toString(), it.toString())
             }
-        )
 
         verify(apiService)
             .coroutine { getRatesByBackend(mockBase) }
@@ -148,10 +141,9 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenReturn(mockEntity)
 
-        repository.getRatesByAPI(mockBase).execute(
-            success = { assertTrue { it == mockEntity.toModel() } },
-            error = { assertTrue { false } }
-        )
+        runCatching { repository.getRatesByAPI(mockBase) }
+            .onSuccess { assertTrue { it == mockEntity.toModel() } }
+            .onFailure { assertTrue { false } }
 
         verify(apiService)
             .coroutine { getRatesByAPI(mockBase) }
@@ -165,11 +157,13 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenReturn(mockEntity)
 
-        repository.getRatesByPremiumAPI(mockBase).execute(
-            success = { assertTrue { it == mockEntity.toModel() } },
-            error = { assertTrue { false } }
-        )
-
+        runCatching { repository.getRatesByPremiumAPI(mockBase) }
+            .onSuccess {
+                assertTrue { it == mockEntity.toModel() }
+            }
+            .onFailure {
+                assertTrue { false }
+            }
         verify(apiService)
             .coroutine { getRatesByPremiumAPI(mockBase) }
             .wasInvoked()
@@ -182,10 +176,9 @@ class ApiRepositoryTest {
             .whenInvokedWith(any())
             .thenReturn(mockEntity)
 
-        repository.getRatesByBackend(mockBase).execute(
-            success = { assertTrue { it == mockEntity.toModel() } },
-            error = { assertTrue { false } }
-        )
+        runCatching { repository.getRatesByBackend(mockBase) }
+            .onSuccess { assertTrue { it == mockEntity.toModel() } }
+            .onFailure { assertTrue { false } }
 
         verify(apiService)
             .coroutine { getRatesByBackend(mockBase) }

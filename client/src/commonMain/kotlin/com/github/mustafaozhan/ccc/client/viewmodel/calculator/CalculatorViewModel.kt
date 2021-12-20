@@ -95,9 +95,9 @@ class CalculatorViewModel(
         calculateConversions(rates)
         _state.update(rateState = RateState.Cached(rates.date))
     } ?: clientScope.launch {
-        apiRepository
-            .getRatesByBackend(settingsRepository.currentBase)
-            .execute(::getRatesSuccess, ::getRatesFailed)
+        runCatching { apiRepository.getRatesByBackend(settingsRepository.currentBase) }
+            .onFailure(::getRatesFailed)
+            .onSuccess(::getRatesSuccess)
     }
 
     private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse

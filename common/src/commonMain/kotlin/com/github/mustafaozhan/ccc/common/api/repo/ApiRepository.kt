@@ -1,12 +1,11 @@
 package com.github.mustafaozhan.ccc.common.api.repo
 
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.util.Result
 
 interface ApiRepository {
-    suspend fun getRatesByBackend(base: String): Result<out CurrencyResponse>
+    suspend fun getRatesByBackend(base: String): CurrencyResponse
 
-    suspend fun getRatesByAPI(base: String): Result<out CurrencyResponse>
+    suspend fun getRatesByAPI(base: String): CurrencyResponse
 
-    suspend fun getRatesByPremiumAPI(base: String): Result<out CurrencyResponse>
+    suspend fun getRatesByPremiumAPI(base: String): CurrencyResponse
 }
