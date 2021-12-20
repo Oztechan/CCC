@@ -3,21 +3,29 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.model.Currency
+import com.github.mustafaozhan.ccc.client.mapper.toUIModel
+import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEffect
+import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseState
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
+import com.github.mustafaozhan.ccc.client.viewmodel.changebase.update
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
+import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOf
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import com.github.mustafaozhan.ccc.common.model.Currency as CurrencyCommon
 
 class ChangeBaseViewModelTest {
 
@@ -27,31 +35,107 @@ class ChangeBaseViewModelTest {
     private val viewModel: ChangeBaseViewModel by lazy {
         ChangeBaseViewModel(currencyRepository)
     }
+    private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
+    private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
 
-    private val currency = Currency("USD", "Dollar", "$", 0.0, true)
+    private val currencyUIModel = currencyDollar.toUIModel()
+
+    private val currencyListNotEnough = listOf(currencyDollar)
+    private val currencyListEnough = listOf(currencyDollar, currencyEuro)
 
     @BeforeTest
     fun setup() {
         initLogger(true)
-
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flow { listOf(currency) })
     }
 
+    // SEED
     @Test
-    fun onItemClick() = with(viewModel) {
-        effect.before {
-            event.onItemClick(currency)
-        }.after {
-            assertEquals(ChangeBaseEffect.BaseChange(currency.name), it)
+    fun check_data_is_null() {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListNotEnough))
+        assertNull(viewModel.data)
+    }
+
+    // init
+    @Test
+    fun init_updates_the_states_with_no_enough_currency() = runTest {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListNotEnough))
+        viewModel.state.firstOrNull().let {
+            assertEquals(false, it?.loading)
+            assertEquals(false, it?.enoughCurrency)
+            assertEquals(currencyListNotEnough.toUIModelList(), it?.currencyList)
         }
     }
 
     @Test
-    fun onSelectClick() = viewModel.effect.before {
-        viewModel.event.onSelectClick()
-    }.after {
-        assertEquals(ChangeBaseEffect.OpenCurrencies, it)
+    fun init_updates_the_states_with_enough_currency() {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListEnough))
+
+        runTest {
+            viewModel.state.firstOrNull().let {
+                assertEquals(false, it?.loading)
+                assertEquals(true, it?.enoughCurrency)
+                assertEquals(currencyListEnough.toUIModelList(), it?.currencyList)
+            }
+        }
+    }
+
+    @Test
+    fun states_updates_correctly() {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListNotEnough))
+
+        val currencyList = listOf(currencyUIModel)
+        val state = MutableStateFlow(ChangeBaseState())
+
+        state.before {
+            state.update(
+                loading = true,
+                enoughCurrency = false,
+                currencyList = currencyList
+            )
+        }.after {
+            assertEquals(true, it?.loading)
+            assertEquals(false, it?.enoughCurrency)
+            assertEquals(currencyList, it?.currencyList)
+        }
+    }
+
+    @Test
+    fun onItemClick() {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListNotEnough))
+
+        viewModel.effect.before {
+            viewModel.event.onItemClick(currencyUIModel)
+        }.after {
+            assertEquals(ChangeBaseEffect.BaseChange(currencyUIModel.name), it)
+        }
+    }
+
+    @Test
+    fun onSelectClick() {
+        given(currencyRepository)
+            .function(currencyRepository::collectActiveCurrencies)
+            .whenInvoked()
+            .thenReturn(flowOf(currencyListNotEnough))
+
+        viewModel.effect.before {
+            viewModel.event.onSelectClick()
+        }.after {
+            assertEquals(ChangeBaseEffect.OpenCurrencies, it)
+        }
     }
 }
