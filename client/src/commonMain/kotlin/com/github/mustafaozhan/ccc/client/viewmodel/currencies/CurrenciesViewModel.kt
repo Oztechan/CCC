@@ -7,7 +7,6 @@ import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
@@ -69,7 +68,7 @@ class CurrenciesViewModel(
         ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
-        { isEmptyOrNullString() },
+        { isEmpty() },
         { base ->
             state.value.currencyList
                 .filter { it.name == base }
