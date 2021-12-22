@@ -60,18 +60,16 @@ fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
 
-fun Rates?.calculateResult(name: String, value: String?) = this
-    ?.whetherNot { value.isNullOrEmpty() }
+fun Rates?.calculateResult(name: String, input: String?) = this
+    ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
-    ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
+    ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
 fun String.toSupportedCharacters() = replace(",", ".")
     .replace("٫", ".")
     .replace(" ", "")
     .replace("−", "-")
-
-fun String.isEmptyOrNullString() = isEmpty() || equals("null", true)
 
 fun String.toStandardDigits(): String {
     val builder = StringBuilder()
