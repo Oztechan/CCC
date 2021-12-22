@@ -22,6 +22,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.matching
 import io.mockative.mock
+import io.mockative.verify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -36,7 +37,7 @@ class SettingsRepositoryTest {
 
     // defaults
     @Test
-    fun firstRun() {
+    fun default_firstRun() {
         given(settings)
             .function(settings::getBoolean)
             .whenInvokedWith(matching { it == KEY_FIRST_RUN }, any())
@@ -49,7 +50,7 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun currentBase() {
+    fun default_currentBase() {
         given(settings)
             .function(settings::getString)
             .whenInvokedWith(matching { it == KEY_CURRENT_BASE }, any())
@@ -59,7 +60,7 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun appTheme() {
+    fun default_appTheme() {
         given(settings)
             .function(settings::getInt)
             .whenInvokedWith(matching { it == KEY_APP_THEME }, any())
@@ -69,7 +70,7 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun adFreeEndDate() {
+    fun default_adFreeEndDate() {
         given(settings)
             .function(settings::getLong)
             .whenInvokedWith(matching { it == KEY_AD_FREE_END_DATE }, any())
@@ -79,12 +80,88 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun lastReviewRequest() {
+    fun default_lastReviewRequest() {
         given(settings)
             .function(settings::getLong)
             .whenInvokedWith(matching { it == KEY_LAST_REVIEW_REQUEST }, any())
             .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
 
         assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
+    }
+
+    // setters
+    @Test
+    fun set_firstRun() {
+        given(settings)
+            .function(settings::putBoolean)
+            .whenInvokedWith(matching { it == KEY_FIRST_RUN }, any())
+            .thenReturn(Unit)
+
+        repository.firstRun = true
+
+        verify(settings)
+            .function(settings::putBoolean)
+            .with(matching { it == KEY_FIRST_RUN }, any())
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_currentBase() {
+        given(settings)
+            .function(settings::putString)
+            .whenInvokedWith(matching { it == KEY_CURRENT_BASE }, any())
+            .thenReturn(Unit)
+
+        repository.currentBase = "mock"
+
+        verify(settings)
+            .function(settings::putString)
+            .with(matching { it == KEY_CURRENT_BASE }, any())
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_appTheme() {
+        given(settings)
+            .function(settings::putInt)
+            .whenInvokedWith(matching { it == KEY_APP_THEME }, any())
+            .thenReturn(Unit)
+
+        repository.appTheme = 3
+
+        verify(settings)
+            .function(settings::putInt)
+            .with(matching { it == KEY_APP_THEME }, any())
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_adFreeEndDate() {
+        given(settings)
+            .function(settings::putLong)
+            .whenInvokedWith(matching { it == KEY_AD_FREE_END_DATE }, any())
+            .thenReturn(Unit)
+
+        repository.adFreeEndDate = 1L
+
+        verify(settings)
+            .function(settings::putLong)
+            .with(matching { it == KEY_AD_FREE_END_DATE }, any())
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_lastReviewRequest() {
+        given(settings)
+            .function(settings::putLong)
+            .whenInvokedWith(matching { it == KEY_LAST_REVIEW_REQUEST }, any())
+            .thenReturn(Unit)
+
+        repository.lastReviewRequest = 1L
+
+        verify(settings)
+            .function(settings::putLong)
+            .with(matching { it == KEY_LAST_REVIEW_REQUEST }, any())
+            .wasInvoked()
     }
 }
