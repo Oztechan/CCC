@@ -20,8 +20,8 @@ import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
+import io.mockative.eq
 import io.mockative.given
-import io.mockative.matching
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.datetime.DateTimePeriod
@@ -85,7 +85,7 @@ class MainViewModelTest {
 
         verify(settingsRepository)
             .setter(settingsRepository::lastReviewRequest)
-            .with(matching { it == nowAsLong() })
+            .with(eq(nowAsLong()))
             .wasInvoked()
     }
 
@@ -165,7 +165,7 @@ class MainViewModelTest {
 
                 verify(settingsRepository)
                     .setter(settingsRepository::lastReviewRequest)
-                    .with(matching { it == nowAsLong() })
+                    .with(eq(nowAsLong()))
                     .wasInvoked()
             }
         }
