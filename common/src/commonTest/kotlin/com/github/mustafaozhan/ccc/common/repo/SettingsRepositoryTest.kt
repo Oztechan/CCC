@@ -16,19 +16,23 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Compani
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_FIRST_RUN
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_LAST_REVIEW_REQUEST
 import com.russhwolf.settings.Settings
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
-import io.mockative.matching
 import io.mockative.mock
+import io.mockative.verify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@ConfigurationApi
 class SettingsRepositoryTest {
 
     @Mock
-    private val settings = mock(classOf<Settings>())
+    private val settings = configure(mock(classOf<Settings>())) {
+        stubsUnitByDefault = true
+    }
 
     private val repository: SettingsRepository by lazy {
         SettingsRepositoryImp(settings)
@@ -36,55 +40,98 @@ class SettingsRepositoryTest {
 
     // defaults
     @Test
-    fun firstRun() {
+    fun default_firstRun() {
         given(settings)
-            .function(settings::getBoolean)
-            .whenInvokedWith(matching { it == KEY_FIRST_RUN }, any())
+            .invocation { settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
 
-        assertEquals(
-            DEFAULT_FIRST_RUN,
-            repository.firstRun
-        )
+        assertEquals(DEFAULT_FIRST_RUN, repository.firstRun)
     }
 
     @Test
-    fun currentBase() {
+    fun default_currentBase() {
         given(settings)
-            .function(settings::getString)
-            .whenInvokedWith(matching { it == KEY_CURRENT_BASE }, any())
+            .invocation { settings.getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
 
         assertEquals(DEFAULT_CURRENT_BASE, repository.currentBase)
     }
 
     @Test
-    fun appTheme() {
+    fun default_appTheme() {
         given(settings)
-            .function(settings::getInt)
-            .whenInvokedWith(matching { it == KEY_APP_THEME }, any())
+            .invocation { settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
 
         assertEquals(DEFAULT_APP_THEME, repository.appTheme)
     }
 
     @Test
-    fun adFreeEndDate() {
+    fun default_adFreeEndDate() {
         given(settings)
-            .function(settings::getLong)
-            .whenInvokedWith(matching { it == KEY_AD_FREE_END_DATE }, any())
+            .invocation { settings.getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
 
         assertEquals(DEFAULT_AD_FREE_END_DATE, repository.adFreeEndDate)
     }
 
     @Test
-    fun lastReviewRequest() {
+    fun default_lastReviewRequest() {
         given(settings)
-            .function(settings::getLong)
-            .whenInvokedWith(matching { it == KEY_LAST_REVIEW_REQUEST }, any())
+            .invocation { settings.getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
             .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
 
         assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
+    }
+
+    // setters
+    @Test
+    fun set_firstRun() {
+        val mockedValue = true
+        repository.firstRun = mockedValue
+
+        verify(settings)
+            .invocation { settings.putBoolean(KEY_FIRST_RUN, mockedValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_currentBase() {
+        val mockValue = "mock"
+        repository.currentBase = mockValue
+
+        verify(settings)
+            .invocation { settings.putString(KEY_CURRENT_BASE, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_appTheme() {
+        val mockValue = 3
+        repository.appTheme = mockValue
+
+        verify(settings)
+            .invocation { settings.putInt(KEY_APP_THEME, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_adFreeEndDate() {
+        val mockValue = 12L
+        repository.adFreeEndDate = mockValue
+
+        verify(settings)
+            .invocation { settings.putLong(KEY_AD_FREE_END_DATE, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_lastReviewRequest() {
+        val mockValue = 15L
+        repository.lastReviewRequest = mockValue
+
+        verify(settings)
+            .invocation { settings.putLong(KEY_LAST_REVIEW_REQUEST, mockValue) }
+            .wasInvoked()
     }
 }

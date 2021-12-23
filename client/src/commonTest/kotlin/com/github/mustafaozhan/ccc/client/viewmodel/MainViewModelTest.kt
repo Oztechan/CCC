@@ -21,7 +21,6 @@ import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
-import io.mockative.matching
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.datetime.DateTimePeriod
@@ -84,8 +83,7 @@ class MainViewModelTest {
         viewModel // init
 
         verify(settingsRepository)
-            .setter(settingsRepository::lastReviewRequest)
-            .with(matching { it == nowAsLong() })
+            .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
             .wasInvoked()
     }
 
@@ -102,7 +100,7 @@ class MainViewModelTest {
         viewModel.isFistRun()
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
 
         assertEquals(boolean, viewModel.isFistRun())
@@ -120,7 +118,7 @@ class MainViewModelTest {
         viewModel.getAppTheme()
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
 
         assertEquals(int, viewModel.getAppTheme())
@@ -138,7 +136,7 @@ class MainViewModelTest {
         viewModel.isAdFree()
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
 
         assertEquals(long, settingsRepository.adFreeEndDate)
@@ -164,8 +162,7 @@ class MainViewModelTest {
                 assertTrue { it is MainEffect.RequestReview }
 
                 verify(settingsRepository)
-                    .setter(settingsRepository::lastReviewRequest)
-                    .with(matching { it == nowAsLong() })
+                    .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
                     .wasInvoked()
             }
         }
