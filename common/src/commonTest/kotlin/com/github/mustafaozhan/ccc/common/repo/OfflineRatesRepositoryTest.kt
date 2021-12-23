@@ -9,19 +9,26 @@ import com.github.mustafaozhan.ccc.common.mapper.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.mapper.toOfflineRates
 import com.github.mustafaozhan.ccc.common.mapper.toSerializedString
+import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
+import io.mockative.eq
 import io.mockative.given
-import io.mockative.matching
 import io.mockative.mock
 import io.mockative.verify
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@ConfigurationApi
 class OfflineRatesRepositoryTest {
 
     @Mock
-    private val offlineRatesQueries = mock(classOf<OfflineRatesQueries>())
+    private val offlineRatesQueries = configure(mock(classOf<OfflineRatesQueries>())) {
+        stubsUnitByDefault = true
+    }
 
     private val repository: OfflineRatesRepository by lazy {
         OfflineRatesRepositoryImpl(offlineRatesQueries)
@@ -29,19 +36,20 @@ class OfflineRatesRepositoryTest {
 
     private val currencyResponseEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
     private val currencyResponse = currencyResponseEntity.toModel()
+    private val offlineRates = currencyResponse.toOfflineRates()
+
+    @BeforeTest
+    fun setup() {
+        initLogger(true)
+    }
 
     @Test
     fun insertOfflineRates() {
-        given(offlineRatesQueries)
-            .function(offlineRatesQueries::insertOfflineRates)
-            .whenInvokedWith(matching { it == currencyResponse.toOfflineRates() })
-            .thenReturn(Unit)
-
         repository.insertOfflineRates(currencyResponse)
 
         verify(offlineRatesQueries)
             .function(offlineRatesQueries::insertOfflineRates)
-            .with(matching { it == currencyResponse.toOfflineRates() })
+            .with(eq(currencyResponse.toOfflineRates()))
             .wasInvoked()
     }
 
@@ -49,12 +57,10 @@ class OfflineRatesRepositoryTest {
     fun getOfflineRatesByBase() {
         given(offlineRatesQueries)
             .invocation {
-                offlineRatesQueries
-                    .getOfflineRatesByBase(currencyResponse.base)
+                offlineRatesQueries.getOfflineRatesByBase(currencyResponse.base)
                     .executeAsOneOrNull()
-                    ?.toModel()
             }
-            .thenReturn(currencyResponse.rates)
+            .thenReturn(offlineRates)
 
         assertEquals(
             currencyResponse.rates,
