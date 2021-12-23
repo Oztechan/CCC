@@ -80,8 +80,6 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(0)
 
-        viewModel // init
-
         verify(settingsRepository)
             .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
             .wasInvoked()
@@ -97,13 +95,11 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(boolean)
 
-        viewModel.isFistRun()
+        assertEquals(boolean, viewModel.isFistRun())
 
         verify(settingsRepository)
             .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(boolean, viewModel.isFistRun())
     }
 
     @Test
@@ -115,13 +111,11 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(int)
 
-        viewModel.getAppTheme()
+        assertEquals(int, viewModel.getAppTheme())
 
         verify(settingsRepository)
             .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(int, viewModel.getAppTheme())
     }
 
     @Test
@@ -133,14 +127,12 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(long)
 
-        viewModel.isAdFree()
+        assertEquals(long.isRewardExpired(), viewModel.isAdFree())
+        assertEquals(long, settingsRepository.adFreeEndDate)
 
         verify(settingsRepository)
             .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(long, settingsRepository.adFreeEndDate)
-        assertEquals(long.isRewardExpired(), viewModel.isAdFree())
     }
 
     @Test

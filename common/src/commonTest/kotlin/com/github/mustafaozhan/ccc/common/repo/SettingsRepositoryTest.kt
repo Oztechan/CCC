@@ -46,6 +46,10 @@ class SettingsRepositoryTest {
             .thenReturn(DEFAULT_FIRST_RUN)
 
         assertEquals(DEFAULT_FIRST_RUN, repository.firstRun)
+
+        verify(settings)
+            .invocation { settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+            .wasInvoked()
     }
 
     @Test
@@ -55,6 +59,10 @@ class SettingsRepositoryTest {
             .thenReturn(DEFAULT_CURRENT_BASE)
 
         assertEquals(DEFAULT_CURRENT_BASE, repository.currentBase)
+
+        verify(settings)
+            .invocation { settings.getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+            .wasInvoked()
     }
 
     @Test
@@ -64,6 +72,10 @@ class SettingsRepositoryTest {
             .thenReturn(DEFAULT_APP_THEME)
 
         assertEquals(DEFAULT_APP_THEME, repository.appTheme)
+
+        verify(settings)
+            .invocation { settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
+            .wasInvoked()
     }
 
     @Test
@@ -73,6 +85,10 @@ class SettingsRepositoryTest {
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
 
         assertEquals(DEFAULT_AD_FREE_END_DATE, repository.adFreeEndDate)
+
+        verify(settings)
+            .invocation { settings.getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
+            .wasInvoked()
     }
 
     @Test
@@ -82,6 +98,10 @@ class SettingsRepositoryTest {
             .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
 
         assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
+
+        verify(settings)
+            .invocation { settings.getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
+            .wasInvoked()
     }
 
     // setters

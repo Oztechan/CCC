@@ -13,22 +13,27 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
+import io.mockative.verify
 import kotlinx.coroutines.flow.flow
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@ConfigurationApi
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val apiRepository = mock(classOf<ApiRepository>())
@@ -69,34 +74,28 @@ class SettingsViewModelTest {
 
     @Test
     fun updateTheme() {
-
-        given(settingsRepository)
-            .setter(settingsRepository::appTheme)
-            .whenInvokedWith(any())
-            .thenReturn(Unit)
+        val mockTheme = AppTheme.DARK
 
         with(viewModel) {
-            val appTheme = AppTheme.DARK
             effect.before {
-                updateTheme(appTheme)
+                updateTheme(mockTheme)
             }.after {
-                assertEquals(appTheme, state.value.appThemeType)
-                assertEquals(SettingsEffect.ChangeTheme(appTheme.themeValue), it)
+                assertEquals(mockTheme, state.value.appThemeType)
+                assertEquals(SettingsEffect.ChangeTheme(mockTheme.themeValue), it)
             }
         }
+
+        verify(settingsRepository)
+            .invocation { appTheme = mockTheme.themeValue }
+            .wasInvoked()
     }
 
     @Test
     fun updateAddFreeDate() {
-        given(settingsRepository)
-            .setter(settingsRepository::adFreeEndDate)
-            .whenInvokedWith(any())
-            .thenReturn(Unit)
-
         viewModel.state.before {
             viewModel.updateAddFreeDate()
         }.after {
-            assertTrue { viewModel.state.value.addFreeEndDate.isNotEmpty() }
+            assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
         }
     }
 
