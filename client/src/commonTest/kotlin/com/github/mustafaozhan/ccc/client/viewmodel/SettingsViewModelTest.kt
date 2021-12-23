@@ -164,7 +164,6 @@ class SettingsViewModelTest {
 
     @Test
     fun onSyncClick() {
-
         given(currencyRepository)
             .function(currencyRepository::getActiveCurrencies)
             .whenInvoked()
