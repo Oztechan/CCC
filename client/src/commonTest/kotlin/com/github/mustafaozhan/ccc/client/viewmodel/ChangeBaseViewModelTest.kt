@@ -18,6 +18,7 @@ import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
+import io.mockative.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -52,9 +53,9 @@ class ChangeBaseViewModelTest {
     @Test
     fun check_data_is_null() {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
-            .thenReturn(flowOf(currencyListNotEnough))
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
+
         assertNull(viewModel.data)
     }
 
@@ -62,21 +63,24 @@ class ChangeBaseViewModelTest {
     @Test
     fun init_updates_the_states_with_no_enough_currency() = runTest {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
+            .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListNotEnough))
+
         viewModel.state.firstOrNull().let {
             assertEquals(false, it?.loading)
             assertEquals(false, it?.enoughCurrency)
             assertEquals(currencyListNotEnough.toUIModelList(), it?.currencyList)
         }
+
+        verify(currencyRepository)
+            .invocation { collectActiveCurrencies() }
+            .wasInvoked()
     }
 
     @Test
     fun init_updates_the_states_with_enough_currency() {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
+            .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListEnough))
 
         runTest {
@@ -86,14 +90,17 @@ class ChangeBaseViewModelTest {
                 assertEquals(currencyListEnough.toUIModelList(), it?.currencyList)
             }
         }
+
+        verify(currencyRepository)
+            .invocation { collectActiveCurrencies() }
+            .wasInvoked()
     }
 
     @Test
     fun states_updates_correctly() {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
-            .thenReturn(flowOf(currencyListNotEnough))
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
 
         val currencyList = listOf(currencyUIModel)
         val state = MutableStateFlow(ChangeBaseState())
@@ -114,9 +121,8 @@ class ChangeBaseViewModelTest {
     @Test
     fun onItemClick() {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
-            .thenReturn(flowOf(currencyListNotEnough))
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
 
         viewModel.effect.before {
             viewModel.event.onItemClick(currencyUIModel)
@@ -128,9 +134,8 @@ class ChangeBaseViewModelTest {
     @Test
     fun onSelectClick() {
         given(currencyRepository)
-            .function(currencyRepository::collectActiveCurrencies)
-            .whenInvoked()
-            .thenReturn(flowOf(currencyListNotEnough))
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
 
         viewModel.effect.before {
             viewModel.event.onSelectClick()

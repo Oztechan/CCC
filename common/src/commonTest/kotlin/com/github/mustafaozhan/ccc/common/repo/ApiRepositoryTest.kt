@@ -18,6 +18,7 @@ import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
+import io.mockative.verify
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -48,6 +49,10 @@ class ApiRepositoryTest {
                 assertTrue { it is EmptyParameterException }
             }
         )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByAPI("") }
+            .wasInvoked()
     }
 
     @Test
@@ -57,6 +62,10 @@ class ApiRepositoryTest {
                 assertTrue { it is EmptyParameterException }
             }
         )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByPremiumAPI("") }
+            .wasInvoked()
     }
 
     @Test
@@ -66,6 +75,10 @@ class ApiRepositoryTest {
                 assertTrue { it is EmptyParameterException }
             }
         )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByBackend("") }
+            .wasInvoked()
     }
 
     @Test
@@ -82,6 +95,10 @@ class ApiRepositoryTest {
                 assertEquals(mockThrowable.toString(), it.toString())
             }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByAPI(mockBase) }
+            .wasInvoked()
     }
 
     @Test
@@ -98,6 +115,10 @@ class ApiRepositoryTest {
                 assertEquals(mockThrowable.toString(), it.toString())
             }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByPremiumAPI(mockBase) }
+            .wasInvoked()
     }
 
     @Test
@@ -114,6 +135,10 @@ class ApiRepositoryTest {
                 assertEquals(mockThrowable.toString(), it.toString())
             }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByBackend(mockBase) }
+            .wasInvoked()
     }
 
     @Test
@@ -127,6 +152,10 @@ class ApiRepositoryTest {
             success = { assertTrue { it == mockEntity.toModel() } },
             error = { assertTrue { false } }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByAPI(mockBase) }
+            .wasInvoked()
     }
 
     @Test
@@ -140,6 +169,10 @@ class ApiRepositoryTest {
             success = { assertTrue { it == mockEntity.toModel() } },
             error = { assertTrue { false } }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByPremiumAPI(mockBase) }
+            .wasInvoked()
     }
 
     @Test
@@ -153,5 +186,9 @@ class ApiRepositoryTest {
             success = { assertTrue { it == mockEntity.toModel() } },
             error = { assertTrue { false } }
         )
+
+        verify(apiService)
+            .coroutine { getRatesByBackend(mockBase) }
+            .wasInvoked()
     }
 }
