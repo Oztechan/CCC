@@ -18,10 +18,8 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Compani
 import com.russhwolf.settings.Settings
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
 import io.mockative.configure
-import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -44,21 +42,16 @@ class SettingsRepositoryTest {
     @Test
     fun default_firstRun() {
         given(settings)
-            .function(settings::getBoolean)
-            .whenInvokedWith(eq(KEY_FIRST_RUN), any())
+            .invocation { settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
 
-        assertEquals(
-            DEFAULT_FIRST_RUN,
-            repository.firstRun
-        )
+        assertEquals(DEFAULT_FIRST_RUN, repository.firstRun)
     }
 
     @Test
     fun default_currentBase() {
         given(settings)
-            .function(settings::getString)
-            .whenInvokedWith(eq(KEY_CURRENT_BASE), any())
+            .invocation { settings.getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
 
         assertEquals(DEFAULT_CURRENT_BASE, repository.currentBase)
@@ -67,8 +60,7 @@ class SettingsRepositoryTest {
     @Test
     fun default_appTheme() {
         given(settings)
-            .function(settings::getInt)
-            .whenInvokedWith(eq(KEY_APP_THEME), any())
+            .invocation { settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
 
         assertEquals(DEFAULT_APP_THEME, repository.appTheme)
@@ -77,8 +69,7 @@ class SettingsRepositoryTest {
     @Test
     fun default_adFreeEndDate() {
         given(settings)
-            .function(settings::getLong)
-            .whenInvokedWith(eq(KEY_AD_FREE_END_DATE), any())
+            .invocation { settings.getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
 
         assertEquals(DEFAULT_AD_FREE_END_DATE, repository.adFreeEndDate)
@@ -87,8 +78,7 @@ class SettingsRepositoryTest {
     @Test
     fun default_lastReviewRequest() {
         given(settings)
-            .function(settings::getLong)
-            .whenInvokedWith(eq(KEY_LAST_REVIEW_REQUEST), any())
+            .invocation { settings.getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
             .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
 
         assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
