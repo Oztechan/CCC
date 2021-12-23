@@ -3,10 +3,12 @@ package com.github.mustafaozhan.ccc.common.repo
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepositoryImpl
 import com.github.mustafaozhan.ccc.common.db.sql.OfflineRatesQueries
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.RatesEntity
+import com.github.mustafaozhan.ccc.common.mapper.toCurrencyResponseEntity
 import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.mapper.toOfflineRates
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.model.Rates
+import com.github.mustafaozhan.ccc.common.mapper.toSerializedString
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -25,7 +27,8 @@ class OfflineRatesRepositoryTest {
         OfflineRatesRepositoryImpl(offlineRatesQueries)
     }
 
-    val currencyResponse = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val currencyResponseEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
+    private val currencyResponse = currencyResponseEntity.toModel()
 
     @Test
     fun insertOfflineRates() {
@@ -56,6 +59,24 @@ class OfflineRatesRepositoryTest {
         assertEquals(
             currencyResponse.rates,
             repository.getOfflineRatesByBase(currencyResponse.base)
+        )
+    }
+
+    @Test
+    fun getOfflineCurrencyResponseByBase() {
+        given(offlineRatesQueries)
+            .invocation {
+                offlineRatesQueries
+                    .getOfflineRatesByBase(currencyResponse.base.uppercase())
+                    .executeAsOneOrNull()
+                    ?.toCurrencyResponseEntity()
+                    ?.toSerializedString()
+            }
+            .thenReturn(currencyResponseEntity.toSerializedString())
+
+        assertEquals(
+            currencyResponseEntity.toSerializedString(),
+            repository.getOfflineCurrencyResponseByBase(currencyResponse.base)
         )
     }
 }
