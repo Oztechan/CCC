@@ -11,7 +11,8 @@ class AdManagerImpl : AdManager {
     override fun getBannerAd(
         context: Context,
         width: Int,
-        adId: String
+        adId: String,
+        onAdLoaded: (Int?) -> Unit
     ): ViewGroup {
         Logger.i { "AdManagerImpl getBannerAd" }
         return FrameLayout(context)

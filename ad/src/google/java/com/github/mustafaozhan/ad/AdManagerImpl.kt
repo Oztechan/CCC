@@ -3,6 +3,7 @@ package com.github.mustafaozhan.ad
 import android.app.Activity
 import android.content.Context
 import co.touchlab.kermit.Logger
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -24,9 +25,9 @@ class AdManagerImpl : AdManager {
     override fun getBannerAd(
         context: Context,
         width: Int,
-        adId: String
+        adId: String,
+        onAdLoaded: (Int?) -> Unit
     ) = AdView(context).apply {
-        MobileAds.initialize(context)
         Logger.i { "AdManagerImpl getBannerAd" }
 
         val adWidthPixels = if (width == 0) {
@@ -40,6 +41,12 @@ class AdManagerImpl : AdManager {
             (adWidthPixels / resources.displayMetrics.density).toInt()
         )
         adUnitId = adId
+        adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
+            }
+        }
         loadAd(getAdRequest())
     }
 
