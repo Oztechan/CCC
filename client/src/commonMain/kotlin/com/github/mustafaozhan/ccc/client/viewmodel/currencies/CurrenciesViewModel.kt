@@ -47,14 +47,16 @@ class CurrenciesViewModel(
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
-                _state.update(currencyList = currencyList)
+                _state.update(
+                    currencyList = currencyList,
+                    selectionVisibility = false
+                )
                 data.unFilteredList = currencyList.toMutableList()
 
                 verifyListSize()
                 verifyCurrentBase()
 
                 filterList(data.query)
-                _state.update(selectionVisibility = false)
             }.launchIn(clientScope)
 
         filterList("")

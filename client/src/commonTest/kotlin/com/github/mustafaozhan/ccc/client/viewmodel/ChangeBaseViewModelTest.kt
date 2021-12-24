@@ -59,6 +59,28 @@ class ChangeBaseViewModelTest {
         assertNull(viewModel.data)
     }
 
+    @Test
+    fun states_updates_correctly() {
+        given(currencyRepository)
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
+
+        val currencyList = listOf(currencyUIModel)
+        val state = MutableStateFlow(ChangeBaseState())
+
+        state.before {
+            state.update(
+                loading = true,
+                enoughCurrency = false,
+                currencyList = currencyList
+            )
+        }.after {
+            assertEquals(true, it?.loading)
+            assertEquals(false, it?.enoughCurrency)
+            assertEquals(currencyList, it?.currencyList)
+        }
+    }
+
     // init
     @Test
     fun init_updates_the_states_with_no_enough_currency() = runTest {
@@ -94,28 +116,6 @@ class ChangeBaseViewModelTest {
         verify(currencyRepository)
             .invocation { collectActiveCurrencies() }
             .wasInvoked()
-    }
-
-    @Test
-    fun states_updates_correctly() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
-        val currencyList = listOf(currencyUIModel)
-        val state = MutableStateFlow(ChangeBaseState())
-
-        state.before {
-            state.update(
-                loading = true,
-                enoughCurrency = false,
-                currencyList = currencyList
-            )
-        }.after {
-            assertEquals(true, it?.loading)
-            assertEquals(false, it?.enoughCurrency)
-            assertEquals(currencyList, it?.currencyList)
-        }
     }
 
     @Test
