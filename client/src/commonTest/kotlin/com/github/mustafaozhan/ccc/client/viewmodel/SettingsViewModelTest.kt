@@ -19,6 +19,7 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.config.model.AdConfig
@@ -146,6 +147,21 @@ class SettingsViewModelTest {
 
         verify(settingsRepository)
             .invocation { appTheme = mockTheme.themeValue }
+            .wasInvoked()
+
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(nowAsLong() + DAY)
+
+        viewModel.effect.before {
+            viewModel.event.onRemoveAdsClick()
+        }.after {
+            assertTrue { it is SettingsEffect.AlreadyAdFree }
+        }
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
