@@ -91,8 +91,7 @@ class MainViewModelTest {
         val boolean: Boolean = Random.nextBoolean()
 
         given(settingsRepository)
-            .getter(settingsRepository::firstRun)
-            .whenInvoked()
+            .invocation { firstRun }
             .thenReturn(boolean)
 
         assertEquals(boolean, viewModel.isFistRun())
