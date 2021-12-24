@@ -9,7 +9,8 @@ interface AdManager {
     fun getBannerAd(
         context: Context,
         width: Int,
-        adId: String
+        adId: String,
+        onAdLoaded: (Int?) -> Unit
     ): ViewGroup
 
     fun showInterstitialAd(

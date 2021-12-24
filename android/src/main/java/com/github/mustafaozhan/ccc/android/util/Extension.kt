@@ -8,6 +8,8 @@ package com.github.mustafaozhan.ccc.android.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -25,6 +27,8 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.scopemob.castTo
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
+
+private const val ANIMATION_DURATION = 500L
 
 fun ImageView.setBackgroundByName(
     name: String
@@ -51,10 +55,31 @@ fun FrameLayout.setBannerAd(
     isExpired: Boolean
 ) = if (isExpired) {
     removeAllViews()
-    addView(adManager.getBannerAd(context, width, adId))
-    visible()
+
+    addView(
+        adManager.getBannerAd(context, width, adId) { height ->
+            if (height != null) animateHeight(0, height)
+            visible()
+        }
+    )
 } else {
     gone()
+}
+
+fun View.animateHeight(startHeight: Int, endHeight: Int) {
+    layoutParams.height = 0
+
+    val delta = endHeight - startHeight
+    var newHeight: Int
+    val animation = object : Animation() {
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+            newHeight = (startHeight + delta * interpolatedTime).toInt()
+            layoutParams.height = newHeight
+            requestLayout()
+        }
+    }
+    animation.duration = ANIMATION_DURATION
+    startAnimation(animation)
 }
 
 fun <T> Fragment.getNavigationResult(
