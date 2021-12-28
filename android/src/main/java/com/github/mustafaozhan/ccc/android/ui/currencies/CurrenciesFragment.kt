@@ -42,7 +42,9 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     private val adManager: AdManager by inject()
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
-    private lateinit var currenciesAdapter: CurrenciesAdapter
+    private val currenciesAdapter: CurrenciesAdapter by lazy {
+        CurrenciesAdapter(currenciesViewModel.event)
+    }
 
     override fun getViewBinding() = FragmentCurrenciesBinding.inflate(layoutInflater)
 
@@ -88,7 +90,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             adId = getString(R.string.android_banner_ad_unit_id_currencies),
             isExpired = currenciesViewModel.isRewardExpired()
         )
-        currenciesAdapter = CurrenciesAdapter(currenciesViewModel.event)
+
         setSpanByOrientation(resources.configuration.orientation)
 
         with(recyclerViewCurrencies) {

@@ -37,7 +37,9 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private val billingManager: BillingManager by inject()
     private val adRemoveViewModel: AdRemoveViewModel by viewModel()
 
-    private lateinit var removeAdsAdapter: RemoveAdsAdapter
+    private val removeAdsAdapter: RemoveAdsAdapter by lazy {
+        RemoveAdsAdapter(adRemoveViewModel.event)
+    }
 
     override fun getViewBinding() = BottomSheetAdRemoveBinding.inflate(layoutInflater)
 
@@ -67,7 +69,6 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }
 
     private fun initViews() {
-        removeAdsAdapter = RemoveAdsAdapter(adRemoveViewModel.event)
         binding.recyclerViewRemoveAds.adapter = removeAdsAdapter
     }
 
