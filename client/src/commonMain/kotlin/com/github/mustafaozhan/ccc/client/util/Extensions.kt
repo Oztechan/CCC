@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
@@ -40,7 +39,7 @@ fun Long.isWeekPassed(): Boolean {
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return nowAsLong() - this >= VIDEO_REWARD * DAY
+    return nowAsLong() - this >= 0
 }
 
 fun Long.toInstant() = Instant.fromEpochMilliseconds(this)

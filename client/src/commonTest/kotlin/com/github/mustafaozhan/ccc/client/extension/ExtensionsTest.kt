@@ -24,6 +24,7 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.util.DAY
+import com.github.mustafaozhan.ccc.common.util.SECOND
 import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
@@ -171,11 +172,11 @@ class ExtensionsTest {
 
     @Test
     fun isRewardExpired() {
-        assertFalse { nowAsLong().isRewardExpired() }
-        assertFalse { (nowAsLong() + VIDEO_REWARD * DAY).isRewardExpired() }
-        assertTrue { (nowAsLong() - 1 - VIDEO_REWARD * DAY).isRewardExpired() }
-        assertTrue { (nowAsLong() - VIDEO_REWARD * DAY).isRewardExpired() }
-        assertFalse { (nowAsLong() + 1 - VIDEO_REWARD * DAY).isRewardExpired() }
+        assertTrue { nowAsLong().isRewardExpired() }
+        assertTrue { (nowAsLong() - DAY).isRewardExpired() }
+        assertTrue { (nowAsLong() - SECOND).isRewardExpired() }
+        assertFalse { (nowAsLong() + DAY).isRewardExpired() }
+        assertFalse { (nowAsLong() + SECOND).isRewardExpired() }
     }
 
     @Test

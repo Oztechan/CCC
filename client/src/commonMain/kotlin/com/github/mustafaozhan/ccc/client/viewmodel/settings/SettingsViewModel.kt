@@ -130,7 +130,11 @@ class SettingsViewModel(
 
     override fun onRemoveAdsClick() = clientScope.launchIgnored {
         Logger.d { "SettingsViewModel onRemoveAdsClick" }
-        _effect.emit(if (isRewardExpired()) SettingsEffect.RemoveAds else SettingsEffect.AlreadyAdFree)
+        if (isRewardExpired()) {
+            _effect.emit(SettingsEffect.RemoveAds)
+        } else {
+            _effect.emit(SettingsEffect.AlreadyAdFree)
+        }
     }
 
     override fun onThemeClick() = clientScope.launchIgnored {
