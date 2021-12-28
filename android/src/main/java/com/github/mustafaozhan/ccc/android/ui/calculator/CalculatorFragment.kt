@@ -38,7 +38,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private val adManager: AdManager by inject()
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
-    private lateinit var calculatorAdapter: CalculatorAdapter
+    private val calculatorAdapter: CalculatorAdapter by lazy {
+        CalculatorAdapter(calculatorViewModel.event, analyticsManager)
+    }
 
     override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)
 
@@ -89,7 +91,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             adId = getString(R.string.android_banner_ad_unit_id_calculator),
             isExpired = calculatorViewModel.isRewardExpired()
         )
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event, analyticsManager)
         recyclerViewMain.adapter = calculatorAdapter
     }
 
