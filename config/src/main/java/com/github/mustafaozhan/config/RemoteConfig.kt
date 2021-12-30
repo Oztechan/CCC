@@ -11,7 +11,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class RemoteConfig(context: Context) {
-    private lateinit var appConfig: AppConfig
+    lateinit var appConfig: AppConfig
 
     init {
         Logger.i { "RemoteConfig init" }
@@ -43,7 +43,8 @@ class RemoteConfig(context: Context) {
             }
 
             try {
-                appConfig = Json.decodeFromString(getString(KEY_APP_CONFIG))
+                val format = Json { ignoreUnknownKeys = true }
+                appConfig = format.decodeFromString(getString(KEY_APP_CONFIG))
             } catch (exception: Exception) {
                 Logger.e(exception) { exception.message.toString() }
             }
@@ -51,6 +52,6 @@ class RemoteConfig(context: Context) {
     }
 
     companion object {
-        private const val KEY_APP_CONFIG = "advertisements"
+        private const val KEY_APP_CONFIG = "app_config"
     }
 }

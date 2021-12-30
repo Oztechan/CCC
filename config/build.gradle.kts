@@ -1,6 +1,7 @@
 plugins {
     with(Dependencies.Plugins) {
         id(ANDROID_LIB)
+        id(KOTLIN_X_SERIALIZATION)
         kotlin(ANDROID)
     }
 }

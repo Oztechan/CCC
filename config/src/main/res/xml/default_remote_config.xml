@@ -4,6 +4,7 @@
         <key>app_config</key>
         <value>
             {
+            "timeout_anr_watch_dog": 7500
             }
         </value>
     </entry>
