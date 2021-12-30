@@ -133,5 +133,6 @@ object Dependencies {
         const val BILLING = ":billing"
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
+        const val CONFIG = ":config"
     }
 }
