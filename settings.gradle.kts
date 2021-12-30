@@ -4,9 +4,10 @@
 
 include(
     ":android",
-    ":billing", // android billing
-    ":ad", // android ads
-    ":analytics"
+    ":billing",
+    ":ad",
+    ":analytics",
+    ":config"
 )
 
 include(":backend")
