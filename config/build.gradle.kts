@@ -18,5 +18,14 @@ android {
 
 dependencies {
     with(Dependencies.Android) {
+        implementation(FIREBASE_REMOTE_CONFIG)
+    }
+
+    with(Dependencies.Common) {
+        implementation(KTOR_SETIALIZATION)
+    }
+
+    with(Dependencies.Modules) {
+        implementation(project(LOG_MOB))
     }
 }

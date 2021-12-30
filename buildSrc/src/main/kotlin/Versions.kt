@@ -15,6 +15,7 @@ object Versions {
     const val MULTIPLATFORM_SETTINGS = "0.8.1"
     const val FIREBASE_ANALYTICS = "20.0.1"
     const val FIREBASE_CRASHLYTICS = "18.2.6"
+    const val FIREBASE_REMOTE_CONFIG = "20.0.1"
     const val DESUGARING = "1.1.5"
     const val ANR_WATCH_DOG = "1.4.0"
     const val GSM = "4.3.10"

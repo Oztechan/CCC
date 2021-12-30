@@ -126,5 +126,6 @@ dependencies {
         implementation(project(BILLING))
         implementation(project(AD))
         implementation(project(ANALYTICS))
+        implementation(project(CONFIG))
     }
 }
