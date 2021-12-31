@@ -72,11 +72,23 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onPause()
     }
 
-    private fun trackUserProperties() {
+    private fun trackUserProperties() = with(calculatorViewModel.state.value) {
         analyticsManager.setUserProperty(
             UserProperty.BASE_CURRENCY,
-            calculatorViewModel.state.value.base
+            base
         )
+
+        currencyList.filter { it.isActive }
+            .run {
+                analyticsManager.setUserProperty(
+                    UserProperty.CURRENCY_COUNT,
+                    this.count().toString()
+                )
+                analyticsManager.setUserProperty(
+                    UserProperty.ACTIVE_CURRENCIES,
+                    this.joinToString(",") { currency -> currency.name }
+                )
+            }
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
