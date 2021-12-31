@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AppConfig(
-    @SerialName("ad_config") val adConfig: AdConfig,
-    @SerialName("timeout_anr_watch_dog") val timeOutANRWatchDog: Int
+data class AdConfig(
+    @SerialName("is_banner_ad_enabled") val isBannerAdEnabled: Boolean
 )

@@ -4,6 +4,9 @@
         <key>app_config</key>
         <value>
             {
+            "ad_config": {
+            "is_banner_ad_enabled": true
+            },
             "timeout_anr_watch_dog": 7500
             }
         </value>

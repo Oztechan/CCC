@@ -24,6 +24,7 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
+import com.github.mustafaozhan.config.RemoteConfig
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.EventParam
 import com.mustafaozhan.github.analytics.model.FirebaseEvent
@@ -40,6 +41,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
+    private val remoteConfig: RemoteConfig by inject()
     private val currenciesViewModel: CurrenciesViewModel by viewModel()
 
     private val currenciesAdapter: CurrenciesAdapter by lazy {
@@ -88,7 +90,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_currencies),
-            isExpired = currenciesViewModel.isRewardExpired()
+            shouldShowAd = currenciesViewModel.isRewardExpired() && remoteConfig.appConfig.adConfig.isBannerAdEnabled
         )
 
         setSpanByOrientation(resources.configuration.orientation)

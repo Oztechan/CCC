@@ -22,6 +22,7 @@ import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.github.mustafaozhan.config.RemoteConfig
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.FirebaseEvent
 import kotlinx.coroutines.flow.launchIn
@@ -36,6 +37,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
+    private val remoteConfig: RemoteConfig by inject()
     private val settingsViewModel: SettingsViewModel by viewModel()
 
     override fun getViewBinding() = FragmentSettingsBinding.inflate(layoutInflater)
@@ -59,7 +61,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_settings),
-            isExpired = settingsViewModel.isRewardExpired()
+            shouldShowAd = settingsViewModel.isRewardExpired() && remoteConfig.appConfig.adConfig.isBannerAdEnabled
         )
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
