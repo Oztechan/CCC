@@ -52,8 +52,8 @@ fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE
 fun FrameLayout.setBannerAd(
     adManager: AdManager,
     adId: String,
-    isExpired: Boolean
-) = if (isExpired) {
+    shouldShowAd: Boolean
+) = if (shouldShowAd) {
     removeAllViews()
 
     addView(
