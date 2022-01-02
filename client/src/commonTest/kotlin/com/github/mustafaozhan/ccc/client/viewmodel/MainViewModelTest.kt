@@ -126,7 +126,7 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(long)
 
-        assertEquals(long.isRewardExpired(), viewModel.isAdFree())
+        assertEquals(!long.isRewardExpired(), viewModel.isAdFree())
         assertEquals(long, settingsRepository.adFreeEndDate)
 
         verify(settingsRepository)
