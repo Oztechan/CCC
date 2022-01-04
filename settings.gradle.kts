@@ -6,8 +6,7 @@ include(
     ":android",
     ":billing",
     ":ad",
-    ":analytics",
-    ":config"
+    ":analytics"
 )
 
 include(":backend")
@@ -15,6 +14,7 @@ include(":backend")
 // KMP
 include(
     ":client", // Shared with all FE targets
+    ":config", // Shared with all FE targets
     ":common" // Shared with all FE & BE targets
 )
 

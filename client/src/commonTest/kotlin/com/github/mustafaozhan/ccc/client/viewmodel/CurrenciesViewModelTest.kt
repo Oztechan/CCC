@@ -14,6 +14,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.update
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -46,8 +48,11 @@ class CurrenciesViewModelTest {
         stubsUnitByDefault = true
     }
 
+    @Mock
+    private val remoteConfig = mock(classOf<RemoteConfig>())
+
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsRepository, currencyRepository)
+        CurrenciesViewModel(settingsRepository, currencyRepository, remoteConfig)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -104,16 +109,29 @@ class CurrenciesViewModelTest {
     }
 
     @Test
-    fun isRewardExpired() {
+    fun shouldShowBannerAd() {
         val mockValue = Random.nextLong()
+        val mockAppConfig = AppConfig()
         given(settingsRepository)
             .invocation { adFreeEndDate }
             .thenReturn(mockValue)
 
-        assertEquals(mockValue.isRewardExpired(), viewModel.isRewardExpired())
+        given(remoteConfig)
+            .getter(remoteConfig::appConfig)
+            .whenInvoked()
+            .thenReturn(mockAppConfig)
+
+        assertEquals(
+            mockValue.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
+            viewModel.shouldShowBannerAd()
+        )
 
         verify(settingsRepository)
             .invocation { adFreeEndDate }
+            .wasInvoked()
+
+        verify(remoteConfig)
+            .invocation { appConfig }
             .wasInvoked()
     }
 

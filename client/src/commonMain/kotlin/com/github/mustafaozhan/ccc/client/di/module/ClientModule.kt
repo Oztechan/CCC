@@ -8,15 +8,16 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewMod
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.RemoteConfigImpl
 import org.koin.dsl.module
 
 var clientModule = module {
-    viewModelDefinition { SettingsViewModel(get(), get(), get(), get()) }
+    viewModelDefinition { SettingsViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { MainViewModel(get()) }
-    viewModelDefinition { CurrenciesViewModel(get(), get()) }
-    viewModelDefinition { CalculatorViewModel(get(), get(), get(), get()) }
+    viewModelDefinition { CurrenciesViewModel(get(), get(), get()) }
+    viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { ChangeBaseViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
 
-    single { RemoteConfig() }
+    single<RemoteConfig> { RemoteConfigImpl() }
 }

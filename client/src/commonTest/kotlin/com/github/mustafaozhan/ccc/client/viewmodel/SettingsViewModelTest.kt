@@ -20,6 +20,8 @@ import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
+import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -55,12 +57,16 @@ class SettingsViewModelTest {
     @Mock
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
+    @Mock
+    private val remoteConfig = mock(classOf<RemoteConfig>())
+
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
             settingsRepository,
             apiRepository,
             currencyRepository,
-            offlineRatesRepository
+            offlineRatesRepository,
+            remoteConfig
         )
     }
 
@@ -150,6 +156,33 @@ class SettingsViewModelTest {
         )
         verify(settingsRepository)
             .invocation { adFreeEndDate }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowBannerAd() {
+        val mockValue = Random.nextLong()
+        val mockAppConfig = AppConfig()
+        given(settingsRepository)
+            .invocation { adFreeEndDate }
+            .thenReturn(mockValue)
+
+        given(remoteConfig)
+            .getter(remoteConfig::appConfig)
+            .whenInvoked()
+            .thenReturn(mockAppConfig)
+
+        assertEquals(
+            viewModel.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
+            viewModel.shouldShowBannerAd()
+        )
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
+            .wasInvoked()
+
+        verify(remoteConfig)
+            .invocation { appConfig }
             .wasInvoked()
     }
 

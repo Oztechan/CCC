@@ -20,6 +20,7 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.Result
+import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -47,12 +48,16 @@ class CalculatorViewModelTest {
     @Mock
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
+    @Mock
+    private val remoteConfig = mock(classOf<RemoteConfig>())
+
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
             settingsRepository,
             apiRepository,
             currencyRepository,
-            offlineRatesRepository
+            offlineRatesRepository,
+            remoteConfig
         )
     }
 
