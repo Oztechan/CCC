@@ -60,6 +60,7 @@ kotlin {
                         implementation(project(PARSER_MOB))
                         implementation(project(SCOPE_MOB))
                         implementation(project(LOG_MOB))
+                        implementation(project(CONFIG))
                     }
                 }
             }
