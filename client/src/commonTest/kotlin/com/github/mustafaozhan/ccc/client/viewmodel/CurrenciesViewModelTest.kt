@@ -119,9 +119,8 @@ class CurrenciesViewModelTest {
             .thenReturn(mockLong)
 
         given(remoteConfig)
-            .getter(remoteConfig::appConfig)
-            .whenInvoked()
-            .thenReturn(mockAppConfig)
+            .invocation { appConfig }
+            .then { mockAppConfig }
 
         assertEquals(
             mockLong.isRewardExpired() && mockBoolean,

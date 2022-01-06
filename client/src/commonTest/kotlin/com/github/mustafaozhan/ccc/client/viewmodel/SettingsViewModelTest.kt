@@ -165,14 +165,14 @@ class SettingsViewModelTest {
         val mockLong = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
         val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
+
         given(settingsRepository)
             .invocation { adFreeEndDate }
             .thenReturn(mockLong)
 
         given(remoteConfig)
-            .getter(remoteConfig::appConfig)
-            .whenInvoked()
-            .thenReturn(mockAppConfig)
+            .invocation { appConfig }
+            .then { mockAppConfig }
 
         assertEquals(
             mockLong.isRewardExpired() && mockBoolean,

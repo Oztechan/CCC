@@ -122,9 +122,8 @@ class MainViewModelTest {
         val long: Long = Random.nextLong()
 
         given(settingsRepository)
-            .getter(settingsRepository::adFreeEndDate)
-            .whenInvoked()
-            .thenReturn(long)
+            .invocation { adFreeEndDate }
+            .then { long }
 
         assertEquals(!long.isRewardExpired(), viewModel.isAdFree())
         assertEquals(long, settingsRepository.adFreeEndDate)
