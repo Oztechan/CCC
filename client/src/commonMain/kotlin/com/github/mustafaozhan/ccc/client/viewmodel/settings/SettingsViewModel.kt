@@ -17,6 +17,7 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
+import com.github.mustafaozhan.config.RemoteConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,8 @@ class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
-    private val offlineRatesRepository: OfflineRatesRepository
+    private val offlineRatesRepository: OfflineRatesRepository,
+    private val remoteConfig: RemoteConfig
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -83,6 +85,9 @@ class SettingsViewModel(
         settingsRepository.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
+
+    fun shouldShowBannerAd() = isRewardExpired() &&
+        remoteConfig.appConfig.adConfig.isBannerAdEnabled
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 

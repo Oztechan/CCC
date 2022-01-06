@@ -22,7 +22,6 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.github.mustafaozhan.config.RemoteConfig
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
@@ -37,7 +36,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
-    private val remoteConfig: RemoteConfig by inject()
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private val calculatorAdapter: CalculatorAdapter by lazy {
@@ -103,7 +101,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_calculator),
-            shouldShowAd = calculatorViewModel.isRewardExpired() && remoteConfig.appConfig.adConfig.isBannerAdEnabled
+            shouldShowAd = calculatorViewModel.shouldShowBannerAd()
         )
         recyclerViewMain.adapter = calculatorAdapter
     }

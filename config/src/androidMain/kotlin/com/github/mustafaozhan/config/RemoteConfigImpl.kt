@@ -9,8 +9,8 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-actual class RemoteConfig {
-    actual var appConfig = AppConfig()
+actual class RemoteConfigImpl : RemoteConfig {
+    actual override var appConfig = AppConfig()
 
     init {
         Logger.i { "RemoteConfig init" }
