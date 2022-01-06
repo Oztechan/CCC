@@ -15,6 +15,8 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.model.AdConfig
+import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -111,13 +113,15 @@ class CurrenciesViewModelTest {
     fun shouldShowBannerAd() {
         val mockLong = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
+        val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
         given(settingsRepository)
             .invocation { adFreeEndDate }
             .thenReturn(mockLong)
 
         given(remoteConfig)
-            .invocation { remoteConfig.appConfig.adConfig.isBannerAdEnabled }
-            .then { mockBoolean }
+            .getter(remoteConfig::appConfig)
+            .whenInvoked()
+            .thenReturn(mockAppConfig)
 
         assertEquals(
             mockLong.isRewardExpired() && mockBoolean,
