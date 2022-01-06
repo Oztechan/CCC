@@ -4,6 +4,7 @@
 
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.after
@@ -16,6 +17,9 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
+import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.any
@@ -38,8 +42,11 @@ class MainViewModelTest {
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
+    @Mock
+    private val remoteConfig = mock(classOf<RemoteConfig>())
+
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsRepository)
+        MainViewModel(settingsRepository, remoteConfig)
     }
 
     @BeforeTest
@@ -55,6 +62,35 @@ class MainViewModelTest {
             .setter(settingsRepository::lastReviewRequest)
             .whenInvokedWith(any())
             .thenReturn(Unit)
+    }
+
+    @Test
+    fun app_review_should_ask_when_device_is_google() {
+        val mockConfig = AppConfig(
+            appUpdate = AppUpdate(
+                googleLatestVersion = BuildKonfig.versionCode + 1
+            )
+        )
+
+        given(remoteConfig)
+            .invocation { remoteConfig.appConfig }
+            .then { mockConfig }
+
+        if (device == Device.ANDROID.GOOGLE) {
+            viewModel.effect.before {
+                viewModel.onResume()
+            }.after {
+                assertTrue { it is MainEffect.AppUpdateEffect }
+                assertEquals(
+                    remoteConfig.appConfig.appUpdate,
+                    (it as MainEffect.AppUpdateEffect).appUpdate
+                )
+            }
+        }
+
+        verify(remoteConfig)
+            .invocation { appConfig }
+            .wasInvoked()
     }
 
     // SEED
@@ -168,6 +204,11 @@ class MainViewModelTest {
 
     @Test
     fun onResume() = with(viewModel) {
+        val mockConfig = AppConfig()
+        given(remoteConfig)
+            .invocation { remoteConfig.appConfig }
+            .then { mockConfig }
+
         event.onResume()
         if (device is Device.ANDROID.GOOGLE ||
             device is Device.IOS

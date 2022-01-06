@@ -4,6 +4,8 @@
 package com.github.mustafaozhan.ccc.android.ui.main
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -12,11 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.updateAppTheme
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
+import com.github.mustafaozhan.config.model.AppUpdate
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.UserProperty
@@ -48,13 +52,24 @@ class MainActivity : BaseActivity() {
         .onEach { viewEffect ->
             Logger.i { "MainActivity observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is MainEffect.ShowInterstitialAd -> adManager.showInterstitialAd(
+                MainEffect.ShowInterstitialAd -> adManager.showInterstitialAd(
                     this@MainActivity,
                     getString(R.string.android_interstitial_ad_id)
                 )
-                is MainEffect.RequestReview -> requestReview()
+                MainEffect.RequestReview -> requestReview()
+                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.appUpdate)
             }
         }.launchIn(lifecycleScope)
+
+    private fun showAppUpdateDialog(appUpdate: AppUpdate) = showDialog(
+        activity = this,
+        title = appUpdate.title,
+        message = appUpdate.description,
+        positiveButton = getString(R.string.update),
+        cancelable = false
+    ) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(appUpdate.googleMarketUrl)))
+    }
 
     private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
         .apply {

@@ -27,8 +27,8 @@ fun showDialog(
         function?.invoke()
         dialog.dismiss()
     }
+    ?.setCancelable(cancelable)
     ?.inCase(cancelable) {
-        setCancelable(cancelable)
         setNegativeButton(activity.getString(android.R.string.cancel), null)
     }?.show()
 

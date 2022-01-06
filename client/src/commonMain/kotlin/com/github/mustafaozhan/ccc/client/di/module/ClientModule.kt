@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 var clientModule = module {
     viewModelDefinition { SettingsViewModel(get(), get(), get(), get(), get()) }
-    viewModelDefinition { MainViewModel(get()) }
+    viewModelDefinition { MainViewModel(get(), get()) }
     viewModelDefinition { CurrenciesViewModel(get(), get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { ChangeBaseViewModel(get()) }

@@ -2,6 +2,8 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -12,6 +14,7 @@ plugins {
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(MOKO_RESOURCES)
+        id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
 }
@@ -150,5 +153,13 @@ multiplatformResources {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+configure<BuildKonfigExtension> {
+    packageName = "${ProjectSettings.PACKAGE_NAME}.client"
+
+    defaultConfigs {
+        buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString())
     }
 }
