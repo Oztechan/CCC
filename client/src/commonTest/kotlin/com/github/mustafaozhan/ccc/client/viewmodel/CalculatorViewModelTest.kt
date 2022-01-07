@@ -126,7 +126,7 @@ class CalculatorViewModelTest {
             .then { mockAppConfig }
 
         assertEquals(
-            mockLong.isRewardExpired() && mockBoolean,
+            mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
             viewModel.shouldShowBannerAd()
         )
 
