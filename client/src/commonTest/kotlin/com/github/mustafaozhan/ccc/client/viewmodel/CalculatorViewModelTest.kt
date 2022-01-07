@@ -21,7 +21,6 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.Result
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
@@ -115,7 +114,7 @@ class CalculatorViewModelTest {
 
     @Test
     fun shouldShowBannerAd() {
-        val mockLong = Random.nextLong() + nowAsLong()
+        val mockLong = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
         val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
         given(settingsRepository)
