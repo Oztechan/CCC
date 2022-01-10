@@ -38,6 +38,6 @@ object Versions {
     const val KOVER = "0.4.4"
     const val HUAWEI_HSM_BASE = "6.3.0.303"
     const val ROOT_BEER = "0.1.0"
-    const val MOCKATIVE = "1.1.3"
+    const val MOCKATIVE = "1.1.4"
     const val KSP = "1.6.10-1.0.2"
 }

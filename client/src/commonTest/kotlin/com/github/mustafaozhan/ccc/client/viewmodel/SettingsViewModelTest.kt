@@ -8,6 +8,7 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
+import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState
@@ -19,6 +20,7 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.Currency
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.config.model.AdConfig
@@ -147,6 +149,21 @@ class SettingsViewModelTest {
         verify(settingsRepository)
             .invocation { appTheme = mockTheme.themeValue }
             .wasInvoked()
+
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(nowAsLong() + DAY)
+
+        viewModel.effect.before {
+            viewModel.event.onRemoveAdsClick()
+        }.after {
+            assertTrue { it is SettingsEffect.AlreadyAdFree }
+        }
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
+            .wasInvoked()
     }
 
     @Test
@@ -162,7 +179,7 @@ class SettingsViewModelTest {
 
     @Test
     fun shouldShowBannerAd() {
-        val mockLong = Random.nextLong()
+        val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
         val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
 
