@@ -5,6 +5,7 @@ import com.github.mustafaozhan.ccc.common.db.sql.CurrencyQueries
 import com.github.mustafaozhan.ccc.common.mapper.mapToModel
 import com.github.mustafaozhan.ccc.common.mapper.toModel
 import com.github.mustafaozhan.ccc.common.mapper.toModelList
+import com.github.mustafaozhan.ccc.common.util.toDatabaseBoolean
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.map
@@ -36,11 +37,11 @@ internal class CurrencyRepositoryImpl(
         .also { Logger.v { "CurrencyRepositoryImpl getActiveCurrencies" } }
 
     override fun updateCurrencyStateByName(name: String, isActive: Boolean) = currencyQueries
-        .updateCurrencyStateByName(if (isActive) 1 else 0, name)
+        .updateCurrencyStateByName(isActive.toDatabaseBoolean(), name)
         .also { Logger.v { "CurrencyRepositoryImpl updateCurrencyStateByName $name $isActive" } }
 
     override fun updateAllCurrencyState(value: Boolean) = currencyQueries
-        .updateAllCurrencyState(if (value) 1 else 0)
+        .updateAllCurrencyState(value.toDatabaseBoolean())
         .also { Logger.v { "CurrencyRepositoryImpl updateAllCurrencyState $value" } }
 
     override fun getCurrencyByName(name: String) = currencyQueries

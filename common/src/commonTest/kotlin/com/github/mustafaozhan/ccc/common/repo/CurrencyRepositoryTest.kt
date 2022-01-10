@@ -3,6 +3,7 @@ package com.github.mustafaozhan.ccc.common.repo
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepositoryImpl
 import com.github.mustafaozhan.ccc.common.db.sql.CurrencyQueries
+import com.github.mustafaozhan.ccc.common.util.toDatabaseBoolean
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -36,25 +37,24 @@ class CurrencyRepositoryTest {
     fun updateCurrencyStateByName() {
         val mockName = "mock"
         val mockState = Random.nextBoolean()
-        val databaseValue = if (mockState) 1.toLong() else 0.toLong()
+
         repository.updateCurrencyStateByName(mockName, mockState)
 
         verify(currencyQueries)
             .function(currencyQueries::updateCurrencyStateByName)
-            .with(eq(mockName), eq(databaseValue))
+            .with(eq(mockName), eq(mockState.toDatabaseBoolean()))
             .wasInvoked()
     }
 
     @Test
     fun updateAllCurrencyState() {
         val mockState = Random.nextBoolean()
-        val databaseValue = if (mockState) 1.toLong() else 0.toLong()
 
         repository.updateAllCurrencyState(mockState)
 
         verify(currencyQueries)
             .function(currencyQueries::updateAllCurrencyState)
-            .with(eq(databaseValue))
+            .with(eq(mockState.toDatabaseBoolean()))
             .wasInvoked()
     }
 }
