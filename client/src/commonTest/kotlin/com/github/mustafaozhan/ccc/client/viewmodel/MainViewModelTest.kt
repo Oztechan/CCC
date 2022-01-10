@@ -14,19 +14,14 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_D
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
-import io.mockative.matching
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -81,11 +76,8 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(0)
 
-        viewModel // init
-
         verify(settingsRepository)
-            .setter(settingsRepository::lastReviewRequest)
-            .with(matching { it == nowAsLong() })
+            .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
             .wasInvoked()
     }
 
@@ -95,17 +87,14 @@ class MainViewModelTest {
         val boolean: Boolean = Random.nextBoolean()
 
         given(settingsRepository)
-            .getter(settingsRepository::firstRun)
-            .whenInvoked()
+            .invocation { firstRun }
             .thenReturn(boolean)
 
-        viewModel.isFistRun()
+        assertEquals(boolean, viewModel.isFistRun())
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(boolean, viewModel.isFistRun())
     }
 
     @Test
@@ -117,13 +106,11 @@ class MainViewModelTest {
             .whenInvoked()
             .thenReturn(int)
 
-        viewModel.getAppTheme()
+        assertEquals(int, viewModel.getAppTheme())
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(int, viewModel.getAppTheme())
     }
 
     @Test
@@ -131,41 +118,27 @@ class MainViewModelTest {
         val long: Long = Random.nextLong()
 
         given(settingsRepository)
-            .getter(settingsRepository::adFreeEndDate)
-            .whenInvoked()
-            .thenReturn(long)
+            .invocation { adFreeEndDate }
+            .then { long }
 
-        viewModel.isAdFree()
+        assertEquals(!long.isRewardExpired(), viewModel.isAdFree())
+        assertEquals(long, settingsRepository.adFreeEndDate)
 
         verify(settingsRepository)
-            .getter(settingsRepository::firstRun)
+            .invocation { settingsRepository.firstRun }
             .wasInvoked()
-
-        assertEquals(long, settingsRepository.adFreeEndDate)
-        assertEquals(long.isRewardExpired(), viewModel.isAdFree())
     }
 
     @Test
     fun checkReview() {
         if (device == Device.ANDROID.GOOGLE) {
-            given(settingsRepository)
-                .getter(settingsRepository::lastReviewRequest)
-                .whenInvoked()
-                .thenReturn(
-                    nowAsInstant().plus(
-                        DateTimePeriod(days = 8),
-                        TimeZone.currentSystemDefault()
-                    ).toEpochMilliseconds()
-                )
-
             viewModel.effect.before {
                 viewModel.checkReview(0)
             }.after {
                 assertTrue { it is MainEffect.RequestReview }
 
                 verify(settingsRepository)
-                    .setter(settingsRepository::lastReviewRequest)
-                    .with(matching { it == nowAsLong() })
+                    .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
                     .wasInvoked()
             }
         }

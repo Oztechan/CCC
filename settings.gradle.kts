@@ -4,8 +4,8 @@
 
 include(
     ":android",
-    ":billing", // android billing
-    ":ad", // android ads
+    ":billing",
+    ":ad",
     ":analytics"
 )
 
@@ -14,6 +14,7 @@ include(":backend")
 // KMP
 include(
     ":client", // Shared with all FE targets
+    ":config", // Shared with all FE targets
     ":common" // Shared with all FE & BE targets
 )
 

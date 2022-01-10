@@ -118,6 +118,7 @@ dependencies {
 
     with(Dependencies.Modules) {
         implementation(project(CLIENT))
+        implementation(project(CONFIG))
 
         implementation(project(BASE_MOB))
         implementation(project(SCOPE_MOB))

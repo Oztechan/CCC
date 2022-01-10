@@ -59,7 +59,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_settings),
-            isExpired = settingsViewModel.isRewardExpired()
+            shouldShowAd = settingsViewModel.shouldShowBannerAd()
         )
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
