@@ -207,7 +207,7 @@ class SettingsViewModelTest {
 
     @Test
     fun isAdFreeNeverActivated() {
-        val mock = Random.nextLong()
+        val mock = Random.getRandomDateLong()
         given(settingsRepository)
             .getter(settingsRepository::adFreeEndDate)
             .whenInvoked()

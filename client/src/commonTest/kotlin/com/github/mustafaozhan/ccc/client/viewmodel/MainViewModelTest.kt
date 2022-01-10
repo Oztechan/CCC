@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
+import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_NORMAL
@@ -151,7 +152,7 @@ class MainViewModelTest {
 
     @Test
     fun isAdFree() {
-        val long: Long = Random.nextLong()
+        val long: Long = Random.getRandomDateLong()
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
