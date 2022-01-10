@@ -14,7 +14,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_D
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
@@ -23,9 +22,6 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -136,16 +132,6 @@ class MainViewModelTest {
     @Test
     fun checkReview() {
         if (device == Device.ANDROID.GOOGLE) {
-            given(settingsRepository)
-                .getter(settingsRepository::lastReviewRequest)
-                .whenInvoked()
-                .thenReturn(
-                    nowAsInstant().plus(
-                        DateTimePeriod(days = 8),
-                        TimeZone.currentSystemDefault()
-                    ).toEpochMilliseconds()
-                )
-
             viewModel.effect.before {
                 viewModel.checkReview(0)
             }.after {

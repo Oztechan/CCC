@@ -47,24 +47,20 @@ class ChangeBaseViewModelTest {
     @BeforeTest
     fun setup() {
         initLogger(true)
+
+        given(currencyRepository)
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(currencyListEnough))
     }
 
     // SEED
     @Test
     fun check_data_is_null() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
         assertNull(viewModel.data)
     }
 
     @Test
     fun states_updates_correctly() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
         val currencyList = listOf(currencyUIModel)
         val state = MutableStateFlow(ChangeBaseState())
 
@@ -101,10 +97,6 @@ class ChangeBaseViewModelTest {
 
     @Test
     fun init_updates_the_states_with_enough_currency() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
         runTest {
             viewModel.state.firstOrNull().let {
                 assertEquals(false, it?.loading)
@@ -120,10 +112,6 @@ class ChangeBaseViewModelTest {
 
     @Test
     fun onItemClick() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
         viewModel.effect.before {
             viewModel.event.onItemClick(currencyUIModel)
         }.after {
@@ -133,10 +121,6 @@ class ChangeBaseViewModelTest {
 
     @Test
     fun onSelectClick() {
-        given(currencyRepository)
-            .invocation { collectActiveCurrencies() }
-            .thenReturn(flowOf(currencyListEnough))
-
         viewModel.effect.before {
             viewModel.event.onSelectClick()
         }.after {
