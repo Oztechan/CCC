@@ -90,8 +90,7 @@ class AdRemoveViewModelTest {
     @Test
     fun restorePurchase() {
         given(settingsRepository)
-            .getter(settingsRepository::adFreeEndDate)
-            .whenInvoked()
+            .invocation { adFreeEndDate }
             .thenReturn(0)
 
         viewModel.effect.before {
