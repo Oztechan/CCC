@@ -43,8 +43,7 @@ class MainViewModelTest {
         initLogger(true)
 
         given(settingsRepository)
-            .getter(settingsRepository::lastReviewRequest)
-            .whenInvoked()
+            .invocation { lastReviewRequest }
             .thenReturn(0)
 
         given(settingsRepository)
@@ -72,12 +71,11 @@ class MainViewModelTest {
     @Test
     fun set_lastReviewRequest_now_if_not_initialised_before() {
         given(settingsRepository)
-            .getter(settingsRepository::lastReviewRequest)
-            .whenInvoked()
+            .invocation { lastReviewRequest }
             .thenReturn(0)
 
         verify(settingsRepository)
-            .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
+            .invocation { lastReviewRequest = nowAsLong() }
             .wasInvoked()
     }
 
@@ -93,7 +91,7 @@ class MainViewModelTest {
         assertEquals(boolean, viewModel.isFistRun())
 
         verify(settingsRepository)
-            .invocation { settingsRepository.firstRun }
+            .invocation { firstRun }
             .wasInvoked()
     }
 
@@ -102,14 +100,13 @@ class MainViewModelTest {
         val int: Int = Random.nextInt()
 
         given(settingsRepository)
-            .getter(settingsRepository::appTheme)
-            .whenInvoked()
+            .invocation { appTheme }
             .thenReturn(int)
 
         assertEquals(int, viewModel.getAppTheme())
 
         verify(settingsRepository)
-            .invocation { settingsRepository.firstRun }
+            .invocation { firstRun }
             .wasInvoked()
     }
 
@@ -125,7 +122,7 @@ class MainViewModelTest {
         assertEquals(long, settingsRepository.adFreeEndDate)
 
         verify(settingsRepository)
-            .invocation { settingsRepository.firstRun }
+            .invocation { firstRun }
             .wasInvoked()
     }
 
@@ -138,7 +135,7 @@ class MainViewModelTest {
                 assertTrue { it is MainEffect.RequestReview }
 
                 verify(settingsRepository)
-                    .invocation { settingsRepository.lastReviewRequest = nowAsLong() }
+                    .invocation { lastReviewRequest = nowAsLong() }
                     .wasInvoked()
             }
         }

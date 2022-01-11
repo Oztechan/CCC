@@ -42,65 +42,65 @@ class SettingsRepositoryTest {
     @Test
     fun default_firstRun() {
         given(settings)
-            .invocation { settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+            .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
 
         assertEquals(DEFAULT_FIRST_RUN, repository.firstRun)
 
         verify(settings)
-            .invocation { settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+            .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .wasInvoked()
     }
 
     @Test
     fun default_currentBase() {
         given(settings)
-            .invocation { settings.getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
 
         assertEquals(DEFAULT_CURRENT_BASE, repository.currentBase)
 
         verify(settings)
-            .invocation { settings.getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
     @Test
     fun default_appTheme() {
         given(settings)
-            .invocation { settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
+            .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
 
         assertEquals(DEFAULT_APP_THEME, repository.appTheme)
 
         verify(settings)
-            .invocation { settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
+            .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .wasInvoked()
     }
 
     @Test
     fun default_adFreeEndDate() {
         given(settings)
-            .invocation { settings.getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
+            .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
 
         assertEquals(DEFAULT_AD_FREE_END_DATE, repository.adFreeEndDate)
 
         verify(settings)
-            .invocation { settings.getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
+            .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .wasInvoked()
     }
 
     @Test
     fun default_lastReviewRequest() {
         given(settings)
-            .invocation { settings.getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
+            .invocation { getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
             .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
 
         assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
 
         verify(settings)
-            .invocation { settings.getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
+            .invocation { getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
             .wasInvoked()
     }
 
@@ -111,7 +111,7 @@ class SettingsRepositoryTest {
         repository.firstRun = mockedValue
 
         verify(settings)
-            .invocation { settings.putBoolean(KEY_FIRST_RUN, mockedValue) }
+            .invocation { putBoolean(KEY_FIRST_RUN, mockedValue) }
             .wasInvoked()
     }
 
@@ -121,7 +121,7 @@ class SettingsRepositoryTest {
         repository.currentBase = mockValue
 
         verify(settings)
-            .invocation { settings.putString(KEY_CURRENT_BASE, mockValue) }
+            .invocation { putString(KEY_CURRENT_BASE, mockValue) }
             .wasInvoked()
     }
 
@@ -131,7 +131,7 @@ class SettingsRepositoryTest {
         repository.appTheme = mockValue
 
         verify(settings)
-            .invocation { settings.putInt(KEY_APP_THEME, mockValue) }
+            .invocation { putInt(KEY_APP_THEME, mockValue) }
             .wasInvoked()
     }
 
@@ -141,7 +141,7 @@ class SettingsRepositoryTest {
         repository.adFreeEndDate = mockValue
 
         verify(settings)
-            .invocation { settings.putLong(KEY_AD_FREE_END_DATE, mockValue) }
+            .invocation { putLong(KEY_AD_FREE_END_DATE, mockValue) }
             .wasInvoked()
     }
 
@@ -151,7 +151,7 @@ class SettingsRepositoryTest {
         repository.lastReviewRequest = mockValue
 
         verify(settings)
-            .invocation { settings.putLong(KEY_LAST_REVIEW_REQUEST, mockValue) }
+            .invocation { putLong(KEY_LAST_REVIEW_REQUEST, mockValue) }
             .wasInvoked()
     }
 }
