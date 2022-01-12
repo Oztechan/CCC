@@ -77,8 +77,7 @@ class CalculatorViewModelTest {
         initLogger(true)
 
         given(settingsRepository)
-            .getter(settingsRepository::currentBase)
-            .whenInvoked()
+            .invocation { currentBase }
             .thenReturn("")
 
         given(settingsRepository)
