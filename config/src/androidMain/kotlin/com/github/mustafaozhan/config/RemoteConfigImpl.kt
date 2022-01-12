@@ -17,7 +17,12 @@ actual class RemoteConfigImpl : RemoteConfig {
 
         Firebase.remoteConfig.apply {
 
-            appConfig = parseAppConfig(get(KEY_APP_CONFIG).asString())
+            @Suppress("SwallowedException", "TooGenericExceptionCaught")
+            try {
+                appConfig = parseAppConfig(get(KEY_APP_CONFIG).asString())
+            } catch (e: Exception) {
+                Logger.i { "No cached appConfig available" }
+            }
 
             setConfigSettingsAsync(
                 remoteConfigSettings {
