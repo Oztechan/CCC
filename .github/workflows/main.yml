@@ -6,6 +6,10 @@ on:
       - develop
   pull_request:
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
   ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
