@@ -38,6 +38,7 @@ import com.github.mustafaozhan.ccc.client.model.Currency as ClientCurrency
 import com.github.mustafaozhan.ccc.common.model.Currency as CommonCurrency
 
 @ConfigurationApi
+@Suppress("TooManyFunctions")
 class CurrenciesViewModelTest {
 
     @Mock
