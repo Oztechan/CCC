@@ -126,4 +126,9 @@
     <string name="txt_remove_ads">Remove Ads</string>
     <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?</string>
     <string name="txt_watch">Watch</string>
+
+    <!-- App update -->
+    <string name="txt_update_dialog_title">New Version Available</string>
+    <string name="txt_update_dialog_description">Looks like you have an older version of the app. Please update to get latest features and bug fixes to get best experience.</string>
+
 </resources>

@@ -19,8 +19,9 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.config.model.AppConfig
-import com.github.mustafaozhan.config.model.Store
+import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
+import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
@@ -64,14 +65,11 @@ class MainViewModelTest {
     @Test
     fun app_review_should_ask_when_device_is_google() {
         val mockConfig = AppConfig(
-            stores = listOf(
-                Store(
+            appUpdate = listOf(
+                AppUpdate(
                     name = device.name,
-                    updateDialogTitle = "",
-                    updateDialogDescription = "",
                     updateForceVersion = BuildKonfig.versionCode + 1,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    storeUrl = ""
+                    updateLatestVersion = BuildKonfig.versionCode + 1
                 )
             )
         )
@@ -83,11 +81,11 @@ class MainViewModelTest {
         if (device == Device.ANDROID.GOOGLE) {
             viewModel.effect.before {
                 viewModel.onResume()
-            }.after { mainEffect ->
-                assertTrue { mainEffect is MainEffect.AppUpdateEffect }
+            }.after {
+                assertTrue { it is MainEffect.AppUpdateEffect }
                 assertEquals(
-                    remoteConfig.appConfig.stores.firstOrNull { it.name == device.name },
-                    (mainEffect as MainEffect.AppUpdateEffect).store
+                    remoteConfig.appConfig.appUpdate,
+                    it?.castTo<MainEffect.AppUpdateEffect>()?.appUpdate
                 )
             }
         }

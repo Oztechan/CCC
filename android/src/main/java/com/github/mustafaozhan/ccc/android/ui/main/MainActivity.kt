@@ -20,7 +20,6 @@ import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.config.model.Store
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.UserProperty
@@ -57,18 +56,18 @@ class MainActivity : BaseActivity() {
                     getString(R.string.android_interstitial_ad_id)
                 )
                 MainEffect.RequestReview -> requestReview()
-                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.store)
+                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable)
             }
         }.launchIn(lifecycleScope)
 
-    private fun showAppUpdateDialog(store: Store) = showDialog(
+    private fun showAppUpdateDialog(isCancelable: Boolean) = showDialog(
         activity = this,
-        title = store.updateDialogTitle,
-        message = store.updateDialogDescription,
-        positiveButton = getString(R.string.update),
-        cancelable = false
+        title = R.string.txt_update_dialog_title,
+        message = R.string.txt_update_dialog_description,
+        positiveButton = R.string.update,
+        cancelable = isCancelable
     ) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(store.storeUrl)))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
     }
 
     private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
