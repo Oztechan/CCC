@@ -3,14 +3,14 @@ package com.github.mustafaozhan.ccc.client.viewmodel.main
 import com.github.mustafaozhan.ccc.client.base.BaseData
 import com.github.mustafaozhan.ccc.client.base.BaseEffect
 import com.github.mustafaozhan.ccc.client.base.BaseEvent
-import com.github.mustafaozhan.config.model.AppUpdate
+import com.github.mustafaozhan.config.model.Store
 import kotlinx.coroutines.Job
 
 // State
 sealed class MainEffect : BaseEffect() {
     object ShowInterstitialAd : MainEffect()
     object RequestReview : MainEffect()
-    data class AppUpdateEffect(val appUpdate: AppUpdate) : MainEffect()
+    data class AppUpdateEffect(val store: Store) : MainEffect()
 }
 
 // Event

@@ -76,10 +76,11 @@ class MainViewModel(
         }
 
     private fun checkAppUpdate() = remoteConfig.appConfig
-        .appUpdate
-        .whether(
+        .stores
+        .firstOrNull { it.name == device.name }
+        ?.whether(
             { device is Device.ANDROID.GOOGLE },
-            { googleLatestVersion > BuildKonfig.versionCode }
+            { updateLatestVersion > BuildKonfig.versionCode }
         )?.let {
             clientScope.launch {
                 _effect.emit(MainEffect.AppUpdateEffect(it))

@@ -20,7 +20,7 @@ import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.github.mustafaozhan.config.model.AppUpdate
+import com.github.mustafaozhan.config.model.Store
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.UserProperty
@@ -57,18 +57,18 @@ class MainActivity : BaseActivity() {
                     getString(R.string.android_interstitial_ad_id)
                 )
                 MainEffect.RequestReview -> requestReview()
-                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.appUpdate)
+                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.store)
             }
         }.launchIn(lifecycleScope)
 
-    private fun showAppUpdateDialog(appUpdate: AppUpdate) = showDialog(
+    private fun showAppUpdateDialog(store: Store) = showDialog(
         activity = this,
-        title = appUpdate.title,
-        message = appUpdate.description,
+        title = store.updateDialogTitle,
+        message = store.updateDialogDescription,
         positiveButton = getString(R.string.update),
         cancelable = false
     ) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(appUpdate.googleMarketUrl)))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(store.storeUrl)))
     }
 
     private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
