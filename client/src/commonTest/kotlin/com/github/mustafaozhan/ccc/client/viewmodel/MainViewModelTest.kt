@@ -82,11 +82,11 @@ class MainViewModelTest {
         if (device == Device.ANDROID.GOOGLE) {
             viewModel.effect.before {
                 viewModel.onResume()
-            }.after {
-                assertTrue { it is MainEffect.AppUpdateEffect }
+            }.after { mainEffect ->
+                assertTrue { mainEffect is MainEffect.AppUpdateEffect }
                 assertEquals(
-                    remoteConfig.appConfig.stores,
-                    (it as MainEffect.AppUpdateEffect).store
+                    remoteConfig.appConfig.stores.firstOrNull { it.name == device.name },
+                    (mainEffect as MainEffect.AppUpdateEffect).store
                 )
             }
         }
