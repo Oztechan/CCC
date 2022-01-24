@@ -84,6 +84,7 @@ class MainViewModelTest {
             }.after {
                 assertTrue { it is MainEffect.AppUpdateEffect }
                 assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == false }
+                assertTrue { viewModel.data.isAppUpdateShown }
             }
         }
 
