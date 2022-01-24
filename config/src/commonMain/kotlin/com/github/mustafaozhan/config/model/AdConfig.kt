@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdConfig(
-    @SerialName("is_banner_ad_enabled") val isBannerAdEnabled: Boolean = false
+    @SerialName("is_banner_ad_enabled") val isBannerAdEnabled: Boolean = true
 )

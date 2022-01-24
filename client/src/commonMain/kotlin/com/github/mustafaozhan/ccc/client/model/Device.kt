@@ -1,10 +1,11 @@
 package com.github.mustafaozhan.ccc.client.model
 
-sealed class Device {
-    sealed class ANDROID : Device() {
-        object GOOGLE : ANDROID()
-        object HUAWEI : ANDROID()
+sealed class Device(open val name: String) {
+
+    sealed class ANDROID(override val name: String) : Device(name) {
+        object GOOGLE : ANDROID("google")
+        object HUAWEI : ANDROID("huawei")
     }
 
-    object IOS : Device()
+    object IOS : Device("ios")
 }

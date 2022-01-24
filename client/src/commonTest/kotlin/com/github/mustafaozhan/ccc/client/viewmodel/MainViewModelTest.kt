@@ -21,6 +21,7 @@ import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
+import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
@@ -64,8 +65,12 @@ class MainViewModelTest {
     @Test
     fun app_review_should_ask_when_device_is_google() {
         val mockConfig = AppConfig(
-            appUpdate = AppUpdate(
-                googleLatestVersion = BuildKonfig.versionCode + 1
+            appUpdate = listOf(
+                AppUpdate(
+                    name = device.name,
+                    updateForceVersion = BuildKonfig.versionCode + 1,
+                    updateLatestVersion = BuildKonfig.versionCode + 1
+                )
             )
         )
 
@@ -78,10 +83,8 @@ class MainViewModelTest {
                 viewModel.onResume()
             }.after {
                 assertTrue { it is MainEffect.AppUpdateEffect }
-                assertEquals(
-                    remoteConfig.appConfig.appUpdate,
-                    (it as MainEffect.AppUpdateEffect).appUpdate
-                )
+                assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == false }
+                assertTrue { viewModel.data.isAppUpdateShown }
             }
         }
 
