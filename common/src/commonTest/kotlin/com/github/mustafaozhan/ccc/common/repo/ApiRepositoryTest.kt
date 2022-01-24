@@ -4,39 +4,191 @@
 
 package com.github.mustafaozhan.ccc.common.repo
 
-import com.github.mustafaozhan.ccc.common.api.ApiRepository
-import com.github.mustafaozhan.ccc.common.base.BaseRepositoryTest
-import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.error.EmptyParameterException
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
+import com.github.mustafaozhan.ccc.common.api.repo.ApiRepositoryImpl
+import com.github.mustafaozhan.ccc.common.api.service.ApiService
+import com.github.mustafaozhan.ccc.common.entity.CurrencyResponseEntity
+import com.github.mustafaozhan.ccc.common.entity.RatesEntity
+import com.github.mustafaozhan.ccc.common.mapper.toModel
+import com.github.mustafaozhan.ccc.common.model.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
+import com.github.mustafaozhan.logmob.initLogger
+import io.mockative.Mock
+import io.mockative.any
+import io.mockative.classOf
+import io.mockative.given
+import io.mockative.mock
+import io.mockative.verify
+import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ApiRepositoryTest : BaseRepositoryTest<ApiRepository>() {
+class ApiRepositoryTest {
 
-    override val repository: ApiRepository by lazy {
-        koin.getDependency(ApiRepository::class)
+    @Mock
+    private val apiService = mock(classOf<ApiService>())
+
+    private val repository: ApiRepository by lazy {
+        ApiRepositoryImpl(apiService)
+    }
+
+    private val mockEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
+    private val mockThrowable = Throwable("mock")
+    private val mockBase = "EUR"
+
+    @BeforeTest
+    fun setup() {
+        initLogger(true)
     }
 
     @Test
-    fun getRatesByAPIParameterCanNotBeEmpty() = runTest {
-        repository.getRatesByAPI("").execute(error = {
-            assertTrue { it is EmptyParameterException }
-        })
-    }
-
-    @Test
-    fun getRatesByPremiumAPIParameterCanNotBeEmpty() = runTest {
-        repository.getRatesByPremiumAPI("")
-            .execute(error = {
+    fun getRatesByAPI_parameter_can_not_be_empty() = runTest {
+        repository.getRatesByAPI("").execute(
+            error = {
                 assertTrue { it is EmptyParameterException }
-            })
+            }
+        )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByAPI("") }
+            .wasInvoked()
     }
 
     @Test
-    fun getRatesByBackendParameterCanNotBeEmpty() = runTest {
-        repository.getRatesByBackend("").execute(error = {
-            assertTrue { it is EmptyParameterException }
-        })
+    fun getRatesByPremiumAPI_parameter_can_not_be_empty() = runTest {
+        repository.getRatesByPremiumAPI("").execute(
+            error = {
+                assertTrue { it is EmptyParameterException }
+            }
+        )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByPremiumAPI("") }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByBackend_parameter_can_not_be_empty() = runTest {
+        repository.getRatesByBackend("").execute(
+            error = {
+                assertTrue { it is EmptyParameterException }
+            }
+        )
+
+        verify(apiService)
+            .coroutine { apiService.getRatesByBackend("") }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByAPI_error() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByAPI)
+            .whenInvokedWith(any())
+            .thenThrow(mockThrowable)
+
+        repository.getRatesByAPI(mockBase).execute(
+            success = { assertTrue { false } },
+            error = {
+                assertEquals(mockThrowable.message, it.message)
+                assertEquals(mockThrowable.toString(), it.toString())
+            }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByAPI(mockBase) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByPremiumAPI_error() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByPremiumAPI)
+            .whenInvokedWith(any())
+            .thenThrow(mockThrowable)
+
+        repository.getRatesByPremiumAPI(mockBase).execute(
+            success = { assertTrue { false } },
+            error = {
+                assertEquals(mockThrowable.message, it.message)
+                assertEquals(mockThrowable.toString(), it.toString())
+            }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByPremiumAPI(mockBase) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByBackend_error() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByBackend)
+            .whenInvokedWith(any())
+            .thenThrow(mockThrowable)
+
+        repository.getRatesByBackend(mockBase).execute(
+            success = { assertTrue { false } },
+            error = {
+                assertEquals(mockThrowable.message, it.message)
+                assertEquals(mockThrowable.toString(), it.toString())
+            }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByBackend(mockBase) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByAPI_success() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByAPI)
+            .whenInvokedWith(any())
+            .thenReturn(mockEntity)
+
+        repository.getRatesByAPI(mockBase).execute(
+            success = { assertTrue { it == mockEntity.toModel() } },
+            error = { assertTrue { false } }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByAPI(mockBase) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByPremiumAPI_success() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByPremiumAPI)
+            .whenInvokedWith(any())
+            .thenReturn(mockEntity)
+
+        repository.getRatesByPremiumAPI(mockBase).execute(
+            success = { assertTrue { it == mockEntity.toModel() } },
+            error = { assertTrue { false } }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByPremiumAPI(mockBase) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun getRatesByBackend_success() = runTest {
+        given(apiService)
+            .suspendFunction(apiService::getRatesByBackend)
+            .whenInvokedWith(any())
+            .thenReturn(mockEntity)
+
+        repository.getRatesByBackend(mockBase).execute(
+            success = { assertTrue { it == mockEntity.toModel() } },
+            error = { assertTrue { false } }
+        )
+
+        verify(apiService)
+            .coroutine { getRatesByBackend(mockBase) }
+            .wasInvoked()
     }
 }

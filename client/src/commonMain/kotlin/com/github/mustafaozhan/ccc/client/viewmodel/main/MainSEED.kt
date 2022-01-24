@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 sealed class MainEffect : BaseEffect() {
     object ShowInterstitialAd : MainEffect()
     object RequestReview : MainEffect()
+    data class AppUpdateEffect(val isCancelable: Boolean) : MainEffect()
 }
 
 // Event
@@ -21,8 +22,16 @@ interface MainEvent : BaseEvent {
 data class MainData(
     var adJob: Job = Job(),
     var adVisibility: Boolean = false,
-    var isInitialAd: Boolean = true
+    var isInitialAd: Boolean = true,
+    var isAppUpdateShown: Boolean = false
 ) : BaseData() {
+    val adDelay: Long
+        get() = if (isInitialAd) {
+            AD_DELAY_INITIAL
+        } else {
+            AD_DELAY_NORMAL
+        }
+
     companion object {
         internal const val AD_DELAY_INITIAL: Long = 60000
         internal const val AD_DELAY_NORMAL: Long = 180000

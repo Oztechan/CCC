@@ -67,7 +67,7 @@ struct CurrenciesView: View {
                     )
                 }
 
-                if observable.viewModel.isRewardExpired() {
+                if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(
                         unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
                     ).frame(maxHeight: 50)

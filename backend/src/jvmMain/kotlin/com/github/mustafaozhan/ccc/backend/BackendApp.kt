@@ -32,9 +32,7 @@ private val apiController: ApiController by lazy {
 }
 
 fun main() {
-    initLogger().let {
-        it.i { "Logger initialized" }
-    }
+    initLogger()
 
     startKoin {
         modules(

@@ -38,7 +38,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private val adManager: AdManager by inject()
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
-    private lateinit var calculatorAdapter: CalculatorAdapter
+    private val calculatorAdapter: CalculatorAdapter by lazy {
+        CalculatorAdapter(calculatorViewModel.event, analyticsManager)
+    }
 
     override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)
 
@@ -70,11 +72,23 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onPause()
     }
 
-    private fun trackUserProperties() {
+    private fun trackUserProperties() = with(calculatorViewModel.state.value) {
         analyticsManager.setUserProperty(
             UserProperty.BASE_CURRENCY,
-            calculatorViewModel.state.value.base
+            base
         )
+
+        currencyList.filter { it.isActive }
+            .run {
+                analyticsManager.setUserProperty(
+                    UserProperty.CURRENCY_COUNT,
+                    this.count().toString()
+                )
+                analyticsManager.setUserProperty(
+                    UserProperty.ACTIVE_CURRENCIES,
+                    this.joinToString(",") { currency -> currency.name }
+                )
+            }
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
@@ -87,9 +101,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = getString(R.string.android_banner_ad_unit_id_calculator),
-            isExpired = calculatorViewModel.isRewardExpired()
+            shouldShowAd = calculatorViewModel.shouldShowBannerAd()
         )
-        calculatorAdapter = CalculatorAdapter(calculatorViewModel.event, analyticsManager)
         recyclerViewMain.adapter = calculatorAdapter
     }
 

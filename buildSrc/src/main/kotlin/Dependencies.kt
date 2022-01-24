@@ -21,6 +21,7 @@ object Dependencies {
         const val SQL_DELIGHT_COROUTINES_EXT =
             "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
+        const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
     }
 
     object Android {
@@ -33,6 +34,8 @@ object Dependencies {
             "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
         const val FIREBASE_ANALYTICS =
             "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
+        const val FIREBASE_REMOTE_CONFIG =
+            "com.google.firebase:firebase-config-ktx:${Versions.FIREBASE_REMOTE_CONFIG}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
         const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
         const val LIFECYCLE_VIEWMODEL =
@@ -113,6 +116,11 @@ object Dependencies {
         const val DEPENDENCY_UPDATES = "com.github.ben-manes.versions"
         const val BUILD_HEALTH = "com.autonomousapps.dependency-analysis"
         const val KOVER = "org.jetbrains.kotlinx.kover"
+        const val KSP = "com.google.devtools.ksp"
+    }
+
+    object Processors {
+        const val MOCKATIVE = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
     }
 
     object Modules {
@@ -127,5 +135,6 @@ object Dependencies {
         const val BILLING = ":billing"
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
+        const val CONFIG = ":config"
     }
 }

@@ -33,7 +33,13 @@ class BillingManagerImpl(private val context: Context) :
     PurchaseHistoryResponseListener,
     SkuDetailsResponseListener {
 
-    private lateinit var billingClient: BillingClient
+    private val billingClient: BillingClient by lazy {
+        BillingClient
+            .newBuilder(context.applicationContext)
+            .setListener(this)
+            .enablePendingPurchases()
+            .build()
+    }
     private lateinit var scope: CoroutineScope
     private lateinit var skuList: List<String>
 
@@ -51,12 +57,6 @@ class BillingManagerImpl(private val context: Context) :
 
         this.scope = lifecycleScope
         this.skuList = skuList
-
-        billingClient = BillingClient
-            .newBuilder(context.applicationContext)
-            .setListener(this)
-            .enablePendingPurchases()
-            .build()
 
         billingClient.startConnection(this)
     }

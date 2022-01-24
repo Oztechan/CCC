@@ -30,7 +30,9 @@ class ChangeBaseBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetChangeB
     private val analyticsManager: AnalyticsManager by inject()
     private val changeBaseViewModel: ChangeBaseViewModel by viewModel()
 
-    private lateinit var changeBaseAdapter: ChangeBaseAdapter
+    private val changeBaseAdapter: ChangeBaseAdapter by lazy {
+        ChangeBaseAdapter(changeBaseViewModel.event)
+    }
 
     override fun getViewBinding() = BottomSheetChangeBaseBinding.inflate(layoutInflater)
 
@@ -55,7 +57,6 @@ class ChangeBaseBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetChangeB
     }
 
     private fun initViews() {
-        changeBaseAdapter = ChangeBaseAdapter(changeBaseViewModel.event)
         binding.recyclerViewChangeBase.adapter = changeBaseAdapter
     }
 

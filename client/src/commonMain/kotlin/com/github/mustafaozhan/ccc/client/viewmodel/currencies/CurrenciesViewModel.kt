@@ -7,12 +7,12 @@ import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.isEmptyOrNullString
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -29,7 +29,8 @@ import kotlinx.coroutines.launch
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
-    private val currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val remoteConfig: RemoteConfig
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -48,14 +49,16 @@ class CurrenciesViewModel(
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
-                _state.update(currencyList = currencyList)
+                _state.update(
+                    currencyList = currencyList,
+                    selectionVisibility = false
+                )
                 data.unFilteredList = currencyList.toMutableList()
 
                 verifyListSize()
                 verifyCurrentBase()
 
                 filterList(data.query)
-                _state.update(selectionVisibility = false)
             }.launchIn(clientScope)
 
         filterList("")
@@ -69,7 +72,7 @@ class CurrenciesViewModel(
         ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
-        { isEmptyOrNullString() },
+        { isEmpty() },
         { base ->
             state.value.currencyList
                 .filter { it.name == base }
@@ -98,7 +101,8 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = false)
     }
 
-    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
+    fun shouldShowBannerAd() = settingsRepository.adFreeEndDate.isRewardExpired() &&
+        remoteConfig.appConfig.adConfig.isBannerAdEnabled
 
     fun isFirstRun() = settingsRepository.firstRun
 

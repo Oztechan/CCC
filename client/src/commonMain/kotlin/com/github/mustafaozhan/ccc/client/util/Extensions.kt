@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsInstant
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
@@ -40,7 +39,7 @@ fun Long.isWeekPassed(): Boolean {
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return nowAsLong() - this >= VIDEO_REWARD * DAY
+    return nowAsLong() - this >= 0
 }
 
 fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
@@ -60,18 +59,16 @@ fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
 
-fun Rates?.calculateResult(name: String, value: String?) = this
-    ?.whetherNot { value.isNullOrEmpty() }
+fun Rates?.calculateResult(name: String, input: String?) = this
+    ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
-    ?.times(value?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
+    ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
 fun String.toSupportedCharacters() = replace(",", ".")
     .replace("٫", ".")
     .replace(" ", "")
     .replace("−", "-")
-
-fun String.isEmptyOrNullString() = isEmpty() || equals("null", true)
 
 fun String.toStandardDigits(): String {
     val builder = StringBuilder()
