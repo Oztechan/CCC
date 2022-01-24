@@ -83,10 +83,7 @@ class MainViewModelTest {
                 viewModel.onResume()
             }.after {
                 assertTrue { it is MainEffect.AppUpdateEffect }
-                assertEquals(
-                    remoteConfig.appConfig.appUpdate,
-                    it?.castTo<MainEffect.AppUpdateEffect>()?.appUpdate
-                )
+                assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == false }
             }
         }
 
