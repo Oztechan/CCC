@@ -37,7 +37,7 @@ actual class RemoteConfigImpl : RemoteConfig {
                 if (it.isSuccessful) {
                     Logger.i("Remote config updated from server")
                 } else {
-                    Logger.w(Exception("Remote config updated, using defaults"))
+                    Logger.w(Exception("Remote config is not updated, using defaults"))
                 }
 
                 try {
