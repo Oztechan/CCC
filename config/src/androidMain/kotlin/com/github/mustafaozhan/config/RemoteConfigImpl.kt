@@ -32,19 +32,19 @@ actual class RemoteConfigImpl : RemoteConfig {
                 }
             )
 
-            @Suppress("TooGenericExceptionCaught")
             fetchAndActivate().addOnCompleteListener {
                 if (it.isSuccessful) {
                     Logger.i("Remote config updated from server")
+
+                    @Suppress("TooGenericExceptionCaught")
+                    try {
+                        appConfig = parseAppConfig(getString(KEY_APP_CONFIG))
+                        setDefaultsAsync(mapOf(KEY_APP_CONFIG to appConfig))
+                    } catch (exception: Exception) {
+                        Logger.e(exception)
+                    }
                 } else {
                     Logger.w(Exception("Remote config is not updated, using defaults"))
-                }
-
-                try {
-                    appConfig = parseAppConfig(getString(KEY_APP_CONFIG))
-                    setDefaultsAsync(mapOf(KEY_APP_CONFIG to appConfig))
-                } catch (exception: Exception) {
-                    Logger.e(exception)
                 }
             }
         }
