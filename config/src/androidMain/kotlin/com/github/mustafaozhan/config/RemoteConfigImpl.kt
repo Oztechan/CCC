@@ -2,6 +2,8 @@ package com.github.mustafaozhan.config
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.logmob.e
+import com.github.mustafaozhan.logmob.w
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -35,14 +37,14 @@ actual class RemoteConfigImpl : RemoteConfig {
                 if (it.isSuccessful) {
                     Logger.i("Remote config updated from server")
                 } else {
-                    Logger.w("Remote config updated, using defaults")
+                    Logger.w(Exception("Remote config updated, using defaults"))
                 }
 
                 try {
                     appConfig = parseAppConfig(getString(KEY_APP_CONFIG))
                     setDefaultsAsync(mapOf(KEY_APP_CONFIG to appConfig))
                 } catch (exception: Exception) {
-                    Logger.e(exception) { exception.message.toString() }
+                    Logger.e(exception)
                 }
             }
         }

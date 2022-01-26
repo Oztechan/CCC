@@ -24,6 +24,7 @@ import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.github.mustafaozhan.logmob.e
 import com.github.mustafaozhan.scopemob.castTo
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
@@ -41,7 +42,7 @@ fun Context.getImageResourceByName(name: String): Int = try {
         packageName
     )
 } catch (e: FileNotFoundException) {
-    Logger.e(e) { e.message.toString() }
+    Logger.e(e)
     R.drawable.transparent
 }
 

@@ -11,6 +11,7 @@ import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.SECOND
+import com.github.mustafaozhan.logmob.e
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -63,12 +64,12 @@ class ApiController(
                                             getModifiedResponse(nonPremiumResponse, premiumResponse)
                                         )
                                     },
-                                    error = { Logger.e(it) { it.message.toString() } }
+                                    error = { Logger.e(it) }
                                 )
                         }
 
                     },
-                    error = { Logger.e(it) { it.message.toString() } }
+                    error = { Logger.e(it) }
                 )
         }
     }
@@ -83,7 +84,7 @@ class ApiController(
             apiRepository.getRatesByAPI(base.name)
                 .execute(
                     success = { offlineRatesRepository.insertOfflineRates(it) },
-                    error = { Logger.e(it) { it.message.toString() } }
+                    error = { Logger.e(it) }
                 )
         }
     }
