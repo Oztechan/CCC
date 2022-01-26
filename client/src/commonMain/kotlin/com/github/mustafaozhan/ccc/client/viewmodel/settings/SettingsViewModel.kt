@@ -18,6 +18,7 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.logmob.e
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,7 +71,7 @@ class SettingsViewModel(
 
                 apiRepository.getRatesByBackend(name).execute(
                     success = { offlineRatesRepository.insertOfflineRates(it) },
-                    error = { error -> Logger.e(error) { error.message.toString() } }
+                    error = { error -> Logger.e(error) }
                 )
             }
 
