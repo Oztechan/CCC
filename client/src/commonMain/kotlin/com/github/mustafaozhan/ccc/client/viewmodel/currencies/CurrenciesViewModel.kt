@@ -101,7 +101,8 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = false)
     }
 
-    fun shouldShowBannerAd() = settingsRepository.adFreeEndDate.isRewardExpired() &&
+    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
+        settingsRepository.adFreeEndDate.isRewardExpired() &&
         remoteConfig.appConfig.adConfig.isBannerAdEnabled
 
     fun isFirstRun() = settingsRepository.firstRun

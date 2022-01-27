@@ -173,13 +173,11 @@ class ExtensionsTest {
     @Test
     fun isWeekPassed() {
         assertEquals(true, (nowAsLong() - 1 - WEEK).isWeekPassed())
-        assertEquals(true, (nowAsLong() - WEEK).isWeekPassed())
         assertEquals(false, (nowAsLong() + 1 - WEEK).isWeekPassed())
     }
 
     @Test
     fun isRewardExpired() {
-        assertTrue { nowAsLong().isRewardExpired() }
         assertTrue { (nowAsLong() - DAY).isRewardExpired() }
         assertTrue { (nowAsLong() - SECOND).isRewardExpired() }
         assertFalse { (nowAsLong() + DAY).isRewardExpired() }
