@@ -19,6 +19,7 @@ import com.github.mustafaozhan.ccc.client.util.toInstant
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
+import com.github.mustafaozhan.ccc.client.util.toTodayResponse
 import com.github.mustafaozhan.ccc.client.util.toValidList
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
@@ -161,6 +162,12 @@ class ExtensionsTest {
         val rates = Rates(base, nowAsInstant().toDateString(), usd = 5.0)
         val currencyResponse = CurrencyResponse(base, nowAsInstant().toDateString(), rates)
         assertEquals(rates, currencyResponse.toRates())
+    }
+
+    @Test
+    fun currencyResponseToTodayResponse() {
+        val currencyResponse = CurrencyResponse("EUR", null, Rates())
+        assertEquals(currencyResponse.copy(date = nowAsInstant().toDateString()), currencyResponse.toTodayResponse())
     }
 
     @Test
