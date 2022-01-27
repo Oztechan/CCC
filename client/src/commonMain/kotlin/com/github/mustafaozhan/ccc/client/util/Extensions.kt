@@ -59,6 +59,8 @@ fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
 
+fun CurrencyResponse.toTodayResponse() = copy(date = nowAsInstant().toDateString())
+
 fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
