@@ -16,6 +16,7 @@ import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
+import com.github.mustafaozhan.ccc.client.util.toTodayResponse
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
@@ -105,7 +106,7 @@ class CalculatorViewModel(
             calculateConversions(it)
             _state.update(rateState = RateState.Online(it.date))
         }.also {
-            offlineRatesRepository.insertOfflineRates(currencyResponse)
+            offlineRatesRepository.insertOfflineRates(currencyResponse.toTodayResponse())
         }
 
     private fun getRatesFailed(t: Throwable) {
