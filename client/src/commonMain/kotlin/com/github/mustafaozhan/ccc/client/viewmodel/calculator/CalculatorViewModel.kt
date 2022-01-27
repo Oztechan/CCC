@@ -167,7 +167,8 @@ class CalculatorViewModel(
         )
     }
 
-    fun shouldShowBannerAd() = settingsRepository.adFreeEndDate.isRewardExpired() &&
+    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
+        settingsRepository.adFreeEndDate.isRewardExpired() &&
         remoteConfig.appConfig.adConfig.isBannerAdEnabled
 
     // region Event
