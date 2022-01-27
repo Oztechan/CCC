@@ -117,6 +117,7 @@ class CalculatorViewModelTest {
         val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
         val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
+
         given(settingsRepository)
             .invocation { adFreeEndDate }
             .thenReturn(mockLong)
@@ -125,8 +126,12 @@ class CalculatorViewModelTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
+        given(settingsRepository)
+            .invocation { firstRun }
+            .thenReturn(mockBoolean)
+
         assertEquals(
-            mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
+            mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
             viewModel.shouldShowBannerAd()
         )
 

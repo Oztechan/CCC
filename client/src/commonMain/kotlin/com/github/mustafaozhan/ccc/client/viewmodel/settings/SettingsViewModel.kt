@@ -87,7 +87,8 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = isRewardExpired() &&
+    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
+        isRewardExpired() &&
         remoteConfig.appConfig.adConfig.isBannerAdEnabled
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()

@@ -35,11 +35,11 @@ fun CoroutineScope.launchIgnored(function: suspend () -> Unit) {
 }
 
 fun Long.isWeekPassed(): Boolean {
-    return nowAsLong() - this >= WEEK
+    return nowAsLong() > WEEK + this
 }
 
 fun Long.isRewardExpired(): Boolean {
-    return nowAsLong() - this >= 0
+    return nowAsLong() >= this
 }
 
 fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
