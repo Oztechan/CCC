@@ -193,7 +193,7 @@ class SettingsViewModelTest {
             .thenReturn(mockBoolean)
 
         assertEquals(
-            mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
+            !mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
             viewModel.shouldShowBannerAd()
         )
 
