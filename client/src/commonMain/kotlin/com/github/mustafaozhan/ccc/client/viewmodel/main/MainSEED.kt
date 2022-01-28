@@ -22,7 +22,6 @@ interface MainEvent : BaseEvent {
 data class MainData(
     var adJob: Job = Job(),
     var adVisibility: Boolean = false,
-    var isInitialAd: Boolean = true,
     var isAppUpdateShown: Boolean = false
 ) : BaseData() {
     companion object {

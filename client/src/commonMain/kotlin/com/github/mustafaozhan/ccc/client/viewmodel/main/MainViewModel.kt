@@ -53,7 +53,6 @@ class MainViewModel(
             while (isActive && !isFistRun()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
-                    data.isInitialAd = false
                 }
                 delay(remoteConfig.appConfig.adConfig.interstitialAdPeriod)
             }
