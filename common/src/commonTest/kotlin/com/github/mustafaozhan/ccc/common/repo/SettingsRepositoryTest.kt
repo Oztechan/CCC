@@ -10,11 +10,13 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Compani
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_CURRENT_BASE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_FIRST_RUN
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_LAST_REVIEW_REQUEST
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_SESSION_COUNT
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_AD_FREE_END_DATE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_APP_THEME
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_CURRENT_BASE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_FIRST_RUN
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_LAST_REVIEW_REQUEST
+import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_SESSION_COUNT
 import com.russhwolf.settings.Settings
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -23,6 +25,7 @@ import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -104,10 +107,23 @@ class SettingsRepositoryTest {
             .wasInvoked()
     }
 
+    @Test
+    fun default_sessionCount() {
+        given(settings)
+            .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+            .thenReturn(DEFAULT_SESSION_COUNT)
+
+        assertEquals(DEFAULT_SESSION_COUNT, repository.sessionCount)
+
+        verify(settings)
+            .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+            .wasInvoked()
+    }
+
     // setters
     @Test
     fun set_firstRun() {
-        val mockedValue = true
+        val mockedValue = Random.nextBoolean()
         repository.firstRun = mockedValue
 
         verify(settings)
@@ -127,7 +143,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun set_appTheme() {
-        val mockValue = 3
+        val mockValue = Random.nextInt()
         repository.appTheme = mockValue
 
         verify(settings)
@@ -137,7 +153,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun set_adFreeEndDate() {
-        val mockValue = 12L
+        val mockValue = Random.nextLong()
         repository.adFreeEndDate = mockValue
 
         verify(settings)
@@ -147,11 +163,21 @@ class SettingsRepositoryTest {
 
     @Test
     fun set_lastReviewRequest() {
-        val mockValue = 15L
+        val mockValue = Random.nextLong()
         repository.lastReviewRequest = mockValue
 
         verify(settings)
             .invocation { putLong(KEY_LAST_REVIEW_REQUEST, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_sessionCount() {
+        val mockValue = Random.nextLong()
+        repository.sessionCount = mockValue
+
+        verify(settings)
+            .invocation { putLong(KEY_SESSION_COUNT, mockValue) }
             .wasInvoked()
     }
 }
