@@ -15,7 +15,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.currencies.update
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
@@ -52,10 +52,10 @@ class CurrenciesViewModelTest {
     }
 
     @Mock
-    private val remoteConfig = mock(classOf<RemoteConfig>())
+    private val configManager = mock(classOf<ConfigManager>())
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsRepository, currencyRepository, remoteConfig)
+        CurrenciesViewModel(settingsRepository, currencyRepository, configManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -128,7 +128,7 @@ class CurrenciesViewModelTest {
             .invocation { sessionCount }
             .thenReturn(mockSessionCount)
 
-        given(remoteConfig)
+        given(configManager)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -145,7 +145,7 @@ class CurrenciesViewModelTest {
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(remoteConfig)
+        verify(configManager)
             .invocation { appConfig }
             .wasInvoked()
     }

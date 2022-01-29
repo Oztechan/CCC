@@ -30,7 +30,7 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -50,7 +50,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    private val remoteConfig: RemoteConfig
+    private val configManager: ConfigManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -169,7 +169,7 @@ class CalculatorViewModel(
 
     fun shouldShowBannerAd() = !settingsRepository.firstRun &&
         settingsRepository.adFreeEndDate.isRewardExpired() &&
-        settingsRepository.sessionCount > remoteConfig.appConfig.adConfig.bannerAdSessionCount
+        settingsRepository.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
 
     // region Event
     override fun onKeyPress(key: String) {

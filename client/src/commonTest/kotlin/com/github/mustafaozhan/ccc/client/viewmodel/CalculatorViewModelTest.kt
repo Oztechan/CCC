@@ -22,7 +22,7 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.Result
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
@@ -55,7 +55,7 @@ class CalculatorViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
-    private val remoteConfig = mock(classOf<RemoteConfig>())
+    private val configManager = mock(classOf<ConfigManager>())
 
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
@@ -63,7 +63,7 @@ class CalculatorViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
-            remoteConfig
+            configManager
         )
     }
 
@@ -129,7 +129,7 @@ class CalculatorViewModelTest {
             .invocation { sessionCount }
             .thenReturn(mockSessionCount)
 
-        given(remoteConfig)
+        given(configManager)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -146,7 +146,7 @@ class CalculatorViewModelTest {
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(remoteConfig)
+        verify(configManager)
             .invocation { appConfig }
             .wasInvoked()
     }

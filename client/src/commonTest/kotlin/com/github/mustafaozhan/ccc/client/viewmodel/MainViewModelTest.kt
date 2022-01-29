@@ -15,7 +15,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
@@ -40,10 +40,10 @@ class MainViewModelTest {
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
-    private val remoteConfig = mock(classOf<RemoteConfig>())
+    private val configManager = mock(classOf<ConfigManager>())
 
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsRepository, remoteConfig)
+        MainViewModel(settingsRepository, configManager)
     }
 
     @BeforeTest
@@ -72,8 +72,8 @@ class MainViewModelTest {
             )
         )
 
-        given(remoteConfig)
-            .invocation { remoteConfig.appConfig }
+        given(configManager)
+            .invocation { configManager.appConfig }
             .then { mockConfig }
 
         if (device == Device.ANDROID.GOOGLE) {
@@ -86,7 +86,7 @@ class MainViewModelTest {
             }
         }
 
-        verify(remoteConfig)
+        verify(configManager)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -182,8 +182,8 @@ class MainViewModelTest {
     @Test
     fun onResume() = with(viewModel) {
         val mockConfig = AppConfig()
-        given(remoteConfig)
-            .invocation { remoteConfig.appConfig }
+        given(configManager)
+            .invocation { configManager.appConfig }
             .then { mockConfig }
 
         event.onResume()

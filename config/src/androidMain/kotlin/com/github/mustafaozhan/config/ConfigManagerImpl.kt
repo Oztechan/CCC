@@ -11,11 +11,11 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-actual class RemoteConfigImpl : RemoteConfig {
+actual class ConfigManagerImpl : ConfigManager {
     actual override var appConfig = AppConfig()
 
     init {
-        Logger.i { "RemoteConfig init" }
+        Logger.i { "ConfigManagerImpl init" }
 
         Firebase.remoteConfig.apply {
 
