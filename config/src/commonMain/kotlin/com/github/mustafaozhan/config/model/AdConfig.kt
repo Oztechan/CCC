@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdConfig(
-    @SerialName("is_banner_ad_enabled") val isBannerAdEnabled: Boolean = true
+    @SerialName("banner_ad_session_count") val bannerAdSessionCount: Int = 2,
+    @SerialName("interstitial_ad_session_count") val interstitialAdSessionCount: Int = 5
 )
