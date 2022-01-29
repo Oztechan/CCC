@@ -48,16 +48,15 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = clientScope.launch {
-            delay(data.adDelay)
+            delay(remoteConfig.appConfig.adConfig.interstitialAdInitialDelay)
 
             while (isActive &&
                 settingsRepository.sessionCount > remoteConfig.appConfig.adConfig.interstitialAdSessionCount
             ) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
-                    data.isInitialAd = false
                 }
-                delay(data.adDelay)
+                delay(remoteConfig.appConfig.adConfig.interstitialAdPeriod)
             }
         }
     }
