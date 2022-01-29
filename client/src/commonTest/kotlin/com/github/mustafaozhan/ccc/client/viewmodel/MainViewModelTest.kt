@@ -11,8 +11,6 @@ import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_INITIAL
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.AD_DELAY_NORMAL
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -97,15 +95,6 @@ class MainViewModelTest {
     @Test
     fun check_state_is_null() {
         assertNull(viewModel.state)
-    }
-
-    @Test
-    fun adDelay_returns_correct_value() {
-        viewModel.data.isInitialAd = true
-        assertEquals(AD_DELAY_INITIAL, viewModel.data.adDelay)
-
-        viewModel.data.isInitialAd = false
-        assertEquals(AD_DELAY_NORMAL, viewModel.data.adDelay)
     }
 
     // init
