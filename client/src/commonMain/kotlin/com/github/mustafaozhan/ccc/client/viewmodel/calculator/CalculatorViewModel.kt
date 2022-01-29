@@ -5,6 +5,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.mapper.toRates
+import com.github.mustafaozhan.ccc.client.mapper.toTodayResponse
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
@@ -13,10 +15,8 @@ import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
-import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toTodayResponse
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
