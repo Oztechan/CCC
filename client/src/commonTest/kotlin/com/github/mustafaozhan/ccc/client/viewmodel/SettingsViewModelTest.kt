@@ -178,11 +178,18 @@ class SettingsViewModelTest {
     fun shouldShowBannerAd() {
         val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
-        val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
+        val mockBannerSessionCount = Random.nextInt()
+        val mockSessionCount = Random.nextLong()
+
+        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
             .thenReturn(mockLong)
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockSessionCount)
 
         given(remoteConfig)
             .invocation { appConfig }
@@ -193,7 +200,7 @@ class SettingsViewModelTest {
             .thenReturn(mockBoolean)
 
         assertEquals(
-            !mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
+            !mockBoolean && mockLong.isRewardExpired() && mockSessionCount > mockBannerSessionCount,
             viewModel.shouldShowBannerAd()
         )
 

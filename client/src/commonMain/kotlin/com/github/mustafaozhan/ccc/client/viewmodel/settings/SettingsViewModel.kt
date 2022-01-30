@@ -89,7 +89,7 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = !settingsRepository.firstRun &&
         isRewardExpired() &&
-        remoteConfig.appConfig.adConfig.isBannerAdEnabled
+        settingsRepository.sessionCount > remoteConfig.appConfig.adConfig.bannerAdSessionCount
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 

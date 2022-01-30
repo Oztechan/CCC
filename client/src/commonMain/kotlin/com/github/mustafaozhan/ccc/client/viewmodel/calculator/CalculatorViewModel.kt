@@ -169,7 +169,7 @@ class CalculatorViewModel(
 
     fun shouldShowBannerAd() = !settingsRepository.firstRun &&
         settingsRepository.adFreeEndDate.isRewardExpired() &&
-        remoteConfig.appConfig.adConfig.isBannerAdEnabled
+        settingsRepository.sessionCount > remoteConfig.appConfig.adConfig.bannerAdSessionCount
 
     // region Event
     override fun onKeyPress(key: String) {
