@@ -17,7 +17,7 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.logmob.e
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,7 +33,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    private val remoteConfig: RemoteConfig
+    private val configManager: ConfigManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -89,7 +89,7 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = !settingsRepository.firstRun &&
         isRewardExpired() &&
-        settingsRepository.sessionCount > remoteConfig.appConfig.adConfig.bannerAdSessionCount
+        settingsRepository.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 

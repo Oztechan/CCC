@@ -11,7 +11,7 @@ import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.initAds
 import com.github.mustafaozhan.ccc.android.di.platformModule
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.config.RemoteConfig
+import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.logmob.ANRWatchDogHandler
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger
@@ -22,7 +22,7 @@ import org.koin.android.ext.android.inject
 @Suppress("unused")
 class CCCApplication : Application() {
 
-    private val remoteConfig: RemoteConfig by inject()
+    private val configManager: ConfigManager by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -49,7 +49,7 @@ class CCCApplication : Application() {
         )
 
         Thread.setDefaultUncaughtExceptionHandler(
-            ANRWatchDogHandler(remoteConfig.appConfig.timeOutANRWatchDog)
+            ANRWatchDogHandler(configManager.appConfig.timeOutANRWatchDog)
         )
     }
 

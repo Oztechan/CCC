@@ -7,8 +7,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewMod
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.config.RemoteConfig
-import com.github.mustafaozhan.config.RemoteConfigImpl
+import com.github.mustafaozhan.config.ConfigManager
+import com.github.mustafaozhan.config.ConfigManagerImpl
 import org.koin.dsl.module
 
 var clientModule = module {
@@ -19,5 +19,5 @@ var clientModule = module {
     viewModelDefinition { ChangeBaseViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
 
-    single<RemoteConfig> { RemoteConfigImpl() }
+    single<ConfigManager> { ConfigManagerImpl() }
 }
