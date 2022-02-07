@@ -18,12 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
-import com.github.mustafaozhan.billing.model.PurchaseHistory
-import com.github.mustafaozhan.billing.model.PurchaseMethod
-import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.model.RemoveAdData
-import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.logmob.e
 import com.github.mustafaozhan.scopemob.castTo
 import mustafaozhan.github.com.mycurrencies.R
@@ -143,14 +138,3 @@ fun TextView.dataState(state: RateState) = when (state) {
     }
     RateState.None -> gone()
 }
-
-fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
-    RemoveAdData(it.price, it.description, it.id)
-}
-
-fun List<PurchaseHistory>.toOldPurchaseList(): List<OldPurchase> =
-    mapNotNull { purchaseHistoryRecord ->
-        RemoveAdType.getById(purchaseHistoryRecord.ids.firstOrNull())?.let {
-            OldPurchase(purchaseHistoryRecord.date, it)
-        }
-    }

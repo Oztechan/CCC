@@ -45,7 +45,7 @@ struct CalculatorView: View {
                             FormProgressView()
                         } else {
                             List(
-                                ExtensionsKt.toValidList(
+                                CalculatorUtilKt.toValidList(
                                     observable.state.currencyList,
                                     currentBase: observable.state.base
                                 ),
@@ -252,7 +252,7 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(IOSExtensionsKt.getFormatted(item.rate))
+            Text(IOSCalculatorUtilKt.getFormatted(item.rate))
                 .foregroundColor(MR.colors().text.get())
             Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
