@@ -6,60 +6,16 @@
 package com.github.mustafaozhan.ccc.client.util
 
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.util.WEEK
-import com.github.mustafaozhan.ccc.common.util.nowAsInstant
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
 
 private const val BIGGEST_DIGIT = 9
-const val VIDEO_REWARD = 2
 
 expect fun Double.getFormatted(): String
 
-fun CoroutineScope.launchIgnored(function: suspend () -> Unit) {
-    launch {
-        function()
-    }
-}
-
-fun Long.isWeekPassed(): Boolean {
-    return nowAsLong() > WEEK + this
-}
-
-fun Long.isRewardExpired(): Boolean {
-    return nowAsLong() >= this
-}
-
-fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
-
-fun Long.toDateString(
-    timeZone: TimeZone = TimeZone.currentSystemDefault()
-) = toInstant().toDateString(timeZone)
-
-fun Instant.toDateString(
-    timeZone: TimeZone = TimeZone.currentSystemDefault()
-) = toLocalDateTime(timeZone).run {
-    "${hour.doubleDigits()}:${minute.doubleDigits()} " +
-        "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
-}
-
 fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
-
-fun CurrencyResponse.toRates() = rates.copy(base = base, date = nowAsInstant().toDateString())
-
-fun CurrencyResponse.toTodayResponse() = copy(date = nowAsInstant().toDateString())
 
 fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
@@ -94,40 +50,6 @@ fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
         it.rate.toString() != "NaN" &&
         it.rate.toString() != "0.0"
 } ?: mutableListOf()
-
-@Suppress("MagicNumber")
-fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
-    RemoveAdType.VIDEO -> startDate.toInstant().plus(
-        VIDEO_REWARD,
-        DateTimeUnit.DAY,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-    RemoveAdType.MONTH -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-    RemoveAdType.QUARTER -> startDate.toInstant().plus(
-        3,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-    RemoveAdType.HALF_YEAR -> startDate.toInstant().plus(
-        6,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-    RemoveAdType.YEAR -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.YEAR,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-    RemoveAdType.LIFE_TIME -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.CENTURY,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-}
 
 @Suppress("ComplexMethod", "LongMethod")
 fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
