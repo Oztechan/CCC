@@ -5,12 +5,12 @@ package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.mapper.toRates
 import com.github.mustafaozhan.ccc.client.mapper.toTodayResponse
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
-import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted

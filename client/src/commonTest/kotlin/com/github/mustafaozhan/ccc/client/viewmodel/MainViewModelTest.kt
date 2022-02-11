@@ -6,8 +6,8 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 
 import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.Device
-import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getRandomDateLong

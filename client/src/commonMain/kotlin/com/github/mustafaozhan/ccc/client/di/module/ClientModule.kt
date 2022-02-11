@@ -1,7 +1,8 @@
 package com.github.mustafaozhan.ccc.client.di.module
 
 import com.github.mustafaozhan.ccc.client.di.viewModelDefinition
-import com.github.mustafaozhan.ccc.client.util.SessionManager
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
+import com.github.mustafaozhan.ccc.client.helper.SessionManagerImpl
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
@@ -21,5 +22,5 @@ var clientModule = module {
     viewModelDefinition { AdRemoveViewModel(get()) }
 
     single<ConfigManager> { ConfigManagerImpl() }
-    single { SessionManager(get(), get()) }
+    single<SessionManager> { SessionManagerImpl(get(), get()) }
 }

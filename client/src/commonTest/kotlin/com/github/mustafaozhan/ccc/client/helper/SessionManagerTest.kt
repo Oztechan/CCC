@@ -1,5 +1,7 @@
-package com.github.mustafaozhan.ccc.client.util
+package com.github.mustafaozhan.ccc.client.helper
 
+import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
+import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
@@ -22,8 +24,8 @@ class SessionManagerTest {
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
-    private val sessionManager: SessionManager by lazy {
-        SessionManager(configManager, settingsRepository)
+    private val sessionManager: SessionManagerImpl by lazy {
+        SessionManagerImpl(configManager, settingsRepository)
     }
 
     private val mockSessionCount = Random.nextLong()

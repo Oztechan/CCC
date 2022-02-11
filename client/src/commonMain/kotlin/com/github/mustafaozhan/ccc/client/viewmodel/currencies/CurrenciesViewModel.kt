@@ -5,9 +5,9 @@ package com.github.mustafaozhan.ccc.client.viewmodel.currencies
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository

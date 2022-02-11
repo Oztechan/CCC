@@ -3,9 +3,9 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd

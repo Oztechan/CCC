@@ -5,9 +5,9 @@ package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
