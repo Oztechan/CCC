@@ -3,12 +3,11 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.mapper.toUIModel
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
@@ -24,6 +23,7 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.ccc.common.util.Result
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
@@ -54,7 +54,7 @@ class CalculatorViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
-    private val configManager = mock(classOf<ConfigManager>())
+    private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
@@ -62,7 +62,7 @@ class CalculatorViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
-            configManager
+            sessionManager
         )
     }
 
@@ -113,40 +113,16 @@ class CalculatorViewModelTest {
 
     @Test
     fun shouldShowBannerAd() {
-        val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
-        val mockBannerSessionCount = Random.nextInt()
-        val mockSessionCount = Random.nextLong()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
-
-        given(settingsRepository)
-            .invocation { adFreeEndDate }
-            .thenReturn(mockLong)
-
-        given(settingsRepository)
-            .invocation { sessionCount }
-            .thenReturn(mockSessionCount)
-
-        given(configManager)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        given(settingsRepository)
-            .invocation { firstRun }
+        given(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(
-            !mockBoolean && mockLong.isRewardExpired() && mockSessionCount > mockBannerSessionCount,
-            viewModel.shouldShowBannerAd()
-        )
+        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(settingsRepository)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(configManager)
-            .invocation { appConfig }
+        verify(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 

@@ -1,6 +1,8 @@
 package com.github.mustafaozhan.ccc.client.di.module
 
 import com.github.mustafaozhan.ccc.client.di.viewModelDefinition
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
+import com.github.mustafaozhan.ccc.client.helper.SessionManagerImpl
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
@@ -13,11 +15,12 @@ import org.koin.dsl.module
 
 var clientModule = module {
     viewModelDefinition { SettingsViewModel(get(), get(), get(), get(), get()) }
-    viewModelDefinition { MainViewModel(get(), get()) }
+    viewModelDefinition { MainViewModel(get(), get(), get()) }
     viewModelDefinition { CurrenciesViewModel(get(), get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { ChangeBaseViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
 
     single<ConfigManager> { ConfigManagerImpl() }
+    single<SessionManager> { SessionManagerImpl(get(), get()) }
 }
