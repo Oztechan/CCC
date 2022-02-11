@@ -7,12 +7,11 @@ import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
+import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.scopemob.either
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
@@ -30,7 +29,7 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsRepository: SettingsRepository,
     private val currencyRepository: CurrencyRepository,
-    private val configManager: ConfigManager
+    private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -101,9 +100,7 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = false)
     }
 
-    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
-        settingsRepository.adFreeEndDate.isRewardExpired() &&
-        settingsRepository.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
+    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
     fun isFirstRun() = settingsRepository.firstRun
 

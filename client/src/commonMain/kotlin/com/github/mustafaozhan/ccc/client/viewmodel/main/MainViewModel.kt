@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
+import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
@@ -25,7 +26,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val settingsRepository: SettingsRepository,
-    private val configManager: ConfigManager
+    private val configManager: ConfigManager,
+    private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), MainEvent {
     // region SEED
     override val state: StateFlow<BaseState>? = null
@@ -50,9 +52,7 @@ class MainViewModel(
         data.adJob = clientScope.launch {
             delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
 
-            while (isActive &&
-                settingsRepository.sessionCount > configManager.appConfig.adConfig.interstitialAdSessionCount
-            ) {
+            while (isActive && sessionManager.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }

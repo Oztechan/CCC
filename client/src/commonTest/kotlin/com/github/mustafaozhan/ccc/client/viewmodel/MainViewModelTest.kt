@@ -7,6 +7,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.model.Device
+import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
@@ -42,8 +43,11 @@ class MainViewModelTest {
     @Mock
     private val configManager = mock(classOf<ConfigManager>())
 
+    @Mock
+    private val sessionManager = mock(classOf<SessionManager>())
+
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsRepository, configManager)
+        MainViewModel(settingsRepository, configManager, sessionManager)
     }
 
     @BeforeTest

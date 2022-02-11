@@ -10,10 +10,10 @@ import com.github.mustafaozhan.ccc.client.mapper.toTodayResponse
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
+import com.github.mustafaozhan.ccc.client.util.SessionManager
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
@@ -30,7 +30,6 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -50,7 +49,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    private val configManager: ConfigManager
+    private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -167,9 +166,7 @@ class CalculatorViewModel(
         )
     }
 
-    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
-        settingsRepository.adFreeEndDate.isRewardExpired() &&
-        settingsRepository.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
+    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {
