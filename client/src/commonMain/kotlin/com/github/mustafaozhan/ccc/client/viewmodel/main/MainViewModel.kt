@@ -78,6 +78,8 @@ class MainViewModel(
 
     fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
 
+    fun getSessionCount() = settingsRepository.sessionCount
+
     fun checkReview(delay: Long = REVIEW_DELAY) = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
         ?.whether { device is Device.ANDROID.GOOGLE }

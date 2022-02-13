@@ -172,6 +172,15 @@ class MainViewModelTest {
     }
 
     @Test
+    fun getSessionCount() {
+        assertEquals(mockSessionCount, viewModel.getSessionCount())
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+    }
+
+    @Test
     fun checkReview() {
         if (device == Device.ANDROID.GOOGLE) {
             viewModel.effect.before {
