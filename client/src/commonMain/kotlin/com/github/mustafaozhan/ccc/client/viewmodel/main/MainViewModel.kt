@@ -47,16 +47,20 @@ class MainViewModel(
     }
 
     private fun setupInterstitialAdTimer() {
-        data.adVisibility = true
+        if (device is Device.ANDROID.GOOGLE ||
+            device is Device.IOS
+        ) {
+            data.adVisibility = true
 
-        data.adJob = clientScope.launch {
-            delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
+            data.adJob = clientScope.launch {
+                delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
 
-            while (isActive && sessionManager.shouldShowInterstitialAd()) {
-                if (data.adVisibility && !isAdFree()) {
-                    _effect.emit(MainEffect.ShowInterstitialAd)
+                while (isActive && sessionManager.shouldShowInterstitialAd()) {
+                    if (data.adVisibility && !isAdFree()) {
+                        _effect.emit(MainEffect.ShowInterstitialAd)
+                    }
+                    delay(configManager.appConfig.adConfig.interstitialAdPeriod)
                 }
-                delay(configManager.appConfig.adConfig.interstitialAdPeriod)
             }
         }
     }
@@ -100,13 +104,9 @@ class MainViewModel(
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
-        if (device is Device.ANDROID.GOOGLE ||
-            device is Device.IOS
-        ) {
-            setupInterstitialAdTimer()
-        }
-
+        setupInterstitialAdTimer()
         checkAppUpdate()
+        checkReview()
     }
     // endregion
 }
