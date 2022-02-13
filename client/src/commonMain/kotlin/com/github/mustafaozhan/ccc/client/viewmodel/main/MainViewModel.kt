@@ -65,6 +65,13 @@ class MainViewModel(
         }
     }
 
+    private fun adjustSessionCount() {
+        if (data.isNewSession) {
+            settingsRepository.sessionCount++
+            data.isNewSession = false
+        }
+    }
+
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
@@ -104,6 +111,7 @@ class MainViewModel(
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
+        adjustSessionCount()
         setupInterstitialAdTimer()
         checkAppUpdate()
         checkReview()

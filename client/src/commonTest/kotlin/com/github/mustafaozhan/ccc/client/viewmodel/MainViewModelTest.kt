@@ -21,9 +21,11 @@ import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -34,11 +36,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@ConfigurationApi
 @Suppress("TooManyFunctions")
 class MainViewModelTest {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val configManager = mock(classOf<ConfigManager>())
@@ -50,6 +55,8 @@ class MainViewModelTest {
         MainViewModel(settingsRepository, configManager, sessionManager)
     }
 
+    private val mockSessionCount = Random.nextLong()
+
     @BeforeTest
     fun setup() {
         initLogger(true)
@@ -57,6 +64,10 @@ class MainViewModelTest {
         given(settingsRepository)
             .invocation { lastReviewRequest }
             .thenReturn(0)
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
 
         given(settingsRepository)
             .setter(settingsRepository::lastReviewRequest)
@@ -190,6 +201,8 @@ class MainViewModelTest {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
+        assertEquals(true, viewModel.data.isNewSession)
+
         event.onResume()
         if (device is Device.ANDROID.GOOGLE ||
             device is Device.IOS
@@ -197,5 +210,17 @@ class MainViewModelTest {
             assertEquals(true, data.adVisibility)
             assertEquals(true, data.adJob.isActive)
         }
+
+        verify(settingsRepository)
+            .invocation { sessionCount = mockSessionCount + 1 }
+            .wasInvoked()
+        assertEquals(false, viewModel.data.isNewSession)
+
+        event.onResume()
+
+        verify(settingsRepository)
+            .invocation { sessionCount = mockSessionCount + 1 }
+            .wasNotInvoked()
+        assertEquals(false, viewModel.data.isNewSession)
     }
 }
