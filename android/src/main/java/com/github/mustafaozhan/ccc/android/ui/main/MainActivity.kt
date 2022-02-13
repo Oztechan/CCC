@@ -43,7 +43,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
-        mainViewModel.checkReview()
     }
 
     private fun observeEffects() = mainViewModel.effect
