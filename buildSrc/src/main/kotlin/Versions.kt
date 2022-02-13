@@ -6,7 +6,7 @@
 object Versions {
     const val KOTLIN = "1.6.10"
     const val ANDROID_GRADLE_PLUGIN = "7.1.1"
-    const val ANDROID_MATERIAL = "1.4.0"
+    const val ANDROID_MATERIAL = "1.5.0"
     const val CONSTRAINT_LAYOUT = "2.1.3"
     const val KTOR = "1.6.7"
     const val LOG_BACK = "1.2.10"
@@ -21,7 +21,7 @@ object Versions {
     const val GSM = "4.3.10"
     const val CRASHLYTICS = "2.8.1"
     const val ADMOB = "20.5.0"
-    const val NAVIGATION = "2.4.1"
+    const val NAVIGATION = "2.3.5"
     const val PLAY_CORE = "1.10.3"
     const val KOTLIN_X_DATE_TIME = "0.3.2"
     const val COROUTINES = "1.5.2-native-mt"
