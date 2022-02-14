@@ -15,10 +15,8 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.initLogger
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -33,19 +31,14 @@ import kotlin.test.assertTrue
 import com.github.mustafaozhan.ccc.client.model.Currency as ClientCurrency
 import com.github.mustafaozhan.ccc.common.model.Currency as CommonCurrency
 
-@ConfigurationApi
 @Suppress("TooManyFunctions")
 class CurrenciesViewModelTest {
 
     @Mock
-    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
-        stubsUnitByDefault = true
-    }
+    private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
-    private val currencyRepository = configure(mock(classOf<CurrencyRepository>())) {
-        stubsUnitByDefault = true
-    }
+    private val currencyRepository = mock(classOf<CurrencyRepository>())
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())

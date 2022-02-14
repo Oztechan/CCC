@@ -18,10 +18,8 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Compani
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_LAST_REVIEW_REQUEST
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_SESSION_COUNT
 import com.russhwolf.settings.Settings
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -29,13 +27,10 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@ConfigurationApi
 class SettingsRepositoryTest {
 
     @Mock
-    private val settings = configure(mock(classOf<Settings>())) {
-        stubsUnitByDefault = true
-    }
+    private val settings = mock(classOf<Settings>())
 
     private val repository: SettingsRepository by lazy {
         SettingsRepositoryImp(settings)

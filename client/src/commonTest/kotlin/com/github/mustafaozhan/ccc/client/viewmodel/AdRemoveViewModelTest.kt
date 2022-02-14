@@ -15,11 +15,9 @@ import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -30,13 +28,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@ConfigurationApi
 class AdRemoveViewModelTest {
 
     @Mock
-    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
-        stubsUnitByDefault = true
-    }
+    private val settingsRepository = mock(classOf<SettingsRepository>())
 
     private val viewModel: AdRemoveViewModel by lazy {
         AdRemoveViewModel(settingsRepository)
