@@ -65,6 +65,13 @@ class MainViewModel(
         }
     }
 
+    private fun adjustSessionCount() {
+        if (data.isNewSession) {
+            settingsRepository.sessionCount++
+            data.isNewSession = false
+        }
+    }
+
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
@@ -95,15 +102,16 @@ class MainViewModel(
         }
 
     // region Event
-    override fun onPause() = with(data) {
+    override fun onPause() {
         Logger.d { "MainViewModel onPause" }
-        adJob.cancel()
-        adVisibility = false
+        data.adJob.cancel()
+        data.adVisibility = false
     }
 
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
+        adjustSessionCount()
         setupInterstitialAdTimer()
         checkAppUpdate()
         checkReview()
