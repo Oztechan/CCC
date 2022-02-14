@@ -101,6 +101,11 @@ class MainActivity : BaseActivity() {
             UserProperty.IS_AD_FREE,
             mainViewModel.isAdFree().toString()
         )
+
+        analyticsManager.setUserProperty(
+            UserProperty.SESSION_COUNT,
+            mainViewModel.getSessionCount().toString()
+        )
     }
 
     override fun onResume() {
