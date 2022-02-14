@@ -102,10 +102,10 @@ class MainViewModel(
         }
 
     // region Event
-    override fun onPause() = with(data) {
+    override fun onPause() {
         Logger.d { "MainViewModel onPause" }
-        adJob.cancel()
-        adVisibility = false
+        data.adJob.cancel()
+        data.adVisibility = false
     }
 
     override fun onResume() {

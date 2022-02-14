@@ -55,8 +55,6 @@ class MainViewModelTest {
         MainViewModel(settingsRepository, configManager, sessionManager)
     }
 
-    private val mockSessionCount = Random.nextLong()
-
     @BeforeTest
     fun setup() {
         initLogger(true)
@@ -66,10 +64,6 @@ class MainViewModelTest {
             .thenReturn(0)
 
         given(settingsRepository)
-            .invocation { sessionCount }
-            .then { mockSessionCount }
-
-        given(settingsRepository)
             .setter(settingsRepository::lastReviewRequest)
             .whenInvokedWith(any())
             .thenReturn(Unit)
@@ -77,6 +71,12 @@ class MainViewModelTest {
 
     @Test
     fun app_review_should_ask_when_device_is_google() {
+        val mockSessionCount = Random.nextLong()
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
         val mockConfig = AppConfig(
             appUpdate = listOf(
                 AppUpdate(
@@ -197,9 +197,15 @@ class MainViewModelTest {
     @Test
     fun onResume() = with(viewModel) {
         val mockConfig = AppConfig()
+        val mockSessionCount = Random.nextLong()
+
         given(configManager)
             .invocation { configManager.appConfig }
             .then { mockConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
 
         assertEquals(true, viewModel.data.isNewSession)
 
