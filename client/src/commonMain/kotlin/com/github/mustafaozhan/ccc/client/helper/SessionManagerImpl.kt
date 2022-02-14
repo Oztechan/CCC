@@ -2,7 +2,6 @@ package com.github.mustafaozhan.ccc.client.helper
 
 import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
-import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.ConfigManager
@@ -26,7 +25,6 @@ class SessionManagerImpl(
         .firstOrNull { it.name == device.name }
         ?.whether(
             { !isAppUpdateShown },
-            { device is Device.ANDROID.GOOGLE },
             { updateLatestVersion > BuildKonfig.versionCode }
         )?.let {
             it.updateForceVersion <= BuildKonfig.versionCode
