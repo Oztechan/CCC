@@ -47,17 +47,28 @@ class MainViewModel(
     }
 
     private fun setupInterstitialAdTimer() {
-        data.adVisibility = true
+        if (device is Device.ANDROID.GOOGLE ||
+            device is Device.IOS
+        ) {
+            data.adVisibility = true
 
-        data.adJob = clientScope.launch {
-            delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
+            data.adJob = clientScope.launch {
+                delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
 
-            while (isActive && sessionManager.shouldShowInterstitialAd()) {
-                if (data.adVisibility && !isAdFree()) {
-                    _effect.emit(MainEffect.ShowInterstitialAd)
+                while (isActive && sessionManager.shouldShowInterstitialAd()) {
+                    if (data.adVisibility && !isAdFree()) {
+                        _effect.emit(MainEffect.ShowInterstitialAd)
+                    }
+                    delay(configManager.appConfig.adConfig.interstitialAdPeriod)
                 }
-                delay(configManager.appConfig.adConfig.interstitialAdPeriod)
             }
+        }
+    }
+
+    private fun adjustSessionCount() {
+        if (data.isNewSession) {
+            settingsRepository.sessionCount++
+            data.isNewSession = false
         }
     }
 
@@ -66,6 +77,8 @@ class MainViewModel(
     fun getAppTheme() = settingsRepository.appTheme
 
     fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
+
+    fun getSessionCount() = settingsRepository.sessionCount
 
     fun checkReview(delay: Long = REVIEW_DELAY) = clientScope
         .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
@@ -91,22 +104,19 @@ class MainViewModel(
         }
 
     // region Event
-    override fun onPause() = with(data) {
+    override fun onPause() {
         Logger.d { "MainViewModel onPause" }
-        adJob.cancel()
-        adVisibility = false
+        data.adJob.cancel()
+        data.adVisibility = false
     }
 
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
-        if (device is Device.ANDROID.GOOGLE ||
-            device is Device.IOS
-        ) {
-            setupInterstitialAdTimer()
-        }
-
+        adjustSessionCount()
+        setupInterstitialAdTimer()
         checkAppUpdate()
+        checkReview()
     }
     // endregion
 }

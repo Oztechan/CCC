@@ -43,7 +43,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
-        mainViewModel.checkReview()
     }
 
     private fun observeEffects() = mainViewModel.effect
@@ -101,6 +100,11 @@ class MainActivity : BaseActivity() {
         analyticsManager.setUserProperty(
             UserProperty.IS_AD_FREE,
             mainViewModel.isAdFree().toString()
+        )
+
+        analyticsManager.setUserProperty(
+            UserProperty.SESSION_COUNT,
+            mainViewModel.getSessionCount().toString()
         )
     }
 

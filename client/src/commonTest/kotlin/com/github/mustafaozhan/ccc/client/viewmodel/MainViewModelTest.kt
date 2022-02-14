@@ -21,9 +21,11 @@ import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -34,11 +36,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@ConfigurationApi
 @Suppress("TooManyFunctions")
 class MainViewModelTest {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val configManager = mock(classOf<ConfigManager>())
@@ -66,6 +71,12 @@ class MainViewModelTest {
 
     @Test
     fun app_review_should_ask_when_device_is_google() {
+        val mockSessionCount = Random.nextLong()
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
         val mockConfig = AppConfig(
             appUpdate = listOf(
                 AppUpdate(
@@ -161,6 +172,21 @@ class MainViewModelTest {
     }
 
     @Test
+    fun getSessionCount() {
+        val mockSessionCount = Random.nextLong()
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
+        assertEquals(mockSessionCount, viewModel.getSessionCount())
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+    }
+
+    @Test
     fun checkReview() {
         if (device == Device.ANDROID.GOOGLE) {
             viewModel.effect.before {
@@ -186,9 +212,17 @@ class MainViewModelTest {
     @Test
     fun onResume() = with(viewModel) {
         val mockConfig = AppConfig()
+        val mockSessionCount = Random.nextLong()
+
         given(configManager)
             .invocation { configManager.appConfig }
             .then { mockConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
+        assertEquals(true, viewModel.data.isNewSession)
 
         event.onResume()
         if (device is Device.ANDROID.GOOGLE ||
@@ -197,5 +231,17 @@ class MainViewModelTest {
             assertEquals(true, data.adVisibility)
             assertEquals(true, data.adJob.isActive)
         }
+
+        verify(settingsRepository)
+            .invocation { sessionCount = mockSessionCount + 1 }
+            .wasInvoked()
+        assertEquals(false, viewModel.data.isNewSession)
+
+        event.onResume()
+
+        verify(settingsRepository)
+            .invocation { sessionCount = mockSessionCount + 1 }
+            .wasNotInvoked()
+        assertEquals(false, viewModel.data.isNewSession)
     }
 }
