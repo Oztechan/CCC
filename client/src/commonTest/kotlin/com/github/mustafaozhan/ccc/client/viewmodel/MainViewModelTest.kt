@@ -23,7 +23,6 @@ import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.ConfigurationApi
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
 import io.mockative.configure
 import io.mockative.given
@@ -62,11 +61,6 @@ class MainViewModelTest {
         given(settingsRepository)
             .invocation { lastReviewRequest }
             .thenReturn(0)
-
-        given(settingsRepository)
-            .setter(settingsRepository::lastReviewRequest)
-            .whenInvokedWith(any())
-            .thenReturn(Unit)
     }
 
     @Test
