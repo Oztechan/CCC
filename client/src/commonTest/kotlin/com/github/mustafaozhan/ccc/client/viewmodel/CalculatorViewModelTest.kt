@@ -25,6 +25,7 @@ import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -35,10 +36,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@ConfigurationApi
 class CalculatorViewModelTest {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val apiRepository = mock(classOf<ApiRepository>())
@@ -47,7 +51,9 @@ class CalculatorViewModelTest {
     private val currencyRepository = mock(classOf<CurrencyRepository>())
 
     @Mock
-    private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
+    private val offlineRatesRepository = configure(mock(classOf<OfflineRatesRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())

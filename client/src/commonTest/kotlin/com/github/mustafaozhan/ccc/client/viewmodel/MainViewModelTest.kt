@@ -21,8 +21,10 @@ import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
+import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -33,11 +35,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@ConfigurationApi
 @Suppress("TooManyFunctions")
 class MainViewModelTest {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val configManager = mock(classOf<ConfigManager>())
