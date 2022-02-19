@@ -49,7 +49,9 @@ class SessionManagerTest {
         val mockBoolean = Random.nextBoolean()
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -90,7 +92,9 @@ class SessionManagerTest {
         val mockLong = Random.getRandomDateLong()
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -130,7 +134,9 @@ class SessionManagerTest {
     fun shouldShowBannerAd_while_first_run_is_false_and_when_reward_expired() {
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -171,8 +177,9 @@ class SessionManagerTest {
 
         val mockInterstitialAdSessionCount = Random.nextInt()
 
-        val mockAppConfig =
-            AppConfig(AdConfig(bannerAdSessionCount = mockInterstitialAdSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockInterstitialAdSessionCount)
+        )
 
         given(configManager)
             .invocation { appConfig }
