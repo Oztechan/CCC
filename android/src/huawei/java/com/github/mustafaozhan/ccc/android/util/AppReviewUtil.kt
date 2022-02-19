@@ -4,6 +4,6 @@
 package com.github.mustafaozhan.ccc.android.util
 
 import android.app.Activity
-import com.google.android.play.core.review.ReviewManagerFactory
 
+@Suppress("UNUSED_PARAMETER")
 fun requestAppReview(activity: Activity) = Unit
