@@ -80,6 +80,10 @@ class MainViewModelTest {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
+        given(sessionManager)
+            .invocation { shouldShowAppReview() }
+            .then { true }
+
         viewModel.effect.before {
             viewModel.onResume()
         }.after {
@@ -161,21 +165,6 @@ class MainViewModelTest {
             .wasInvoked()
     }
 
-    @Test
-    fun checkReview() {
-        if (device == Device.ANDROID.GOOGLE) {
-            viewModel.effect.before {
-                viewModel.checkReview()
-            }.after {
-                assertTrue { it is MainEffect.RequestReview }
-
-                verify(sessionManager)
-                    .invocation { shouldShowAppReview() }
-                    .wasInvoked()
-            }
-        }
-    }
-
     // event
     @Test
     fun onPause() = with(viewModel) {
@@ -204,6 +193,10 @@ class MainViewModelTest {
         given(sessionManager)
             .invocation { checkAppUpdate(false) }
             .thenReturn(false)
+
+        given(sessionManager)
+            .invocation { shouldShowAppReview() }
+            .then { true }
 
         assertEquals(true, viewModel.data.isNewSession)
 

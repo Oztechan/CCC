@@ -70,15 +70,7 @@ class MainViewModel(
         }
     }
 
-    fun isFistRun() = settingsRepository.firstRun
-
-    fun getAppTheme() = settingsRepository.appTheme
-
-    fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
-
-    fun getSessionCount() = settingsRepository.sessionCount
-
-    fun checkReview() {
+    private fun checkReview() {
         if (sessionManager.shouldShowAppReview()) {
             clientScope.launch {
                 delay(configManager.appConfig.appReview.appReviewDialogDelay)
@@ -86,6 +78,14 @@ class MainViewModel(
             }
         }
     }
+
+    fun isFistRun() = settingsRepository.firstRun
+
+    fun getAppTheme() = settingsRepository.appTheme
+
+    fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
+
+    fun getSessionCount() = settingsRepository.sessionCount
 
     // region Event
     override fun onPause() {
