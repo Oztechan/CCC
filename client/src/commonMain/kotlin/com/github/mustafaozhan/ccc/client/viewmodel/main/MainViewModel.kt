@@ -4,17 +4,14 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.main
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.isWeekPassed
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.delay
@@ -39,12 +36,6 @@ class MainViewModel(
 
     override val data = MainData()
     // endregion
-
-    init {
-        if (settingsRepository.lastReviewRequest == 0L) {
-            settingsRepository.lastReviewRequest = nowAsLong()
-        }
-    }
 
     private fun setupInterstitialAdTimer() {
         if (device is Device.ANDROID.GOOGLE ||
@@ -72,6 +63,15 @@ class MainViewModel(
         }
     }
 
+    private fun checkAppUpdate() {
+        sessionManager.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
+            clientScope.launch {
+                _effect.emit(MainEffect.AppUpdateEffect(isCancelable))
+                data.isAppUpdateShown = true
+            }
+        }
+    }
+
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
@@ -81,26 +81,10 @@ class MainViewModel(
     fun getSessionCount() = settingsRepository.sessionCount
 
     fun checkReview(delay: Long = REVIEW_DELAY) = clientScope
-        .whether { settingsRepository.lastReviewRequest.isWeekPassed() }
-        ?.whether { device is Device.ANDROID.GOOGLE }
+        .whether { device is Device.ANDROID.GOOGLE }
         ?.launch {
             delay(delay)
             _effect.emit(MainEffect.RequestReview)
-            settingsRepository.lastReviewRequest = nowAsLong()
-        }
-
-    private fun checkAppUpdate() = configManager.appConfig
-        .appUpdate
-        .firstOrNull { it.name == device.name }
-        ?.whether(
-            { !data.isAppUpdateShown },
-            { device is Device.ANDROID.GOOGLE },
-            { updateLatestVersion > BuildKonfig.versionCode }
-        )?.let {
-            clientScope.launch {
-                _effect.emit(MainEffect.AppUpdateEffect(it.updateForceVersion <= BuildKonfig.versionCode))
-                data.isAppUpdateShown = true
-            }
         }
 
     // region Event

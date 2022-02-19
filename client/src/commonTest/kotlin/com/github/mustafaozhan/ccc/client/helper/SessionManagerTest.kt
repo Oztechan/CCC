@@ -1,5 +1,7 @@
 package com.github.mustafaozhan.ccc.client.helper
 
+import com.github.mustafaozhan.ccc.client.BuildKonfig
+import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
@@ -7,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppUpdate
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -180,6 +183,126 @@ class SessionManagerTest {
         verify(settingsRepository)
             .invocation { sessionCount }
             .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
+        val mockName = device.name
+        val mockAppConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = mockName,
+                    updateLatestVersion = BuildKonfig.versionCode + 1,
+                    updateForceVersion = BuildKonfig.versionCode + 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        assertEquals(false, sessionManager.checkAppUpdate(false))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
+        val mockName = device.name
+        val mockAppConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = mockName,
+                    updateLatestVersion = BuildKonfig.versionCode + 1,
+                    updateForceVersion = BuildKonfig.versionCode - 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        assertEquals(true, sessionManager.checkAppUpdate(false))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
+        val mockName = device.name
+        val mockAppConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = mockName,
+                    updateLatestVersion = BuildKonfig.versionCode - 1,
+                    updateForceVersion = BuildKonfig.versionCode - 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        assertEquals(null, sessionManager.checkAppUpdate(false))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_device_name_is_different_than_remote() {
+        val mockName = "mock"
+        val mockAppConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = mockName,
+                    updateLatestVersion = BuildKonfig.versionCode + 1,
+                    updateForceVersion = BuildKonfig.versionCode + 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        assertEquals(null, sessionManager.checkAppUpdate(false))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
+        val mockName = device.name
+        val mockAppConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = mockName,
+                    updateLatestVersion = BuildKonfig.versionCode + 1,
+                    updateForceVersion = BuildKonfig.versionCode + 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        assertEquals(null, sessionManager.checkAppUpdate(true))
 
         verify(configManager)
             .invocation { appConfig }

@@ -3,7 +3,6 @@ package com.github.mustafaozhan.config
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.e
-import com.github.mustafaozhan.logmob.w
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -44,7 +43,7 @@ actual class ConfigManagerImpl : ConfigManager {
                         Logger.e(exception)
                     }
                 } else {
-                    Logger.w(Exception("Remote config is not updated, using defaults"))
+                    Logger.i("Remote config is not updated, using defaults")
                 }
             }
         }
