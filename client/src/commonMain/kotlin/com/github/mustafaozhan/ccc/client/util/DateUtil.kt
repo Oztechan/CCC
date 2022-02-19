@@ -1,7 +1,6 @@
 package com.github.mustafaozhan.ccc.client.util
 
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -10,10 +9,6 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 const val VIDEO_REWARD = 2
-
-fun Long.isWeekPassed(): Boolean {
-    return nowAsLong() > WEEK + this
-}
 
 fun Long.isRewardExpired(): Boolean {
     return nowAsLong() >= this

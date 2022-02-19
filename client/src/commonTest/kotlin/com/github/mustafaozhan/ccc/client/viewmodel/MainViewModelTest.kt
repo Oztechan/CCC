@@ -15,7 +15,6 @@ import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
@@ -52,10 +51,6 @@ class MainViewModelTest {
     @BeforeTest
     fun setup() {
         initLogger(true)
-
-        given(settingsRepository)
-            .invocation { lastReviewRequest }
-            .thenReturn(0)
     }
 
     @Test
@@ -102,18 +97,6 @@ class MainViewModelTest {
     @Test
     fun check_state_is_null() {
         assertNull(viewModel.state)
-    }
-
-    // init
-    @Test
-    fun set_lastReviewRequest_now_if_not_initialised_before() {
-        given(settingsRepository)
-            .invocation { lastReviewRequest }
-            .thenReturn(0)
-
-        verify(settingsRepository)
-            .invocation { lastReviewRequest = nowAsLong() }
-            .wasInvoked()
     }
 
     // public methods
@@ -185,10 +168,6 @@ class MainViewModelTest {
                 viewModel.checkReview(0)
             }.after {
                 assertTrue { it is MainEffect.RequestReview }
-
-                verify(settingsRepository)
-                    .invocation { lastReviewRequest = nowAsLong() }
-                    .wasInvoked()
             }
         }
     }
