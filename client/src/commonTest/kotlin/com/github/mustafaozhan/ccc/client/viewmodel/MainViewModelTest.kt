@@ -170,9 +170,13 @@ class MainViewModelTest {
     fun checkReview() {
         if (device == Device.ANDROID.GOOGLE) {
             viewModel.effect.before {
-                viewModel.checkReview(0)
+                viewModel.checkReview()
             }.after {
                 assertTrue { it is MainEffect.RequestReview }
+
+                verify(sessionManager)
+                    .invocation { shouldShowAppReview() }
+                    .wasInvoked()
             }
         }
     }
