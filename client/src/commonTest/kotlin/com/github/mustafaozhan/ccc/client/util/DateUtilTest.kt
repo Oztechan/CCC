@@ -3,7 +3,6 @@ package com.github.mustafaozhan.ccc.client.util
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.SECOND
-import com.github.mustafaozhan.ccc.common.util.WEEK
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
@@ -15,12 +14,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class DateUtilTest {
-    @Test
-    fun isWeekPassed() {
-        assertEquals(true, (nowAsLong() - 1 - WEEK).isWeekPassed())
-        assertEquals(false, (nowAsLong() + 1 - WEEK).isWeekPassed())
-    }
-
     @Test
     fun isRewardExpired() {
         assertTrue { (nowAsLong() - DAY).isRewardExpired() }

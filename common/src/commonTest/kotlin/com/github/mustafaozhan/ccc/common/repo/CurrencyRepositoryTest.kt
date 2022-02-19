@@ -5,10 +5,8 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepositoryImpl
 import com.github.mustafaozhan.ccc.common.db.sql.CurrencyQueries
 import com.github.mustafaozhan.ccc.common.util.toDatabaseBoolean
 import com.github.mustafaozhan.logmob.initLogger
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.eq
 import io.mockative.mock
 import io.mockative.verify
@@ -16,13 +14,10 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@ConfigurationApi
 class CurrencyRepositoryTest {
 
     @Mock
-    private val currencyQueries = configure(mock(classOf<CurrencyQueries>())) {
-        stubsUnitByDefault = true
-    }
+    private val currencyQueries = mock(classOf<CurrencyQueries>())
 
     private val repository: CurrencyRepository by lazy {
         CurrencyRepositoryImpl(currencyQueries)
