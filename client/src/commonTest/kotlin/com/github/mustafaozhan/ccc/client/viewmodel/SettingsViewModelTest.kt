@@ -24,10 +24,8 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -40,14 +38,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ConfigurationApi
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest {
 
     @Mock
-    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
-        stubsUnitByDefault = true
-    }
+    private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
     private val apiRepository = mock(classOf<ApiRepository>())
