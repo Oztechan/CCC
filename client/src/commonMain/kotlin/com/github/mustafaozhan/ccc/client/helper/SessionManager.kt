@@ -6,4 +6,6 @@ interface SessionManager {
     fun shouldShowInterstitialAd(): Boolean
 
     fun checkAppUpdate(isAppUpdateShown: Boolean): Boolean?
+
+    fun shouldShowAppReview(): Boolean
 }

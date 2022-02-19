@@ -24,8 +24,4 @@ data class MainData(
     var adVisibility: Boolean = false,
     var isAppUpdateShown: Boolean = false,
     var isNewSession: Boolean = true
-) : BaseData() {
-    companion object {
-        internal const val REVIEW_DELAY: Long = 20000
-    }
-}
+) : BaseData()

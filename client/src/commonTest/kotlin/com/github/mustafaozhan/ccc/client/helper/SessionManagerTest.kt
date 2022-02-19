@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppReview
 import com.github.mustafaozhan.config.model.AppUpdate
 import io.mockative.Mock
 import io.mockative.classOf
@@ -19,6 +20,8 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class SessionManagerTest {
     @Mock
@@ -303,6 +306,84 @@ class SessionManagerTest {
             .then { mockAppConfig }
 
         assertEquals(null, sessionManager.checkAppUpdate(true))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong() + 1)
+
+        assertTrue { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong() - 1)
+
+        assertFalse { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong())
+
+        assertFalse { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
 
         verify(configManager)
             .invocation { appConfig }

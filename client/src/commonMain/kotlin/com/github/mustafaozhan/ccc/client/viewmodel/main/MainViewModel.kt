@@ -10,10 +10,8 @@ import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainData.Companion.REVIEW_DELAY
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.ConfigManager
-import com.github.mustafaozhan.scopemob.whether
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -72,6 +70,15 @@ class MainViewModel(
         }
     }
 
+    private fun checkReview() {
+        if (sessionManager.shouldShowAppReview()) {
+            clientScope.launch {
+                delay(configManager.appConfig.appReview.appReviewDialogDelay)
+                _effect.emit(MainEffect.RequestReview)
+            }
+        }
+    }
+
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
@@ -79,13 +86,6 @@ class MainViewModel(
     fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
 
     fun getSessionCount() = settingsRepository.sessionCount
-
-    fun checkReview(delay: Long = REVIEW_DELAY) = clientScope
-        .whether { device is Device.ANDROID.GOOGLE }
-        ?.launch {
-            delay(delay)
-            _effect.emit(MainEffect.RequestReview)
-        }
 
     // region Event
     override fun onPause() {
