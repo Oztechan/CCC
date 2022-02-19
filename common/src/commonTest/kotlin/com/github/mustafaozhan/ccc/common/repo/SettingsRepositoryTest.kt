@@ -9,13 +9,11 @@ import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Compani
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_APP_THEME
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_CURRENT_BASE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_FIRST_RUN
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_LAST_REVIEW_REQUEST
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_SESSION_COUNT
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_AD_FREE_END_DATE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_APP_THEME
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_CURRENT_BASE
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_FIRST_RUN
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_LAST_REVIEW_REQUEST
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_SESSION_COUNT
 import com.russhwolf.settings.Settings
 import io.mockative.ConfigurationApi
@@ -95,19 +93,6 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun default_lastReviewRequest() {
-        given(settings)
-            .invocation { getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
-            .thenReturn(DEFAULT_LAST_REVIEW_REQUEST)
-
-        assertEquals(DEFAULT_LAST_REVIEW_REQUEST, repository.lastReviewRequest)
-
-        verify(settings)
-            .invocation { getLong(KEY_LAST_REVIEW_REQUEST, DEFAULT_LAST_REVIEW_REQUEST) }
-            .wasInvoked()
-    }
-
-    @Test
     fun default_sessionCount() {
         given(settings)
             .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
@@ -158,16 +143,6 @@ class SettingsRepositoryTest {
 
         verify(settings)
             .invocation { putLong(KEY_AD_FREE_END_DATE, mockValue) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun set_lastReviewRequest() {
-        val mockValue = Random.nextLong()
-        repository.lastReviewRequest = mockValue
-
-        verify(settings)
-            .invocation { putLong(KEY_LAST_REVIEW_REQUEST, mockValue) }
             .wasInvoked()
     }
 
