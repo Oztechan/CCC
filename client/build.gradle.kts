@@ -112,6 +112,10 @@ dependencies {
     ksp(Dependencies.Processors.MOCKATIVE)
 }
 
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
+}
+
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
