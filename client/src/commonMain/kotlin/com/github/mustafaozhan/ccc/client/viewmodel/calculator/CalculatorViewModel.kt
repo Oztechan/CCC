@@ -5,18 +5,18 @@ package com.github.mustafaozhan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
+import com.github.mustafaozhan.ccc.client.mapper.toRates
+import com.github.mustafaozhan.ccc.client.mapper.toTodayResponse
 import com.github.mustafaozhan.ccc.client.mapper.toUIModelList
 import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.model.RateState
 import com.github.mustafaozhan.ccc.client.util.calculateResult
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
 import com.github.mustafaozhan.ccc.client.util.getFormatted
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.util.launchIgnored
-import com.github.mustafaozhan.ccc.client.util.toRates
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toTodayResponse
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
@@ -30,7 +30,6 @@ import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -50,7 +49,7 @@ class CalculatorViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    private val remoteConfig: RemoteConfig
+    private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -122,7 +121,11 @@ class CalculatorViewModel(
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.emit(CalculatorEffect.Error) }
-            _state.update(rateState = RateState.Error)
+
+            _state.update(
+                rateState = RateState.Error,
+                loading = false
+            )
         }
     }
 
@@ -167,9 +170,7 @@ class CalculatorViewModel(
         )
     }
 
-    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
-        settingsRepository.adFreeEndDate.isRewardExpired() &&
-        remoteConfig.appConfig.adConfig.isBannerAdEnabled
+    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {

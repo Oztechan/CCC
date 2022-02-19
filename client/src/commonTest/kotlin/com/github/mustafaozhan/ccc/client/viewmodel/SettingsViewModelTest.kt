@@ -3,6 +3,7 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.after
@@ -22,14 +23,9 @@ import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.DAY
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.config.RemoteConfig
-import com.github.mustafaozhan.config.model.AdConfig
-import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -42,14 +38,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@ConfigurationApi
 @Suppress("TooManyFunctions")
 class SettingsViewModelTest {
 
     @Mock
-    private val settingsRepository = configure(mock(classOf<SettingsRepository>())) {
-        stubsUnitByDefault = true
-    }
+    private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
     private val apiRepository = mock(classOf<ApiRepository>())
@@ -61,7 +54,7 @@ class SettingsViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
-    private val remoteConfig = mock(classOf<RemoteConfig>())
+    private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
@@ -69,7 +62,7 @@ class SettingsViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
-            remoteConfig
+            sessionManager
         )
     }
 
@@ -176,33 +169,16 @@ class SettingsViewModelTest {
 
     @Test
     fun shouldShowBannerAd() {
-        val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
-        val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
 
-        given(settingsRepository)
-            .invocation { adFreeEndDate }
-            .thenReturn(mockLong)
-
-        given(remoteConfig)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        given(settingsRepository)
-            .invocation { firstRun }
+        given(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(
-            !mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
-            viewModel.shouldShowBannerAd()
-        )
+        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(settingsRepository)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(remoteConfig)
-            .invocation { appConfig }
+        verify(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 

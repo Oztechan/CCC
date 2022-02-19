@@ -3,12 +3,11 @@
  */
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.mapper.toUIModel
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
@@ -22,11 +21,7 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.Result
-import com.github.mustafaozhan.config.RemoteConfig
-import com.github.mustafaozhan.config.model.AdConfig
-import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.initLogger
-import io.mockative.ConfigurationApi
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
@@ -55,7 +50,7 @@ class CalculatorViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
-    private val remoteConfig = mock(classOf<RemoteConfig>())
+    private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
@@ -63,7 +58,7 @@ class CalculatorViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
-            remoteConfig
+            sessionManager
         )
     }
 
@@ -71,7 +66,6 @@ class CalculatorViewModelTest {
     private val currencyUIModel = currency.toUIModel()
     private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
 
-    @ConfigurationApi
     @BeforeTest
     fun setup() {
         initLogger(true)
@@ -79,11 +73,6 @@ class CalculatorViewModelTest {
         given(settingsRepository)
             .invocation { currentBase }
             .thenReturn("")
-
-        given(settingsRepository)
-            .setter(settingsRepository::currentBase)
-            .whenInvokedWith(any())
-            .thenReturn(Unit)
 
         given(currencyRepository)
             .function(currencyRepository::getCurrencyByName)
@@ -105,42 +94,20 @@ class CalculatorViewModelTest {
             .function(offlineRatesRepository::getOfflineRatesByBase)
             .whenInvokedWith(any())
             .thenReturn(null)
-
-        given(offlineRatesRepository)
-            .function(offlineRatesRepository::insertOfflineRates)
-            .whenInvokedWith(any())
-            .thenReturn(Unit)
     }
 
     @Test
     fun shouldShowBannerAd() {
-        val mockLong = Random.getRandomDateLong()
         val mockBoolean = Random.nextBoolean()
-        val mockAppConfig = AppConfig(AdConfig(isBannerAdEnabled = mockBoolean))
 
-        given(settingsRepository)
-            .invocation { adFreeEndDate }
-            .thenReturn(mockLong)
-
-        given(remoteConfig)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        given(settingsRepository)
-            .invocation { firstRun }
+        given(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(
-            !mockBoolean && mockLong.isRewardExpired() && mockAppConfig.adConfig.isBannerAdEnabled,
-            viewModel.shouldShowBannerAd()
-        )
+        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(settingsRepository)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(remoteConfig)
-            .invocation { appConfig }
+        verify(sessionManager)
+            .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 

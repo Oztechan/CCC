@@ -22,19 +22,6 @@ interface MainEvent : BaseEvent {
 data class MainData(
     var adJob: Job = Job(),
     var adVisibility: Boolean = false,
-    var isInitialAd: Boolean = true,
-    var isAppUpdateShown: Boolean = false
-) : BaseData() {
-    val adDelay: Long
-        get() = if (isInitialAd) {
-            AD_DELAY_INITIAL
-        } else {
-            AD_DELAY_NORMAL
-        }
-
-    companion object {
-        internal const val AD_DELAY_INITIAL: Long = 60000
-        internal const val AD_DELAY_NORMAL: Long = 180000
-        internal const val REVIEW_DELAY: Long = 20000
-    }
-}
+    var isAppUpdateShown: Boolean = false,
+    var isNewSession: Boolean = true
+) : BaseData()

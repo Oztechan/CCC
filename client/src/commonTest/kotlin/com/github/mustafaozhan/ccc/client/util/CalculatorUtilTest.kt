@@ -1,45 +1,16 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.github.mustafaozhan.ccc.client.extension
+package com.github.mustafaozhan.ccc.client.util
 
 import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.util.VIDEO_REWARD
-import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
-import com.github.mustafaozhan.ccc.client.util.calculateResult
-import com.github.mustafaozhan.ccc.client.util.doubleDigits
-import com.github.mustafaozhan.ccc.client.util.getConversionByName
-import com.github.mustafaozhan.ccc.client.util.getCurrencyConversionByRate
-import com.github.mustafaozhan.ccc.client.util.getFormatted
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
-import com.github.mustafaozhan.ccc.client.util.isWeekPassed
-import com.github.mustafaozhan.ccc.client.util.toDateString
-import com.github.mustafaozhan.ccc.client.util.toInstant
-import com.github.mustafaozhan.ccc.client.util.toRates
-import com.github.mustafaozhan.ccc.client.util.toStandardDigits
-import com.github.mustafaozhan.ccc.client.util.toSupportedCharacters
-import com.github.mustafaozhan.ccc.client.util.toTodayResponse
-import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
 import com.github.mustafaozhan.ccc.common.model.CurrencyType
 import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.util.DAY
-import com.github.mustafaozhan.ccc.common.util.SECOND
-import com.github.mustafaozhan.ccc.common.util.WEEK
-import com.github.mustafaozhan.ccc.common.util.nowAsInstant
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class ExtensionsTest {
+class CalculatorUtilTest {
 
     @Test
     fun calculateResult() {
@@ -157,107 +128,10 @@ class ExtensionsTest {
     }
 
     @Test
-    fun currencyResponseToRates() {
-        val base = "EUR"
-        val rates = Rates(base, nowAsInstant().toDateString(), usd = 5.0)
-        val currencyResponse = CurrencyResponse(base, nowAsInstant().toDateString(), rates)
-        assertEquals(rates, currencyResponse.toRates())
-    }
-
-    @Test
-    fun currencyResponseToTodayResponse() {
-        val currencyResponse = CurrencyResponse("EUR", null, Rates())
-        assertEquals(currencyResponse.copy(date = nowAsInstant().toDateString()), currencyResponse.toTodayResponse())
-    }
-
-    @Test
-    fun isWeekPassed() {
-        assertEquals(true, (nowAsLong() - 1 - WEEK).isWeekPassed())
-        assertEquals(false, (nowAsLong() + 1 - WEEK).isWeekPassed())
-    }
-
-    @Test
-    fun isRewardExpired() {
-        assertTrue { (nowAsLong() - DAY).isRewardExpired() }
-        assertTrue { (nowAsLong() - SECOND).isRewardExpired() }
-        assertFalse { (nowAsLong() + DAY).isRewardExpired() }
-        assertFalse { (nowAsLong() + SECOND).isRewardExpired() }
-    }
-
-    @Test
-    fun longToInstant() = assertEquals(
-        123.toLong().toInstant(),
-        Instant.fromEpochMilliseconds(123)
-    )
-
-    @Test
-    fun longToDateString() = assertEquals(
-        "09:12 20.12.2020",
-        1608455548000.toDateString(TimeZone.UTC)
-    )
-
-    @Test
-    fun instantToDateString() = assertEquals(
-        "09:12 20.12.2020",
-        Instant.parse("2020-12-20T09:12:28Z").toDateString(TimeZone.UTC)
-    )
-
-    @Test
     fun doubleDigits() {
         assertEquals("01", 1.doubleDigits())
         assertEquals("05", 5.doubleDigits())
         assertEquals("09", 9.doubleDigits())
         assertEquals("10", 10.doubleDigits())
-    }
-
-    @Test
-    fun calculateAdRewardEnd() = nowAsLong().let {
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(days = VIDEO_REWARD),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.VIDEO.calculateAdRewardEnd(it).toInstant()
-        )
-
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(months = 1),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.MONTH.calculateAdRewardEnd(it).toInstant()
-        )
-
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(months = 3),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.QUARTER.calculateAdRewardEnd(it).toInstant()
-        )
-
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(months = 6),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
-        )
-
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(years = 1),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.YEAR.calculateAdRewardEnd(it).toInstant()
-        )
-
-        assertEquals(
-            it.toInstant().plus(
-                DateTimePeriod(years = 100),
-                TimeZone.currentSystemDefault()
-            ),
-            RemoveAdType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
-        )
     }
 }

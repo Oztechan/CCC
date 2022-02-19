@@ -3,7 +3,6 @@ package com.github.mustafaozhan.config
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.e
-import com.github.mustafaozhan.logmob.w
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -11,11 +10,11 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-actual class RemoteConfigImpl : RemoteConfig {
+actual class ConfigManagerImpl : ConfigManager {
     actual override var appConfig = AppConfig()
 
     init {
-        Logger.i { "RemoteConfig init" }
+        Logger.i { "ConfigManagerImpl init" }
 
         Firebase.remoteConfig.apply {
 
@@ -44,7 +43,7 @@ actual class RemoteConfigImpl : RemoteConfig {
                         Logger.e(exception)
                     }
                 } else {
-                    Logger.w(Exception("Remote config is not updated, using defaults"))
+                    Logger.i("Remote config is not updated, using defaults")
                 }
             }
         }

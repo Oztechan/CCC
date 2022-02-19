@@ -5,6 +5,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
+import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
@@ -17,7 +18,6 @@ import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.config.RemoteConfig
 import com.github.mustafaozhan.logmob.e
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,7 +33,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    private val remoteConfig: RemoteConfig
+    private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -87,9 +87,7 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = !settingsRepository.firstRun &&
-        isRewardExpired() &&
-        remoteConfig.appConfig.adConfig.isBannerAdEnabled
+    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
     fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
 

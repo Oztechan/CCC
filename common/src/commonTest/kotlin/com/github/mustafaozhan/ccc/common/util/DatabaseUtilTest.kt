@@ -3,7 +3,7 @@ package com.github.mustafaozhan.ccc.common.util
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ExtensionsTest {
+class DatabaseUtilTest {
     @Test
     fun toDatabaseBoolean() {
         assertEquals(0L, false.toDatabaseBoolean())

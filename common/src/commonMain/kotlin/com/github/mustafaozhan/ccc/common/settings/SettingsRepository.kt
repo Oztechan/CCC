@@ -9,5 +9,5 @@ interface SettingsRepository {
 
     var adFreeEndDate: Long
 
-    var lastReviewRequest: Long
+    var sessionCount: Long
 }
