@@ -64,12 +64,17 @@ class MainViewModelTest {
     }
 
     @Test
-    fun app_review_should_ask_when_device_is_google() {
+    fun app_review_should_ask_when_check_update_returns_not_null() {
         val mockSessionCount = Random.nextLong()
+        val mockBoolean = Random.nextBoolean()
 
         given(settingsRepository)
             .invocation { sessionCount }
             .then { mockSessionCount }
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(mockBoolean)
 
         val mockConfig = AppConfig(
             appUpdate = listOf(
@@ -85,14 +90,12 @@ class MainViewModelTest {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
-        if (device == Device.ANDROID.GOOGLE) {
-            viewModel.effect.before {
-                viewModel.onResume()
-            }.after {
-                assertTrue { it is MainEffect.AppUpdateEffect }
-                assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == false }
-                assertTrue { viewModel.data.isAppUpdateShown }
-            }
+        viewModel.effect.before {
+            viewModel.onResume()
+        }.after {
+            assertTrue { it is MainEffect.AppUpdateEffect }
+            assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == mockBoolean }
+            assertTrue { viewModel.data.isAppUpdateShown }
         }
 
         verify(configManager)
@@ -215,6 +218,14 @@ class MainViewModelTest {
         given(settingsRepository)
             .invocation { sessionCount }
             .then { mockSessionCount }
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(true) }
+            .thenReturn(false)
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(false)
 
         assertEquals(true, viewModel.data.isNewSession)
 

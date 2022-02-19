@@ -4,7 +4,6 @@
 package com.github.mustafaozhan.ccc.client.viewmodel.main
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
 import com.github.mustafaozhan.ccc.client.device
@@ -72,6 +71,15 @@ class MainViewModel(
         }
     }
 
+    private fun checkAppUpdate() {
+        sessionManager.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
+            clientScope.launch {
+                _effect.emit(MainEffect.AppUpdateEffect(isCancelable))
+                data.isAppUpdateShown = true
+            }
+        }
+    }
+
     fun isFistRun() = settingsRepository.firstRun
 
     fun getAppTheme() = settingsRepository.appTheme
@@ -87,20 +95,6 @@ class MainViewModel(
             delay(delay)
             _effect.emit(MainEffect.RequestReview)
             settingsRepository.lastReviewRequest = nowAsLong()
-        }
-
-    private fun checkAppUpdate() = configManager.appConfig
-        .appUpdate
-        .firstOrNull { it.name == device.name }
-        ?.whether(
-            { !data.isAppUpdateShown },
-            { device is Device.ANDROID.GOOGLE },
-            { updateLatestVersion > BuildKonfig.versionCode }
-        )?.let {
-            clientScope.launch {
-                _effect.emit(MainEffect.AppUpdateEffect(it.updateForceVersion <= BuildKonfig.versionCode))
-                data.isAppUpdateShown = true
-            }
         }
 
     // region Event

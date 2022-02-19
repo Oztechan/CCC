@@ -121,7 +121,11 @@ class CalculatorViewModel(
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.emit(CalculatorEffect.Error) }
-            _state.update(rateState = RateState.Error)
+
+            _state.update(
+                rateState = RateState.Error,
+                loading = false
+            )
         }
     }
 
