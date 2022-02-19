@@ -14,13 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.activity.BaseActivity
+import com.github.mustafaozhan.ccc.android.util.requestAppReview
 import com.github.mustafaozhan.ccc.android.util.showDialog
 import com.github.mustafaozhan.ccc.android.util.updateAppTheme
 import com.github.mustafaozhan.ccc.android.util.updateBaseContextLocale
 import com.github.mustafaozhan.ccc.client.model.AppTheme
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
@@ -54,7 +54,7 @@ class MainActivity : BaseActivity() {
                     this@MainActivity,
                     getString(R.string.android_interstitial_ad_id)
                 )
-                MainEffect.RequestReview -> requestReview()
+                MainEffect.RequestReview -> requestAppReview(this)
                 is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable)
             }
         }.launchIn(lifecycleScope)
@@ -68,15 +68,6 @@ class MainActivity : BaseActivity() {
     ) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
     }
-
-    private fun requestReview() = ReviewManagerFactory.create(this@MainActivity)
-        .apply {
-            requestReviewFlow().addOnCompleteListener { request ->
-                if (request.isSuccessful) {
-                    launchReviewFlow(this@MainActivity, request.result)
-                }
-            }
-        }
 
     private fun checkDestination() = with(getNavigationController()) {
         graph = navInflater.inflate(R.navigation.main_graph).apply {

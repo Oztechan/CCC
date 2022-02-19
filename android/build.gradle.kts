@@ -3,6 +3,7 @@
  */
 import config.BuildType
 import config.DeviceFlavour
+import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
@@ -110,7 +111,7 @@ dependencies {
         debugImplementation(LEAK_CANARY)
     }
 
-    implementation(Dependencies.Android.GOOGLE.PLAY_CORE)
+    googleImplementation(Dependencies.Android.GOOGLE.PLAY_CORE)
 
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
