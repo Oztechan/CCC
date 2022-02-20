@@ -9,11 +9,10 @@ import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
-import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
-import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
+import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppUpdate
@@ -135,18 +134,28 @@ class MainViewModelTest {
     }
 
     @Test
-    fun isAdFree() {
-        val long: Long = Random.getRandomDateLong()
-
+    fun isAdFree_for_future_should_return_true() {
         given(settingsRepository)
             .invocation { adFreeEndDate }
-            .then { long }
+            .then { nowAsLong() + 1 }
 
-        assertEquals(!long.isRewardExpired(), viewModel.isAdFree())
-        assertEquals(long, settingsRepository.adFreeEndDate)
+        assertEquals(true, viewModel.isAdFree())
 
         verify(settingsRepository)
-            .invocation { firstRun }
+            .invocation { adFreeEndDate }
+            .wasInvoked()
+    }
+
+    @Test
+    fun isAdFree_for_future_should_return_false() {
+        given(settingsRepository)
+            .invocation { adFreeEndDate }
+            .then { nowAsLong() - 1 }
+
+        assertEquals(false, viewModel.isAdFree())
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
