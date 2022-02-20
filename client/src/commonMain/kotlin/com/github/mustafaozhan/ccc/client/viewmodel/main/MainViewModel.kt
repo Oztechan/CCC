@@ -6,9 +6,7 @@ package com.github.mustafaozhan.ccc.client.viewmodel.main
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ccc.client.base.BaseSEEDViewModel
 import com.github.mustafaozhan.ccc.client.base.BaseState
-import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
-import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.ConfigManager
@@ -36,20 +34,16 @@ class MainViewModel(
     // endregion
 
     private fun setupInterstitialAdTimer() {
-        if (device is Device.ANDROID.GOOGLE ||
-            device is Device.IOS
-        ) {
-            data.adVisibility = true
+        data.adVisibility = true
 
-            data.adJob = clientScope.launch {
-                delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
+        data.adJob = clientScope.launch {
+            delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
 
-                while (isActive && sessionManager.shouldShowInterstitialAd()) {
-                    if (data.adVisibility && !isAdFree()) {
-                        _effect.emit(MainEffect.ShowInterstitialAd)
-                    }
-                    delay(configManager.appConfig.adConfig.interstitialAdPeriod)
+            while (isActive && sessionManager.shouldShowInterstitialAd()) {
+                if (data.adVisibility && !isAdFree()) {
+                    _effect.emit(MainEffect.ShowInterstitialAd)
                 }
+                delay(configManager.appConfig.adConfig.interstitialAdPeriod)
             }
         }
     }
