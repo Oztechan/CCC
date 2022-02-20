@@ -7,7 +7,6 @@ package com.github.mustafaozhan.ccc.client.viewmodel
 import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
-import com.github.mustafaozhan.ccc.client.model.Device
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
@@ -20,6 +19,7 @@ import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
+import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
@@ -183,7 +183,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun onResume() = with(viewModel) {
+    fun onResume_adjustSessionCount() = with(viewModel) {
         val mockConfig = AppConfig()
         val mockSessionCount = Random.nextLong()
 
@@ -196,37 +196,29 @@ class MainViewModelTest {
             .then { mockSessionCount }
 
         given(sessionManager)
-            .invocation { checkAppUpdate(true) }
-            .thenReturn(false)
-
-        given(sessionManager)
-            .invocation { checkAppUpdate(false) }
+            .function(sessionManager::checkAppUpdate)
+            .whenInvokedWith(any())
             .thenReturn(false)
 
         given(sessionManager)
             .invocation { shouldShowAppReview() }
             .then { true }
 
-        assertEquals(true, viewModel.data.isNewSession)
+        assertEquals(true, data.isNewSession)
 
         event.onResume()
-        if (device is Device.ANDROID.GOOGLE ||
-            device is Device.IOS
-        ) {
-            assertEquals(true, data.adVisibility)
-            assertEquals(true, data.adJob.isActive)
-        }
 
         verify(settingsRepository)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasInvoked()
-        assertEquals(false, viewModel.data.isNewSession)
+        assertEquals(false, data.isNewSession)
 
         event.onResume()
 
         verify(settingsRepository)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasNotInvoked()
-        assertEquals(false, viewModel.data.isNewSession)
+
+        assertEquals(false, data.isNewSession)
     }
 }
