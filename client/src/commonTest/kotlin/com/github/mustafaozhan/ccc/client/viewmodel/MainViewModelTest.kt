@@ -4,6 +4,8 @@
 
 package com.github.mustafaozhan.ccc.client.viewmodel
 
+import com.github.mustafaozhan.ccc.client.BuildKonfig
+import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
@@ -14,7 +16,9 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
+import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
@@ -25,6 +29,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -230,6 +235,84 @@ class MainViewModelTest {
             .wasInvoked()
         verify(settingsRepository)
             .invocation { adFreeEndDate }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(viewModel) {
+        val mockConfig = AppConfig()
+        val mockSessionCount = Random.nextLong()
+
+        given(configManager)
+            .invocation { configManager.appConfig }
+            .then { mockConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(null)
+
+        given(sessionManager)
+            .invocation { shouldShowAppReview() }
+            .then { true }
+
+        event.onResume()
+
+        assertFalse { data.isAppUpdateShown }
+
+        verify(sessionManager)
+            .invocation { checkAppUpdate(false) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onResume_checkAppUpdate_app_review_should_ask_when_check_update_returns_not_null() {
+        val mockSessionCount = Random.nextLong()
+        val mockBoolean = Random.nextBoolean()
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(mockBoolean)
+
+        val mockConfig = AppConfig(
+            appUpdate = listOf(
+                AppUpdate(
+                    name = device.name,
+                    updateForceVersion = BuildKonfig.versionCode + 1,
+                    updateLatestVersion = BuildKonfig.versionCode + 1
+                )
+            )
+        )
+
+        given(configManager)
+            .invocation { configManager.appConfig }
+            .then { mockConfig }
+
+        given(sessionManager)
+            .invocation { shouldShowAppReview() }
+            .then { true }
+
+        viewModel.effect.before {
+            viewModel.onResume()
+        }.after {
+            assertTrue { it is MainEffect.AppUpdateEffect }
+            assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == mockBoolean }
+            assertTrue { viewModel.data.isAppUpdateShown }
+        }
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+
+        verify(sessionManager)
+            .invocation { checkAppUpdate(false) }
             .wasInvoked()
     }
 }
