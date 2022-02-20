@@ -49,7 +49,7 @@ class SettingsViewModel(
 
     init {
         _state.update(
-            appThemeType = AppTheme.getThemeByValue(settingsRepository.appTheme),
+            appThemeType = AppTheme.getThemeByValueOrDefault(settingsRepository.appTheme),
             addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
         )
 
