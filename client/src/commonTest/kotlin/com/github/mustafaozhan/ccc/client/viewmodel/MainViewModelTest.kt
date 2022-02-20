@@ -16,6 +16,7 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppReview
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
@@ -315,4 +316,81 @@ class MainViewModelTest {
             .invocation { checkAppUpdate(false) }
             .wasInvoked()
     }
+
+    @Test
+    fun onResume_checkReview_should_request_review_when_shouldShowAppReview_returns_true() =
+        with(viewModel) {
+            val mockConfig = AppConfig(
+                appReview = AppReview(appReviewDialogDelay = 0L)
+            )
+            val mockSessionCount = Random.nextLong()
+
+            given(configManager)
+                .invocation { configManager.appConfig }
+                .then { mockConfig }
+
+            given(settingsRepository)
+                .invocation { sessionCount }
+                .then { mockSessionCount }
+
+            given(sessionManager)
+                .function(sessionManager::checkAppUpdate)
+                .whenInvokedWith(any())
+                .thenReturn(null)
+
+            given(sessionManager)
+                .invocation { shouldShowAppReview() }
+                .then { true }
+
+            effect.before {
+                onResume()
+            }.after {
+                println(it)
+                assertTrue { it is MainEffect.RequestReview }
+            }
+
+            verify(sessionManager)
+                .invocation { shouldShowAppReview() }
+                .wasInvoked()
+            verify(configManager)
+                .invocation { appConfig }
+                .wasInvoked()
+        }
+
+    @Test
+    fun onResume_checkReview_should_do_nothing_when_shouldShowAppReview_returns_false() =
+        with(viewModel) {
+            val mockConfig = AppConfig(
+                appReview = AppReview(appReviewDialogDelay = 0L)
+            )
+            val mockSessionCount = Random.nextLong()
+
+            given(configManager)
+                .invocation { configManager.appConfig }
+                .then { mockConfig }
+
+            given(settingsRepository)
+                .invocation { sessionCount }
+                .then { mockSessionCount }
+
+            given(sessionManager)
+                .function(sessionManager::checkAppUpdate)
+                .whenInvokedWith(any())
+                .thenReturn(null)
+
+            given(sessionManager)
+                .invocation { shouldShowAppReview() }
+                .then { true }
+
+            effect.before {
+                onResume()
+            }.after {
+                println(it)
+                assertTrue { it is MainEffect.RequestReview }
+            }
+
+            verify(sessionManager)
+                .invocation { shouldShowAppReview() }
+                .wasInvoked()
+        }
 }
