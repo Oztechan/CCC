@@ -5,6 +5,7 @@ import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.config.ConfigManager
+import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 
 class SessionManagerImpl(
@@ -29,4 +30,10 @@ class SessionManagerImpl(
         )?.let {
             it.updateForceVersion <= BuildKonfig.versionCode
         }
+
+    override fun shouldShowAppReview(): Boolean = configManager.appConfig
+        .appReview
+        .whether { settingsRepository.sessionCount > it.appReviewSessionCount }
+        ?.mapTo { true }
+        ?: false
 }

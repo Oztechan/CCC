@@ -95,7 +95,7 @@ class SettingsViewModelTest {
         val state = MutableStateFlow(SettingsState())
 
         val activeCurrencyCount = Random.nextInt()
-        val appThemeType = AppTheme.getThemeByOrder(Random.nextInt() % 3) ?: AppTheme.SYSTEM_DEFAULT
+        val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
 

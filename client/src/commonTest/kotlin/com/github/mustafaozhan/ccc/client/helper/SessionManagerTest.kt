@@ -9,6 +9,7 @@ import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.config.model.AdConfig
 import com.github.mustafaozhan.config.model.AppConfig
+import com.github.mustafaozhan.config.model.AppReview
 import com.github.mustafaozhan.config.model.AppUpdate
 import io.mockative.Mock
 import io.mockative.classOf
@@ -19,6 +20,8 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class SessionManagerTest {
     @Mock
@@ -46,7 +49,9 @@ class SessionManagerTest {
         val mockBoolean = Random.nextBoolean()
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -87,7 +92,9 @@ class SessionManagerTest {
         val mockLong = Random.getRandomDateLong()
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -124,10 +131,16 @@ class SessionManagerTest {
     }
 
     @Test
-    fun shouldShowBannerAd_while_first_run_is_false_and_when_reward_expired() {
+    fun shouldShowBannerAd_is_true_when_not_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner() {
         val mockBannerSessionCount = Random.nextInt()
 
-        val mockAppConfig = AppConfig(AdConfig(bannerAdSessionCount = mockBannerSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
+        )
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockBannerSessionCount + 1L)
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -141,10 +154,50 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertEquals(
-            mockSessionCount > mockBannerSessionCount,
-            sessionManager.shouldShowBannerAd()
+        assertTrue { sessionManager.shouldShowBannerAd() }
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
+            .wasInvoked()
+
+        verify(settingsRepository)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowBannerAd_is_false_when_not_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner() {
+        val mockBannerSessionCount = Random.nextInt()
+
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
         )
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockBannerSessionCount - 1L)
+
+        given(settingsRepository)
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() - 1)
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { firstRun }
+            .thenReturn(false)
+
+        assertFalse { sessionManager.shouldShowBannerAd() }
 
         verify(settingsRepository)
             .invocation { adFreeEndDate }
@@ -168,8 +221,9 @@ class SessionManagerTest {
 
         val mockInterstitialAdSessionCount = Random.nextInt()
 
-        val mockAppConfig =
-            AppConfig(AdConfig(bannerAdSessionCount = mockInterstitialAdSessionCount))
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockInterstitialAdSessionCount)
+        )
 
         given(configManager)
             .invocation { appConfig }
@@ -303,6 +357,84 @@ class SessionManagerTest {
             .then { mockAppConfig }
 
         assertEquals(null, sessionManager.checkAppUpdate(true))
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong() + 1)
+
+        assertTrue { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong() - 1)
+
+        assertFalse { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
+        val mockInteger = Random.nextInt()
+        val mockAppConfig = AppConfig(
+            appReview = AppReview(appReviewSessionCount = mockInteger)
+        )
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockInteger.toLong())
+
+        assertFalse { sessionManager.shouldShowAppReview() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
 
         verify(configManager)
             .invocation { appConfig }
