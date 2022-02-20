@@ -131,12 +131,16 @@ class SessionManagerTest {
     }
 
     @Test
-    fun shouldShowBannerAd_while_first_run_is_false_and_when_reward_expired() {
+    fun shouldShowBannerAd_is_true_when_not_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner() {
         val mockBannerSessionCount = Random.nextInt()
 
         val mockAppConfig = AppConfig(
             adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
         )
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockBannerSessionCount + 1L)
 
         given(settingsRepository)
             .invocation { adFreeEndDate }
@@ -150,10 +154,50 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertEquals(
-            mockSessionCount > mockBannerSessionCount,
-            sessionManager.shouldShowBannerAd()
+        assertTrue { sessionManager.shouldShowBannerAd() }
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
+            .wasInvoked()
+
+        verify(settingsRepository)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowBannerAd_is_false_when_not_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner() {
+        val mockBannerSessionCount = Random.nextInt()
+
+        val mockAppConfig = AppConfig(
+            adConfig = AdConfig(bannerAdSessionCount = mockBannerSessionCount)
         )
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(mockBannerSessionCount - 1L)
+
+        given(settingsRepository)
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() - 1)
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { firstRun }
+            .thenReturn(false)
+
+        assertFalse { sessionManager.shouldShowBannerAd() }
 
         verify(settingsRepository)
             .invocation { adFreeEndDate }
