@@ -4,8 +4,6 @@
 
 package com.github.mustafaozhan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.client.BuildKonfig
-import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.helper.SessionManager
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
@@ -19,7 +17,6 @@ import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.config.model.AppReview
 import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
-import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
 import io.mockative.any
 import io.mockative.classOf
