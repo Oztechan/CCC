@@ -96,7 +96,7 @@ class MainViewModelTest {
     fun isAdFree_for_future_should_return_true() {
         given(settingsRepository)
             .invocation { adFreeEndDate }
-            .then { nowAsLong() + 1 }
+            .then { nowAsLong() + 100 }
 
         assertEquals(true, viewModel.isAdFree())
 
@@ -109,7 +109,7 @@ class MainViewModelTest {
     fun isAdFree_for_future_should_return_false() {
         given(settingsRepository)
             .invocation { adFreeEndDate }
-            .then { nowAsLong() - 1 }
+            .then { nowAsLong() - 100 }
 
         assertEquals(false, viewModel.isAdFree())
 
