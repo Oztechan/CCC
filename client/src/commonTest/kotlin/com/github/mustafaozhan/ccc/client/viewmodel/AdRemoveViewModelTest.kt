@@ -16,7 +16,6 @@ import com.github.mustafaozhan.ccc.client.viewmodel.adremove.update
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
@@ -65,8 +64,7 @@ class AdRemoveViewModelTest {
     fun updateAddFreeDate() {
         viewModel.updateAddFreeDate(null)
         verify(settingsRepository)
-            .setter(settingsRepository::adFreeEndDate)
-            .with(any())
+            .invocation { adFreeEndDate }
             .wasNotInvoked()
 
         RemoveAdType.values().forEach { adRemoveType ->

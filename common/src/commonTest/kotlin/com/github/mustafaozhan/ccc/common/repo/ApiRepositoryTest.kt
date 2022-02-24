@@ -14,7 +14,6 @@ import com.github.mustafaozhan.ccc.common.model.EmptyParameterException
 import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
@@ -85,8 +84,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByAPI_error() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByAPI)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByAPI(mockBase) }
             .thenThrow(mockThrowable)
 
         runCatching { repository.getRatesByAPI(mockBase) }.let {
@@ -104,8 +102,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByPremiumAPI_error() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByPremiumAPI)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByPremiumAPI(mockBase) }
             .thenThrow(mockThrowable)
 
         runCatching { repository.getRatesByPremiumAPI(mockBase) }.let {
@@ -123,8 +120,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByBackend_error() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByBackend)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByBackend(mockBase) }
             .thenThrow(mockThrowable)
 
         runCatching { repository.getRatesByBackend(mockBase) }.let {
@@ -142,8 +138,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByAPI_success() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByAPI)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByAPI(mockBase) }
             .thenReturn(mockEntity)
 
         runCatching { repository.getRatesByAPI(mockBase) }.let {
@@ -160,8 +155,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByPremiumAPI_success() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByPremiumAPI)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByPremiumAPI(mockBase) }
             .thenReturn(mockEntity)
 
         runCatching { repository.getRatesByPremiumAPI(mockBase) }.let {
@@ -178,8 +172,7 @@ class ApiRepositoryTest {
     @Test
     fun getRatesByBackend_success() = runTest {
         given(apiService)
-            .suspendFunction(apiService::getRatesByBackend)
-            .whenInvokedWith(any())
+            .coroutine { apiService.getRatesByBackend(mockBase) }
             .thenReturn(mockEntity)
 
         runCatching { repository.getRatesByBackend(mockBase) }.let {
