@@ -10,7 +10,6 @@ import com.github.mustafaozhan.ccc.common.mapper.toOfflineRates
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.eq
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.test.BeforeTest
@@ -38,8 +37,7 @@ class OfflineRatesRepositoryTest {
         repository.insertOfflineRates(currencyResponse)
 
         verify(offlineRatesQueries)
-            .function(offlineRatesQueries::insertOfflineRates)
-            .with(eq(currencyResponse.toOfflineRates()))
+            .invocation { insertOfflineRates(currencyResponse.toOfflineRates()) }
             .wasInvoked()
     }
 }
