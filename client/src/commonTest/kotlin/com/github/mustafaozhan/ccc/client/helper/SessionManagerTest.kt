@@ -217,22 +217,43 @@ class SessionManagerTest {
     }
 
     @Test
-    fun shouldShowInterstitialAd() {
-
-        val mockInterstitialAdSessionCount = Random.nextInt()
-
-        val mockAppConfig = AppConfig(
-            adConfig = AdConfig(bannerAdSessionCount = mockInterstitialAdSessionCount)
-        )
+    fun shouldShowInterstitialAd_returns_true_when_session_count_bigger_than_remote() {
+        val someInt = Random.nextInt()
+        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
 
         given(configManager)
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(
-            mockSessionCount > mockInterstitialAdSessionCount,
-            sessionManager.shouldShowInterstitialAd()
-        )
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(someInt.toLong() + 1)
+
+        assertTrue { sessionManager.shouldShowInterstitialAd() }
+
+        verify(settingsRepository)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(configManager)
+            .invocation { appConfig }
+            .wasInvoked()
+    }
+
+    @Test
+    fun shouldShowInterstitialAd_returns_false_when_session_count_smaller_than_remote() {
+        val someInt = Random.nextInt()
+        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
+
+        given(configManager)
+            .invocation { appConfig }
+            .then { mockAppConfig }
+
+        given(settingsRepository)
+            .invocation { sessionCount }
+            .thenReturn(someInt.toLong() - 1)
+
+        assertFalse { sessionManager.shouldShowInterstitialAd() }
 
         verify(settingsRepository)
             .invocation { sessionCount }
