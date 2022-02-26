@@ -7,7 +7,6 @@ import com.github.mustafaozhan.ccc.common.util.toDatabaseBoolean
 import com.github.mustafaozhan.logmob.initLogger
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.eq
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
@@ -36,8 +35,7 @@ class CurrencyRepositoryTest {
         repository.updateCurrencyStateByName(mockName, mockState)
 
         verify(currencyQueries)
-            .function(currencyQueries::updateCurrencyStateByName)
-            .with(eq(mockName), eq(mockState.toDatabaseBoolean()))
+            .invocation { updateCurrencyStateByName(mockState.toDatabaseBoolean(), mockName) }
             .wasInvoked()
     }
 
@@ -48,8 +46,7 @@ class CurrencyRepositoryTest {
         repository.updateAllCurrencyState(mockState)
 
         verify(currencyQueries)
-            .function(currencyQueries::updateAllCurrencyState)
-            .with(eq(mockState.toDatabaseBoolean()))
+            .invocation { updateAllCurrencyState(mockState.toDatabaseBoolean()) }
             .wasInvoked()
     }
 }
