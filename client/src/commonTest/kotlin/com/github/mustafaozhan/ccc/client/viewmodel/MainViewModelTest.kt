@@ -345,7 +345,6 @@ class MainViewModelTest {
             effect.before {
                 onResume()
             }.after {
-                println(it)
                 assertTrue { it is MainEffect.RequestReview }
             }
 
@@ -380,14 +379,9 @@ class MainViewModelTest {
 
             given(sessionManager)
                 .invocation { shouldShowAppReview() }
-                .then { true }
+                .then { false }
 
-            effect.before {
-                onResume()
-            }.after {
-                println(it)
-                assertTrue { it is MainEffect.RequestReview }
-            }
+            onResume()
 
             verify(sessionManager)
                 .invocation { shouldShowAppReview() }

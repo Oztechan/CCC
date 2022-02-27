@@ -9,7 +9,6 @@ import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.util.after
 import com.github.mustafaozhan.ccc.client.util.before
 import com.github.mustafaozhan.ccc.client.util.calculateAdRewardEnd
-import com.github.mustafaozhan.ccc.client.util.getRandomDateLong
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsState
@@ -36,6 +35,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
@@ -183,17 +183,28 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun isAdFreeNeverActivated() {
-        val mock = Random.getRandomDateLong()
+    fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
         given(settingsRepository)
             .getter(settingsRepository::adFreeEndDate)
             .whenInvoked()
-            .thenReturn(mock)
+            .thenReturn(1)
 
-        assertEquals(
-            mock == 0.toLong(), // mock is returning 0
-            viewModel.isAdFreeNeverActivated()
-        )
+        assertFalse { viewModel.isAdFreeNeverActivated() }
+
+        verify(settingsRepository)
+            .invocation { adFreeEndDate }
+            .wasInvoked()
+    }
+
+    @Test
+    fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
+        given(settingsRepository)
+            .getter(settingsRepository::adFreeEndDate)
+            .whenInvoked()
+            .thenReturn(0)
+
+        assertTrue { viewModel.isAdFreeNeverActivated() }
+
         verify(settingsRepository)
             .invocation { adFreeEndDate }
             .wasInvoked()
