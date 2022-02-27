@@ -90,4 +90,12 @@ class DateUtilTest {
             RemoveAdType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
         )
     }
+
+    @Test
+    fun doubleDigits() {
+        assertEquals("01", 1.doubleDigits())
+        assertEquals("05", 5.doubleDigits())
+        assertEquals("09", 9.doubleDigits())
+        assertEquals("10", 10.doubleDigits())
+    }
 }

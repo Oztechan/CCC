@@ -9,6 +9,7 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
 const val VIDEO_REWARD = 2
+private const val BIGGEST_DIGIT = 9
 
 fun Long.isRewardExpired(): Boolean {
     return nowAsLong() >= this
@@ -26,6 +27,8 @@ fun Instant.toDateString(
     "${hour.doubleDigits()}:${minute.doubleDigits()} " +
         "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
 }
+
+fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 @Suppress("MagicNumber")
 fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
