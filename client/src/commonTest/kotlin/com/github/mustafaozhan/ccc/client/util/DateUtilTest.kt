@@ -93,9 +93,9 @@ class DateUtilTest {
 
     @Test
     fun doubleDigits() {
-        assertEquals("01", 1.doubleDigits())
-        assertEquals("05", 5.doubleDigits())
-        assertEquals("09", 9.doubleDigits())
-        assertEquals("10", 10.doubleDigits())
+        assertEquals("01", 1.toDoubleDigits())
+        assertEquals("05", 5.toDoubleDigits())
+        assertEquals("09", 9.toDoubleDigits())
+        assertEquals("10", 10.toDoubleDigits())
     }
 }

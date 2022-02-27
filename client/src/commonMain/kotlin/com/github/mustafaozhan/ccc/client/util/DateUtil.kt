@@ -24,11 +24,11 @@ fun Long.toDateString(
 fun Instant.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
-    "${hour.doubleDigits()}:${minute.doubleDigits()} " +
-        "${dayOfMonth.doubleDigits()}.${monthNumber.doubleDigits()}.${year.doubleDigits()}"
+    "${hour.toDoubleDigits()}:${minute.toDoubleDigits()} " +
+        "${dayOfMonth.toDoubleDigits()}.${monthNumber.toDoubleDigits()}.${year.toDoubleDigits()}"
 }
 
-fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
+fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 @Suppress("MagicNumber")
 fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
