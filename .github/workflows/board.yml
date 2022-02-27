@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: 'Move issue to "📖 To do"'
         if: github.event_name == 'issues' && github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -29,7 +29,7 @@ jobs:
 
       - name: 'Moved issue to "✅ Done"'
         if: github.event_name == 'issues' && github.event.action == 'closed'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -39,7 +39,7 @@ jobs:
 
       - name: 'Move PR to "🚧 In Progress"'
         if: github.event_name == 'pull_request' && github.event.action == 'converted_to_draft'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -49,7 +49,7 @@ jobs:
 
       - name: 'Move PR to "🏗 PR Review"'
         if: github.event_name == 'pull_request' && github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'review_requested'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -59,7 +59,7 @@ jobs:
 
       - name: 'Move PR to "🏗 PR Review"'
         if: github.event_name == 'pull_request' && github.event.action == 'ready_for_review'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -69,7 +69,7 @@ jobs:
 
       - name: 'Move PR to "✅ Done"'
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: leonsteinhaeuser/project-beta-automations@v1.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
