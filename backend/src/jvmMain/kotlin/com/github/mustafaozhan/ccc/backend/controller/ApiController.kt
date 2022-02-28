@@ -54,16 +54,15 @@ class ApiController(
             runCatching { apiRepository.getRatesByAPI(base.name) }
                 .onFailure { Logger.e(it) }
                 .onSuccess { nonPremiumResponse ->
+
                     // premium api call
-                    CoroutineScope(Dispatchers.IO).launch {
-                        runCatching { apiRepository.getRatesByPremiumAPI(base.name) }
-                            .onFailure { Logger.e(it) }
-                            .onSuccess { premiumResponse ->
-                                offlineRatesRepository.insertOfflineRates(
-                                    getModifiedResponse(nonPremiumResponse, premiumResponse)
-                                )
-                            }
-                    }
+                    runCatching { apiRepository.getRatesByPremiumAPI(base.name) }
+                        .onFailure { Logger.e(it) }
+                        .onSuccess { premiumResponse ->
+                            offlineRatesRepository.insertOfflineRates(
+                                getModifiedResponse(nonPremiumResponse, premiumResponse)
+                            )
+                        }
                 }
         }
     }
