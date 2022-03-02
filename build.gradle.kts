@@ -2,6 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     with(Dependencies.Plugins) {
@@ -44,6 +45,12 @@ allprojects {
         maven("https://dl.bintray.com/ekito/koin")
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlinx/")
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            allWarningsAsErrors = true
+        }
     }
 }
 
