@@ -74,25 +74,8 @@ class CalculatorViewModelTest {
             .thenReturn("")
 
         given(currencyRepository)
-            .function(currencyRepository::getCurrencyByName)
-            .whenInvokedWith(any())
-            .thenReturn(currency)
-
-        runTest {
-            given(apiRepository)
-                .suspendFunction(apiRepository::getRatesByBackend)
-                .whenInvokedWith(any())
-                .thenReturn(currencyResponse)
-        }
-
-        given(currencyRepository)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
-
-        given(offlineRatesRepository)
-            .function(offlineRatesRepository::getOfflineRatesByBase)
-            .whenInvokedWith(any())
-            .thenReturn(null)
     }
 
     @Test
@@ -176,11 +159,27 @@ class CalculatorViewModelTest {
     }
 
     @Test
-    fun onBaseChanged() = viewModel.state.before {
-        viewModel.event.onBaseChange(currency.name)
-    }.after {
-        assertEquals(currency.name, viewModel.data.rates?.base)
-        assertNotNull(viewModel.data.rates)
-        assertEquals(currency.name, it?.base)
+    fun onBaseChanged() {
+        given(settingsRepository)
+            .invocation { currentBase }
+            .thenReturn(currency.name)
+
+        given(currencyRepository)
+            .invocation { currencyRepository.getCurrencyByName(currency.name) }
+            .thenReturn(currency)
+
+        runTest {
+            given(apiRepository)
+                .coroutine { getRatesByBackend(currency.name) }
+                .thenReturn(currencyResponse)
+        }
+
+        viewModel.state.before {
+            viewModel.event.onBaseChange(currency.name)
+        }.after {
+            assertEquals(currency.name, viewModel.data.rates?.base)
+            assertNotNull(viewModel.data.rates)
+            assertEquals(currency.name, it?.base)
+        }
     }
 }

@@ -126,12 +126,4 @@ class CalculatorUtilTest {
         assertEquals(0.0, rates.getConversionByName("some string"))
         assertEquals(0.0, rates.getConversionByName(""))
     }
-
-    @Test
-    fun doubleDigits() {
-        assertEquals("01", 1.doubleDigits())
-        assertEquals("05", 5.doubleDigits())
-        assertEquals("09", 9.doubleDigits())
-        assertEquals("10", 10.doubleDigits())
-    }
 }
