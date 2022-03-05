@@ -51,26 +51,19 @@ class ApiController(
             delay(SECOND)
 
             // non premium call for filling null values
-            apiRepository.getRatesByAPI(base.name)
-                .execute(
-                    success = { nonPremiumResponse ->
+            runCatching { apiRepository.getRatesByAPI(base.name) }
+                .onFailure { Logger.e(it) }
+                .onSuccess { nonPremiumResponse ->
 
-                        // premium api call
-                        CoroutineScope(Dispatchers.IO).launch {
-                            apiRepository.getRatesByPremiumAPI(base.name)
-                                .execute(
-                                    success = { premiumResponse ->
-                                        offlineRatesRepository.insertOfflineRates(
-                                            getModifiedResponse(nonPremiumResponse, premiumResponse)
-                                        )
-                                    },
-                                    error = { Logger.e(it) }
-                                )
+                    // premium api call
+                    runCatching { apiRepository.getRatesByPremiumAPI(base.name) }
+                        .onFailure { Logger.e(it) }
+                        .onSuccess { premiumResponse ->
+                            offlineRatesRepository.insertOfflineRates(
+                                getModifiedResponse(nonPremiumResponse, premiumResponse)
+                            )
                         }
-
-                    },
-                    error = { Logger.e(it) }
-                )
+                }
         }
     }
 
@@ -81,11 +74,9 @@ class ApiController(
 
             delay(SECOND)
 
-            apiRepository.getRatesByAPI(base.name)
-                .execute(
-                    success = { offlineRatesRepository.insertOfflineRates(it) },
-                    error = { Logger.e(it) }
-                )
+            runCatching { apiRepository.getRatesByAPI(base.name) }
+                .onFailure { Logger.e(it) }
+                .onSuccess { offlineRatesRepository.insertOfflineRates(it) }
         }
     }
 

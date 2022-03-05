@@ -21,7 +21,6 @@ import com.github.mustafaozhan.config.model.AppUpdate
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
 import io.mockative.Mock
-import io.mockative.any
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
@@ -155,8 +154,11 @@ class MainViewModelTest {
             .then { mockSessionCount }
 
         given(sessionManager)
-            .function(sessionManager::checkAppUpdate)
-            .whenInvokedWith(any())
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(false)
+
+        given(sessionManager)
+            .invocation { checkAppUpdate(true) }
             .thenReturn(false)
 
         given(sessionManager)
@@ -200,8 +202,7 @@ class MainViewModelTest {
             .then { mockSessionCount }
 
         given(sessionManager)
-            .function(sessionManager::checkAppUpdate)
-            .whenInvokedWith(any())
+            .invocation { checkAppUpdate(false) }
             .thenReturn(null)
 
         given(sessionManager)
@@ -334,8 +335,7 @@ class MainViewModelTest {
                 .then { mockSessionCount }
 
             given(sessionManager)
-                .function(sessionManager::checkAppUpdate)
-                .whenInvokedWith(any())
+                .invocation { checkAppUpdate(false) }
                 .thenReturn(null)
 
             given(sessionManager)
@@ -345,7 +345,6 @@ class MainViewModelTest {
             effect.before {
                 onResume()
             }.after {
-                println(it)
                 assertTrue { it is MainEffect.RequestReview }
             }
 
@@ -374,20 +373,14 @@ class MainViewModelTest {
                 .then { mockSessionCount }
 
             given(sessionManager)
-                .function(sessionManager::checkAppUpdate)
-                .whenInvokedWith(any())
+                .invocation { checkAppUpdate(false) }
                 .thenReturn(null)
 
             given(sessionManager)
                 .invocation { shouldShowAppReview() }
-                .then { true }
+                .then { false }
 
-            effect.before {
-                onResume()
-            }.after {
-                println(it)
-                assertTrue { it is MainEffect.RequestReview }
-            }
+            onResume()
 
             verify(sessionManager)
                 .invocation { shouldShowAppReview() }

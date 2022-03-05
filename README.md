@@ -67,6 +67,54 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
 ./gradlew :backend:run
 ```
 
+## Module Graph
+
+```mermaid
+graph TD;
+
+logmob{logmob}-->config
+logmob-->ad
+logmob-->android
+logmob-->backend
+logmob-->billing
+logmob-->client
+logmob-->common
+
+basemob-->android
+
+scopemob{scopemob}-->client
+scopemob-->android
+scopemob-->billing
+
+parsermob{parsermob}-->client
+
+client{client}-->android
+client-->ios
+
+common{common}-->client
+common-->backend
+
+config{config}-->android
+config-->client
+
+billing-->android
+
+ad-->android
+
+analytics-->android
+
+backend(backend)
+android(android)
+ios(ios)
+```
+
+```mermaid
+graph TD;
+KMP{KMP}
+target(target)
+module
+```
+
 ## Android Preview
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/4.png" width="400px"/>
