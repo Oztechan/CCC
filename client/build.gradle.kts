@@ -92,11 +92,7 @@ kotlin {
                     implementation(LIFECYCLE_VIEWMODEL)
                 }
             }
-            val androidTest by getting {
-                dependencies {
-                    implementation(kotlin(Dependencies.JVM.TEST_J_UNIT))
-                }
-            }
+            val androidTest by getting
         }
 
         val iosMain by getting {

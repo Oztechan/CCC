@@ -68,11 +68,7 @@ kotlin {
                     implementation(KTOR)
                 }
             }
-            val androidTest by getting {
-                dependencies {
-                    implementation(kotlin(Dependencies.JVM.TEST_J_UNIT))
-                }
-            }
+            val androidTest by getting
         }
 
         with(Dependencies.IOS) {
@@ -92,11 +88,7 @@ kotlin {
                     implementation(SQLLITE_DRIVER)
                 }
             }
-            val jvmTest by getting {
-                dependencies {
-                    implementation(kotlin(TEST_J_UNIT))
-                }
-            }
+            val jvmTest by getting
         }
     }
 }
