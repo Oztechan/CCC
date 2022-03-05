@@ -11,11 +11,7 @@ import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 
-private const val BIGGEST_DIGIT = 9
-
 expect fun Double.getFormatted(): String
-
-fun Int.doubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
