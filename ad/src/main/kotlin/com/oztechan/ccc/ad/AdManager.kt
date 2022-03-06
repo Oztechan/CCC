@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.ad
+package com.oztechan.ccc.ad
 
 import android.app.Activity
 import android.content.Context
