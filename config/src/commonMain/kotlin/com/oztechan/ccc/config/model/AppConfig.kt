@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.config.model
+package com.oztechan.ccc.config.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

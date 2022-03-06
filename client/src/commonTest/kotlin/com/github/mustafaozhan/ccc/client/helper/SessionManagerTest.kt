@@ -4,11 +4,11 @@ import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.ccc.common.util.nowAsLong
-import com.github.mustafaozhan.config.ConfigManager
-import com.github.mustafaozhan.config.model.AdConfig
-import com.github.mustafaozhan.config.model.AppConfig
-import com.github.mustafaozhan.config.model.AppReview
-import com.github.mustafaozhan.config.model.AppUpdate
+import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.model.AdConfig
+import com.oztechan.ccc.config.model.AppConfig
+import com.oztechan.ccc.config.model.AppReview
+import com.oztechan.ccc.config.model.AppUpdate
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

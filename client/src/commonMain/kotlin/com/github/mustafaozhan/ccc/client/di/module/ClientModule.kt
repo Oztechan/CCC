@@ -9,8 +9,8 @@ import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewMod
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.github.mustafaozhan.config.ConfigManager
-import com.github.mustafaozhan.config.ConfigManagerImpl
+import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.ConfigManagerImpl
 import org.koin.dsl.module
 
 var clientModule = module {

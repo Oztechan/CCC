@@ -1,6 +1,6 @@
-package com.github.mustafaozhan.config
+package com.oztechan.ccc.config
 
-import com.github.mustafaozhan.config.model.AppConfig
+import com.oztechan.ccc.config.model.AppConfig
 
 expect class ConfigManagerImpl() : ConfigManager {
     override var appConfig: AppConfig
