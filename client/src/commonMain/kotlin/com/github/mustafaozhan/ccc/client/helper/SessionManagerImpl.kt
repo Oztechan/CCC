@@ -4,9 +4,9 @@ import com.github.mustafaozhan.ccc.client.BuildKonfig
 import com.github.mustafaozhan.ccc.client.device
 import com.github.mustafaozhan.ccc.client.util.isRewardExpired
 import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
+import com.oztechan.ccc.config.ConfigManager
 
 class SessionManagerImpl(
     private val configManager: ConfigManager,

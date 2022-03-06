@@ -11,11 +11,11 @@ import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.ad.initAds
 import com.github.mustafaozhan.ccc.android.di.platformModule
 import com.github.mustafaozhan.ccc.client.di.initAndroid
-import com.github.mustafaozhan.config.ConfigManager
 import com.github.mustafaozhan.logmob.ANRWatchDogHandler
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger
 import com.mustafaozhan.github.analytics.initAnalytics
+import com.oztechan.ccc.config.ConfigManager
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import org.koin.android.ext.android.inject
 

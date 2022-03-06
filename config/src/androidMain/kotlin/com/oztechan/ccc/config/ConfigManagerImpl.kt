@@ -1,12 +1,12 @@
-package com.github.mustafaozhan.config
+package com.oztechan.ccc.config
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.config.model.AppConfig
 import com.github.mustafaozhan.logmob.e
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.oztechan.ccc.config.model.AppConfig
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
