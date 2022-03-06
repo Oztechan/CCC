@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.billing.model
+package com.oztechan.ccc.billing.model
 
 data class PurchaseHistory(
     var ids: List<String>,

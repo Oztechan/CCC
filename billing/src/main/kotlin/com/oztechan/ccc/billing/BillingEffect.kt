@@ -1,7 +1,7 @@
-package com.github.mustafaozhan.billing
+package com.oztechan.ccc.billing
 
-import com.github.mustafaozhan.billing.model.PurchaseHistory
-import com.github.mustafaozhan.billing.model.PurchaseMethod
+import com.oztechan.ccc.billing.model.PurchaseHistory
+import com.oztechan.ccc.billing.model.PurchaseMethod
 
 sealed class BillingEffect {
     object SuccessfulPurchase : BillingEffect()

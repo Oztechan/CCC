@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.billing
+package com.oztechan.ccc.billing
 
 import android.app.Activity
 import android.content.Context
@@ -17,9 +17,9 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.SkuDetailsResponseListener
-import com.github.mustafaozhan.billing.model.PurchaseHistory
-import com.github.mustafaozhan.billing.model.PurchaseMethod
 import com.github.mustafaozhan.scopemob.whether
+import com.oztechan.ccc.billing.model.PurchaseHistory
+import com.oztechan.ccc.billing.model.PurchaseMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.billing
+package com.oztechan.ccc.billing
 
 import android.app.Activity
 import android.content.Context
