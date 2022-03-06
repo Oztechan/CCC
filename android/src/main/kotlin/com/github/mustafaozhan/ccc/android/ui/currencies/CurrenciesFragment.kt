@@ -23,11 +23,11 @@ import com.github.mustafaozhan.ccc.android.util.showSnack
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.mustafaozhan.github.analytics.AnalyticsManager
-import com.mustafaozhan.github.analytics.model.EventParam
-import com.mustafaozhan.github.analytics.model.FirebaseEvent
-import com.mustafaozhan.github.analytics.model.UserProperty
 import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.model.UserProperty
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

@@ -1,8 +1,8 @@
-package com.mustafaozhan.github.analytics
+package com.oztechan.ccc.analytics
 
-import com.mustafaozhan.github.analytics.model.EventParam
-import com.mustafaozhan.github.analytics.model.FirebaseEvent
-import com.mustafaozhan.github.analytics.model.UserProperty
+import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.model.UserProperty
 
 interface AnalyticsManager {
     fun trackScreen(screenName: String)

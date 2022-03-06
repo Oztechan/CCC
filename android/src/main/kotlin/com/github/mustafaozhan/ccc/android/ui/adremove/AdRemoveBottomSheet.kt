@@ -18,8 +18,8 @@ import com.github.mustafaozhan.ccc.android.util.toRemoveAdDataList
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.billing.BillingEffect
 import com.oztechan.ccc.billing.BillingManager
 import kotlinx.coroutines.flow.launchIn

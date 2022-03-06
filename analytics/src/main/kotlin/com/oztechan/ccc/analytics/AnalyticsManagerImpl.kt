@@ -1,15 +1,15 @@
-package com.mustafaozhan.github.analytics
+package com.oztechan.ccc.analytics
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-import com.mustafaozhan.github.analytics.model.EventParam
-import com.mustafaozhan.github.analytics.model.FirebaseEvent
-import com.mustafaozhan.github.analytics.model.UserProperty
-import com.mustafaozhan.github.analytics.util.getAvailableServices
-import com.mustafaozhan.github.analytics.util.isDeviceRooted
+import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.analytics.util.getAvailableServices
+import com.oztechan.ccc.analytics.util.isDeviceRooted
 
 class AnalyticsManagerImpl(
     context: Context

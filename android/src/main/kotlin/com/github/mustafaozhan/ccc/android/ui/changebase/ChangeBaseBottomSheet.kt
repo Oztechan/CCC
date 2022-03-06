@@ -15,9 +15,9 @@ import com.github.mustafaozhan.ccc.android.util.showLoading
 import com.github.mustafaozhan.ccc.android.util.visibleIf
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
-import com.mustafaozhan.github.analytics.AnalyticsManager
-import com.mustafaozhan.github.analytics.model.EventParam
-import com.mustafaozhan.github.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.FirebaseEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
