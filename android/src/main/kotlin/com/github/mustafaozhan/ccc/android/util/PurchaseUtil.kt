@@ -1,10 +1,10 @@
 package com.github.mustafaozhan.ccc.android.util
 
-import com.github.mustafaozhan.billing.model.PurchaseHistory
-import com.github.mustafaozhan.billing.model.PurchaseMethod
 import com.github.mustafaozhan.ccc.client.model.OldPurchase
 import com.github.mustafaozhan.ccc.client.model.RemoveAdData
 import com.github.mustafaozhan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.billing.model.PurchaseHistory
+import com.oztechan.ccc.billing.model.PurchaseMethod
 
 fun List<PurchaseMethod>.toRemoveAdDataList(): List<RemoveAdData> = map {
     RemoveAdData(it.price, it.description, it.id)

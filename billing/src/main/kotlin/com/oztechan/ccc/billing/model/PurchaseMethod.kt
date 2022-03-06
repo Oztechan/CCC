@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.billing.model
+package com.oztechan.ccc.billing.model
 
 data class PurchaseMethod(
     val price: String,
