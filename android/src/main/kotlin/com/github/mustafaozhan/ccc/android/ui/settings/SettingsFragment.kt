@@ -11,7 +11,6 @@ import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ad.AdManager
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.setBannerAd
 import com.github.mustafaozhan.ccc.android.util.showDialog
@@ -24,6 +23,7 @@ import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
 import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.model.FirebaseEvent
+import com.oztechan.ccc.ad.AdManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
