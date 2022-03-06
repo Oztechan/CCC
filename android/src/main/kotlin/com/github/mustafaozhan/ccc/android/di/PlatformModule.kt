@@ -1,9 +1,9 @@
 package com.github.mustafaozhan.ccc.android.di
 
-import com.github.mustafaozhan.ad.AdManager
-import com.github.mustafaozhan.ad.AdManagerImpl
 import com.mustafaozhan.github.analytics.AnalyticsManager
 import com.mustafaozhan.github.analytics.AnalyticsManagerImpl
+import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.ad.AdManagerImpl
 import com.oztechan.ccc.billing.BillingManager
 import com.oztechan.ccc.billing.BillingManagerImpl
 import org.koin.dsl.module
