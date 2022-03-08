@@ -9,9 +9,9 @@ import com.github.mustafaozhan.ccc.client.model.Currency
 import com.github.mustafaozhan.ccc.client.util.getFormatted
 import com.github.mustafaozhan.ccc.client.util.toStandardDigits
 import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEvent
-import com.mustafaozhan.github.analytics.AnalyticsManager
-import com.mustafaozhan.github.analytics.model.EventParam
-import com.mustafaozhan.github.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.FirebaseEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
