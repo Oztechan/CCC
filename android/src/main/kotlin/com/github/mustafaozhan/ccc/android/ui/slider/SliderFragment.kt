@@ -15,7 +15,7 @@ import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
 import com.github.mustafaozhan.ccc.android.util.gone
 import com.github.mustafaozhan.ccc.android.util.visible
 import com.github.mustafaozhan.scopemob.whether
-import com.mustafaozhan.github.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.AnalyticsManager
 import mustafaozhan.github.com.mycurrencies.R
 import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
 import org.koin.android.ext.android.inject

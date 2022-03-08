@@ -1,4 +1,4 @@
-package com.mustafaozhan.github.analytics.model
+package com.oztechan.ccc.analytics.model
 
 enum class UserProperty(val key: String) {
     BASE_CURRENCY("base_currency"),

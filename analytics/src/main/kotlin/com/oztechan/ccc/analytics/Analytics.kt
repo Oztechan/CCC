@@ -1,4 +1,4 @@
-package com.mustafaozhan.github.analytics
+package com.oztechan.ccc.analytics
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics

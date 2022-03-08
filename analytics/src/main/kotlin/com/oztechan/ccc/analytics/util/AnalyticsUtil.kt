@@ -1,4 +1,4 @@
-package com.mustafaozhan.github.analytics.util
+package com.oztechan.ccc.analytics.util
 
 import android.content.Context
 import com.google.android.gms.common.GoogleApiAvailabilityLight
