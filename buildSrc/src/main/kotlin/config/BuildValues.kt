@@ -33,7 +33,7 @@ object BuildValues {
 
     object Fakes {
         const val PRIVATE_URL = "http://www.private-url.com"
-        const val PRIVATE_PATH = "http://www.private-url.com"
+        const val PRIVATE_PATH = "private/path"
 
         const val ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713"
         const val BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
