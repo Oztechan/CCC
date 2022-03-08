@@ -61,7 +61,8 @@ class Keys(private val project: Project) {
         fakeKey = BuildValues.Fakes.PRIVATE_URL
     )
     val androidKeyStorePath = UnFlavoredVariable(
-        key = BuildValues.Signing.ANDROID_KEY_STORE_PATH
+        key = BuildValues.Signing.ANDROID_KEY_STORE_PATH,
+        fakeKey = BuildValues.Fakes.PRIVATE_PATH
     )
     val androidStorePassword = UnFlavoredVariable(
         key = BuildValues.Signing.ANDROID_STORE_PASSWORD
