@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.backend.controller
+package com.oztechan.ccc.backend.controller
 
 import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
 

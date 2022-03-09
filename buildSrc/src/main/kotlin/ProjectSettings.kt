@@ -13,7 +13,8 @@ object ProjectSettings {
     private const val VERSION_DIF = 713
 
     const val PROJECT_ID = "mustafaozhan.github.com.mycurrencies"
-    const val PACKAGE_NAME = "com.github.mustafaozhan.ccc"
+    const val PACKAGE_NAME_OLD = "com.github.mustafaozhan.ccc"
+    const val PACKAGE_NAME = "com.oztechan.ccc"
     const val COMPILE_SDK_VERSION = 31
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 31
