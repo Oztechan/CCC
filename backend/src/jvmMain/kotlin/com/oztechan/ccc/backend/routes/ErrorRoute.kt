@@ -2,10 +2,10 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.backend.routes
+package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.backend.util.getResourceByName
+import com.oztechan.ccc.backend.util.getResourceByName
 import io.ktor.application.call
 import io.ktor.http.ContentType
 import io.ktor.response.respondText

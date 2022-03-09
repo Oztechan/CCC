@@ -1,4 +1,4 @@
-package com.github.mustafaozhan.ccc.backend.di
+package com.oztechan.ccc.backend.di
 
 import org.koin.core.Koin
 

@@ -2,12 +2,12 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.github.mustafaozhan.ccc.backend.routes
+package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.backend.controller.RootingController
-import com.github.mustafaozhan.ccc.backend.di.koin
 import com.github.mustafaozhan.ccc.common.di.getDependency
+import com.oztechan.ccc.backend.controller.RootingController
+import com.oztechan.ccc.backend.di.koin
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route
