@@ -8,13 +8,13 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.client.di.initAndroid
 import com.github.mustafaozhan.logmob.ANRWatchDogHandler
 import com.github.mustafaozhan.logmob.initCrashlytics
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
 import com.oztechan.ccc.android.di.platformModule
+import com.oztechan.ccc.client.di.initAndroid
 import com.oztechan.ccc.config.ConfigManager
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 import org.koin.android.ext.android.inject

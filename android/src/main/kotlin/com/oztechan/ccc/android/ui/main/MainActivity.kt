@@ -13,9 +13,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.activity.BaseActivity
-import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
@@ -23,6 +20,9 @@ import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.updateBaseContextLocale
+import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.viewmodel.main.MainEffect
+import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

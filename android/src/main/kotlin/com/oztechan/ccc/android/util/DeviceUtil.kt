@@ -9,7 +9,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
-import com.github.mustafaozhan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.model.AppTheme
 import java.util.Locale
 
 fun updateBaseContextLocale(context: Context): Context? {
