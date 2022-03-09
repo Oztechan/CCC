@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.util
 
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone

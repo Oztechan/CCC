@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.mapper
 
-import com.github.mustafaozhan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
 fun Currency.toUIModel() = CurrencyUIModel(

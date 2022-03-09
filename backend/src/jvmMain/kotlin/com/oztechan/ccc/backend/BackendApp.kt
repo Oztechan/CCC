@@ -5,10 +5,6 @@
 package com.oztechan.ccc.backend
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.di.modules.apiModule
-import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
-import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.backend.controller.ApiController
 import com.oztechan.ccc.backend.di.koin
@@ -16,6 +12,10 @@ import com.oztechan.ccc.backend.di.modules.controllerModule
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
+import com.oztechan.ccc.common.di.getDependency
+import com.oztechan.ccc.common.di.modules.apiModule
+import com.oztechan.ccc.common.di.modules.getDatabaseModule
+import com.oztechan.ccc.common.di.modules.getSettingsModule
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty

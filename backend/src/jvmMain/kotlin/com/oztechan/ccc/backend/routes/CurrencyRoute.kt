@@ -5,9 +5,9 @@
 package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.di.getDependency
 import com.oztechan.ccc.backend.controller.RootingController
 import com.oztechan.ccc.backend.di.koin
+import com.oztechan.ccc.common.di.getDependency
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route

@@ -3,8 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.runTest
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
@@ -14,6 +12,8 @@ import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseEffect
 import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseState
 import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
 import com.oztechan.ccc.client.viewmodel.changebase.update
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.runTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -26,7 +26,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import com.github.mustafaozhan.ccc.common.model.Currency as CurrencyCommon
+import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
 class ChangeBaseViewModelTest {
 

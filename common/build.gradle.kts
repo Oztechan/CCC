@@ -116,13 +116,13 @@ android {
 
 sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${ProjectSettings.PACKAGE_NAME_OLD}.common.db.sql"
+        packageName = "${ProjectSettings.PACKAGE_NAME}.common.db.sql"
         sourceFolders = listOf("kotlin")
     }
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PACKAGE_NAME_OLD}.common"
+    packageName = "${ProjectSettings.PACKAGE_NAME}.common"
 
     defaultConfigs {
         with(Keys(project)) {

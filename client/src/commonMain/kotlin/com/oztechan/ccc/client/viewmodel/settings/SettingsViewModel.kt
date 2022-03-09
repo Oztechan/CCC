@@ -4,11 +4,6 @@
 package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.e
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.helper.SessionManager
@@ -19,6 +14,11 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.common.api.repo.ApiRepository
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

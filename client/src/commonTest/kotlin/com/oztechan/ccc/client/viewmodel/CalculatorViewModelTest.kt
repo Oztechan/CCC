@@ -3,14 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.runTest
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.mapper.toUIModel
@@ -21,6 +13,14 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.common.api.repo.ApiRepository
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.runTest
+import com.oztechan.ccc.common.settings.SettingsRepository
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

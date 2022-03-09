@@ -7,13 +7,13 @@
 package com.oztechan.ccc.client.di
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.di.getDependency
-import com.github.mustafaozhan.ccc.common.di.modules.apiModule
-import com.github.mustafaozhan.ccc.common.di.modules.getDatabaseModule
-import com.github.mustafaozhan.ccc.common.di.modules.getSettingsModule
 import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.di.module.clientModule
 import com.oztechan.ccc.client.di.module.getIOSModule
+import com.oztechan.ccc.common.di.getDependency
+import com.oztechan.ccc.common.di.modules.apiModule
+import com.oztechan.ccc.common.di.modules.getDatabaseModule
+import com.oztechan.ccc.common.di.modules.getSettingsModule
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin

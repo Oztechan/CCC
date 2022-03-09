@@ -4,8 +4,6 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.after
@@ -15,6 +13,8 @@ import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveState
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.client.viewmodel.adremove.update
+import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
