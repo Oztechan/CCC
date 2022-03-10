@@ -10,9 +10,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.client.model.RemoveAdType
-import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.android.util.showDialog
@@ -22,6 +19,9 @@ import com.oztechan.ccc.android.util.toOldPurchaseList
 import com.oztechan.ccc.android.util.toRemoveAdDataList
 import com.oztechan.ccc.billing.BillingEffect
 import com.oztechan.ccc.billing.BillingManager
+import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
+import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

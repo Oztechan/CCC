@@ -11,9 +11,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.client.util.toValidList
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
@@ -24,6 +21,9 @@ import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
+import com.oztechan.ccc.client.util.toValidList
+import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
+import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
