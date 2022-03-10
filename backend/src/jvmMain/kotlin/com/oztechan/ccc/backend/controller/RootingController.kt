@@ -4,7 +4,7 @@
 
 package com.oztechan.ccc.backend.controller
 
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 
 class RootingController(
     private val offlineRatesRepository: OfflineRatesRepository

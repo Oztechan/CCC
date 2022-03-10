@@ -4,8 +4,6 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
 import com.github.mustafaozhan.scopemob.castTo
 import com.oztechan.ccc.client.BuildKonfig
@@ -15,6 +13,8 @@ import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
+import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigManager
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig

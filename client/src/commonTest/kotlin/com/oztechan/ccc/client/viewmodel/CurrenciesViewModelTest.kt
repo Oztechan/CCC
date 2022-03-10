@@ -3,9 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.runTest
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.mapper.toUIModel
@@ -15,6 +12,9 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesState
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.runTest
+import com.oztechan.ccc.common.settings.SettingsRepository
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -28,8 +28,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.github.mustafaozhan.ccc.common.model.Currency as CommonCurrency
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
+import com.oztechan.ccc.common.model.Currency as CommonCurrency
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModelTest {

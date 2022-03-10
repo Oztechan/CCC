@@ -1,9 +1,9 @@
 package com.oztechan.ccc.client.util
 
-import com.github.mustafaozhan.ccc.common.util.DAY
-import com.github.mustafaozhan.ccc.common.util.SECOND
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.common.util.DAY
+import com.oztechan.ccc.common.util.SECOND
+import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone

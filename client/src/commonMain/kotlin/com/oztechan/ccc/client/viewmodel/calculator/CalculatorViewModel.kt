@@ -4,12 +4,6 @@
 package com.oztechan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.model.Rates
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
@@ -33,6 +27,12 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.common.api.repo.ApiRepository
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.settings.SettingsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

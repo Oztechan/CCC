@@ -1,11 +1,11 @@
 package com.oztechan.ccc.client.helper
 
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.github.mustafaozhan.scopemob.mapTo
 import com.github.mustafaozhan.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.config.ConfigManager
 
 class SessionManagerImpl(
