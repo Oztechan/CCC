@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.android.app
+package com.oztechan.ccc.android
 
 import android.app.Application
 import android.os.StrictMode
@@ -20,7 +20,7 @@ import mustafaozhan.github.com.mycurrencies.BuildConfig
 import org.koin.android.ext.android.inject
 
 @Suppress("unused")
-class CCCApplication : Application() {
+class Application : Application() {
 
     private val configManager: ConfigManager by inject()
 
@@ -33,7 +33,7 @@ class CCCApplication : Application() {
 
         initLogger()
 
-        Logger.i { "CCCApplication onCreate" }
+        Logger.i { "Application onCreate" }
 
         if (!BuildConfig.DEBUG) {
             initAnalytics(this)
