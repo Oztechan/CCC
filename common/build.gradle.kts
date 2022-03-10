@@ -32,17 +32,64 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting { setCommonMainDependencies() }
-        val commonTest by getting { setCommonTestDependencies() }
 
-        val androidMain by getting { setAndroidMainDependencies() }
-        val androidTest by getting
+        with(Dependencies.Common) {
+            val commonMain by getting {
+                dependencies {
+                    implementation(project(Dependencies.Modules.LOG_MOB))
 
-        val iosMain by getting { setIosMainDependencies() }
-        val iosTest by getting
+                    implementation(MULTIPLATFORM_SETTINGS)
+                    implementation(KOTLIN_X_DATE_TIME)
+                    implementation(KOIN_CORE)
+                    implementation(KTOR_LOGGING)
+                    implementation(KTOR_SETIALIZATION)
+                    implementation(SQL_DELIGHT_RUNTIME)
+                    implementation(SQL_DELIGHT_COROUTINES_EXT)
+                    implementation(COROUTINES) {
+                        version {
+                            strictly(Versions.COROUTINES)
+                        }
+                    }
+                }
+            }
+            val commonTest by getting {
+                dependencies {
+                    implementation(kotlin(TEST))
+                    implementation(kotlin(TEST_ANNOTATIONS))
+                    implementation(MOCKATIVE)
+                }
+            }
+        }
 
-        val jvmMain by getting { setJvmMainDependencies() }
-        val jvmTest by getting
+        with(Dependencies.Android) {
+            val androidMain by getting {
+                dependencies {
+                    implementation(SQL_DELIGHT)
+                    implementation(KTOR)
+                }
+            }
+            val androidTest by getting
+        }
+
+        with(Dependencies.IOS) {
+            val iosMain by getting {
+                dependencies {
+                    implementation(KTOR)
+                    implementation(SQL_DELIGHT)
+                }
+            }
+            val iosTest by getting
+        }
+
+        with(Dependencies.JVM) {
+            val jvmMain by getting {
+                dependencies {
+                    implementation(KTOR)
+                    implementation(SQLLITE_DRIVER)
+                }
+            }
+            val jvmTest by getting
+        }
     }
 }
 
@@ -89,62 +136,4 @@ configure<BuildKonfigExtension> {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
-}
-
-fun setCommonMainDependencies() {
-    dependencies {
-        implementation(project(Dependencies.Modules.LOG_MOB))
-
-        with(Dependencies.Common) {
-            implementation(MULTIPLATFORM_SETTINGS)
-            implementation(KOTLIN_X_DATE_TIME)
-            implementation(KOIN_CORE)
-            implementation(KTOR_LOGGING)
-            implementation(KTOR_SETIALIZATION)
-            implementation(SQL_DELIGHT_RUNTIME)
-            implementation(SQL_DELIGHT_COROUTINES_EXT)
-            implementation(COROUTINES) {
-                version {
-                    strictly(Versions.COROUTINES)
-                }
-            }
-        }
-    }
-}
-
-fun setCommonTestDependencies() {
-    dependencies {
-        with(Dependencies.Common) {
-            implementation(kotlin(TEST))
-            implementation(kotlin(TEST_ANNOTATIONS))
-            implementation(MOCKATIVE)
-        }
-    }
-}
-
-fun setAndroidMainDependencies() {
-    dependencies {
-        with(Dependencies.Android) {
-            implementation(SQL_DELIGHT)
-            implementation(KTOR)
-        }
-    }
-}
-
-fun setIosMainDependencies() {
-    with(Dependencies.IOS) {
-        dependencies {
-            implementation(KTOR)
-            implementation(SQL_DELIGHT)
-        }
-    }
-}
-
-fun setJvmMainDependencies() {
-    with(Dependencies.JVM) {
-        dependencies {
-            implementation(KTOR)
-            implementation(SQLLITE_DRIVER)
-        }
-    }
 }

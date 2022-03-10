@@ -26,7 +26,25 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val jvmMain by getting { addJvmDependencies() }
+        val jvmMain by getting {
+            dependencies {
+                with(Dependencies.JVM) {
+                    implementation(KTOR_CORE)
+                    implementation(KTOR_NETTY)
+                    implementation(KTOR_SERIALIZATIONM)
+                    implementation(LOG_BACK)
+                }
+
+                with(Dependencies.Common) {
+                    implementation(KOIN_CORE)
+                }
+
+                with(Dependencies.Modules) {
+                    implementation(project(COMMON))
+                    implementation(project(LOG_MOB))
+                }
+            }
+        }
     }
 }
 
@@ -56,24 +74,3 @@ tasks.withType<KotlinCompile> {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
-
-fun addJvmDependencies() {
-    dependencies {
-        with(Dependencies.JVM) {
-            implementation(KTOR_CORE)
-            implementation(KTOR_NETTY)
-            implementation(KTOR_SERIALIZATIONM)
-            implementation(LOG_BACK)
-        }
-
-        with(Dependencies.Common) {
-            implementation(KOIN_CORE)
-        }
-
-        with(Dependencies.Modules) {
-            implementation(project(COMMON))
-            implementation(project(LOG_MOB))
-        }
-    }
-}
-
