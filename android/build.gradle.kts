@@ -1,6 +1,8 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import ProjectSettings.HUAWEI_APP_ID
+import ProjectSettings.PROJECT_ID
 import config.BuildType
 import config.DeviceFlavour
 import config.DeviceFlavour.Companion.googleImplementation
@@ -23,8 +25,6 @@ android {
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
-
-            applicationId = PROJECT_ID
 
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
@@ -62,10 +62,12 @@ android {
         productFlavors {
             create(google) {
                 dimension = flavorDimension
+                applicationId = PROJECT_ID
             }
 
             create(huawei) {
                 dimension = flavorDimension
+                applicationId = HUAWEI_APP_ID
             }
         }
     }

@@ -6,6 +6,8 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet as SourceSet
+import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension as Cocoapods
 
 plugins {
     with(Dependencies.Plugins) {
@@ -32,74 +34,22 @@ kotlin {
         iosX64("ios")
     }
 
-    cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "Client"
-        }
-    }
+    cocoapods { addConfig() }
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
-        all {
-            languageSettings.apply {
-                optIn("kotlinx.coroutines.FlowPreview")
-                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            }
-        }
+        all { addLanguageSettings() }
 
-        with(Dependencies.Common) {
-            val commonMain by getting {
-                dependencies {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(COROUTINES)
-                    implementation(KOIN_CORE)
+        val commonMain by getting { setCommonMainDependencies() }
+        val commonTest by getting { setCommonTestDependencies() }
 
-                    with(Dependencies.Modules) {
-                        implementation(project(COMMON))
-                        implementation(project(PARSER_MOB))
-                        implementation(project(SCOPE_MOB))
-                        implementation(project(LOG_MOB))
-                        implementation(project(CONFIG))
-                    }
-                }
-            }
-            val commonTest by getting {
-                dependencies {
-                    implementation(kotlin(TEST))
-                    implementation(kotlin(TEST_ANNOTATIONS))
-                    implementation(MOCKATIVE)
-                }
-            }
-        }
+        val mobileMain by creating { setMobileMainDependencies(commonMain) }
 
-        val mobileMain by creating {
-            dependencies {
-                dependsOn(commonMain.get())
-                implementation(Dependencies.Common.MOKO_RESOURCES)
-            }
-        }
+        val androidMain by getting { setAndroidMainDependencies(mobileMain) }
+        val androidTest by getting
 
-        with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
-                    dependsOn(mobileMain)
-                    implementation(ANDROID_MATERIAL)
-                    implementation(KOIN_ANDROID)
-                    implementation(LIFECYCLE_VIEWMODEL)
-                }
-            }
-            val androidTest by getting
-        }
-
-        val iosMain by getting {
-            dependencies {
-                dependsOn(mobileMain)
-            }
-        }
+        val iosMain by getting { dependencies { dependsOn(mobileMain) } }
         val iosTest by getting
     }
 }
@@ -161,5 +111,67 @@ configure<BuildKonfigExtension> {
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString())
+    }
+}
+
+fun setCommonMainDependencies() {
+    with(Dependencies.Common) {
+        dependencies {
+            implementation(KOTLIN_X_DATE_TIME)
+            implementation(COROUTINES)
+            implementation(KOIN_CORE)
+
+            with(Dependencies.Modules) {
+                implementation(project(COMMON))
+                implementation(project(PARSER_MOB))
+                implementation(project(SCOPE_MOB))
+                implementation(project(LOG_MOB))
+                implementation(project(CONFIG))
+            }
+        }
+    }
+}
+
+fun setCommonTestDependencies() {
+    with(Dependencies.Common) {
+        dependencies {
+            implementation(kotlin(TEST))
+            implementation(kotlin(TEST_ANNOTATIONS))
+            implementation(MOCKATIVE)
+        }
+    }
+}
+
+fun SourceSet.setMobileMainDependencies(commonMain: SourceSet) {
+    dependencies {
+        dependsOn(commonMain)
+        implementation(Dependencies.Common.MOKO_RESOURCES)
+    }
+}
+
+fun SourceSet.addLanguageSettings() {
+    languageSettings.apply {
+        optIn("kotlinx.coroutines.FlowPreview")
+        optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+    }
+}
+
+fun SourceSet.setAndroidMainDependencies(mobileMain: SourceSet) {
+    with(Dependencies.Android) {
+        dependencies {
+            dependsOn(mobileMain)
+            implementation(ANDROID_MATERIAL)
+            implementation(KOIN_ANDROID)
+            implementation(LIFECYCLE_VIEWMODEL)
+        }
+    }
+}
+
+fun Cocoapods.addConfig() {
+    summary = "CCC"
+    homepage = "https://github.com/CurrencyConverterCalculator/CCC"
+    ios.deploymentTarget = "14.0"
+    framework {
+        baseName = "Client"
     }
 }
