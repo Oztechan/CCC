@@ -14,8 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.EventParam
@@ -28,6 +26,8 @@ import com.oztechan.ccc.android.util.setNavigationResult
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.visibleIf
+import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
+import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

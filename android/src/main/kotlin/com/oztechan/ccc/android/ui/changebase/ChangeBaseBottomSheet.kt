@@ -9,8 +9,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
-import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.analytics.model.FirebaseEvent
@@ -18,6 +16,8 @@ import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANG
 import com.oztechan.ccc.android.util.setNavigationResult
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.visibleIf
+import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseEffect
+import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

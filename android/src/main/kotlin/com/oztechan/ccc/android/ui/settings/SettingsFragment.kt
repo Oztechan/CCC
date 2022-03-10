@@ -12,9 +12,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.mustafaozhan.basemob.fragment.BaseVBFragment
-import com.github.mustafaozhan.ccc.client.model.AppTheme
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsEffect
-import com.github.mustafaozhan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.FirebaseEvent
@@ -24,6 +21,9 @@ import com.oztechan.ccc.android.util.showSingleChoiceDialog
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.visibleIf
+import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
+import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R

@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
-import com.github.mustafaozhan.ccc.client.model.Currency
-import com.github.mustafaozhan.ccc.client.viewmodel.changebase.ChangeBaseEvent
 import com.oztechan.ccc.android.util.setBackgroundByName
+import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemChangeBaseBinding
 
 class ChangeBaseAdapter(
