@@ -45,7 +45,7 @@ fun main() {
         koin = it.koin
     }
 
-    Logger.i { "BackendApp main" }
+    Logger.i { "Application main" }
 
     apiController.startSyncApi()
 

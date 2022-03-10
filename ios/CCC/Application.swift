@@ -1,5 +1,5 @@
 //
-//  CCCApp.swift
+//  Application.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 16/11/2020.
@@ -14,10 +14,10 @@ import GoogleMobileAds
 let logger = LoggerKt.doInitLogger()
 
 @main
-struct CCCApp: App {
+struct Application: App {
 
     init() {
-        logger.i(message: {"CCCApp init"})
+        logger.i(message: {"Application init"})
 
         #if RELEASE
             FirebaseApp.configure()
