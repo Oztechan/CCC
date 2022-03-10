@@ -5,13 +5,13 @@
 package com.oztechan.ccc.backend.controller
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.github.mustafaozhan.ccc.common.model.CurrencyResponse
-import com.github.mustafaozhan.ccc.common.model.CurrencyType
-import com.github.mustafaozhan.ccc.common.util.DAY
-import com.github.mustafaozhan.ccc.common.util.SECOND
 import com.github.mustafaozhan.logmob.e
+import com.oztechan.ccc.common.api.repo.ApiRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.CurrencyType
+import com.oztechan.ccc.common.util.DAY
+import com.oztechan.ccc.common.util.SECOND
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

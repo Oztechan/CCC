@@ -5,8 +5,6 @@
 package com.oztechan.ccc.client.viewmodel.adremove
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.scopemob.whether
 import com.github.mustafaozhan.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseData
@@ -17,6 +15,8 @@ import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

@@ -69,7 +69,7 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
 
 ## Testing
 
-After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. You will need to change content of the all methods in `com.github.mustafaozhan.ccc.common.api.service.ApiServiceImpl` with below.
+After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. You will need to change content of the all methods in `com.oztechan.ccc.common.api.service.ApiServiceImpl` with below.
 
 ```kotlin
 // you have 3 of them

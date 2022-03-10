@@ -4,11 +4,11 @@
 package com.oztechan.ccc.client.viewmodel.main
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.config.ConfigManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

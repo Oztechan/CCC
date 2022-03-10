@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.viewmodel.calculator
 
-import com.github.mustafaozhan.ccc.common.model.Rates
 import com.github.mustafaozhan.parsermob.ParserMob
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseEffect
@@ -8,6 +7,7 @@ import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.model.RateState
+import com.oztechan.ccc.common.model.Rates
 import kotlinx.coroutines.flow.MutableStateFlow
 
 // State

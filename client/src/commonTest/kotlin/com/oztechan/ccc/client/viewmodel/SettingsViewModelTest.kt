@@ -3,14 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.ccc.common.api.repo.ApiRepository
-import com.github.mustafaozhan.ccc.common.db.currency.CurrencyRepository
-import com.github.mustafaozhan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.github.mustafaozhan.ccc.common.model.Currency
-import com.github.mustafaozhan.ccc.common.runTest
-import com.github.mustafaozhan.ccc.common.settings.SettingsRepository
-import com.github.mustafaozhan.ccc.common.util.DAY
-import com.github.mustafaozhan.ccc.common.util.nowAsLong
 import com.github.mustafaozhan.logmob.initLogger
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
@@ -23,6 +15,14 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
+import com.oztechan.ccc.common.api.repo.ApiRepository
+import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.runTest
+import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.util.DAY
+import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
