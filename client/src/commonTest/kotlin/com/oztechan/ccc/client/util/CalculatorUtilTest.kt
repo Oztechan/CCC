@@ -71,8 +71,8 @@ class CalculatorUtilTest {
 
     @Test
     fun getFormatted() {
-        val actualDouble = 123456.7890
-        assertEquals("123 456.789", actualDouble.getFormatted())
+        val actualDouble = 1234567.7890
+        assertEquals("1 234 567.789", actualDouble.getFormatted())
     }
 
     @Test
