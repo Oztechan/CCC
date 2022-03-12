@@ -33,6 +33,6 @@ struct SelectCurrencyView: View {
             .cornerRadius(4)
 
         }
-        .padding(EdgeInsets(top: 5, leading: 15, bottom: 0, trailing: 10))
+        .padding(EdgeInsets(top: 5, leading: 15, bottom: 10, trailing: 10))
     }
 }
