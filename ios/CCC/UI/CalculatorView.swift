@@ -37,7 +37,7 @@ struct CalculatorView: View {
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
-                        onBarClick: {observable.event.onBarClick()}
+                        onBarClick: { observable.event.onBarClick() }
                     )
 
                     Form {
