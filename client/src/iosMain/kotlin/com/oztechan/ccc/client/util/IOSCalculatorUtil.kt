@@ -10,5 +10,5 @@ import platform.Foundation.NSNumberFormatter
 actual fun Double.getFormatted(): String {
     val formatter = NSNumberFormatter()
     formatter.setNumberStyle(platform.Foundation.NSNumberFormatterDecimalStyle)
-    return formatter.stringFromNumber(NSNumber(this))?.replace(".", " ") ?: ""
+    return formatter.stringFromNumber(NSNumber(this))?.replace(",", " ") ?: ""
 }
