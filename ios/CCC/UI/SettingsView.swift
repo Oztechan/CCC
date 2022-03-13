@@ -76,7 +76,7 @@ struct SettingsView: View {
                     )
                 }.background(MR.colors().background.get())
 
-                if observable.viewModel.isRewardExpired() {
+                if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(
                         unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
                     ).frame(maxHeight: 50)

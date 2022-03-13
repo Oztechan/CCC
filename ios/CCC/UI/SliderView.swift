@@ -113,7 +113,7 @@ struct SlideView: View {
                                 .font(.body)
                                 .foregroundColor(MR.colors().text.get())
                         }
-                    ).padding(EdgeInsets(top: 10, leading: 10, bottom: 5, trailing: 15))
+                    ).padding(EdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 15))
                 }
             }
         }
