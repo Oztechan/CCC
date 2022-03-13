@@ -19,7 +19,8 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
     @State var dialogVisibility: Bool = false
-    @State var sheetVisibility: Bool = false
+    @State var emailViewVisibility: Bool = false
+    @State var webViewVisibility: Bool = false
     @State var activeDialog: Dialogs = Dialogs.error
 
     enum Dialogs {
@@ -93,8 +94,11 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
-        .sheet(isPresented: $sheetVisibility) {
-            MailView(isShowing: self.$sheetVisibility)
+        .sheet(isPresented: $emailViewVisibility) {
+            MailView(isShowing: $emailViewVisibility)
+        }
+        .sheet(isPresented: $webViewVisibility) {
+            WebView(url: NSURL(string: MR.strings().github_url.get())! as URL)
         }
         .alert(isPresented: $dialogVisibility) {
             switch activeDialog {
@@ -134,9 +138,9 @@ struct SettingsView: View {
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         case is SettingsEffect.FeedBack:
-            self.sheetVisibility.toggle()
+            emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:
-            UIApplication.shared.open(NSURL(string: MR.strings().github_url.get())! as URL)
+            webViewVisibility.toggle()
         case is SettingsEffect.Synchronising:
             showSnack(text: MR.strings().txt_synchronising.get())
         case is SettingsEffect.Synchronised:
