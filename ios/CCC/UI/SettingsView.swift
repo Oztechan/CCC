@@ -19,6 +19,7 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: SettingsObservable = koin.get()
     @State var dialogVisibility: Bool = false
+    @State var sheetVisibility: Bool = false
     @State var activeDialog: Dialogs = Dialogs.error
 
     enum Dialogs {
@@ -46,6 +47,7 @@ struct SettingsView: View {
                         ),
                         onClick: observable.event.onCurrenciesClick
                     )
+
                     SettingsItemView(
                         imgName: "eye.slash.fill",
                         title: MR.strings().settings_item_remove_ads_title.get(),
@@ -53,6 +55,7 @@ struct SettingsView: View {
                         value: getAdFreeText(),
                         onClick: observable.event.onRemoveAdsClick
                     )
+
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: MR.strings().settings_item_sync_title.get(),
@@ -60,13 +63,17 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onSyncClick
                     )
-                    SettingsItemView(
-                        imgName: "envelope.fill",
-                        title: MR.strings().settings_item_feedback_title.get(),
-                        subTitle: MR.strings().settings_item_feedback_sub_title.get(),
-                        value: "",
-                        onClick: observable.event.onFeedBackClick
-                    )
+
+                    if MailView.canSendEmail() {
+                        SettingsItemView(
+                            imgName: "envelope.fill",
+                            title: MR.strings().settings_item_feedback_title.get(),
+                            subTitle: MR.strings().settings_item_feedback_sub_title.get(),
+                            value: "",
+                            onClick: observable.event.onFeedBackClick
+                        )
+                    }
+
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
                         title: MR.strings().settings_item_on_github_title.get(),
@@ -85,6 +92,9 @@ struct SettingsView: View {
 
             }
             .navigationBarHidden(true)
+        }
+        .sheet(isPresented: $sheetVisibility) {
+            MailView(isShowing: self.$sheetVisibility)
         }
         .alert(isPresented: $dialogVisibility) {
             switch activeDialog {
@@ -124,7 +134,7 @@ struct SettingsView: View {
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         case is SettingsEffect.FeedBack:
-            EmailHelper().sendFeedback()
+            self.sheetVisibility.toggle()
         case is SettingsEffect.OnGitHub:
             UIApplication.shared.open(NSURL(string: MR.strings().github_url.get())! as URL)
         case is SettingsEffect.Synchronising:
