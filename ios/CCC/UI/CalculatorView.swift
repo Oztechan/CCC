@@ -169,10 +169,13 @@ struct CalculationOutputView: View {
         VStack(alignment: .leading) {
 
             HStack {
-                Image(uiImage: baseCurrency.getImage())
-                    .resizable()
-                    .frame(width: 36, height: 36, alignment: .center)
-                    .shadow(radius: 3)
+                if baseCurrency != "" {
+                    Image(uiImage: baseCurrency.getImage())
+                        .resizable()
+                        .frame(width: 36, height: 36, alignment: .center)
+                        .shadow(radius: 3)
+                }
+
                 Text(baseCurrency).foregroundColor(MR.colors().text.get())
 
                 if !output.isEmpty {
