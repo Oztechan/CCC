@@ -11,7 +11,6 @@
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
-		5C48D9D525FC10D2008256B5 /* EmailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C48D9D425FC10D2008256B5 /* EmailHelper.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
@@ -27,6 +26,8 @@
 		5CDE468425BC3B2000CA0FB1 /* ChangeBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* ChangeBaseView.swift */; };
 		5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF57E39269588060081E4BB /* RewardedAd.swift */; };
 		5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */; };
+		5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8BE4127DE205B00E441F5 /* MailView.swift */; };
+		5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8BE4527DE334100E441F5 /* WebView.swift */; };
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -49,7 +50,6 @@
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
-		5C48D9D425FC10D2008256B5 /* EmailHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelper.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -67,6 +67,8 @@
 		5CDE468325BC3B2000CA0FB1 /* ChangeBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBaseView.swift; sourceTree = "<group>"; };
 		5CF57E39269588060081E4BB /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
 		5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
+		5CF8BE4127DE205B00E441F5 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		5CF8BE4527DE334100E441F5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* CCC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -94,6 +96,8 @@
 				5C039FD525C1B705008350A3 /* FormProgressView.swift */,
 				5C693EB925C4AFF800C9373E /* SelectCurrencyView.swift */,
 				5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */,
+				5CF8BE4127DE205B00E441F5 /* MailView.swift */,
+				5CF8BE4527DE334100E441F5 /* WebView.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -138,7 +142,6 @@
 				5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */,
 				5C5D09382562EC0100DA9C4A /* Extensions.swift */,
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
-				5C48D9D425FC10D2008256B5 /* EmailHelper.swift */,
 				5CF57E39269588060081E4BB /* RewardedAd.swift */,
 				5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */,
 			);
@@ -360,15 +363,16 @@
 				5CB954BF26932408007632DC /* BannerAdView.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
+				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
 				5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */,
-				5C48D9D525FC10D2008256B5 /* EmailHelper.swift in Sources */,
 				5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* ChangeBaseView.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
+				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
@@ -505,6 +509,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
+				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
@@ -516,7 +521,7 @@
 					"$(inherited)",
 					"-lsqlite3",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oztechan.ccc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -530,6 +535,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
+				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -540,7 +546,7 @@
 					"$(inherited)",
 					"-lsqlite3",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = orgIdentifier.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oztechan.ccc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
