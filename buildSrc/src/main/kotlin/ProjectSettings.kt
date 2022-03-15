@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import java.io.ByteArrayOutputStream
 import org.gradle.api.Project
+import java.io.ByteArrayOutputStream
 
 object ProjectSettings {
 
