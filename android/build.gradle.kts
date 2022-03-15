@@ -24,8 +24,6 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
 
-            applicationId = PROJECT_ID
-
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
         }
@@ -62,10 +60,12 @@ android {
         productFlavors {
             create(google) {
                 dimension = flavorDimension
+                applicationId = ProjectSettings.PROJECT_ID
             }
 
             create(huawei) {
                 dimension = flavorDimension
+                applicationId = ProjectSettings.HUAWEI_APP_ID
             }
         }
     }

@@ -13,6 +13,7 @@ object ProjectSettings {
     private const val VERSION_DIF = 713
 
     const val PROJECT_ID = "mustafaozhan.github.com.mycurrencies"
+    const val HUAWEI_APP_ID = "com.oztechan.ccc.huawei"
     const val PACKAGE_NAME = "com.oztechan.ccc"
     const val COMPILE_SDK_VERSION = 31
     const val MIN_SDK_VERSION = 21
