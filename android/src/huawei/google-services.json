@@ -1,0 +1,32 @@
+{
+  "comment": "This is a fake google-services.json",
+  "project_info": {
+    "project_number": "-1",
+    "project_id": "id"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "id",
+        "android_client_info": {
+          "package_name": "com.oztechan.ccc.huawei"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "key"
+        }
+      ],
+      "oauth_client": [
+        {
+          "client_id": "id",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mustafaozhan.github.com.mycurrencies",
+            "certificate_hash": "hash"
+          }
+        }
+      ]
+    }
+  ]
+}
