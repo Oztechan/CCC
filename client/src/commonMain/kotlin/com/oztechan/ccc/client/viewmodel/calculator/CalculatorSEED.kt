@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.viewmodel.calculator
 
-import com.github.mustafaozhan.parsermob.ParserMob
+import com.github.submob.parsermob.ParserMob
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
