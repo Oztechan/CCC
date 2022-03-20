@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEvent
