@@ -3,7 +3,7 @@ package com.oztechan.ccc.android.ui.adremove
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemAdRemoveBinding

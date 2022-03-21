@@ -3,7 +3,7 @@ package com.oztechan.ccc.android.ui.calculator
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.github.mustafaozhan.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.analytics.model.FirebaseEvent
