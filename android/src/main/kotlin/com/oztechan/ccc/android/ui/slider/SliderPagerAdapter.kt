@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.github.mustafaozhan.scopemob.castTo
+import com.github.submob.scopemob.castTo
 
 class SliderPagerAdapter(
     var context: Context,

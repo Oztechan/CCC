@@ -8,8 +8,8 @@ package com.oztechan.ccc.android.util
 import android.app.Activity
 import android.app.AlertDialog
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.scopemob.inCase
-import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.submob.scopemob.inCase
+import com.github.submob.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 
 @Suppress("LongParameterList")

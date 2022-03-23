@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.helper
 
-import com.github.mustafaozhan.scopemob.mapTo
-import com.github.mustafaozhan.scopemob.whether
+import com.github.submob.scopemob.mapTo
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.util.isRewardExpired

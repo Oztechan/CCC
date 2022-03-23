@@ -4,9 +4,9 @@
 package com.oztechan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.scopemob.mapTo
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.submob.scopemob.mapTo
+import com.github.submob.scopemob.whether
+import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.mapper.toRates

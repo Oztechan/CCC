@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.scopemob.whether
 import com.github.submob.basemob.fragment.BaseVBFragment
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.visible
