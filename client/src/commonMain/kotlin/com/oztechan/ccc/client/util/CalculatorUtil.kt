@@ -5,8 +5,8 @@
 
 package com.oztechan.ccc.client.util
 
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.submob.scopemob.whether
+import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates

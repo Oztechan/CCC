@@ -4,7 +4,7 @@
 
 package com.oztechan.ccc.client.model
 
-import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.util.VIDEO_REWARD
 
 enum class RemoveAdType(val data: RemoveAdData) {

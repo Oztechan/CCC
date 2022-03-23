@@ -5,8 +5,8 @@
 package com.oztechan.ccc.client.viewmodel.adremove
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.scopemob.whether
-import com.github.mustafaozhan.scopemob.whetherNot
+import com.github.submob.scopemob.whether
+import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
