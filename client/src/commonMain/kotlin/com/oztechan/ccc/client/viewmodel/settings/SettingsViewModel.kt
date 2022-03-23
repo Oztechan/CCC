@@ -4,7 +4,7 @@
 package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.logmob.e
+import com.github.submob.logmob.e
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.model.AppTheme

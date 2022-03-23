@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 
 @Suppress("unused")
 fun initLogger(): Logger {

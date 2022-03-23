@@ -4,7 +4,7 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device

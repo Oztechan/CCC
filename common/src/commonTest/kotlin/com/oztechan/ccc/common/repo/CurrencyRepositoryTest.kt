@@ -1,6 +1,6 @@
 package com.oztechan.ccc.common.repo
 
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepositoryImpl
 import com.oztechan.ccc.common.db.sql.CurrencyQueries

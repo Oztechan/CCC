@@ -5,7 +5,7 @@
 package com.oztechan.ccc.backend.controller
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.logmob.e
+import com.github.submob.logmob.e
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.CurrencyResponse
