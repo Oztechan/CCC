@@ -48,13 +48,15 @@ class CalculatorAdapter(
                 calculatorEvent.onItemClick(item)
             }
 
-            root.setOnLongClickListener {
+            imgItem.setOnLongClickListener {
                 analyticsManager.trackEvent(
                     FirebaseEvent.SHOW_CONVERSION,
                     mapOf(EventParam.BASE to item.name)
                 )
 
-                calculatorEvent.onItemLongClick(item)
+                calculatorEvent.onItemImageLongClick(item)
+
+                return@setOnLongClickListener true
             }
         }
     }

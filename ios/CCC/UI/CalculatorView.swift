@@ -54,7 +54,7 @@ struct CalculatorView: View {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { observable.event.onItemClick(currency: $0) },
-                                    onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
+                                    onItemImageLongClick: { observable.event.onItemImageLongClick(currency: $0) }
                                 )
                             }
                             .listRowInsets(.init())
@@ -250,7 +250,7 @@ struct CalculatorItemView: View {
 
     var item: Currency
     var onItemClick: (Currency) -> Void
-    var onItemLongClick: (Currency) -> Void
+    var onItemImageLongClick: (Currency) -> Void
 
     var body: some View {
         HStack {
@@ -264,10 +264,10 @@ struct CalculatorItemView: View {
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)
                 .shadow(radius: 3)
+                .onLongPressGesture { onItemImageLongClick(item) }
 
         }
         .contentShape(Rectangle())
         .onTapGesture { onItemClick(item) }
-        .onLongPressGesture { onItemLongClick(item) }
     }
 }

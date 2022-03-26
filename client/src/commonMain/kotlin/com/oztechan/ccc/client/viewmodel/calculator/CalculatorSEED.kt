@@ -25,7 +25,7 @@ data class CalculatorState(
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency)
-    fun onItemLongClick(currency: Currency): Boolean
+    fun onItemImageLongClick(currency: Currency)
     fun onBarClick()
     fun onSettingsClicked()
     fun onBaseChange(base: String)
