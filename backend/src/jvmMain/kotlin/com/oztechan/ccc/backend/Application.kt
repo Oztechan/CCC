@@ -5,7 +5,7 @@
 package com.oztechan.ccc.backend
 
 import co.touchlab.kermit.Logger
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.backend.controller.ApiController
 import com.oztechan.ccc.backend.di.koin
 import com.oztechan.ccc.backend.di.modules.controllerModule

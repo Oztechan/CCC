@@ -4,7 +4,7 @@
 
 package com.oztechan.ccc.common.repo
 
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.api.repo.ApiRepositoryImpl
 import com.oztechan.ccc.common.api.service.ApiService

@@ -3,7 +3,7 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.mustafaozhan.logmob.initLogger
+import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.client.helper.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
