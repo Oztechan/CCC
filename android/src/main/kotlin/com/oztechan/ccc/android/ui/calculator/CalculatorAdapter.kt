@@ -56,7 +56,7 @@ class CalculatorAdapter(
 
                 calculatorEvent.onItemImageLongClick(item)
 
-                return@setOnLongClickListener true
+                true
             }
         }
     }
