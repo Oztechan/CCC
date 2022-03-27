@@ -117,7 +117,7 @@ class CalculatorViewModelTest {
     }
 
     @Test
-    fun onItemLongClick() = viewModel.effect.before {
+    fun onItemImageLongClick() = viewModel.effect.before {
         viewModel.event.onItemImageLongClick(currencyUIModel)
     }.after {
         assertEquals(
@@ -128,6 +128,16 @@ class CalculatorViewModelTest {
                 ),
                 currencyUIModel.name
             ),
+            it
+        )
+    }
+
+    @Test
+    fun onItemAmountLongClick() = viewModel.effect.before {
+        viewModel.event.onItemAmountLongClick(currencyUIModel.rate.toString())
+    }.after {
+        assertEquals(
+            CalculatorEffect.CopyToClipboard(currencyUIModel.rate.toString()),
             it
         )
     }

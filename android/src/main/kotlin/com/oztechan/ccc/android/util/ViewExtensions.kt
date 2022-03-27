@@ -6,6 +6,8 @@
 package com.oztechan.ccc.android.util
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.view.View
 import android.view.animation.Animation
@@ -14,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
@@ -137,4 +140,15 @@ fun TextView.dataState(state: RateState) = when (state) {
         visible()
     }
     RateState.None -> gone()
+}
+
+private const val CLIPBOARD_LABEL = "clipboard_label"
+
+fun View.copyToClipBoard(text: String) {
+    val clipboard = ContextCompat.getSystemService(context, ClipboardManager::class.java)
+    val clip = ClipData.newPlainText(CLIPBOARD_LABEL, text)
+
+    clipboard?.setPrimaryClip(clip)?.let {
+        showSnack(this, context.getString(R.string.copied_to_clipboard))
+    }
 }
