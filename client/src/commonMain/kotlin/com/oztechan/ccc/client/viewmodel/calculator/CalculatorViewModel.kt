@@ -208,8 +208,8 @@ class CalculatorViewModel(
         )
     }
 
-    override fun onItemLongClick(currency: Currency): Boolean {
-        Logger.d { "CalculatorViewModel onItemLongClick ${currency.name}" }
+    override fun onItemImageLongClick(currency: Currency) {
+        Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
         clientScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
@@ -221,7 +221,6 @@ class CalculatorViewModel(
                 )
             )
         }
-        return true
     }
 
     override fun onBarClick() = clientScope.launchIgnored {

@@ -118,7 +118,7 @@ class CalculatorViewModelTest {
 
     @Test
     fun onItemLongClick() = viewModel.effect.before {
-        viewModel.event.onItemLongClick(currencyUIModel)
+        viewModel.event.onItemImageLongClick(currencyUIModel)
     }.after {
         assertEquals(
             CalculatorEffect.ShowRate(
