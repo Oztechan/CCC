@@ -57,7 +57,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
 
       - name: Build
-        run: ./gradlew assembleGoogleRelease
+        run: ./gradlew assembleGoogleRelease assembleHuaweiRelease
 
       - name: Firebase App Distribution Google
         uses: wzieba/Firebase-Distribution-Github-Action@v1
