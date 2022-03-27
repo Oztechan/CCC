@@ -59,13 +59,21 @@ jobs:
       - name: Build
         run: ./gradlew assembleGoogleRelease
 
-      - name: Firebase App Distribution
+      - name: Firebase App Distribution Google
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{secrets.ANDROID_FIREBASE_APP_ID}}
+          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
           groups: QA
           file: android/build/outputs/apk/google/release/android-google-release.apk
+
+      - name: Firebase App Distribution Huawei
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          token: ${{secrets.ANDROID_FIREBASE_TOKEN}}
+          groups: QA
+          file: android/build/outputs/apk/huawei/release/android-huawei-release.apk
 
       - name: Set Job Status
         id: status
