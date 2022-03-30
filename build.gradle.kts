@@ -41,7 +41,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        maven("https://developer.huawei.com/repo/")
         maven("https://dl.bintray.com/ekito/koin")
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlinx/")

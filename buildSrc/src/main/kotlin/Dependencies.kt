@@ -48,7 +48,6 @@ object Dependencies {
         const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
-        const val HUAWEI_HSM_BASE = "com.huawei.hms:base:${Versions.HUAWEI_HSM_BASE}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
 
         object GOOGLE {
