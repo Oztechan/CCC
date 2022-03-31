@@ -13,7 +13,7 @@ plugins {
 
 with(ProjectSettings) {
     application {
-        mainClass.set("$PACKAGE_NAME.backend.ApplicationKt")
+        mainClass.set("$PROJECT_ID.backend.ApplicationKt")
     }
     group = PROJECT_ID
     version = getVersionName(project)
@@ -53,7 +53,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${ProjectSettings.PACKAGE_NAME}.backend.ApplicationKt"
+        attributes["Main-Class"] = "${ProjectSettings.PROJECT_ID}.backend.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
