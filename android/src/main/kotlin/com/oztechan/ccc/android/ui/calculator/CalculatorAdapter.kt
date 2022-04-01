@@ -58,6 +58,11 @@ class CalculatorAdapter(
 
                 true
             }
+
+            txtAmount.setOnLongClickListener {
+                calculatorEvent.onItemAmountLongClick(txtAmount.text.toString())
+                true
+            }
         }
     }
 
