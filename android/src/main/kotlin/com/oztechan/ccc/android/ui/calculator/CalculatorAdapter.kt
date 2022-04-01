@@ -61,6 +61,7 @@ class CalculatorAdapter(
 
             txtAmount.setOnLongClickListener {
                 calculatorEvent.onItemAmountLongClick(txtAmount.text.toString())
+                analyticsManager.trackEvent(FirebaseEvent.COPY_CLIPBOARD)
                 true
             }
         }
