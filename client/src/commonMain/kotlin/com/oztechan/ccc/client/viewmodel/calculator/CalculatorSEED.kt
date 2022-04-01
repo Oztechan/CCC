@@ -26,6 +26,7 @@ interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency)
     fun onItemImageLongClick(currency: Currency)
+    fun onItemAmountLongClick(amount: String)
     fun onBarClick()
     fun onSettingsClicked()
     fun onBaseChange(base: String)
@@ -38,6 +39,7 @@ sealed class CalculatorEffect : BaseEffect() {
     object OpenBar : CalculatorEffect()
     object MaximumInput : CalculatorEffect()
     object OpenSettings : CalculatorEffect()
+    data class CopyToClipboard(val amount: String) : CalculatorEffect()
     data class ShowRate(val text: String, val name: String) : CalculatorEffect()
 }
 

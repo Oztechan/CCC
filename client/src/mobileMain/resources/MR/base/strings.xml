@@ -49,6 +49,7 @@
     <string name="text_offline">Offline</string>
     <string name="text_no_data">No data!</string>
     <string name="error_text_unknown">Check your connection or try again later.</string>
+    <string name="copied_to_clipboard">Copied to clipboard!</string>
 
     <!--Dialog-->
     <string name="rate_and_support">Please rate us and review the app on Google Play Store :)</string>
