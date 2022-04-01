@@ -223,6 +223,13 @@ class CalculatorViewModel(
         }
     }
 
+    override fun onItemAmountLongClick(amount: String) {
+        Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
+        clientScope.launch {
+            _effect.emit(CalculatorEffect.CopyToClipboard(amount))
+        }
+    }
+
     override fun onBarClick() = clientScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)

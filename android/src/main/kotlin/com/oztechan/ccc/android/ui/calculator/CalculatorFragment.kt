@@ -14,6 +14,7 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
 import com.oztechan.ccc.android.util.getImageResourceByName
 import com.oztechan.ccc.android.util.getNavigationResult
@@ -157,6 +158,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
+                is CalculatorEffect.CopyToClipboard -> requireView().copyToClipBoard(viewEffect.amount)
                 is CalculatorEffect.ShowRate -> showSnack(
                     requireView(),
                     viewEffect.text,
