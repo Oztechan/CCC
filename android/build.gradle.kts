@@ -60,7 +60,7 @@ android {
         productFlavors {
             create(google) {
                 dimension = flavorDimension
-                applicationId = ProjectSettings.PROJECT_ID
+                applicationId = ProjectSettings.ANDROID_APP_ID
             }
 
             create(huawei) {

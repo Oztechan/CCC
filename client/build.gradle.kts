@@ -145,7 +145,7 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PACKAGE_NAME}.client"
+    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.client"
     multiplatformResourcesSourceSet = "mobileMain"
     disableStaticFrameworkWarning = true
 }
@@ -157,7 +157,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PACKAGE_NAME}.client"
+    packageName = "${ProjectSettings.PROJECT_ID}.client"
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString())
