@@ -26,7 +26,7 @@ object ProjectSettings {
     ) = if (isMaster(project)) {
         "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project).toInt() - VERSION_DIF}"
     } else {
-        gitCommitCount(project) // testing build
+        "0.0.${gitCommitCount(project)}" // testing build
     }
 
     private fun gitCommitCount(project: Project): String {
