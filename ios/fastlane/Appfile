@@ -1,0 +1,8 @@
+app_identifier("com.oztechan.ccc") # The bundle identifier of your app
+apple_id("development.oztechan@gmail.com") # Your Apple email address
+
+itc_team_id("124231627") # App Store Connect Team ID
+team_id("Q5WB95G58X") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
