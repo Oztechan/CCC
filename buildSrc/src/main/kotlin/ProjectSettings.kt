@@ -52,7 +52,8 @@ object ProjectSettings {
 
     private fun isCI() = System.getProperties()["idea.platform.prefix"] == null
 
-    private fun Project.setIOSVersion(versionName: String) {
+    @Suppress("TooGenericExceptionCaught")
+    private fun Project.setIOSVersion(versionName: String) = try {
         exec {
             workingDir = File("${project.rootDir}/ios")
             commandLine = "agvtool new-version -all ${getVersionCode(project)}".split(" ")
@@ -61,5 +62,8 @@ object ProjectSettings {
             workingDir = File("${project.rootDir}/ios")
             commandLine = "agvtool new-marketing-version $versionName".split(" ")
         }
+    } catch (e: Exception) {
+        println("agvtool exist only mac environment")
+        println(e.localizedMessage)
     }
 }
