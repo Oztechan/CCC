@@ -8,7 +8,6 @@ import com.google.firebase.ktx.Firebase
 import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.analytics.model.FirebaseEvent
 import com.oztechan.ccc.analytics.model.UserProperty
-import com.oztechan.ccc.analytics.util.getAvailableServices
 import com.oztechan.ccc.analytics.util.isDeviceRooted
 
 class AnalyticsManagerImpl(
@@ -40,7 +39,6 @@ class AnalyticsManagerImpl(
     }
 
     private fun setDefaultUserProperties(context: Context) {
-        setUserProperty(UserProperty.MOBILE_SERVICES, getAvailableServices(context))
         setUserProperty(UserProperty.IS_ROOTED, isDeviceRooted(context))
     }
 }

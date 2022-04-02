@@ -3,6 +3,7 @@
  */
 import org.gradle.api.Project
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 object ProjectSettings {
 
@@ -25,10 +26,12 @@ object ProjectSettings {
 
     fun getVersionName(
         project: Project
-    ) = if (isMaster(project)) {
-        "$MAYOR_VERSION.$MINOR_VERSION.${gitCommitCount(project).toInt() - VERSION_DIF}"
+    ): String = if (isMaster(project)) {
+        "$MAYOR_VERSION.$MINOR_VERSION.${getVersionCode(project) - VERSION_DIF}"
     } else {
-        gitCommitCount(project) // testing build
+        "0.0.${getVersionCode(project)}" // testing build
+    }.also {
+        if (isCI()) project.setIOSVersion(it)
     }
 
     private fun gitCommitCount(project: Project): String {
@@ -47,5 +50,22 @@ object ProjectSettings {
             standardOutput = os
         }
         return String(os.toByteArray()).trim() == "master"
+    }
+
+    private fun isCI() = System.getProperties()["idea.platform.prefix"] == null
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun Project.setIOSVersion(versionName: String) = try {
+        exec {
+            workingDir = File("${project.rootDir}/ios")
+            commandLine = "agvtool new-version -all ${getVersionCode(project)}".split(" ")
+        }
+        exec {
+            workingDir = File("${project.rootDir}/ios")
+            commandLine = "agvtool new-marketing-version $versionName".split(" ")
+        }
+    } catch (e: Exception) {
+        println("agvtool exist only mac environment")
+        println(e.localizedMessage)
     }
 }
