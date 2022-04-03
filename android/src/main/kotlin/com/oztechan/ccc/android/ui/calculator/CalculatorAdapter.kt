@@ -34,10 +34,29 @@ class CalculatorAdapter(
         BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            txtAmount.text = item.rate.getFormatted().toStandardDigits()
-            txtSymbol.text = item.symbol
-            txtType.text = item.name
-            imgItem.setBackgroundByName(item.name)
+            with(txtAmount) {
+                text = item.rate.getFormatted().toStandardDigits()
+                setOnLongClickListener { onOutputLongClick() }
+                setOnClickListener { root.callOnClick() }
+            }
+
+            with(txtSymbol) {
+                text = item.symbol
+                setOnLongClickListener { onOutputLongClick() }
+                setOnClickListener { root.callOnClick() }
+            }
+
+            with(txtType) {
+                text = item.name
+                setOnLongClickListener { onCurrencyLongClick(item) }
+                setOnClickListener { root.callOnClick() }
+            }
+
+            with(imgItem) {
+                setBackgroundByName(item.name)
+                setOnLongClickListener { onCurrencyLongClick(item) }
+                setOnClickListener { root.callOnClick() }
+            }
 
             root.setOnClickListener {
                 analyticsManager.trackEvent(
@@ -47,23 +66,23 @@ class CalculatorAdapter(
 
                 calculatorEvent.onItemClick(item)
             }
+        }
 
-            imgItem.setOnLongClickListener {
-                analyticsManager.trackEvent(
-                    FirebaseEvent.SHOW_CONVERSION,
-                    mapOf(EventParam.BASE to item.name)
-                )
+        private fun onOutputLongClick(): Boolean {
+            calculatorEvent.onItemAmountLongClick(itemBinding.txtAmount.text.toString())
+            analyticsManager.trackEvent(FirebaseEvent.COPY_CLIPBOARD)
+            return true
+        }
 
-                calculatorEvent.onItemImageLongClick(item)
+        private fun onCurrencyLongClick(item: Currency): Boolean {
+            analyticsManager.trackEvent(
+                FirebaseEvent.SHOW_CONVERSION,
+                mapOf(EventParam.BASE to item.name)
+            )
 
-                true
-            }
+            calculatorEvent.onItemImageLongClick(item)
 
-            txtAmount.setOnLongClickListener {
-                calculatorEvent.onItemAmountLongClick(txtAmount.text.toString())
-                analyticsManager.trackEvent(FirebaseEvent.COPY_CLIPBOARD)
-                true
-            }
+            return true
         }
     }
 
