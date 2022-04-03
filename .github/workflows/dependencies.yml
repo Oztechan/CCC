@@ -1,0 +1,49 @@
+name: Check dependency updates
+
+on:
+  schedule:
+    - cron: "35 17 * * 0"
+
+jobs:
+  dependency-update-check:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Clone Repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Run dependency updates task
+      run: ./gradlew dependencyUpdates -DoutputFormatter=plain
+
+        - name: Extract dependencies from report file
+          id: deps
+          run: |
+            export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/dependencies_report.txt)"
+            DEPENDENCIES="${DEPENDENCIES//$'\n'/'%0A'}"
+            DEPENDENCIES="${DEPENDENCIES//$'\r'/'%0D'}"
+            echo "OUTPUT:"
+            echo $DEPENDENCIES
+            echo "depss=$DEPENDENCIES" >> $GITHUB_ENV
+            echo "::set-output name=dependencies::$(echo "$DEPENDENCIES")"
+          shell: bash
+
+  Notify:
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+
+      - name: Notify Slack dependencies updates
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: ccc
+          status: SUCCESS
+          color: warning
