@@ -28,6 +28,7 @@
     <Button
         android:id="@+id/btn_next"
         style="@style/SlideButtonNext"
+        android:layout_alignTop="@+id/bottom_bar_separator"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         tools:ignore="RelativeOverlap" />
