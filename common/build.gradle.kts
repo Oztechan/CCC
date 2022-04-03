@@ -68,11 +68,7 @@ kotlin {
                     implementation(KTOR)
                 }
             }
-            val androidTest by getting {
-                dependencies {
-                    implementation(kotlin(Dependencies.JVM.TEST_J_UNIT))
-                }
-            }
+            val androidTest by getting
         }
 
         with(Dependencies.IOS) {
@@ -92,11 +88,7 @@ kotlin {
                     implementation(SQLLITE_DRIVER)
                 }
             }
-            val jvmTest by getting {
-                dependencies {
-                    implementation(kotlin(TEST_J_UNIT))
-                }
-            }
+            val jvmTest by getting
         }
     }
 }
@@ -124,13 +116,13 @@ android {
 
 sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${ProjectSettings.PACKAGE_NAME}.common.db.sql"
+        packageName = "${ProjectSettings.PROJECT_ID}.common.db.sql"
         sourceFolders = listOf("kotlin")
     }
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PACKAGE_NAME}.common"
+    packageName = "${ProjectSettings.PROJECT_ID}.common"
 
     defaultConfigs {
         with(Keys(project)) {

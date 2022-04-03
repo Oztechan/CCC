@@ -7,14 +7,37 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "id",
+        "mobilesdk_app_id": "1:1234567890:android:321abc456def7890",
+        "android_client_info": {
+          "package_name": "com.oztechan.ccc.huawei"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlwpZsc0tjRkThmEZUHJ5SYN9JU_fJGeU"
+        }
+      ],
+      "oauth_client": [
+        {
+          "client_id": "id",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oztechan.ccc.huawei",
+            "certificate_hash": "hash"
+          }
+        }
+      ]
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1234567890:android:321abc456def7890",
         "android_client_info": {
           "package_name": "mustafaozhan.github.com.mycurrencies"
         }
       },
       "api_key": [
         {
-          "current_key": "key"
+          "current_key": "AIzaSyAlwpZsc0tjRkThmEZUHJ5SYN9JU_fJGeU"
         }
       ],
       "oauth_client": [

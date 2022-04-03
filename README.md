@@ -67,6 +67,67 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
 ./gradlew :backend:run
 ```
 
+## Testing
+
+After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. You will need to change content of the all methods in `com.oztechan.ccc.common.api.service.ApiServiceImpl` with below.
+
+```kotlin
+// you have 3 of them
+override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity> {
+        url {
+            takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
+        }
+    }
+```
+
+## Module Graph
+
+```mermaid
+graph TD;
+
+logmob{logmob}-->config
+logmob-->ad
+logmob-->android
+logmob-->backend
+logmob-->billing
+logmob-->client
+logmob-->common
+
+basemob-->android
+
+scopemob{scopemob}-->client
+scopemob-->android
+scopemob-->billing
+
+parsermob{parsermob}-->client
+
+client{client}-->android
+client-->ios
+
+common{common}-->client
+common-->backend
+
+config{config}-->android
+config-->client
+
+billing-->android
+
+ad-->android
+
+analytics-->android
+
+backend(backend)
+android(android)
+ios(ios)
+```
+
+```mermaid
+graph TD;
+KMP{KMP}
+target(target)
+module
+```
+
 ## Android Preview
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/4.png" width="400px"/>

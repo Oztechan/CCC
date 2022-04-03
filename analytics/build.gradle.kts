@@ -19,7 +19,6 @@ android {
 dependencies {
     with(Dependencies.Android) {
         implementation(FIREBASE_ANALYTICS)
-        implementation(HUAWEI_HSM_BASE)
         implementation(ROOT_BEER)
     }
 }

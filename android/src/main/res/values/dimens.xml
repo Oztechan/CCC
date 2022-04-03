@@ -36,7 +36,7 @@
     <!-- Snack Bar -->
     <dimen name="snack_icon_size">56dp</dimen>
 
-    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_height">36dp</dimen>
     <dimen name="dots_margin_bottom">20dp</dimen>
 
     <!-- Slide -->

@@ -37,7 +37,7 @@ struct CalculatorView: View {
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
-                        onBarClick: {observable.event.onBarClick()}
+                        onBarClick: { observable.event.onBarClick() }
                     )
 
                     Form {
@@ -54,7 +54,8 @@ struct CalculatorView: View {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { observable.event.onItemClick(currency: $0) },
-                                    onItemLongClick: { observable.event.onItemLongClick(currency: $0) }
+                                    onItemImageLongClick: { observable.event.onItemImageLongClick(currency: $0) },
+                                    onItemAmountLongClick: { observable.event.onItemAmountLongClick(amount: $0) }
                                 )
                             }
                             .listRowInsets(.init())
@@ -116,6 +117,11 @@ struct CalculatorView: View {
         case is CalculatorEffect.OpenSettings:
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
         // swiftlint:disable force_cast
+        case is CalculatorEffect.CopyToClipboard:
+            let pasteBoard = UIPasteboard.general
+            pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
+            showSnack(text: MR.strings().copied_to_clipboard.get())
+        // swiftlint:disable force_cast
         case is CalculatorEffect.ShowRate:
             showSnack(
                 text: (effect as! CalculatorEffect.ShowRate).text,
@@ -169,10 +175,13 @@ struct CalculationOutputView: View {
         VStack(alignment: .leading) {
 
             HStack {
-                Image(uiImage: baseCurrency.getImage())
-                    .resizable()
-                    .frame(width: 36, height: 36, alignment: .center)
-                    .shadow(radius: 3)
+                if baseCurrency != "" {
+                    Image(uiImage: baseCurrency.getImage())
+                        .resizable()
+                        .frame(width: 36, height: 36, alignment: .center)
+                        .shadow(radius: 3)
+                }
+
                 Text(baseCurrency).foregroundColor(MR.colors().text.get())
 
                 if !output.isEmpty {
@@ -247,13 +256,15 @@ struct CalculatorItemView: View {
 
     var item: Currency
     var onItemClick: (Currency) -> Void
-    var onItemLongClick: (Currency) -> Void
+    var onItemImageLongClick: (Currency) -> Void
+    var onItemAmountLongClick: (String) -> Void
 
     var body: some View {
         HStack {
 
             Text(IOSCalculatorUtilKt.getFormatted(item.rate))
                 .foregroundColor(MR.colors().text.get())
+                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
             Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
             Text(item.name).foregroundColor(MR.colors().text.get())
@@ -261,10 +272,10 @@ struct CalculatorItemView: View {
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)
                 .shadow(radius: 3)
+                .onLongPressGesture { onItemImageLongClick(item) }
 
         }
         .contentShape(Rectangle())
         .onTapGesture { onItemClick(item) }
-        .onLongPressGesture { onItemLongClick(item) }
     }
 }

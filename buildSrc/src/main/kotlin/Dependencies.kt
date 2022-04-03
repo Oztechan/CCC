@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Dependencies {
     object Common {
-        const val TEST = "test-common"
+        const val TEST = "test"
         const val TEST_ANNOTATIONS = "test-annotations-common"
         const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
         const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
@@ -48,7 +48,6 @@ object Dependencies {
         const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
-        const val HUAWEI_HSM_BASE = "com.huawei.hms:base:${Versions.HUAWEI_HSM_BASE}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
 
         object GOOGLE {
@@ -67,17 +66,12 @@ object Dependencies {
     }
 
     object JVM {
-        const val TEST_J_UNIT = "test-junit"
         const val KTOR_CORE = "io.ktor:ktor-server-core:${Versions.KTOR}"
         const val KTOR_NETTY = "io.ktor:ktor-server-netty:${Versions.KTOR}"
         const val KTOR_SERIALIZATIONM = "io.ktor:ktor-serialization:${Versions.KTOR}"
         const val LOG_BACK = "ch.qos.logback:logback-classic:${Versions.LOG_BACK}"
         const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
         const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
-    }
-
-    object JS {
-        const val TEST = "test-js"
     }
 
     object ClassPaths {
