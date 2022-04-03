@@ -2,11 +2,14 @@ name: Check dependency updates
 
 on:
   schedule:
-    - cron: "35 17 * * 0"
+    - cron: "0 7 * * 5"
 
 jobs:
-  dependency-update-check:
+
+  DependencyUpdates:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Clone Repo
@@ -14,28 +17,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
       - name: Run dependency updates task
-      run: ./gradlew dependencyUpdates -DoutputFormatter=plain
+        run: ./gradlew dependencyUpdates -DoutputFormatter=plain
 
-        - name: Extract dependencies from report file
-          id: deps
-          run: |
-            export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/dependencies_report.txt)"
-            DEPENDENCIES="${DEPENDENCIES//$'\n'/'%0A'}"
-            DEPENDENCIES="${DEPENDENCIES//$'\r'/'%0D'}"
-            echo "OUTPUT:"
-            echo $DEPENDENCIES
-            echo "depss=$DEPENDENCIES" >> $GITHUB_ENV
-            echo "::set-output name=dependencies::$(echo "$DEPENDENCIES")"
+      - name: Extract dependencies from report file
+        id: deps
+        run: |
+          export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/dependencies_report.txt)"
+          DEPENDENCIES="${DEPENDENCIES//$'\n'/'%0A'}"
+          DEPENDENCIES="${DEPENDENCIES//$'\r'/'%0D'}"
+          echo "OUTPUT:"
+          echo $DEPENDENCIES
+          echo "depss=$DEPENDENCIES" >> $GITHUB_ENV
+          echo "::set-output name=dependencies::$(echo "$DEPENDENCIES")"
           shell: bash
 
   Notify:
     runs-on: ubuntu-latest
+    needs: [ DependencyUpdates ]
     if: always()
     steps:
 
