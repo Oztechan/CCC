@@ -19,6 +19,6 @@ struct FormProgressView: View {
             Spacer()
         }
         .listRowInsets(.init())
-        .listRowBackground(MR.colors().background.get())
+        .listRowBackground(R.colors().background.get())
     }
 }

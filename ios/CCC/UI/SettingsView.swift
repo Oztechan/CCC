@@ -32,7 +32,7 @@ struct SettingsView: View {
     var body: some View {
 
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            R.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
 
@@ -41,9 +41,9 @@ struct SettingsView: View {
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: MR.strings().settings_item_currencies_title.get(),
-                        subTitle: MR.strings().settings_item_currencies_sub_title.get(),
-                        value: MR.strings().settings_item_currencies_value.get(
+                        title: R.strings().settings_item_currencies_title.get(),
+                        subTitle: R.strings().settings_item_currencies_sub_title.get(),
+                        value: R.strings().settings_item_currencies_value.get(
                             parameter: observable.state.activeCurrencyCount
                         ),
                         onClick: observable.event.onCurrenciesClick
@@ -51,16 +51,16 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "eye.slash.fill",
-                        title: MR.strings().settings_item_remove_ads_title.get(),
-                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+                        title: R.strings().settings_item_remove_ads_title.get(),
+                        subTitle: R.strings().settings_item_remove_ads_sub_title.get(),
                         value: getAdFreeText(),
                         onClick: observable.event.onRemoveAdsClick
                     )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
-                        title: MR.strings().settings_item_sync_title.get(),
-                        subTitle: MR.strings().settings_item_sync_sub_title.get(),
+                        title: R.strings().settings_item_sync_title.get(),
+                        subTitle: R.strings().settings_item_sync_sub_title.get(),
                         value: "",
                         onClick: observable.event.onSyncClick
                     )
@@ -68,8 +68,8 @@ struct SettingsView: View {
                     if MailView.canSendEmail() {
                         SettingsItemView(
                             imgName: "envelope.fill",
-                            title: MR.strings().settings_item_feedback_title.get(),
-                            subTitle: MR.strings().settings_item_feedback_sub_title.get(),
+                            title: R.strings().settings_item_feedback_title.get(),
+                            subTitle: R.strings().settings_item_feedback_sub_title.get(),
                             value: "",
                             onClick: observable.event.onFeedBackClick
                         )
@@ -77,12 +77,12 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
-                        title: MR.strings().settings_item_on_github_title.get(),
-                        subTitle: MR.strings().settings_item_on_github_sub_title.get(),
+                        title: R.strings().settings_item_on_github_title.get(),
+                        subTitle: R.strings().settings_item_on_github_sub_title.get(),
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                }.background(MR.colors().background.get())
+                }.background(R.colors().background.get())
 
                 if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(
@@ -98,21 +98,21 @@ struct SettingsView: View {
             MailView(isShowing: $emailViewVisibility)
         }
         .sheet(isPresented: $webViewVisibility) {
-            WebView(url: NSURL(string: MR.strings().github_url.get())! as URL)
+            WebView(url: NSURL(string: R.strings().github_url.get())! as URL)
         }
         .alert(isPresented: $dialogVisibility) {
             switch activeDialog {
             case .error:
                 return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().error_text_unknown.get()),
-                    dismissButton: .destructive(Text(MR.strings().cancel.get()))
+                    title: Text(R.strings().txt_remove_ads.get()),
+                    message: Text(R.strings().error_text_unknown.get()),
+                    dismissButton: .destructive(Text(R.strings().cancel.get()))
                 )
             case .removeAd:
                 return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().txt_remove_ads_text.get()),
-                    primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
+                    title: Text(R.strings().txt_remove_ads.get()),
+                    message: Text(R.strings().txt_remove_ads_text.get()),
+                    primaryButton: .default(Text(R.strings().txt_ok.get()), action: {
                         RewardedAd(
                             rewardFunction: { observable.viewModel.updateAddFreeDate() },
                             errorFunction: {
@@ -121,7 +121,7 @@ struct SettingsView: View {
                             }
                         ).show()
                     }),
-                    secondaryButton: .destructive(Text(MR.strings().cancel.get()))
+                    secondaryButton: .destructive(Text(R.strings().cancel.get()))
                 )
             }
         }
@@ -142,13 +142,13 @@ struct SettingsView: View {
         case is SettingsEffect.OnGitHub:
             webViewVisibility.toggle()
         case is SettingsEffect.Synchronising:
-            showSnack(text: MR.strings().txt_synchronising.get())
+            showSnack(text: R.strings().txt_synchronising.get())
         case is SettingsEffect.Synchronised:
-            showSnack(text: MR.strings().txt_synced.get())
+            showSnack(text: R.strings().txt_synced.get())
         case is SettingsEffect.OnlyOneTimeSync:
-            showSnack(text: MR.strings().txt_already_synced.get())
+            showSnack(text: R.strings().txt_already_synced.get())
         case is SettingsEffect.AlreadyAdFree:
-            showSnack(text: MR.strings().txt_ads_already_disabled.get())
+            showSnack(text: R.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
             activeDialog = Dialogs.removeAd
             dialogVisibility.toggle()
@@ -162,9 +162,9 @@ struct SettingsView: View {
             return ""
         } else {
             if observable.viewModel.isRewardExpired() {
-                return MR.strings().settings_item_remove_ads_value_expired.get()
+                return R.strings().settings_item_remove_ads_value_expired.get()
             } else {
-                return MR.strings().settings_item_remove_ads_value_will_expire.get(
+                return R.strings().settings_item_remove_ads_value_will_expire.get(
                     parameter: observable.state.addFreeEndDate
                 )
             }
@@ -179,7 +179,7 @@ struct SettingsToolbarView: View {
         HStack {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(MR.strings().txt_settings.get())
+            Text(R.strings().txt_settings.get())
                 .font(.title3)
 
             Spacer()
@@ -201,7 +201,7 @@ struct SettingsItemView: View {
                 .frame(width: 48, height: 48, alignment: .center)
                 .font(.system(size: 24))
                 .imageScale(.large)
-                .accentColor(MR.colors().text.get())
+                .accentColor(R.colors().text.get())
                 .padding(.bottom, 8)
                 .padding(.top, 8)
 
@@ -229,10 +229,10 @@ struct SettingsItemView: View {
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)
                 .imageScale(.large)
-                .accentColor(MR.colors().text.get())
+                .accentColor(R.colors().text.get())
         }
         .listRowInsets(.init())
-        .listRowBackground(MR.colors().background.get())
+        .listRowBackground(R.colors().background.get())
         .contentShape(Rectangle())
         .onTapGesture { onClick() }
         .lineLimit(1)

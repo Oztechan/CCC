@@ -20,15 +20,15 @@ struct SelectCurrencyView: View {
         HStack {
 
             Text(text)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(R.colors().text.get())
                 .font(.subheadline)
             Spacer()
             Button(
                 action: onButtonClick,
-                label: { Text(buttonText).foregroundColor(MR.colors().text.get()) }
+                label: { Text(buttonText).foregroundColor(R.colors().text.get()) }
             )
             .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
-            .background(MR.colors().background_weak.get())
+            .background(R.colors().background_weak.get())
             .clipped()
             .cornerRadius(4)
 

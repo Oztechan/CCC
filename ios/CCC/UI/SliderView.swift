@@ -18,29 +18,29 @@ struct SliderView: View {
         VStack {
 
             SlideView(
-                title: MR.strings().slide_intro_title.get(),
-                image: Image(uiImage: MR.images().ic_app_logo.get()),
-                subTitle1: MR.strings().slide_intro_text.get(),
+                title: R.strings().slide_intro_title.get(),
+                image: Image(uiImage: R.images().ic_app_logo.get()),
+                subTitle1: R.strings().slide_intro_text.get(),
                 subTitle2: "",
-                buttonText: MR.strings().next.get(),
+                buttonText: R.strings().next.get(),
                 buttonAction: {
                     navigationStack.push(
 
                         SlideView(
-                            title: MR.strings().slide_bug_report_title.get(),
+                            title: R.strings().slide_bug_report_title.get(),
                             image: Image(systemName: "ant.fill"),
-                            subTitle1: MR.strings().slide_bug_report_text_1.get(),
-                            subTitle2: MR.strings().slide_bug_report_text_2.get(),
-                            buttonText: MR.strings().next.get(),
+                            subTitle1: R.strings().slide_bug_report_text_1.get(),
+                            subTitle2: R.strings().slide_bug_report_text_2.get(),
+                            buttonText: R.strings().next.get(),
                             buttonAction: {
                                 navigationStack.push(
 
                                     SlideView(
-                                        title: MR.strings().slide_disable_ads_title.get(),
+                                        title: R.strings().slide_disable_ads_title.get(),
                                         image: Image(systemName: "eye.slash.fill"),
-                                        subTitle1: MR.strings().slide_disable_ads_text_1.get(),
-                                        subTitle2: MR.strings().slide_disable_ads_text_2.get(),
-                                        buttonText: MR.strings().next.get(),
+                                        subTitle1: R.strings().slide_disable_ads_text_1.get(),
+                                        subTitle2: R.strings().slide_disable_ads_text_2.get(),
+                                        buttonText: R.strings().next.get(),
                                         buttonAction: {
                                             navigationStack.push(
                                                 CurrenciesView(onBaseChange: { _ in })
@@ -71,7 +71,7 @@ struct SlideView: View {
 
     var body: some View {
         ZStack {
-            Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(R.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
             VStack {
 
                 Spacer()
@@ -84,7 +84,7 @@ struct SlideView: View {
                     .frame(width: 225, height: 225, alignment: .center)
                     .font(.system(size: 128))
                     .imageScale(.large)
-                    .accentColor(MR.colors().text.get())
+                    .accentColor(R.colors().text.get())
 
                 Text(subTitle1)
                     .lineSpacing(12)
@@ -111,7 +111,7 @@ struct SlideView: View {
                         label: {
                             Text(buttonText)
                                 .font(.body)
-                                .foregroundColor(MR.colors().text.get())
+                                .foregroundColor(R.colors().text.get())
                         }
                     ).padding(EdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 15))
                 }
