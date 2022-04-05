@@ -24,7 +24,7 @@ struct CalculatorView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(R.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
 
@@ -59,10 +59,10 @@ struct CalculatorView: View {
                                 )
                             }
                             .listRowInsets(.init())
-                            .listRowBackground(R.colors().background.get())
+                            .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }
-                    }.background(R.colors().background.get())
+                    }.background(MR.colors().background.get())
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
@@ -101,17 +101,17 @@ struct CalculatorView: View {
         logger.i(message: {effect.description})
         switch effect {
         case is CalculatorEffect.Error:
-            showSnack(text: R.strings().error_text_unknown.get())
+            showSnack(text: MR.strings().error_text_unknown.get())
         case is CalculatorEffect.FewCurrency:
             showSnack(
-                text: R.strings().choose_at_least_two_currency.get(),
-                buttonText: R.strings().select.get(),
+                text: MR.strings().choose_at_least_two_currency.get(),
+                buttonText: MR.strings().select.get(),
                 action: {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
         case is CalculatorEffect.MaximumInput:
-            showSnack(text: R.strings().max_input.get())
+            showSnack(text: MR.strings().max_input.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
@@ -120,7 +120,7 @@ struct CalculatorView: View {
         case is CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
             pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
-            showSnack(text: R.strings().copied_to_clipboard.get())
+            showSnack(text: MR.strings().copied_to_clipboard.get())
         // swiftlint:disable force_cast
         case is CalculatorEffect.ShowRate:
             showSnack(
@@ -148,7 +148,7 @@ struct CalculationInputView: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
                 .font(.title2)
 
             Spacer()
@@ -182,13 +182,13 @@ struct CalculationOutputView: View {
                         .shadow(radius: 3)
                 }
 
-                Text(baseCurrency).foregroundColor(R.colors().text.get())
+                Text(baseCurrency).foregroundColor(MR.colors().text.get())
 
                 if !output.isEmpty {
-                    Text("=  \(output)").foregroundColor(R.colors().text.get())
+                    Text("=  \(output)").foregroundColor(MR.colors().text.get())
                 }
 
-                Text(symbol).foregroundColor(R.colors().text.get())
+                Text(symbol).foregroundColor(MR.colors().text.get())
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
@@ -205,11 +205,11 @@ struct KeyboardView: View {
 
     // swiftlint:disable line_length
     let keys = [
-        [R.strings().seven.get(), R.strings().eight.get(), R.strings().nine.get(), R.strings().multiply.get()],
-        [R.strings().four.get(), R.strings().five.get(), R.strings().six.get(), R.strings().divide.get()],
-        [R.strings().one.get(), R.strings().two.get(), R.strings().three.get(), R.strings().minus.get()],
-        [R.strings().dot.get(), R.strings().zero.get(), R.strings().percent.get(), R.strings().plus.get()],
-        [R.strings().open_parentheses.get(), R.strings().triple_zero.get(), R.strings().ac.get(), R.strings().delete_.get(), R.strings().close_parentheses.get()]
+        [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
+        [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
+        [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
+        [MR.strings().dot.get(), MR.strings().zero.get(), MR.strings().percent.get(), MR.strings().plus.get()],
+        [MR.strings().open_parentheses.get(), MR.strings().triple_zero.get(), MR.strings().ac.get(), MR.strings().delete_.get(), MR.strings().close_parentheses.get()]
     ]
 
     var body: some View {
@@ -225,7 +225,7 @@ struct KeyboardView: View {
                             label: {
                                 Text(item)
                                     .font(.title2)
-                                    .foregroundColor(R.colors().text.get())
+                                    .foregroundColor(MR.colors().text.get())
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
@@ -234,7 +234,7 @@ struct KeyboardView: View {
                 }
 
             }
-        }.background(R.colors().background_strong.get())
+        }.background(MR.colors().background_strong.get())
     }
 }
 
@@ -263,11 +263,11 @@ struct CalculatorItemView: View {
         HStack {
 
             Text(IOSCalculatorUtilKt.getFormatted(item.rate))
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
                 .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
-            Text(item.symbol).foregroundColor(R.colors().text.get())
+            Text(item.symbol).foregroundColor(MR.colors().text.get())
             Spacer()
-            Text(item.name).foregroundColor(R.colors().text.get())
+            Text(item.name).foregroundColor(MR.colors().text.get())
             Image(uiImage: item.name.getImage())
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)

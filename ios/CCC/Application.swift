@@ -33,7 +33,7 @@ struct Application: App {
             width: 0,
             height: Double.leastNonzeroMagnitude
         ))
-        UITableView.appearance().backgroundColor = R.colors().transparent.get()
+        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
     }
 
     var body: some Scene {

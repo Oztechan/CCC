@@ -135,7 +135,6 @@ android {
 
 multiplatformResources {
     multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.client"
-    multiplatformResourcesClassName = "R"
     disableStaticFrameworkWarning = true
 }
 

@@ -14,13 +14,13 @@ func showSnack(
     text: String,
     buttonText: String? = nil,
     action: (() -> Void)? = nil,
-    iconImage: UIImage = R.images().ic_app_logo.get()
+    iconImage: UIImage = MR.images().ic_app_logo.get()
 ) {
 
     let view = MessageView.viewFromNib(layout: .cardView)
     view.configureTheme(
-        backgroundColor: R.colors().background_weak.get(),
-        foregroundColor: R.colors().text.get(),
+        backgroundColor: MR.colors().background_weak.get(),
+        foregroundColor: MR.colors().text.get(),
         iconImage: iconImage.resized(
             to: CGSize(width: 64, height: 64)
         )
@@ -48,7 +48,7 @@ func showSnack(
             right: 10.0
         )
 
-        view.button?.backgroundColor = R.colors().primary.get()
+        view.button?.backgroundColor = MR.colors().primary.get()
     } else {
         view.button?.isHidden = true
     }

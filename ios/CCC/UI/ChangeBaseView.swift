@@ -28,15 +28,15 @@ struct ChangeBaseView: View {
 
             ZStack {
 
-                Color(R.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 if observable.state.currencyList.count < 2 {
 
                     SelectCurrencyView(
-                        text: R.strings().choose_at_least_two_currency.get(),
-                        buttonText: R.strings().select.get(),
+                        text: MR.strings().choose_at_least_two_currency.get(),
+                        buttonText: MR.strings().select.get(),
                         onButtonClick: observable.event.onSelectClick
-                    ).listRowBackground(R.colors().background.get())
+                    ).listRowBackground(MR.colors().background.get())
 
                 } else {
 
@@ -52,11 +52,11 @@ struct ChangeBaseView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
                             }.listRowInsets(.init())
-                            .listRowBackground(R.colors().background.get())
+                            .listRowBackground(MR.colors().background.get())
                         }
                     }
-                    .background(R.colors().background.get())
-                    .navigationBarTitle(R.strings().txt_select_base_currency.get())
+                    .background(MR.colors().background.get())
+                    .navigationBarTitle(MR.strings().txt_select_base_currency.get())
                 }
             }
         }
@@ -93,13 +93,13 @@ struct BarItemView: View {
                 .shadow(radius: 3)
             Text(item.name)
                 .frame(width: 45)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Text(item.longName)
                 .font(.footnote)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Text(item.symbol)
                 .font(.footnote)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Spacer()
 
         }

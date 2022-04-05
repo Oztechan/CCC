@@ -23,7 +23,7 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            R.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
 
@@ -53,16 +53,16 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(R.colors().background.get())
+                        .listRowBackground(MR.colors().background.get())
                     }
                 }
-                .background(R.colors().background.get())
+                .background(MR.colors().background.get())
                 .animation(.default)
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrencyView(
-                        text: R.strings().txt_select_currencies.get(),
-                        buttonText: R.strings().btn_done.get(),
+                        text: MR.strings().txt_select_currencies.get(),
+                        buttonText: MR.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick
                     )
                 }
@@ -86,7 +86,7 @@ struct CurrenciesView: View {
         logger.i(message: {effect.description})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            showSnack(text: R.strings().choose_at_least_two_currency.get())
+            showSnack(text: MR.strings().choose_at_least_two_currency.get())
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
@@ -112,18 +112,16 @@ struct SelectionView: View {
             Spacer()
             Button(
                 action: { updateAllCurrenciesState(true) },
-                label: { Text(R.strings().btn_select_all.get()).foregroundColor(R.colors().text.get()) }
+                label: { Text(MR.strings().btn_select_all.get()).foregroundColor(MR.colors().text.get()) }
             ).padding(.trailing, 10)
             Button(
                 action: { updateAllCurrenciesState(false) },
-                label: {
-                    Text(R.strings().btn_de_select_all.get()).foregroundColor(R.colors().text.get())
-                }
+                label: { Text(MR.strings().btn_de_select_all.get()).foregroundColor(MR.colors().text.get()) }
             )
 
         }
         .padding(EdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 20))
-        .background(R.colors().background_weak.get())
+        .background(MR.colors().background_weak.get())
     }
 }
 
@@ -145,11 +143,11 @@ struct CurrencyToolbarView: View {
             if searchVisibilty {
                 Spacer()
 
-                TextField(R.strings().search.get(), text: $query)
+                TextField(MR.strings().search.get(), text: $query)
                 .onChange(of: query) { onQueryChange($0) }
                 .background(
                     RoundedRectangle(cornerRadius: 3)
-                        .fill(R.colors().background.get())
+                        .fill(MR.colors().background.get())
                         .padding(.bottom, -4)
                         .padding(.top, -4)
                 )
@@ -170,7 +168,7 @@ struct CurrencyToolbarView: View {
 
             } else {
 
-                Text(R.strings().txt_currencies.get()).font(.title3)
+                Text(MR.strings().txt_currencies.get()).font(.title3)
 
                 Spacer()
 
@@ -200,16 +198,16 @@ struct CurrencyItemView: View {
                 .shadow(radius: 3)
             Text(item.name)
                 .frame(width: 45)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Text(item.longName)
                 .font(.footnote)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Text(item.symbol)
                 .font(.footnote)
-                .foregroundColor(R.colors().text.get())
+                .foregroundColor(MR.colors().text.get())
             Spacer()
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(R.colors().accent.get())
+                .foregroundColor(MR.colors().accent.get())
 
         }
         .contentShape(Rectangle())

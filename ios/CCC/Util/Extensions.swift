@@ -44,21 +44,21 @@ extension RateState {
         // swiftlint:disable force_cast
         switch self {
         case is RateState.Online:
-            return R.strings().text_online_last_updated.get(
+            return MR.strings().text_online_last_updated.get(
                 parameter: (self as! RateState.Online).lastUpdate ?? ""
             )
         case is RateState.Cached:
-            return R.strings().text_cached_last_updated.get(
+            return MR.strings().text_cached_last_updated.get(
                 parameter: (self as! RateState.Cached).lastUpdate ?? ""
             )
         case is RateState.Offline:
             if let date = (self as! RateState.Offline).lastUpdate {
-                return R.strings().text_offline_last_updated.get(parameter: date)
+                return MR.strings().text_offline_last_updated.get(parameter: date)
             } else {
-                return R.strings().text_offline.get()
+                return MR.strings().text_offline.get()
             }
         case is RateState.Error:
-            return R.strings().text_no_data.get()
+            return MR.strings().text_no_data.get()
         default:
             return ""
         }
@@ -67,15 +67,15 @@ extension RateState {
     func getColor() -> Color {
         switch self {
         case is RateState.Online:
-            return R.colors().online.get()
+            return MR.colors().online.get()
         case is RateState.Cached:
-            return R.colors().cached.get()
+            return MR.colors().cached.get()
         case is RateState.Offline:
-            return R.colors().offline.get()
+            return MR.colors().offline.get()
         case is RateState.Error:
-            return R.colors().error.get()
+            return MR.colors().error.get()
         default:
-            return R.colors().transparent.get()
+            return MR.colors().transparent.get()
         }
     }
 }

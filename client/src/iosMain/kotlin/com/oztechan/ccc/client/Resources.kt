@@ -18,9 +18,9 @@ import platform.UIKit.UIColor
 import platform.UIKit.UIScreen
 
 fun getDrawableByFileName(name: String): ImageResource {
-    return R.images.getImageByFileName(
+    return MR.images.getImageByFileName(
         name.lowercase().replace("try", "tryy")
-    ) ?: R.images.transparent
+    ) ?: MR.images.transparent
 }
 
 fun getString(stringResource: StringResource): StringDesc {
