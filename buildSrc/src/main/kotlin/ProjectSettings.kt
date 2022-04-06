@@ -52,7 +52,7 @@ object ProjectSettings {
         return String(os.toByteArray()).trim() == "master"
     }
 
-    private fun isCI() = System.getProperties()["idea.platform.prefix"] == null
+    private fun isCI() = System.getenv("CI") == "true"
 
     @Suppress("TooGenericExceptionCaught")
     private fun Project.setIOSVersion(versionName: String) = try {
