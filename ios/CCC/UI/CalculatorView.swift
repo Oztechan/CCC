@@ -264,14 +264,26 @@ struct CalculatorItemView: View {
 
             Text(IOSCalculatorUtilKt.getFormatted(item.rate))
                 .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
-            Text(item.symbol).foregroundColor(MR.colors().text.get())
+
+            Text(item.symbol)
+                .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
+                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
+
             Spacer()
-            Text(item.name).foregroundColor(MR.colors().text.get())
+
+            Text(item.name)
+                .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
+                .onLongPressGesture { onItemImageLongClick(item) }
+
             Image(uiImage: item.name.getImage())
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)
                 .shadow(radius: 3)
+                .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
         }
