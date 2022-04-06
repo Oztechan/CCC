@@ -57,6 +57,7 @@ func showSnack(
     config.presentationStyle = .bottom
     config.presentationContext = .window(windowLevel: UIWindow.Level.normal)
 
+    SwiftMessages.hide(animated: false)
     SwiftMessages.show(config: config, view: view)
 }
 
