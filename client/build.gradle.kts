@@ -58,10 +58,10 @@ kotlin {
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
                     implementation(MOKO_RESOURCES)
+                    implementation(PARSER_MOB)
 
                     with(Dependencies.Modules) {
                         implementation(project(COMMON))
-                        implementation(project(PARSER_MOB))
                         implementation(project(SCOPE_MOB))
                         implementation(project(LOG_MOB))
                         implementation(project(CONFIG))

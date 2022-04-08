@@ -99,8 +99,6 @@ scopemob{scopemob}-->client
 scopemob-->android
 scopemob-->billing
 
-parsermob{parsermob}-->client
-
 client{client}-->android
 client-->ios
 

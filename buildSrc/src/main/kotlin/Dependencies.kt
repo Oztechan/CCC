@@ -22,6 +22,7 @@ object Dependencies {
             "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
+        const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
     }
 
     object Android {
@@ -124,7 +125,6 @@ object Dependencies {
         const val BASE_MOB = ":basemob"
         const val SCOPE_MOB = ":scopemob"
         const val LOG_MOB = ":logmob"
-        const val PARSER_MOB = ":parsermob"
 
         const val BILLING = ":billing"
         const val AD = ":ad"

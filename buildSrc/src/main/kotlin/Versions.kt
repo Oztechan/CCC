@@ -39,4 +39,5 @@ object Versions {
     const val ROOT_BEER = "0.1.0"
     const val MOCKATIVE = "1.1.4"
     const val KSP = "1.6.10-1.0.4"
+    const val PARSER_MOB = "1.1.2"
 }
