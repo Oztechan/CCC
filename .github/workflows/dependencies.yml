@@ -1,4 +1,4 @@
-name: Check dependency updates
+name: Dependency Check
 
 on:
   schedule:
@@ -74,6 +74,10 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         if: always()
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
 
   Notify:
     runs-on: ubuntu-latest
