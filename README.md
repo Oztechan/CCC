@@ -95,10 +95,6 @@ logmob-->common
 
 basemob-->android
 
-scopemob{scopemob}-->client
-scopemob-->android
-scopemob-->billing
-
 client{client}-->android
 client-->ios
 

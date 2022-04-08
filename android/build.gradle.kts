@@ -115,6 +115,7 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
+        implementation(SCOPE_MOB)
     }
 
     with(Dependencies.Modules) {
@@ -122,7 +123,6 @@ dependencies {
         implementation(project(CONFIG))
 
         implementation(project(BASE_MOB))
-        implementation(project(SCOPE_MOB))
         implementation(project(LOG_MOB))
 
         implementation(project(BILLING))
