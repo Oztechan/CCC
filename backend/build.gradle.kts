@@ -37,11 +37,11 @@ kotlin {
 
                 with(Dependencies.Common) {
                     implementation(KOIN_CORE)
+                    implementation(LOG_MOB)
                 }
 
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
-                    implementation(project(LOG_MOB))
                 }
             }
         }

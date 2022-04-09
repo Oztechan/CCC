@@ -60,10 +60,10 @@ kotlin {
                     implementation(MOKO_RESOURCES)
                     implementation(SCOPE_MOB)
                     implementation(PARSER_MOB)
+                    implementation(LOG_MOB)
 
                     with(Dependencies.Modules) {
                         implementation(project(COMMON))
-                        implementation(project(LOG_MOB))
                         implementation(project(CONFIG))
                     }
                 }
