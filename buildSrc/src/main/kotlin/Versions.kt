@@ -40,5 +40,5 @@ object Versions {
     const val MOCKATIVE = "1.1.4"
     const val KSP = "1.6.10-1.0.4"
     const val SCOPE_MOB = "2.1.3"
-    const val PARSER_MOB = "1.1.4"
+    const val PARSER_MOB = "1.1.5"
 }
