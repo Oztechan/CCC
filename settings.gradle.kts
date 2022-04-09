@@ -17,8 +17,3 @@ include(
     ":config", // Shared with all FE targets
     ":common" // Shared with all FE & BE targets
 )
-
-// SubMobs
-include(":logmob")
-
-project(":logmob").projectDir = file("logmob/logmob")

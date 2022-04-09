@@ -85,14 +85,6 @@ override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity
 ```mermaid
 graph TD;
 
-logmob{logmob}-->config
-logmob-->ad
-logmob-->android
-logmob-->backend
-logmob-->billing
-logmob-->client
-logmob-->common
-
 client{client}-->android
 client-->ios
 

@@ -44,9 +44,6 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(SCOPE_MOB)
-    }
-
-    with(Dependencies.Modules) {
-        implementation(project(LOG_MOB))
+        implementation(LOG_MOB)
     }
 }

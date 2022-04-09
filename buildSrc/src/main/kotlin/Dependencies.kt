@@ -24,6 +24,7 @@ object Dependencies {
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val SCOPE_MOB = "com.github.submob:scopemob:${Versions.SCOPE_MOB}"
         const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
+        const val LOG_MOB = "com.github.submob:logmob:${Versions.LOG_MOB}"
     }
 
     object Android {
@@ -123,10 +124,6 @@ object Dependencies {
     object Modules {
         const val CLIENT = ":client"
         const val COMMON = ":common"
-
-        const val BASE_MOB = ":basemob"
-        const val LOG_MOB = ":logmob"
-
         const val BILLING = ":billing"
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
