@@ -51,6 +51,7 @@ object Dependencies {
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
+        const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"

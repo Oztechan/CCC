@@ -7,7 +7,6 @@
 .externalNativeBuild
 /.idea
 /logmob
-/basemob
 
 .idea
 /.idea/caches

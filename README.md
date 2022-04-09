@@ -93,8 +93,6 @@ logmob-->billing
 logmob-->client
 logmob-->common
 
-basemob-->android
-
 client{client}-->android
 client-->ios
 

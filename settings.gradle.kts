@@ -19,10 +19,6 @@ include(
 )
 
 // SubMobs
-include(
-    ":basemob",
-    ":logmob",
-)
+include(":logmob")
 
-project(":basemob").projectDir = file("basemob/basemob")
 project(":logmob").projectDir = file("logmob/logmob")
