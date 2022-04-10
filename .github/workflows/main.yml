@@ -44,9 +44,6 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v2
 
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
-
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
@@ -91,9 +88,6 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
 
       - name: Adding secret files
         run: |

@@ -8,7 +8,6 @@ object Dependencies {
         const val TEST = "test"
         const val TEST_ANNOTATIONS = "test-annotations-common"
         const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
-        const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
         const val MULTIPLATFORM_SETTINGS =
             "com.russhwolf:multiplatform-settings:${Versions.MULTIPLATFORM_SETTINGS}"
         const val KOTLIN_X_DATE_TIME =
@@ -33,14 +32,11 @@ object Dependencies {
         const val CONSTRAINT_LAYOUT =
             "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
-        const val FIREBASE_CRASHLYTICS =
-            "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
         const val FIREBASE_ANALYTICS =
             "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
         const val FIREBASE_REMOTE_CONFIG =
             "com.google.firebase:firebase-config-ktx:${Versions.FIREBASE_REMOTE_CONFIG}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
-        const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
         const val LIFECYCLE_VIEWMODEL =
             "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
         const val LIFECYCLE_RUNTIME =
@@ -100,7 +96,6 @@ object Dependencies {
     object Plugins {
         const val MULTIPLATFORM = "multiplatform"
         const val ANDROID = "android"
-        const val JS = "js"
         const val ANDROID_APP = "com.android.application"
         const val ANDROID_LIB = "com.android.library"
         const val COCOAPODS = "native.cocoapods"
