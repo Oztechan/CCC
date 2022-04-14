@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Resources
 
 struct FormProgressView: View {
     @Environment(\.colorScheme) var colorScheme

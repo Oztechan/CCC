@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Resources
 
 struct ToolbarButton: View {
     @Environment(\.colorScheme) var colorScheme

@@ -122,6 +122,7 @@ dependencies {
 
     with(Dependencies.Modules) {
         implementation(project(CLIENT))
+        implementation(project(RESOURCES))
         implementation(project(CONFIG))
         implementation(project(BILLING))
         implementation(project(AD))
