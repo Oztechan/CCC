@@ -75,24 +75,27 @@ override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity
 ```mermaid
 graph TD;
 
-backend(backend)
 android(android)
 ios(ios)
-
-client{client}-->android
-client-->ios
-
-common{common}-->client
-common-->backend
-
-config{config}-->android
-config-->client
+backend(backend)
 
 billing-->android
 
 ad-->android
 
 analytics-->android
+
+config{config}-->android
+config-->client
+
+resources{resources}-->android
+resources-->ios
+
+client{client}-->android
+client-->ios
+
+common{common}-->client
+common-->backend
 ```
 
 ```mermaid

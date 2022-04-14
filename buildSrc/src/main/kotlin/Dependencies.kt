@@ -118,6 +118,7 @@ object Dependencies {
 
     object Modules {
         const val CLIENT = ":client"
+        const val RESOURCES = ":resources"
         const val COMMON = ":common"
         const val BILLING = ":billing"
         const val AD = ":ad"
