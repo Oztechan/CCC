@@ -8,7 +8,7 @@
 
 import SwiftMessages
 import SwiftUI
-import Client
+import Resources
 
 func showSnack(
     text: String,

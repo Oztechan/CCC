@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Resources
 
 struct SelectCurrencyView: View {
     @Environment(\.colorScheme) var colorScheme

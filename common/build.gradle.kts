@@ -36,8 +36,6 @@ kotlin {
         with(Dependencies.Common) {
             val commonMain by getting {
                 dependencies {
-                    implementation(project(Dependencies.Modules.LOG_MOB))
-
                     implementation(MULTIPLATFORM_SETTINGS)
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(KOIN_CORE)
@@ -45,6 +43,7 @@ kotlin {
                     implementation(KTOR_SETIALIZATION)
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
+                    implementation(LOG_MOB)
                     implementation(COROUTINES) {
                         version {
                             strictly(Versions.COROUTINES)

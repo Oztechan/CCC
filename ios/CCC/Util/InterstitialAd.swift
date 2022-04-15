@@ -7,7 +7,7 @@
 //
 
 import GoogleMobileAds
-import Client
+import Resources
 
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
 
