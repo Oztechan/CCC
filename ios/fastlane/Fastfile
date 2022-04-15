@@ -38,9 +38,9 @@ end
 platform :ios do
     desc "iOS Lanes"
 
-        lane :distribute_ios_app do
+        lane :distribute do
+            install_certificate_and_profile(match_type: "appstore")
             add_test_devices
-            install_certificate_and_profile
             build_app(workspace: "CCC.xcworkspace", scheme: "CCC")
             firebase_app_distribution(
                 app: ENV["IOS_GOOGLE_FIREBASE_APP_ID"],
@@ -51,7 +51,8 @@ platform :ios do
             )
         end
 
-        lane :install_certificate_and_profile do
+        # Sub lines
+        lane :install_certificate_and_profile do |options|
             api_key = app_store_connect_api_key(
                 key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
                 issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
@@ -64,7 +65,7 @@ platform :ios do
             ensure_temp_keychain(keychain_name, keychain_password)
 
             match(
-                type: 'appstore',
+                type: options[:match_type],
                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
                 keychain_name: keychain_name,
                 keychain_password: keychain_password,
