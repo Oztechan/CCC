@@ -33,16 +33,6 @@ Main Modules | Completed | State | Tech |
 
 </div>
 
-## How to clone
-
-The project uses submodules, please clone it as below:
-
-```shell
-git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
-cd CCC &&
-git submodule update --init --recursive
-```
-
 ## How to run
 
 Be sure that you have latest Android Studio Canary build installed and XCode 13.0 or later.
@@ -85,30 +75,9 @@ override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity
 ```mermaid
 graph TD;
 
-logmob{logmob}-->config
-logmob-->ad
-logmob-->android
-logmob-->backend
-logmob-->billing
-logmob-->client
-logmob-->common
-
-basemob-->android
-
-scopemob{scopemob}-->client
-scopemob-->android
-scopemob-->billing
-
-parsermob{parsermob}-->client
-
-client{client}-->android
-client-->ios
-
-common{common}-->client
-common-->backend
-
-config{config}-->android
-config-->client
+android(android)
+ios(ios)
+backend(backend)
 
 billing-->android
 
@@ -116,9 +85,17 @@ ad-->android
 
 analytics-->android
 
-backend(backend)
-android(android)
-ios(ios)
+config{config}-->android
+config-->client
+
+resources{resources}-->android
+resources-->ios
+
+client{client}-->android
+client-->ios
+
+common{common}-->client
+common-->backend
 ```
 
 ```mermaid

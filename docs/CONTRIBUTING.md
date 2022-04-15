@@ -17,7 +17,7 @@ TYPE/ISSUE_ID-some-description
 Example:
 
 ```
-feat/123-adding-bla-bla
+feat/123-bla-bla
 ```
 
 ## Commit Message
@@ -27,13 +27,7 @@ Every commit message should start with `[#ISSUE_ID]`
 Example:
 
 ```
-[#123] implementing bla bla
-```
-
-In case commit is for one of the submodule:
-
-```
-[Oztechan/CCC#123] implementing bla bla
+[#123] bla bla
 ```
 
 ## Pull Request
@@ -49,7 +43,7 @@ Pull Request title should follow below format:
 Example:
 
 ```
-[#123] Bla Bla Added
+[#123] Bla Bla
 ```
 
 ### Description

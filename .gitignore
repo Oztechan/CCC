@@ -6,10 +6,6 @@
 /captures
 .externalNativeBuild
 /.idea
-/scopemob
-/logmob
-/basemob
-/parsermob
 
 .idea
 /.idea/caches

@@ -13,7 +13,6 @@ plugins {
         kotlin(COCOAPODS)
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
-        id(MOKO_RESOURCES)
         id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
@@ -57,13 +56,12 @@ kotlin {
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
-                    implementation(MOKO_RESOURCES)
+                    implementation(SCOPE_MOB)
+                    implementation(PARSER_MOB)
+                    implementation(LOG_MOB)
 
                     with(Dependencies.Modules) {
                         implementation(project(COMMON))
-                        implementation(project(PARSER_MOB))
-                        implementation(project(SCOPE_MOB))
-                        implementation(project(LOG_MOB))
                         implementation(project(CONFIG))
                     }
                 }
@@ -131,11 +129,6 @@ android {
             }
         }
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.client"
-    disableStaticFrameworkWarning = true
 }
 
 tasks.withType<KotlinCompile> {

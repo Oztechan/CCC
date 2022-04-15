@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Resources
 import Client
 import NavigationStack
 
