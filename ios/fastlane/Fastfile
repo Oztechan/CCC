@@ -39,6 +39,7 @@ platform :ios do
     desc "iOS Lanes"
 
         lane :distribute_ios_app do
+            add_test_devices
             install_certificate_and_profile
             build_app(workspace: "CCC.xcworkspace", scheme: "CCC")
             firebase_app_distribution(
@@ -69,5 +70,13 @@ platform :ios do
                 keychain_password: keychain_password,
                 api_key: api_key
             )
-    end
+        end
+
+        lane :add_test_devices do
+            register_devices(
+              devices: {
+                'Mustafa’s iPhone SE' => '00008030-001924D622F9402E',
+              }
+            )
+        end
 end
