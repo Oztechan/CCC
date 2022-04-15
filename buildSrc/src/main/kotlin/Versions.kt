@@ -39,5 +39,5 @@ object Versions {
     const val SCOPE_MOB = "2.1.4"
     const val PARSER_MOB = "1.1.5"
     const val BASE_MOB = "2.1.3"
-    const val LOG_MOB = "2.1.8"
+    const val LOG_MOB = "2.2.0"
 }
