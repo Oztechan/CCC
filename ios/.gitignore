@@ -2,3 +2,4 @@ Pods/
 build
 CCC/Resources/GoogleService-Info.plist
 CCC/Resources/Release.xcconfig
+fastlane/.env
