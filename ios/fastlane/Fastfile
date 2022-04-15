@@ -75,7 +75,7 @@ platform :ios do
         lane :add_test_devices do
             register_devices(
               devices: {
-                'Mustafa’s iPhone SE' => '00008030-001924D622F9402E',
+                "Mustafa’s iPhone SE" => "00008030-001924D622F9402E",
               }
             )
         end
