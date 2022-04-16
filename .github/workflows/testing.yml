@@ -35,16 +35,15 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
       - name: Clone Repo
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
       - name: Adding secret files
         run: |
@@ -83,21 +82,15 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-
       - name: Clone Repo
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
       - name: Adding secret files
         run: |
@@ -138,7 +131,7 @@ jobs:
     steps:
 
       - name: Notify slack fail
-        if: false == (needs.GenerateAndroidArtifacts.outputs.status == 'success') || false == (needs.GenerateIOSArtifacts.outputs.status == 'success')
+        if: false == (needs.DistributeAndroid.outputs.status == 'success') || false == (needs.DistributeIOS.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v1

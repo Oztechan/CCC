@@ -38,6 +38,11 @@ end
 platform :ios do
     desc "iOS Lanes"
 
+        lane :build do
+            install_certificate_and_profile(match_type: "appstore")
+            build_app(workspace: "CCC.xcworkspace", scheme: "CCC")
+        end
+
         lane :distribute do
             install_certificate_and_profile(match_type: "appstore")
             add_test_devices
