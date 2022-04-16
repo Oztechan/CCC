@@ -15,14 +15,10 @@ import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
 import com.oztechan.ccc.android.di.platformModule
 import com.oztechan.ccc.client.di.initAndroid
-import com.oztechan.ccc.config.ConfigManager
 import mustafaozhan.github.com.mycurrencies.BuildConfig
-import org.koin.android.ext.android.inject
 
 @Suppress("unused")
 class Application : Application() {
-
-    private val configManager: ConfigManager by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -37,9 +33,8 @@ class Application : Application() {
 
         if (!BuildConfig.DEBUG) {
             initAnalytics(this)
+            initCrashlytics()
         }
-
-        initCrashlytics()
 
         initAds(this)
 
@@ -48,9 +43,7 @@ class Application : Application() {
             platformModule = platformModule
         )
 
-        Thread.setDefaultUncaughtExceptionHandler(
-            ANRWatchDogHandler(configManager.appConfig.timeOutANRWatchDog)
-        )
+        Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
     }
 
     private fun enableStrictMode() {
