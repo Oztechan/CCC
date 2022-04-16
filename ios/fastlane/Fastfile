@@ -1,0 +1,129 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+def delete_temp_keychain(name)
+    delete_keychain(
+      name: name
+    ) if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
+end
+
+def create_temp_keychain(name, password)
+    create_keychain(
+      name: name,
+      password: password,
+      unlock: false,
+      timeout: 0
+    )
+end
+
+def ensure_temp_keychain(name, password)
+    delete_temp_keychain(name)
+    create_temp_keychain(name, password)
+end
+
+platform :ios do
+    desc "iOS Lanes"
+
+        lane :build do
+            install_certificate_and_profile(match_type: "development")
+            build_project(
+                match_type: "development",
+                identity: "Apple Development: Mustafa Ozhan (4WHZWC8B47)",
+                profile: "match Development com.oztechan.ccc"
+            )
+        end
+
+        lane :distribute do
+            install_certificate_and_profile(match_type: "adhoc")
+            add_test_devices
+            build_project(
+                match_type: "adhoc",
+                identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
+                profile: "match AdHoc com.oztechan.ccc"
+            )
+            firebase_app_distribution(
+                app: ENV["IOS_GOOGLE_FIREBASE_APP_ID"],
+                groups: "QA",
+                release_notes: changelog_from_git_commits(commits_count: 1),
+                firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+                ipa_path: "../ios/CCC.ipa"
+            )
+            upload_symbols_to_crashlytics(dsym_path: "../ios/CCC.app.dSYM.zip")
+        end
+
+        # Sub lines
+        lane :install_certificate_and_profile do |options|
+            api_key = app_store_connect_api_key(
+                key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+                issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+                key_content: ENV["APP_STORE_CONNECT_KEY_CONTENT"],
+                in_house: false,
+            )
+
+            keychain_name = "mustafa.ozhan"
+            keychain_password = ENV["SECRET_PASSWORD"]
+            ensure_temp_keychain(keychain_name, keychain_password)
+
+            match(
+                type: options[:match_type],
+                readonly: is_ci,
+                git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
+                keychain_name: keychain_name,
+                keychain_password: keychain_password,
+                api_key: api_key
+            )
+        end
+
+        lane :add_test_devices do
+            register_devices(
+              devices: {
+                "Mustafa’s iPhone SE" => "00008030-001924D622F9402E",
+              }
+            )
+        end
+
+        lane :build_project do |options|
+            match_type = options[:match_type]
+            method = ""
+
+            if match_type == "adhoc"
+               method = "ad-hoc"
+            elsif match_type == "appstore"
+               method = "app-store"
+            else
+               method = match_type
+            end
+
+            update_code_signing_settings(use_automatic_signing: false)
+            update_project_provisioning(
+                profile: ENV["sigh_com.oztechan.ccc_" + match_type + "_profile-path"]
+            )
+            build_app(
+                workspace: "CCC.xcworkspace",
+                scheme: "CCC",
+                xcargs: "-allowProvisioningUpdates",
+                codesigning_identity: options[:identity],
+                export_options: {
+                    signingStyle: "manual",
+                    method: method,
+                    provisioningProfiles: {
+                        "com.oztechan.ccc": options[:profile]
+                    }
+                },
+            )
+        end
+end
