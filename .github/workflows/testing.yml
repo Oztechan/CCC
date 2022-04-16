@@ -115,7 +115,7 @@ jobs:
       - name: Distrubute
         uses: maierj/fastlane-action@v2.2.0
         with:
-          lane: 'distribute_ios_app'
+          lane: 'distribute'
           subdirectory: 'ios'
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
