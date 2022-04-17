@@ -23,10 +23,7 @@ kotlin {
             dependencies {
                 with(Dependencies.Common) {
                     implementation(KTOR_SETIALIZATION)
-                }
-
-                with(Dependencies.Modules) {
-                    implementation(project(LOG_MOB))
+                    implementation(LOG_MOB)
                 }
             }
         }

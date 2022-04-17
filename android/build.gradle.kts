@@ -107,6 +107,7 @@ dependencies {
         implementation(LIFECYCLE_RUNTIME)
         implementation(WORK_RUNTIME) // android 12 crash fix
         implementation(SPLASH_SCREEN)
+        implementation(BASE_MOB)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
     }
@@ -115,16 +116,13 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
+        implementation(SCOPE_MOB)
+        implementation(LOG_MOB)
     }
 
     with(Dependencies.Modules) {
         implementation(project(CLIENT))
-        implementation(project(CONFIG))
-
-        implementation(project(BASE_MOB))
-        implementation(project(SCOPE_MOB))
-        implementation(project(LOG_MOB))
-
+        implementation(project(RESOURCES))
         implementation(project(BILLING))
         implementation(project(AD))
         implementation(project(ANALYTICS))

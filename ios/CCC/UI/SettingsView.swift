@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Resources
 import Client
 import NavigationStack
 import GoogleMobileAds
@@ -49,13 +50,13 @@ struct SettingsView: View {
                         onClick: observable.event.onCurrenciesClick
                     )
 
-                    SettingsItemView(
-                        imgName: "eye.slash.fill",
-                        title: MR.strings().settings_item_remove_ads_title.get(),
-                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                        value: getAdFreeText(),
-                        onClick: observable.event.onRemoveAdsClick
-                    )
+//                    SettingsItemView(
+//                        imgName: "eye.slash.fill",
+//                        title: MR.strings().settings_item_remove_ads_title.get(),
+//                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+//                        value: getAdFreeText(),
+//                        onClick: observable.event.onRemoveAdsClick
+//                    )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
@@ -84,12 +85,12 @@ struct SettingsView: View {
                     )
                 }.background(MR.colors().background.get())
 
-                if observable.viewModel.shouldShowBannerAd() {
-                    BannerAdView(
-                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
-                    ).frame(maxHeight: 50)
-                    .padding(.bottom, 20)
-                }
+//                if observable.viewModel.shouldShowBannerAd() {
+//                    BannerAdView(
+//                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
+//                    ).frame(maxHeight: 50)
+//                    .padding(.bottom, 20)
+//                }
 
             }
             .navigationBarHidden(true)

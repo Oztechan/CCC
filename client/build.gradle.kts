@@ -13,7 +13,6 @@ plugins {
         kotlin(COCOAPODS)
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
-        id(MOKO_RESOURCES)
         id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
@@ -57,12 +56,12 @@ kotlin {
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
+                    implementation(SCOPE_MOB)
+                    implementation(PARSER_MOB)
+                    implementation(LOG_MOB)
 
                     with(Dependencies.Modules) {
                         implementation(project(COMMON))
-                        implementation(project(PARSER_MOB))
-                        implementation(project(SCOPE_MOB))
-                        implementation(project(LOG_MOB))
                         implementation(project(CONFIG))
                     }
                 }
@@ -76,17 +75,9 @@ kotlin {
             }
         }
 
-        val mobileMain by creating {
-            dependencies {
-                dependsOn(commonMain.get())
-                implementation(Dependencies.Common.MOKO_RESOURCES)
-            }
-        }
-
         with(Dependencies.Android) {
             val androidMain by getting {
                 dependencies {
-                    dependsOn(mobileMain)
                     implementation(ANDROID_MATERIAL)
                     implementation(KOIN_ANDROID)
                     implementation(LIFECYCLE_VIEWMODEL)
@@ -95,11 +86,7 @@ kotlin {
             val androidTest by getting
         }
 
-        val iosMain by getting {
-            dependencies {
-                dependsOn(mobileMain)
-            }
-        }
+        val iosMain by getting
         val iosTest by getting
     }
 }
@@ -142,12 +129,6 @@ android {
             }
         }
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.client"
-    multiplatformResourcesSourceSet = "mobileMain"
-    disableStaticFrameworkWarning = true
 }
 
 tasks.withType<KotlinCompile> {

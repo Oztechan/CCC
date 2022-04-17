@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Resources
 import Client
 import NavigationStack
 
@@ -73,16 +74,17 @@ struct CalculatorView: View {
                         )
                     }
 
-                    if observable.viewModel.shouldShowBannerAd() {
-                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-                            .frame(maxHeight: 50)
-                            .padding(.bottom, 20)
-                    }
+//                    if observable.viewModel.shouldShowBannerAd() {
+//                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+//                            .frame(maxHeight: 50)
+//                            .padding(.bottom, 20)
+//                    }
 
                 }
             }
             .navigationBarHidden(true)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .sheet(
             isPresented: $isBarShown,
             content: {
@@ -264,14 +266,26 @@ struct CalculatorItemView: View {
 
             Text(IOSCalculatorUtilKt.getFormatted(item.rate))
                 .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
-            Text(item.symbol).foregroundColor(MR.colors().text.get())
+
+            Text(item.symbol)
+                .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
+                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
+
             Spacer()
-            Text(item.name).foregroundColor(MR.colors().text.get())
+
+            Text(item.name)
+                .foregroundColor(MR.colors().text.get())
+                .onTapGesture { onItemClick(item) }
+                .onLongPressGesture { onItemImageLongClick(item) }
+
             Image(uiImage: item.name.getImage())
                 .resizable()
                 .frame(width: 36, height: 36, alignment: .center)
                 .shadow(radius: 3)
+                .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
         }

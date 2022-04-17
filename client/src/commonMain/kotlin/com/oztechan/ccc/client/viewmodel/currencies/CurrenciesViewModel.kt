@@ -123,6 +123,7 @@ class CurrenciesViewModel(
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
                 settingsRepository.firstRun = false
+                filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }
     }

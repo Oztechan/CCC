@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Resources
 import Client
 import Firebase
 import GoogleMobileAds
@@ -23,7 +24,7 @@ struct Application: App {
             FirebaseApp.configure()
         #endif
 
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+//        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         startKoin()
 
