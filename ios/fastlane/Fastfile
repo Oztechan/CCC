@@ -39,14 +39,22 @@ platform :ios do
     desc "iOS Lanes"
 
         lane :build do
-            install_certificate_and_profile(match_type: "appstore")
-            build_app(workspace: "CCC.xcworkspace", scheme: "CCC")
+            install_certificate_and_profile(match_type: "development")
+            build_project(
+                match_type: "development",
+                identity: "Apple Development: Mustafa Ozhan (4WHZWC8B47)",
+                profile: "match Development com.oztechan.ccc"
+            )
         end
 
         lane :distribute do
-            install_certificate_and_profile(match_type: "appstore")
+            install_certificate_and_profile(match_type: "adhoc")
             add_test_devices
-            build_app(workspace: "CCC.xcworkspace", scheme: "CCC")
+            build_project(
+                match_type: "adhoc",
+                identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
+                profile: "match AdHoc com.oztechan.ccc"
+            )
             firebase_app_distribution(
                 app: ENV["IOS_GOOGLE_FIREBASE_APP_ID"],
                 groups: "QA",
@@ -54,6 +62,7 @@ platform :ios do
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
             )
+            upload_symbols_to_crashlytics(dsym_path: "../ios/CCC.app.dSYM.zip")
         end
 
         lane :publish do
@@ -83,6 +92,7 @@ platform :ios do
 
             match(
                 type: options[:match_type],
+                readonly: is_ci,
                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
                 keychain_name: keychain_name,
                 keychain_password: keychain_password,
@@ -95,6 +105,37 @@ platform :ios do
               devices: {
                 "Mustafa’s iPhone SE" => "00008030-001924D622F9402E",
               }
+            )
+        end
+
+        lane :build_project do |options|
+            match_type = options[:match_type]
+            method = ""
+
+            if match_type == "adhoc"
+               method = "ad-hoc"
+            elsif match_type == "appstore"
+               method = "app-store"
+            else
+               method = match_type
+            end
+
+            update_code_signing_settings(use_automatic_signing: false)
+            update_project_provisioning(
+                profile: ENV["sigh_com.oztechan.ccc_" + match_type + "_profile-path"]
+            )
+            build_app(
+                workspace: "CCC.xcworkspace",
+                scheme: "CCC",
+                xcargs: "-allowProvisioningUpdates",
+                codesigning_identity: options[:identity],
+                export_options: {
+                    signingStyle: "manual",
+                    method: method,
+                    provisioningProfiles: {
+                        "com.oztechan.ccc": options[:profile]
+                    }
+                },
             )
         end
 end
