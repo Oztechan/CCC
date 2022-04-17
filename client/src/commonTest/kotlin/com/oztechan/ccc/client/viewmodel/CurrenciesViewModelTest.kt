@@ -270,6 +270,7 @@ class CurrenciesViewModelTest {
             viewModel.onDoneClick()
         }.after {
             assertTrue { it is CurrenciesEffect.FewCurrency }
+            assertTrue { viewModel.data.query.isEmpty() }
         }
 
         // given
@@ -279,6 +280,7 @@ class CurrenciesViewModelTest {
             viewModel.onDoneClick()
         }.after {
             assertTrue { it is CurrenciesEffect.OpenCalculator }
+            assertTrue { viewModel.data.query.isEmpty() }
 
             verify(settingsRepository)
                 .invocation { firstRun = false }
