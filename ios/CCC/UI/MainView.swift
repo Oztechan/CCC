@@ -46,8 +46,8 @@ struct MainView: View {
     private func onEffect(effect: MainEffect) {
         logger.i(message: {effect.description})
         switch effect {
-        case is MainEffect.ShowInterstitialAd:
-            InterstitialAd().show()
+//        case is MainEffect.ShowInterstitialAd:
+//            InterstitialAd().show()
         default:
             logger.i(message: {"MainView unknown effect"})
         }
