@@ -81,9 +81,8 @@ struct SlideView: View {
                     .font(.largeTitle)
 
                 image
-                    .frame(width: 225, height: 225, alignment: .center)
+                    .frame(width: 196, height: 196, alignment: .center)
                     .font(.system(size: 128))
-                    .imageScale(.large)
                     .accentColor(MR.colors().text.get())
 
                 Text(subTitle1)
