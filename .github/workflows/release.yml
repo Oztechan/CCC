@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  pull_request:
 
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
@@ -63,11 +64,17 @@ jobs:
       - name: Gradle Build
         run: ./gradlew :android:bundleRelease :backend:fatJar --parallel
 
-      - name: Upload App Bundle
+      - name: Upload Google App Bundle
         uses: actions/upload-artifact@v2
         with:
-          name: bundle
+          name: googleBundle
           path: android/build/outputs/bundle/googleRelease/android-google-release.aab
+
+      - name: Upload Huawei App Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: huaweiBundle
+          path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
 
       - name: Upload Jar
         uses: actions/upload-artifact@v2
@@ -89,25 +96,60 @@ jobs:
       - name: Download App Bundle
         uses: actions/download-artifact@v2
         with:
-          name: bundle
+          name: googleBundle
 
       - name: Adding secret files
         run: |
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
-      - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1.0.15
-        with:
-          serviceAccountJson: service_account.json
-          packageName: mustafaozhan.github.com.mycurrencies
-          releaseFiles: android-google-release.aab
-          track: internal
+      #      - name: Upload Artifact to Google Play Console
+      #        uses: r0adkll/upload-google-play@v1.0.15
+      #        with:
+      #          serviceAccountJson: service_account.json
+      #          packageName: mustafaozhan.github.com.mycurrencies
+      #          releaseFiles: android-google-release.aab
+      #          track: internal
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v1
         with:
-          name: bundle
+          name: googleBundle
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  UploadHuaweiAppGallery:
+    runs-on: ubuntu-latest
+    needs: [ GenerateGradleArtifacts ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Download App Bundle
+        uses: actions/download-artifact@v2
+        with:
+          name: huaweiBundle
+
+      - name: Adding secret files
+        run: |
+          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
+
+      - name: Deploy to Huawei App Gallery
+        uses: muhamedzeema/appgallery-deply-action@main
+        with:
+          client-id: ${{secrets.HUAWEI_CLIENT_ID}}
+          client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
+          app-id: "com.oztechan.ccc.huawei"
+          file-extension: "aab"
+          file-path: "android-huawei-release.aab"
+
+      - name: Delete App Bundle
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: huaweiBundle
 
       - name: Set Job Status
         id: status
@@ -126,14 +168,14 @@ jobs:
           name: jar
           path: artifact
 
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-          SOURCE: "artifact/"
+      #      - name: Deploy to Server
+      #        uses: easingthemes/ssh-deploy@main
+      #        env:
+      #          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+      #          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      #          TARGET: ${{ secrets.REMOTE_TARGET }}
+      #          SOURCE: "artifact/"
 
       - name: Delete Jar
         uses: geekyeggo/delete-artifact@v1
@@ -166,26 +208,26 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
-      - name: Install Cocoapods
-        run: |
-          ./gradlew client:podGenIOS resources:podGenIOS --parallel
-          cd ios/CCC
-          pod install
-
-      - name: Publish
-        uses: maierj/fastlane-action@v2.2.0
-        with:
-          lane: 'publish'
-          subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+      #      - name: Install Cocoapods
+      #        run: |
+      #          ./gradlew client:podGenIOS resources:podGenIOS --parallel
+      #          cd ios/CCC
+      #          pod install
+      #
+      #      - name: Publish
+      #        uses: maierj/fastlane-action@v2.2.0
+      #        with:
+      #          lane: 'publish'
+      #          subdirectory: 'ios'
+      #        env:
+      #          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      #          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+      #          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+      #          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+      #          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+      #          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+      #          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+      #          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
 
       - name: Set Job Status
         id: status
@@ -193,13 +235,14 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GenerateGradleArtifacts, UploadGooglePlay, ServerDeployment, PublishAppStore ]
+    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
     if: always()
     steps:
 
       - name: Notify slack success
         if: needs.GenerateGradleArtifacts.outputs.status == 'success' &&
           needs.UploadGooglePlay.outputs.status == 'success' &&
+          needs.UploadHuaweiAppGallery.outputs.status == 'success' &&
           needs.ServerDeployment.outputs.status == 'success' &&
           needs.PublishAppStore.outputs.status == 'success'
         env:
@@ -213,6 +256,7 @@ jobs:
       - name: Notify slack fail
         if: false == (needs.GenerateGradleArtifacts.outputs.status == 'success') ||
           false == (needs.UploadGooglePlay.outputs.status == 'success') ||
+          false == (needs.UploadHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.ServerDeployment.outputs.status == 'success') ||
           false == (needs.PublishAppStore.outputs.status == 'success')
         env:
