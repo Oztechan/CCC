@@ -76,10 +76,10 @@ jobs:
           name: huaweiBundle
           path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
 
-      - name: Upload Jar
+      - name: Upload Backend Jar
         uses: actions/upload-artifact@v2
         with:
-          name: jar
+          name: backendJar
           path: backend/build/libs/backend-fat-*.jar
 
       - name: Set Job Status
@@ -132,11 +132,6 @@ jobs:
         with:
           name: huaweiBundle
 
-      - name: Adding secret files
-        run: |
-          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
-
       - name: Deploy to Huawei App Gallery
         uses: muhamedzeema/appgallery-deply-action@main
         with:
@@ -145,6 +140,7 @@ jobs:
           app-id: "com.oztechan.ccc.huawei"
           file-extension: "aab"
           file-path: "android-huawei-release.aab"
+          file-name: "android-huawei-release"
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v1
@@ -162,10 +158,10 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Download Jar
+      - name: Download Backend Jar
         uses: actions/download-artifact@v2
         with:
-          name: jar
+          name: backendJar
           path: artifact
 
       #      - name: Deploy to Server
@@ -177,10 +173,10 @@ jobs:
       #          TARGET: ${{ secrets.REMOTE_TARGET }}
       #          SOURCE: "artifact/"
 
-      - name: Delete Jar
+      - name: Delete Backend Jar
         uses: geekyeggo/delete-artifact@v1
         with:
-          name: jar
+          name: backendJar
 
       - name: Set Job Status
         id: status
