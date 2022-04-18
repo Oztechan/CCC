@@ -137,7 +137,7 @@ jobs:
         with:
           client-id: ${{secrets.HUAWEI_CLIENT_ID}}
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
-          app-id: "com.oztechan.ccc.huawei"
+          app-id: ${{secrets.HUAWEI_APP_ID}}
           file-extension: "aab"
           file-path: "android-huawei-release.aab"
           file-name: "android-huawei-release"
