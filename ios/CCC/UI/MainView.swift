@@ -27,7 +27,7 @@ struct MainView: View {
             easing: Animation.easeInOut(duration: 0.5)
         ) {
             if observable.viewModel.isFistRun() {
-                SliderView()
+                CurrenciesView(onBaseChange: { _ in })
             } else {
                 CalculatorView()
             }
