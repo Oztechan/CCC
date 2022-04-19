@@ -5,7 +5,7 @@
 //  Created by Mustafa Ozhan on 30/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
-
+#if DEBUG
 import SwiftUI
 import Resources
 import NavigationStack
@@ -124,3 +124,5 @@ struct SliderViewPreviews: PreviewProvider {
         SliderView().colorScheme(.light)
     }
 }
+
+#endif
