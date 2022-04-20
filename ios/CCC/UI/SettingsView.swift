@@ -132,7 +132,7 @@ struct SettingsView: View {
     }
 
     private func onEffect(effect: SettingsEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"SettingsView onEffect \(effect.description)"})
         switch effect {
         case is SettingsEffect.Back:
             navigationStack.pop()
