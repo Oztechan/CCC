@@ -18,8 +18,6 @@ struct MainView: View {
 
     @StateObject var observable: MainObservable = koin.get()
 
-    @Environment(\.scenePhase) var scenePhase
-
     var body: some View {
 
         NavigationStackView(
@@ -27,7 +25,7 @@ struct MainView: View {
             easing: Animation.easeInOut(duration: 0.5)
         ) {
             if observable.viewModel.isFistRun() {
-                CurrenciesView(onBaseChange: { _ in })
+                SliderView()
             } else {
                 CalculatorView()
             }
