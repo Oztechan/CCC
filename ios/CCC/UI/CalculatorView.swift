@@ -100,7 +100,7 @@ struct CalculatorView: View {
     }
 
     private func onEffect(effect: CalculatorEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"CalculatorView onEffect \(effect.description)"})
         switch effect {
         case is CalculatorEffect.Error:
             showSnack(text: MR.strings().error_text_unknown.get())
