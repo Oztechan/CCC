@@ -42,7 +42,7 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"MainView onEffect \(effect.description)"})
         switch effect {
 //        case is MainEffect.ShowInterstitialAd:
 //            InterstitialAd().show()
