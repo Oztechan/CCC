@@ -50,7 +50,7 @@ struct CalculatorView: View {
                                     observable.state.currencyList,
                                     currentBase: observable.state.base
                                 ),
-                                id: \.rate
+                                id: \.name
                             ) {
                                 CalculatorItemView(
                                     item: $0,
