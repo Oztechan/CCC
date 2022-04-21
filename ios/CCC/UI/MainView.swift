@@ -18,8 +18,6 @@ struct MainView: View {
 
     @StateObject var observable: MainObservable = koin.get()
 
-    @Environment(\.scenePhase) var scenePhase
-
     var body: some View {
 
         NavigationStackView(
@@ -44,7 +42,7 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"MainView onEffect \(effect.description)"})
         switch effect {
 //        case is MainEffect.ShowInterstitialAd:
 //            InterstitialAd().show()

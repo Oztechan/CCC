@@ -84,7 +84,7 @@ struct CurrenciesView: View {
     }
 
     private func onEffect(effect: CurrenciesEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
             showSnack(text: MR.strings().choose_at_least_two_currency.get())

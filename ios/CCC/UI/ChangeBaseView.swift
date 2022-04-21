@@ -67,7 +67,7 @@ struct ChangeBaseView: View {
     }
 
     private func onEffect(effect: ChangeBaseEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"ChangeBaseView onEffect \(effect.description)"})
         switch effect {
         // swiftlint:disable force_cast
         case is ChangeBaseEffect.BaseChange:
