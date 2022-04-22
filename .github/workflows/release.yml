@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
@@ -103,13 +102,13 @@ jobs:
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
-      #      - name: Upload Artifact to Google Play Console
-      #        uses: r0adkll/upload-google-play@v1.0.15
-      #        with:
-      #          serviceAccountJson: service_account.json
-      #          packageName: mustafaozhan.github.com.mycurrencies
-      #          releaseFiles: android-google-release.aab
-      #          track: internal
+      - name: Upload Artifact to Google Play Console
+        uses: r0adkll/upload-google-play@v1.0.15
+        with:
+          serviceAccountJson: service_account.json
+          packageName: mustafaozhan.github.com.mycurrencies
+          releaseFiles: android-google-release.aab
+          track: internal
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v1
@@ -164,14 +163,14 @@ jobs:
           name: backendJar
           path: artifact
 
-      #      - name: Deploy to Server
-      #        uses: easingthemes/ssh-deploy@main
-      #        env:
-      #          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-      #          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-      #          TARGET: ${{ secrets.REMOTE_TARGET }}
-      #          SOURCE: "artifact/"
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          SOURCE: "artifact/"
 
       - name: Delete Backend Jar
         uses: geekyeggo/delete-artifact@v1
@@ -204,26 +203,26 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
-      #      - name: Install Cocoapods
-      #        run: |
-      #          ./gradlew client:podGenIOS resources:podGenIOS --parallel
-      #          cd ios/CCC
-      #          pod install
-      #
-      #      - name: Publish
-      #        uses: maierj/fastlane-action@v2.2.0
-      #        with:
-      #          lane: 'publish'
-      #          subdirectory: 'ios'
-      #        env:
-      #          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-      #          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-      #          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-      #          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-      #          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-      #          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-      #          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-      #          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+      - name: Install Cocoapods
+        run: |
+          ./gradlew client:podGenIOS resources:podGenIOS --parallel
+          cd ios/CCC
+          pod install
+
+      - name: Publish
+        uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: 'publish'
+          subdirectory: 'ios'
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
 
       - name: Set Job Status
         id: status
