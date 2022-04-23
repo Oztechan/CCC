@@ -29,12 +29,12 @@ struct CalculatorView: View {
 
                 VStack {
 
-                    CalculationInputView(
+                    InputView(
                         input: observable.state.input,
                         onSettingsClick: observable.event.onSettingsClicked
                     )
 
-                    CalculationOutputView(
+                    OutputView(
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
@@ -132,164 +132,5 @@ struct CalculatorView: View {
         default:
             logger.i(message: {"CalculatorView unknown effect"})
         }
-    }
-}
-
-struct CalculationInputView: View {
-    @Environment(\.colorScheme) var colorScheme
-
-    var input: String
-    var onSettingsClick: () -> Void
-
-    var body: some View {
-        HStack {
-
-            Spacer()
-
-            Text(input)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(MR.colors().text.get())
-                .font(.title2)
-
-            Spacer()
-
-            ToolbarButton(
-                clickEvent: onSettingsClick,
-                imgName: "gear"
-            ).padding(.trailing, 5)
-
-        }
-        .frame(width: .none, height: 36, alignment: .center)
-        .padding(.top, 4)
-    }
-}
-
-struct CalculationOutputView: View {
-
-    var baseCurrency: String
-    var output: String
-    var symbol: String
-    var onBarClick: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading) {
-
-            HStack {
-                if baseCurrency != "" {
-                    Image(uiImage: baseCurrency.getImage())
-                        .resizable()
-                        .frame(width: 36, height: 36, alignment: .center)
-                        .shadow(radius: 3)
-                }
-
-                Text(baseCurrency).foregroundColor(MR.colors().text.get())
-
-                if !output.isEmpty {
-                    Text("=  \(output)").foregroundColor(MR.colors().text.get())
-                }
-
-                Text(symbol).foregroundColor(MR.colors().text.get())
-            }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
-            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-
-        }
-        .contentShape(Rectangle())
-        .lineLimit(1)
-        .onTapGesture { onBarClick() }
-    }
-}
-
-struct KeyboardView: View {
-    var onKeyPress: (String) -> Void
-
-    // swiftlint:disable line_length
-    let keys = [
-        [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
-        [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
-        [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
-        [MR.strings().dot.get(), MR.strings().zero.get(), MR.strings().percent.get(), MR.strings().plus.get()],
-        [MR.strings().open_parentheses.get(), MR.strings().triple_zero.get(), MR.strings().ac.get(), MR.strings().delete_.get(), MR.strings().close_parentheses.get()]
-    ]
-
-    var body: some View {
-
-        VStack(alignment: .center) {
-            ForEach(keys, id: \.self) { items in
-
-                HStack(alignment: .center) {
-                    ForEach(items, id: \.self) { item in
-
-                        Button(
-                            action: { onKeyPress(item)},
-                            label: {
-                                Text(item)
-                                    .font(.title2)
-                                    .foregroundColor(MR.colors().text.get())
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                            }
-                        )
-
-                    }
-                }
-
-            }
-        }.background(MR.colors().background_strong.get())
-    }
-}
-
-struct RateStateView: View {
-    var color: Color
-    var text: String
-
-    var body: some View {
-        HStack {
-            Circle()
-                .frame(width: 12, height: 12, alignment: .center)
-                .foregroundColor(color)
-            Text(text).font(.caption)
-        }.padding(.bottom, 5)
-    }
-}
-
-struct CalculatorItemView: View {
-
-    var item: Currency
-    var onItemClick: (Currency) -> Void
-    var onItemImageLongClick: (Currency) -> Void
-    var onItemAmountLongClick: (String) -> Void
-
-    var body: some View {
-        HStack {
-
-            Text(IOSCalculatorUtilKt.getFormatted(item.rate))
-                .foregroundColor(MR.colors().text.get())
-                .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
-
-            Text(item.symbol)
-                .foregroundColor(MR.colors().text.get())
-                .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
-
-            Spacer()
-
-            Text(item.name)
-                .foregroundColor(MR.colors().text.get())
-                .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemImageLongClick(item) }
-
-            Image(uiImage: item.name.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
-                .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemImageLongClick(item) }
-
-        }
-        .contentShape(Rectangle())
-        .onTapGesture { onItemClick(item) }
     }
 }
