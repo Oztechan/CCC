@@ -23,4 +23,3 @@ struct SettingsToolbarView: View {
         }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
     }
 }
-
