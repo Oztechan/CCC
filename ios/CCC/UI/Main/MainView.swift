@@ -22,7 +22,7 @@ struct MainView: View {
 
         NavigationStackView(
             transitionType: .default,
-            easing: Animation.easeInOut(duration: 0.5)
+            easing: Animation.easeInOut
         ) {
             if observable.viewModel.isFistRun() {
                 SliderView()

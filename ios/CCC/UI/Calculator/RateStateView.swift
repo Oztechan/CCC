@@ -18,6 +18,8 @@ struct RateStateView: View {
                 .frame(width: 12, height: 12, alignment: .center)
                 .foregroundColor(color)
             Text(text).font(.caption)
-        }.padding(.bottom, 5)
+        }
+        .padding(.bottom, 5)
+        .animation(.default)
     }
 }
