@@ -34,7 +34,7 @@ struct CurrenciesView: View {
                         updateAllCurrenciesState: { observable.event.updateAllCurrenciesState(state: $0) }
                     )
                 } else {
-                    CurrencyToolbarView(
+                    CurrenciesToolbarView(
                         firstRun: observable.viewModel.isFirstRun(),
                         onBackClick: observable.event.onCloseClick,
                         onQueryChange: { observable.event.onQueryChange(query: $0) }
@@ -46,7 +46,7 @@ struct CurrenciesView: View {
                         FormProgressView()
                     } else {
                         List(observable.state.currencyList, id: \.name) { currency in
-                            CurrencyItemView(
+                            CurrenciesItemView(
                                 item: currency,
                                 onItemClick: { observable.event.onItemClick(currency: currency) },
                                 onItemLongClick: observable.event.onItemLongClick
@@ -98,122 +98,5 @@ struct CurrenciesView: View {
         default:
             logger.i(message: {"CurrenciesView unknown effect"})
         }
-    }
-}
-
-struct SelectionView: View {
-    var onCloseClick: () -> Void
-    var updateAllCurrenciesState: (Bool) -> Void
-
-    var body: some View {
-        HStack {
-
-            ToolbarButton(clickEvent: onCloseClick, imgName: "xmark")
-
-            Spacer()
-            Button(
-                action: { updateAllCurrenciesState(true) },
-                label: { Text(MR.strings().btn_select_all.get()).foregroundColor(MR.colors().text.get()) }
-            ).padding(.trailing, 10)
-            Button(
-                action: { updateAllCurrenciesState(false) },
-                label: { Text(MR.strings().btn_de_select_all.get()).foregroundColor(MR.colors().text.get()) }
-            )
-
-        }
-        .padding(EdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 20))
-        .background(MR.colors().background_weak.get())
-    }
-}
-
-struct CurrencyToolbarView: View {
-    var firstRun: Bool
-    var onBackClick: () -> Void
-    var onQueryChange: (String) -> Void
-
-    @State var query = ""
-    @State var searchVisibilty = false
-
-    var body: some View {
-        HStack {
-
-            if !firstRun {
-                ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
-            }
-
-            if searchVisibilty {
-                Spacer()
-
-                TextField(MR.strings().search.get(), text: $query)
-                .onChange(of: query) { onQueryChange($0) }
-                .background(
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(MR.colors().background.get())
-                        .padding(.bottom, -4)
-                        .padding(.top, -4)
-                )
-                .disableAutocorrection(true)
-                .multilineTextAlignment(.center)
-                .padding(.all, 4)
-
-                Spacer()
-
-                ToolbarButton(
-                    clickEvent: {
-                        query = ""
-                        onQueryChange("")
-                        searchVisibilty.toggle()
-                    },
-                    imgName: "xmark"
-                )
-
-            } else {
-
-                Text(MR.strings().txt_currencies.get()).font(.title3)
-
-                Spacer()
-
-                ToolbarButton(
-                    clickEvent: { searchVisibilty.toggle() },
-                    imgName: "magnifyingglass"
-                )
-            }
-
-        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
-    }
-}
-
-struct CurrencyItemView: View {
-    @Environment(\.colorScheme) var colorScheme
-    @State var item: Currency
-
-    var onItemClick: () -> Void
-    var onItemLongClick: () -> Void
-
-    var body: some View {
-        HStack {
-
-            Image(uiImage: item.name.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
-            Text(item.name)
-                .frame(width: 45)
-                .foregroundColor(MR.colors().text.get())
-            Text(item.longName)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
-            Text(item.symbol)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
-            Spacer()
-            Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(MR.colors().accent.get())
-
-        }
-        .contentShape(Rectangle())
-        .onTapGesture { onItemClick() }
-        .onLongPressGesture { onItemLongClick() }
-        .lineLimit(1)
     }
 }
