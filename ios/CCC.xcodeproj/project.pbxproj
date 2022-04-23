@@ -11,6 +11,11 @@
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
+		5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41D28141C7B008C42B9 /* InputView.swift */; };
+		5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41F28141CA4008C42B9 /* OutputView.swift */; };
+		5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42128141CC9008C42B9 /* KeyboardView.swift */; };
+		5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42328141D1B008C42B9 /* RateStateView.swift */; };
+		5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
@@ -50,6 +55,11 @@
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
+		5C31E41D28141C7B008C42B9 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		5C31E41F28141CA4008C42B9 /* OutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputView.swift; sourceTree = "<group>"; };
+		5C31E42128141CC9008C42B9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		5C31E42328141D1B008C42B9 /* RateStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateStateView.swift; sourceTree = "<group>"; };
+		5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorItemView.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -102,6 +112,19 @@
 			path = SubView;
 			sourceTree = "<group>";
 		};
+		5C31E41C28141C61008C42B9 /* Calculator */ = {
+			isa = PBXGroup;
+			children = (
+				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
+				5C31E41D28141C7B008C42B9 /* InputView.swift */,
+				5C31E41F28141CA4008C42B9 /* OutputView.swift */,
+				5C31E42128141CC9008C42B9 /* KeyboardView.swift */,
+				5C31E42328141D1B008C42B9 /* RateStateView.swift */,
+				5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */,
+			);
+			path = Calculator;
+			sourceTree = "<group>";
+		};
 		5C5D09342562EBCA00DA9C4A /* DI */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,9 +136,9 @@
 		5C5D093A2562EC1300DA9C4A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5C31E41C28141C61008C42B9 /* Calculator */,
 				5C039FD425C1B6A2008350A3 /* SubView */,
 				5C9A59BA25C350DE006745B0 /* MainView.swift */,
-				5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */,
 				5C17581925BC74BD00D16BD9 /* SettingsView.swift */,
 				5CDE468325BC3B2000CA0FB1 /* ChangeBaseView.swift */,
 				5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */,
@@ -361,23 +384,28 @@
 			files = (
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
 				5CB954BF26932408007632DC /* BannerAdView.swift in Sources */,
+				5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
 				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
+				5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
 				5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */,
 				5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* ChangeBaseView.swift in Sources */,
+				5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
+				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */,
 				5C693EBA25C4AFF800C9373E /* SelectCurrencyView.swift in Sources */,
+				5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
