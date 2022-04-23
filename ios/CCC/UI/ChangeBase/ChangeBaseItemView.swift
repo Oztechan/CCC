@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Resources
+import Client
 
 struct ChangeBaseItemView: View {
     @Environment(\.colorScheme) var colorScheme
