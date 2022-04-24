@@ -8,10 +8,11 @@ import java.io.File
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 5
+    private const val MINOR_VERSION = 6
 
     // git rev-list --first-parent --count master +1
     private const val VERSION_DIF = 713
+    private const val BASE_VERSION_CODE = 316
 
     const val PROJECT_ID = "com.oztechan.ccc"
 
@@ -22,12 +23,12 @@ object ProjectSettings {
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 31
 
-    fun getVersionCode(project: Project) = gitCommitCount(project).toInt()
+    fun getVersionCode(project: Project) = gitCommitCount(project).toInt() + BASE_VERSION_CODE
 
     fun getVersionName(
         project: Project
     ): String = if (isMaster(project)) {
-        "$MAYOR_VERSION.$MINOR_VERSION.${getVersionCode(project) - VERSION_DIF}"
+        "$MAYOR_VERSION.$MINOR_VERSION.${getVersionCode(project) - VERSION_DIF - BASE_VERSION_CODE}"
     } else {
         "0.0.${getVersionCode(project)}" // testing build
     }.also {
