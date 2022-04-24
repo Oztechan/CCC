@@ -48,7 +48,7 @@ struct ChangeBaseView: View {
 
                             List(observable.state.currencyList, id: \.name) { currency in
 
-                                BarItemView(item: currency)
+                                ChangeBaseItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
@@ -67,7 +67,7 @@ struct ChangeBaseView: View {
     }
 
     private func onEffect(effect: ChangeBaseEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"ChangeBaseView onEffect \(effect.description)"})
         switch effect {
         // swiftlint:disable force_cast
         case is ChangeBaseEffect.BaseChange:
@@ -78,33 +78,5 @@ struct ChangeBaseView: View {
         default:
             logger.i(message: {"BarView unknown effect"})
         }
-    }
-}
-
-struct BarItemView: View {
-    @Environment(\.colorScheme) var colorScheme
-    var item: Currency
-
-    var body: some View {
-        HStack {
-
-            Image(uiImage: item.name.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
-            Text(item.name)
-                .frame(width: 45)
-                .foregroundColor(MR.colors().text.get())
-            Text(item.longName)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
-            Text(item.symbol)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
-            Spacer()
-
-        }
-        .contentShape(Rectangle())
-        .lineLimit(1)
     }
 }

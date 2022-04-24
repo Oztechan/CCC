@@ -2,7 +2,7 @@ name: Dependency Check
 
 on:
   schedule:
-    - cron: "0 7 * * 5"
+    - cron: "0 7 * * 6"
 
 jobs:
 
@@ -28,7 +28,7 @@ jobs:
       - name: Extract dependencies from report file
         id: deps
         run: |
-          export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/dependencies_report.txt)"
+          export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/report.txt)"
           DEPENDENCIES="${DEPENDENCIES//$'\n'/'%0A'}"
           DEPENDENCIES="${DEPENDENCIES//$'\r'/'%0D'}"
           echo "OUTPUT:"
@@ -37,40 +37,11 @@ jobs:
           echo "::set-output name=dependencies::$(echo "$DEPENDENCIES")"
           shell: bash
 
-      - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
+      - name: Upload dependencies report
+        uses: actions/upload-artifact@v2
         with:
-          status: custom
-          custom_payload: |
-            {
-            	"attachments": [
-            		{
-            			"color": "#3DDC84",
-            			"blocks": [
-            				{
-            					"type": "header",
-            					"text": {
-            						"type": "plain_text",
-            						"text": "Dependency check",
-            					}
-            				},
-            				{
-            					"type": "divider"
-            				},
-            				{
-            					"type": "section",
-            					"text": {
-            						"type": "mrkdwn",
-            						"text": '${{ env.depss }}'.split('%0A').join('\n').split('%0D').join('\r')
-            					}
-            				}
-            			]
-            		}
-            	]
-            }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: always()
+          name: report.txt
+          path: build/dependencyUpdates/report.txt
 
       - name: Set Job Status
         id: status
@@ -81,6 +52,16 @@ jobs:
     needs: DependencyCheck
     if: always()
     steps:
+
+      - name: Notify slack success
+        if: needs.DependencyCheck.outputs.status == 'success'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: ccc
+          status: SUCCESS
+          color: good
 
       - name: Notify slack fail
         if: false == (needs.DependencyCheck.outputs.status == 'success')

@@ -63,16 +63,22 @@ jobs:
       - name: Gradle Build
         run: ./gradlew :android:bundleRelease :backend:fatJar --parallel
 
-      - name: Upload App Bundle
+      - name: Upload Google App Bundle
         uses: actions/upload-artifact@v2
         with:
-          name: bundle
+          name: googleBundle
           path: android/build/outputs/bundle/googleRelease/android-google-release.aab
 
-      - name: Upload Jar
+      - name: Upload Huawei App Bundle
         uses: actions/upload-artifact@v2
         with:
-          name: jar
+          name: huaweiBundle
+          path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
+
+      - name: Upload Backend Jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: backendJar
           path: backend/build/libs/backend-fat-*.jar
 
       - name: Set Job Status
@@ -89,7 +95,7 @@ jobs:
       - name: Download App Bundle
         uses: actions/download-artifact@v2
         with:
-          name: bundle
+          name: googleBundle
 
       - name: Adding secret files
         run: |
@@ -107,7 +113,38 @@ jobs:
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v1
         with:
-          name: bundle
+          name: googleBundle
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  UploadHuaweiAppGallery:
+    runs-on: ubuntu-latest
+    needs: [ GenerateGradleArtifacts ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Download App Bundle
+        uses: actions/download-artifact@v2
+        with:
+          name: huaweiBundle
+
+      - name: Deploy to Huawei App Gallery
+        uses: muhamedzeema/appgallery-deply-action@main
+        with:
+          client-id: ${{secrets.HUAWEI_CLIENT_ID}}
+          client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
+          app-id: ${{secrets.HUAWEI_APP_ID}}
+          file-extension: "aab"
+          file-path: "android-huawei-release.aab"
+          file-name: "android-huawei-release"
+
+      - name: Delete App Bundle
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: huaweiBundle
 
       - name: Set Job Status
         id: status
@@ -120,10 +157,10 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Download Jar
+      - name: Download Backend Jar
         uses: actions/download-artifact@v2
         with:
-          name: jar
+          name: backendJar
           path: artifact
 
       - name: Deploy to Server
@@ -135,10 +172,10 @@ jobs:
           TARGET: ${{ secrets.REMOTE_TARGET }}
           SOURCE: "artifact/"
 
-      - name: Delete Jar
+      - name: Delete Backend Jar
         uses: geekyeggo/delete-artifact@v1
         with:
-          name: jar
+          name: backendJar
 
       - name: Set Job Status
         id: status
@@ -193,13 +230,14 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GenerateGradleArtifacts, UploadGooglePlay, ServerDeployment, PublishAppStore ]
+    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
     if: always()
     steps:
 
       - name: Notify slack success
         if: needs.GenerateGradleArtifacts.outputs.status == 'success' &&
           needs.UploadGooglePlay.outputs.status == 'success' &&
+          needs.UploadHuaweiAppGallery.outputs.status == 'success' &&
           needs.ServerDeployment.outputs.status == 'success' &&
           needs.PublishAppStore.outputs.status == 'success'
         env:
@@ -213,6 +251,7 @@ jobs:
       - name: Notify slack fail
         if: false == (needs.GenerateGradleArtifacts.outputs.status == 'success') ||
           false == (needs.UploadGooglePlay.outputs.status == 'success') ||
+          false == (needs.UploadHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.ServerDeployment.outputs.status == 'success') ||
           false == (needs.PublishAppStore.outputs.status == 'success')
         env:

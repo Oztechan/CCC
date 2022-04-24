@@ -22,7 +22,7 @@ struct MainView: View {
 
         NavigationStackView(
             transitionType: .default,
-            easing: Animation.easeInOut(duration: 0.5)
+            easing: Animation.easeInOut
         ) {
             if observable.viewModel.isFistRun() {
                 SliderView()
@@ -42,7 +42,7 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        logger.i(message: {effect.description})
+        logger.i(message: {"MainView onEffect \(effect.description)"})
         switch effect {
 //        case is MainEffect.ShowInterstitialAd:
 //            InterstitialAd().show()
