@@ -58,7 +58,6 @@ struct CurrenciesView: View {
                     }
                 }
                 .background(MR.colors().background.get())
-                .animation(.default)
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrencyView(
@@ -76,6 +75,7 @@ struct CurrenciesView: View {
 //                }
 
             }
+            .animation(.default)
             .navigationBarHidden(true)
         }
         .onAppear { observable.startObserving() }
