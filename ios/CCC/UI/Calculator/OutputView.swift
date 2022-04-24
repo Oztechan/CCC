@@ -37,6 +37,7 @@ struct OutputView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+            .animation(.default)
 
         }
         .contentShape(Rectangle())
