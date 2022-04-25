@@ -6,7 +6,8 @@ A currency converter application for most of the currencies used in the world.
 
 You can quickly convert and make mathematical operations between currencies.
 
-<a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="250px"></a>
+<a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/play_store.png?raw=true" width="175px"></a>
+<a href="https://appgallery.huawei.com/app/C104920917"><img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/appgallery.png?raw=true" width="175px"></a>
 
 <a href="https://github.com/Oztechan/CCC/actions/workflows/main.yml"><img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg"></a>
 <a href="https://www.codacy.com/gh/Oztechan/CCC/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>
