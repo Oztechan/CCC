@@ -8,10 +8,10 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
-import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseEffect
-import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseState
-import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseViewModel
-import com.oztechan.ccc.client.viewmodel.changebase.update
+import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
+import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyState
+import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
+import com.oztechan.ccc.client.viewmodel.selectcurrency.update
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.runTest
 import io.mockative.Mock
@@ -28,13 +28,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
-class ChangeBaseViewModelTest {
+class SelectCurrencyViewModelTest {
 
     @Mock
     private val currencyRepository = mock(classOf<CurrencyRepository>())
 
-    private val viewModel: ChangeBaseViewModel by lazy {
-        ChangeBaseViewModel(currencyRepository)
+    private val viewModel: SelectCurrencyViewModel by lazy {
+        SelectCurrencyViewModel(currencyRepository)
     }
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
@@ -62,7 +62,7 @@ class ChangeBaseViewModelTest {
     @Test
     fun states_updates_correctly() {
         val currencyList = listOf(currencyUIModel)
-        val state = MutableStateFlow(ChangeBaseState())
+        val state = MutableStateFlow(SelectCurrencyState())
 
         state.before {
             state.update(
@@ -115,7 +115,7 @@ class ChangeBaseViewModelTest {
         viewModel.effect.before {
             viewModel.event.onItemClick(currencyUIModel)
         }.after {
-            assertEquals(ChangeBaseEffect.BaseChange(currencyUIModel.name), it)
+            assertEquals(SelectCurrencyEffect.CurrencyChange(currencyUIModel.name), it)
         }
     }
 
@@ -124,7 +124,7 @@ class ChangeBaseViewModelTest {
         viewModel.effect.before {
             viewModel.event.onSelectClick()
         }.after {
-            assertEquals(ChangeBaseEffect.OpenCurrencies, it)
+            assertEquals(SelectCurrencyEffect.OpenCurrencies, it)
         }
     }
 }

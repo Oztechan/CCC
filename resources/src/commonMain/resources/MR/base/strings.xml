@@ -80,8 +80,8 @@
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
     <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
 
-    <!-- Bar Bottom Sheet Dialog -->
-    <string name="txt_select_base_currency">Select base currency</string>
+    <!-- SelectCurrencyBottomSheet -->
+    <string name="txt_select_base_currency">Select currency</string>
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>

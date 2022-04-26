@@ -88,9 +88,9 @@ struct CalculatorView: View {
         .sheet(
             isPresented: $isBarShown,
             content: {
-                ChangeBaseView(
+                SelectCurrencyView(
                     isBarShown: $isBarShown,
-                    onBaseChange: { observable.event.onBaseChange(base: $0)}
+                    onSelectCurrency: { observable.event.onBaseChange(base: $0)}
                 ).environmentObject(navigationStack)
             }
         )

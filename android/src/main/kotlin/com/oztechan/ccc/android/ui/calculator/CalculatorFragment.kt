@@ -152,7 +152,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 )
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
-                    CalculatorFragmentDirections.actionCalculatorFragmentToChangeBaseBottomSheet()
+                    CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
                 )
                 CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,

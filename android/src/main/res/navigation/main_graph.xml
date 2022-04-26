@@ -19,8 +19,8 @@
             android:id="@+id/action_calculatorFragment_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
         <action
-            android:id="@+id/action_calculatorFragment_to_changeBaseBottomSheet"
-            app:destination="@id/changeBaseBottomSheet" />
+            android:id="@+id/action_calculatorFragment_to_selectCurrencyBottomSheet"
+            app:destination="@id/selectCurrencyBottomSheet" />
     </fragment>
 
     <fragment
@@ -58,12 +58,12 @@
     </fragment>
 
     <dialog
-        android:id="@+id/changeBaseBottomSheet"
-        android:name="com.oztechan.ccc.android.ui.changebase.ChangeBaseBottomSheet"
-        android:label="ChangeBaseBottomSheet"
-        tools:layout="@layout/bottom_sheet_change_base">
+        android:id="@+id/selectCurrencyBottomSheet"
+        android:name="com.oztechan.ccc.android.ui.selectcurrency.SelectCurrencyBottomSheet"
+        android:label="SelectCurrencyBottomSheet"
+        tools:layout="@layout/bottom_sheet_select_currency">
         <action
-            android:id="@+id/action_changeBaseBottomSheet_to_currenciesFragment"
+            android:id="@+id/action_selectCurrencyBottomSheet_to_currenciesFragment"
             app:destination="@id/currenciesFragment" />
     </dialog>
 
