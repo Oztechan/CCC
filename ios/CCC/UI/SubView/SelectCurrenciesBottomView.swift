@@ -1,5 +1,5 @@
 //
-//  CurrencySelectionView.swift
+//  SelectCurrenciesBottomView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 29/01/2021.

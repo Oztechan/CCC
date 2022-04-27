@@ -1,5 +1,5 @@
 //
-//  BarView.swift
+//  SelectCurrencyObservable.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 23/01/2021.
