@@ -41,7 +41,7 @@ fun Context.getImageResourceByName(name: String): Int = try {
     )
 } catch (e: FileNotFoundException) {
     Logger.e(e)
-    R.drawable.transparent
+    R.drawable.unknown
 }
 
 fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)

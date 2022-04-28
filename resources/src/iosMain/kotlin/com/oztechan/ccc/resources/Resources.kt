@@ -20,7 +20,7 @@ import platform.UIKit.UIScreen
 fun getDrawableByFileName(name: String): ImageResource {
     return MR.images.getImageByFileName(
         name.lowercase().replace("try", "tryy")
-    ) ?: MR.images.transparent
+    ) ?: MR.images.unknown
 }
 
 fun getString(stringResource: StringResource): StringDesc {
