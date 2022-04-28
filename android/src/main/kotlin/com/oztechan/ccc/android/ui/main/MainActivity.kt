@@ -20,6 +20,7 @@ import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.updateBaseContextLocale
+import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
@@ -97,6 +98,7 @@ class MainActivity : BaseActivity() {
             UserProperty.SESSION_COUNT,
             mainViewModel.getSessionCount().toString()
         )
+        analyticsManager.setUserProperty(UserProperty.DEVICE_PLATFORM, device.name)
     }
 
     override fun onResume() {
