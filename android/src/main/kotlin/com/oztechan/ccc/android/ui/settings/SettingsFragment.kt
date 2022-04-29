@@ -15,6 +15,7 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSingleChoiceDialog
@@ -151,7 +152,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     startIntent(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse(getString(R.string.app_market_link))
+                            Uri.parse(requireContext().getMarketLink())
                         )
                     )
                 }
@@ -228,7 +229,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun share() = Intent(Intent.ACTION_SEND).apply {
         type = TEXT_TYPE
-        putExtra(Intent.EXTRA_TEXT, getString(R.string.app_market_link))
+        putExtra(Intent.EXTRA_TEXT, requireContext().getMarketLink())
         startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
     }
 
