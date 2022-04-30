@@ -75,7 +75,9 @@ struct NotificationsView: View {
 
                 Spacer()
 
-            }.background(MR.colors().background.get())
+            }
+            .background(MR.colors().background.get())
+            .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(
             isPresented: $isBaseBarShown,
