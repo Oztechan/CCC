@@ -111,6 +111,12 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
 
+
+    override fun onNotificationsClicked() = clientScope.launchIgnored {
+        Logger.d { "SettingsViewModel onNotificationsClicked" }
+        _effect.emit(SettingsEffect.OpenNotifications)
+    }
+
     override fun onFeedBackClick() = clientScope.launchIgnored {
         Logger.d { "SettingsViewModel onFeedBackClick" }
         _effect.emit(SettingsEffect.FeedBack)
