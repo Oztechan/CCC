@@ -7,11 +7,11 @@ import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.analytics.model.FirebaseEvent
-import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
+import com.oztechan.ccc.resources.setBackgroundByName
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
