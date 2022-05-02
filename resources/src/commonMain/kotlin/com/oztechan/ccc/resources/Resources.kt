@@ -7,4 +7,6 @@ fun getImageByFileName(
     name: String
 ): ImageResource = MR.images.getImageByFileName(name.toImageFileName()) ?: MR.images.unknown
 
-fun String.toImageFileName() = lowercase().replace("try", "tryy")
+fun String.toImageFileName() = lowercase()
+    .replace("try", "tryy")
+    .ifEmpty { "unknown" }
