@@ -22,15 +22,39 @@ You can quickly convert and make mathematical operations between currencies.
 
 <a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-Main Modules | Completed | State | Tech |
-:------------ | :-------------| :-------------| :-------------|  
-![badge-android](https://img.shields.io/badge/app-android-green) | :white_check_mark:| in production :muscle: | ViewBinding (State/Shared)Flow
-![badge-backend](https://img.shields.io/badge/app-backend-blue) | :white_check_mark: | in production :muscle: | Ktor (server/client) Sqldelight
-![badge-ios](https://img.shields.io/badge/app-ios-orange) || in progress :bow: | SwiftUI Combine
-![badge-web](https://img.shields.io/badge/app-web-yellow) || coming soon :eyes: | :grey_question:
-![badge-desktop](https://img.shields.io/badge/app-desktop-red) || coming soon :eyes: | :grey_question:
-![badge-client](https://img.shields.io/badge/shared-client-white) | :white_check_mark: | used in FE targets :recycle: | KMP (android/ios)
-![badge-common](https://img.shields.io/badge/shared-common-darkgrey) | :white_check_mark: | used in all targets :recycle: | KMP (android/ios/jvm)
+## Module Graph
+
+```mermaid
+graph TD;
+
+billing-->android
+
+ad-->android
+
+analytics-->android
+
+resources{resources}-->android
+resources-->ios
+
+client{client}-->android
+client-->ios
+
+config{config}-->client
+
+common{common}-->client
+common-->backend
+
+android(android)
+ios(ios)
+backend(backend)
+```
+
+```mermaid
+graph TD;
+KMP_Library{KMP_Library}
+Target(Target)
+Library
+```
 
 </div>
 
@@ -69,40 +93,6 @@ override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity
             takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
         }
     }
-```
-
-## Module Graph
-
-```mermaid
-graph TD;
-
-billing-->android
-
-ad-->android
-
-analytics-->android
-
-resources{resources}-->android
-resources-->ios
-
-client{client}-->android
-client-->ios
-
-config{config}-->client
-
-common{common}-->client
-common-->backend
-
-android(android)
-ios(ios)
-backend(backend)
-```
-
-```mermaid
-graph TD;
-KMP_Library{KMP_Library}
-Target(Target)
-Library
 ```
 
 ## Android Preview
