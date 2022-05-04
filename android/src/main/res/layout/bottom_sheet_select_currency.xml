@@ -21,7 +21,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_change_base"
+        android:id="@+id/recycler_view_select_currency"
         style="@style/BaseBottomSheetDialogRecyclerViewStyle"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,5 +39,5 @@
         android:id="@+id/btn_select"
         style="@style/SelectButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_change_base" />
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view_select_currency" />
 </androidx.constraintlayout.widget.ConstraintLayout>

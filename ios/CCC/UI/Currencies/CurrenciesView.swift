@@ -60,7 +60,7 @@ struct CurrenciesView: View {
                 .background(MR.colors().background.get())
 
                 if observable.viewModel.isFirstRun() {
-                    SelectCurrencyView(
+                    SelectCurrenciesBottomView(
                         text: MR.strings().txt_select_currencies.get(),
                         buttonText: MR.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick

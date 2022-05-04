@@ -290,7 +290,6 @@
         <item name="android:padding">@dimen/margin_eight</item>
     </style>
 
-    <!-- ChangeBase Bottom Sheet Dialog -->
     <style name="BottomSheetTitleStyle" parent="WrapStyle">
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
@@ -357,7 +356,7 @@
         <item name="android:paddingRight">@dimen/margin_zero</item>
     </style>
 
-    <style name="ChangeBaseItemLayout" parent="BaseItemLayout">
+    <style name="SelectCurrencyItemLayout" parent="BaseItemLayout">
         <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
 
@@ -505,13 +504,13 @@
     </style>
 
     <!-- BottomSheet -->
-    <style name="ChangeBaseItemText" parent="CurrenciesItemText">
+    <style name="SelectCurrencyItemText" parent="CurrenciesItemText">
         <item name="android:textAppearance">@style/ItemTextStyle</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
 
-    <style name="ChangeBaseItemImageView" parent="CurrenciesItemImageView">
+    <style name="SelectCurrencyItemImageView" parent="CurrenciesItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
     </style>
