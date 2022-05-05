@@ -7,21 +7,13 @@ package com.oztechan.ccc.resources
 
 import dev.icerock.moko.graphics.toUIColor
 import dev.icerock.moko.resources.ColorResource
-import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.ResourceFormatted
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.getColor
-import dev.icerock.moko.resources.getImageByFileName
 import platform.UIKit.UIColor
 import platform.UIKit.UIScreen
-
-fun getDrawableByFileName(name: String): ImageResource {
-    return MR.images.getImageByFileName(
-        name.lowercase().replace("try", "tryy")
-    ) ?: MR.images.transparent
-}
 
 fun getString(stringResource: StringResource): StringDesc {
     return StringDesc.Resource(stringResource)

@@ -47,6 +47,10 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
     }
 
+    func get() -> NotificationsViewModel {
+        return koin.getDependency(objCClass: NotificationsViewModel.self) as! NotificationsViewModel
+    }
+
     // Observable
     func get() -> MainObservable {
         return MainObservable(viewModel: get())
@@ -62,6 +66,10 @@ extension Koin_coreKoin {
 
     func get() -> SettingsObservable {
         return SettingsObservable(viewModel: get())
+    }
+
+    func get() -> NotificationsObservable {
+        return NotificationsObservable(viewModel: get())
     }
 
     func get() -> CurrenciesObservable {

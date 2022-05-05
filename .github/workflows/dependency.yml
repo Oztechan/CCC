@@ -1,4 +1,4 @@
-name: Dependency Check
+name: Dependency
 
 on:
   schedule:
@@ -22,20 +22,8 @@ jobs:
         with:
           java-version: 11
 
-      - name: Run dependency updates task
-        run: ./gradlew dependencyUpdates -DoutputFormatter=plain
-
-      - name: Extract dependencies from report file
-        id: deps
-        run: |
-          export DEPENDENCIES="$(sed -n '/.*milestone versions:/,/^$/p' build/dependencyUpdates/report.txt)"
-          DEPENDENCIES="${DEPENDENCIES//$'\n'/'%0A'}"
-          DEPENDENCIES="${DEPENDENCIES//$'\r'/'%0D'}"
-          echo "OUTPUT:"
-          echo $DEPENDENCIES
-          echo "depss=$DEPENDENCIES" >> $GITHUB_ENV
-          echo "::set-output name=dependencies::$(echo "$DEPENDENCIES")"
-          shell: bash
+      - name: Run dependencyUpdates Task
+        run: ./gradlew dependencyUpdates --parallel
 
       - name: Upload dependencies report
         uses: actions/upload-artifact@v2
