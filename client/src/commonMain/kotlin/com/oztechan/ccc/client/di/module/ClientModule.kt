@@ -21,7 +21,7 @@ var clientModule = module {
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { SelectCurrencyViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
-    viewModelDefinition { NotificationsViewModel(get()) }
+    viewModelDefinition { NotificationsViewModel(get(), get()) }
 
     single<ConfigManager> { ConfigManagerImpl() }
     single<SessionManager> { SessionManagerImpl(get(), get()) }

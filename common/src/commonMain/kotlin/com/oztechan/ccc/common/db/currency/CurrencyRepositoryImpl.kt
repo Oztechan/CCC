@@ -3,9 +3,9 @@ package com.oztechan.ccc.common.db.currency
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.mapToModel
+import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toModelList
-import com.oztechan.ccc.common.util.toDatabaseBoolean
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.map
@@ -37,11 +37,11 @@ internal class CurrencyRepositoryImpl(
         .also { Logger.v { "CurrencyRepositoryImpl getActiveCurrencies" } }
 
     override fun updateCurrencyStateByName(name: String, isActive: Boolean) = currencyQueries
-        .updateCurrencyStateByName(isActive.toDatabaseBoolean(), name)
+        .updateCurrencyStateByName(isActive.toLong(), name)
         .also { Logger.v { "CurrencyRepositoryImpl updateCurrencyStateByName $name $isActive" } }
 
     override fun updateAllCurrencyState(value: Boolean) = currencyQueries
-        .updateAllCurrencyState(value.toDatabaseBoolean())
+        .updateAllCurrencyState(value.toLong())
         .also { Logger.v { "CurrencyRepositoryImpl updateAllCurrencyState $value" } }
 
     override fun getCurrencyByName(name: String) = currencyQueries

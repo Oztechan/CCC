@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS notification(
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+base TEXT NOT NULL,
+target TEXT NOT NULL,
+isGreater INTEGER NOT NULL DEFAULT 1,
+rate REAL NOT NULL DEFAULT 1.0
+);
+
+addNotification:
+INSERT OR REPLACE INTO notification(base, target) VALUES (?,?);
+
+getNotifications:
+SELECT * FROM notification;

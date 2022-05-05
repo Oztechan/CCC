@@ -5,6 +5,7 @@ import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.notification.NotificationRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class NotificationsViewModel(
-    currencyRepository: CurrencyRepository
+    private val currencyRepository: CurrencyRepository,
+    private val notificationRepository: NotificationRepository
 ) : BaseSEEDViewModel(), NotificationsEvent {
     // region SEED
     private val _state = MutableStateFlow(NotificationsState())
@@ -27,15 +29,10 @@ class NotificationsViewModel(
     override val data: BaseData? = null
 
     init {
-        currencyRepository.collectActiveCurrencies()
+        notificationRepository.collectNotifications()
             .onEach {
-                Logger.d { "NotificationsViewModel currencyList changed\n${it.joinToString("\n")}" }
-                _state.update(
-                    base = it.firstOrNull()?.name ?: "",
-                    target = it.lastOrNull()?.name ?: ""
-                )
-            }
-            .launchIn(clientScope)
+
+            }.launchIn(clientScope)
     }
 
     override fun onBackClick() = clientScope.launchIgnored {
@@ -64,8 +61,12 @@ class NotificationsViewModel(
     }
 
     override fun onStateClick() {
-        Logger.d { "NotificationsViewModel onStateClick ${!state.value.isEnabled}" }
-        _state.update(isEnabled = !state.value.isEnabled)
+        currencyRepository.getActiveCurrencies().let {
+            notificationRepository.addNotification(
+                base = it.firstOrNull()?.name ?: "",
+                target = it.lastOrNull()?.name ?: ""
+            )
+        }
     }
     // endregion
 }

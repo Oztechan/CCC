@@ -69,7 +69,7 @@ struct NotificationsView: View {
                 }
 
                 NotificationStateView(
-                    isEnabled: observable.state.isEnabled,
+                    isEnabled: false,
                     onClick: observable.event.onStateClick
                 )
 
