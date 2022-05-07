@@ -90,11 +90,6 @@
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
     <string name="settings_item_currencies_value">%d active</string>
 
-    <string name="settings_item_notifications_title">Notifications</string>
-    <string name="settings_item_notifications_sub_title">Set a rate watcher</string>
-    <string name="settings_item_notifications_value_enabled">Enabled</string>
-    <string name="settings_item_notifications_value_disabled">Disabled</string>
-
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
     <string name="title_dialog_choose_theme">Choose app theme</string>
@@ -103,6 +98,8 @@
     <string name="settings_item_remove_ads_sub_title">Disable ads</string>
     <string name="settings_item_remove_ads_value_expired">Expired\n</string>
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
+    <string name="settings_item_remove_ads_reward_achieved">Active</string>
+    <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
     <string name="txt_ads_already_disabled">Ads are already disabled</string>
 
     <string name="settings_item_sync_title">Synchronise</string>
@@ -125,14 +122,6 @@
 
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
-
-    <!-- Notifications -->
-    <string name="txt_notifications">Notifications</string>
-    <string name="txt_rate">Rate</string>
-    <string name="txt_grater">&gt;</string>
-    <string name="txt_smaller">&lt;</string>
-    <string name="txt_notifications_enabled">Notifications enabled</string>
-    <string name="txt_notifications_disabled">Notifications disabled</string>
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>

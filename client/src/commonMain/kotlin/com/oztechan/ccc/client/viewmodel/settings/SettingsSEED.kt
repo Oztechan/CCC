@@ -19,7 +19,6 @@ data class SettingsState(
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
-    fun onNotificationsClicked()
     fun onFeedBackClick()
     fun onShareClick()
     fun onSupportUsClick()
@@ -33,7 +32,6 @@ interface SettingsEvent : BaseEvent {
 sealed class SettingsEffect : BaseEffect() {
     object Back : SettingsEffect()
     object OpenCurrencies : SettingsEffect()
-    object OpenNotifications : SettingsEffect()
     object FeedBack : SettingsEffect()
     object Share : SettingsEffect()
     object SupportUs : SettingsEffect()

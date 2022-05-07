@@ -24,14 +24,10 @@
 		5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E4352814308B008C42B9 /* SettingsItemView.swift */; };
 		5C31E439281431A3008C42B9 /* SelectCurrencyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E438281431A3008C42B9 /* SelectCurrencyItemView.swift */; };
 		5C31E43F28145D32008C42B9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */; };
-		5C4B53692818057F00D10185 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B53682818057F00D10185 /* NotificationsView.swift */; };
-		5C4B536B2818066000D10185 /* NotificationsToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536A2818066000D10185 /* NotificationsToolbarView.swift */; };
-		5C4B536D28183B4900D10185 /* NotificationCurrencyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536C28183B4900D10185 /* NotificationCurrencyItem.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
-		5C662D38281D644F00B65C2F /* NotificationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C662D37281D644F00B65C2F /* NotificationStateView.swift */; };
 		5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */; };
 		5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E673F25C5A711001CC0D6 /* SliderView.swift */; };
 		5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E674C25C602BE001CC0D6 /* SnackBar.swift */; };
@@ -80,14 +76,10 @@
 		5C31E4352814308B008C42B9 /* SettingsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemView.swift; sourceTree = "<group>"; };
 		5C31E438281431A3008C42B9 /* SelectCurrencyItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyItemView.swift; sourceTree = "<group>"; };
 		5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		5C4B53682818057F00D10185 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-		5C4B536A2818066000D10185 /* NotificationsToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsToolbarView.swift; sourceTree = "<group>"; };
-		5C4B536C28183B4900D10185 /* NotificationCurrencyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCurrencyItem.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
-		5C662D37281D644F00B65C2F /* NotificationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStateView.swift; sourceTree = "<group>"; };
 		5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrenciesBottomView.swift; sourceTree = "<group>"; };
 		5C6E673F25C5A711001CC0D6 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		5C6E674C25C602BE001CC0D6 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
@@ -187,17 +179,6 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		5C4B53652818053E00D10185 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				5C4B53682818057F00D10185 /* NotificationsView.swift */,
-				5C4B536A2818066000D10185 /* NotificationsToolbarView.swift */,
-				5C4B536C28183B4900D10185 /* NotificationCurrencyItem.swift */,
-				5C662D37281D644F00B65C2F /* NotificationStateView.swift */,
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
 		5C4B536E28184AEA00D10185 /* SelectCurrency */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,7 +204,6 @@
 				5C31E41C28141C61008C42B9 /* Calculator */,
 				5C31E42B28142033008C42B9 /* Currencies */,
 				5C31E4322814304F008C42B9 /* Settings */,
-				5C4B53652818053E00D10185 /* Notifications */,
 				5C4B536E28184AEA00D10185 /* SelectCurrency */,
 				5C039FD425C1B6A2008350A3 /* SubView */,
 			);
@@ -468,15 +448,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
-				5C4B536B2818066000D10185 /* NotificationsToolbarView.swift in Sources */,
 				5CB954BF26932408007632DC /* BannerAdView.swift in Sources */,
 				5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */,
-				5C4B536D28183B4900D10185 /* NotificationCurrencyItem.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
 				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
 				5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */,
-				5C4B53692818057F00D10185 /* NotificationsView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
@@ -494,7 +471,6 @@
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
-				5C662D38281D644F00B65C2F /* NotificationStateView.swift in Sources */,
 				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */,
 				5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */,

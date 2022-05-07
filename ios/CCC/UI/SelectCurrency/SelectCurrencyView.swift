@@ -21,7 +21,7 @@ struct SelectCurrencyView: View {
     @StateObject var observable: SelectCurrencyObservable = koin.get()
     @Binding var isBarShown: Bool
 
-    var onCurrencySelected: (String) -> Void
+    var onSelectCurrency: (String) -> Void
 
     var body: some View {
 
@@ -71,10 +71,10 @@ struct SelectCurrencyView: View {
         switch effect {
         // swiftlint:disable force_cast
         case is SelectCurrencyEffect.CurrencyChange:
-            onCurrencySelected((effect as! SelectCurrencyEffect.CurrencyChange).newBase)
+            onSelectCurrency((effect as! SelectCurrencyEffect.CurrencyChange).newBase)
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesView(onBaseChange: onCurrencySelected))
+            navigationStack.push(CurrenciesView(onBaseChange: onSelectCurrency))
         default:
             logger.i(message: {"BarView unknown effect"})
         }
