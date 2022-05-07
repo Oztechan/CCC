@@ -4,5 +4,5 @@ import com.russhwolf.settings.JvmPreferencesSettings
 import com.russhwolf.settings.Settings
 import org.koin.core.scope.Scope
 
-@Suppress("EXPERIMENTAL_API_USAGE")
+@Suppress("OPT_IN_USAGE")
 actual fun Scope.provideSettings(): Settings = JvmPreferencesSettings(get())
