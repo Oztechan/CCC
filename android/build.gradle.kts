@@ -86,6 +86,8 @@ android {
         }
 
         getByName(BuildType.debug) {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
             with(Keys(project, BuildType.DEBUG)) {
                 resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
