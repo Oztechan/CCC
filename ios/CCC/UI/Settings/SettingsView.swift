@@ -50,14 +50,6 @@ struct SettingsView: View {
                         onClick: observable.event.onCurrenciesClick
                     )
 
-                    SettingsItemView(
-                        imgName: "bell",
-                        title: MR.strings().settings_item_notifications_title.get(),
-                        subTitle: MR.strings().settings_item_notifications_sub_title.get(),
-                        value: MR.strings().settings_item_notifications_value_disabled.get(),
-                        onClick: observable.event.onNotificationsClicked
-                    )
-
 //                    SettingsItemView(
 //                        imgName: "eye.slash.fill",
 //                        title: MR.strings().settings_item_remove_ads_title.get(),
@@ -139,7 +131,6 @@ struct SettingsView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
         logger.i(message: {"SettingsView onEffect \(effect.description)"})
         switch effect {
@@ -147,8 +138,6 @@ struct SettingsView: View {
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
-        case is SettingsEffect.OpenNotifications:
-            navigationStack.push(NotificationsView())
         case is SettingsEffect.FeedBack:
             emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:

@@ -90,7 +90,7 @@ struct CalculatorView: View {
             content: {
                 SelectCurrencyView(
                     isBarShown: $isBarShown,
-                    onCurrencySelected: { observable.event.onBaseChange(base: $0)}
+                    onSelectCurrency: { observable.event.onBaseChange(base: $0)}
                 ).environmentObject(navigationStack)
             }
         )
