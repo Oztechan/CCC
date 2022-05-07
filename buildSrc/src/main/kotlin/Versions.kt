@@ -4,7 +4,8 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val KOTLIN = "1.6.10"
+    const val KOTLIN = "1.6.21"
+    const val KSP = "$KOTLIN-1.0.5"
     const val ANDROID_GRADLE_PLUGIN = "7.1.3"
     const val ANDROID_MATERIAL = "1.4.0"
     const val CONSTRAINT_LAYOUT = "2.1.3"
@@ -35,7 +36,6 @@ object Versions {
     const val KOVER = "0.5.0"
     const val ROOT_BEER = "0.1.0"
     const val MOCKATIVE = "1.1.4"
-    const val KSP = "1.6.10-1.0.4"
     const val SCOPE_MOB = "2.1.4"
     const val PARSER_MOB = "1.1.5"
     const val BASE_MOB = "2.1.3"
