@@ -39,8 +39,8 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
     }
 
-    func get() -> ChangeBaseViewModel {
-        return koin.getDependency(objCClass: ChangeBaseViewModel.self) as! ChangeBaseViewModel
+    func get() -> SelectCurrencyViewModel {
+        return koin.getDependency(objCClass: SelectCurrencyViewModel.self) as! SelectCurrencyViewModel
     }
 
     func get() -> SettingsViewModel {
@@ -56,8 +56,8 @@ extension Koin_coreKoin {
         return CalculatorObservable(viewModel: get())
     }
 
-    func get() -> ChangeBaseObservable {
-        return ChangeBaseObservable(viewModel: get())
+    func get() -> SelectCurrencyObservable {
+        return SelectCurrencyObservable(viewModel: get())
     }
 
     func get() -> SettingsObservable {

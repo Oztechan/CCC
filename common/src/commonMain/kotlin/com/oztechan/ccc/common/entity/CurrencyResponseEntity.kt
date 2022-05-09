@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
-@Suppress("EXPERIMENTAL_API_USAGE")
+@Suppress("OPT_IN_USAGE")
 @Serializable
 internal data class CurrencyResponseEntity(
     @JsonNames("base", "base_code") var base: String,

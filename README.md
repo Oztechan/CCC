@@ -6,7 +6,8 @@ A currency converter application for most of the currencies used in the world.
 
 You can quickly convert and make mathematical operations between currencies.
 
-<a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="250px"></a>
+<a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/play_store.png?raw=true" width="175px"></a>
+<a href="https://appgallery.huawei.com/app/C104920917"><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/appgallery.png?raw=true" width="175px"></a>
 
 <a href="https://github.com/Oztechan/CCC/actions/workflows/main.yml"><img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg"></a>
 <a href="https://www.codacy.com/gh/Oztechan/CCC/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CurrencyConverterCalculator/CCC&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/2196f4447c32431b80d582a21ad749db"/></a>
@@ -21,15 +22,39 @@ You can quickly convert and make mathematical operations between currencies.
 
 <a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-Main Modules | Completed | State | Tech |
-:------------ | :-------------| :-------------| :-------------|  
-![badge-android](https://img.shields.io/badge/app-android-green) | :white_check_mark:| in production :muscle: | ViewBinding (State/Shared)Flow
-![badge-backend](https://img.shields.io/badge/app-backend-blue) | :white_check_mark: | in production :muscle: | Ktor (server/client) Sqldelight
-![badge-ios](https://img.shields.io/badge/app-ios-orange) || in progress :bow: | SwiftUI Combine
-![badge-web](https://img.shields.io/badge/app-web-yellow) || coming soon :eyes: | :grey_question:
-![badge-desktop](https://img.shields.io/badge/app-desktop-red) || coming soon :eyes: | :grey_question:
-![badge-client](https://img.shields.io/badge/shared-client-white) | :white_check_mark: | used in FE targets :recycle: | KMP (android/ios)
-![badge-common](https://img.shields.io/badge/shared-common-darkgrey) | :white_check_mark: | used in all targets :recycle: | KMP (android/ios/jvm)
+## Module Graph
+
+```mermaid
+graph TD;
+
+billing-->android
+
+ad-->android
+
+analytics-->android
+
+resources{resources}-->android
+resources-->ios
+
+client{client}-->android
+client-->ios
+
+config{config}-->client
+
+common{common}-->client
+common-->backend
+
+android(android)
+ios(ios)
+backend(backend)
+```
+
+```mermaid
+graph TD;
+KMP_Library{KMP_Library}
+Target(Target)
+Library
+```
 
 </div>
 
@@ -70,53 +95,19 @@ override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity
     }
 ```
 
-## Module Graph
-
-```mermaid
-graph TD;
-
-billing-->android
-
-ad-->android
-
-analytics-->android
-
-resources{resources}-->android
-resources-->ios
-
-client{client}-->android
-client-->ios
-
-config{config}-->client
-
-common{common}-->client
-common-->backend
-
-android(android)
-ios(ios)
-backend(backend)
-```
-
-```mermaid
-graph TD;
-KMP_Library{KMP_Library}
-Target(Target)
-Library
-```
-
 ## Android Preview
 
-<img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/4.png" width="400px"/>
+<img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/4.png" width="400px"/>
 
-<img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/5.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/7.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/master/art/android/6.png" width="400px"/>
+<img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/5.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/6.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/7.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/6.png" width="400px"/>
 
 ## iOS Preview
 
-<img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/dark.gif?raw=true" width="400px"/> <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/master/art/ios/light.gif?raw=true" width="400px"/>
+<img src="https://github.com/CurrencyConverterCalculator/CCC/blob/develop/art/ios/dark.gif?raw=true" width="400px"/> <img src="https://github.com/CurrencyConverterCalculator/CCC/blob/develop/art/ios/light.gif?raw=true" width="400px"/>
 
 ## Included Currencies
 
-[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/master/art/currencies.png)
+[![currencies.png](https://github.com/CurrencyConverterCalculator/CCC/raw/develop/art/currencies.png)](https://github.com/CurrencyConverterCalculator/CCC/raw/develop/art/currencies.png)
 
 ## License
 

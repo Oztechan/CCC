@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.viewmodel.changebase
+package com.oztechan.ccc.client.viewmodel.selectcurrency
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.base.BaseData
@@ -18,17 +18,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ChangeBaseViewModel(
+class SelectCurrencyViewModel(
     currencyRepository: CurrencyRepository
-) : BaseSEEDViewModel(), ChangeBaseEvent {
+) : BaseSEEDViewModel(), SelectCurrencyEvent {
     // region SEED
-    private val _state = MutableStateFlow(ChangeBaseState())
+    private val _state = MutableStateFlow(SelectCurrencyState())
     override val state = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<ChangeBaseEffect>()
+    private val _effect = MutableSharedFlow<SelectCurrencyEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override val event = this as ChangeBaseEvent
+    override val event = this as SelectCurrencyEvent
 
     override val data: BaseData? = null
     // endregion
@@ -46,13 +46,13 @@ class ChangeBaseViewModel(
 
     // region Event
     override fun onItemClick(currency: Currency) = clientScope.launchIgnored {
-        Logger.d { "ChangeBaseViewModel onItemClick ${currency.name}" }
-        _effect.emit(ChangeBaseEffect.BaseChange(currency.name))
+        Logger.d { "SelectCurrencyViewModel onItemClick ${currency.name}" }
+        _effect.emit(SelectCurrencyEffect.CurrencyChange(currency.name))
     }
 
     override fun onSelectClick() = clientScope.launchIgnored {
-        Logger.d { "ChangeBaseViewModel onSelectClick" }
-        _effect.emit(ChangeBaseEffect.OpenCurrencies)
+        Logger.d { "SelectCurrencyViewModel onSelectClick" }
+        _effect.emit(SelectCurrencyEffect.OpenCurrencies)
     }
     // endregion
 }

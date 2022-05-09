@@ -1,5 +1,5 @@
 //
-//  ChangeBaseItemView.swift
+//  SelectCurrencyItemView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 23.04.22.
@@ -10,7 +10,7 @@ import SwiftUI
 import Resources
 import Client
 
-struct ChangeBaseItemView: View {
+struct SelectCurrencyItemView: View {
     @Environment(\.colorScheme) var colorScheme
     var item: Currency
 

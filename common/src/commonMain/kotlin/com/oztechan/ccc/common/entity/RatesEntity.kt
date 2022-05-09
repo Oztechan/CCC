@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
-@Suppress("ConstructorParameterNaming", "EXPERIMENTAL_API_USAGE")
+@Suppress("ConstructorParameterNaming", "OPT_IN_USAGE")
 @Serializable
 internal data class RatesEntity(
     @SerialName("base") var base: String = "",

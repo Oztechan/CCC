@@ -16,10 +16,12 @@ import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.updateBaseContextLocale
+import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
@@ -66,7 +68,7 @@ class MainActivity : BaseActivity() {
         positiveButton = R.string.update,
         cancelable = isCancelable
     ) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_market_link))))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getMarketLink())))
     }
 
     private fun checkDestination() = with(getNavigationController()) {
@@ -97,6 +99,7 @@ class MainActivity : BaseActivity() {
             UserProperty.SESSION_COUNT,
             mainViewModel.getSessionCount().toString()
         )
+        analyticsManager.setUserProperty(UserProperty.DEVICE_PLATFORM, device.name)
     }
 
     override fun onResume() {

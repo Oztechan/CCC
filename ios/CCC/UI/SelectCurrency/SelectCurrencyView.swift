@@ -1,5 +1,5 @@
 //
-//  BarView.swift
+//  SelectCurrencyObservable.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 23/01/2021.
@@ -11,17 +11,17 @@ import Resources
 import Client
 import NavigationStack
 
-typealias ChangeBaseObservable = ObservableSEED
-<ChangeBaseViewModel, ChangeBaseState, ChangeBaseEffect, ChangeBaseEvent, BaseData>
+typealias SelectCurrencyObservable = ObservableSEED
+<SelectCurrencyViewModel, SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>
 
-struct ChangeBaseView: View {
+struct SelectCurrencyView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: ChangeBaseObservable = koin.get()
+    @StateObject var observable: SelectCurrencyObservable = koin.get()
     @Binding var isBarShown: Bool
 
-    var onBaseChange: (String) -> Void
+    var onSelectCurrency: (String) -> Void
 
     var body: some View {
 
@@ -33,7 +33,7 @@ struct ChangeBaseView: View {
 
                 if observable.state.currencyList.count < 2 {
 
-                    SelectCurrencyView(
+                    SelectCurrenciesBottomView(
                         text: MR.strings().choose_at_least_two_currency.get(),
                         buttonText: MR.strings().select.get(),
                         onButtonClick: observable.event.onSelectClick
@@ -48,7 +48,7 @@ struct ChangeBaseView: View {
 
                             List(observable.state.currencyList, id: \.name) { currency in
 
-                                ChangeBaseItemView(item: currency)
+                                SelectCurrencyItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
 
@@ -66,15 +66,15 @@ struct ChangeBaseView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    private func onEffect(effect: ChangeBaseEffect) {
-        logger.i(message: {"ChangeBaseView onEffect \(effect.description)"})
+    private func onEffect(effect: SelectCurrencyEffect) {
+        logger.i(message: {"SelectCurrencyView onEffect \(effect.description)"})
         switch effect {
         // swiftlint:disable force_cast
-        case is ChangeBaseEffect.BaseChange:
-            onBaseChange((effect as! ChangeBaseEffect.BaseChange).newBase)
+        case is SelectCurrencyEffect.CurrencyChange:
+            onSelectCurrency((effect as! SelectCurrencyEffect.CurrencyChange).newBase)
             isBarShown = false
-        case is ChangeBaseEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
+        case is SelectCurrencyEffect.OpenCurrencies:
+            navigationStack.push(CurrenciesView(onBaseChange: onSelectCurrency))
         default:
             logger.i(message: {"BarView unknown effect"})
         }
