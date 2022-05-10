@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
-import com.github.submob.logmob.e
+import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.client.model.RateState
@@ -150,6 +150,6 @@ fun Context.getImageResourceByName(name: String): Int = try {
         packageName
     )
 } catch (e: FileNotFoundException) {
-    Logger.e(e)
+    Logger.w(e)
     R.drawable.unknown
 }
