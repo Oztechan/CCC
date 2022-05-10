@@ -16,15 +16,15 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
+import com.oztechan.ccc.android.util.getImageResourceByName
 import com.oztechan.ccc.android.util.getNavigationResult
+import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.resources.getDrawableIdByFileName
-import com.oztechan.ccc.resources.setBackgroundByName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import mustafaozhan.github.com.mycurrencies.R
@@ -162,7 +162,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 is CalculatorEffect.ShowRate -> showSnack(
                     requireView(),
                     viewEffect.text,
-                    icon = getDrawableIdByFileName(viewEffect.name)
+                    icon = requireContext().getImageResourceByName(viewEffect.name)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
