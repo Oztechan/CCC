@@ -36,7 +36,7 @@ extension ResourcesImageResource {
 
 extension String {
     func getImage() -> UIImage {
-        return ResourcesKt.getImageByFileName(name: self).toUIImage()!
+        return IOSResourcesKt.getImageByFileName(name: self).toUIImage()!
     }
 }
 
