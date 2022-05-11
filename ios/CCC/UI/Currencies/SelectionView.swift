@@ -31,5 +31,6 @@ struct SelectionView: View {
         }
         .padding(EdgeInsets(top: 15, leading: 10, bottom: 15, trailing: 20))
         .background(MR.colors().background_weak.get())
+        .frame(maxHeight: 50)
     }
 }

@@ -83,7 +83,9 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                }.background(MR.colors().background.get())
+                }
+                .background(MR.colors().background.get())
+                .edgesIgnoringSafeArea(.bottom)
 
 //                if observable.viewModel.shouldShowBannerAd() {
 //                    BannerAdView(
