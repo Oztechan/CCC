@@ -248,6 +248,14 @@ class SettingsViewModelTest {
         assertTrue { it is SettingsEffect.OpenCurrencies }
     }
 
+
+    @Test
+    fun onNotificationsClicked() = viewModel.effect.before {
+        viewModel.event.onNotificationsClicked()
+    }.after {
+        assertEquals(SettingsEffect.OpenNotifications, it)
+    }
+
     @Test
     fun onFeedBackClick() = viewModel.effect.before {
         viewModel.event.onFeedBackClick()
