@@ -7,5 +7,6 @@ enum class UserProperty(val key: String) {
     IS_ROOTED("is_rooted"),
     APP_THEME("app_theme"),
     IS_AD_FREE("is_ad_free"),
-    SESSION_COUNT("session_count")
+    SESSION_COUNT("session_count"),
+    DEVICE_PLATFORM("device_platform")
 }

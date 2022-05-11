@@ -17,11 +17,10 @@ import dev.icerock.moko.resources.getImageByFileName
 import platform.UIKit.UIColor
 import platform.UIKit.UIScreen
 
-fun getDrawableByFileName(name: String): ImageResource {
-    return MR.images.getImageByFileName(
-        name.lowercase().replace("try", "tryy")
-    ) ?: MR.images.transparent
-}
+fun getImageByFileName(
+    name: String
+): ImageResource = MR.images.getImageByFileName(name.toImageFileName()) ?: MR.images.unknown
+
 
 fun getString(stringResource: StringResource): StringDesc {
     return StringDesc.Resource(stringResource)

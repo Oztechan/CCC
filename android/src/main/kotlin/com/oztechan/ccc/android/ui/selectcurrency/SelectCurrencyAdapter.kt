@@ -1,4 +1,4 @@
-package com.oztechan.ccc.android.ui.changebase
+package com.oztechan.ccc.android.ui.selectcurrency
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,31 +6,31 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.viewmodel.changebase.ChangeBaseEvent
-import mustafaozhan.github.com.mycurrencies.databinding.ItemChangeBaseBinding
+import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEvent
+import mustafaozhan.github.com.mycurrencies.databinding.ItemSelectCurrencyBinding
 
-class ChangeBaseAdapter(
-    private val changeBaseEvent: ChangeBaseEvent
+class SelectCurrencyAdapter(
+    private val selectCurrencyEvent: SelectCurrencyEvent
 ) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ) = CalculatorVBViewHolder(
-        ItemChangeBaseBinding.inflate(
+        ItemSelectCurrencyBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
     )
 
-    inner class CalculatorVBViewHolder(private val itemBinding: ItemChangeBaseBinding) :
+    inner class CalculatorVBViewHolder(private val itemBinding: ItemSelectCurrencyBinding) :
         BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             imgIcon.setBackgroundByName(item.name)
             txtSettingItem.text = item.getVariablesOneLine()
-            root.setOnClickListener { changeBaseEvent.onItemClick(item) }
+            root.setOnClickListener { selectCurrencyEvent.onItemClick(item) }
         }
     }
 

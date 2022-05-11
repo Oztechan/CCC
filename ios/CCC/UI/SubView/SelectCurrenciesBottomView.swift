@@ -1,5 +1,5 @@
 //
-//  CurrencySelectionView.swift
+//  SelectCurrenciesBottomView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 29/01/2021.
@@ -9,7 +9,7 @@
 import SwiftUI
 import Resources
 
-struct SelectCurrencyView: View {
+struct SelectCurrenciesBottomView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var text: String

@@ -12,10 +12,10 @@ import SwiftUI
 
 extension ResourcesStringResource {
     func get() -> String {
-        return ResourcesKt.getString(stringResource: self).localized()
+        return IOSResourcesKt.getString(stringResource: self).localized()
     }
     func get(parameter: Any) -> String {
-        return ResourcesKt.getString(stringResource: self, parameter: parameter).localized()
+        return IOSResourcesKt.getString(stringResource: self, parameter: parameter).localized()
     }
 }
 
@@ -24,7 +24,7 @@ extension ResourcesColorResource {
         return Color(get())
     }
     func get() -> UIColor {
-        return ResourcesKt.getColor(colorResource: self)
+        return IOSResourcesKt.getColor(colorResource: self)
     }
 }
 
@@ -36,7 +36,7 @@ extension ResourcesImageResource {
 
 extension String {
     func getImage() -> UIImage {
-        return ResourcesKt.getDrawableByFileName(name: self).toUIImage()!
+        return IOSResourcesKt.getImageByFileName(name: self).toUIImage()!
     }
 }
 

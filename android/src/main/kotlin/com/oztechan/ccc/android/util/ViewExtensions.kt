@@ -20,29 +20,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
-import com.github.submob.logmob.e
+import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.client.model.RateState
+import com.oztechan.ccc.resources.toImageFileName
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 
 private const val ANIMATION_DURATION = 500L
-
-fun ImageView.setBackgroundByName(
-    name: String
-) = setImageResource(context.getImageResourceByName(name))
-
-fun Context.getImageResourceByName(name: String): Int = try {
-    resources.getIdentifier(
-        name.lowercase().replace("try", "tryy"),
-        "drawable",
-        packageName
-    )
-} catch (e: FileNotFoundException) {
-    Logger.e(e)
-    R.drawable.transparent
-}
 
 fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)
     ?.castTo<InputMethodManager>()
@@ -151,4 +137,19 @@ fun View.copyToClipBoard(text: String) {
     clipboard?.setPrimaryClip(clip)?.let {
         showSnack(this, context.getString(R.string.copied_to_clipboard))
     }
+}
+
+fun ImageView.setBackgroundByName(
+    name: String
+) = setImageResource(context.getImageResourceByName(name))
+
+fun Context.getImageResourceByName(name: String): Int = try {
+    resources.getIdentifier(
+        name.toImageFileName(),
+        "drawable",
+        packageName
+    )
+} catch (e: FileNotFoundException) {
+    Logger.w(e)
+    R.drawable.unknown
 }
