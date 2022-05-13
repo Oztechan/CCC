@@ -9,4 +9,6 @@ interface NotificationRepository {
     fun deleteNotification(id: Long)
     fun updateBaseById(base: String, id: Long)
     fun updateTargetById(target: String, id: Long)
+    fun updateRelationById(isGreater: Boolean, id: Long)
+    fun updateRateById(rate: Double, id: Long)
 }

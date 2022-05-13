@@ -18,5 +18,11 @@ UPDATE notification SET base=? WHERE id=?;
 updateTargetById:
 UPDATE notification SET target=? WHERE id=?;
 
+updateRelationById:
+UPDATE notification SET isGreater=? WHERE id=?;
+
+updateRateById:
+UPDATE notification SET rate=? WHERE id=?;
+
 getNotifications:
 SELECT * FROM notification;

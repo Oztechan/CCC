@@ -3,6 +3,7 @@ package com.oztechan.ccc.common.db.notification
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.db.sql.NotificationQueries
 import com.oztechan.ccc.common.mapper.mapToModel
+import com.oztechan.ccc.common.mapper.toLong
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 
@@ -34,4 +35,12 @@ class NotificationRepositoryImpl(
     override fun updateTargetById(target: String, id: Long) = notificationQueries
         .updateTargetById(target, id)
         .also { Logger.v { "NotificationRepositoryImpl updateTargetById $target $id" } }
+
+    override fun updateRelationById(isGreater: Boolean, id: Long) = notificationQueries
+        .updateRelationById(isGreater.toLong(), id)
+        .also { Logger.v { "NotificationRepositoryImpl updateRelationById $isGreater $id" } }
+
+    override fun updateRateById(rate: Double, id: Long) = notificationQueries
+        .updateRateById(rate, id)
+        .also { Logger.v { "NotificationRepositoryImpl updateRateById $rate $id" } }
 }
