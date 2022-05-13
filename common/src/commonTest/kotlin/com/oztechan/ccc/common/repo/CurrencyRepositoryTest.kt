@@ -4,7 +4,7 @@ import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepositoryImpl
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
-import com.oztechan.ccc.common.util.toDatabaseBoolean
+import com.oztechan.ccc.common.mapper.toLong
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
@@ -35,7 +35,7 @@ class CurrencyRepositoryTest {
         repository.updateCurrencyStateByName(mockName, mockState)
 
         verify(currencyQueries)
-            .invocation { updateCurrencyStateByName(mockState.toDatabaseBoolean(), mockName) }
+            .invocation { updateCurrencyStateByName(mockState.toLong(), mockName) }
             .wasInvoked()
     }
 
@@ -46,7 +46,7 @@ class CurrencyRepositoryTest {
         repository.updateAllCurrencyState(mockState)
 
         verify(currencyQueries)
-            .invocation { updateAllCurrencyState(mockState.toDatabaseBoolean()) }
+            .invocation { updateAllCurrencyState(mockState.toLong()) }
             .wasInvoked()
     }
 }

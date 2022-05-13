@@ -7,7 +7,6 @@ import com.oztechan.ccc.client.base.BaseState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class NotificationsState(
-    val isEnabled: Boolean = false,
     val base: String = "",
     val target: String = ""
 ) : BaseState()
@@ -29,12 +28,10 @@ interface NotificationsEvent : BaseEvent {
 
 // Extension
 fun MutableStateFlow<NotificationsState>.update(
-    isEnabled: Boolean = value.isEnabled,
     base: String = value.base,
     target: String = value.target
 ) {
     value = value.copy(
-        isEnabled = isEnabled,
         base = base,
         target = target
     )
