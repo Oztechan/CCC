@@ -44,7 +44,7 @@ struct SettingsView: View {
                         imgName: "dollarsign.circle.fill",
                         title: MR.strings().settings_item_currencies_title.get(),
                         subTitle: MR.strings().settings_item_currencies_sub_title.get(),
-                        value: MR.strings().settings_item_currencies_value.get(
+                        value: MR.strings().settings_active_item_value.get(
                             parameter: observable.state.activeCurrencyCount
                         ),
                         onClick: observable.event.onCurrenciesClick
@@ -54,7 +54,9 @@ struct SettingsView: View {
                         imgName: "bell",
                         title: MR.strings().settings_item_notifications_title.get(),
                         subTitle: MR.strings().settings_item_notifications_sub_title.get(),
-                        value: "",
+                        value: MR.strings().settings_active_item_value.get(
+                            parameter: observable.state.activeNotificationCount
+                        ),
                         onClick: observable.event.onNotificationsClicked
                     )
 

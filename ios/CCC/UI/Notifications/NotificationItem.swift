@@ -71,11 +71,8 @@ struct NotificationItem: View {
 
             Spacer()
 
-            Button {
-                event.onDeleteClick(notification: notification)
-            } label: {
-                Label("", systemImage: "trash")
-            }.foregroundColor(MR.colors().text.get())
+            Image(systemName: "trash")
+                .onTapGesture { event.onDeleteClick(notification: notification) }
 
         }.onAppear {
             amount = "\(notification.rate)"
