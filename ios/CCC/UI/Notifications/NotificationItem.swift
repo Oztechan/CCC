@@ -27,10 +27,7 @@ struct NotificationItem: View {
             Text(MR.strings().one.get())
                 .font(.body)
 
-            Image(uiImage: notification.base.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
+            CurrencyImageView(imageName: notification.base)
                 .onTapGesture { event.onBaseClick(notification: notification) }
 
             Spacer()
@@ -63,10 +60,7 @@ struct NotificationItem: View {
 
             Spacer()
 
-            Image(uiImage: notification.target.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
+            CurrencyImageView(imageName: notification.target)
                 .onTapGesture { event.onTargetClick(notification: notification) }
 
             Spacer()
