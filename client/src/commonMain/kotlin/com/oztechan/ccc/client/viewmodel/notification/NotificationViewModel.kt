@@ -6,6 +6,8 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Notification
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.toStandardDigits
+import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.notification.NotificationRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -79,6 +81,19 @@ class NotificationViewModel(
     override fun onDeleteClick(notification: Notification) {
         Logger.d { "NotificationViewModel onDeleteClick $notification" }
         notificationRepository.deleteNotification(notification.id)
+    }
+
+    override fun onRelationChange(notification: Notification, isGreater: Boolean) {
+        Logger.d { "NotificationViewModel onRelationChange $notification $isGreater" }
+        notificationRepository.updateRelationById(isGreater, notification.id)
+    }
+
+    override fun onRateChange(notification: Notification, rate: String) {
+        Logger.d { "NotificationViewModel onRateChange $notification $rate" }
+        notificationRepository.updateRateById(
+            rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+            notification.id
+        )
     }
     // endregion
 }

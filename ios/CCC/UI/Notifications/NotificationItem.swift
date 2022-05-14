@@ -33,6 +33,8 @@ struct NotificationItem: View {
                 .shadow(radius: 3)
                 .onTapGesture { event.onBaseClick(notification: notification) }
 
+            Spacer()
+
             Picker("", selection: $relationSelection) {
                 Text(MR.strings().txt_smaller.get())
                     .font(.title)
@@ -43,6 +45,11 @@ struct NotificationItem: View {
             }
             .pickerStyle(.segmented)
             .frame(maxWidth: 80)
+            .onChange(of: relationSelection) { relation in
+                event.onRelationChange(notification: notification, isGreater: relation == 1)
+            }
+
+            Spacer()
 
             TextField(MR.strings().txt_rate.get(), text: $amount)
                 .keyboardType(.decimalPad)
@@ -50,6 +57,11 @@ struct NotificationItem: View {
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)
+                .onChange(of: amount) { rate in
+                    event.onRateChange(notification: notification, rate: rate)
+                }
+
+            Spacer()
 
             Image(uiImage: notification.target.getImage())
                 .resizable()
@@ -67,6 +79,11 @@ struct NotificationItem: View {
 
         }.onAppear {
             amount = "\(notification.rate)"
+            if notification.isGreater {
+                relationSelection = 1
+            } else {
+                relationSelection = 0
+            }
         }
     }
 }

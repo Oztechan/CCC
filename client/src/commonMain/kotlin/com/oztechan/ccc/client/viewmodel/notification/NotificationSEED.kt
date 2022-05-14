@@ -27,6 +27,8 @@ interface NotificationEvent : BaseEvent {
     fun onTargetChanged(notification: Notification?, newTarget: String)
     fun onAddClick()
     fun onDeleteClick(notification: Notification)
+    fun onRelationChange(notification: Notification, isGreater: Boolean)
+    fun onRateChange(notification: Notification, rate: String)
 }
 
 // Extension

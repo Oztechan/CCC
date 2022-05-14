@@ -49,6 +49,7 @@ struct NotificationView: View {
                     } label: {
                         Label(MR.strings().txt_add.get(), systemImage: "plus")
                     }
+                    .foregroundColor(MR.colors().text.get())
                     .padding(.top, 10)
                     .padding(.bottom, 20)
                 }
