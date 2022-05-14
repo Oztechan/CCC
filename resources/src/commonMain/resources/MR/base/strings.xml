@@ -92,9 +92,7 @@
     <string name="settings_item_currencies_value">%d active</string>
 
     <string name="settings_item_notifications_title">Notifications</string>
-    <string name="settings_item_notifications_sub_title">Set a rate watcher</string>
-    <string name="settings_item_notifications_value_enabled">Enabled</string>
-    <string name="settings_item_notifications_value_disabled">Disabled</string>
+    <string name="settings_item_notifications_sub_title">Check rates every 1 hour</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
@@ -132,8 +130,7 @@
     <string name="txt_rate">Rate</string>
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>
-    <string name="txt_notifications_enabled">Notifications enabled</string>
-    <string name="txt_notifications_disabled">Notifications disabled</string>
+    <string name="txt_add">Add</string>
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>

@@ -9,5 +9,14 @@ rate REAL NOT NULL DEFAULT 1.0
 addNotification:
 INSERT OR REPLACE INTO notification(base, target) VALUES (?,?);
 
+deleteNotification:
+DELETE FROM notification WHERE id = ?;
+
+updateBaseById:
+UPDATE notification SET base=? WHERE id=?;
+
+updateTargetById:
+UPDATE notification SET target=? WHERE id=?;
+
 getNotifications:
 SELECT * FROM notification;

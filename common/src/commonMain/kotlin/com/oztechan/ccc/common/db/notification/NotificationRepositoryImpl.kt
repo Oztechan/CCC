@@ -22,4 +22,16 @@ class NotificationRepositoryImpl(
         .mapToList()
         .mapToModel()
         .also { Logger.v { "NotificationRepositoryImpl collectNotifications" } }
+
+    override fun deleteNotification(id: Long) = notificationQueries
+        .deleteNotification(id)
+        .also { Logger.v { "NotificationRepositoryImpl addNotification $id" } }
+
+    override fun updateBaseById(base: String, id: Long) = notificationQueries
+        .updateBaseById(base, id)
+        .also { Logger.v { "NotificationRepositoryImpl updateBaseById $base $id" } }
+
+    override fun updateTargetById(target: String, id: Long) = notificationQueries
+        .updateTargetById(target, id)
+        .also { Logger.v { "NotificationRepositoryImpl updateTargetById $target $id" } }
 }

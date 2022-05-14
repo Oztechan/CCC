@@ -54,7 +54,7 @@ struct SettingsView: View {
                         imgName: "bell",
                         title: MR.strings().settings_item_notifications_title.get(),
                         subTitle: MR.strings().settings_item_notifications_sub_title.get(),
-                        value: MR.strings().settings_item_notifications_value_disabled.get(),
+                        value: "",
                         onClick: observable.event.onNotificationsClicked
                     )
 
@@ -150,7 +150,7 @@ struct SettingsView: View {
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
         case is SettingsEffect.OpenNotifications:
-            navigationStack.push(NotificationsView())
+            navigationStack.push(NotificationView())
         case is SettingsEffect.FeedBack:
             emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:
