@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-
+  pull_request:
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
   ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
@@ -59,23 +59,23 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
 
       - name: Build
-        run: ./gradlew assembleGoogleRelease assembleHuaweiRelease
+        run: ./gradlew assembleGoogleDebug assembleHuaweiDebug
 
-      - name: Firebase App Distribution Google
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: android/build/outputs/apk/google/release/android-google-release.apk
-
-      - name: Firebase App Distribution Huawei
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: android/build/outputs/apk/huawei/release/android-huawei-release.apk
+      #      - name: Firebase App Distribution Google
+      #        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      #        with:
+      #          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+      #          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+      #          groups: QA
+      #          file: android/build/outputs/apk/google/debug/android-google-debug.apk
+      #
+      #      - name: Firebase App Distribution Huawei
+      #        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      #        with:
+      #          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+      #          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+      #          groups: QA
+      #          file: android/build/outputs/apk/huawei/debug/android-huawei-debug.apk
 
       - name: Set Job Status
         id: status
@@ -110,20 +110,20 @@ jobs:
           cd ios/CCC
           pod install
 
-      - name: Distrubute
-        uses: maierj/fastlane-action@v2.2.0
-        with:
-          lane: 'distribute'
-          subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+      #      - name: Distrubute
+      #        uses: maierj/fastlane-action@v2.2.0
+      #        with:
+      #          lane: 'distribute'
+      #          subdirectory: 'ios'
+      #        env:
+      #          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      #          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+      #          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+      #          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+      #          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+      #          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+      #          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+      #          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
 
       - name: Set Job Status
         id: status
