@@ -112,7 +112,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             with(it) {
                 binding.loadingView.visibleIf(loading)
                 binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
-                    R.string.settings_item_currencies_value,
+                    R.string.settings_active_item_value,
                     activeCurrencyCount
                 )
                 binding.itemTheme.settingsItemValue.text = appThemeType.typeName

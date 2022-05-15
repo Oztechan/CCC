@@ -86,10 +86,10 @@
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>
+    <string name="settings_active_item_value">%d active</string>
 
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
-    <string name="settings_item_currencies_value">%d active</string>
 
     <string name="settings_item_notifications_title">Notifications</string>
     <string name="settings_item_notifications_sub_title">Check rates every 1 hour</string>

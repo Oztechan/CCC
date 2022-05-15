@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 // State
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
+    val activeNotificationCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeEndDate: String = "",
     val loading: Boolean = false
@@ -57,12 +58,14 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
 // Extension
 fun MutableStateFlow<SettingsState>.update(
     activeCurrencyCount: Int = value.activeCurrencyCount,
+    activeNotificationCount: Int = value.activeNotificationCount,
     appThemeType: AppTheme = value.appThemeType,
     addFreeEndDate: String = value.addFreeEndDate,
     loading: Boolean = value.loading
 ) {
     value = value.copy(
         activeCurrencyCount = activeCurrencyCount,
+        activeNotificationCount = activeNotificationCount,
         appThemeType = appThemeType,
         addFreeEndDate = addFreeEndDate,
         loading = loading

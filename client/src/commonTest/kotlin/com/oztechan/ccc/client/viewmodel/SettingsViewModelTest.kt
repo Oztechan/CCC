@@ -17,8 +17,10 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.db.notification.NotificationRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.Notification
 import com.oztechan.ccc.common.runTest
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.DAY
@@ -54,6 +56,9 @@ class SettingsViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
+    private val notificationRepository = mock(classOf<NotificationRepository>())
+
+    @Mock
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: SettingsViewModel by lazy {
@@ -62,6 +67,7 @@ class SettingsViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
+            notificationRepository,
             sessionManager
         )
     }
@@ -69,6 +75,11 @@ class SettingsViewModelTest {
     private val currencyList = listOf(
         Currency("", "", ""),
         Currency("", "", "")
+    )
+
+    private val notificationList = listOf(
+        Notification(1, "EUR", "USD", true, 1.1),
+        Notification(2, "USD", "EUR", false, 2.3)
     )
 
     @BeforeTest
@@ -86,6 +97,10 @@ class SettingsViewModelTest {
         given(currencyRepository)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
+
+        given(notificationRepository)
+            .invocation { collectNotifications() }
+            .then { flowOf(notificationList) }
     }
 
     // SEED
@@ -95,6 +110,7 @@ class SettingsViewModelTest {
         val state = MutableStateFlow(SettingsState())
 
         val activeCurrencyCount = Random.nextInt()
+        val activeNotificationCount = Random.nextInt()
         val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
@@ -102,12 +118,14 @@ class SettingsViewModelTest {
         state.before {
             state.update(
                 activeCurrencyCount = activeCurrencyCount,
+                activeNotificationCount = activeNotificationCount,
                 appThemeType = appThemeType,
                 addFreeEndDate = addFreeEndDate,
                 loading = loading
             )
         }.after {
             assertEquals(activeCurrencyCount, it?.activeCurrencyCount)
+            assertEquals(activeNotificationCount, it?.activeNotificationCount)
             assertEquals(appThemeType, it?.appThemeType)
             assertEquals(addFreeEndDate, it?.addFreeEndDate)
             assertEquals(loading, it?.loading)
@@ -120,6 +138,7 @@ class SettingsViewModelTest {
         viewModel.state.firstOrNull().let {
             assertEquals(AppTheme.SYSTEM_DEFAULT, it?.appThemeType) // mocked -1
             assertEquals(currencyList.size, it?.activeCurrencyCount)
+            assertEquals(notificationList.size, it?.activeNotificationCount)
         }
     }
 
