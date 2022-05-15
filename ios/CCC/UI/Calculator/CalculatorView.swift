@@ -113,7 +113,7 @@ struct CalculatorView: View {
                 }
             )
         case is CalculatorEffect.MaximumInput:
-            showSnack(text: MR.strings().max_input.get())
+            showSnack(text: MR.strings().text_max_input.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:

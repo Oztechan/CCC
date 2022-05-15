@@ -14,7 +14,8 @@ func showSnack(
     text: String,
     buttonText: String? = nil,
     action: (() -> Void)? = nil,
-    iconImage: UIImage = MR.images().ic_app_logo.get()
+    iconImage: UIImage = MR.images().ic_app_logo.get(),
+    isCentered: Bool = false
 ) {
 
     let view = MessageView.viewFromNib(layout: .cardView)
@@ -54,7 +55,7 @@ func showSnack(
     }
 
     var config = SwiftMessages.defaultConfig
-    config.presentationStyle = .bottom
+    config.presentationStyle = isCentered ? .center : .bottom
     config.presentationContext = .window(windowLevel: UIWindow.Level.normal)
 
     SwiftMessages.hide(animated: false)

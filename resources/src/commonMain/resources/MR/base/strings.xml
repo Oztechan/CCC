@@ -35,14 +35,12 @@
     <string name="btn_done">Done</string>
     <string name="txt_select_currencies">Select your currencies</string>
 
-    <!--Snacky Text-->
+    <!--Snack Texts-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="txt_ok">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
-
-    <!--Toasty Text-->
-    <string name="max_input">Maximum number of input exceeded.</string>
+    <string name="text_max_input">Maximum number of input exceeded.</string>
     <string name="text_online_last_updated">Online! Last update: %s</string>
     <string name="text_cached_last_updated">Cached! Last update: %s</string>
     <string name="text_offline_last_updated">Offline! Last update: %s</string>

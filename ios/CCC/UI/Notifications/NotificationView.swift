@@ -12,7 +12,7 @@ import Resources
 import NavigationStack
 
 typealias NotificationObservable = ObservableSEED
-<NotificationViewModel, NotificationState, NotificationEffect, NotificationEvent, BaseData>
+<NotificationViewModel, NotificationState, NotificationEffect, NotificationEvent, NotificationData>
 
 struct NotificationView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
@@ -35,8 +35,8 @@ struct NotificationView: View {
                         NotificationItem(
                             isBaseBarShown: $baseBarInfo.isShown,
                             isTargetBarShown: $targetBarInfo.isShown,
-                            event: observable.event,
-                            notification: notification
+                            notification: notification,
+                            event: observable.event
                         )
                     }
                     .listRowInsets(.init())
@@ -107,6 +107,8 @@ struct NotificationView: View {
         case is NotificationEffect.SelectTarget:
             targetBarInfo.notification = (effect as! NotificationEffect.SelectTarget).notification
             targetBarInfo.isShown.toggle()
+        case is NotificationEffect.MaximumInput:
+            showSnack(text: MR.strings().text_max_input.get(), isCentered: true)
         default:
             logger.i(message: {"NotificationView unknown effect"})
         }

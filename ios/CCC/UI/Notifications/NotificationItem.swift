@@ -13,24 +13,21 @@ import NavigationStack
 import Combine
 
 struct NotificationItem: View {
+    @State private var relationSelection = 0
+    @State private var amount = ""
+
     @Binding var isBaseBarShown: Bool
     @Binding var isTargetBarShown: Bool
 
+    @State var notification: Client.Notification
     let event: NotificationEvent
-    let notification: Client.Notification
-
-    @State private var relationSelection = 0
-    @State var amount = ""
 
     var body: some View {
         HStack {
-            Text(MR.strings().one.get())
-                .font(.body)
+            Text(MR.strings().one.get()).font(.body)
 
             CurrencyImageView(imageName: notification.base)
                 .onTapGesture { event.onBaseClick(notification: notification) }
-
-            Spacer()
 
             Picker("", selection: $relationSelection) {
                 Text(MR.strings().txt_smaller.get())
@@ -42,8 +39,8 @@ struct NotificationItem: View {
             }
             .pickerStyle(.segmented)
             .frame(maxWidth: 80)
-            .onChange(of: relationSelection) { relation in
-                event.onRelationChange(notification: notification, isGreater: relation == 1)
+            .onChange(of: relationSelection) {
+                event.onRelationChange(notification: notification, isGreater: $0 == 1)
             }
 
             Spacer()
@@ -54,8 +51,8 @@ struct NotificationItem: View {
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)
-                .onChange(of: amount) { rate in
-                    event.onRateChange(notification: notification, rate: rate)
+                .onChange(of: amount) {
+                    amount = event.onRateChange(notification: notification, rate: $0)
                 }
 
             Spacer()
@@ -63,18 +60,13 @@ struct NotificationItem: View {
             CurrencyImageView(imageName: notification.target)
                 .onTapGesture { event.onTargetClick(notification: notification) }
 
-            Spacer()
-
             Image(systemName: "trash")
+                .padding(.leading, 10)
                 .onTapGesture { event.onDeleteClick(notification: notification) }
 
         }.onAppear {
+            relationSelection = notification.isGreater ? 1 : 0
             amount = "\(notification.rate)"
-            if notification.isGreater {
-                relationSelection = 1
-            } else {
-                relationSelection = 0
-            }
         }
     }
 }

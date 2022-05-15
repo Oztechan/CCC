@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.viewmodel.notification
 
 
+import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
@@ -17,6 +18,7 @@ sealed class NotificationEffect : BaseEffect() {
     object Back : NotificationEffect()
     data class SelectBase(val notification: Notification) : NotificationEffect()
     data class SelectTarget(val notification: Notification) : NotificationEffect()
+    object MaximumInput : NotificationEffect()
 }
 
 interface NotificationEvent : BaseEvent {
@@ -28,7 +30,13 @@ interface NotificationEvent : BaseEvent {
     fun onAddClick()
     fun onDeleteClick(notification: Notification)
     fun onRelationChange(notification: Notification, isGreater: Boolean)
-    fun onRateChange(notification: Notification, rate: String)
+    fun onRateChange(notification: Notification, rate: String): String
+}
+
+class NotificationData : BaseData() {
+    companion object {
+        const val MAXIMUM_INPUT = 9
+    }
 }
 
 // Extension

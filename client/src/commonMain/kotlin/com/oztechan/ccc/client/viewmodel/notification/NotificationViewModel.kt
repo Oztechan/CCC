@@ -1,13 +1,13 @@
 package com.oztechan.ccc.client.viewmodel.notification
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Notification
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
+import com.oztechan.ccc.client.viewmodel.notification.NotificationData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.notification.NotificationRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class NotificationViewModel(
     private val currencyRepository: CurrencyRepository,
@@ -30,7 +31,7 @@ class NotificationViewModel(
     private val _effect = MutableSharedFlow<NotificationEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override val data: BaseData? = null
+    override val data = NotificationData()
 
     init {
         notificationRepository.collectNotifications()
@@ -88,12 +89,23 @@ class NotificationViewModel(
         notificationRepository.updateRelationById(isGreater, notification.id)
     }
 
-    override fun onRateChange(notification: Notification, rate: String) {
+    override fun onRateChange(notification: Notification, rate: String): String {
         Logger.d { "NotificationViewModel onRateChange $notification $rate" }
-        notificationRepository.updateRateById(
-            rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-            notification.id
-        )
+        return when {
+            rate.length > MAXIMUM_INPUT -> {
+                clientScope.launch {
+                    _effect.emit(NotificationEffect.MaximumInput)
+                }
+                rate.dropLast(1)
+            }
+            else -> {
+                notificationRepository.updateRateById(
+                    rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+                    notification.id
+                )
+                rate
+            }
+        }
     }
     // endregion
 }
