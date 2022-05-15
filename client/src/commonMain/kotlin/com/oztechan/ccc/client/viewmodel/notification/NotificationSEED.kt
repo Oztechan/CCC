@@ -19,6 +19,7 @@ sealed class NotificationEffect : BaseEffect() {
     data class SelectBase(val notification: Notification) : NotificationEffect()
     data class SelectTarget(val notification: Notification) : NotificationEffect()
     object MaximumInput : NotificationEffect()
+    object InvalidInput : NotificationEffect()
 }
 
 interface NotificationEvent : BaseEvent {

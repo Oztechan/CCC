@@ -76,6 +76,17 @@ class CalculatorUtilTest {
     }
 
     @Test
+    fun trimTrailingZero() {
+        assertEquals("12", "12".trimTrailingZero())
+        assertEquals("12", "12.".trimTrailingZero())
+        assertEquals("12", "12.0".trimTrailingZero())
+        assertEquals("12", "12.00".trimTrailingZero())
+        assertEquals("12.001", "12.001".trimTrailingZero())
+        assertEquals("12.001", "12.0010".trimTrailingZero())
+    }
+
+
+    @Test
     fun toStandardDigits() {
         // https://en.wikipedia.org/w/index.php?title=Hindu%E2%80%93Arabic_numeral_system
         listOf(

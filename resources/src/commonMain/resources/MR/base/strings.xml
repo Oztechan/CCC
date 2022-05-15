@@ -48,6 +48,7 @@
     <string name="text_no_data">No data!</string>
     <string name="error_text_unknown">Check your connection or try again later.</string>
     <string name="copied_to_clipboard">Copied to clipboard!</string>
+    <string name="text_invalid_input">Invalid input!</string>
 
     <!--Dialog-->
     <string name="rate_and_support">You can rate us and review our app in the market :)</string>
