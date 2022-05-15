@@ -148,7 +148,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
                 CalculatorEffect.MaximumInput -> showSnack(
                     requireView(),
-                    R.string.max_input
+                    R.string.text_max_input
                 )
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
