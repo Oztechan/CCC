@@ -8,6 +8,7 @@ import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.notification.NotificationData.Companion.MAXIMUM_INPUT
+import com.oztechan.ccc.client.viewmodel.notification.NotificationData.Companion.MAXIMUM_NUMBER_OF_NOTIFICATIONS
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.notification.NotificationRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -72,10 +73,14 @@ class NotificationViewModel(
     override fun onAddClick() {
         Logger.d { "NotificationViewModel onAddClick" }
         currencyRepository.getActiveCurrencies().let { list ->
-            notificationRepository.addNotification(
-                base = list.firstOrNull()?.name ?: "",
-                target = list.lastOrNull()?.name ?: ""
-            )
+            if (list.size > MAXIMUM_NUMBER_OF_NOTIFICATIONS) {
+                clientScope.launch { _effect.emit(NotificationEffect.MaximumNumberOfNotification) }
+            } else {
+                notificationRepository.addNotification(
+                    base = list.firstOrNull()?.name ?: "",
+                    target = list.lastOrNull()?.name ?: ""
+                )
+            }
         }
     }
 

@@ -111,6 +111,8 @@ struct NotificationView: View {
             showSnack(text: MR.strings().text_max_input.get(), isTop: true)
         case is NotificationEffect.InvalidInput:
             showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
+        case is NotificationEffect.MaximumNumberOfNotification:
+            showSnack(text: MR.strings().text_maximum_number_of_notifications.get(), isTop: true)
         default:
             logger.i(message: {"NotificationView unknown effect"})
         }
