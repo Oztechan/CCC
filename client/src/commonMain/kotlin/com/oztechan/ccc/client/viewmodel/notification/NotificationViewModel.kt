@@ -72,10 +72,10 @@ class NotificationViewModel(
 
     override fun onAddClick() {
         Logger.d { "NotificationViewModel onAddClick" }
-        currencyRepository.getActiveCurrencies().let { list ->
-            if (list.size > MAXIMUM_NUMBER_OF_NOTIFICATIONS) {
-                clientScope.launch { _effect.emit(NotificationEffect.MaximumNumberOfNotification) }
-            } else {
+        if (notificationRepository.getNotifications().size >= MAXIMUM_NUMBER_OF_NOTIFICATIONS) {
+            clientScope.launch { _effect.emit(NotificationEffect.MaximumNumberOfNotification) }
+        } else {
+            currencyRepository.getActiveCurrencies().let { list ->
                 notificationRepository.addNotification(
                     base = list.firstOrNull()?.name ?: "",
                     target = list.lastOrNull()?.name ?: ""

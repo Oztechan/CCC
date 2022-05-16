@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.db.sql.NotificationQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
+import com.oztechan.ccc.common.mapper.toModelList
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 
@@ -22,6 +23,12 @@ class NotificationRepositoryImpl(
         .asFlow()
         .mapToList()
         .mapToModel()
+        .also { Logger.v { "NotificationRepositoryImpl collectNotifications" } }
+
+    override fun getNotifications() = notificationQueries
+        .getNotifications()
+        .executeAsList()
+        .toModelList()
         .also { Logger.v { "NotificationRepositoryImpl collectNotifications" } }
 
     override fun deleteNotification(id: Long) = notificationQueries
