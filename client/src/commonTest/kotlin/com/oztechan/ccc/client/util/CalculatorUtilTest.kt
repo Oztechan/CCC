@@ -76,6 +76,7 @@ class CalculatorUtilTest {
     }
 
     @Test
+    @Suppress("StringLiteralDuplication")
     fun trimTrailingZero() {
         assertEquals("12", "12".trimTrailingZero())
         assertEquals("12", "12.".trimTrailingZero())
