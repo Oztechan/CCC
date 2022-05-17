@@ -4,6 +4,7 @@
 
 package com.oztechan.ccc.client.util
 
+import com.oztechan.ccc.client.viewmodel.notification.NotificationData
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -25,3 +26,8 @@ actual fun Double.getFormatted(): String {
     decimalFormat = "$decimalFormat#"
     return DecimalFormat(decimalFormat, symbols).format(this)
 }
+
+actual fun Double.removeScientificNotation() = DecimalFormat("#.#").apply {
+    maximumFractionDigits = NotificationData.MAXIMUM_INPUT
+    decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
+}.format(this)
