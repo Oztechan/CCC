@@ -35,6 +35,8 @@ fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
+fun String.trimTrailingZero() = replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
+
 fun Currency.getCurrencyConversionByRate(
     base: String,
     rate: Rates?

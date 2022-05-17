@@ -108,7 +108,9 @@ struct NotificationView: View {
             targetBarInfo.notification = (effect as! NotificationEffect.SelectTarget).notification
             targetBarInfo.isShown.toggle()
         case is NotificationEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get(), isCentered: true)
+            showSnack(text: MR.strings().text_max_input.get(), isTop: true)
+        case is NotificationEffect.InvalidInput:
+            showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
         default:
             logger.i(message: {"NotificationView unknown effect"})
         }

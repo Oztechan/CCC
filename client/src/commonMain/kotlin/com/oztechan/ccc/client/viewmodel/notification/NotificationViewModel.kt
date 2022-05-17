@@ -91,12 +91,15 @@ class NotificationViewModel(
 
     override fun onRateChange(notification: Notification, rate: String): String {
         Logger.d { "NotificationViewModel onRateChange $notification $rate" }
+
         return when {
             rate.length > MAXIMUM_INPUT -> {
-                clientScope.launch {
-                    _effect.emit(NotificationEffect.MaximumInput)
-                }
+                clientScope.launch { _effect.emit(NotificationEffect.MaximumInput) }
                 rate.dropLast(1)
+            }
+            rate.toDoubleOrNull()?.isNaN() != false -> {
+                clientScope.launch { _effect.emit(NotificationEffect.InvalidInput) }
+                rate
             }
             else -> {
                 notificationRepository.updateRateById(
