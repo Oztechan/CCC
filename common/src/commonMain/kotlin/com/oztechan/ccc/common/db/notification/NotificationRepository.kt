@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface NotificationRepository {
     fun addNotification(base: String, target: String)
     fun collectNotifications(): Flow<List<Notification>>
+    fun getNotifications(): List<Notification>
     fun deleteNotification(id: Long)
     fun updateBaseById(base: String, id: Long)
     fun updateTargetById(target: String, id: Long)
