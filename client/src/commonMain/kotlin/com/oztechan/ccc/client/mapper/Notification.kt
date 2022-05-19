@@ -8,7 +8,7 @@ fun Notification.toUIModel() = NotificationUIModel(
     base = base,
     target = target,
     isGreater = isGreater,
-    rate = rate
+    rate = rate.toString()
 )
 
 fun List<Notification>.toUIModelList() = map {

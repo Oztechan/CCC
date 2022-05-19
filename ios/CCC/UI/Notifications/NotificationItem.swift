@@ -19,7 +19,7 @@ struct NotificationItem: View {
     @Binding var isBaseBarShown: Bool
     @Binding var isTargetBarShown: Bool
 
-    @State var notification: Client.Notification
+    let notification: Client.Notification
     let event: NotificationEvent
 
     var body: some View {
