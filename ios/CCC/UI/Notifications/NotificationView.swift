@@ -28,7 +28,15 @@ struct NotificationView: View {
 
             VStack {
                 NotificationsToolbarView(backEvent: observable.event.onBackClick)
+
+                Text(MR.strings().txt_notifications_description.get())
+                    .font(.footnote)
+                    .padding(18)
+                    .multilineTextAlignment(.center)
                     .background(MR.colors().background_strong.get())
+                    .foregroundColor(MR.colors().text_weak.get())
+                    .contentShape(Rectangle())
+                    .padding(-8)
 
                 Form {
                     List(observable.state.notificationList, id: \.id) { notification in
