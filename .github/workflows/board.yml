@@ -17,11 +17,6 @@ jobs:
   ProjectAutomations:
     runs-on: ubuntu-latest
     steps:
-
-      - name: 'Assign PR to creator'
-        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'ready_for_review')
-        uses: kentaro-m/auto-assign-action@v1.2.1
-
       - name: 'Move issue to "📖 To do"'
         if: github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'reopened')
         uses: leonsteinhaeuser/project-beta-automations@v1.2.1
