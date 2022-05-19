@@ -29,7 +29,7 @@ class NotificationRepositoryImpl(
         .getNotifications()
         .executeAsList()
         .toModelList()
-        .also { Logger.v { "NotificationRepositoryImpl collectNotifications" } }
+        .also { Logger.v { "NotificationRepositoryImpl getNotifications" } }
 
     override fun deleteNotification(id: Long) = notificationQueries
         .deleteNotification(id)
