@@ -5,5 +5,5 @@ data class Notification(
     val base: String,
     val target: String,
     val isGreater: Boolean,
-    val rate: Double
+    val rate: String
 )

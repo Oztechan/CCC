@@ -19,6 +19,8 @@ sealed class NotificationEffect : BaseEffect() {
     data class SelectBase(val notification: Notification) : NotificationEffect()
     data class SelectTarget(val notification: Notification) : NotificationEffect()
     object MaximumInput : NotificationEffect()
+    object InvalidInput : NotificationEffect()
+    object MaximumNumberOfNotification : NotificationEffect()
 }
 
 interface NotificationEvent : BaseEvent {
@@ -36,6 +38,7 @@ interface NotificationEvent : BaseEvent {
 class NotificationData : BaseData() {
     companion object {
         const val MAXIMUM_INPUT = 9
+        const val MAXIMUM_NUMBER_OF_NOTIFICATIONS = 5
     }
 }
 
