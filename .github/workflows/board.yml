@@ -48,17 +48,7 @@ jobs:
           status_value: "🚧 In Progress"
 
       - name: 'Move PR to "🏗 PR Review"'
-        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'review_requested')
-        uses: leonsteinhaeuser/project-beta-automations@v1.2.1
-        with:
-          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          organization: Oztechan
-          project_id: 2
-          resource_node_id: ${{ github.event.pull_request.node_id }}
-          status_value: "🏗 PR Review"
-
-      - name: 'Move PR to "🏗 PR Review"'
-        if: github.event_name == 'pull_request' && github.event.action == 'ready_for_review'
+        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'ready_for_review')
         uses: leonsteinhaeuser/project-beta-automations@v1.2.1
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
