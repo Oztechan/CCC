@@ -23,5 +23,6 @@ struct NotificationsToolbarView: View {
         }
         .frame(width: .infinity, height: 36)
         .padding(EdgeInsets(top: 15, leading: 10, bottom: 6, trailing: 20))
+        .background(MR.colors().background_strong.get())
     }
 }

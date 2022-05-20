@@ -127,6 +127,7 @@
 
     <!-- Notifications -->
     <string name="txt_notifications">Notifications</string>
+    <string name="txt_notifications_description">Watchers will be checked every hour and if the condition is verified then you will get a notification!</string>
     <string name="txt_rate">Rate</string>
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>
