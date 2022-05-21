@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 // State
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
-    val activeNotificationCount: Int = 0,
+    val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeEndDate: String = "",
     val loading: Boolean = false
@@ -20,7 +20,7 @@ data class SettingsState(
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
-    fun onNotificationsClicked()
+    fun onWatchersClicked()
     fun onFeedBackClick()
     fun onShareClick()
     fun onSupportUsClick()
@@ -34,7 +34,7 @@ interface SettingsEvent : BaseEvent {
 sealed class SettingsEffect : BaseEffect() {
     object Back : SettingsEffect()
     object OpenCurrencies : SettingsEffect()
-    object OpenNotifications : SettingsEffect()
+    object OpenWatchers : SettingsEffect()
     object FeedBack : SettingsEffect()
     object Share : SettingsEffect()
     object SupportUs : SettingsEffect()
@@ -58,14 +58,14 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
 // Extension
 fun MutableStateFlow<SettingsState>.update(
     activeCurrencyCount: Int = value.activeCurrencyCount,
-    activeNotificationCount: Int = value.activeNotificationCount,
+    activeWatcherCount: Int = value.activeWatcherCount,
     appThemeType: AppTheme = value.appThemeType,
     addFreeEndDate: String = value.addFreeEndDate,
     loading: Boolean = value.loading
 ) {
     value = value.copy(
         activeCurrencyCount = activeCurrencyCount,
-        activeNotificationCount = activeNotificationCount,
+        activeWatcherCount = activeWatcherCount,
         appThemeType = appThemeType,
         addFreeEndDate = addFreeEndDate,
         loading = loading

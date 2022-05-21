@@ -1,11 +1,11 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.model.Notification
+import com.oztechan.ccc.common.model.Watcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.oztechan.ccc.common.db.sql.Notification as NotificationEntity
+import com.oztechan.ccc.common.db.sql.Watcher as WatcherEntity
 
-fun NotificationEntity.toModel() = Notification(
+fun WatcherEntity.toModel() = Watcher(
     id = id,
     base = base,
     target = target,
@@ -13,10 +13,10 @@ fun NotificationEntity.toModel() = Notification(
     rate = rate,
 )
 
-internal fun List<NotificationEntity>.toModelList(): List<Notification> {
+internal fun List<WatcherEntity>.toModelList(): List<Watcher> {
     return map { it.toModel() }
 }
 
-internal fun Flow<List<NotificationEntity>>.mapToModel(): Flow<List<Notification>> {
+internal fun Flow<List<WatcherEntity>>.mapToModel(): Flow<List<Watcher>> {
     return this.map { it.toModelList() }
 }

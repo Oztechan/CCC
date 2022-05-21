@@ -16,8 +16,8 @@ import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.notification.NotificationRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
@@ -34,7 +34,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
-    notificationRepository: NotificationRepository,
+    watcherRepository: WatcherRepository,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
@@ -60,9 +60,9 @@ class SettingsViewModel(
                 _state.update(activeCurrencyCount = it.size)
             }.launchIn(clientScope)
 
-        notificationRepository.collectNotifications()
+        watcherRepository.collectWatchers()
             .onEach {
-                _state.update(activeNotificationCount = it.size)
+                _state.update(activeWatcherCount = it.size)
             }.launchIn(clientScope)
     }
 
@@ -119,9 +119,9 @@ class SettingsViewModel(
     }
 
 
-    override fun onNotificationsClicked() = clientScope.launchIgnored {
-        Logger.d { "SettingsViewModel onNotificationsClicked" }
-        _effect.emit(SettingsEffect.OpenNotifications)
+    override fun onWatchersClicked() = clientScope.launchIgnored {
+        Logger.d { "SettingsViewModel onWatchersClicked" }
+        _effect.emit(SettingsEffect.OpenWatchers)
     }
 
     override fun onFeedBackClick() = clientScope.launchIgnored {
