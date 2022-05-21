@@ -5,3 +5,4 @@ CCC/Resources/Release.xcconfig
 fastlane/.env
 fastlane/README.md
 fastlane/report.xml
+xcuserdata
