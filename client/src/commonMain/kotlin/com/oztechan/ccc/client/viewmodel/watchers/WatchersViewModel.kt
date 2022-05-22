@@ -77,8 +77,8 @@ class WatchersViewModel(
         } else {
             currencyRepository.getActiveCurrencies().let { list ->
                 watcherRepository.addWatcher(
-                    base = list.firstOrNull()?.name ?: "",
-                    target = list.lastOrNull()?.name ?: ""
+                    base = list.firstOrNull()?.name.orEmpty(),
+                    target = list.lastOrNull()?.name.orEmpty()
                 )
             }
         }

@@ -13,11 +13,11 @@ actual fun Double.getFormatted() = NSNumberFormatter().apply {
     setNumberStyle(NSNumberFormatterDecimalStyle)
     setGroupingSeparator(" ")
     setDecimalSeparator(".")
-}.stringFromNumber(NSNumber(this)) ?: ""
+}.stringFromNumber(NSNumber(this)).orEmpty()
 
 actual fun Double.removeScientificNotation() = NSNumberFormatter().apply {
     setNumberStyle(NSNumberFormatterDecimalStyle)
     setGroupingSeparator("")
     setDecimalSeparator(".")
     setMaximumFractionDigits(WatchersData.MAXIMUM_INPUT.toULong())
-}.stringFromNumber(NSNumber(this)) ?: ""
+}.stringFromNumber(NSNumber(this)).orEmpty()
