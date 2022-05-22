@@ -17,10 +17,3 @@
 .cxx
 local.properties
 secret.properties
-
-# Xcode
-*.xcworkspacedata
-*.xcuserstate
-*.xcscheme
-xcschememanagement.plist
-*.xcbkptlist
