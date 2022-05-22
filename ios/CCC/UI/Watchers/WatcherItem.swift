@@ -1,5 +1,5 @@
 //
-//  NotificationItem.swift
+//  WatcherItem.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 05.05.22.
@@ -12,22 +12,22 @@ import Resources
 import NavigationStack
 import Combine
 
-struct NotificationItem: View {
+struct WatcherItem: View {
     @State private var relationSelection = 0
     @State private var amount = ""
 
     @Binding var isBaseBarShown: Bool
     @Binding var isTargetBarShown: Bool
 
-    let notification: Client.Notification
-    let event: NotificationEvent
+    let watcher: Client.Watcher
+    let event: WatchersEvent
 
     var body: some View {
         HStack {
             Text(MR.strings().one.get()).font(.body)
 
-            CurrencyImageView(imageName: notification.base)
-                .onTapGesture { event.onBaseClick(notification: notification) }
+            CurrencyImageView(imageName: watcher.base)
+                .onTapGesture { event.onBaseClick(watcher: watcher) }
 
             Picker("", selection: $relationSelection) {
                 Text(MR.strings().txt_smaller.get())
@@ -40,7 +40,7 @@ struct NotificationItem: View {
             .pickerStyle(.segmented)
             .frame(maxWidth: 80)
             .onChange(of: relationSelection) {
-                event.onRelationChange(notification: notification, isGreater: $0 == 1)
+                event.onRelationChange(watcher: watcher, isGreater: $0 == 1)
             }
 
             Spacer()
@@ -55,21 +55,21 @@ struct NotificationItem: View {
                 .background(MR.colors().background_weak.get())
                 .cornerRadius(7)
                 .onChange(of: amount) {
-                    amount = event.onRateChange(notification: notification, rate: $0)
+                    amount = event.onRateChange(watcher: watcher, rate: $0)
                 }
 
             Spacer()
 
-            CurrencyImageView(imageName: notification.target)
-                .onTapGesture { event.onTargetClick(notification: notification) }
+            CurrencyImageView(imageName: watcher.target)
+                .onTapGesture { event.onTargetClick(watcher: watcher) }
 
             Image(systemName: "trash")
                 .padding(.leading, 10)
-                .onTapGesture { event.onDeleteClick(notification: notification) }
+                .onTapGesture { event.onDeleteClick(watcher: watcher) }
 
         }.onAppear {
-            relationSelection = notification.isGreater ? 1 : 0
-            amount = "\(notification.rate)"
+            relationSelection = watcher.isGreater ? 1 : 0
+            amount = "\(watcher.rate)"
         }
     }
 }

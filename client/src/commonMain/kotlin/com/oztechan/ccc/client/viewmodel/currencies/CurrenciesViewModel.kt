@@ -77,11 +77,11 @@ class CurrenciesViewModel(
                 .filter { it.name == base }
                 .toList().firstOrNull()?.isActive == false
         }
-    )?.let {
-        (state.value.currencyList.firstOrNull { it.isActive }?.name ?: "").let { newBase ->
-            settingsRepository.currentBase = newBase
-            clientScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
-        }
+    )?.mapTo {
+        state.value.currencyList.firstOrNull { it.isActive }
+    }?.name.orEmpty().let { newBase ->
+        settingsRepository.currentBase = newBase
+        clientScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
 
     private fun filterList(txt: String) = data.unFilteredList

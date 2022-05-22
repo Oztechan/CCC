@@ -166,7 +166,7 @@ class CalculatorViewModel(
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol ?: ""
+            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
     }
 

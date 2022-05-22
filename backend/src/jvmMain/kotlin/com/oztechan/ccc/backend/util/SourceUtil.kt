@@ -6,4 +6,4 @@ package com.oztechan.ccc.backend.util
 
 fun ClassLoader.getResourceByName(
     source: String
-) = getResource(source)?.readText() ?: ""
+) = getResource(source)?.readText().orEmpty()
