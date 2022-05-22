@@ -49,7 +49,7 @@
     <string name="error_text_unknown">Check your connection or try again later.</string>
     <string name="copied_to_clipboard">Copied to clipboard!</string>
     <string name="text_invalid_input">Invalid input!</string>
-    <string name="text_maximum_number_of_notifications">Maximum number of notifications exceeded</string>
+    <string name="text_maximum_number_of_watchers">Maximum number of watchers exceeded</string>
 
     <!--Dialog-->
     <string name="rate_and_support">You can rate us and review our app in the market :)</string>
@@ -91,8 +91,8 @@
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
 
-    <string name="settings_item_notifications_title">Notifications</string>
-    <string name="settings_item_notifications_sub_title">Check rates every 1 hour</string>
+    <string name="settings_item_watchers_title">Watchers</string>
+    <string name="settings_item_watchers_sub_title">Watch rates every 1 hour</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
@@ -125,9 +125,9 @@
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
 
-    <!-- Notifications -->
-    <string name="txt_notifications">Notifications</string>
-    <string name="txt_notifications_description">Watchers will be checked every hour and if the condition is verified then you will get a notification!</string>
+    <!-- Watchers -->
+    <string name="txt_watchers">Watchers</string>
+    <string name="txt_txt_watchers_description">Watchers will be checked every hour and if the condition is verified then you will get a notification!</string>
     <string name="txt_rate">Rate</string>
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>

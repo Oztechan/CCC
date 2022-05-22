@@ -51,13 +51,13 @@ struct SettingsView: View {
                     )
 
                     SettingsItemView(
-                        imgName: "bell",
-                        title: MR.strings().settings_item_notifications_title.get(),
-                        subTitle: MR.strings().settings_item_notifications_sub_title.get(),
+                        imgName: "eyeglasses",
+                        title: MR.strings().settings_item_watchers_title.get(),
+                        subTitle: MR.strings().settings_item_watchers_sub_title.get(),
                         value: MR.strings().settings_active_item_value.get(
-                            parameter: observable.state.activeNotificationCount
+                            parameter: observable.state.activeWatcherCount
                         ),
-                        onClick: observable.event.onNotificationsClicked
+                        onClick: observable.event.onWatchersClicked
                     )
 
 //                    SettingsItemView(
@@ -151,8 +151,8 @@ struct SettingsView: View {
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
-        case is SettingsEffect.OpenNotifications:
-            navigationStack.push(NotificationView())
+        case is SettingsEffect.OpenWatchers:
+            navigationStack.push(WatchersView())
         case is SettingsEffect.FeedBack:
             emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:

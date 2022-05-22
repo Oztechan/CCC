@@ -1,5 +1,5 @@
 //
-//  NotificationsToolbarView.swift
+//  WatchersToolbarView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 26.04.22.
@@ -9,14 +9,14 @@
 import SwiftUI
 import Resources
 
-struct NotificationsToolbarView: View {
+struct WatchersToolbarView: View {
     var backEvent: () -> Void
 
     var body: some View {
         HStack {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(MR.strings().txt_notifications.get())
+            Text(MR.strings().txt_watchers.get())
                 .font(.title3)
 
             Spacer()

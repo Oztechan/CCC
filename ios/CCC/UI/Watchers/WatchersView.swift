@@ -1,5 +1,5 @@
 //
-//  NotificationsView.swift
+//  WatchersView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 26.04.22.
@@ -11,25 +11,25 @@ import Client
 import Resources
 import NavigationStack
 
-typealias NotificationObservable = ObservableSEED
-<NotificationViewModel, NotificationState, NotificationEffect, NotificationEvent, NotificationData>
+typealias WatchersObservable = ObservableSEED
+<WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
 
-struct NotificationView: View {
+struct WatchersView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: NotificationObservable = koin.get()
-    @State var baseBarInfo = BarInfo(isShown: false, notification: nil)
-    @State var targetBarInfo = BarInfo(isShown: false, notification: nil)
+    @StateObject var observable: WatchersObservable = koin.get()
+    @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
+    @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
 
-    var notification: Client.Notification?
+    var watcher: Client.Watcher?
 
     var body: some View {
         ZStack {
             MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
-                NotificationsToolbarView(backEvent: observable.event.onBackClick)
+                WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                Text(MR.strings().txt_notifications_description.get())
+                Text(MR.strings().txt_txt_watchers_description.get())
                     .font(.footnote)
                     .padding(18)
                     .multilineTextAlignment(.center)
@@ -39,11 +39,11 @@ struct NotificationView: View {
                     .padding(-8)
 
                 Form {
-                    List(observable.state.notificationList, id: \.id) { notification in
-                        NotificationItem(
+                    List(observable.state.watcherList, id: \.id) { watcher in
+                        WatcherItem(
                             isBaseBarShown: $baseBarInfo.isShown,
                             isTargetBarShown: $targetBarInfo.isShown,
-                            notification: notification,
+                            watcher: watcher,
                             event: observable.event
                         )
                     }
@@ -75,7 +75,7 @@ struct NotificationView: View {
                     isBarShown: $baseBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onBaseChanged(
-                            notification: baseBarInfo.notification,
+                            watcher: baseBarInfo.watcher,
                             newBase: $0
                         )
                     }
@@ -89,7 +89,7 @@ struct NotificationView: View {
                     isBarShown: $targetBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onTargetChanged(
-                            notification: targetBarInfo.notification,
+                            watcher: targetBarInfo.watcher,
                             newTarget: $0
                         )
                     }
@@ -102,32 +102,32 @@ struct NotificationView: View {
         .animation(.default)
     }
 
-    private func onEffect(effect: NotificationEffect) {
-        logger.i(message: {"NotificationView onEffect \(effect.description)"})
+    private func onEffect(effect: WatchersEffect) {
+        logger.i(message: {"WatchersView onEffect \(effect.description)"})
         switch effect {
-        case is NotificationEffect.Back:
+        case is WatchersEffect.Back:
             navigationStack.pop()
         // swiftlint:disable force_cast
-        case is NotificationEffect.SelectBase:
-            baseBarInfo.notification = (effect as! NotificationEffect.SelectBase).notification
+        case is WatchersEffect.SelectBase:
+            baseBarInfo.watcher = (effect as! WatchersEffect.SelectBase).watcher
             baseBarInfo.isShown.toggle()
         // swiftlint:disable force_cast
-        case is NotificationEffect.SelectTarget:
-            targetBarInfo.notification = (effect as! NotificationEffect.SelectTarget).notification
+        case is WatchersEffect.SelectTarget:
+            targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
-        case is NotificationEffect.MaximumInput:
+        case is WatchersEffect.MaximumInput:
             showSnack(text: MR.strings().text_max_input.get(), isTop: true)
-        case is NotificationEffect.InvalidInput:
+        case is WatchersEffect.InvalidInput:
             showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
-        case is NotificationEffect.MaximumNumberOfNotification:
-            showSnack(text: MR.strings().text_maximum_number_of_notifications.get(), isTop: true)
+        case is WatchersEffect.MaximumNumberOfWatchers:
+            showSnack(text: MR.strings().text_maximum_number_of_watchers.get(), isTop: true)
         default:
-            logger.i(message: {"NotificationView unknown effect"})
+            logger.i(message: {"WatchersView unknown effect"})
         }
     }
 
     struct BarInfo {
         var isShown: Bool
-        var notification: Client.Notification?
+        var watcher: Client.Watcher?
     }
 }
