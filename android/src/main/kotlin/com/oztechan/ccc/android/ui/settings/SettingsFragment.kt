@@ -184,7 +184,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     requireView(),
                     R.string.txt_ads_already_disabled
                 )
-                SettingsEffect.OpenNotifications -> TODO("No Android implementation yet")
+                SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
