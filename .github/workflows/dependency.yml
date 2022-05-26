@@ -22,14 +22,20 @@ jobs:
         with:
           java-version: 11
 
-      - name: Run dependencyUpdates Task
-        run: ./gradlew dependencyUpdates --parallel
+      - name: Run dependencyUpdates and buildHealth tasks
+        run: ./gradlew dependencyUpdates buildHealth --parallel
 
-      - name: Upload dependencies report
+      - name: Upload Dependency Updates report
         uses: actions/upload-artifact@v2
         with:
-          name: report.txt
+          name: dependency-updates.txt
           path: build/dependencyUpdates/report.txt
+
+      - name: Upload Build Healt Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-health.txt
+          path: build/reports/dependency-analysis/build-health-report.txt
 
       - name: Set Job Status
         id: status
