@@ -69,11 +69,22 @@ struct WatchersView: View {
 
                 } else {
                     VStack {
+                        Text(MR.strings().txt_enable_notification_permission.get())
+                            .multilineTextAlignment(.center)
                         Button {
-                            notificationManager.requestAuthorisation()
+                            if let url = URL(
+                                string: UIApplication.openSettingsURLString
+                            ), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            }
                         } label: {
-                            Text("Request Permission")
+                            Label(MR.strings().txt_settings.get(), systemImage: "gear")
                         }
+                        .padding()
+                        .background(MR.colors().background_weak.get())
+                        .foregroundColor(MR.colors().text.get())
+                        .cornerRadius(5)
+
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
             }
@@ -114,6 +125,11 @@ struct WatchersView: View {
         }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
+        .onReceive(NotificationCenter.default.publisher(
+            for: UIApplication.willEnterForegroundNotification
+        )) { _ in
+            notificationManager.reloadAuthorisationStatus()
+        }
         .onChange(of: notificationManager.authorizationStatus) {
             onAuthorisationChange(authorizationStatus: $0)
         }
