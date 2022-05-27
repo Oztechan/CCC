@@ -17,6 +17,7 @@ typealias WatchersObservable = ObservableSEED
 struct WatchersView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable: WatchersObservable = koin.get()
+    @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
 
@@ -29,41 +30,52 @@ struct WatchersView: View {
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                Text(MR.strings().txt_txt_watchers_description.get())
-                    .font(.footnote)
-                    .padding(18)
-                    .multilineTextAlignment(.center)
+                if notificationManager.authorizationStatus == .authorized {
+                    Text(MR.strings().txt_txt_watchers_description.get())
+                        .font(.footnote)
+                        .padding(18)
+                        .multilineTextAlignment(.center)
+                        .background(MR.colors().background_strong.get())
+                        .foregroundColor(MR.colors().text_weak.get())
+                        .contentShape(Rectangle())
+                        .padding(-8)
+
+                    Form {
+                        List(observable.state.watcherList, id: \.id) { watcher in
+                            WatcherItem(
+                                isBaseBarShown: $baseBarInfo.isShown,
+                                isTargetBarShown: $targetBarInfo.isShown,
+                                watcher: watcher,
+                                event: observable.event
+                            )
+                        }
+                        .listRowInsets(.init())
+                        .listRowBackground(MR.colors().background.get())
+                    }
+
+                    VStack {
+                        Button {
+                            observable.event.onAddClick()
+                        } label: {
+                            Label(MR.strings().txt_add.get(), systemImage: "plus")
+                        }
+                        .foregroundColor(MR.colors().text.get())
+                        .padding(.top, 10)
+                        .padding(.bottom, 20)
+                    }
+                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .center)
                     .background(MR.colors().background_strong.get())
-                    .foregroundColor(MR.colors().text_weak.get())
-                    .contentShape(Rectangle())
-                    .padding(-8)
 
-                Form {
-                    List(observable.state.watcherList, id: \.id) { watcher in
-                        WatcherItem(
-                            isBaseBarShown: $baseBarInfo.isShown,
-                            isTargetBarShown: $targetBarInfo.isShown,
-                            watcher: watcher,
-                            event: observable.event
-                        )
-                    }
-                    .listRowInsets(.init())
-                    .listRowBackground(MR.colors().background.get())
+                } else {
+                    VStack {
+                        Button {
+                            notificationManager.requestAuthorisation()
+                        } label: {
+                            Text("Request Permission")
+                        }
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
-
-                VStack {
-                    Button {
-                        observable.event.onAddClick()
-                    } label: {
-                        Label(MR.strings().txt_add.get(), systemImage: "plus")
-                    }
-                    .foregroundColor(MR.colors().text.get())
-                    .padding(.top, 10)
-                    .padding(.bottom, 20)
-                }
-                .padding(12)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .background(MR.colors().background_strong.get())
             }
             .background(MR.colors().background.get())
             .edgesIgnoringSafeArea(.bottom)
@@ -96,9 +108,15 @@ struct WatchersView: View {
                 ).environmentObject(navigationStack)
             }
         )
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            notificationManager.reloadAuthorisationStatus()
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
+        .onChange(of: notificationManager.authorizationStatus) {
+            onAuthorisationChange(authorizationStatus: $0)
+        }
         .animation(.default)
     }
 
@@ -123,6 +141,18 @@ struct WatchersView: View {
             showSnack(text: MR.strings().text_maximum_number_of_watchers.get(), isTop: true)
         default:
             logger.i(message: {"WatchersView unknown effect"})
+        }
+    }
+
+    private func onAuthorisationChange(authorizationStatus: UNAuthorizationStatus?) {
+        logger.i(message: {"WatchersView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))"})
+        switch authorizationStatus {
+        case .notDetermined:
+            notificationManager.requestAuthorisation()
+        case .authorized:
+            notificationManager.reloadAuthorisationStatus()
+        default:
+            break
         }
     }
 

@@ -40,6 +40,7 @@
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
 		5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */; };
+		5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA86F42840CF65001386FB /* NotificationManager.swift */; };
 		5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF57E39269588060081E4BB /* RewardedAd.swift */; };
 		5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */; };
 		5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF898D32823C1F900712580 /* WatcherItem.swift */; };
@@ -98,6 +99,7 @@
 		5CB954C526934EFC007632DC /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		5CB954CD269362E2007632DC /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyView.swift; sourceTree = "<group>"; };
+		5CEA86F42840CF65001386FB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		5CF57E39269588060081E4BB /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
 		5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
 		5CF898D32823C1F900712580 /* WatcherItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatcherItem.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
 				5CF57E39269588060081E4BB /* RewardedAd.swift */,
 				5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */,
+				5CEA86F42840CF65001386FB /* NotificationManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */,
+				5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */,
 				5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */,
 				5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */,
 				5C31E42A28141F1B008C42B9 /* SlideView.swift in Sources */,
