@@ -128,6 +128,7 @@
     <!-- Watchers -->
     <string name="txt_watchers">Watchers</string>
     <string name="txt_txt_watchers_description">Watchers will be checked every hour and if the condition is verified then you will get a notification!</string>
+    <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
     <string name="txt_rate">Rate</string>
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>
