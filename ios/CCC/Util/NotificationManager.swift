@@ -7,6 +7,7 @@
 //
 
 import Client
+import Resources
 import UserNotifications
 
 final class NotificationManager: ObservableObject {
@@ -34,6 +35,29 @@ final class NotificationManager: ObservableObject {
             DispatchQueue.main.async {
                 self.authorizationStatus = isGranted ? .authorized : .denied
             }
+        }
+    }
+
+    func sendNotification(title: String, body: String) {
+        logger.i(message: {"NotificationManager sendNotification"})
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+
+        let content = UNMutableNotificationContent()
+        content.sound = .default
+        content.title = MR.strings().txt_watcher_alert_title.get()
+        content.body = MR.strings().txt_watcher_alert_sub_title.get()
+
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            logger.i(message: {
+                "NotificationManager sendNotification error: \(String(describing: error))"
+            })
         }
     }
 }
