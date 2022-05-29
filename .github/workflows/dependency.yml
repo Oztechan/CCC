@@ -41,13 +41,13 @@ jobs:
       - name: Upload Dependency Updates report
         uses: actions/upload-artifact@v2
         with:
-          name: dependency-updates.txt
+          name: dependency-updates
           path: build/dependencyUpdates/report.txt
 
       - name: Upload Build Healt Report
         uses: actions/upload-artifact@v2
         with:
-          name: build-health.txt
+          name: build-health
           path: build/reports/dependency-analysis/build-health-report.txt
 
       - name: Set Job Status
