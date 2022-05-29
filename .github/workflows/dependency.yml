@@ -3,10 +3,6 @@ name: Dependency
 on:
   schedule:
     - cron: "0 7 * * 6"
-  push:
-    branches:
-      - develop
-  pull_request:
 
 jobs:
 
