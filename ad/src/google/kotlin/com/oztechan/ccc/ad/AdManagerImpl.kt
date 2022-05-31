@@ -36,9 +36,11 @@ class AdManagerImpl : AdManager {
             width.toFloat()
         }
 
-        adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-            context,
-            (adWidthPixels / resources.displayMetrics.density).toInt()
+        setAdSize(
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                context,
+                (adWidthPixels / resources.displayMetrics.density).toInt()
+            )
         )
         adUnitId = adId
         adListener = object : AdListener() {
