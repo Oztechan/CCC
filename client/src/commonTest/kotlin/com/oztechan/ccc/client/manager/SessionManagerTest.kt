@@ -1,7 +1,8 @@
-package com.oztechan.ccc.client.helper
+package com.oztechan.ccc.client.manager
 
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
+import com.oztechan.ccc.client.manager.session.SessionManagerImpl
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigManager

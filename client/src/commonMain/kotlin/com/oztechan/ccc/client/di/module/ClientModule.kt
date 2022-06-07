@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.di.module
 
 import com.oztechan.ccc.client.di.viewModelDefinition
-import com.oztechan.ccc.client.helper.SessionManager
-import com.oztechan.ccc.client.helper.SessionManagerImpl
+import com.oztechan.ccc.client.manager.session.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManagerImpl
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel

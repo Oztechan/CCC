@@ -8,7 +8,7 @@ import com.github.submob.logmob.initLogger
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
-import com.oztechan.ccc.client.helper.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect

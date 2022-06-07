@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.helper
+package com.oztechan.ccc.client.manager.session
 
 interface SessionManager {
     fun shouldShowBannerAd(): Boolean

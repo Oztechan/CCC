@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.helper
+package com.oztechan.ccc.client.manager.session
 
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether

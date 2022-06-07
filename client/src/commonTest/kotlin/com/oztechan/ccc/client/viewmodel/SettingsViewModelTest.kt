@@ -4,7 +4,7 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.client.helper.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.after
@@ -266,7 +266,6 @@ class SettingsViewModelTest {
     }.after {
         assertTrue { it is SettingsEffect.OpenCurrencies }
     }
-
 
     @Test
     fun onWatchersClicked() = viewModel.effect.before {
