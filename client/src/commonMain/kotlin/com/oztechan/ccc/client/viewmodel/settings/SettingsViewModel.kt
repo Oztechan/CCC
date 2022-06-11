@@ -6,7 +6,7 @@ package com.oztechan.ccc.client.viewmodel.settings
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.helper.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
@@ -117,7 +117,6 @@ class SettingsViewModel(
         Logger.d { "SettingsViewModel onCurrenciesClick" }
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
-
 
     override fun onWatchersClicked() = clientScope.launchIgnored {
         Logger.d { "SettingsViewModel onWatchersClicked" }
