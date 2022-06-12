@@ -16,9 +16,9 @@ import com.oztechan.ccc.common.di.getDependency
 import com.oztechan.ccc.common.di.modules.apiModule
 import com.oztechan.ccc.common.di.modules.getDatabaseModule
 import com.oztechan.ccc.common.di.modules.getSettingsModule
-import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

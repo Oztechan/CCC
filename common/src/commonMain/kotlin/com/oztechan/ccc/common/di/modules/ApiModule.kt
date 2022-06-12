@@ -6,37 +6,32 @@ import com.oztechan.ccc.common.api.service.ApiService
 import com.oztechan.ccc.common.api.service.ApiServiceImpl
 import com.oztechan.ccc.common.util.KtorLogger
 import io.ktor.client.HttpClient
-import io.ktor.client.features.HttpTimeout
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logging
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 private const val TIME_OUT: Long = 3333
 
 val apiModule = module {
-    single { provideSerializer() }
-    single { provideHttpClient(get()) }
+    single { provideHttpClient() }
     factory<ApiService> { ApiServiceImpl(get()) }
     single<ApiRepository> { ApiRepositoryImpl(get()) }
 }
 
-private fun provideSerializer() = KotlinxSerializer(
-    Json {
-        isLenient = true
-        ignoreUnknownKeys = true
-    }
-)
-
-private fun provideHttpClient(kotlinxSerializer: KotlinxSerializer) = HttpClient {
-    install(JsonFeature) {
-        serializer = kotlinxSerializer
-        accept(ContentType.Application.Json)
-        accept(ContentType.Text.Plain)
-        accept(ContentType.Text.Html)
+private fun provideHttpClient() = HttpClient {
+    install(ContentNegotiation) {
+        json(
+            json = Json {
+                prettyPrint = true
+                isLenient = true
+            },
+            contentType = ContentType.Any
+        )
     }
     install(HttpTimeout) {
         connectTimeoutMillis = TIME_OUT

@@ -41,6 +41,7 @@ kotlin {
                     implementation(KOIN_CORE)
                     implementation(KTOR_LOGGING)
                     implementation(KTOR_SETIALIZATION)
+                    implementation(KTOR_CONTENT_NEGOTIATION)
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
                     implementation(LOG_MOB)
