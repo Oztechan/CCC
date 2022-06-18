@@ -78,8 +78,8 @@ class CurrenciesViewModel(
                 .toList().firstOrNull()?.isActive == false
         }
     )?.mapTo {
-        state.value.currencyList.firstOrNull { it.isActive }
-    }?.name.orEmpty().let { newBase ->
+        state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
+    }?.let { newBase ->
         settingsRepository.currentBase = newBase
         clientScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
