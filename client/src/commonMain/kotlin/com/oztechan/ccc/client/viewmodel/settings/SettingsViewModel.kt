@@ -100,8 +100,7 @@ class SettingsViewModel(
 
     fun getAppTheme() = settingsRepository.appTheme
 
-    // used in ios
-    @Suppress("unused")
+    @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
         settingsRepository.adFreeEndDate = it
         _state.update(addFreeEndDate = it.toDateString())
