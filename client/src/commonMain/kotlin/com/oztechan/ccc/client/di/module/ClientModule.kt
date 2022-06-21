@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.di.module
 
 import com.oztechan.ccc.client.di.viewModelDefinition
+import com.oztechan.ccc.client.manager.background.BackgroundManagerImpl
 import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.manager.session.SessionManagerImpl
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
@@ -25,4 +26,5 @@ var clientModule = module {
 
     single<ConfigManager> { ConfigManagerImpl() }
     single<SessionManager> { SessionManagerImpl(get(), get()) }
+    single { BackgroundManagerImpl(get(), get()) }
 }
