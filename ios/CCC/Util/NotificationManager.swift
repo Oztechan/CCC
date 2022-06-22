@@ -11,7 +11,7 @@ import Resources
 import UserNotifications
 
 final class NotificationManager: ObservableObject {
-    @Published var authorizationStatus: UNAuthorizationStatus = .notDetermined
+    @Published var authorizationStatus: UNAuthorizationStatus?
 
     func reloadAuthorisationStatus() {
         logger.i(message: {"NotificationManager reloadAuthorisationStatus"})
