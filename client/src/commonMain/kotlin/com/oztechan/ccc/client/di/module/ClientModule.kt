@@ -26,5 +26,6 @@ var clientModule = module {
 
     single<ConfigManager> { ConfigManagerImpl() }
     single<SessionManager> { SessionManagerImpl(get(), get()) }
+    // todo https://github.com/InsertKoinIO/koin/issues/1366
     single { BackgroundManagerImpl(get(), get()) }
 }
