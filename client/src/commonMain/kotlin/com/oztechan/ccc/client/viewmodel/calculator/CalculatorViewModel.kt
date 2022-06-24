@@ -90,9 +90,8 @@ class CalculatorViewModel(
             .launchIn(clientScope)
     }
 
-    private fun getRates() = data.rates?.let { rates ->
-        calculateConversions(rates)
-        _state.update(rateState = RateState.Cached(rates.date))
+    private fun getRates() = data.rates?.let {
+        calculateConversions(it, RateState.Cached(it.date))
     } ?: clientScope.launch {
         runCatching { apiRepository.getRatesByBackend(settingsRepository.currentBase) }
             .onFailure(::getRatesFailed)
@@ -102,8 +101,7 @@ class CalculatorViewModel(
     private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
         .toRates().let {
             data.rates = it
-            calculateConversions(it)
-            _state.update(rateState = RateState.Online(it.date))
+            calculateConversions(it, RateState.Online(it.date))
         }.also {
             offlineRatesRepository.insertOfflineRates(currencyResponse.toTodayResponse())
         }
@@ -112,9 +110,8 @@ class CalculatorViewModel(
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesRepository.getOfflineRatesByBase(
             settingsRepository.currentBase
-        )?.let { offlineRates ->
-            calculateConversions(offlineRates)
-            _state.update(rateState = RateState.Offline(offlineRates.date))
+        )?.let {
+            calculateConversions(it, RateState.Offline(it.date))
         } ?: clientScope.launch {
             Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
 
@@ -153,10 +150,11 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(rates: Rates?) = _state.update(
+    private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update(
         currencyList = _state.value.currencyList.onEach {
             it.rate = rates.calculateResult(it.name, _state.value.output)
         },
+        rateState = rateState,
         loading = false
     )
 
