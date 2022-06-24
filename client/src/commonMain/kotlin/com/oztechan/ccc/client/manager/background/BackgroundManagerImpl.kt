@@ -16,6 +16,7 @@ class BackgroundManagerImpl(
     }
 
 
+    @Suppress("LabeledExpression")
     override fun shouldSendNotification() = runBlocking {
         Logger.d { "BackgroundManagerImpl checkNotifications" }
 
