@@ -30,15 +30,6 @@ struct WatchersView: View {
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                Text(MR.strings().txt_txt_watchers_description.get())
-                    .font(.footnote)
-                    .padding(18)
-                    .multilineTextAlignment(.center)
-                    .background(MR.colors().background_strong.get())
-                    .foregroundColor(MR.colors().text_weak.get())
-                    .contentShape(Rectangle())
-                    .padding(-8)
-
                 if notificationManager.authorizationStatus == .authorized {
 
                     Form {
