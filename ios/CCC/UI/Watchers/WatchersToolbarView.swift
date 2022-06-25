@@ -13,16 +13,26 @@ struct WatchersToolbarView: View {
     var backEvent: () -> Void
 
     var body: some View {
-        HStack {
-            ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
+        VStack {
+            HStack {
+                ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(MR.strings().txt_watchers.get())
-                .font(.title3)
+                Text(MR.strings().txt_watchers.get())
+                    .font(.title3)
 
-            Spacer()
+                Spacer()
+            }
+
+            Text(MR.strings().txt_txt_watchers_description.get())
+                .contentShape(Rectangle())
+                .font(.footnote)
+                .multilineTextAlignment(.center)
+                .background(MR.colors().background_strong.get())
+                .foregroundColor(MR.colors().text_weak.get())
+                .padding(.top, 10)
         }
-        .frame(width: .infinity, height: 36)
-        .padding(EdgeInsets(top: 15, leading: 10, bottom: 6, trailing: 20))
+        .frame(width: .infinity, height: .nan)
+        .padding(EdgeInsets(top: 15, leading: 10, bottom: 5, trailing: 20))
         .background(MR.colors().background_strong.get())
     }
 }
