@@ -17,6 +17,10 @@ let logger = LoggerKt.doInitLogger()
 @main
 struct Application: App {
 
+    lazy var backgroundManager: BackgroundManager = {
+        koin.get()
+    }()
+
     init() {
         logger.i(message: {"Application init"})
 
