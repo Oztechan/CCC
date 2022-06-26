@@ -68,7 +68,6 @@
 
     <!--Intro Sliders-->
     <string name="next">NEXT</string>
-    <string name="got_it">GOT IT</string>
     <string name="slide_intro_title">Currency Converter Calculator</string>
     <string name="slide_intro_text">Simple user interface\nFast responses\nAccurate rates\nEasy to use</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
@@ -77,9 +76,6 @@
     <string name="slide_disable_ads_title">Disable Ads</string>
     <string name="slide_disable_ads_text_1">If you want to disable Ads</string>
     <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads</string>
-    <string name="slide_dark_mode_title">Theme</string>
-    <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
-    <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
 
     <!-- SelectCurrencyBottomSheet -->
     <string name="txt_select_base_currency">Select currency</string>
@@ -90,13 +86,6 @@
 
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
-
-    <string name="settings_item_watchers_title">Watchers</string>
-    <string name="settings_item_watchers_sub_title">Check in the background</string>
-
-    <string name="settings_item_theme_title">Theme</string>
-    <string name="settings_item_theme_sub_title">Change app theme</string>
-    <string name="title_dialog_choose_theme">Choose app theme</string>
 
     <string name="settings_item_remove_ads_title">Remove Ads</string>
     <string name="settings_item_remove_ads_sub_title">Disable ads</string>
@@ -113,37 +102,14 @@
     <string name="settings_item_feedback_title">Feedback</string>
     <string name="settings_item_feedback_sub_title">Write email to us</string>
 
-    <string name="settings_item_share_title">Share</string>
-    <string name="settings_item_share_sub_title">Suggest us to your friends</string>
-
-    <string name="settings_item_support_us_title">Support Us</string>
-    <string name="settings_item_support_us_sub_title">Give review or star in market</string>
-
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
 
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
 
-    <!-- Watchers -->
-    <string name="txt_watchers">Watchers</string>
-    <string name="txt_watchers_description">Watchers will be checked on the background and if the threshold is reached then you will get a notification!</string>
-    <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
-    <string name="txt_watcher_alert_title">Watcher Alert!</string>
-    <string name="txt_watcher_alert_sub_title">The rate threshold is reached.</string>
-    <string name="txt_rate">Rate</string>
-    <string name="txt_grater">&gt;</string>
-    <string name="txt_smaller">&lt;</string>
-    <string name="txt_add">Add</string>
-    <string name="txt_click_to_add">Click Add button to add a new watcher</string>
-
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>
     <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?</string>
     <string name="txt_watch">Watch</string>
-
-    <!-- App update -->
-    <string name="txt_update_dialog_title">New Version Available</string>
-    <string name="txt_update_dialog_description">Looks like you have an older version of the app. Please update to get latest features and bug fixes to get best experience.</string>
-
 </resources>

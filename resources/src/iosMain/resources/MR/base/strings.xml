@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- Settings -->
+    <string name="settings_item_watchers_title">Watchers</string>
+    <string name="settings_item_watchers_sub_title">Check in the background</string>
+
+    <!-- Watchers -->
+    <string name="txt_watchers">Watchers</string>
+    <string name="txt_watchers_description">Watchers will be checked on the background and if the threshold is reached then you will get a notification!</string>
+    <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
+    <string name="txt_watcher_alert_title">Watcher Alert!</string>
+    <string name="txt_watcher_alert_sub_title">The rate threshold is reached.</string>
+    <string name="txt_rate">Rate</string>
+    <string name="txt_grater">&gt;</string>
+    <string name="txt_smaller">&lt;</string>
+    <string name="txt_add">Add</string>
+    <string name="txt_click_to_add">Click Add button to add a new watcher</string>
+</resources>

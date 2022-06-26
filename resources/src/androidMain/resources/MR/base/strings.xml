@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!--Intro Sliders-->
+    <string name="got_it">GOT IT</string>
+
+    <string name="slide_dark_mode_title">Theme</string>
+    <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
+    <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
+
+    <!-- App update -->
+    <string name="txt_update_dialog_title">New Version Available</string>
+    <string name="txt_update_dialog_description">Looks like you have an older version of the app. Please update to get latest features and bug fixes to get best experience.</string>
+
+    <!-- Settings -->
+    <string name="settings_item_theme_title">Theme</string>
+    <string name="settings_item_theme_sub_title">Change app theme</string>
+    <string name="title_dialog_choose_theme">Choose app theme</string>
+
+    <string name="settings_item_support_us_title">Support Us</string>
+    <string name="settings_item_support_us_sub_title">Give review or star in market</string>
+
+    <string name="settings_item_share_title">Share</string>
+    <string name="settings_item_share_sub_title">Suggest us to your friends</string>
+</resources>
