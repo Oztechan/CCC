@@ -45,6 +45,13 @@ struct WatchersView: View {
                         .listRowBackground(MR.colors().background.get())
                     }
 
+                    if observable.state.watcherList.count == 0 {
+                        Text(MR.strings().txt_click_to_add.get())
+                            .font(.footnote)
+                            .frame(width: .infinity, height: .infinity, alignment: .center)
+                            .padding()
+                    }
+
                     VStack {
                         Button {
                             observable.event.onAddClick()

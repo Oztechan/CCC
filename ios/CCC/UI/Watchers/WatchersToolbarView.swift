@@ -23,13 +23,13 @@ struct WatchersToolbarView: View {
                 Spacer()
             }
 
-            Text(MR.strings().txt_txt_watchers_description.get())
+            Text(MR.strings().txt_watchers_description.get())
                 .contentShape(Rectangle())
                 .font(.footnote)
                 .multilineTextAlignment(.center)
                 .background(MR.colors().background_strong.get())
                 .foregroundColor(MR.colors().text_weak.get())
-                .padding(.top, 10)
+                .padding(10)
         }
         .frame(width: .infinity, height: .nan)
         .padding(EdgeInsets(top: 15, leading: 10, bottom: 5, trailing: 20))
