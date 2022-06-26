@@ -46,6 +46,8 @@ struct Application: App {
         UITableView.appearance().backgroundColor = MR.colors().transparent.get()
 
         self.backgroundManager = koin.get()
+
+        registerAppRefresh()
     }
 
     var body: some Scene {
@@ -61,12 +63,8 @@ struct Application: App {
         }.onChange(of: scenePhase) { phase in
             logger.i(message: {"Application \(phase)"})
 
-            switch phase {
-            case .active:
-                registerAppRefresh()
-            case .background:
+            if phase == .background {
                 scheduleAppRefresh()
-            default: break
             }
         }
     }
