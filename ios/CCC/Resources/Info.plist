@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.oztechan.ccc.CCC.fetch</string>
+	</array>
 	<key>BANNER_AD_UNIT_ID_CALCULATOR</key>
 	<string>$(BANNER_AD_UNIT_ID_CALCULATOR)</string>
 	<key>BANNER_AD_UNIT_ID_CURRENCIES</key>
@@ -188,6 +192,10 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
