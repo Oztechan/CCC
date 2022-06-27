@@ -15,6 +15,7 @@ import com.oztechan.ccc.common.di.modules.apiModule
 import com.oztechan.ccc.common.di.modules.getDatabaseModule
 import com.oztechan.ccc.common.di.modules.getSettingsModule
 import kotlinx.cinterop.ObjCClass
+import kotlinx.cinterop.ObjCProtocol
 import kotlinx.cinterop.getOriginalKotlinClass
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
@@ -47,5 +48,9 @@ actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
 )
 
 fun <T> Koin.getDependency(objCClass: ObjCClass): T? = getOriginalKotlinClass(objCClass)?.let {
+    getDependency(it)
+}
+
+fun <T> Koin.getDependency(objCProtocol: ObjCProtocol): T? = getOriginalKotlinClass(objCProtocol)?.let {
     getDependency(it)
 }
