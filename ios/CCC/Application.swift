@@ -18,6 +18,7 @@ let logger = LoggerKt.doInitLogger()
 @main
 struct Application: App {
     @Environment(\.scenePhase) private var scenePhase
+    @State var alertVisibility: Bool = false
 
     private let notificationManager = NotificationManager()
     private let backgroundManager: BackgroundManager
@@ -45,20 +46,25 @@ struct Application: App {
         UITableView.appearance().backgroundColor = MR.colors().transparent.get()
 
         self.backgroundManager = koin.get()
+
+        registerAppRefresh()
     }
 
     var body: some Scene {
         WindowGroup {
             MainView()
+                .alert(isPresented: $alertVisibility) {
+                    Alert(
+                        title: Text(MR.strings().txt_watcher_alert_title.get()),
+                        message: Text(MR.strings().txt_watcher_alert_sub_title.get()),
+                        dismissButton: .destructive(Text(MR.strings().txt_ok.get()))
+                    )
+                }
         }.onChange(of: scenePhase) { phase in
             logger.i(message: {"Application \(phase)"})
 
-            switch phase {
-            case .active:
-                registerAppRefresh()
-            case .background:
+            if phase == .background {
                 scheduleAppRefresh()
-            default: break
             }
         }
     }
@@ -99,7 +105,16 @@ struct Application: App {
         scheduleAppRefresh()
 
         if backgroundManager.shouldSendNotification() {
-            self.notificationManager.sendNotification(title: "", body: "")
+
+            if scenePhase == .background {
+                self.notificationManager.sendNotification(
+                    title: MR.strings().txt_watcher_alert_title.get(),
+                    body: MR.strings().txt_watcher_alert_sub_title.get()
+                )
+            } else {
+                self.alertVisibility = true
+            }
+
             task.setTaskCompleted(success: true)
         } else {
             task.setTaskCompleted(success: true)

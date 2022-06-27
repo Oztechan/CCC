@@ -13,6 +13,10 @@ import UserNotifications
 final class NotificationManager: ObservableObject {
     @Published var authorizationStatus: UNAuthorizationStatus?
 
+    init() {
+        logger.i(message: {"NotificationManager init"})
+    }
+
     func reloadAuthorisationStatus() {
         logger.i(message: {"NotificationManager reloadAuthorisationStatus"})
 
@@ -45,8 +49,8 @@ final class NotificationManager: ObservableObject {
 
         let content = UNMutableNotificationContent()
         content.sound = .default
-        content.title = MR.strings().txt_watcher_alert_title.get()
-        content.body = MR.strings().txt_watcher_alert_sub_title.get()
+        content.title = title
+        content.body = body
 
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
