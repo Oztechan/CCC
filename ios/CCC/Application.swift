@@ -61,7 +61,7 @@ struct Application: App {
                     )
                 }
         }.onChange(of: scenePhase) { phase in
-            logger.i(message: {"Application \(phase)"})
+            logger.i(message: {"Application onChange scenePhase \(phase)"})
 
             if phase == .background {
                 scheduleAppRefresh()
@@ -92,7 +92,7 @@ struct Application: App {
             handleAppRefresh(task: task as! BGAppRefreshTask)
 
             task.expirationHandler = {
-                logger.i(message: {"Application handleAppRefresh BackgroundTask Expired"})
+                logger.i(message: {"Application registerAppRefresh BackgroundTask Expired"})
 
                 task.setTaskCompleted(success: false)
             }
