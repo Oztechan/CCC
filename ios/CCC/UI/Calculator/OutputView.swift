@@ -20,10 +20,7 @@ struct OutputView: View {
         VStack(alignment: .leading) {
 
             HStack {
-                Image(uiImage: baseCurrency.getImage())
-                    .resizable()
-                    .frame(width: 36, height: 36, alignment: .center)
-                    .shadow(radius: 3)
+                CurrencyImageView(imageName: baseCurrency)
 
                 Text(baseCurrency).foregroundColor(MR.colors().text.get())
 

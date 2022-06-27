@@ -4,7 +4,7 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.client.helper.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.after
@@ -18,7 +18,9 @@ import com.oztechan.ccc.client.viewmodel.settings.update
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.runTest
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.DAY
@@ -54,6 +56,9 @@ class SettingsViewModelTest {
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
 
     @Mock
+    private val watcherRepository = mock(classOf<WatcherRepository>())
+
+    @Mock
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: SettingsViewModel by lazy {
@@ -62,6 +67,7 @@ class SettingsViewModelTest {
             apiRepository,
             currencyRepository,
             offlineRatesRepository,
+            watcherRepository,
             sessionManager
         )
     }
@@ -69,6 +75,11 @@ class SettingsViewModelTest {
     private val currencyList = listOf(
         Currency("", "", ""),
         Currency("", "", "")
+    )
+
+    private val watcherLists = listOf(
+        Watcher(1, "EUR", "USD", true, 1.1),
+        Watcher(2, "USD", "EUR", false, 2.3)
     )
 
     @BeforeTest
@@ -86,6 +97,10 @@ class SettingsViewModelTest {
         given(currencyRepository)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
+
+        given(watcherRepository)
+            .invocation { collectWatchers() }
+            .then { flowOf(watcherLists) }
     }
 
     // SEED
@@ -95,6 +110,7 @@ class SettingsViewModelTest {
         val state = MutableStateFlow(SettingsState())
 
         val activeCurrencyCount = Random.nextInt()
+        val activeWatcherCount = Random.nextInt()
         val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
@@ -102,12 +118,14 @@ class SettingsViewModelTest {
         state.before {
             state.update(
                 activeCurrencyCount = activeCurrencyCount,
+                activeWatcherCount = activeWatcherCount,
                 appThemeType = appThemeType,
                 addFreeEndDate = addFreeEndDate,
                 loading = loading
             )
         }.after {
             assertEquals(activeCurrencyCount, it?.activeCurrencyCount)
+            assertEquals(activeWatcherCount, it?.activeWatcherCount)
             assertEquals(appThemeType, it?.appThemeType)
             assertEquals(addFreeEndDate, it?.addFreeEndDate)
             assertEquals(loading, it?.loading)
@@ -120,6 +138,7 @@ class SettingsViewModelTest {
         viewModel.state.firstOrNull().let {
             assertEquals(AppTheme.SYSTEM_DEFAULT, it?.appThemeType) // mocked -1
             assertEquals(currencyList.size, it?.activeCurrencyCount)
+            assertEquals(watcherLists.size, it?.activeWatcherCount)
         }
     }
 
@@ -246,6 +265,13 @@ class SettingsViewModelTest {
         viewModel.event.onCurrenciesClick()
     }.after {
         assertTrue { it is SettingsEffect.OpenCurrencies }
+    }
+
+    @Test
+    fun onWatchersClicked() = viewModel.effect.before {
+        viewModel.event.onWatchersClicked()
+    }.after {
+        assertEquals(SettingsEffect.OpenWatchers, it)
     }
 
     @Test

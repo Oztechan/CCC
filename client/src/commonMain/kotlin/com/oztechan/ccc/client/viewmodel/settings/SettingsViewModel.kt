@@ -6,7 +6,7 @@ package com.oztechan.ccc.client.viewmodel.settings
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.helper.SessionManager
+import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
@@ -17,6 +17,7 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DE
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
@@ -33,6 +34,7 @@ class SettingsViewModel(
     private val apiRepository: ApiRepository,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
+    watcherRepository: WatcherRepository,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
@@ -56,6 +58,11 @@ class SettingsViewModel(
         currencyRepository.collectActiveCurrencies()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
+            }.launchIn(clientScope)
+
+        watcherRepository.collectWatchers()
+            .onEach {
+                _state.update(activeWatcherCount = it.size)
             }.launchIn(clientScope)
     }
 
@@ -93,8 +100,7 @@ class SettingsViewModel(
 
     fun getAppTheme() = settingsRepository.appTheme
 
-    // used in ios
-    @Suppress("unused")
+    @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
         settingsRepository.adFreeEndDate = it
         _state.update(addFreeEndDate = it.toDateString())
@@ -109,6 +115,11 @@ class SettingsViewModel(
     override fun onCurrenciesClick() = clientScope.launchIgnored {
         Logger.d { "SettingsViewModel onCurrenciesClick" }
         _effect.emit(SettingsEffect.OpenCurrencies)
+    }
+
+    override fun onWatchersClicked() = clientScope.launchIgnored {
+        Logger.d { "SettingsViewModel onWatchersClicked" }
+        _effect.emit(SettingsEffect.OpenWatchers)
     }
 
     override fun onFeedBackClick() = clientScope.launchIgnored {

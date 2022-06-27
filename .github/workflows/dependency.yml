@@ -17,19 +17,34 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Adding secret files
+        run: |
+          mkdir android/src/release
+          echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
+          mkdir android/src/debug
+          echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
-      - name: Run dependencyUpdates Task
-        run: ./gradlew dependencyUpdates --parallel
+      - name: Run dependencyUpdates and buildHealth tasks
+        run: ./gradlew dependencyUpdates buildHealth --parallel
 
-      - name: Upload dependencies report
+      - name: Upload Dependency Updates report
         uses: actions/upload-artifact@v2
         with:
-          name: report.txt
+          name: dependency-updates
           path: build/dependencyUpdates/report.txt
+
+      - name: Upload Build Healt Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-health
+          path: build/reports/dependency-analysis/build-health-report.txt
 
       - name: Set Job Status
         id: status

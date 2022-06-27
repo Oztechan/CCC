@@ -24,8 +24,7 @@ struct SettingsItemView: View {
                 .font(.system(size: 24))
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
-                .padding(.bottom, 8)
-                .padding(.top, 8)
+                .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 8))
 
             VStack {
                 HStack {

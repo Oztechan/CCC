@@ -35,14 +35,12 @@
     <string name="btn_done">Done</string>
     <string name="txt_select_currencies">Select your currencies</string>
 
-    <!--Snacky Text-->
+    <!--Snack Texts-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
     <string name="txt_ok">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
-
-    <!--Toasty Text-->
-    <string name="max_input">Maximum number of input exceeded.</string>
+    <string name="text_max_input">Maximum number of input exceeded.</string>
     <string name="text_online_last_updated">Online! Last update: %s</string>
     <string name="text_cached_last_updated">Cached! Last update: %s</string>
     <string name="text_offline_last_updated">Offline! Last update: %s</string>
@@ -50,6 +48,8 @@
     <string name="text_no_data">No data!</string>
     <string name="error_text_unknown">Check your connection or try again later.</string>
     <string name="copied_to_clipboard">Copied to clipboard!</string>
+    <string name="text_invalid_input">Invalid input!</string>
+    <string name="text_maximum_number_of_watchers">Maximum number of watchers exceeded</string>
 
     <!--Dialog-->
     <string name="rate_and_support">You can rate us and review our app in the market :)</string>
@@ -86,10 +86,13 @@
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>
+    <string name="settings_active_item_value">%d active</string>
 
     <string name="settings_item_currencies_title">Currencies</string>
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
-    <string name="settings_item_currencies_value">%d active</string>
+
+    <string name="settings_item_watchers_title">Watchers</string>
+    <string name="settings_item_watchers_sub_title">Check in the background</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
@@ -99,8 +102,6 @@
     <string name="settings_item_remove_ads_sub_title">Disable ads</string>
     <string name="settings_item_remove_ads_value_expired">Expired\n</string>
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
-    <string name="settings_item_remove_ads_reward_achieved">Active</string>
-    <string name="settings_item_remove_ads_reward_not_achieved">Not active</string>
     <string name="txt_ads_already_disabled">Ads are already disabled</string>
 
     <string name="settings_item_sync_title">Synchronise</string>
@@ -123,6 +124,18 @@
 
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
+
+    <!-- Watchers -->
+    <string name="txt_watchers">Watchers</string>
+    <string name="txt_watchers_description">Watchers will be checked on the background and if the threshold is reached then you will get a notification!</string>
+    <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
+    <string name="txt_watcher_alert_title">Watcher Alert!</string>
+    <string name="txt_watcher_alert_sub_title">The rate threshold is reached.</string>
+    <string name="txt_rate">Rate</string>
+    <string name="txt_grater">&gt;</string>
+    <string name="txt_smaller">&lt;</string>
+    <string name="txt_add">Add</string>
+    <string name="txt_click_to_add">Click Add button to add a new watcher</string>
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>

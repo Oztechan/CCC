@@ -76,6 +76,15 @@ class CalculatorUtilTest {
     }
 
     @Test
+    fun removeScientificNotation() {
+        assertEquals("1234567.789", 1234567.7890.removeScientificNotation())
+        assertEquals("1234567.789123", 1234567.7891230.removeScientificNotation())
+        assertEquals("1234567.7", 1234567.7.removeScientificNotation())
+        assertEquals("0.7", .7.removeScientificNotation())
+        assertEquals("7.7", 7.7.removeScientificNotation())
+    }
+
+    @Test
     fun toStandardDigits() {
         // https://en.wikipedia.org/w/index.php?title=Hindu%E2%80%93Arabic_numeral_system
         listOf(

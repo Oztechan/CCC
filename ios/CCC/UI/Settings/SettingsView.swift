@@ -44,10 +44,20 @@ struct SettingsView: View {
                         imgName: "dollarsign.circle.fill",
                         title: MR.strings().settings_item_currencies_title.get(),
                         subTitle: MR.strings().settings_item_currencies_sub_title.get(),
-                        value: MR.strings().settings_item_currencies_value.get(
+                        value: MR.strings().settings_active_item_value.get(
                             parameter: observable.state.activeCurrencyCount
                         ),
                         onClick: observable.event.onCurrenciesClick
+                    )
+
+                    SettingsItemView(
+                        imgName: "eyeglasses",
+                        title: MR.strings().settings_item_watchers_title.get(),
+                        subTitle: MR.strings().settings_item_watchers_sub_title.get(),
+                        value: MR.strings().settings_active_item_value.get(
+                            parameter: observable.state.activeWatcherCount
+                        ),
+                        onClick: observable.event.onWatchersClicked
                     )
 
 //                    SettingsItemView(
@@ -83,7 +93,9 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                }.background(MR.colors().background.get())
+                }
+                .background(MR.colors().background.get())
+                .edgesIgnoringSafeArea(.bottom)
 
 //                if observable.viewModel.shouldShowBannerAd() {
 //                    BannerAdView(
@@ -131,6 +143,7 @@ struct SettingsView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
+    // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
         logger.i(message: {"SettingsView onEffect \(effect.description)"})
         switch effect {
@@ -138,6 +151,8 @@ struct SettingsView: View {
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
+        case is SettingsEffect.OpenWatchers:
+            navigationStack.push(WatchersView())
         case is SettingsEffect.FeedBack:
             emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:

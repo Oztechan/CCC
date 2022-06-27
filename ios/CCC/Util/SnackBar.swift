@@ -14,8 +14,10 @@ func showSnack(
     text: String,
     buttonText: String? = nil,
     action: (() -> Void)? = nil,
-    iconImage: UIImage = MR.images().ic_app_logo.get()
+    iconImage: UIImage = MR.images().ic_app_logo.get(),
+    isTop: Bool = false
 ) {
+    SwiftMessages.hide(animated: false)
 
     let view = MessageView.viewFromNib(layout: .cardView)
     view.configureTheme(
@@ -54,10 +56,9 @@ func showSnack(
     }
 
     var config = SwiftMessages.defaultConfig
-    config.presentationStyle = .bottom
+    config.presentationStyle = isTop ? .top : .bottom
     config.presentationContext = .window(windowLevel: UIWindow.Level.normal)
 
-    SwiftMessages.hide(animated: false)
     SwiftMessages.show(config: config, view: view)
 }
 

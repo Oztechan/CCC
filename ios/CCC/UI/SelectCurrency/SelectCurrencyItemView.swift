@@ -17,10 +17,8 @@ struct SelectCurrencyItemView: View {
     var body: some View {
         HStack {
 
-            Image(uiImage: item.name.getImage())
-                .resizable()
-                .frame(width: 36, height: 36, alignment: .center)
-                .shadow(radius: 3)
+            CurrencyImageView(imageName: item.name)
+
             Text(item.name)
                 .frame(width: 45)
                 .foregroundColor(MR.colors().text.get())

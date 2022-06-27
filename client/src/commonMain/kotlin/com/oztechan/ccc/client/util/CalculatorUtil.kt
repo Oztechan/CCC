@@ -13,6 +13,8 @@ import com.oztechan.ccc.common.model.Rates
 
 expect fun Double.getFormatted(): String
 
+expect fun Double.removeScientificNotation(): String
+
 fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
