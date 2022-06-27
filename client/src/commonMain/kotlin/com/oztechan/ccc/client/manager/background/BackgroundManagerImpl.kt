@@ -15,23 +15,27 @@ class BackgroundManagerImpl(
         Logger.d { "BackgroundManagerImpl init" }
     }
 
+    @Suppress("LabeledExpression", "TooGenericExceptionCaught")
+    override fun shouldSendNotification() = try {
+        Logger.d { "BackgroundManagerImpl shouldSendNotification" }
 
-    @Suppress("LabeledExpression")
-    override fun shouldSendNotification() = runBlocking {
-        Logger.d { "BackgroundManagerImpl checkNotifications" }
-
-        watchersRepository.getWatchers().forEach { watcher ->
-            apiRepository
-                .getRatesByBackend(watcher.base)
-                .rates
-                .getConversionByName(watcher.target)
-                ?.let { conversionRate ->
-                    when {
-                        watcher.isGreater && conversionRate > watcher.rate -> return@runBlocking true
-                        !watcher.isGreater && conversionRate < watcher.rate -> return@runBlocking true
+        runBlocking {
+            watchersRepository.getWatchers().forEach { watcher ->
+                apiRepository
+                    .getRatesByBackend(watcher.base)
+                    .rates
+                    .getConversionByName(watcher.target)
+                    ?.let { conversionRate ->
+                        when {
+                            watcher.isGreater && conversionRate > watcher.rate -> return@runBlocking true
+                            !watcher.isGreater && conversionRate < watcher.rate -> return@runBlocking true
+                        }
                     }
-                }
+            }
+            return@runBlocking false
         }
-        return@runBlocking false
+    } catch (e: Exception) {
+        Logger.w { "BackgroundManagerImpl shouldSendNotification error: $e" }
+        false
     }
 }

@@ -43,7 +43,7 @@ final class NotificationManager: ObservableObject {
     }
 
     func sendNotification(title: String, body: String) {
-        logger.i(message: {"NotificationManager sendNotification"})
+        logger.i(message: {"NotificationManager sendNotification title:\(title) body:\(body)"})
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
 
