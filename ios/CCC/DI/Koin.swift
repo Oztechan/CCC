@@ -52,7 +52,7 @@ extension Koin_coreKoin {
     }
 
     func get() -> BackgroundManager {
-        return koin.getDependency(objCClass: BackgroundManagerImpl.self) as! BackgroundManager
+        return koin.getDependency(objCProtocol: BackgroundManager.self) as! BackgroundManager
     }
 
     // Observable
