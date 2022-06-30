@@ -72,7 +72,7 @@ class CalculatorViewModel(
                 Logger.d { "CalculatorViewModel base changed $it" }
                 currentBaseChanged(it)
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
 
         state.map { it.input }
             .distinctUntilChanged()
@@ -80,19 +80,19 @@ class CalculatorViewModel(
                 Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
 
         currencyRepository.collectActiveCurrencies()
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
     }
 
     private fun getRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
-    } ?: clientScope.launch {
+    } ?: viewModelScope.launch {
         runCatching { apiRepository.getRatesByBackend(settingsRepository.currentBase) }
             .onFailure(::getRatesFailed)
             .onSuccess(::getRatesSuccess)
@@ -112,7 +112,7 @@ class CalculatorViewModel(
             settingsRepository.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
-        } ?: clientScope.launch {
+        } ?: viewModelScope.launch {
             Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
 
             state.value.currencyList.size
@@ -126,7 +126,7 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateOutput(input: String) = clientScope.launch {
+    private fun calculateOutput(input: String) = viewModelScope.launch {
         _state.update(loading = true)
         data.parser
             .calculate(input.toSupportedCharacters(), PRECISION)
@@ -208,7 +208,7 @@ class CalculatorViewModel(
 
     override fun onItemImageLongClick(currency: Currency) {
         Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
-        clientScope.launch {
+        viewModelScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
@@ -223,17 +223,17 @@ class CalculatorViewModel(
 
     override fun onItemAmountLongClick(amount: String) {
         Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
-        clientScope.launch {
+        viewModelScope.launch {
             _effect.emit(CalculatorEffect.CopyToClipboard(amount))
         }
     }
 
-    override fun onBarClick() = clientScope.launchIgnored {
+    override fun onBarClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)
     }
 
-    override fun onSettingsClicked() = clientScope.launchIgnored {
+    override fun onSettingsClicked() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
     }

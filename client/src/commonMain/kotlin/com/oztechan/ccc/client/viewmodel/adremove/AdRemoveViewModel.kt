@@ -43,7 +43,7 @@ class AdRemoveViewModel(
         startDate: Long = nowAsLong(),
         isRestorePurchase: Boolean = false
     ) = adType?.let {
-        clientScope.launch {
+        viewModelScope.launch {
             settingsRepository.adFreeEndDate = it.calculateAdRewardEnd(startDate)
             _effect.emit(AdRemoveEffect.AdsRemoved(it, isRestorePurchase))
         }
@@ -84,7 +84,7 @@ class AdRemoveViewModel(
             _state.update(adRemoveTypes = tempList, loading = false)
         }
 
-    override fun onAdRemoveItemClick(type: RemoveAdType) = clientScope.launchIgnored {
+    override fun onAdRemoveItemClick(type: RemoveAdType) = viewModelScope.launchIgnored {
         Logger.d { "AdRemoveViewModel onAdRemoveItemClick ${type.data.reward}" }
         _effect.emit(AdRemoveEffect.LaunchRemoveAdFlow(type))
     }

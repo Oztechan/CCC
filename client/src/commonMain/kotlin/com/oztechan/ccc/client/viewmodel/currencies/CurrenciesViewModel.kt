@@ -58,7 +58,7 @@ class CurrenciesViewModel(
                 verifyCurrentBase()
 
                 filterList(data.query)
-            }.launchIn(clientScope)
+            }.launchIn(viewModelScope)
 
         filterList("")
     }
@@ -67,7 +67,7 @@ class CurrenciesViewModel(
         .filter { it.isActive }.size
         .whether { it < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { settingsRepository.firstRun }
-        ?.mapTo { clientScope }
+        ?.mapTo { viewModelScope }
         ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsRepository.currentBase.either(
@@ -81,7 +81,7 @@ class CurrenciesViewModel(
         state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
     }?.let { newBase ->
         settingsRepository.currentBase = newBase
-        clientScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
+        viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -115,7 +115,7 @@ class CurrenciesViewModel(
         currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
-    override fun onDoneClick() = clientScope.launchIgnored {
+    override fun onDoneClick() = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onDoneClick" }
         data.unFilteredList
             .filter { it.isActive }.size
@@ -133,7 +133,7 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = !it)
     }
 
-    override fun onCloseClick() = clientScope.launchIgnored {
+    override fun onCloseClick() = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
             _state.update(selectionVisibility = false)

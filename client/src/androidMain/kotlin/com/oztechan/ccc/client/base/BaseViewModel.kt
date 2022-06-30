@@ -12,7 +12,9 @@ import kotlinx.coroutines.CoroutineScope
 @Suppress("EmptyDefaultConstructor")
 actual open class BaseViewModel actual constructor() : ViewModel() {
 
-    protected actual val clientScope: CoroutineScope = viewModelScope
+    protected actual val viewModelScope: CoroutineScope by lazy {
+        ViewModel::viewModelScope.get(this)
+    }
 
     init {
         Logger.d { "${this::class.simpleName} init" }

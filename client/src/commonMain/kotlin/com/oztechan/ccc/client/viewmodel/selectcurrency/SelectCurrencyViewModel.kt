@@ -41,16 +41,16 @@ class SelectCurrencyViewModel(
                     loading = false,
                     enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
                 )
-            }.launchIn(clientScope)
+            }.launchIn(viewModelScope)
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) = clientScope.launchIgnored {
+    override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
         Logger.d { "SelectCurrencyViewModel onItemClick ${currency.name}" }
         _effect.emit(SelectCurrencyEffect.CurrencyChange(currency.name))
     }
 
-    override fun onSelectClick() = clientScope.launchIgnored {
+    override fun onSelectClick() = viewModelScope.launchIgnored {
         Logger.d { "SelectCurrencyViewModel onSelectClick" }
         _effect.emit(SelectCurrencyEffect.OpenCurrencies)
     }
