@@ -10,8 +10,9 @@ import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.di.module.androidModule
 import com.oztechan.ccc.client.di.module.clientModule
 import com.oztechan.ccc.common.di.modules.apiModule
-import com.oztechan.ccc.common.di.modules.getDatabaseModule
-import com.oztechan.ccc.common.di.modules.getSettingsModule
+import com.oztechan.ccc.common.di.modules.databaseModule
+import com.oztechan.ccc.common.di.modules.dispatcherModule
+import com.oztechan.ccc.common.di.modules.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.KoinApplication
@@ -31,8 +32,9 @@ fun initAndroid(
         platformModule,
         clientModule,
         apiModule,
-        getDatabaseModule(),
-        getSettingsModule()
+        databaseModule,
+        settingsModule,
+        dispatcherModule
     )
 }.also {
     Logger.d { "KoinAndroid initAndroid" }

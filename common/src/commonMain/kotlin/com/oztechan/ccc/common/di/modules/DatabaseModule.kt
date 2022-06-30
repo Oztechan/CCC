@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 private const val DATABASE_NAME = "application_database.sqlite"
 
-fun getDatabaseModule() = module {
+val databaseModule = module {
     single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }

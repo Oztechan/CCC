@@ -6,7 +6,7 @@ import com.russhwolf.settings.Settings
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
-fun getSettingsModule() = module {
+val settingsModule = module {
     single { provideSettings() }
     single<SettingsRepository> { SettingsRepositoryImp(get()) }
 }

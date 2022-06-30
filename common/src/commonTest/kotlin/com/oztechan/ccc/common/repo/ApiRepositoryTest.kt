@@ -8,6 +8,7 @@ import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.api.repo.ApiRepositoryImpl
 import com.oztechan.ccc.common.api.service.ApiService
+import com.oztechan.ccc.common.di.DISPATCHER_TEST
 import com.oztechan.ccc.common.entity.CurrencyResponseEntity
 import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.mapper.toModel
@@ -18,19 +19,21 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("OPT_IN_USAGE")
 class ApiRepositoryTest {
 
     @Mock
     private val apiService = mock(classOf<ApiService>())
 
     private val repository: ApiRepository by lazy {
-        ApiRepositoryImpl(apiService)
+        ApiRepositoryImpl(apiService, newSingleThreadContext(DISPATCHER_TEST))
     }
 
     private val mockEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
