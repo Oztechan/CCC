@@ -4,6 +4,7 @@ import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.api.repo.ApiRepositoryImpl
 import com.oztechan.ccc.common.api.service.ApiService
 import com.oztechan.ccc.common.api.service.ApiServiceImpl
+import com.oztechan.ccc.common.di.DISPATCHER_IO
 import com.oztechan.ccc.common.util.KtorLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -16,6 +17,7 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private const val TIME_OUT: Long = 3333
@@ -23,7 +25,7 @@ private const val TIME_OUT: Long = 3333
 val apiModule = module {
     singleOf(::provideHttpClient)
     factoryOf(::ApiServiceImpl) { bind<ApiService>() }
-    factoryOf(::ApiRepositoryImpl) { bind<ApiRepository>() }
+    factory<ApiRepository> { ApiRepositoryImpl(get(), get(named(DISPATCHER_IO))) }
 }
 
 private fun provideHttpClient() = HttpClient {

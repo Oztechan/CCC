@@ -7,14 +7,17 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.api.service.ApiService
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.model.EmptyParameterException
-import com.oztechan.ccc.common.platformCoroutineContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiRepository {
+internal class ApiRepositoryImpl(
+    private val apiService: ApiService,
+    private val ioDispatcher: CoroutineDispatcher
+) : ApiRepository {
 
     override suspend fun getRatesByBackend(
         base: String
-    ) = withContext(platformCoroutineContext) {
+    ) = withContext(ioDispatcher) {
         Logger.v { "ApiRepositoryImpl getRatesByBackend $base" }
 
         if (base.isEmpty()) {
@@ -26,7 +29,7 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
 
     override suspend fun getRatesByAPI(
         base: String
-    ) = withContext(platformCoroutineContext) {
+    ) = withContext(ioDispatcher) {
         Logger.v { "ApiRepositoryImpl getRatesByAPI $base" }
 
         if (base.isEmpty()) {
@@ -38,7 +41,7 @@ internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiReposi
 
     override suspend fun getRatesByPremiumAPI(
         base: String
-    ) = withContext(platformCoroutineContext) {
+    ) = withContext(ioDispatcher) {
         Logger.v { "ApiRepositoryImpl getRatesByPremiumAPI $base" }
 
         if (base.isEmpty()) {

@@ -12,8 +12,8 @@ import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -23,19 +23,20 @@ private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
 
 class ApiController(
     private val apiRepository: ApiRepository,
-    private val offlineRatesRepository: OfflineRatesRepository
+    private val offlineRatesRepository: OfflineRatesRepository,
+    private val ioDispatcher: CoroutineDispatcher
 ) {
     fun startSyncApi() {
         Logger.i { "ApiController startSyncApi" }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(ioDispatcher).launch {
             while (isActive) {
                 updatePopularCurrencies()
                 delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
             }
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(ioDispatcher).launch {
             while (isActive) {
                 updateUnPopularCurrencies()
                 delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR)
