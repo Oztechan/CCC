@@ -58,12 +58,12 @@ class SettingsViewModel(
         currencyRepository.collectActiveCurrencies()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
-            }.launchIn(clientScope)
+            }.launchIn(viewModelScope)
 
         watcherRepository.collectWatchers()
             .onEach {
                 _state.update(activeWatcherCount = it.size)
-            }.launchIn(clientScope)
+            }.launchIn(viewModelScope)
     }
 
     private suspend fun synchroniseRates() {
@@ -86,7 +86,7 @@ class SettingsViewModel(
         data.synced = true
     }
 
-    fun updateTheme(theme: AppTheme) = clientScope.launchIgnored {
+    fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
         _state.update(appThemeType = theme)
         settingsRepository.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
@@ -107,42 +107,42 @@ class SettingsViewModel(
     }
 
     // region Event
-    override fun onBackClick() = clientScope.launchIgnored {
+    override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onBackClick" }
         _effect.emit(SettingsEffect.Back)
     }
 
-    override fun onCurrenciesClick() = clientScope.launchIgnored {
+    override fun onCurrenciesClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onCurrenciesClick" }
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
 
-    override fun onWatchersClicked() = clientScope.launchIgnored {
+    override fun onWatchersClicked() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onWatchersClicked" }
         _effect.emit(SettingsEffect.OpenWatchers)
     }
 
-    override fun onFeedBackClick() = clientScope.launchIgnored {
+    override fun onFeedBackClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onFeedBackClick" }
         _effect.emit(SettingsEffect.FeedBack)
     }
 
-    override fun onShareClick() = clientScope.launchIgnored {
+    override fun onShareClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onShareClick" }
         _effect.emit(SettingsEffect.Share)
     }
 
-    override fun onSupportUsClick() = clientScope.launchIgnored {
+    override fun onSupportUsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSupportUsClick" }
         _effect.emit(SettingsEffect.SupportUs)
     }
 
-    override fun onOnGitHubClick() = clientScope.launchIgnored {
+    override fun onOnGitHubClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onOnGitHubClick" }
         _effect.emit(SettingsEffect.OnGitHub)
     }
 
-    override fun onRemoveAdsClick() = clientScope.launchIgnored {
+    override fun onRemoveAdsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onRemoveAdsClick" }
         if (isRewardExpired()) {
             _effect.emit(SettingsEffect.RemoveAds)
@@ -151,12 +151,12 @@ class SettingsViewModel(
         }
     }
 
-    override fun onThemeClick() = clientScope.launchIgnored {
+    override fun onThemeClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onThemeClick" }
         _effect.emit(SettingsEffect.ThemeDialog)
     }
 
-    override fun onSyncClick() = clientScope.launchIgnored {
+    override fun onSyncClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSyncClick" }
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)

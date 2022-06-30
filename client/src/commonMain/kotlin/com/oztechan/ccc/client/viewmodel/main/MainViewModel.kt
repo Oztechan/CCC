@@ -36,7 +36,7 @@ class MainViewModel(
     private fun setupInterstitialAdTimer() {
         data.adVisibility = true
 
-        data.adJob = clientScope.launch {
+        data.adJob = viewModelScope.launch {
             delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
 
             while (isActive && sessionManager.shouldShowInterstitialAd()) {
@@ -57,7 +57,7 @@ class MainViewModel(
 
     private fun checkAppUpdate() {
         sessionManager.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
-            clientScope.launch {
+            viewModelScope.launch {
                 _effect.emit(MainEffect.AppUpdateEffect(isCancelable))
                 data.isAppUpdateShown = true
             }
@@ -66,7 +66,7 @@ class MainViewModel(
 
     private fun checkReview() {
         if (sessionManager.shouldShowAppReview()) {
-            clientScope.launch {
+            viewModelScope.launch {
                 delay(configManager.appConfig.appReview.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }

@@ -38,20 +38,20 @@ class WatchersViewModel(
         watcherRepository.collectWatchers()
             .onEach {
                 _state.update(watcherList = it.toUIModelList())
-            }.launchIn(clientScope)
+            }.launchIn(viewModelScope)
     }
 
-    override fun onBackClick() = clientScope.launchIgnored {
+    override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
         _effect.emit(WatchersEffect.Back)
     }
 
-    override fun onBaseClick(watcher: Watcher) = clientScope.launchIgnored {
+    override fun onBaseClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseClick $watcher" }
         _effect.emit(WatchersEffect.SelectBase(watcher))
     }
 
-    override fun onTargetClick(watcher: Watcher) = clientScope.launchIgnored {
+    override fun onTargetClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetClick $watcher" }
         _effect.emit(WatchersEffect.SelectTarget(watcher))
     }
@@ -73,7 +73,7 @@ class WatchersViewModel(
     override fun onAddClick() {
         Logger.d { "WatcherViewModel onAddClick" }
         if (watcherRepository.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            clientScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
+            viewModelScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
         } else {
             currencyRepository.getActiveCurrencies().let { list ->
                 watcherRepository.addWatcher(
@@ -99,11 +99,11 @@ class WatchersViewModel(
 
         return when {
             rate.length > MAXIMUM_INPUT -> {
-                clientScope.launch { _effect.emit(WatchersEffect.MaximumInput) }
+                viewModelScope.launch { _effect.emit(WatchersEffect.MaximumInput) }
                 rate.dropLast(1)
             }
             rate.toDoubleOrNull()?.isNaN() != false -> {
-                clientScope.launch { _effect.emit(WatchersEffect.InvalidInput) }
+                viewModelScope.launch { _effect.emit(WatchersEffect.InvalidInput) }
                 rate
             }
             else -> {
