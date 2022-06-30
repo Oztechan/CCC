@@ -12,8 +12,9 @@ import com.oztechan.ccc.client.di.module.clientModule
 import com.oztechan.ccc.client.di.module.getIOSModule
 import com.oztechan.ccc.common.di.getDependency
 import com.oztechan.ccc.common.di.modules.apiModule
-import com.oztechan.ccc.common.di.modules.getDatabaseModule
-import com.oztechan.ccc.common.di.modules.getSettingsModule
+import com.oztechan.ccc.common.di.modules.databaseModule
+import com.oztechan.ccc.common.di.modules.dispatcherModule
+import com.oztechan.ccc.common.di.modules.settingsModule
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.ObjCProtocol
 import kotlinx.cinterop.getOriginalKotlinClass
@@ -30,8 +31,9 @@ fun initIOS(userDefaults: NSUserDefaults) = startKoin {
         getIOSModule(userDefaults),
         clientModule,
         apiModule,
-        getDatabaseModule(),
-        getSettingsModule()
+        databaseModule,
+        settingsModule,
+        dispatcherModule
     )
 }.also {
     Logger.d { "KoinIOS initIOS" }
