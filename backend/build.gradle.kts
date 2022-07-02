@@ -31,7 +31,6 @@ kotlin {
                 with(Dependencies.JVM) {
                     implementation(KTOR_CORE)
                     implementation(KTOR_NETTY)
-                    implementation(KTOR_SERIALIZATIONM)
                     implementation(LOG_BACK)
                 }
 

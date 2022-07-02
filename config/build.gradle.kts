@@ -22,7 +22,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 with(Dependencies.Common) {
-                    implementation(KTOR_SETIALIZATION)
+                    implementation(KTOR_JSON)
                     implementation(LOG_MOB)
                 }
             }
