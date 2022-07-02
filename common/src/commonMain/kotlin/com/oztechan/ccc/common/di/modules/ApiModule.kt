@@ -29,6 +29,7 @@ private fun provideHttpClient() = HttpClient {
             json = Json {
                 prettyPrint = true
                 isLenient = true
+                ignoreUnknownKeys = true
             },
             contentType = ContentType.Any
         )
