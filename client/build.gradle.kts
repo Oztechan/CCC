@@ -71,6 +71,7 @@ kotlin {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
                     implementation(MOCKATIVE)
+                    implementation(COROUTINES_TEST)
                 }
             }
         }

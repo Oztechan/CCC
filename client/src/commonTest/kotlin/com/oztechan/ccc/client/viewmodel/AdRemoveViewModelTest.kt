@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class AdRemoveViewModelTest {
+class AdRemoveViewModelTest : BaseViewModelTest() {
 
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())

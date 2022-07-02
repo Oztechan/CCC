@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
@@ -21,7 +20,6 @@ import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
-import com.oztechan.ccc.common.runTest
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
@@ -33,6 +31,7 @@ import io.mockative.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -41,7 +40,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest {
+class SettingsViewModelTest : BaseViewModelTest() {
 
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())
@@ -84,8 +83,6 @@ class SettingsViewModelTest {
 
     @BeforeTest
     fun setup() {
-        initLogger(true)
-
         given(settingsRepository)
             .invocation { appTheme }
             .thenReturn(-1)

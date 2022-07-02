@@ -1,11 +1,11 @@
 package com.oztechan.ccc.client.util
 
-import com.oztechan.ccc.common.runTest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.runTest
 
 fun <T> SharedFlow<T>.before(
     function: () -> Unit
