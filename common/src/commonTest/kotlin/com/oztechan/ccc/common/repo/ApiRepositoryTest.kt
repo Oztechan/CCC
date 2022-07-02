@@ -12,18 +12,19 @@ import com.oztechan.ccc.common.entity.CurrencyResponseEntity
 import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.model.EmptyParameterException
-import com.oztechan.ccc.common.runTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("OPT_IN_USAGE")
 class ApiRepositoryTest {
 
     @Mock

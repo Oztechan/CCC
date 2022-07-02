@@ -44,11 +44,7 @@ kotlin {
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
                     implementation(LOG_MOB)
-                    implementation(COROUTINES) {
-                        version {
-                            strictly(Versions.COROUTINES)
-                        }
-                    }
+                    implementation(COROUTINES)
                 }
             }
             val commonTest by getting {
@@ -56,6 +52,7 @@ kotlin {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
                     implementation(MOCKATIVE)
+                    implementation(COROUTINES_TEST)
                 }
             }
         }

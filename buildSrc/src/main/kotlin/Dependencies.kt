@@ -13,6 +13,7 @@ object Dependencies {
         const val KTOR_LOGGING = "io.ktor:ktor-client-logging:${Versions.KTOR}"
         const val KTOR_SETIALIZATION = "io.ktor:ktor-client-serialization:${Versions.KTOR}"
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
+        const val COROUTINES_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.COROUTINES}"
         const val SQL_DELIGHT_RUNTIME = "com.squareup.sqldelight:runtime:${Versions.SQL_DELIGHT}"
         const val SQL_DELIGHT_COROUTINES_EXT = "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"

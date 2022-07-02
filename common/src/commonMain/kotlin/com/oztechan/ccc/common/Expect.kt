@@ -7,5 +7,3 @@ package com.oztechan.ccc.common
 import kotlin.coroutines.CoroutineContext
 
 expect val platformCoroutineContext: CoroutineContext
-
-expect fun runTest(block: suspend () -> Unit)

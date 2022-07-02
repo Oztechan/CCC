@@ -4,7 +4,6 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.logmob.initLogger
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
@@ -26,7 +25,6 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -34,7 +32,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class MainViewModelTest {
+class MainViewModelTest : BaseViewModelTest() {
 
     @Mock
     private val settingsRepository = mock(classOf<SettingsRepository>())
@@ -47,11 +45,6 @@ class MainViewModelTest {
 
     private val viewModel: MainViewModel by lazy {
         MainViewModel(settingsRepository, configManager, sessionManager)
-    }
-
-    @BeforeTest
-    fun setup() {
-        initLogger(true)
     }
 
     // SEED
@@ -275,6 +268,10 @@ class MainViewModelTest {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
+        given(sessionManager)
+            .invocation { shouldShowInterstitialAd() }
+            .then { false }
+
         given(settingsRepository)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -325,6 +322,10 @@ class MainViewModelTest {
                 appReview = AppReview(appReviewDialogDelay = 0L)
             )
             val mockSessionCount = Random.nextLong()
+
+            given(sessionManager)
+                .invocation { shouldShowInterstitialAd() }
+                .then { false }
 
             given(configManager)
                 .invocation { configManager.appConfig }
