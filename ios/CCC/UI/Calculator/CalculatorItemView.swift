@@ -20,15 +20,19 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(IOSCalculatorUtilKt.getFormatted(item.rate))
+            Text(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
+                .onLongPressGesture {
+                    onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
+                }
 
             Text(item.symbol)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate)) }
+                .onLongPressGesture {
+                    onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
+                }
 
             Spacer()
 
