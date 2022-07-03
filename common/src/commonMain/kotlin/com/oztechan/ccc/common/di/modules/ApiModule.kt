@@ -13,14 +13,17 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 private const val TIME_OUT: Long = 3333
 
 val apiModule = module {
-    single { provideHttpClient() }
-    factory<ApiService> { ApiServiceImpl(get()) }
-    single<ApiRepository> { ApiRepositoryImpl(get()) }
+    singleOf(::provideHttpClient)
+    factoryOf(::ApiServiceImpl) { bind<ApiService>() }
+    factoryOf(::ApiRepositoryImpl) { bind<ApiRepository>() }
 }
 
 private fun provideHttpClient() = HttpClient {

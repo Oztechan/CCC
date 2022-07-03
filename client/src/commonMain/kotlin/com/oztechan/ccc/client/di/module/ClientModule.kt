@@ -14,6 +14,8 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import com.oztechan.ccc.config.ConfigManager
 import com.oztechan.ccc.config.ConfigManagerImpl
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 var clientModule = module {
@@ -25,7 +27,7 @@ var clientModule = module {
     viewModelDefinition { AdRemoveViewModel(get()) }
     viewModelDefinition { WatchersViewModel(get(), get()) }
 
-    single<ConfigManager> { ConfigManagerImpl() }
-    single<SessionManager> { SessionManagerImpl(get(), get()) }
-    single<BackgroundManager> { BackgroundManagerImpl(get(), get()) }
+    singleOf(::ConfigManagerImpl) { bind<ConfigManager>() }
+    singleOf(::SessionManagerImpl) { bind<SessionManager>() }
+    singleOf(::BackgroundManagerImpl) { bind<BackgroundManager>() }
 }
