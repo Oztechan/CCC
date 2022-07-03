@@ -23,7 +23,7 @@ object Versions {
     const val PLAY_CORE = "1.10.3"
     const val KOTLIN_X_DATE_TIME = "0.4.0"
     const val COROUTINES = "1.6.3"
-    const val BILLING = "4.1.0"
+    const val BILLING = "5.0.0"
     const val LEAK_CANARY = "2.9.1"
     const val SQL_DELIGHT = "1.5.3"
     const val LIFECYCLE = "2.5.0"
