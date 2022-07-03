@@ -7,6 +7,8 @@ import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepositoryImpl
 import com.oztechan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepositoryImpl
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
@@ -17,9 +19,9 @@ fun getDatabaseModule() = module {
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }
 
-    single<CurrencyRepository> { CurrencyRepositoryImpl(get()) }
-    single<OfflineRatesRepository> { OfflineRatesRepositoryImpl(get()) }
-    single<WatcherRepository> { WatcherRepositoryImpl(get()) }
+    singleOf(::CurrencyRepositoryImpl) { bind<CurrencyRepository>() }
+    singleOf(::OfflineRatesRepositoryImpl) { bind<OfflineRatesRepository>() }
+    singleOf(::WatcherRepositoryImpl) { bind<WatcherRepository>() }
 
     single { provideDatabase(DATABASE_NAME) }
 }

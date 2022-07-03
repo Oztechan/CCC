@@ -11,7 +11,7 @@ object Versions {
     const val CONSTRAINT_LAYOUT = "2.1.4"
     const val KTOR = "2.0.3"
     const val LOG_BACK = "1.2.11"
-    const val KOIN = "3.1.6"
+    const val KOIN = "3.2.0"
     const val MULTIPLATFORM_SETTINGS = "0.9"
     const val FIREBASE_ANALYTICS = "21.0.0"
     const val FIREBASE_REMOTE_CONFIG = "21.1.0"
