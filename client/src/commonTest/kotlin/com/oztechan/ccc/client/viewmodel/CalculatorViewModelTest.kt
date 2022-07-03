@@ -59,7 +59,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         )
     }
 
-    private val currency = Currency("USD", "Dollar", "$", 12345.6789, true)
+    private val currency = Currency("USD", "Dollar", "$", 12345.678, true)
     private val currencyUIModel = currency.toUIModel()
     private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
 
@@ -118,14 +118,13 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         assertEquals(CalculatorEffect.OpenSettings, it)
     }
 
-    // todo
-//    @Test
-//    fun onItemClick() = viewModel.state.before {
-//        viewModel.event.onItemClick(currencyUIModel)
-//    }.after {
-//        assertEquals(currencyUIModel.name, it?.base)
-//        assertEquals(currencyUIModel.rate.toString(), it?.input)
-//    }
+    @Test
+    fun onItemClick() = viewModel.state.before {
+        viewModel.event.onItemClick(currencyUIModel)
+    }.after {
+        assertEquals(currencyUIModel.name, it?.base)
+        assertEquals(currencyUIModel.rate.toString(), it?.input)
+    }
 
     @Test
     fun onItemImageLongClick() = viewModel.effect.before {
