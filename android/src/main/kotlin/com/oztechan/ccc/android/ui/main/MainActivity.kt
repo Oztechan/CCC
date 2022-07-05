@@ -38,9 +38,9 @@ class MainActivity : BaseActivity() {
     private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
-        installSplashScreen()
         updateAppTheme(mainViewModel.getAppTheme())
         setContentView(R.layout.activity_main)
         checkDestination()
@@ -73,11 +73,13 @@ class MainActivity : BaseActivity() {
 
     private fun checkDestination() = with(getNavigationController()) {
         graph = navInflater.inflate(R.navigation.main_graph).apply {
-            startDestination = if (mainViewModel.isFistRun()) {
-                R.id.sliderFragment
-            } else {
-                R.id.calculatorFragment
-            }
+            setStartDestination(
+                if (mainViewModel.isFistRun()) {
+                    R.id.sliderFragment
+                } else {
+                    R.id.calculatorFragment
+                }
+            )
         }
     }
 

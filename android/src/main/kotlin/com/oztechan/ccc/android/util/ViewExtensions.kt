@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.resources.toImageFileName
@@ -81,8 +82,8 @@ fun <T> Fragment.setNavigationResult(
     result: T,
     key: String
 ) = findNavController()
-    .backStack
-    .firstOrNull { it.destination.id == destinationId }
+    .currentBackStackEntry
+    ?.whether { it.destination.id == destinationId }
     ?.savedStateHandle?.set(key, result)
 
 fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
