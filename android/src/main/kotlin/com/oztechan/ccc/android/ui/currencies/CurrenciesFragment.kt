@@ -135,10 +135,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         .onEach { viewEffect ->
             Logger.i { "CurrenciesFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CurrenciesEffect.FewCurrency -> showSnack(
-                    requireView(),
-                    R.string.choose_at_least_two_currency
-                )
+                CurrenciesEffect.FewCurrency -> view?.showSnack(R.string.choose_at_least_two_currency)
                 CurrenciesEffect.OpenCalculator -> {
                     navigate(
                         R.id.currenciesFragment,
