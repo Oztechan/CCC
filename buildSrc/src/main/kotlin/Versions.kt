@@ -19,7 +19,7 @@ object Versions {
     const val GSM = "4.3.13"
     const val CRASHLYTICS = "2.9.1"
     const val ADMOB = "21.0.0"
-    const val NAVIGATION = "2.3.5"
+    const val NAVIGATION = "2.5.0"
     const val PLAY_CORE = "1.10.3"
     const val KOTLIN_X_DATE_TIME = "0.4.0"
     const val COROUTINES = "1.6.3"
