@@ -132,12 +132,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         .onEach { viewEffect ->
             Logger.i { "CalculatorFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CalculatorEffect.Error -> showSnack(
-                    requireView(),
-                    R.string.error_text_unknown
-                )
-                CalculatorEffect.FewCurrency -> showSnack(
-                    requireView(),
+                CalculatorEffect.Error -> view?.showSnack(R.string.error_text_unknown)
+                CalculatorEffect.FewCurrency -> view?.showSnack(
                     R.string.choose_at_least_two_currency,
                     R.string.select
                 ) {
@@ -146,10 +142,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                CalculatorEffect.MaximumInput -> showSnack(
-                    requireView(),
-                    R.string.text_max_input
-                )
+                CalculatorEffect.MaximumInput -> view?.showSnack(R.string.text_max_input)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
@@ -158,9 +151,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
-                is CalculatorEffect.CopyToClipboard -> requireView().copyToClipBoard(viewEffect.amount)
-                is CalculatorEffect.ShowRate -> showSnack(
-                    requireView(),
+                is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
+                is CalculatorEffect.ShowRate -> view?.showSnack(
                     viewEffect.text,
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )

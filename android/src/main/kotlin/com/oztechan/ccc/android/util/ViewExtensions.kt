@@ -136,7 +136,7 @@ fun View.copyToClipBoard(text: String) {
     val clip = ClipData.newPlainText(CLIPBOARD_LABEL, text)
 
     clipboard?.setPrimaryClip(clip)?.let {
-        showSnack(this, context.getString(R.string.copied_to_clipboard))
+        showSnack(context.getString(R.string.copied_to_clipboard))
     }
 }
 
