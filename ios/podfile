@@ -10,6 +10,5 @@ target 'CCC' do
   pod 'res', :path => '../res/res.podspec'
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
-  pod 'Google-Mobile-Ads-SDK'
 
 end
