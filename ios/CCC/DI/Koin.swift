@@ -28,31 +28,31 @@ extension Koin_coreKoin {
 
     // viewmodel
     func get() -> MainViewModel {
-        return koin.getDependency(objCClass: MainViewModel.self) as! MainViewModel
+        return koin.getDependency(objCObject: MainViewModel.self) as! MainViewModel
     }
 
     func get() -> CalculatorViewModel {
-        return koin.getDependency(objCClass: CalculatorViewModel.self) as! CalculatorViewModel
+        return koin.getDependency(objCObject: CalculatorViewModel.self) as! CalculatorViewModel
     }
 
     func get() -> CurrenciesViewModel {
-        return koin.getDependency(objCClass: CurrenciesViewModel.self) as! CurrenciesViewModel
+        return koin.getDependency(objCObject: CurrenciesViewModel.self) as! CurrenciesViewModel
     }
 
     func get() -> SelectCurrencyViewModel {
-        return koin.getDependency(objCClass: SelectCurrencyViewModel.self) as! SelectCurrencyViewModel
+        return koin.getDependency(objCObject: SelectCurrencyViewModel.self) as! SelectCurrencyViewModel
     }
 
     func get() -> SettingsViewModel {
-        return koin.getDependency(objCClass: SettingsViewModel.self) as! SettingsViewModel
+        return koin.getDependency(objCObject: SettingsViewModel.self) as! SettingsViewModel
     }
 
     func get() -> WatchersViewModel {
-        return koin.getDependency(objCClass: WatchersViewModel.self) as! WatchersViewModel
+        return koin.getDependency(objCObject: WatchersViewModel.self) as! WatchersViewModel
     }
 
     func get() -> BackgroundManager {
-        return koin.getDependency(objCProtocol: BackgroundManager.self) as! BackgroundManager
+        return koin.getDependency(objCObject: BackgroundManager.self) as! BackgroundManager
     }
 
     // Observable
