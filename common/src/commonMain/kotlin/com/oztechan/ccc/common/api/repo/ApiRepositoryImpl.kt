@@ -10,9 +10,7 @@ import com.oztechan.ccc.common.model.EmptyParameterException
 import com.oztechan.ccc.common.platformCoroutineContext
 import kotlinx.coroutines.withContext
 
-internal class ApiRepositoryImpl(
-    private val apiService: ApiService,
-) : ApiRepository {
+internal class ApiRepositoryImpl(private val apiService: ApiService) : ApiRepository {
 
     override suspend fun getRatesByBackend(
         base: String
