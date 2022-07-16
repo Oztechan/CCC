@@ -18,7 +18,7 @@ typealias SettingsObservable = ObservableSEED
 struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: SettingsObservable = koin.get()
+    @StateObject var observable = SettingsObservable(viewModel: koin.get())
     @State var dialogVisibility: Bool = false
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
