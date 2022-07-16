@@ -8,7 +8,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
-fun getSettingsModule() = module {
+val settingsModule = module {
     single { provideSettings() }
     singleOf(::SettingsRepositoryImp) { bind<SettingsRepository>() }
 }

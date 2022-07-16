@@ -14,8 +14,9 @@ import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.common.di.getDependency
 import com.oztechan.ccc.common.di.modules.apiModule
-import com.oztechan.ccc.common.di.modules.getDatabaseModule
-import com.oztechan.ccc.common.di.modules.getSettingsModule
+import com.oztechan.ccc.common.di.modules.databaseModule
+import com.oztechan.ccc.common.di.modules.dispatcherModule
+import com.oztechan.ccc.common.di.modules.settingsModule
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
@@ -37,9 +38,10 @@ fun main() {
     startKoin {
         modules(
             apiModule,
-            getDatabaseModule(),
-            getSettingsModule(),
-            controllerModule
+            databaseModule,
+            settingsModule,
+            controllerModule,
+            dispatcherModule
         )
     }.also {
         koin = it.koin
