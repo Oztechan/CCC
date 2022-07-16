@@ -17,6 +17,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,7 +32,7 @@ class ApiRepositoryTest {
     private val apiService = mock(classOf<ApiService>())
 
     private val repository: ApiRepository by lazy {
-        ApiRepositoryImpl(apiService)
+        ApiRepositoryImpl(apiService, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     private val mockEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())

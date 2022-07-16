@@ -1,24 +1,21 @@
 package com.oztechan.ccc.client.util
 
 import com.squareup.sqldelight.db.Closeable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @Suppress("unused") // used in iOS
 fun <T> Flow<T>.observeWithCloseable(onChange: ((T) -> Unit)): Closeable {
-    val job = Job()
+    val scope = MainScope()
     onEach {
         onChange(it)
-    }.launchIn(
-        CoroutineScope(Dispatchers.Main + job)
-    )
+    }.launchIn(scope)
     return object : Closeable {
         override fun close() {
-            job.cancel()
+            scope.cancel()
         }
     }
 }

@@ -12,6 +12,7 @@ import com.oztechan.ccc.backend.di.modules.controllerModule
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
+import com.oztechan.ccc.common.di.DISPATCHER_IO
 import com.oztechan.ccc.common.di.getDependency
 import com.oztechan.ccc.common.di.modules.apiModule
 import com.oztechan.ccc.common.di.modules.databaseModule
@@ -20,16 +21,21 @@ import com.oztechan.ccc.common.di.modules.settingsModule
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.context.startKoin
+import org.koin.core.qualifier.named
 
 private const val DEFAULT_PORT = 8080
 private const val REQUEST_QUEUE_LIMIT = 48
 private const val RUNNING_LIMIT = 30
 private val apiController: ApiController by lazy {
     koin.getDependency(ApiController::class)
+}
+
+private val ioDispatcher: CoroutineDispatcher by lazy {
+    koin.getDependency(CoroutineDispatcher::class, named(DISPATCHER_IO))
 }
 
 fun main() {
@@ -62,7 +68,7 @@ fun main() {
         routing {
             Logger.i { "start rooting" }
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(ioDispatcher).launch {
                 getError()
                 getRoot()
                 getCurrencyByName()
