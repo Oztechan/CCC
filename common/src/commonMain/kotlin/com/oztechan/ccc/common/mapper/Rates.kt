@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.api.model.Rates as RatesEntity
 
 internal fun RatesEntity.toModel() = Rates(
     base, date, aed, afn, all, amd, ang, aoa, ars, aud, awg, azn, bam, bbd, bdt, bgn, bhd, bif,

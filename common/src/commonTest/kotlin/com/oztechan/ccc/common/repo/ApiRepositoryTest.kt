@@ -5,11 +5,11 @@
 package com.oztechan.ccc.common.repo
 
 import com.github.submob.logmob.initLogger
+import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.api.repo.ApiRepositoryImpl
 import com.oztechan.ccc.common.api.service.ApiService
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
-import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.model.EmptyParameterException
 import io.mockative.Mock
@@ -35,7 +35,7 @@ class ApiRepositoryTest {
         ApiRepositoryImpl(apiService, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
-    private val mockEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
+    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 

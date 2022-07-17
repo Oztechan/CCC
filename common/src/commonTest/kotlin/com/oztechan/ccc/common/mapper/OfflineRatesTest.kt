@@ -1,6 +1,6 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
+import com.oztechan.ccc.common.api.model.CurrencyResponse
 import com.oztechan.ccc.common.util.assertAllTrue
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -107,7 +107,7 @@ class OfflineRatesTest {
         val subject = offline.toCurrencyResponseEntity()
         val serializedString = subject.toSerializedString()
         assertTrue {
-            Json.decodeFromString<CurrencyResponseEntity>(
+            Json.decodeFromString<CurrencyResponse>(
                 serializedString
             ) == subject
         }
