@@ -2,13 +2,13 @@ package com.oztechan.ccc.client.manager.background
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.util.getConversionByName
-import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
 
 class BackgroundManagerImpl(
     private val watchersRepository: WatcherRepository,
-    private val apiRepository: ApiRepository
+    private val backendApiService: BackendApiService,
 ) : BackgroundManager {
 
     init {
@@ -21,8 +21,8 @@ class BackgroundManagerImpl(
 
         runBlocking {
             watchersRepository.getWatchers().forEach { watcher ->
-                apiRepository
-                    .getRatesByBackend(watcher.base)
+                backendApiService
+                    .getRates(watcher.base)
                     .rates
                     .getConversionByName(watcher.target)
                     ?.let { conversionRate ->

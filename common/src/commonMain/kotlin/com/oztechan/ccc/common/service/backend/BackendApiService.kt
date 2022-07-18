@@ -1,7 +1,7 @@
-package com.oztechan.ccc.common.service.free
+package com.oztechan.ccc.common.service.backend
 
 import com.oztechan.ccc.common.model.CurrencyResponse
 
-interface FreeApiService {
+interface BackendApiService {
     suspend fun getRates(base: String): CurrencyResponse
 }

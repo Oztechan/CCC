@@ -12,12 +12,12 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.settings.SettingsRepository
 import io.mockative.Mock
 import io.mockative.classOf
@@ -38,7 +38,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
-    private val apiRepository = mock(classOf<ApiRepository>())
+    private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
     private val currencyRepository = mock(classOf<CurrencyRepository>())
@@ -52,7 +52,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
             settingsRepository,
-            apiRepository,
+            backendApiService,
             currencyRepository,
             offlineRatesRepository,
             sessionManager
@@ -77,8 +77,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .thenReturn(currencyResponse.rates)
 
         runTest {
-            given(apiRepository)
-                .coroutine { getRatesByBackend(currency.name) }
+            given(backendApiService)
+                .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)
         }
 
@@ -184,8 +184,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .thenReturn(currency.name)
 
         runTest {
-            given(apiRepository)
-                .coroutine { getRatesByBackend(currency.name) }
+            given(backendApiService)
+                .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)
         }
 

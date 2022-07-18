@@ -8,19 +8,10 @@ import com.oztechan.ccc.common.api.model.CurrencyResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 
 internal class ApiServiceImpl(private val client: HttpClient) : ApiService {
-
-    override suspend fun getRatesByBackend(base: String): CurrencyResponse = client.get {
-        url {
-            takeFrom(BuildKonfig.BASE_URL_BACKEND)
-            path(PATH_CURRENCY, PATH_BY_BASE)
-            parameter(QUERY_BASE, base)
-        }
-    }.body()
 
     override suspend fun getRatesByPremiumAPI(base: String): CurrencyResponse = client.get {
         url {
@@ -30,10 +21,6 @@ internal class ApiServiceImpl(private val client: HttpClient) : ApiService {
     }.body()
 
     companion object {
-        private const val QUERY_BASE = "base"
-
-        private const val PATH_CURRENCY = "currency"
-        private const val PATH_BY_BASE = "byBase/"
         private const val PATH_LATEST = "latest"
         private const val PATH_PREMIUM_VERSION = "v6"
     }
