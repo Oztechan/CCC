@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
-    private val watcherRepository: WatcherRepository
+    private val watcherDataSource: WatcherDataSource
 ) : BaseSEEDViewModel(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
@@ -35,7 +35,7 @@ class WatchersViewModel(
     override val data = WatchersData()
 
     init {
-        watcherRepository.collectWatchers()
+        watcherDataSource.collectWatchers()
             .onEach {
                 _state.update(watcherList = it.toUIModelList())
             }.launchIn(viewModelScope)
@@ -59,24 +59,24 @@ class WatchersViewModel(
     override fun onBaseChanged(watcher: Watcher?, newBase: String) {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
         watcher?.id?.let {
-            watcherRepository.updateBaseById(newBase, it)
+            watcherDataSource.updateBaseById(newBase, it)
         }
     }
 
     override fun onTargetChanged(watcher: Watcher?, newTarget: String) {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
         watcher?.id?.let {
-            watcherRepository.updateTargetById(newTarget, it)
+            watcherDataSource.updateTargetById(newTarget, it)
         }
     }
 
     override fun onAddClick() {
         Logger.d { "WatcherViewModel onAddClick" }
-        if (watcherRepository.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
+        if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
             viewModelScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
-                watcherRepository.addWatcher(
+                watcherDataSource.addWatcher(
                     base = list.firstOrNull()?.name.orEmpty(),
                     target = list.lastOrNull()?.name.orEmpty()
                 )
@@ -86,12 +86,12 @@ class WatchersViewModel(
 
     override fun onDeleteClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onDeleteClick $watcher" }
-        watcherRepository.deleteWatcher(watcher.id)
+        watcherDataSource.deleteWatcher(watcher.id)
     }
 
     override fun onRelationChange(watcher: Watcher, isGreater: Boolean) {
         Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
-        watcherRepository.updateRelationById(isGreater, watcher.id)
+        watcherDataSource.updateRelationById(isGreater, watcher.id)
     }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
@@ -107,7 +107,7 @@ class WatchersViewModel(
                 rate
             }
             else -> {
-                watcherRepository.updateRateById(
+                watcherDataSource.updateRateById(
                     rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
                     watcher.id
                 )

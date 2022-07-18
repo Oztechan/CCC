@@ -17,7 +17,7 @@ import com.oztechan.ccc.client.viewmodel.settings.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
@@ -55,7 +55,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
 
     @Mock
-    private val watcherRepository = mock(classOf<WatcherRepository>())
+    private val watcherDataSource = mock(classOf<WatcherDataSource>())
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())
@@ -66,7 +66,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
-            watcherRepository,
+            watcherDataSource,
             sessionManager
         )
     }
@@ -95,7 +95,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
-        given(watcherRepository)
+        given(watcherDataSource)
             .invocation { collectWatchers() }
             .then { flowOf(watcherLists) }
     }
