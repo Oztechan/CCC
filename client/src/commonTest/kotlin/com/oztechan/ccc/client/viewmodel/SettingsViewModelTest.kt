@@ -14,8 +14,8 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.model.Currency
@@ -49,7 +49,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
@@ -64,7 +64,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         SettingsViewModel(
             settingsDataSource,
             backendApiService,
-            currencyRepository,
+            currencyDataSource,
             offlineRatesRepository,
             watcherRepository,
             sessionManager
@@ -91,7 +91,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
@@ -321,8 +321,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onSyncClick() {
-        given(currencyRepository)
-            .function(currencyRepository::getActiveCurrencies)
+        given(currencyDataSource)
+            .function(currencyDataSource::getActiveCurrencies)
             .whenInvoked()
             .thenReturn(listOf())
 

@@ -11,8 +11,8 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesState
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -37,13 +37,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyRepository, sessionManager)
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -56,7 +56,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @BeforeTest
     fun setup() {
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectAllCurrencies() }
             .thenReturn(currencyListFlow)
 
@@ -158,7 +158,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         val mockValue = Random.nextBoolean()
         viewModel.event.updateAllCurrenciesState(mockValue)
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation { updateAllCurrencyState(mockValue) }
             .wasInvoked()
     }
@@ -167,7 +167,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     fun onItemClick() {
         viewModel.event.onItemClick(clientCurrency)
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation {
                 updateCurrencyStateByName(
                     clientCurrency.name,

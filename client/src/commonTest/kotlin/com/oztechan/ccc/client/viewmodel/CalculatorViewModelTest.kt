@@ -12,8 +12,8 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
@@ -41,7 +41,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
     private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
@@ -53,7 +53,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         CalculatorViewModel(
             settingsDataSource,
             backendApiService,
-            currencyRepository,
+            currencyDataSource,
             offlineRatesRepository,
             sessionManager
         )
@@ -69,7 +69,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .invocation { currentBase }
             .thenReturn(currency.name)
 
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
         given(offlineRatesRepository)
@@ -82,7 +82,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
                 .thenReturn(currencyResponse)
         }
 
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { getCurrencyByName(currency.name) }
             .thenReturn(currency)
     }

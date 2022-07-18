@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyState
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.update
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -30,10 +30,10 @@ import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 class SelectCurrencyViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(currencyRepository)
+        SelectCurrencyViewModel(currencyDataSource)
     }
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
@@ -45,7 +45,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
 
     @BeforeTest
     fun setup() {
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListEnough))
     }
@@ -77,7 +77,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
     // init
     @Test
     fun init_updates_the_states_with_no_enough_currency() = runTest {
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListNotEnough))
 
@@ -87,7 +87,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
             assertEquals(currencyListNotEnough.toUIModelList(), it?.currencyList)
         }
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .wasInvoked()
     }
@@ -102,7 +102,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
             }
         }
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .wasInvoked()
     }

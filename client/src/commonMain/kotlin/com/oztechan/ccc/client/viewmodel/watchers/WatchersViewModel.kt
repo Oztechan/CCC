@@ -9,7 +9,7 @@ import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class WatchersViewModel(
-    private val currencyRepository: CurrencyRepository,
+    private val currencyDataSource: CurrencyDataSource,
     private val watcherRepository: WatcherRepository
 ) : BaseSEEDViewModel(), WatchersEvent {
     // region SEED
@@ -75,7 +75,7 @@ class WatchersViewModel(
         if (watcherRepository.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
             viewModelScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
         } else {
-            currencyRepository.getActiveCurrencies().let { list ->
+            currencyDataSource.getActiveCurrencies().let { list ->
                 watcherRepository.addWatcher(
                     base = list.firstOrNull()?.name.orEmpty(),
                     target = list.lastOrNull()?.name.orEmpty()

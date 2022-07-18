@@ -1,7 +1,5 @@
 package com.oztechan.ccc.common.di.modules
 
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepositoryImpl
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepositoryImpl
 import com.oztechan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
@@ -19,7 +17,6 @@ val databaseModule = module {
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }
 
-    singleOf(::CurrencyRepositoryImpl) { bind<CurrencyRepository>() }
     singleOf(::OfflineRatesRepositoryImpl) { bind<OfflineRatesRepository>() }
     singleOf(::WatcherRepositoryImpl) { bind<WatcherRepository>() }
 

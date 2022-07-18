@@ -1,8 +1,8 @@
-package com.oztechan.ccc.common.repo
+package com.oztechan.ccc.common.datasource
 
 import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepositoryImpl
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.toLong
 import io.mockative.Mock
@@ -18,8 +18,8 @@ class CurrencyRepositoryTest {
     @Mock
     private val currencyQueries = mock(classOf<CurrencyQueries>())
 
-    private val repository: CurrencyRepository by lazy {
-        CurrencyRepositoryImpl(currencyQueries)
+    private val dataSource: CurrencyDataSource by lazy {
+        CurrencyDataSourceImpl(currencyQueries)
     }
 
     @BeforeTest
@@ -32,7 +32,7 @@ class CurrencyRepositoryTest {
         val mockName = "mock"
         val mockState = Random.nextBoolean()
 
-        repository.updateCurrencyStateByName(mockName, mockState)
+        dataSource.updateCurrencyStateByName(mockName, mockState)
 
         verify(currencyQueries)
             .invocation { updateCurrencyStateByName(mockState.toLong(), mockName) }
@@ -43,7 +43,7 @@ class CurrencyRepositoryTest {
     fun updateAllCurrencyState() {
         val mockState = Random.nextBoolean()
 
-        repository.updateAllCurrencyState(mockState)
+        dataSource.updateAllCurrencyState(mockState)
 
         verify(currencyQueries)
             .invocation { updateAllCurrencyState(mockState.toLong()) }
