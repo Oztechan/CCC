@@ -6,7 +6,7 @@ package com.oztechan.ccc.backend.controller
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
@@ -25,7 +25,7 @@ private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
 class ApiController(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
-    private val offlineRatesRepository: OfflineRatesRepository,
+    private val offlineRatesDataSource: OfflineRatesDataSource,
     private val ioDispatcher: CoroutineDispatcher
 ) {
     fun startSyncApi() {
@@ -62,7 +62,7 @@ class ApiController(
                     runCatching { premiumApiService.getRates(base.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
-                            offlineRatesRepository.insertOfflineRates(
+                            offlineRatesDataSource.insertOfflineRates(
                                 getModifiedResponse(nonPremiumResponse, premiumResponse)
                             )
                         }
@@ -79,7 +79,7 @@ class ApiController(
 
             runCatching { freeApiService.getRates(base.name) }
                 .onFailure { Logger.e(it) }
-                .onSuccess { offlineRatesRepository.insertOfflineRates(it) }
+                .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
         }
     }
 

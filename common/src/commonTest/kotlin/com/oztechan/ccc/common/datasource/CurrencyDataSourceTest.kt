@@ -13,7 +13,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class CurrencyRepositoryTest {
+class CurrencyDataSourceTest {
 
     @Mock
     private val currencyQueries = mock(classOf<CurrencyQueries>())
