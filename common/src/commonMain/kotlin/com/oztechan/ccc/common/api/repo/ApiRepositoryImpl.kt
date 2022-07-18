@@ -27,18 +27,6 @@ internal class ApiRepositoryImpl(
         }
     }
 
-    override suspend fun getRatesByAPI(
-        base: String
-    ) = withContext(ioDispatcher) {
-        Logger.v { "ApiRepositoryImpl getRatesByAPI $base" }
-
-        if (base.isEmpty()) {
-            throw EmptyParameterException()
-        } else {
-            apiService.getRatesByAPI(base).toModel(base)
-        }
-    }
-
     override suspend fun getRatesByPremiumAPI(
         base: String
     ) = withContext(ioDispatcher) {

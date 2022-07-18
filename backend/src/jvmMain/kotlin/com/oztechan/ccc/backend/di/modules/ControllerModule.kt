@@ -8,6 +8,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 var controllerModule = module {
-    single { ApiController(get(), get(), get(named(DISPATCHER_IO))) }
+    single { ApiController(get(), get(), get(), get(named(DISPATCHER_IO))) }
     singleOf(::RootingController)
 }

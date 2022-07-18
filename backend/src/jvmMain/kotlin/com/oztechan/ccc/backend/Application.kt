@@ -17,6 +17,7 @@ import com.oztechan.ccc.common.di.DISPATCHER_IO
 import com.oztechan.ccc.common.di.modules.apiModule
 import com.oztechan.ccc.common.di.modules.databaseModule
 import com.oztechan.ccc.common.di.modules.dispatcherModule
+import com.oztechan.ccc.common.di.modules.serviceModule
 import com.oztechan.ccc.common.di.modules.settingsModule
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -41,6 +42,7 @@ fun main() {
     startKoin {
         modules(
             apiModule,
+            serviceModule,
             databaseModule,
             settingsModule,
             controllerModule,

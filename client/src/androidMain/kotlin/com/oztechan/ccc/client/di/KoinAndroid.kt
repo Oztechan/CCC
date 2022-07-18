@@ -12,6 +12,7 @@ import com.oztechan.ccc.client.di.module.clientModule
 import com.oztechan.ccc.common.di.modules.apiModule
 import com.oztechan.ccc.common.di.modules.databaseModule
 import com.oztechan.ccc.common.di.modules.dispatcherModule
+import com.oztechan.ccc.common.di.modules.serviceModule
 import com.oztechan.ccc.common.di.modules.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -32,6 +33,7 @@ fun initAndroid(
         platformModule,
         clientModule,
         apiModule,
+        serviceModule,
         databaseModule,
         settingsModule,
         dispatcherModule
