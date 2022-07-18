@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+ */
+
 package com.oztechan.ccc.common.service
 
-import com.oztechan.ccc.common.api.backend.BackendApi
+import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.model.EmptyParameterException
-import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
+import com.oztechan.ccc.common.service.premium.PremiumApiService
+import com.oztechan.ccc.common.service.premium.PremiumApiServiceImpl
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -18,12 +22,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
-    @Mock
-    private val backendApi = mock(classOf<BackendApi>())
+class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
 
-    override val service: BackendApiService = BackendApiServiceImpl(
-        backendApi,
+    @Mock
+    private val premiumAPI = mock(classOf<PremiumApi>())
+
+    override val service: PremiumApiService = PremiumApiServiceImpl(
+        premiumAPI,
         newSingleThreadContext(this::class.simpleName.toString())
     )
 
@@ -35,15 +40,15 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
             assertTrue { it.exceptionOrNull() is EmptyParameterException }
         }
 
-        verify(backendApi)
-            .coroutine { backendApi.getRates("") }
+        verify(premiumAPI)
+            .coroutine { premiumAPI.getRates("") }
             .wasInvoked()
     }
 
     @Test
     fun getRates_error() = runTest {
-        given(backendApi)
-            .coroutine { backendApi.getRates(mockBase) }
+        given(premiumAPI)
+            .coroutine { premiumAPI.getRates(mockBase) }
             .thenThrow(mockThrowable)
 
         runCatching { service.getRates(mockBase) }.let {
@@ -53,15 +58,15 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
             assertEquals(mockThrowable.toString(), it.exceptionOrNull().toString())
         }
 
-        verify(backendApi)
+        verify(premiumAPI)
             .coroutine { getRates(mockBase) }
             .wasInvoked()
     }
 
     @Test
     fun getRates_success() = runTest {
-        given(backendApi)
-            .coroutine { backendApi.getRates(mockBase) }
+        given(premiumAPI)
+            .coroutine { premiumAPI.getRates(mockBase) }
             .thenReturn(mockEntity)
 
         runCatching { service.getRates(mockBase) }.let {
@@ -70,7 +75,7 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
             assertEquals(mockEntity.toModel(), it.getOrNull())
         }
 
-        verify(backendApi)
+        verify(premiumAPI)
             .coroutine { getRates(mockBase) }
             .wasInvoked()
     }

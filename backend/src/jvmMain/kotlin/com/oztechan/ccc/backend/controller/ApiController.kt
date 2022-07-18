@@ -6,11 +6,11 @@ package com.oztechan.ccc.backend.controller
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
-import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
+import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,7 +23,7 @@ private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
 private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
 
 class ApiController(
-    private val apiRepository: ApiRepository,
+    private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val offlineRatesRepository: OfflineRatesRepository,
     private val ioDispatcher: CoroutineDispatcher
@@ -59,7 +59,7 @@ class ApiController(
                 .onSuccess { nonPremiumResponse ->
 
                     // premium api call
-                    runCatching { apiRepository.getRatesByPremiumAPI(base.name) }
+                    runCatching { premiumApiService.getRates(base.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
                             offlineRatesRepository.insertOfflineRates(

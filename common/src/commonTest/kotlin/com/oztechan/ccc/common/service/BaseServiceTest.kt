@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.api.model.Rates
 import kotlin.test.BeforeTest
 
 abstract class BaseServiceTest<T> {
-    abstract var service: T
+    abstract val service: T
 
     protected val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
     protected val mockThrowable = Throwable("mock")
