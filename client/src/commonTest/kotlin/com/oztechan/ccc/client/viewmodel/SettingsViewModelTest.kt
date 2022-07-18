@@ -14,12 +14,12 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
-import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
@@ -46,7 +46,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val settingsRepository = mock(classOf<SettingsRepository>())
 
     @Mock
-    private val apiRepository = mock(classOf<ApiRepository>())
+    private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
     private val currencyRepository = mock(classOf<CurrencyRepository>())
@@ -63,7 +63,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
             settingsRepository,
-            apiRepository,
+            backendApiService,
             currencyRepository,
             offlineRatesRepository,
             watcherRepository,

@@ -27,11 +27,11 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
-import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.settings.SettingsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
     private val settingsRepository: SettingsRepository,
-    private val apiRepository: ApiRepository,
+    private val backendApiService: BackendApiService,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
     private val sessionManager: SessionManager
@@ -93,7 +93,7 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
     } ?: viewModelScope.launch {
-        runCatching { apiRepository.getRatesByBackend(settingsRepository.currentBase) }
+        runCatching { backendApiService.getRates(settingsRepository.currentBase) }
             .onFailure(::getRatesFailed)
             .onSuccess(::getRatesSuccess)
     }

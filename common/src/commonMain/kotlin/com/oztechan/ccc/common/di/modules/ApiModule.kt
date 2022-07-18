@@ -1,5 +1,7 @@
 package com.oztechan.ccc.common.di.modules
 
+import com.oztechan.ccc.common.api.backend.BackendApi
+import com.oztechan.ccc.common.api.backend.BackendApiImpl
 import com.oztechan.ccc.common.api.free.FreeApi
 import com.oztechan.ccc.common.api.free.FreeApiImpl
 import com.oztechan.ccc.common.api.repo.ApiRepository
@@ -28,6 +30,7 @@ val apiModule = module {
     singleOf(::provideHttpClient)
 
     singleOf(::FreeApiImpl) { bind<FreeApi>() }
+    singleOf(::BackendApiImpl) { bind<BackendApi>() }
 
     factoryOf(::ApiServiceImpl) { bind<ApiService>() }
     factory<ApiRepository> { ApiRepositoryImpl(get(), get(named(DISPATCHER_IO))) }
