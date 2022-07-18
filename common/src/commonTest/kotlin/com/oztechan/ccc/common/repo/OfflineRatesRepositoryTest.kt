@@ -1,11 +1,11 @@
 package com.oztechan.ccc.common.repo
 
 import com.github.submob.logmob.initLogger
+import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepositoryImpl
 import com.oztechan.ccc.common.db.sql.OfflineRatesQueries
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
-import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toOfflineRates
 import io.mockative.Mock
@@ -24,7 +24,7 @@ class OfflineRatesRepositoryTest {
         OfflineRatesRepositoryImpl(offlineRatesQueries)
     }
 
-    private val currencyResponseEntity = CurrencyResponseEntity("EUR", "12.21.2121", RatesEntity())
+    private val currencyResponseEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
     private val currencyResponse = currencyResponseEntity.toModel()
 
     @BeforeTest

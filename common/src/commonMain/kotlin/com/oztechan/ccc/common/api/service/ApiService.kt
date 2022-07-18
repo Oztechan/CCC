@@ -1,11 +1,11 @@
 package com.oztechan.ccc.common.api.service
 
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
+import com.oztechan.ccc.common.api.model.CurrencyResponse
 
 internal interface ApiService {
-    suspend fun getRatesByBackend(base: String): CurrencyResponseEntity
+    suspend fun getRatesByBackend(base: String): CurrencyResponse
 
-    suspend fun getRatesByAPI(base: String): CurrencyResponseEntity
+    suspend fun getRatesByAPI(base: String): CurrencyResponse
 
-    suspend fun getRatesByPremiumAPI(base: String): CurrencyResponseEntity
+    suspend fun getRatesByPremiumAPI(base: String): CurrencyResponse
 }
