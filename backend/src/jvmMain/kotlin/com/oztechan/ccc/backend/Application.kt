@@ -15,6 +15,7 @@ import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.common.di.DISPATCHER_IO
 import com.oztechan.ccc.common.di.modules.apiModule
+import com.oztechan.ccc.common.di.modules.dataSourceModule
 import com.oztechan.ccc.common.di.modules.databaseModule
 import com.oztechan.ccc.common.di.modules.dispatcherModule
 import com.oztechan.ccc.common.di.modules.serviceModule
@@ -45,6 +46,7 @@ fun main() {
             serviceModule,
             databaseModule,
             settingsModule,
+            dataSourceModule,
             controllerModule,
             dispatcherModule
         )

@@ -10,6 +10,7 @@ import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.di.module.androidModule
 import com.oztechan.ccc.client.di.module.clientModule
 import com.oztechan.ccc.common.di.modules.apiModule
+import com.oztechan.ccc.common.di.modules.dataSourceModule
 import com.oztechan.ccc.common.di.modules.databaseModule
 import com.oztechan.ccc.common.di.modules.dispatcherModule
 import com.oztechan.ccc.common.di.modules.serviceModule
@@ -36,6 +37,7 @@ fun initAndroid(
         serviceModule,
         databaseModule,
         settingsModule,
+        dataSourceModule,
         dispatcherModule
     )
 }.also {

@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.repo
+package com.oztechan.ccc.common.datasource
 
-import com.oztechan.ccc.common.settings.SettingsRepository
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_AD_FREE_END_DATE
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_APP_THEME
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_CURRENT_BASE
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_FIRST_RUN
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.DEFAULT_SESSION_COUNT
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_AD_FREE_END_DATE
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_APP_THEME
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_CURRENT_BASE
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_FIRST_RUN
-import com.oztechan.ccc.common.settings.SettingsRepositoryImp.Companion.KEY_SESSION_COUNT
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_AD_FREE_END_DATE
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_APP_THEME
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_CURRENT_BASE
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_SESSION_COUNT
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_AD_FREE_END_DATE
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_APP_THEME
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_CURRENT_BASE
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_SESSION_COUNT
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf
@@ -25,13 +25,13 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SettingsRepositoryTest {
+class SettingsDataSourceTest {
 
     @Mock
     private val settings = mock(classOf<Settings>())
 
-    private val repository: SettingsRepository by lazy {
-        SettingsRepositoryImp(settings)
+    private val dataSource: SettingsDataSource by lazy {
+        SettingsDataSourceImp(settings)
     }
 
     // defaults
@@ -41,7 +41,7 @@ class SettingsRepositoryTest {
             .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
 
-        assertEquals(DEFAULT_FIRST_RUN, repository.firstRun)
+        assertEquals(DEFAULT_FIRST_RUN, dataSource.firstRun)
 
         verify(settings)
             .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
@@ -54,7 +54,7 @@ class SettingsRepositoryTest {
             .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
 
-        assertEquals(DEFAULT_CURRENT_BASE, repository.currentBase)
+        assertEquals(DEFAULT_CURRENT_BASE, dataSource.currentBase)
 
         verify(settings)
             .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
@@ -67,7 +67,7 @@ class SettingsRepositoryTest {
             .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
 
-        assertEquals(DEFAULT_APP_THEME, repository.appTheme)
+        assertEquals(DEFAULT_APP_THEME, dataSource.appTheme)
 
         verify(settings)
             .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
@@ -80,7 +80,7 @@ class SettingsRepositoryTest {
             .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
 
-        assertEquals(DEFAULT_AD_FREE_END_DATE, repository.adFreeEndDate)
+        assertEquals(DEFAULT_AD_FREE_END_DATE, dataSource.adFreeEndDate)
 
         verify(settings)
             .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
@@ -93,7 +93,7 @@ class SettingsRepositoryTest {
             .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .thenReturn(DEFAULT_SESSION_COUNT)
 
-        assertEquals(DEFAULT_SESSION_COUNT, repository.sessionCount)
+        assertEquals(DEFAULT_SESSION_COUNT, dataSource.sessionCount)
 
         verify(settings)
             .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
@@ -104,7 +104,7 @@ class SettingsRepositoryTest {
     @Test
     fun set_firstRun() {
         val mockedValue = Random.nextBoolean()
-        repository.firstRun = mockedValue
+        dataSource.firstRun = mockedValue
 
         verify(settings)
             .invocation { putBoolean(KEY_FIRST_RUN, mockedValue) }
@@ -114,7 +114,7 @@ class SettingsRepositoryTest {
     @Test
     fun set_currentBase() {
         val mockValue = "mock"
-        repository.currentBase = mockValue
+        dataSource.currentBase = mockValue
 
         verify(settings)
             .invocation { putString(KEY_CURRENT_BASE, mockValue) }
@@ -124,7 +124,7 @@ class SettingsRepositoryTest {
     @Test
     fun set_appTheme() {
         val mockValue = Random.nextInt()
-        repository.appTheme = mockValue
+        dataSource.appTheme = mockValue
 
         verify(settings)
             .invocation { putInt(KEY_APP_THEME, mockValue) }
@@ -134,7 +134,7 @@ class SettingsRepositoryTest {
     @Test
     fun set_adFreeEndDate() {
         val mockValue = Random.nextLong()
-        repository.adFreeEndDate = mockValue
+        dataSource.adFreeEndDate = mockValue
 
         verify(settings)
             .invocation { putLong(KEY_AD_FREE_END_DATE, mockValue) }
@@ -144,7 +144,7 @@ class SettingsRepositoryTest {
     @Test
     fun set_sessionCount() {
         val mockValue = Random.nextLong()
-        repository.sessionCount = mockValue
+        dataSource.sessionCount = mockValue
 
         verify(settings)
             .invocation { putLong(KEY_SESSION_COUNT, mockValue) }

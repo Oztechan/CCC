@@ -14,8 +14,8 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.settings.SettingsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
-    private val settingsRepository: SettingsRepository,
+    private val settingsDataSource: SettingsDataSource,
     private val currencyRepository: CurrencyRepository,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CurrenciesEvent {
@@ -66,11 +66,11 @@ class CurrenciesViewModel(
     private fun verifyListSize() = _state.value.currencyList
         .filter { it.isActive }.size
         .whether { it < MINIMUM_ACTIVE_CURRENCY }
-        ?.whetherNot { settingsRepository.firstRun }
+        ?.whetherNot { settingsDataSource.firstRun }
         ?.mapTo { viewModelScope }
         ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private fun verifyCurrentBase() = settingsRepository.currentBase.either(
+    private fun verifyCurrentBase() = settingsDataSource.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -80,7 +80,7 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
     }?.let { newBase ->
-        settingsRepository.currentBase = newBase
+        settingsDataSource.currentBase = newBase
         viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
 
@@ -102,7 +102,7 @@ class CurrenciesViewModel(
 
     fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
-    fun isFirstRun() = settingsRepository.firstRun
+    fun isFirstRun() = settingsDataSource.firstRun
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) {
@@ -122,7 +122,7 @@ class CurrenciesViewModel(
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
-                settingsRepository.firstRun = false
+                settingsDataSource.firstRun = false
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }

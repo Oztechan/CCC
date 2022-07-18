@@ -14,13 +14,13 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
@@ -43,7 +43,7 @@ import kotlin.test.assertTrue
 class SettingsViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -62,7 +62,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
-            settingsRepository,
+            settingsDataSource,
             backendApiService,
             currencyRepository,
             offlineRatesRepository,
@@ -83,11 +83,11 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     @BeforeTest
     fun setup() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { appTheme }
             .thenReturn(-1)
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
@@ -153,11 +153,11 @@ class SettingsViewModelTest : BaseViewModelTest() {
             }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { appTheme = mockTheme.themeValue }
             .wasInvoked()
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + DAY)
 
@@ -167,7 +167,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             assertTrue { it is SettingsEffect.AlreadyAdFree }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -175,10 +175,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
     @Test
     fun isRewardExpired() {
         assertEquals(
-            settingsRepository.adFreeEndDate.isRewardExpired(),
+            settingsDataSource.adFreeEndDate.isRewardExpired(),
             viewModel.isRewardExpired()
         )
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -200,26 +200,26 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     @Test
     fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(1)
 
         assertFalse { viewModel.isAdFreeNeverActivated() }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
     @Test
     fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
         assertTrue { viewModel.isAdFreeNeverActivated() }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -231,7 +231,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         }.after {
             assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
 
-            verify(settingsRepository)
+            verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
@@ -244,7 +244,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         }.after {
             assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
 
-            verify(settingsRepository)
+            verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
         }
     }
@@ -307,7 +307,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             assertTrue { it is SettingsEffect.RemoveAds }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }

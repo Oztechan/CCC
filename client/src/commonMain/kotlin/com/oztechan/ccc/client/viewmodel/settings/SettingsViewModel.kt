@@ -14,11 +14,11 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.settings.SettingsRepository
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.onEach
 
 @Suppress("TooManyFunctions")
 class SettingsViewModel(
-    private val settingsRepository: SettingsRepository,
+    private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
     private val currencyRepository: CurrencyRepository,
     private val offlineRatesRepository: OfflineRatesRepository,
@@ -51,8 +51,8 @@ class SettingsViewModel(
 
     init {
         _state.update(
-            appThemeType = AppTheme.getThemeByValueOrDefault(settingsRepository.appTheme),
-            addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
+            appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
+            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString()
         )
 
         currencyRepository.collectActiveCurrencies()
@@ -88,21 +88,21 @@ class SettingsViewModel(
 
     fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
         _state.update(appThemeType = theme)
-        settingsRepository.appTheme = theme.themeValue
+        settingsDataSource.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
     fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
 
-    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
+    fun isRewardExpired() = settingsDataSource.adFreeEndDate.isRewardExpired()
 
-    fun isAdFreeNeverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
+    fun isAdFreeNeverActivated() = settingsDataSource.adFreeEndDate == 0.toLong()
 
-    fun getAppTheme() = settingsRepository.appTheme
+    fun getAppTheme() = settingsDataSource.appTheme
 
     @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
-        settingsRepository.adFreeEndDate = it
+        settingsDataSource.adFreeEndDate = it
         _state.update(addFreeEndDate = it.toDateString())
     }
 

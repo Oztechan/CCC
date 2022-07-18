@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigManager
 import com.oztechan.ccc.config.model.AdConfig
@@ -35,7 +35,7 @@ import kotlin.test.assertTrue
 class MainViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
     private val configManager = mock(classOf<ConfigManager>())
@@ -44,7 +44,7 @@ class MainViewModelTest : BaseViewModelTest() {
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsRepository, configManager, sessionManager)
+        MainViewModel(settingsDataSource, configManager, sessionManager)
     }
 
     // SEED
@@ -58,13 +58,13 @@ class MainViewModelTest : BaseViewModelTest() {
     fun isFirstRun() {
         val boolean: Boolean = Random.nextBoolean()
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { firstRun }
             .thenReturn(boolean)
 
         assertEquals(boolean, viewModel.isFistRun())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { firstRun }
             .wasInvoked()
     }
@@ -73,39 +73,39 @@ class MainViewModelTest : BaseViewModelTest() {
     fun getAppTheme() {
         val int: Int = Random.nextInt()
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { appTheme }
             .thenReturn(int)
 
         assertEquals(int, viewModel.getAppTheme())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { firstRun }
             .wasInvoked()
     }
 
     @Test
     fun isAdFree_for_future_should_return_true() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .then { nowAsLong() + 100 }
 
         assertEquals(true, viewModel.isAdFree())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
     @Test
     fun isAdFree_for_future_should_return_false() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .then { nowAsLong() - 100 }
 
         assertEquals(false, viewModel.isAdFree())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -114,13 +114,13 @@ class MainViewModelTest : BaseViewModelTest() {
     fun getSessionCount() {
         val mockSessionCount = Random.nextLong()
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
         assertEquals(mockSessionCount, viewModel.getSessionCount())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { sessionCount }
             .wasInvoked()
     }
@@ -142,7 +142,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -162,14 +162,14 @@ class MainViewModelTest : BaseViewModelTest() {
 
         event.onResume()
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasInvoked()
         assertEquals(false, data.isNewSession)
 
         event.onResume()
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasNotInvoked()
 
@@ -190,7 +190,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -206,7 +206,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowAppReview() }
             .then { true }
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .then { nowAsLong() - 1 }
 
@@ -228,7 +228,7 @@ class MainViewModelTest : BaseViewModelTest() {
         verify(sessionManager)
             .invocation { shouldShowInterstitialAd() }
             .wasInvoked()
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -242,7 +242,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { configManager.appConfig }
             .then { mockConfig }
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -272,7 +272,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowInterstitialAd() }
             .then { false }
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -331,7 +331,7 @@ class MainViewModelTest : BaseViewModelTest() {
                 .invocation { configManager.appConfig }
                 .then { mockConfig }
 
-            given(settingsRepository)
+            given(settingsDataSource)
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 
@@ -369,7 +369,7 @@ class MainViewModelTest : BaseViewModelTest() {
                 .invocation { configManager.appConfig }
                 .then { mockConfig }
 
-            given(settingsRepository)
+            given(settingsDataSource)
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 

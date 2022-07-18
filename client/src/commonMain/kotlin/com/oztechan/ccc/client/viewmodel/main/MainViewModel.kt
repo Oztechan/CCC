@@ -8,7 +8,7 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val settingsRepository: SettingsRepository,
+    private val settingsDataSource: SettingsDataSource,
     private val configManager: ConfigManager,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), MainEvent {
@@ -50,7 +50,7 @@ class MainViewModel(
 
     private fun adjustSessionCount() {
         if (data.isNewSession) {
-            settingsRepository.sessionCount++
+            settingsDataSource.sessionCount++
             data.isNewSession = false
         }
     }
@@ -73,13 +73,13 @@ class MainViewModel(
         }
     }
 
-    fun isFistRun() = settingsRepository.firstRun
+    fun isFistRun() = settingsDataSource.firstRun
 
-    fun getAppTheme() = settingsRepository.appTheme
+    fun getAppTheme() = settingsDataSource.appTheme
 
-    fun isAdFree() = !settingsRepository.adFreeEndDate.isRewardExpired()
+    fun isAdFree() = !settingsDataSource.adFreeEndDate.isRewardExpired()
 
-    fun getSessionCount() = settingsRepository.sessionCount
+    fun getSessionCount() = settingsDataSource.sessionCount
 
     // region Event
     override fun onPause() {

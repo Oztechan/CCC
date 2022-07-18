@@ -2,13 +2,13 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.common.settings
+package com.oztechan.ccc.common.datasource.settings
 
 import com.russhwolf.settings.Settings
 
-internal class SettingsRepositoryImp(
+internal class SettingsDataSourceImp(
     private val settings: Settings
-) : SettingsRepository {
+) : SettingsDataSource {
 
     override var firstRun
         get() = settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
