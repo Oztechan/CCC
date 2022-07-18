@@ -18,7 +18,7 @@ struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: CalculatorObservable = koin.get()
+    @StateObject var observable = CalculatorObservable(viewModel: koin.get())
 
     @State var isBarShown = false
 
