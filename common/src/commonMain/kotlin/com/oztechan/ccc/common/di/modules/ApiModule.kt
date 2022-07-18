@@ -1,5 +1,7 @@
 package com.oztechan.ccc.common.di.modules
 
+import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.api.free.FreeApiImpl
 import com.oztechan.ccc.common.api.repo.ApiRepository
 import com.oztechan.ccc.common.api.repo.ApiRepositoryImpl
 import com.oztechan.ccc.common.api.service.ApiService
@@ -24,6 +26,9 @@ private const val TIME_OUT: Long = 3333
 
 val apiModule = module {
     singleOf(::provideHttpClient)
+
+    singleOf(::FreeApiImpl) { bind<FreeApi>() }
+
     factoryOf(::ApiServiceImpl) { bind<ApiService>() }
     factory<ApiRepository> { ApiRepositoryImpl(get(), get(named(DISPATCHER_IO))) }
 }

@@ -22,14 +22,6 @@ internal class ApiServiceImpl(private val client: HttpClient) : ApiService {
         }
     }.body()
 
-    override suspend fun getRatesByAPI(base: String): CurrencyResponse = client.get {
-        url {
-            takeFrom(BuildKonfig.BASE_URL_API)
-            path(PATH_LATEST)
-            parameter(QUERY_BASE, base)
-        }
-    }.body()
-
     override suspend fun getRatesByPremiumAPI(base: String): CurrencyResponse = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_API_PREMIUM)

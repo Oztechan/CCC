@@ -45,19 +45,6 @@ class ApiRepositoryTest {
     }
 
     @Test
-    fun getRatesByAPI_parameter_can_not_be_empty() = runTest {
-        runCatching { repository.getRatesByAPI("") }.let {
-            assertFalse { it.isSuccess }
-            assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is EmptyParameterException }
-        }
-
-        verify(apiService)
-            .coroutine { apiService.getRatesByAPI("") }
-            .wasInvoked()
-    }
-
-    @Test
     fun getRatesByPremiumAPI_parameter_can_not_be_empty() = runTest {
         runCatching { repository.getRatesByPremiumAPI("") }.let {
             assertFalse { it.isSuccess }
@@ -80,24 +67,6 @@ class ApiRepositoryTest {
 
         verify(apiService)
             .coroutine { apiService.getRatesByBackend("") }
-            .wasInvoked()
-    }
-
-    @Test
-    fun getRatesByAPI_error() = runTest {
-        given(apiService)
-            .coroutine { apiService.getRatesByAPI(mockBase) }
-            .thenThrow(mockThrowable)
-
-        runCatching { repository.getRatesByAPI(mockBase) }.let {
-            assertFalse { it.isSuccess }
-            assertTrue { it.isFailure }
-            assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertEquals(mockThrowable.toString(), it.exceptionOrNull().toString())
-        }
-
-        verify(apiService)
-            .coroutine { getRatesByAPI(mockBase) }
             .wasInvoked()
     }
 
@@ -134,23 +103,6 @@ class ApiRepositoryTest {
 
         verify(apiService)
             .coroutine { getRatesByBackend(mockBase) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun getRatesByAPI_success() = runTest {
-        given(apiService)
-            .coroutine { apiService.getRatesByAPI(mockBase) }
-            .thenReturn(mockEntity)
-
-        runCatching { repository.getRatesByAPI(mockBase) }.let {
-            assertTrue { it.isSuccess }
-            assertFalse { it.isFailure }
-            assertEquals(mockEntity.toModel(), it.getOrNull())
-        }
-
-        verify(apiService)
-            .coroutine { getRatesByAPI(mockBase) }
             .wasInvoked()
     }
 
