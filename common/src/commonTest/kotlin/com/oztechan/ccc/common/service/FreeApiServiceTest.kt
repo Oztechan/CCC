@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.error.EmptyParameterException
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.model.EmptyParameterException
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.free.FreeApiServiceImpl
 import io.mockative.Mock

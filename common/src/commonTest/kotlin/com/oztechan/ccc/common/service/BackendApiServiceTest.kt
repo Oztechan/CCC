@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.backend.BackendApi
+import com.oztechan.ccc.common.error.EmptyParameterException
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.model.EmptyParameterException
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
 import io.mockative.Mock
