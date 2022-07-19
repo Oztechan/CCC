@@ -6,24 +6,18 @@ package com.oztechan.ccc.common.service.premium
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.model.EmptyParameterException
+import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 
 internal class PremiumApiServiceImpl(
     private val premiumAPI: PremiumApi,
-    private val ioDispatcher: CoroutineDispatcher
-) : PremiumApiService {
+    ioDispatcher: CoroutineDispatcher
+) : PremiumApiService, BaseNetworkService(ioDispatcher) {
 
     override suspend fun getRates(
         base: String
-    ) = withContext(ioDispatcher) {
+    ) = apiRequest {
         Logger.v { "PremiumApiServiceImpl getRates $base" }
-
-        if (base.isEmpty()) {
-            throw EmptyParameterException()
-        } else {
-            premiumAPI.getRates(base).toModel(base)
-        }
+        premiumAPI.getRates(base.withEmptyParameterCheck()).toModel(base)
     }
 }
