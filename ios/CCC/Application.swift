@@ -21,7 +21,7 @@ struct Application: App {
     @State var alertVisibility: Bool = false
 
     private let notificationManager = NotificationManager()
-    private let backgroundManager: BackgroundManager
+    private let backgroundRepository: BackgroundRepository
 
     private let taskID = "com.oztechan.ccc.CCC.fetch"
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
@@ -45,7 +45,7 @@ struct Application: App {
         ))
         UITableView.appearance().backgroundColor = MR.colors().transparent.get()
 
-        self.backgroundManager = koin.get()
+        self.backgroundRepository = koin.get()
 
         registerAppRefresh()
     }
@@ -104,7 +104,7 @@ struct Application: App {
 
         scheduleAppRefresh()
 
-        if backgroundManager.shouldSendNotification() {
+        if backgroundRepository.shouldSendNotification() {
 
             if scenePhase == .background {
                 self.notificationManager.sendNotification(

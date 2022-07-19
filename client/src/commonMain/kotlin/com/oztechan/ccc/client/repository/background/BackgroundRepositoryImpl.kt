@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.manager.background
+package com.oztechan.ccc.client.repository.background
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.util.getConversionByName
@@ -6,18 +6,18 @@ import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
 
-class BackgroundManagerImpl(
+class BackgroundRepositoryImpl(
     private val watchersRepository: WatcherDataSource,
     private val backendApiService: BackendApiService,
-) : BackgroundManager {
+) : BackgroundRepository {
 
     init {
-        Logger.d { "BackgroundManagerImpl init" }
+        Logger.d { "BackgroundRepositoryImpl init" }
     }
 
     @Suppress("LabeledExpression", "TooGenericExceptionCaught")
     override fun shouldSendNotification() = try {
-        Logger.d { "BackgroundManagerImpl shouldSendNotification" }
+        Logger.d { "BackgroundRepositoryImpl shouldSendNotification" }
 
         runBlocking {
             watchersRepository.getWatchers().forEach { watcher ->
@@ -35,7 +35,7 @@ class BackgroundManagerImpl(
             return@runBlocking false
         }
     } catch (e: Exception) {
-        Logger.w { "BackgroundManagerImpl shouldSendNotification error: $e" }
+        Logger.w { "BackgroundRepositoryImpl shouldSendNotification error: $e" }
         false
     }
 }
