@@ -6,22 +6,22 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.ConfigService
 
 class SessionManagerImpl(
-    private val configManager: ConfigManager,
+    private val configService: ConfigService,
     private val settingsDataSource: SettingsDataSource
 ) : SessionManager {
     override fun shouldShowBannerAd() = !settingsDataSource.firstRun &&
         settingsDataSource.adFreeEndDate.isRewardExpired() &&
-        settingsDataSource.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
+        settingsDataSource.sessionCount > configService.appConfig.adConfig.bannerAdSessionCount
 
     override fun shouldShowInterstitialAd() =
-        settingsDataSource.sessionCount > configManager.appConfig.adConfig.interstitialAdSessionCount
+        settingsDataSource.sessionCount > configService.appConfig.adConfig.interstitialAdSessionCount
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean
-    ): Boolean? = configManager.appConfig
+    ): Boolean? = configService.appConfig
         .appUpdate
         .firstOrNull { it.name == device.name }
         ?.whether(
@@ -31,7 +31,7 @@ class SessionManagerImpl(
             it.updateForceVersion <= BuildKonfig.versionCode
         }
 
-    override fun shouldShowAppReview(): Boolean = configManager.appConfig
+    override fun shouldShowAppReview(): Boolean = configService.appConfig
         .appReview
         .whether { settingsDataSource.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }

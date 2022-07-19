@@ -12,8 +12,8 @@ import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
-import com.oztechan.ccc.config.ConfigManager
-import com.oztechan.ccc.config.ConfigManagerImpl
+import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.ConfigServiceImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -27,7 +27,7 @@ var clientModule = module {
     viewModelDefinition { AdRemoveViewModel(get()) }
     viewModelDefinition { WatchersViewModel(get(), get()) }
 
-    singleOf(::ConfigManagerImpl) { bind<ConfigManager>() }
+    singleOf(::ConfigServiceImpl) { bind<ConfigService>() }
     singleOf(::SessionManagerImpl) { bind<SessionManager>() }
     singleOf(::BackgroundManagerImpl) { bind<BackgroundManager>() }
 }
