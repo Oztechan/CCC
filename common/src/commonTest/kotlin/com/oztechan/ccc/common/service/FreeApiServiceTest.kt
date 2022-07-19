@@ -22,7 +22,7 @@ class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
     @Mock
     private val freeApi = mock(classOf<FreeApi>())
 
-    override var service: FreeApiService = FreeApiServiceImpl(
+    override val service: FreeApiService = FreeApiServiceImpl(
         freeApi,
         newSingleThreadContext(this::class.simpleName.toString())
     )
