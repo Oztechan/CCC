@@ -13,7 +13,7 @@ import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
-import com.oztechan.ccc.android.di.appModule
+import com.oztechan.ccc.android.di.module.appModule
 import com.oztechan.ccc.client.di.initAndroid
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 
