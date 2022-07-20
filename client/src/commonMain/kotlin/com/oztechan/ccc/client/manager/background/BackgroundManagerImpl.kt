@@ -2,12 +2,12 @@ package com.oztechan.ccc.client.manager.background
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.util.getConversionByName
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
 
 class BackgroundManagerImpl(
-    private val watchersRepository: WatcherRepository,
+    private val watchersRepository: WatcherDataSource,
     private val backendApiService: BackendApiService,
 ) : BackgroundManager {
 

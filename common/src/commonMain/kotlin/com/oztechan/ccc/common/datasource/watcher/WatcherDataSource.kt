@@ -1,9 +1,9 @@
-package com.oztechan.ccc.common.db.watcher
+package com.oztechan.ccc.common.datasource.watcher
 
 import com.oztechan.ccc.common.model.Watcher
 import kotlinx.coroutines.flow.Flow
 
-interface WatcherRepository {
+interface WatcherDataSource {
     fun addWatcher(base: String, target: String)
     fun collectWatchers(): Flow<List<Watcher>>
     fun getWatchers(): List<Watcher>

@@ -1,10 +1,6 @@
 package com.oztechan.ccc.common.di.modules
 
 import com.oztechan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
-import com.oztechan.ccc.common.db.watcher.WatcherRepositoryImpl
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
@@ -14,8 +10,6 @@ val databaseModule = module {
     single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }
-
-    singleOf(::WatcherRepositoryImpl) { bind<WatcherRepository>() }
 
     single { provideDatabase(DATABASE_NAME) }
 }

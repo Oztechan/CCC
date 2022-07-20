@@ -17,7 +17,7 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DE
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
@@ -34,7 +34,7 @@ class SettingsViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
-    watcherRepository: WatcherRepository,
+    watcherDataSource: WatcherDataSource,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
@@ -60,7 +60,7 @@ class SettingsViewModel(
                 _state.update(activeCurrencyCount = it.size)
             }.launchIn(viewModelScope)
 
-        watcherRepository.collectWatchers()
+        watcherDataSource.collectWatchers()
             .onEach {
                 _state.update(activeWatcherCount = it.size)
             }.launchIn(viewModelScope)
