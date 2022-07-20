@@ -13,8 +13,8 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
@@ -44,7 +44,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
+    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())
@@ -54,7 +54,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             settingsDataSource,
             backendApiService,
             currencyDataSource,
-            offlineRatesRepository,
+            offlineRatesDataSource,
             sessionManager
         )
     }
@@ -72,7 +72,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
-        given(offlineRatesRepository)
+        given(offlineRatesDataSource)
             .invocation { getOfflineRatesByBase(currency.name) }
             .thenReturn(currencyResponse.rates)
 

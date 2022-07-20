@@ -4,12 +4,12 @@
 
 package com.oztechan.ccc.backend.controller
 
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 
 class RootingController(
-    private val offlineRatesRepository: OfflineRatesRepository
+    private val offlineRatesDataSource: OfflineRatesDataSource
 ) {
     fun getOfflineCurrencyResponseByBase(
         base: String
-    ) = offlineRatesRepository.getOfflineCurrencyResponseByBase(base)
+    ) = offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
 }

@@ -28,8 +28,8 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
@@ -48,7 +48,7 @@ class CalculatorViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val offlineRatesRepository: OfflineRatesRepository,
+    private val offlineRatesDataSource: OfflineRatesDataSource,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
@@ -103,12 +103,12 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it, RateState.Online(it.date))
         }.also {
-            offlineRatesRepository.insertOfflineRates(currencyResponse.toTodayResponse())
+            offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
         }
 
     private fun getRatesFailed(t: Throwable) {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
-        offlineRatesRepository.getOfflineRatesByBase(
+        offlineRatesDataSource.getOfflineRatesByBase(
             settingsDataSource.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))

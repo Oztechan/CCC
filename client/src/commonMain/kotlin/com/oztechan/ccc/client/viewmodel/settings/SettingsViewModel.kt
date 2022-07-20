@@ -15,8 +15,8 @@ import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.nowAsLong
@@ -33,7 +33,7 @@ class SettingsViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val offlineRatesRepository: OfflineRatesRepository,
+    private val offlineRatesDataSource: OfflineRatesDataSource,
     watcherRepository: WatcherRepository,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), SettingsEvent {
@@ -77,7 +77,7 @@ class SettingsViewModel(
 
                 runCatching { backendApiService.getRates(name) }
                     .onFailure { error -> Logger.e(error) }
-                    .onSuccess { offlineRatesRepository.insertOfflineRates(it) }
+                    .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)
