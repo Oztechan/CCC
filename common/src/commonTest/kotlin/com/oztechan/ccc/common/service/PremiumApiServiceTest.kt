@@ -5,7 +5,7 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.premium.PremiumApi
-import com.oztechan.ccc.common.error.EmptyParameterException
+import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiServiceImpl
@@ -37,7 +37,7 @@ class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
         runCatching { service.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is EmptyParameterException }
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(premiumAPI)
@@ -55,7 +55,7 @@ class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertEquals(mockThrowable.toString(), it.exceptionOrNull().toString())
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(premiumAPI)
