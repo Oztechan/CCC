@@ -1,6 +1,6 @@
-package com.oztechan.ccc.common.settings
+package com.oztechan.ccc.common.datasource.settings
 
-interface SettingsRepository {
+interface SettingsDataSource {
     var firstRun: Boolean
 
     var currentBase: String

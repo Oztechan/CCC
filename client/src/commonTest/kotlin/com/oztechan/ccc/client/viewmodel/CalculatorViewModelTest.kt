@@ -12,13 +12,13 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.settings.SettingsRepository
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -35,7 +35,7 @@ import kotlin.test.assertNotNull
 class CalculatorViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -51,7 +51,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            settingsRepository,
+            settingsDataSource,
             backendApiService,
             currencyRepository,
             offlineRatesRepository,
@@ -65,7 +65,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     @BeforeTest
     fun setup() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(currency.name)
 
@@ -179,7 +179,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onBaseChanged() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(currency.name)
 

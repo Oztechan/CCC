@@ -11,8 +11,8 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesState
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.settings.SettingsRepository
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -34,7 +34,7 @@ import com.oztechan.ccc.common.model.Currency as CommonCurrency
 class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
     private val currencyRepository = mock(classOf<CurrencyRepository>())
@@ -43,7 +43,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsRepository, currencyRepository, sessionManager)
+        CurrenciesViewModel(settingsDataSource, currencyRepository, sessionManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -60,11 +60,11 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             .invocation { collectAllCurrencies() }
             .thenReturn(currencyListFlow)
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(clientCurrency.name)
     }
@@ -123,13 +123,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Test
     fun isFirstRun() {
         val mockValue = Random.nextBoolean()
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { firstRun }
             .thenReturn(mockValue)
 
         assertEquals(mockValue, viewModel.isFirstRun())
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { firstRun }
             .wasInvoked()
     }
@@ -147,11 +147,11 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     // Event
     @Test
     fun updateAllCurrenciesState() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn("EUR")
 
@@ -287,7 +287,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             assertTrue { it is CurrenciesEffect.OpenCalculator }
             assertTrue { viewModel.data.query.isEmpty() }
 
-            verify(settingsRepository)
+            verify(settingsDataSource)
                 .invocation { firstRun = false }
                 .wasInvoked()
         }

@@ -5,19 +5,19 @@ import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigManager
 
 class SessionManagerImpl(
     private val configManager: ConfigManager,
-    private val settingsRepository: SettingsRepository
+    private val settingsDataSource: SettingsDataSource
 ) : SessionManager {
-    override fun shouldShowBannerAd() = !settingsRepository.firstRun &&
-        settingsRepository.adFreeEndDate.isRewardExpired() &&
-        settingsRepository.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
+    override fun shouldShowBannerAd() = !settingsDataSource.firstRun &&
+        settingsDataSource.adFreeEndDate.isRewardExpired() &&
+        settingsDataSource.sessionCount > configManager.appConfig.adConfig.bannerAdSessionCount
 
     override fun shouldShowInterstitialAd() =
-        settingsRepository.sessionCount > configManager.appConfig.adConfig.interstitialAdSessionCount
+        settingsDataSource.sessionCount > configManager.appConfig.adConfig.interstitialAdSessionCount
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean
@@ -33,7 +33,7 @@ class SessionManagerImpl(
 
     override fun shouldShowAppReview(): Boolean = configManager.appConfig
         .appReview
-        .whether { settingsRepository.sessionCount > it.appReviewSessionCount }
+        .whether { settingsDataSource.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false
 }
