@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class SelectCurrencyViewModel(
-    currencyRepository: CurrencyRepository
+    currencyDataSource: CurrencyDataSource
 ) : BaseSEEDViewModel(), SelectCurrencyEvent {
     // region SEED
     private val _state = MutableStateFlow(SelectCurrencyState())
@@ -34,7 +34,7 @@ class SelectCurrencyViewModel(
     // endregion
 
     init {
-        currencyRepository.collectActiveCurrencies()
+        currencyDataSource.collectActiveCurrencies()
             .onEach {
                 _state.update(
                     currencyList = it.toUIModelList(),

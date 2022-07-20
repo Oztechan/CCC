@@ -14,8 +14,8 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.db.watcher.WatcherRepository
 import com.oztechan.ccc.common.service.backend.BackendApiService
@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.onEach
 class SettingsViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
-    private val currencyRepository: CurrencyRepository,
+    private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesRepository: OfflineRatesRepository,
     watcherRepository: WatcherRepository,
     private val sessionManager: SessionManager
@@ -55,7 +55,7 @@ class SettingsViewModel(
             addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString()
         )
 
-        currencyRepository.collectActiveCurrencies()
+        currencyDataSource.collectActiveCurrencies()
             .onEach {
                 _state.update(activeCurrencyCount = it.size)
             }.launchIn(viewModelScope)
@@ -71,7 +71,7 @@ class SettingsViewModel(
 
         _effect.emit(SettingsEffect.Synchronising)
 
-        currencyRepository.getActiveCurrencies()
+        currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 

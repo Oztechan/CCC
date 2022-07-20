@@ -14,8 +14,8 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val settingsDataSource: SettingsDataSource,
-    private val currencyRepository: CurrencyRepository,
+    private val currencyDataSource: CurrencyDataSource,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
@@ -44,7 +44,7 @@ class CurrenciesViewModel(
     // endregion
 
     init {
-        currencyRepository.collectAllCurrencies()
+        currencyDataSource.collectAllCurrencies()
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
@@ -107,12 +107,12 @@ class CurrenciesViewModel(
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyRepository.updateAllCurrencyState(state)
+        currencyDataSource.updateAllCurrencyState(state)
     }
 
     override fun onItemClick(currency: Currency) {
         Logger.d { "CurrenciesViewModel onItemClick ${currency.name}" }
-        currencyRepository.updateCurrencyStateByName(currency.name, !currency.isActive)
+        currencyDataSource.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
 
     override fun onDoneClick() = viewModelScope.launchIgnored {

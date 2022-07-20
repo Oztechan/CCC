@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.db.currency
+package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
@@ -10,9 +10,9 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.map
 
-internal class CurrencyRepositoryImpl(
+internal class CurrencyDataSourceImpl(
     private val currencyQueries: CurrencyQueries
-) : CurrencyRepository {
+) : CurrencyDataSource {
 
     override fun collectAllCurrencies() = currencyQueries
         .collectAllCurrencies()
@@ -20,7 +20,7 @@ internal class CurrencyRepositoryImpl(
         .mapToList()
         .map { it.sortedBy { (name) -> name } }
         .mapToModel()
-        .also { Logger.v { "CurrencyRepositoryImpl collectAllCurrencies" } }
+        .also { Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" } }
 
     override fun collectActiveCurrencies() = currencyQueries
         .collectActiveCurrencies()
@@ -28,25 +28,25 @@ internal class CurrencyRepositoryImpl(
         .mapToList()
         .map { it.sortedBy { (name) -> name } }
         .mapToModel()
-        .also { Logger.v { "CurrencyRepositoryImpl collectActiveCurrencies" } }
+        .also { Logger.v { "CurrencyDataSourceImpl collectActiveCurrencies" } }
 
     override fun getActiveCurrencies() = currencyQueries
         .getActiveCurrencies()
         .executeAsList()
         .toModelList()
-        .also { Logger.v { "CurrencyRepositoryImpl getActiveCurrencies" } }
+        .also { Logger.v { "CurrencyDataSourceImpl getActiveCurrencies" } }
 
     override fun updateCurrencyStateByName(name: String, isActive: Boolean) = currencyQueries
         .updateCurrencyStateByName(isActive.toLong(), name)
-        .also { Logger.v { "CurrencyRepositoryImpl updateCurrencyStateByName $name $isActive" } }
+        .also { Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByName $name $isActive" } }
 
     override fun updateAllCurrencyState(value: Boolean) = currencyQueries
         .updateAllCurrencyState(value.toLong())
-        .also { Logger.v { "CurrencyRepositoryImpl updateAllCurrencyState $value" } }
+        .also { Logger.v { "CurrencyDataSourceImpl updateAllCurrencyState $value" } }
 
     override fun getCurrencyByName(name: String) = currencyQueries
         .getCurrencyByName(name)
         .executeAsOneOrNull()
         ?.toModel()
-        .also { Logger.v { "CurrencyRepositoryImpl getCurrencyByName $name" } }
+        .also { Logger.v { "CurrencyDataSourceImpl getCurrencyByName $name" } }
 }

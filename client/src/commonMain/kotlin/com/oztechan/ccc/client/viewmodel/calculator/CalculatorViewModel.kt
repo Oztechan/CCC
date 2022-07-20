@@ -27,8 +27,8 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
 import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
 class CalculatorViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
-    private val currencyRepository: CurrencyRepository,
+    private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesRepository: OfflineRatesRepository,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
@@ -82,7 +82,7 @@ class CalculatorViewModel(
             }
             .launchIn(viewModelScope)
 
-        currencyRepository.collectActiveCurrencies()
+        currencyDataSource.collectActiveCurrencies()
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
@@ -164,7 +164,7 @@ class CalculatorViewModel(
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol.orEmpty()
+            symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
     }
 

@@ -1,9 +1,9 @@
-package com.oztechan.ccc.common.db.currency
+package com.oztechan.ccc.common.datasource.currency
 
 import com.oztechan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.Flow
 
-interface CurrencyRepository {
+interface CurrencyDataSource {
     fun collectAllCurrencies(): Flow<List<Currency>>
 
     fun collectActiveCurrencies(): Flow<List<Currency>>
