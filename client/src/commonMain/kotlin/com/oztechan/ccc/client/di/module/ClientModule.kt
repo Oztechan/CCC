@@ -1,10 +1,10 @@
 package com.oztechan.ccc.client.di.module
 
 import com.oztechan.ccc.client.di.viewModelDefinition
-import com.oztechan.ccc.client.manager.session.SessionManager
-import com.oztechan.ccc.client.manager.session.SessionManagerImpl
 import com.oztechan.ccc.client.repository.background.BackgroundRepository
 import com.oztechan.ccc.client.repository.background.BackgroundRepositoryImpl
+import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.session.SessionRepositoryImpl
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
@@ -28,6 +28,6 @@ var clientModule = module {
     viewModelDefinition { WatchersViewModel(get(), get()) }
 
     singleOf(::ConfigServiceImpl) { bind<ConfigService>() }
-    singleOf(::SessionManagerImpl) { bind<SessionManager>() }
+    singleOf(::SessionRepositoryImpl) { bind<SessionRepository>() }
     singleOf(::BackgroundRepositoryImpl) { bind<BackgroundRepository>() }
 }

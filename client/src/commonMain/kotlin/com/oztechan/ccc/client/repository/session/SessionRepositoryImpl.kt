@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.manager.session
+package com.oztechan.ccc.client.repository.session
 
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
@@ -8,10 +8,10 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
 
-class SessionManagerImpl(
+class SessionRepositoryImpl(
     private val configService: ConfigService,
     private val settingsDataSource: SettingsDataSource
-) : SessionManager {
+) : SessionRepository {
     override fun shouldShowBannerAd() = !settingsDataSource.firstRun &&
         settingsDataSource.adFreeEndDate.isRewardExpired() &&
         settingsDataSource.sessionCount > configService.appConfig.adConfig.bannerAdSessionCount

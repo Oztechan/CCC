@@ -6,7 +6,7 @@ package com.oztechan.ccc.client.viewmodel.main
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
-import com.oztechan.ccc.client.manager.session.SessionManager
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val configService: ConfigService,
-    private val sessionManager: SessionManager
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), MainEvent {
     // region SEED
     override val state: StateFlow<BaseState>? = null
@@ -39,7 +39,7 @@ class MainViewModel(
         data.adJob = viewModelScope.launch {
             delay(configService.appConfig.adConfig.interstitialAdInitialDelay)
 
-            while (isActive && sessionManager.shouldShowInterstitialAd()) {
+            while (isActive && sessionRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
@@ -56,7 +56,7 @@ class MainViewModel(
     }
 
     private fun checkAppUpdate() {
-        sessionManager.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
+        sessionRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
             viewModelScope.launch {
                 _effect.emit(MainEffect.AppUpdateEffect(isCancelable))
                 data.isAppUpdateShown = true
@@ -65,7 +65,7 @@ class MainViewModel(
     }
 
     private fun checkReview() {
-        if (sessionManager.shouldShowAppReview()) {
+        if (sessionRepository.shouldShowAppReview()) {
             viewModelScope.launch {
                 delay(configService.appConfig.appReview.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)

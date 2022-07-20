@@ -1,6 +1,6 @@
-package com.oztechan.ccc.client.manager.session
+package com.oztechan.ccc.client.repository.session
 
-interface SessionManager {
+interface SessionRepository {
     fun shouldShowBannerAd(): Boolean
 
     fun shouldShowInterstitialAd(): Boolean
