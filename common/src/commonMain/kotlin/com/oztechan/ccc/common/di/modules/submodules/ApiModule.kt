@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.di.modules
+package com.oztechan.ccc.common.di.modules.submodules
 
 import com.oztechan.ccc.common.api.backend.BackendApi
 import com.oztechan.ccc.common.api.backend.BackendApiImpl
@@ -21,7 +21,7 @@ import org.koin.dsl.module
 
 private const val TIME_OUT: Long = 3333
 
-val apiModule = module {
+internal val apiModule = module {
     singleOf(::provideHttpClient)
 
     singleOf(::FreeApiImpl) { bind<FreeApi>() }

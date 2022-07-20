@@ -9,17 +9,12 @@ import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.backend.controller.ApiController
 import com.oztechan.ccc.backend.controller.RootingController
 import com.oztechan.ccc.backend.di.koin
-import com.oztechan.ccc.backend.di.modules.controllerModule
+import com.oztechan.ccc.backend.di.modules.appModules
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.common.di.DISPATCHER_IO
-import com.oztechan.ccc.common.di.modules.apiModule
-import com.oztechan.ccc.common.di.modules.dataSourceModule
-import com.oztechan.ccc.common.di.modules.databaseModule
-import com.oztechan.ccc.common.di.modules.dispatcherModule
-import com.oztechan.ccc.common.di.modules.serviceModule
-import com.oztechan.ccc.common.di.modules.settingsModule
+import com.oztechan.ccc.common.di.modules.commonModules
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
@@ -41,14 +36,9 @@ fun main() {
     initLogger()
 
     startKoin {
+
         modules(
-            apiModule,
-            serviceModule,
-            databaseModule,
-            settingsModule,
-            dataSourceModule,
-            controllerModule,
-            dispatcherModule
+            appModules + commonModules
         )
     }.also {
         koin = it.koin

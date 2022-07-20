@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.di.modules
+package com.oztechan.ccc.common.di.modules.submodules
 
 import com.oztechan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver

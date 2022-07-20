@@ -10,7 +10,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-var platformModule = module {
+internal var appModule = module {
     singleOf(::BillingManagerImpl) { bind<BillingManager>() }
     singleOf(::AdManagerImpl) { bind<AdManager>() }
     singleOf(::AnalyticsManagerImpl) { bind<AnalyticsManager>() }

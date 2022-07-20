@@ -12,7 +12,7 @@ import Client
 func startKoin() {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    _koin = KoinIOSKt.doInitIOS(
+    _koin = IOSKoinKt.doInitIOS(
         userDefaults: userDefaults
     ).koin
 }

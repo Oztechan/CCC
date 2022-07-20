@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.di.modules
+package com.oztechan.ccc.common.di.modules.submodules
 
 import com.oztechan.ccc.common.db.sql.CurrencyConverterCalculatorDatabase
 import org.koin.core.scope.Scope
@@ -6,7 +6,7 @@ import org.koin.dsl.module
 
 private const val DATABASE_NAME = "application_database.sqlite"
 
-val databaseModule = module {
+internal val databaseModule = module {
     single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
     single { get<CurrencyConverterCalculatorDatabase>().offlineRatesQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }

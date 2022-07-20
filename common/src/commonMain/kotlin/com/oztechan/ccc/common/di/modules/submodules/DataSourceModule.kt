@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.di.modules
+package com.oztechan.ccc.common.di.modules.submodules
 
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
@@ -12,7 +12,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val dataSourceModule = module {
+internal val dataSourceModule = module {
     singleOf(::SettingsDataSourceImp) { bind<SettingsDataSource>() }
 
     singleOf(::CurrencyDataSourceImpl) { bind<CurrencyDataSource>() }
