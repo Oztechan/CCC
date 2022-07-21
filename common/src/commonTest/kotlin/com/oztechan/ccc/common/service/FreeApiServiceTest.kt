@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.model.EmptyParameterException
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.free.FreeApiServiceImpl
 import io.mockative.Mock
@@ -32,7 +32,7 @@ class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
         runCatching { service.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is EmptyParameterException }
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(freeApi)
@@ -50,7 +50,7 @@ class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertEquals(mockThrowable.toString(), it.exceptionOrNull().toString())
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(freeApi)

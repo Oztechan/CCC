@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.backend.BackendApi
+import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.model.EmptyParameterException
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
 import io.mockative.Mock
@@ -32,7 +32,7 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
         runCatching { service.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is EmptyParameterException }
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(backendApi)
@@ -50,7 +50,7 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertEquals(mockThrowable.toString(), it.exceptionOrNull().toString())
+            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
         }
 
         verify(backendApi)
