@@ -14,7 +14,7 @@ import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
@@ -38,13 +38,13 @@ class MainViewModelTest : BaseViewModelTest() {
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
-    private val configManager = mock(classOf<ConfigManager>())
+    private val configService = mock(classOf<ConfigService>())
 
     @Mock
     private val sessionManager = mock(classOf<SessionManager>())
 
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsDataSource, configManager, sessionManager)
+        MainViewModel(settingsDataSource, configService, sessionManager)
     }
 
     // SEED
@@ -138,8 +138,8 @@ class MainViewModelTest : BaseViewModelTest() {
         val mockConfig = AppConfig()
         val mockSessionCount = Random.nextLong()
 
-        given(configManager)
-            .invocation { configManager.appConfig }
+        given(configService)
+            .invocation { configService.appConfig }
             .then { mockConfig }
 
         given(settingsDataSource)
@@ -186,8 +186,8 @@ class MainViewModelTest : BaseViewModelTest() {
         )
         val mockSessionCount = Random.nextLong()
 
-        given(configManager)
-            .invocation { configManager.appConfig }
+        given(configService)
+            .invocation { configService.appConfig }
             .then { mockConfig }
 
         given(settingsDataSource)
@@ -222,7 +222,7 @@ class MainViewModelTest : BaseViewModelTest() {
             assertEquals(false, data.adJob.isActive)
         }
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
         verify(sessionManager)
@@ -238,8 +238,8 @@ class MainViewModelTest : BaseViewModelTest() {
         val mockConfig = AppConfig()
         val mockSessionCount = Random.nextLong()
 
-        given(configManager)
-            .invocation { configManager.appConfig }
+        given(configService)
+            .invocation { configService.appConfig }
             .then { mockConfig }
 
         given(settingsDataSource)
@@ -290,8 +290,8 @@ class MainViewModelTest : BaseViewModelTest() {
             )
         )
 
-        given(configManager)
-            .invocation { configManager.appConfig }
+        given(configService)
+            .invocation { configService.appConfig }
             .then { mockConfig }
 
         given(sessionManager)
@@ -306,7 +306,7 @@ class MainViewModelTest : BaseViewModelTest() {
             assertTrue { viewModel.data.isAppUpdateShown }
         }
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
 
@@ -327,8 +327,8 @@ class MainViewModelTest : BaseViewModelTest() {
                 .invocation { shouldShowInterstitialAd() }
                 .then { false }
 
-            given(configManager)
-                .invocation { configManager.appConfig }
+            given(configService)
+                .invocation { configService.appConfig }
                 .then { mockConfig }
 
             given(settingsDataSource)
@@ -352,7 +352,7 @@ class MainViewModelTest : BaseViewModelTest() {
             verify(sessionManager)
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
-            verify(configManager)
+            verify(configService)
                 .invocation { appConfig }
                 .wasInvoked()
         }
@@ -365,8 +365,8 @@ class MainViewModelTest : BaseViewModelTest() {
             )
             val mockSessionCount = Random.nextLong()
 
-            given(configManager)
-                .invocation { configManager.appConfig }
+            given(configService)
+                .invocation { configService.appConfig }
                 .then { mockConfig }
 
             given(settingsDataSource)

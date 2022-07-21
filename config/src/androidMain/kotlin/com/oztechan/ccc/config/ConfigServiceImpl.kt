@@ -10,11 +10,11 @@ import com.oztechan.ccc.config.model.AppConfig
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-actual class ConfigManagerImpl : ConfigManager {
+actual class ConfigServiceImpl : ConfigService {
     actual override var appConfig = AppConfig()
 
     init {
-        Logger.i { "ConfigManagerImpl init" }
+        Logger.i { "ConfigServiceImpl init" }
 
         Firebase.remoteConfig.apply {
 

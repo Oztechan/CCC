@@ -2,6 +2,6 @@ package com.oztechan.ccc.config
 
 import com.oztechan.ccc.config.model.AppConfig
 
-expect class ConfigManagerImpl() : ConfigManager {
+expect class ConfigServiceImpl() : ConfigService {
     override var appConfig: AppConfig
 }

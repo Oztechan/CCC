@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.manager.session.SessionManagerImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
@@ -23,13 +23,13 @@ import kotlin.test.assertTrue
 
 class SessionManagerTest {
     @Mock
-    private val configManager = mock(classOf<ConfigManager>())
+    private val configService = mock(classOf<ConfigService>())
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     private val sessionManager: SessionManagerImpl by lazy {
-        SessionManagerImpl(configManager, settingsDataSource)
+        SessionManagerImpl(configService, settingsDataSource)
     }
 
     @Test
@@ -44,7 +44,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -66,7 +66,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -83,7 +83,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -105,7 +105,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -122,7 +122,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -144,7 +144,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -161,7 +161,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -183,7 +183,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -200,7 +200,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -222,7 +222,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -239,7 +239,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -261,7 +261,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -278,7 +278,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -300,7 +300,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -317,7 +317,7 @@ class SessionManagerTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - 100)
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { AppConfig(adConfig = AdConfig(someInt)) }
 
@@ -339,7 +339,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -349,7 +349,7 @@ class SessionManagerTest {
         val someInt = Random.nextInt()
         val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -363,7 +363,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -373,7 +373,7 @@ class SessionManagerTest {
         val someInt = Random.nextInt()
         val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -387,7 +387,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -405,13 +405,13 @@ class SessionManagerTest {
             )
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertEquals(false, sessionManager.checkAppUpdate(false))
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -429,13 +429,13 @@ class SessionManagerTest {
             )
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertEquals(true, sessionManager.checkAppUpdate(false))
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -453,13 +453,13 @@ class SessionManagerTest {
             )
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertEquals(null, sessionManager.checkAppUpdate(false))
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -477,13 +477,13 @@ class SessionManagerTest {
             )
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertEquals(null, sessionManager.checkAppUpdate(false))
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -501,13 +501,13 @@ class SessionManagerTest {
             )
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertEquals(null, sessionManager.checkAppUpdate(true))
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -519,7 +519,7 @@ class SessionManagerTest {
             appReview = AppReview(appReviewSessionCount = mockInteger)
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -533,7 +533,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -545,7 +545,7 @@ class SessionManagerTest {
             appReview = AppReview(appReviewSessionCount = mockInteger)
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -559,7 +559,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -571,7 +571,7 @@ class SessionManagerTest {
             appReview = AppReview(appReviewSessionCount = mockInteger)
         )
 
-        given(configManager)
+        given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -585,7 +585,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configManager)
+        verify(configService)
             .invocation { appConfig }
             .wasInvoked()
     }

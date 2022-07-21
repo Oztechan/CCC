@@ -9,7 +9,7 @@ import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.config.ConfigManager
+import com.oztechan.ccc.config.ConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val settingsDataSource: SettingsDataSource,
-    private val configManager: ConfigManager,
+    private val configService: ConfigService,
     private val sessionManager: SessionManager
 ) : BaseSEEDViewModel(), MainEvent {
     // region SEED
@@ -37,13 +37,13 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
-            delay(configManager.appConfig.adConfig.interstitialAdInitialDelay)
+            delay(configService.appConfig.adConfig.interstitialAdInitialDelay)
 
             while (isActive && sessionManager.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
-                delay(configManager.appConfig.adConfig.interstitialAdPeriod)
+                delay(configService.appConfig.adConfig.interstitialAdPeriod)
             }
         }
     }
@@ -67,7 +67,7 @@ class MainViewModel(
     private fun checkReview() {
         if (sessionManager.shouldShowAppReview()) {
             viewModelScope.launch {
-                delay(configManager.appConfig.appReview.appReviewDialogDelay)
+                delay(configService.appConfig.appReview.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }
         }
