@@ -9,9 +9,9 @@ import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val currencyDataSource: CurrencyDataSource,
-    private val sessionManager: SessionManager
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -100,7 +100,7 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = false)
     }
 
-    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
+    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
 
     fun isFirstRun() = settingsDataSource.firstRun
 

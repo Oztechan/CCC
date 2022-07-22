@@ -3,9 +3,9 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
@@ -58,7 +58,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
 
     @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
+    private val sessionRepository = mock(classOf<SessionRepository>())
 
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
@@ -67,7 +67,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             currencyDataSource,
             offlineRatesDataSource,
             watcherDataSource,
-            sessionManager
+            sessionRepository
         )
     }
 
@@ -187,13 +187,13 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }

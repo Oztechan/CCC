@@ -6,9 +6,9 @@ package com.oztechan.ccc.client.viewmodel.settings
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
@@ -35,7 +35,7 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
     watcherDataSource: WatcherDataSource,
-    private val sessionManager: SessionManager
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -92,7 +92,7 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
+    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
 
     fun isRewardExpired() = settingsDataSource.adFreeEndDate.isRewardExpired()
 

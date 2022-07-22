@@ -3,8 +3,8 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.mapper.toUIModel
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -40,10 +40,10 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
+    private val sessionRepository = mock(classOf<SessionRepository>())
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionManager)
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -109,13 +109,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
