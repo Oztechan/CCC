@@ -5,7 +5,6 @@
 
 package com.oztechan.ccc.android.util
 
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -75,14 +74,12 @@ fun <T> Fragment.getNavigationResult(
     ?.savedStateHandle
     ?.getLiveData<T>(key)
 
-// todo here needs to be changed
-@SuppressLint("RestrictedApi")
 fun <T> Fragment.setNavigationResult(
     destinationId: Int,
     result: T,
     key: String
 ) = findNavController()
-    .currentBackStackEntry
+    .previousBackStackEntry
     ?.whether { it.destination.id == destinationId }
     ?.savedStateHandle?.set(key, result)
 
