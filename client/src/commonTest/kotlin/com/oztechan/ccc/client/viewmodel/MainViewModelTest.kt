@@ -7,7 +7,7 @@ package com.oztechan.ccc.client.viewmodel
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
-import com.oztechan.ccc.client.manager.session.SessionManager
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
@@ -41,10 +41,10 @@ class MainViewModelTest : BaseViewModelTest() {
     private val configService = mock(classOf<ConfigService>())
 
     @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
+    private val sessionRepository = mock(classOf<SessionRepository>())
 
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsDataSource, configService, sessionManager)
+        MainViewModel(settingsDataSource, configService, sessionRepository)
     }
 
     // SEED
@@ -146,15 +146,15 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount }
             .then { mockSessionCount }
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .thenReturn(false)
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { checkAppUpdate(true) }
             .thenReturn(false)
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowAppReview() }
             .then { true }
 
@@ -194,15 +194,15 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount }
             .then { mockSessionCount }
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .thenReturn(null)
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowInterstitialAd() }
             .thenReturn(true)
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowAppReview() }
             .then { true }
 
@@ -225,7 +225,7 @@ class MainViewModelTest : BaseViewModelTest() {
         verify(configService)
             .invocation { appConfig }
             .wasInvoked()
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { shouldShowInterstitialAd() }
             .wasInvoked()
         verify(settingsDataSource)
@@ -246,11 +246,11 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount }
             .then { mockSessionCount }
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .thenReturn(null)
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowAppReview() }
             .then { true }
 
@@ -258,7 +258,7 @@ class MainViewModelTest : BaseViewModelTest() {
 
         assertFalse { data.isAppUpdateShown }
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .wasInvoked()
     }
@@ -268,7 +268,7 @@ class MainViewModelTest : BaseViewModelTest() {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowInterstitialAd() }
             .then { false }
 
@@ -276,7 +276,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount }
             .then { mockSessionCount }
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .thenReturn(mockBoolean)
 
@@ -294,7 +294,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { configService.appConfig }
             .then { mockConfig }
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowAppReview() }
             .then { true }
 
@@ -310,7 +310,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { appConfig }
             .wasInvoked()
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { checkAppUpdate(false) }
             .wasInvoked()
     }
@@ -323,7 +323,7 @@ class MainViewModelTest : BaseViewModelTest() {
             )
             val mockSessionCount = Random.nextLong()
 
-            given(sessionManager)
+            given(sessionRepository)
                 .invocation { shouldShowInterstitialAd() }
                 .then { false }
 
@@ -335,11 +335,11 @@ class MainViewModelTest : BaseViewModelTest() {
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 
-            given(sessionManager)
+            given(sessionRepository)
                 .invocation { checkAppUpdate(false) }
                 .thenReturn(null)
 
-            given(sessionManager)
+            given(sessionRepository)
                 .invocation { shouldShowAppReview() }
                 .then { true }
 
@@ -349,7 +349,7 @@ class MainViewModelTest : BaseViewModelTest() {
                 assertTrue { it is MainEffect.RequestReview }
             }
 
-            verify(sessionManager)
+            verify(sessionRepository)
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
             verify(configService)
@@ -373,17 +373,17 @@ class MainViewModelTest : BaseViewModelTest() {
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 
-            given(sessionManager)
+            given(sessionRepository)
                 .invocation { checkAppUpdate(false) }
                 .thenReturn(null)
 
-            given(sessionManager)
+            given(sessionRepository)
                 .invocation { shouldShowAppReview() }
                 .then { false }
 
             onResume()
 
-            verify(sessionManager)
+            verify(sessionRepository)
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
         }

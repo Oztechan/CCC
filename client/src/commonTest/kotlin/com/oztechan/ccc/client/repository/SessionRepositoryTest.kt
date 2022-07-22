@@ -1,8 +1,8 @@
-package com.oztechan.ccc.client.manager
+package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
-import com.oztechan.ccc.client.manager.session.SessionManagerImpl
+import com.oztechan.ccc.client.repository.session.SessionRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
@@ -21,15 +21,16 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class SessionManagerTest {
+@Suppress("TooManyFunctions")
+class SessionRepositoryTest {
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
-    private val sessionManager: SessionManagerImpl by lazy {
-        SessionManagerImpl(configService, settingsDataSource)
+    private val repository: SessionRepositoryImpl by lazy {
+        SessionRepositoryImpl(configService, settingsDataSource)
     }
 
     @Test
@@ -52,7 +53,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -91,7 +92,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -130,7 +131,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -169,7 +170,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -208,7 +209,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -247,7 +248,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -286,7 +287,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { sessionManager.shouldShowBannerAd() }
+        assertFalse { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -325,7 +326,7 @@ class SessionManagerTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertTrue { sessionManager.shouldShowBannerAd() }
+        assertTrue { repository.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -357,7 +358,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .thenReturn(someInt.toLong() + 1)
 
-        assertTrue { sessionManager.shouldShowInterstitialAd() }
+        assertTrue { repository.shouldShowInterstitialAd() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -381,7 +382,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .thenReturn(someInt.toLong() - 1)
 
-        assertFalse { sessionManager.shouldShowInterstitialAd() }
+        assertFalse { repository.shouldShowInterstitialAd() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -409,7 +410,7 @@ class SessionManagerTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(false, sessionManager.checkAppUpdate(false))
+        assertEquals(false, repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -433,7 +434,7 @@ class SessionManagerTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(true, sessionManager.checkAppUpdate(false))
+        assertEquals(true, repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -457,7 +458,7 @@ class SessionManagerTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, sessionManager.checkAppUpdate(false))
+        assertEquals(null, repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -481,7 +482,7 @@ class SessionManagerTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, sessionManager.checkAppUpdate(false))
+        assertEquals(null, repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -505,7 +506,7 @@ class SessionManagerTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, sessionManager.checkAppUpdate(true))
+        assertEquals(null, repository.checkAppUpdate(true))
 
         verify(configService)
             .invocation { appConfig }
@@ -527,7 +528,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() + 1)
 
-        assertTrue { sessionManager.shouldShowAppReview() }
+        assertTrue { repository.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -553,7 +554,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() - 1)
 
-        assertFalse { sessionManager.shouldShowAppReview() }
+        assertFalse { repository.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -579,7 +580,7 @@ class SessionManagerTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong())
 
-        assertFalse { sessionManager.shouldShowAppReview() }
+        assertFalse { repository.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
