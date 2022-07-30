@@ -21,7 +21,6 @@ fun getImageByFileName(
     name: String
 ): ImageResource = MR.images.getImageByFileName(name.toImageFileName()) ?: MR.images.unknown
 
-
 fun getString(stringResource: StringResource): StringDesc {
     return StringDesc.Resource(stringResource)
 }

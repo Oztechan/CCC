@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 import Client
 
 struct SelectCurrencyItemView: View {

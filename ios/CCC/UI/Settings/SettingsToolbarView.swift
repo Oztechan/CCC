@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct SettingsToolbarView: View {
     var backEvent: () -> Void

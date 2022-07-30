@@ -25,7 +25,7 @@ kotlin {
         homepage = "https://github.com/CurrencyConverterCalculator/CCC"
         ios.deploymentTarget = "14.0"
         framework {
-            baseName = "Resources"
+            baseName = "Res"
         }
     }
 

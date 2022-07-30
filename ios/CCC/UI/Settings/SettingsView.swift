@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 import Client
 import NavigationStack
 import GoogleMobileAds
