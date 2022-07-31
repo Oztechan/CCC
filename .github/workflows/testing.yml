@@ -108,7 +108,7 @@ jobs:
         run: |
           ./gradlew client:podGenIOS res:podGenIOS --parallel
           cd ios/CCC
-          pod install
+          pod install --repo-update
 
       - name: Distrubute
         uses: maierj/fastlane-action@v2.2.0

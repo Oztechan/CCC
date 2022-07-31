@@ -1,5 +1,5 @@
 PODS:
-  - client (0.0.1460)
+  - client (0.0.1463)
   - Firebase/Analytics (8.2.0):
     - Firebase/Core
   - Firebase/Core (8.2.0):
@@ -94,7 +94,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (1.2.12)
-  - res (0.0.1461)
+  - res (0.0.1463)
 
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
@@ -126,7 +126,7 @@ EXTERNAL SOURCES:
     :path: "../res/res.podspec"
 
 SPEC CHECKSUMS:
-  client: 259d3207e09b0bb7bcc1e61d8ac50aff09c1c8a9
+  client: e19c5e57a28d8cdbb153b044a31c32000f637bb9
   Firebase: 12c568897b807321964e89d2b263ef4c6cff3db6
   FirebaseAnalytics: 7a744b1e7dc50125cb37714c6bdaea167e412082
   FirebaseCore: 3a83f24c3de69ec9f9a426e2598125ea51f3a2ce
@@ -140,7 +140,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  res: 66cfc148e7e15f1e48982ff39b8175094ea5139c
+  res: 0d124d6a619ebf4f8c7f404aad119a319937818c
 
 PODFILE CHECKSUM: f2073e145331acd9932feeee59fe501f74c97883
 
