@@ -7,7 +7,7 @@
 //
 
 import Client
-import Resources
+import Res
 import UserNotifications
 
 final class NotificationManager: ObservableObject {

@@ -8,7 +8,7 @@
 
 import MessageUI
 import SwiftUI
-import Resources
+import Res
 
 struct MailView: UIViewControllerRepresentable {
 

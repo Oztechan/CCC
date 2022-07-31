@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct WatchersToolbarView: View {
     var backEvent: () -> Void

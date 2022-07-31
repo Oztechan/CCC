@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Client
-import Resources
+import Res
 
 struct CalculatorItemView: View {
 

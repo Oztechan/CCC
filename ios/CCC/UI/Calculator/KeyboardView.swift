@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void

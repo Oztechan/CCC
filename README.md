@@ -34,8 +34,8 @@ ad-->android
 
 analytics-->android
 
-resources{resources}-->android
-resources-->ios
+res{res}-->android
+res-->ios
 
 client{client}-->android
 client-->ios
