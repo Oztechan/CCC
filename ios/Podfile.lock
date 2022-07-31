@@ -94,7 +94,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (1.2.12)
-  - res (0.0.1460)
+  - res (0.0.1461)
 
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
@@ -140,7 +140,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  res: 3120cb8e66bb3622a4ba7776570b887b109b4db2
+  res: 66cfc148e7e15f1e48982ff39b8175094ea5139c
 
 PODFILE CHECKSUM: f2073e145331acd9932feeee59fe501f74c97883
 
