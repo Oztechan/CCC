@@ -25,6 +25,7 @@
 		5C31E439281431A3008C42B9 /* SelectCurrencyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E438281431A3008C42B9 /* SelectCurrencyItemView.swift */; };
 		5C31E43F28145D32008C42B9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */; };
 		5C3EB6D528775993001E822A /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6D428775993001E822A /* SwiftMessages */; };
+		5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6D728775AFF001E822A /* GoogleMobileAds */; };
 		5C4B53692818057F00D10185 /* WatchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B53682818057F00D10185 /* WatchersView.swift */; };
 		5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536A2818066000D10185 /* WatchersToolbarView.swift */; };
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
@@ -120,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */,
 				15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */,
 				5C3EB6D528775993001E822A /* SwiftMessages in Frameworks */,
 				5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */,
@@ -342,6 +344,7 @@
 			packageProductDependencies = (
 				5C5C0BA32874B8450061AEF9 /* NavigationStack */,
 				5C3EB6D428775993001E822A /* SwiftMessages */,
+				5C3EB6D728775AFF001E822A /* GoogleMobileAds */,
 			);
 			productName = CCC;
 			productReference = 7555FF7B242A565900829871 /* CCC.app */;
@@ -374,6 +377,7 @@
 			packageReferences = (
 				5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 				5C3EB6D328775993001E822A /* XCRemoteSwiftPackageReference "SwiftMessages" */,
+				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -725,6 +729,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
@@ -740,6 +752,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C3EB6D328775993001E822A /* XCRemoteSwiftPackageReference "SwiftMessages" */;
 			productName = SwiftMessages;
+		};
+		5C3EB6D728775AFF001E822A /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;

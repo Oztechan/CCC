@@ -48,9 +48,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
     - PromisesObjC (~> 1.2)
-  - Google-Mobile-Ads-SDK (8.7.0):
-    - GoogleAppMeasurement (< 9.0, >= 7.0)
-    - GoogleUserMessagingPlatform (>= 1.1)
   - GoogleAppMeasurement (8.2.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -68,7 +65,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (~> 1.2)
-  - GoogleUserMessagingPlatform (2.0.0)
   - GoogleUtilities/AppDelegateSwizzler (7.4.3):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -100,7 +96,6 @@ DEPENDENCIES:
   - client (from `../client/client.podspec`)
   - Firebase/Analytics
   - Firebase/Crashlytics
-  - Google-Mobile-Ads-SDK
   - res (from `../res/res.podspec`)
 
 SPEC REPOS:
@@ -111,10 +106,8 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
     - FirebaseInstallations
-    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleUserMessagingPlatform
     - GoogleUtilities
     - nanopb
     - PromisesObjC
@@ -133,15 +126,13 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 61384f54989065b15c36b5922b65112e86811d3c
   FirebaseCrashlytics: 935dbdb043a286ca92a22d15e5780802403ea0ea
   FirebaseInstallations: 9394ea09e242bf0816e95ac30e56a9214cc86ced
-  Google-Mobile-Ads-SDK: e242f463fdb8564ac3f11847a30215a0e042c934
   GoogleAppMeasurement: b52eafc9dff542d580700e708216568bd2fbf168
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
-  GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   res: 0d124d6a619ebf4f8c7f404aad119a319937818c
 
-PODFILE CHECKSUM: f2073e145331acd9932feeee59fe501f74c97883
+PODFILE CHECKSUM: e9bcb055013081ee8363ce71bd8a6f9f29387400
 
 COCOAPODS: 1.11.2
