@@ -23,13 +23,9 @@ version = ProjectSettings.getVersionName(project)
 kotlin {
     android()
 
-    // todo Revert to just ios() when gradle plugin can properly resolve it
-    // todo it is necessary for xcodebuild, find workaround
-    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true) {
-        iosArm64("ios")
-    } else {
-        iosX64("ios")
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     cocoapods {
         summary = "CCC"
@@ -50,24 +46,25 @@ kotlin {
             }
         }
 
-        with(Dependencies.Common) {
-            val commonMain by getting {
-                dependencies {
+        val commonMain by getting {
+            dependencies {
+                with(Dependencies.Common) {
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
                     implementation(SCOPE_MOB)
                     implementation(PARSER_MOB)
                     implementation(LOG_MOB)
-
-                    with(Dependencies.Modules) {
-                        implementation(project(COMMON))
-                        implementation(project(CONFIG))
-                    }
+                }
+                with(Dependencies.Modules) {
+                    implementation(project(COMMON))
+                    implementation(project(CONFIG))
                 }
             }
-            val commonTest by getting {
-                dependencies {
+        }
+        val commonTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
                     implementation(MOCKATIVE)
@@ -76,19 +73,35 @@ kotlin {
             }
         }
 
-        with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
+        val androidMain by getting {
+            dependencies {
+                with(Dependencies.Android) {
                     implementation(ANDROID_MATERIAL)
                     implementation(KOIN_ANDROID)
                     implementation(LIFECYCLE_VIEWMODEL)
                 }
             }
-            val androidTest by getting
         }
+        val androidTest by getting
 
-        val iosMain by getting
-        val iosTest by getting
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+        }
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
+        }
     }
 }
 
