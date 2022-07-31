@@ -6,7 +6,7 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 import SwiftUI
-import Resources
+import Res
 import NavigationStack
 
 struct SliderView: View {

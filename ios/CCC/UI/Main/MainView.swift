@@ -8,7 +8,7 @@
 
 import SwiftUI
 import NavigationStack
-import Resources
+import Res
 import Client
 import GoogleMobileAds
 

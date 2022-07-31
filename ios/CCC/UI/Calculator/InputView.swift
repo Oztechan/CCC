@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct InputView: View {
     @Environment(\.colorScheme) var colorScheme
