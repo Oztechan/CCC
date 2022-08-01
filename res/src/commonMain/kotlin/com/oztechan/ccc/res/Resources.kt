@@ -1,4 +1,4 @@
-package com.oztechan.ccc.resources
+package com.oztechan.ccc.res
 
 fun String.toImageFileName() = lowercase()
     .replace("try", "tryy")

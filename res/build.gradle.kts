@@ -72,6 +72,6 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.resources"
+    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.res"
     disableStaticFrameworkWarning = true
 }
