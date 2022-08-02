@@ -13,7 +13,11 @@ import Firebase
 import GoogleMobileAds
 import BackgroundTasks
 
-let logger = LoggerKt.doInitLogger()
+#if RELEASE
+    let logger = LoggerKt.doInitLogger(enableCrashlytics: true)
+#else
+    let logger = LoggerKt.doInitLogger(enableCrashlytics: false)
+#endif
 
 @main
 struct Application: App {
