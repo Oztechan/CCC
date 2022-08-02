@@ -423,7 +423,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n./gradlew :res:embedAndSignAppleFrameworkForXcode\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
 		};
 		ABAB7B6EBA5C48167F3A008C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -623,6 +623,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../../client/build/cocoapods/framework\"",
+					"$(SRCROOT)/../res/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -632,6 +637,8 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lsqlite3",
+					"-framework",
+					res,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.oztechan.ccc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -649,6 +656,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../../client/build/cocoapods/framework\"",
+					"$(SRCROOT)/../res/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+				);
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -657,6 +669,8 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lsqlite3",
+					"-framework",
+					res,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.oztechan.ccc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
