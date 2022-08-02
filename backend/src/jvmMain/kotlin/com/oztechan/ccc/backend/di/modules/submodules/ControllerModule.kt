@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.di.modules
+package com.oztechan.ccc.backend.di.modules.submodules
 
 import com.oztechan.ccc.backend.controller.ApiController
 import com.oztechan.ccc.backend.controller.RootingController

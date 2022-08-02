@@ -1,4 +1,4 @@
-package com.oztechan.ccc.android.di
+package com.oztechan.ccc.android.di.module
 
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.AdManagerImpl
@@ -10,7 +10,7 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-var platformModule = module {
+internal var appModule = module {
     singleOf(::BillingManagerImpl) { bind<BillingManager>() }
     singleOf(::AdManagerImpl) { bind<AdManager>() }
     singleOf(::AnalyticsManagerImpl) { bind<AnalyticsManager>() }
