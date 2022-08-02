@@ -3,7 +3,7 @@
  */
 @file:Suppress("unused")
 
-package com.oztechan.ccc.resources
+package com.oztechan.ccc.res
 
 import dev.icerock.moko.graphics.toUIColor
 import dev.icerock.moko.resources.ColorResource

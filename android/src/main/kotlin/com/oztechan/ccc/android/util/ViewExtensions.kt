@@ -24,7 +24,7 @@ import com.github.submob.scopemob.castTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.resources.toImageFileName
+import com.oztechan.ccc.res.toImageFileName
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 
