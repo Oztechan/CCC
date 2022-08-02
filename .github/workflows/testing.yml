@@ -108,7 +108,7 @@ jobs:
         run: |
           ./gradlew client:podGenIOS res:podGenIOS --parallel
           cd ios/CCC
-          pod install
+          pod install --repo-update
 
       - name: Distrubute
         uses: maierj/fastlane-action@v2.2.0
@@ -124,6 +124,8 @@ jobs:
           GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 
       - name: Set Job Status
         id: status
