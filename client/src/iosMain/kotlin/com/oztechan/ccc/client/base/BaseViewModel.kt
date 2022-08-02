@@ -6,26 +6,20 @@ package com.oztechan.ccc.client.base
 
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
 @Suppress("EmptyDefaultConstructor", "unused")
 actual open class BaseViewModel actual constructor() {
 
-    private val viewModelJob = SupervisorJob()
-    private val viewModelScope: CoroutineScope = CoroutineScope(
-        Dispatchers.Main + viewModelJob
-    )
+    protected actual val viewModelScope: CoroutineScope = MainScope()
 
     init {
         Logger.d { "${this::class.simpleName} init" }
     }
 
-    protected actual val clientScope: CoroutineScope = viewModelScope
-
     protected actual open fun onCleared() {
         Logger.d { "${this::class.simpleName} onCleared" }
-        viewModelJob.cancelChildren()
+        viewModelScope.cancel()
     }
 }

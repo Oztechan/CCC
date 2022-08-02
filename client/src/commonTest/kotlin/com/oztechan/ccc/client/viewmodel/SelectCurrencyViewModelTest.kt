@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.util.after
@@ -12,8 +11,7 @@ import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyState
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.update
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.runTest
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -22,19 +20,20 @@ import io.mockative.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
-class SelectCurrencyViewModelTest {
+class SelectCurrencyViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(currencyRepository)
+        SelectCurrencyViewModel(currencyDataSource)
     }
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
@@ -46,9 +45,7 @@ class SelectCurrencyViewModelTest {
 
     @BeforeTest
     fun setup() {
-        initLogger(true)
-
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListEnough))
     }
@@ -80,7 +77,7 @@ class SelectCurrencyViewModelTest {
     // init
     @Test
     fun init_updates_the_states_with_no_enough_currency() = runTest {
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListNotEnough))
 
@@ -90,7 +87,7 @@ class SelectCurrencyViewModelTest {
             assertEquals(currencyListNotEnough.toUIModelList(), it?.currencyList)
         }
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .wasInvoked()
     }
@@ -105,7 +102,7 @@ class SelectCurrencyViewModelTest {
             }
         }
 
-        verify(currencyRepository)
+        verify(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .wasInvoked()
     }

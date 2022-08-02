@@ -1,10 +1,10 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
-import com.oztechan.ccc.common.entity.RatesEntity
 import com.oztechan.ccc.common.model.Rates
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
+import com.oztechan.ccc.common.api.model.Rates as RatesEntity
 import com.oztechan.ccc.common.db.sql.Offline_rates as OfflineRates
 
 internal fun OfflineRates.toRatesEntity() = RatesEntity(

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,8 +24,13 @@
 		5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E4352814308B008C42B9 /* SettingsItemView.swift */; };
 		5C31E439281431A3008C42B9 /* SelectCurrencyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E438281431A3008C42B9 /* SelectCurrencyItemView.swift */; };
 		5C31E43F28145D32008C42B9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */; };
+		5C3EB6D528775993001E822A /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6D428775993001E822A /* SwiftMessages */; };
+		5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6D728775AFF001E822A /* GoogleMobileAds */; };
+		5C3EB6DB28775F12001E822A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6DA28775F12001E822A /* FirebaseAnalytics */; };
+		5C3EB6DD28775F12001E822A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6DC28775F12001E822A /* FirebaseCrashlytics */; };
 		5C4B53692818057F00D10185 /* WatchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B53682818057F00D10185 /* WatchersView.swift */; };
 		5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536A2818066000D10185 /* WatchersToolbarView.swift */; };
+		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
 		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
@@ -118,7 +123,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */,
 				15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */,
+				5C3EB6D528775993001E822A /* SwiftMessages in Frameworks */,
+				5C3EB6DD28775F12001E822A /* FirebaseCrashlytics in Frameworks */,
+				5C3EB6DB28775F12001E822A /* FirebaseAnalytics in Frameworks */,
+				5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,14 +337,19 @@
 				7555FF78242A565900829871 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
 				7555FFB4242A642300829871 /* Embed Frameworks */,
-				01D0AF03C2FB2875D1357E9D /* [CP] Embed Pods Frameworks */,
-				5CBCF61F262CC83300B0B248 /* Firebase */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CCC;
+			packageProductDependencies = (
+				5C5C0BA32874B8450061AEF9 /* NavigationStack */,
+				5C3EB6D428775993001E822A /* SwiftMessages */,
+				5C3EB6D728775AFF001E822A /* GoogleMobileAds */,
+				5C3EB6DA28775F12001E822A /* FirebaseAnalytics */,
+				5C3EB6DC28775F12001E822A /* FirebaseCrashlytics */,
+			);
 			productName = CCC;
 			productReference = 7555FF7B242A565900829871 /* CCC.app */;
 			productType = "com.apple.product-type.application";
@@ -363,6 +378,12 @@
 				Base,
 			);
 			mainGroup = 7555FF72242A565900829871;
+			packageReferences = (
+				5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
+				5C3EB6D328775993001E822A /* XCRemoteSwiftPackageReference "SwiftMessages" */,
+				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				5C3EB6D928775F12001E822A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -387,43 +408,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01D0AF03C2FB2875D1357E9D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CCC/Pods-CCC-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CCC/Pods-CCC-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CCC/Pods-CCC-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CBCF61F262CC83300B0B248 /* Firebase */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = Firebase;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n\n    \"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\n    \"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/CCC/Resources/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\nfi\n";
-		};
 		7555FFB5242A651A00829871 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -439,7 +423,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :resources:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
 		};
 		ABAB7B6EBA5C48167F3A008C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -703,6 +687,69 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5C3EB6D328775993001E822A /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		5C3EB6D928775F12001E822A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C3EB6D428775993001E822A /* SwiftMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3EB6D328775993001E822A /* XCRemoteSwiftPackageReference "SwiftMessages" */;
+			productName = SwiftMessages;
+		};
+		5C3EB6D728775AFF001E822A /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		5C3EB6DA28775F12001E822A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3EB6D928775F12001E822A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		5C3EB6DC28775F12001E822A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C3EB6D928775F12001E822A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			productName = NavigationStack;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

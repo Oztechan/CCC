@@ -5,7 +5,6 @@
 
 package com.oztechan.ccc.android.util
 
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -22,9 +21,10 @@ import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.resources.toImageFileName
+import com.oztechan.ccc.res.toImageFileName
 import mustafaozhan.github.com.mycurrencies.R
 import java.io.FileNotFoundException
 
@@ -74,15 +74,13 @@ fun <T> Fragment.getNavigationResult(
     ?.savedStateHandle
     ?.getLiveData<T>(key)
 
-// todo here needs to be changed
-@SuppressLint("RestrictedApi")
 fun <T> Fragment.setNavigationResult(
     destinationId: Int,
     result: T,
     key: String
 ) = findNavController()
-    .backStack
-    .firstOrNull { it.destination.id == destinationId }
+    .previousBackStackEntry
+    ?.whether { it.destination.id == destinationId }
     ?.savedStateHandle?.set(key, result)
 
 fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
@@ -135,7 +133,7 @@ fun View.copyToClipBoard(text: String) {
     val clip = ClipData.newPlainText(CLIPBOARD_LABEL, text)
 
     clipboard?.setPrimaryClip(clip)?.let {
-        showSnack(this, context.getString(R.string.copied_to_clipboard))
+        showSnack(context.getString(R.string.copied_to_clipboard))
     }
 }
 

@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.entity.CurrencyResponseEntity
 import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
 import com.oztechan.ccc.common.db.sql.Offline_rates as OfflineRates
 
 internal fun CurrencyResponseEntity.toModel(

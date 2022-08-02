@@ -6,7 +6,7 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import Resources
+import Res
 import Client
 import SwiftUI
 

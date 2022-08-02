@@ -21,74 +21,86 @@ kotlin {
 
     android()
 
-    // todo Revert to just ios() when gradle plugin can properly resolve it
-    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true) {
-        iosArm64("ios")
-    } else {
-        iosX64("ios")
-    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     jvm()
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
-        with(Dependencies.Common) {
-            val commonMain by getting {
-                dependencies {
+        val commonMain by getting {
+            dependencies {
+                with(Dependencies.Common) {
                     implementation(MULTIPLATFORM_SETTINGS)
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(KOIN_CORE)
                     implementation(KTOR_LOGGING)
-                    implementation(KTOR_SETIALIZATION)
+                    implementation(KTOR_JSON)
+                    implementation(KTOR_CONTENT_NEGOTIATION)
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
                     implementation(LOG_MOB)
-                    implementation(COROUTINES) {
-                        version {
-                            strictly(Versions.COROUTINES)
-                        }
-                    }
+                    implementation(COROUTINES)
                 }
             }
-            val commonTest by getting {
-                dependencies {
+        }
+        val commonTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
                     implementation(kotlin(TEST))
                     implementation(kotlin(TEST_ANNOTATIONS))
                     implementation(MOCKATIVE)
+                    implementation(COROUTINES_TEST)
                 }
             }
         }
 
-        with(Dependencies.Android) {
-            val androidMain by getting {
-                dependencies {
+        val androidMain by getting {
+            dependencies {
+                with(Dependencies.Android) {
                     implementation(SQL_DELIGHT)
                     implementation(KTOR)
                 }
             }
-            val androidTest by getting
         }
+        val androidTest by getting
 
-        with(Dependencies.IOS) {
-            val iosMain by getting {
-                dependencies {
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependencies {
+                with(Dependencies.IOS) {
                     implementation(KTOR)
                     implementation(SQL_DELIGHT)
                 }
             }
-            val iosTest by getting
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+        }
+        val iosX64Test by getting
+        val iosArm64Test by getting
+        val iosSimulatorArm64Test by getting
+        val iosTest by creating {
+            dependsOn(commonTest)
+            iosX64Test.dependsOn(this)
+            iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
         }
 
-        with(Dependencies.JVM) {
-            val jvmMain by getting {
-                dependencies {
+        val jvmMain by getting {
+            dependencies {
+                with(Dependencies.JVM) {
                     implementation(KTOR)
                     implementation(SQLLITE_DRIVER)
                 }
             }
-            val jvmTest by getting
         }
+        val jvmTest by getting
     }
 }
 

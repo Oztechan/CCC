@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 import Client
 import NavigationStack
 
@@ -18,7 +18,7 @@ struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: CurrenciesObservable = koin.get()
+    @StateObject var observable = CurrenciesObservable(viewModel: koin.get())
 
     var onBaseChange: (String) -> Void
 

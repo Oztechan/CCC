@@ -8,12 +8,12 @@ import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.mapper.toRates
 import com.oztechan.ccc.client.mapper.toTodayResponse
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.model.RateState
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -27,12 +27,12 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
-import com.oztechan.ccc.common.api.repo.ApiRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -45,11 +45,11 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    private val settingsRepository: SettingsRepository,
-    private val apiRepository: ApiRepository,
-    private val currencyRepository: CurrencyRepository,
-    private val offlineRatesRepository: OfflineRatesRepository,
-    private val sessionManager: SessionManager
+    private val settingsDataSource: SettingsDataSource,
+    private val backendApiService: BackendApiService,
+    private val currencyDataSource: CurrencyDataSource,
+    private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -64,7 +64,7 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        _state.update(base = settingsRepository.currentBase, input = "")
+        _state.update(base = settingsDataSource.currentBase, input = "")
 
         state.map { it.base }
             .distinctUntilChanged()
@@ -72,7 +72,7 @@ class CalculatorViewModel(
                 Logger.d { "CalculatorViewModel base changed $it" }
                 currentBaseChanged(it)
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
 
         state.map { it.input }
             .distinctUntilChanged()
@@ -80,20 +80,20 @@ class CalculatorViewModel(
                 Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
 
-        currencyRepository.collectActiveCurrencies()
+        currencyDataSource.collectActiveCurrencies()
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
             }
-            .launchIn(clientScope)
+            .launchIn(viewModelScope)
     }
 
     private fun getRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
-    } ?: clientScope.launch {
-        runCatching { apiRepository.getRatesByBackend(settingsRepository.currentBase) }
+    } ?: viewModelScope.launch {
+        runCatching { backendApiService.getRates(settingsDataSource.currentBase) }
             .onFailure(::getRatesFailed)
             .onSuccess(::getRatesSuccess)
     }
@@ -103,16 +103,16 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it, RateState.Online(it.date))
         }.also {
-            offlineRatesRepository.insertOfflineRates(currencyResponse.toTodayResponse())
+            offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
         }
 
     private fun getRatesFailed(t: Throwable) {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
-        offlineRatesRepository.getOfflineRatesByBase(
-            settingsRepository.currentBase
+        offlineRatesDataSource.getOfflineRatesByBase(
+            settingsDataSource.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
-        } ?: clientScope.launch {
+        } ?: viewModelScope.launch {
             Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
 
             state.value.currencyList.size
@@ -126,7 +126,7 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateOutput(input: String) = clientScope.launch {
+    private fun calculateOutput(input: String) = viewModelScope.launch {
         _state.update(loading = true)
         data.parser
             .calculate(input.toSupportedCharacters(), PRECISION)
@@ -160,15 +160,15 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String) {
         data.rates = null
-        settingsRepository.currentBase = newBase
+        settingsDataSource.currentBase = newBase
         _state.update(
             base = newBase,
             input = _state.value.input,
-            symbol = currencyRepository.getCurrencyByName(newBase)?.symbol.orEmpty()
+            symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
     }
 
-    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
+    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {
@@ -208,11 +208,11 @@ class CalculatorViewModel(
 
     override fun onItemImageLongClick(currency: Currency) {
         Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
-        clientScope.launch {
+        viewModelScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
-                        settingsRepository.currentBase,
+                        settingsDataSource.currentBase,
                         data.rates
                     ),
                     currency.name
@@ -223,17 +223,17 @@ class CalculatorViewModel(
 
     override fun onItemAmountLongClick(amount: String) {
         Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
-        clientScope.launch {
+        viewModelScope.launch {
             _effect.emit(CalculatorEffect.CopyToClipboard(amount))
         }
     }
 
-    override fun onBarClick() = clientScope.launchIgnored {
+    override fun onBarClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)
     }
 
-    override fun onSettingsClicked() = clientScope.launchIgnored {
+    override fun onSettingsClicked() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
     }

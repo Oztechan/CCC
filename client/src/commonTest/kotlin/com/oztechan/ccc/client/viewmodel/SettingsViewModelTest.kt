@@ -3,10 +3,9 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
@@ -15,14 +14,13 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.settings.update
-import com.oztechan.ccc.common.api.repo.ApiRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
-import com.oztechan.ccc.common.runTest
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
@@ -33,6 +31,7 @@ import io.mockative.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -41,34 +40,34 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class SettingsViewModelTest {
+class SettingsViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
-    private val apiRepository = mock(classOf<ApiRepository>())
+    private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
+    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
 
     @Mock
-    private val watcherRepository = mock(classOf<WatcherRepository>())
+    private val watcherDataSource = mock(classOf<WatcherDataSource>())
 
     @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
+    private val sessionRepository = mock(classOf<SessionRepository>())
 
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
-            settingsRepository,
-            apiRepository,
-            currencyRepository,
-            offlineRatesRepository,
-            watcherRepository,
-            sessionManager
+            settingsDataSource,
+            backendApiService,
+            currencyDataSource,
+            offlineRatesDataSource,
+            watcherDataSource,
+            sessionRepository
         )
     }
 
@@ -84,21 +83,19 @@ class SettingsViewModelTest {
 
     @BeforeTest
     fun setup() {
-        initLogger(true)
-
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { appTheme }
             .thenReturn(-1)
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
-        given(watcherRepository)
+        given(watcherDataSource)
             .invocation { collectWatchers() }
             .then { flowOf(watcherLists) }
     }
@@ -156,11 +153,11 @@ class SettingsViewModelTest {
             }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { appTheme = mockTheme.themeValue }
             .wasInvoked()
 
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + DAY)
 
@@ -170,7 +167,7 @@ class SettingsViewModelTest {
             assertTrue { it is SettingsEffect.AlreadyAdFree }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -178,10 +175,10 @@ class SettingsViewModelTest {
     @Test
     fun isRewardExpired() {
         assertEquals(
-            settingsRepository.adFreeEndDate.isRewardExpired(),
+            settingsDataSource.adFreeEndDate.isRewardExpired(),
             viewModel.isRewardExpired()
         )
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -190,39 +187,39 @@ class SettingsViewModelTest {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 
     @Test
     fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(1)
 
         assertFalse { viewModel.isAdFreeNeverActivated() }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
     @Test
     fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
         assertTrue { viewModel.isAdFreeNeverActivated() }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -234,7 +231,7 @@ class SettingsViewModelTest {
         }.after {
             assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
 
-            verify(settingsRepository)
+            verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
@@ -247,7 +244,7 @@ class SettingsViewModelTest {
         }.after {
             assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
 
-            verify(settingsRepository)
+            verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
         }
     }
@@ -310,7 +307,7 @@ class SettingsViewModelTest {
             assertTrue { it is SettingsEffect.RemoveAds }
         }
 
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -324,8 +321,8 @@ class SettingsViewModelTest {
 
     @Test
     fun onSyncClick() {
-        given(currencyRepository)
-            .function(currencyRepository::getActiveCurrencies)
+        given(currencyDataSource)
+            .function(currencyDataSource::getActiveCurrencies)
             .whenInvoked()
             .thenReturn(listOf())
 

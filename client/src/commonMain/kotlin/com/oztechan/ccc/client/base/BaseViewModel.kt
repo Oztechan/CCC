@@ -8,6 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 
 @Suppress("EmptyDefaultConstructor")
 expect open class BaseViewModel() {
-    protected val clientScope: CoroutineScope
+    protected val viewModelScope: CoroutineScope
     protected open fun onCleared()
 }

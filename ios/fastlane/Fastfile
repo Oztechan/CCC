@@ -62,7 +62,7 @@ platform :ios do
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
             )
-            upload_symbols_to_crashlytics(dsym_path: "../ios/CCC.app.dSYM.zip")
+            upload_crashlytics_symbols
         end
 
         lane :publish do
@@ -74,7 +74,7 @@ platform :ios do
                 profile: "match AppStore com.oztechan.ccc"
             )
             upload_to_testflight(skip_waiting_for_build_processing: true)
-            upload_symbols_to_crashlytics(dsym_path: "../ios/CCC.app.dSYM.zip")
+            upload_crashlytics_symbols
         end
 
         # Sub lines
@@ -136,6 +136,13 @@ platform :ios do
                         "com.oztechan.ccc": options[:profile]
                     }
                 },
+            )
+        end
+
+        lane :upload_crashlytics_symbols do
+            upload_symbols_to_crashlytics(
+                dsym_path: "../ios/CCC.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
             )
         end
 end

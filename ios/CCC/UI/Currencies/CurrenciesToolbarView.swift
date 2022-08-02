@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct CurrenciesToolbarView: View {
     var firstRun: Bool

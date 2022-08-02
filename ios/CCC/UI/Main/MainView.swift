@@ -8,7 +8,7 @@
 
 import SwiftUI
 import NavigationStack
-import Resources
+import Res
 import Client
 import GoogleMobileAds
 
@@ -16,7 +16,7 @@ typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, 
 
 struct MainView: View {
 
-    @StateObject var observable: MainObservable = koin.get()
+    @StateObject var observable = MainObservable(viewModel: koin.get())
 
     var body: some View {
 

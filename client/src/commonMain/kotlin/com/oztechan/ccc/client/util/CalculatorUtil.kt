@@ -8,10 +8,13 @@ package com.oztechan.ccc.client.util
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
 
-expect fun Double.getFormatted(): String
+internal const val MAXIMUM_FLOATING_POINT = CalculatorData.PRECISION
+
+expect fun Double.getFormatted(precision: Int = 3): String
 
 expect fun Double.removeScientificNotation(): String
 

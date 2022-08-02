@@ -1,12 +1,13 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.runTest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
 
+@Suppress("OPT_IN_USAGE")
 class CurrencyTest {
 
     private val entity = CurrencyEntity("Dollar", "United State Dollar", "$", 12.3, 1)

@@ -3,9 +3,8 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.mapper.toUIModel
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
@@ -13,81 +12,92 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.common.api.repo.ApiRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
-import com.oztechan.ccc.common.runTest
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class CalculatorViewModelTest {
+class CalculatorViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     @Mock
-    private val apiRepository = mock(classOf<ApiRepository>())
+    private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesRepository = mock(classOf<OfflineRatesRepository>())
+    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
 
     @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
+    private val sessionRepository = mock(classOf<SessionRepository>())
 
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            settingsRepository,
-            apiRepository,
-            currencyRepository,
-            offlineRatesRepository,
-            sessionManager
+            settingsDataSource,
+            backendApiService,
+            currencyDataSource,
+            offlineRatesDataSource,
+            sessionRepository
         )
     }
 
-    private val currency = Currency("USD", "Dollar", "$", 12345.6789, true)
+    private val currency = Currency("USD", "Dollar", "$", 12345.678, true)
     private val currencyUIModel = currency.toUIModel()
     private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
 
     @BeforeTest
     fun setup() {
-        initLogger(true)
-
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
-            .thenReturn("")
+            .thenReturn(currency.name)
 
-        given(currencyRepository)
+        given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
+        given(offlineRatesDataSource)
+            .invocation { getOfflineRatesByBase(currency.name) }
+            .thenReturn(currencyResponse.rates)
+
+        runTest {
+            given(backendApiService)
+                .coroutine { getRates(currency.name) }
+                .thenReturn(currencyResponse)
+        }
+
+        given(currencyDataSource)
+            .invocation { getCurrencyByName(currency.name) }
+            .thenReturn(currency)
     }
 
     @Test
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionManager)
+        verify(sessionRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
@@ -169,17 +179,13 @@ class CalculatorViewModelTest {
 
     @Test
     fun onBaseChanged() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(currency.name)
 
-        given(currencyRepository)
-            .invocation { currencyRepository.getCurrencyByName(currency.name) }
-            .thenReturn(currency)
-
         runTest {
-            given(apiRepository)
-                .coroutine { getRatesByBackend(currency.name) }
+            given(backendApiService)
+                .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)
         }
 

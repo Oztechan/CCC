@@ -131,6 +131,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+    @Suppress("ComplexMethod")
     private fun observeEffects() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
@@ -168,22 +169,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> updateAppTheme(viewEffect.themeValue)
-                SettingsEffect.Synchronising -> showSnack(
-                    requireView(),
-                    R.string.txt_synchronising
-                )
-                SettingsEffect.Synchronised -> showSnack(
-                    requireView(),
-                    R.string.txt_synced
-                )
-                SettingsEffect.OnlyOneTimeSync -> showSnack(
-                    requireView(),
-                    R.string.txt_already_synced
-                )
-                SettingsEffect.AlreadyAdFree -> showSnack(
-                    requireView(),
-                    R.string.txt_ads_already_disabled
-                )
+                SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
+                SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
+                SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
+                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
                 SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

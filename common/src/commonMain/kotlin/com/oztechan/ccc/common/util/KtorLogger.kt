@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.util
 
 import co.touchlab.kermit.Logger
-import io.ktor.client.features.logging.Logger as LoggerKtor
+import io.ktor.client.plugins.logging.Logger as LoggerKtor
 
 class KtorLogger : LoggerKtor {
     override fun log(message: String) {

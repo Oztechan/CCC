@@ -21,10 +21,10 @@
       location = "container:"
       name = "Resources">
       <FileRef
-         location = "group:../resources/src/commonMain">
+         location = "group:../res/src/commonMain">
       </FileRef>
       <FileRef
-         location = "group:../resources/src/iosMain">
+         location = "group:../res/src/iosMain">
       </FileRef>
    </Group>
 </Workspace>

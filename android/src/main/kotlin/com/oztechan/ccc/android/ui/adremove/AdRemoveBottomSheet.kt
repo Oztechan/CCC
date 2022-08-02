@@ -46,10 +46,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "AdRemoveBottomSheet onViewCreated" }
-        billingManager.startConnection(
-            viewLifecycleOwner.lifecycleScope,
-            RemoveAdType.getPurchaseIds()
-        )
+        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, RemoveAdType.getPurchaseIds())
         initViews()
         observeStates()
         observeEffects()
@@ -98,16 +95,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                             showRewardedAd()
                         }
                     } else {
-                        billingManager.launchBillingFlow(
-                            requireActivity(),
-                            viewEffect.removeAdType.data.id
-                        )
+                        billingManager.launchBillingFlow(requireActivity(), viewEffect.removeAdType.data.id)
                     }
                 }
                 is AdRemoveEffect.AdsRemoved -> {
-                    if (viewEffect.removeAdType == RemoveAdType.VIDEO ||
-                        viewEffect.isRestorePurchase
-                    ) {
+                    if (viewEffect.removeAdType == RemoveAdType.VIDEO || viewEffect.isRestorePurchase) {
                         restartActivity()
                     } else {
                         billingManager.acknowledgePurchase()
@@ -140,7 +132,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             adId = getString(R.string.android_rewarded_ad_unit_id),
             onAdFailedToLoad = {
                 adRemoveViewModel.showLoadingView(false)
-                view?.let { showSnack(it, R.string.error_text_unknown) }
+                view?.showSnack(R.string.error_text_unknown)
             },
             onAdLoaded = {
                 adRemoveViewModel.showLoadingView(false)

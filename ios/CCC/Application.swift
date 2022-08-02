@@ -7,13 +7,17 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 import Client
 import Firebase
 import GoogleMobileAds
 import BackgroundTasks
 
-let logger = LoggerKt.doInitLogger()
+#if RELEASE
+    let logger = LoggerKt.doInitLogger(enableCrashlytics: true)
+#else
+    let logger = LoggerKt.doInitLogger(enableCrashlytics: false)
+#endif
 
 @main
 struct Application: App {
@@ -21,7 +25,7 @@ struct Application: App {
     @State var alertVisibility: Bool = false
 
     private let notificationManager = NotificationManager()
-    private let backgroundManager: BackgroundManager
+    private let backgroundRepository: BackgroundRepository
 
     private let taskID = "com.oztechan.ccc.CCC.fetch"
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
@@ -45,7 +49,7 @@ struct Application: App {
         ))
         UITableView.appearance().backgroundColor = MR.colors().transparent.get()
 
-        self.backgroundManager = koin.get()
+        self.backgroundRepository = koin.get()
 
         registerAppRefresh()
     }
@@ -104,7 +108,7 @@ struct Application: App {
 
         scheduleAppRefresh()
 
-        if backgroundManager.shouldSendNotification() {
+        if backgroundRepository.shouldSendNotification() {
 
             if scenePhase == .background {
                 self.notificationManager.sendNotification(

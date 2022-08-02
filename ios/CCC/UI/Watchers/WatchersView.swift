@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Client
-import Resources
+import Res
 import NavigationStack
 
 typealias WatchersObservable = ObservableSEED
@@ -16,7 +16,7 @@ typealias WatchersObservable = ObservableSEED
 
 struct WatchersView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: WatchersObservable = koin.get()
+    @StateObject var observable = WatchersObservable(viewModel: koin.get())
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)

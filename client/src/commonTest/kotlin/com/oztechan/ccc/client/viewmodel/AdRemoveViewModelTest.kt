@@ -13,7 +13,7 @@ import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveState
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.client.viewmodel.adremove.update
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
 import io.mockative.classOf
@@ -27,13 +27,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class AdRemoveViewModelTest {
+class AdRemoveViewModelTest : BaseViewModelTest() {
 
     @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
+    private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     private val viewModel: AdRemoveViewModel by lazy {
-        AdRemoveViewModel(settingsRepository)
+        AdRemoveViewModel(settingsDataSource)
     }
 
     // SEED
@@ -63,7 +63,7 @@ class AdRemoveViewModelTest {
     @Test
     fun updateAddFreeDate() {
         viewModel.updateAddFreeDate(null)
-        verify(settingsRepository)
+        verify(settingsDataSource)
             .invocation { adFreeEndDate }
             .wasNotInvoked()
 
@@ -73,7 +73,7 @@ class AdRemoveViewModelTest {
             }.after {
                 assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType, false), it)
 
-                verify(settingsRepository)
+                verify(settingsDataSource)
                     .invocation { adFreeEndDate = adRemoveType.calculateAdRewardEnd() }
                     .wasInvoked()
             }
@@ -82,7 +82,7 @@ class AdRemoveViewModelTest {
 
     @Test
     fun restorePurchase() {
-        given(settingsRepository)
+        given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
