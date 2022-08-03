@@ -116,11 +116,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Install Cocoapods
-        run: |
-          cd ios/CCC
-          pod install --repo-update
-
       - name: Build
         uses: maierj/fastlane-action@v2.2.0
         with:
