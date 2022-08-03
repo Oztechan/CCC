@@ -6,6 +6,5 @@ target 'CCC' do
   use_frameworks!
 
   # Pods for CCC
-  pod 'client', :path => '../client/client.podspec'
 
 end

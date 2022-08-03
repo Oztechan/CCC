@@ -118,7 +118,6 @@ jobs:
 
       - name: Install Cocoapods
         run: |
-          ./gradlew client:podGenIOS --parallel
           cd ios/CCC
           pod install --repo-update
 
