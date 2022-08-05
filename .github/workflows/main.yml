@@ -36,7 +36,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-latest
+    runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -86,7 +86,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   XCodeBuild:
-    runs-on: macos-latest
+    runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -115,12 +115,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: Install Cocoapods
-        run: |
-          ./gradlew client:podGenIOS res:podGenIOS --parallel
-          cd ios/CCC
-          pod install --repo-update
 
       - name: Build
         uses: maierj/fastlane-action@v2.2.0

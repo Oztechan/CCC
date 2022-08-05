@@ -1,4 +1,3 @@
-Pods/
 build
 CCC/Resources/GoogleService-Info.plist
 CCC/Resources/Release.xcconfig
@@ -6,6 +5,3 @@ fastlane/.env
 fastlane/README.md
 fastlane/report.xml
 xcuserdata
-
-# TODO it is a workaround remove when Xcode & SPM bug fixed
-/CCC.xcworkspace/xcshareddata/swiftpm/Package.resolved
