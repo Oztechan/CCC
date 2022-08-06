@@ -4,9 +4,6 @@
    <FileRef
       location = "group:CCC.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
    <Group
       location = "container:"
       name = "Client">
@@ -19,7 +16,7 @@
    </Group>
    <Group
       location = "container:"
-      name = "Resources">
+      name = "Res">
       <FileRef
          location = "group:../res/src/commonMain">
       </FileRef>
@@ -27,4 +24,7 @@
          location = "group:../res/src/iosMain">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>
