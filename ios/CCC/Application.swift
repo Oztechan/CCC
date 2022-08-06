@@ -9,7 +9,7 @@
 import SwiftUI
 import Res
 import Client
-import Firebase
+import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
 
