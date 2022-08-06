@@ -6,7 +6,7 @@
 object Versions {
     const val KOTLIN = "1.7.10"
     const val KSP = "$KOTLIN-1.0.6"
-    const val ANDROID_GRADLE_PLUGIN = "7.2.1"
+    const val ANDROID_GRADLE_PLUGIN = "7.2.2"
     const val ANDROID_MATERIAL = "1.6.1"
     const val CONSTRAINT_LAYOUT = "2.1.4"
     const val KTOR = "2.0.3"
@@ -29,7 +29,7 @@ object Versions {
     const val LIFECYCLE = "2.5.1"
     const val MOKO_RESOURCES = "0.20.1"
     const val DEPENDENCY_UPDATES = "0.42.0"
-    const val BUILD_HEALTH = "1.11.3"
+    const val BUILD_HEALTH = "1.12.0"
     const val BUILD_KONFIG = "0.12.0"
     const val WORK_RUNTIME = "2.7.1"
     const val SPLASH_SCREEN = "1.0.0"
