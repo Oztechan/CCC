@@ -116,6 +116,12 @@ jobs:
         with:
           java-version: 11
 
+      - name: Install Cocoapods
+        run: |
+          ./gradlew client:podGenIOS res:podGenIOS --parallel
+          cd ios/CCC
+          pod install --repo-update
+
       - name: Build
         uses: maierj/fastlane-action@v2.2.0
         with:

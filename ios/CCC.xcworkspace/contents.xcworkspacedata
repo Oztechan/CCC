@@ -24,4 +24,7 @@
          location = "group:../res/src/iosMain">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

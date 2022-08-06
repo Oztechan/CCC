@@ -104,6 +104,12 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
+      - name: Install Cocoapods
+        run: |
+          ./gradlew client:podGenIOS res:podGenIOS --parallel
+          cd ios/CCC
+          pod install --repo-update
+
       - name: Distrubute
         uses: maierj/fastlane-action@v2.2.0
         with:
