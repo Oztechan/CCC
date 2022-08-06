@@ -19,7 +19,7 @@
    </Group>
    <Group
       location = "container:"
-      name = "Res">
+      name = "Resources">
       <FileRef
          location = "group:../res/src/commonMain">
       </FileRef>

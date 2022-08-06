@@ -1,6 +1,7 @@
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
+        kotlin(COCOAPODS)
         id(ANDROID_LIB)
         id(MOKO_RESOURCES)
     }
@@ -11,14 +12,16 @@ version = ProjectSettings.getVersionName(project)
 kotlin {
     android()
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "CCC"
+        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
+        ios.deploymentTarget = "14.0"
+        framework {
             baseName = "Res"
-            isStatic = true
         }
     }
 
@@ -30,6 +33,7 @@ kotlin {
             }
         }
         val commonTest by getting
+
         val androidMain by getting
         val androidTest by getting
 
