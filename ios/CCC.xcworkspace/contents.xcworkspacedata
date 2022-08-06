@@ -4,6 +4,9 @@
    <FileRef
       location = "group:CCC.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
    <Group
       location = "container:"
       name = "Client">

@@ -83,6 +83,7 @@ object Dependencies {
         const val ANDROID = "android"
         const val ANDROID_APP = "com.android.application"
         const val ANDROID_LIB = "com.android.library"
+        const val COCOAPODS = "native.cocoapods"
         const val BUILD_KONFIG = "com.codingfeline.buildkonfig"
         const val CRASHLYTICS = "com.google.firebase.crashlytics"
         const val GOOGLE_SERVICES = "com.google.gms.google-services"
