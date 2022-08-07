@@ -247,7 +247,6 @@
 			children = (
 				7555FF84242A565B00829871 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
-				5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */,
 				5CB954C526934EFC007632DC /* Release.xcconfig */,
 				5CB954CD269362E2007632DC /* Debug.xcconfig */,
 				5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */,
@@ -295,6 +294,7 @@
 				5C6E674325C5C870001CC0D6 /* Util */,
 				5C5D093D2562EC5800DA9C4A /* Resources */,
 				7555FF86242A565B00829871 /* Preview Content */,
+				5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */,
 			);
 			path = CCC;
 			sourceTree = "<group>";

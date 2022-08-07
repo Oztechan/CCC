@@ -126,6 +126,7 @@ platform :ios do
             build_app(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
+                configuration: "Release",
                 xcargs: "-allowProvisioningUpdates",
                 codesigning_identity: options[:identity],
                 export_options: {
