@@ -70,12 +70,12 @@ Open CCC folder with Android Studio and select `android` from configurations and
 ### iOS
 
 ```shell
-./gradlew :client:podspec &&
-cd ios/CCC
+./gradlew :client:podspec :res:podspec --parallel &&
+cd ios/CCC &&
 pod install --repo-update
 ```
 
-Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
+Then open `CCC/ios/CCC.xcworkspace` with XCode after the packages are resolved you can run the project, please not XCode version should be bigger than `13.2.1`
 
 ### Backend
 
