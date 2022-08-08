@@ -13,11 +13,7 @@ import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
 
-#if RELEASE
-    let logger = LoggerKt.doInitLogger(enableCrashlytics: true)
-#else
-    let logger = LoggerKt.doInitLogger(enableCrashlytics: false)
-#endif
+let logger = LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
 
 @main
 struct Application: App {
@@ -33,9 +29,9 @@ struct Application: App {
     init() {
         logger.i(message: {"Application init"})
 
-        #if RELEASE
+        if EnvironmentUtil.isRelease {
             FirebaseApp.configure()
-        #endif
+        }
 
 //        GADMobileAds.sharedInstance().start(completionHandler: nil)
 

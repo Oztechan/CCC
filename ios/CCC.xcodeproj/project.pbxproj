@@ -41,6 +41,7 @@
 		5C8EB4A9260CB5E200DC4A90 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */; };
 		5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */; };
 		5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */; };
+		5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */; };
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
@@ -98,6 +99,7 @@
 		5C8EB4A8260CB5E200DC4A90 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSEED.swift; sourceTree = "<group>"; };
 		5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyImageView.swift; sourceTree = "<group>"; };
+		5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUtil.swift; sourceTree = "<group>"; };
 		5C9A59BA25C350DE006745B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				5CF57E39269588060081E4BB /* RewardedAd.swift */,
 				5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */,
 				5CEA86F42840CF65001386FB /* NotificationManager.swift */,
+				5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C31E42D28142058008C42B9 /* SelectionView.swift in Sources */,
+				5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
