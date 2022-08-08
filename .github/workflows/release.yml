@@ -54,7 +54,7 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/GoogleService-Info.plist
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
@@ -202,7 +202,7 @@ jobs:
       - name: Adding secret files
         run: |
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/GoogleService-Info.plist
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
