@@ -23,16 +23,26 @@ object ProjectSettings {
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 31
 
-    fun getVersionCode(project: Project) = gitCommitCount(project).toInt() + BASE_VERSION_CODE
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
+    fun getVersionCode(project: Project) = try {
+        gitCommitCount(project).toInt() + BASE_VERSION_CODE
+    } catch (e: Exception) {
+        1
+    }
 
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun getVersionName(
         project: Project
-    ): String = if (isMaster(project)) {
-        "$MAYOR_VERSION.$MINOR_VERSION.${getVersionCode(project) - VERSION_DIF - BASE_VERSION_CODE}"
-    } else {
-        "0.0.${getVersionCode(project)}" // testing build
-    }.also {
-        if (isCI()) project.setIOSVersion(it)
+    ): String = try {
+        if (isMaster(project)) {
+            "$MAYOR_VERSION.$MINOR_VERSION.${getVersionCode(project) - VERSION_DIF - BASE_VERSION_CODE}"
+        } else {
+            "0.0.${getVersionCode(project)}" // testing build
+        }.also {
+            if (isCI()) project.setIOSVersion(it)
+        }
+    } catch (e: Exception) {
+        "0.0.1"
     }
 
     private fun gitCommitCount(project: Project): String {
