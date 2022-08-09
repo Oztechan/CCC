@@ -10,10 +10,10 @@ import Foundation
 
 public struct EnvironmentUtil {
     public static var isRelease: Bool {
-        #if RELEASE
-        return true
-        #else
+        #if DEBUG
         return false
+        #else
+        return true
         #endif
     }
 }
