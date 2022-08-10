@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.datasource.offlinerates
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.datasource.BaseDataSource
+import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.db.sql.OfflineRatesQueries
 import com.oztechan.ccc.common.mapper.toCurrencyResponseEntity
 import com.oztechan.ccc.common.mapper.toModel
@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 internal class OfflineRatesDataSourceImpl(
     private val offlineRatesQueries: OfflineRatesQueries,
     ioDispatcher: CoroutineDispatcher
-) : OfflineRatesDataSource, BaseDataSource(ioDispatcher) {
+) : OfflineRatesDataSource, BaseDBDataSource(ioDispatcher) {
 
     override suspend fun insertOfflineRates(currencyResponse: CurrencyResponse) = dbQuery {
         Logger.v { "OfflineRatesDataSourceImpl insertOfflineRates ${currencyResponse.base}" }

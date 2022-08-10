@@ -1,53 +1,64 @@
 package com.oztechan.ccc.common.datasource.watcher
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.db.sql.WatcherQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModelList
+import com.oztechan.ccc.common.model.Watcher
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 
 class WatcherDataSourceImpl(
-    private val watcherQueries: WatcherQueries
-) : WatcherDataSource {
+    private val watcherQueries: WatcherQueries,
+    private val ioDispatcher: CoroutineDispatcher
+) : WatcherDataSource, BaseDBDataSource(ioDispatcher) {
 
-    override fun addWatcher(
-        base: String,
-        target: String
-    ) = watcherQueries.addWatcher(base, target)
-        .also { Logger.v { "WatcherDataSourceImpl addWatcher $base $target" } }
+    override fun collectWatchers(): Flow<List<Watcher>> {
+        Logger.v { "WatcherDataSourceImpl collectWatchers" }
+        return watcherQueries.getWatchers()
+            .asFlow()
+            .mapToList(ioDispatcher)
+            .mapToModel()
+    }
 
-    override fun collectWatchers() = watcherQueries
-        .getWatchers()
-        .asFlow()
-        .mapToList()
-        .mapToModel()
-        .also { Logger.v { "WatcherDataSourceImpl collectWatchers" } }
+    override suspend fun addWatcher(base: String, target: String) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl addWatcher $base $target" }
+        watcherQueries.addWatcher(base, target)
+    }
 
-    override fun getWatchers() = watcherQueries
-        .getWatchers()
-        .executeAsList()
-        .toModelList()
-        .also { Logger.v { "WatcherDataSourceImpl getWatchers" } }
+    override suspend fun getWatchers() = dbQuery {
+        Logger.v { "WatcherDataSourceImpl getWatchers" }
+        watcherQueries.getWatchers()
+            .executeAsList()
+            .toModelList()
+    }
 
-    override fun deleteWatcher(id: Long) = watcherQueries
-        .deleteWatcher(id)
-        .also { Logger.v { "WatcherDataSourceImpl addWatcher $id" } }
+    override suspend fun deleteWatcher(id: Long) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl addWatcher $id" }
+        watcherQueries.deleteWatcher(id)
+    }
 
-    override fun updateBaseById(base: String, id: Long) = watcherQueries
-        .updateBaseById(base, id)
-        .also { Logger.v { "WatcherDataSourceImpl updateBaseById $base $id" } }
+    override suspend fun updateBaseById(base: String, id: Long) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl updateBaseById $base $id" }
+        watcherQueries.updateBaseById(base, id)
+    }
 
-    override fun updateTargetById(target: String, id: Long) = watcherQueries
-        .updateTargetById(target, id)
-        .also { Logger.v { "WatcherDataSourceImpl updateTargetById $target $id" } }
+    override suspend fun updateTargetById(target: String, id: Long) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl updateTargetById $target $id" }
+        watcherQueries.updateTargetById(target, id)
+    }
 
-    override fun updateRelationById(isGreater: Boolean, id: Long) = watcherQueries
-        .updateRelationById(isGreater.toLong(), id)
-        .also { Logger.v { "WatcherDataSourceImpl updateRelationById $isGreater $id" } }
+    override suspend fun updateRelationById(isGreater: Boolean, id: Long) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl updateRelationById $isGreater $id" }
+        watcherQueries.updateRelationById(isGreater.toLong(), id)
+    }
 
-    override fun updateRateById(rate: Double, id: Long) = watcherQueries
-        .updateRateById(rate, id)
-        .also { Logger.v { "WatcherDataSourceImpl updateRateById $rate $id" } }
+    override suspend fun updateRateById(rate: Double, id: Long) = dbQuery {
+        Logger.v { "WatcherDataSourceImpl updateRateById $rate $id" }
+        watcherQueries.updateRateById(rate, id)
+    }
 }

@@ -4,12 +4,12 @@ import com.oztechan.ccc.common.model.Watcher
 import kotlinx.coroutines.flow.Flow
 
 interface WatcherDataSource {
-    fun addWatcher(base: String, target: String)
     fun collectWatchers(): Flow<List<Watcher>>
-    fun getWatchers(): List<Watcher>
-    fun deleteWatcher(id: Long)
-    fun updateBaseById(base: String, id: Long)
-    fun updateTargetById(target: String, id: Long)
-    fun updateRelationById(isGreater: Boolean, id: Long)
-    fun updateRateById(rate: Double, id: Long)
+    suspend fun addWatcher(base: String, target: String)
+    suspend fun getWatchers(): List<Watcher>
+    suspend fun deleteWatcher(id: Long)
+    suspend fun updateBaseById(base: String, id: Long)
+    suspend fun updateTargetById(target: String, id: Long)
+    suspend fun updateRelationById(isGreater: Boolean, id: Long)
+    suspend fun updateRateById(rate: Double, id: Long)
 }
