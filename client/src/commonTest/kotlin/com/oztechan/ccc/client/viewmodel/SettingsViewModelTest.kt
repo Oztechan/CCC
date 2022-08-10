@@ -321,10 +321,11 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onSyncClick() {
-        given(currencyDataSource)
-            .function(currencyDataSource::getActiveCurrencies)
-            .whenInvoked()
-            .thenReturn(listOf())
+        runTest {
+            given(currencyDataSource)
+                .coroutine { currencyDataSource.getActiveCurrencies() }
+                .thenReturn(listOf())
+        }
 
         viewModel.effect.before {
             viewModel.event.onSyncClick()

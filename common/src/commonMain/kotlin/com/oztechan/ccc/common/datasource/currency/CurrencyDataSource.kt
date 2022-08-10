@@ -8,11 +8,11 @@ interface CurrencyDataSource {
 
     fun collectActiveCurrencies(): Flow<List<Currency>>
 
-    fun getActiveCurrencies(): List<Currency>
+    suspend fun getActiveCurrencies(): List<Currency>
 
-    fun updateCurrencyStateByName(name: String, isActive: Boolean)
+    suspend fun updateCurrencyStateByName(name: String, isActive: Boolean)
 
-    fun updateAllCurrencyState(value: Boolean)
+    suspend fun updateAllCurrencyState(value: Boolean)
 
-    fun getCurrencyByName(name: String): Currency?
+    suspend fun getCurrencyByName(name: String): Currency?
 }

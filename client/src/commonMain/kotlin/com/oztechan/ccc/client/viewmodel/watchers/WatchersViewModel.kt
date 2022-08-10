@@ -70,10 +70,11 @@ class WatchersViewModel(
         }
     }
 
-    override fun onAddClick() {
+    override fun onAddClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onAddClick" }
+
         if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            viewModelScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
+            _effect.emit(WatchersEffect.MaximumNumberOfWatchers)
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
                 watcherDataSource.addWatcher(

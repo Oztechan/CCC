@@ -80,11 +80,11 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             given(backendApiService)
                 .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)
-        }
 
-        given(currencyDataSource)
-            .invocation { getCurrencyByName(currency.name) }
-            .thenReturn(currency)
+            given(currencyDataSource)
+                .coroutine { getCurrencyByName(currency.name) }
+                .thenReturn(currency)
+        }
     }
 
     @Test

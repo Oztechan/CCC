@@ -105,12 +105,12 @@ class CurrenciesViewModel(
     fun isFirstRun() = settingsDataSource.firstRun
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) {
+    override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
         currencyDataSource.updateAllCurrencyState(state)
     }
 
-    override fun onItemClick(currency: Currency) {
+    override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onItemClick ${currency.name}" }
         currencyDataSource.updateCurrencyStateByName(currency.name, !currency.isActive)
     }
