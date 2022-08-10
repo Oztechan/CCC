@@ -113,16 +113,18 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it, RateState.Online(it.date))
         }.also {
-            offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
+            viewModelScope.launch {
+                offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
+            }
         }
 
-    private fun getRatesFailed(t: Throwable) {
+    private fun getRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesDataSource.getOfflineRatesByBase(
             settingsDataSource.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
-        } ?: viewModelScope.launch {
+        } ?: run {
             Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
 
             state.value.currencyList.size

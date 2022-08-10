@@ -18,6 +18,6 @@ internal val dataSourceModule = module {
     singleOf(::SettingsDataSourceImp) { bind<SettingsDataSource>() }
 
     single<CurrencyDataSource> { CurrencyDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
-    singleOf(::OfflineRatesDataSourceImpl) { bind<OfflineRatesDataSource>() }
+    single<OfflineRatesDataSource> { OfflineRatesDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
     singleOf(::WatcherDataSourceImpl) { bind<WatcherDataSource>() }
 }
