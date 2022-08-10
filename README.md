@@ -32,7 +32,8 @@ billing-->android
 
 ad-->android
 
-analytics-->android
+analytics{analytics}-->android
+analytics-->ios
 
 res{res}-->android
 res-->ios
@@ -70,7 +71,7 @@ Open CCC folder with Android Studio and select `android` from configurations and
 ### iOS
 
 ```shell
-./gradlew :client:podspec :res:podspec --parallel &&
+./gradlew :client:podspec :res:podspec :analytics:podspec --parallel &&
 cd ios/CCC &&
 pod install --repo-update
 ```
