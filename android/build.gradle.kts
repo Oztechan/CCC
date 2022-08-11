@@ -127,6 +127,5 @@ dependencies {
         implementation(project(RES))
         implementation(project(BILLING))
         implementation(project(AD))
-        implementation(project(ANALYTICS))
     }
 }

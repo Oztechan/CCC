@@ -33,6 +33,7 @@ kotlin {
         ios.deploymentTarget = "14.0"
         framework {
             baseName = "Client"
+            export(project(Dependencies.Modules.ANALYTICS))
         }
     }
 
@@ -59,6 +60,7 @@ kotlin {
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
+                    api(project(ANALYTICS))
                 }
             }
         }

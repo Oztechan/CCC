@@ -1,7 +1,6 @@
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
         id(ANDROID_LIB)
     }
 }
@@ -14,15 +13,6 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-
-    cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "Analytics"
-        }
-    }
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
