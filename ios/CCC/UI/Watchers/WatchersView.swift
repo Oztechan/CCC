@@ -21,6 +21,8 @@ struct WatchersView: View {
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     var watcher: Client.Watcher?
 
     var body: some View {
@@ -121,6 +123,7 @@ struct WatchersView: View {
         .onAppear {
             observable.startObserving()
             notificationManager.reloadAuthorisationStatus()
+            analyticsManager.trackScreen(screenName: ScreenName.Watchers())
         }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }

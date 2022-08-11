@@ -13,6 +13,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
@@ -57,7 +58,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Calculator)
     }
 
     override fun onDestroyView() {

@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.setNavigationResult
 import com.oztechan.ccc.android.util.showLoading
@@ -52,7 +53,7 @@ class SelectCurrencyBottomSheet :
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.SelectCurrency)
     }
 
     private fun initViews() {

@@ -12,6 +12,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
@@ -62,7 +63,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.AdRemove)
     }
 
     private fun initViews() {

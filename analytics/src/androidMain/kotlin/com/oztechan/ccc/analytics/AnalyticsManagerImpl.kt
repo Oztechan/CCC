@@ -7,6 +7,7 @@ import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.analytics.util.isDeviceRooted
 
@@ -19,10 +20,10 @@ class AnalyticsManagerImpl(
         setDefaultUserProperties(context)
     }
 
-    override fun trackScreen(screenName: String) {
+    override fun trackScreen(screenName: ScreenName) {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-            param(FirebaseAnalytics.Param.SCREEN_CLASS, screenName)
+            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName.getScreenName())
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, screenName.getScreenName())
         }
     }
 

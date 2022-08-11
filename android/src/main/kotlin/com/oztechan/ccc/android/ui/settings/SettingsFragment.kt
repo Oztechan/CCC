@@ -14,6 +14,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -193,7 +194,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Settings)
         Logger.i { "SettingsFragment onResume" }
     }
 

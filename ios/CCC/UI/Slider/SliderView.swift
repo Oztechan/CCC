@@ -8,9 +8,12 @@
 import SwiftUI
 import Res
 import NavigationStack
+import Client
 
 struct SliderView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
+
+    private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
 
@@ -45,7 +48,9 @@ struct SliderView: View {
                                                 CurrenciesView(onBaseChange: { _ in })
                                             )
                                         }
-                                    )
+                                    ).onAppear {
+                                        analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 2))
+                                    }
 
 //                                )
 //                            }
@@ -53,7 +58,9 @@ struct SliderView: View {
 
                     )
                 }
-            )
+            ).onAppear {
+                analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 0))
+            }
         }
     }
 }
