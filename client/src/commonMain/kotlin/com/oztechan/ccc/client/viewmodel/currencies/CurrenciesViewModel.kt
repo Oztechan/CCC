@@ -86,10 +86,7 @@ class CurrenciesViewModel(
     }?.let { newBase ->
         settingsDataSource.currentBase = newBase
 
-        analyticsManager.trackEvent(
-            Event.BASE_CHANGE,
-            mapOf(EventParam.BASE to newBase)
-        )
+        analyticsManager.trackEvent(Event.BASE_CHANGE, mapOf(EventParam.BASE to newBase))
 
         viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
