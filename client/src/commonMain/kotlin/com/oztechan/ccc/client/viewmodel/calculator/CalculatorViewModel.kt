@@ -9,7 +9,7 @@ import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
-import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toRates
 import com.oztechan.ccc.client.mapper.toTodayResponse
@@ -171,7 +171,7 @@ class CalculatorViewModel(
             symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
 
-        analyticsManager.trackEvent(Event.BASE_CHANGE, mapOf(EventParam.BASE to newBase))
+        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
     }
 
     fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
@@ -216,7 +216,7 @@ class CalculatorViewModel(
     override fun onItemImageLongClick(currency: Currency) {
         Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
 
-        analyticsManager.trackEvent(Event.SHOW_CONVERSION, mapOf(EventParam.BASE to currency.name))
+        analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.name)))
 
         viewModelScope.launch {
             _effect.emit(
@@ -234,7 +234,7 @@ class CalculatorViewModel(
     override fun onItemAmountLongClick(amount: String) {
         Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
 
-        analyticsManager.trackEvent(Event.COPY_CLIPBOARD)
+        analyticsManager.trackEvent(Event.CopyClipboard)
 
         viewModelScope.launch {
             _effect.emit(CalculatorEffect.CopyToClipboard(amount))

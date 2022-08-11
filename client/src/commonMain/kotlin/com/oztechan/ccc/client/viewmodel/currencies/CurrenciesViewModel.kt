@@ -10,7 +10,7 @@ import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
-import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
@@ -86,7 +86,7 @@ class CurrenciesViewModel(
     }?.let { newBase ->
         settingsDataSource.currentBase = newBase
 
-        analyticsManager.trackEvent(Event.BASE_CHANGE, mapOf(EventParam.BASE to newBase))
+        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
 
         viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }

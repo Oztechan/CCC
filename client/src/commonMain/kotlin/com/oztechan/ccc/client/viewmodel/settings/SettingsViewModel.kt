@@ -162,7 +162,7 @@ class SettingsViewModel(
     override fun onSyncClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSyncClick" }
 
-        analyticsManager.trackEvent(Event.OFFLINE_SYNC)
+        analyticsManager.trackEvent(Event.OfflineSync)
 
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
