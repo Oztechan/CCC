@@ -7,6 +7,7 @@
 package com.oztechan.ccc.client.di
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.client.di.module.clientModules
 import com.oztechan.ccc.common.di.NativeDependencyWrapper
 import com.oztechan.ccc.common.di.modules.commonModules
@@ -20,9 +21,13 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
-fun initIOS(userDefaults: NSUserDefaults) = startKoin {
+fun initIOS(
+    userDefaults: NSUserDefaults,
+    analyticsManager: AnalyticsManager
+) = startKoin {
     val appModule = module {
         single { NativeDependencyWrapper(userDefaults) }
+        single { analyticsManager }
     }
 
     modules(
