@@ -29,7 +29,6 @@ class AnalyticsManagerImpl: AnalyticsManager {
     }
 
     func trackScreen(screenName: ScreenName) {
-        logger.i(message: {"------------- \(screenName.getScreenName())"})
         Analytics.logEvent(
             AnalyticsEventScreenView,
             parameters: [
