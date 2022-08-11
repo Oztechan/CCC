@@ -8,5 +8,6 @@ target 'CCC' do
   # Pods for CCC
   pod 'client', :path => '../client/client.podspec'
   pod 'res', :path => '../res/res.podspec'
+  pod 'analytics', :path => '../analytics/analytics.podspec'
 
 end
