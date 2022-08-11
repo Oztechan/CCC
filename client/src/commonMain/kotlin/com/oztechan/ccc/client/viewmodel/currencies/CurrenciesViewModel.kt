@@ -8,6 +8,9 @@ import com.github.submob.scopemob.either
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
+import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
@@ -29,7 +32,8 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val currencyDataSource: CurrencyDataSource,
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
@@ -81,6 +85,12 @@ class CurrenciesViewModel(
         state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
     }?.let { newBase ->
         settingsDataSource.currentBase = newBase
+
+        analyticsManager.trackEvent(
+            Event.BASE_CHANGE,
+            mapOf(EventParam.BASE to newBase)
+        )
+
         viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
 

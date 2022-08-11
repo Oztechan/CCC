@@ -10,8 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.EventParam
-import com.oztechan.ccc.analytics.model.FirebaseEvent
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.setNavigationResult
 import com.oztechan.ccc.android.util.showLoading
@@ -83,10 +81,6 @@ class SelectCurrencyBottomSheet :
             Logger.i { "SelectCurrencyBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is SelectCurrencyEffect.CurrencyChange -> {
-                    analyticsManager.trackEvent(
-                        FirebaseEvent.BASE_CHANGE,
-                        mapOf(EventParam.BASE to viewEffect.newBase)
-                    )
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,

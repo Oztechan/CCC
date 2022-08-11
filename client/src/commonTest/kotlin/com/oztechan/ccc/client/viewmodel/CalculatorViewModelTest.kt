@@ -3,6 +3,9 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
+import com.oztechan.ccc.analytics.model.EventParam
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -49,13 +52,17 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
             settingsDataSource,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
-            sessionRepository
+            sessionRepository,
+            analyticsManager
         )
     }
 
@@ -140,6 +147,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             ),
             it
         )
+
+        verify(analyticsManager)
+            .invocation { trackEvent(Event.SHOW_CONVERSION, mapOf(EventParam.BASE to currencyUIModel.name)) }
+            .wasInvoked()
     }
 
     @Test
@@ -150,6 +161,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             CalculatorEffect.CopyToClipboard(currencyUIModel.rate.toString()),
             it
         )
+
+        verify(analyticsManager)
+            .invocation { trackEvent(Event.COPY_CLIPBOARD) }
+            .wasInvoked()
     }
 
     @Test
@@ -195,6 +210,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals(currency.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
             assertEquals(currency.name, it?.base)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.BASE_CHANGE, mapOf(EventParam.BASE to currency.name)) }
+                .wasInvoked()
         }
     }
 }

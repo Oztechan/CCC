@@ -40,7 +40,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private val calculatorAdapter: CalculatorAdapter by lazy {
-        CalculatorAdapter(calculatorViewModel.event, analyticsManager)
+        CalculatorAdapter(calculatorViewModel.event)
     }
 
     override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)

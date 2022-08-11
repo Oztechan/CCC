@@ -3,6 +3,8 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.session.SessionRepository
@@ -60,6 +62,9 @@ class SettingsViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
             settingsDataSource,
@@ -67,7 +72,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
             currencyDataSource,
             offlineRatesDataSource,
             watcherDataSource,
-            sessionRepository
+            sessionRepository,
+            analyticsManager
         )
     }
 
@@ -339,5 +345,9 @@ class SettingsViewModelTest : BaseViewModelTest() {
             assertTrue { viewModel.data.synced }
             assertTrue { it is SettingsEffect.OnlyOneTimeSync }
         }
+
+        verify(analyticsManager)
+            .invocation { trackEvent(Event.OFFLINE_SYNC) }
+            .wasInvoked()
     }
 }

@@ -5,6 +5,8 @@ package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
@@ -28,14 +30,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
     watcherDataSource: WatcherDataSource,
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
@@ -158,6 +161,9 @@ class SettingsViewModel(
 
     override fun onSyncClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSyncClick" }
+
+        analyticsManager.trackEvent(Event.OFFLINE_SYNC)
+
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {

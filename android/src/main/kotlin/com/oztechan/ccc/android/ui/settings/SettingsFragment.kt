@@ -14,7 +14,6 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.FirebaseEvent
 import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -184,10 +183,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
             itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
-            itemSync.root.setOnClickListener {
-                onSyncClick()
-                analyticsManager.trackEvent(FirebaseEvent.OFFLINE_SYNC)
-            }
+            itemSync.root.setOnClickListener { onSyncClick() }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }
             itemShare.root.setOnClickListener { onShareClick() }
