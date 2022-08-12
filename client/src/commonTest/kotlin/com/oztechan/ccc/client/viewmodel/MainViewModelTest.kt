@@ -26,6 +26,7 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -49,6 +50,17 @@ class MainViewModelTest : BaseViewModelTest() {
 
     private val viewModel: MainViewModel by lazy {
         MainViewModel(settingsDataSource, configService, sessionRepository, analyticsManager)
+    }
+
+    @BeforeTest
+    fun setup() {
+        given(settingsDataSource)
+            .invocation { adFreeEndDate }
+            .then { nowAsLong() }
+
+        given(settingsDataSource)
+            .invocation { sessionCount }
+            .then { 1L }
     }
 
     // SEED
