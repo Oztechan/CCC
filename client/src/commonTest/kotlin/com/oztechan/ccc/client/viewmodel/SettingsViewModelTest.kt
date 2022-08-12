@@ -347,7 +347,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         }
 
         verify(analyticsManager)
-            .invocation { trackEvent(Event.OFFLINE_SYNC) }
+            .invocation { trackEvent(Event.OfflineSync) }
             .wasInvoked()
     }
 }

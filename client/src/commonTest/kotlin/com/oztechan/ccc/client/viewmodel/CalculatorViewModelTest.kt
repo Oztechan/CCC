@@ -5,7 +5,7 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
-import com.oztechan.ccc.analytics.model.EventParam
+import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -149,7 +149,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         )
 
         verify(analyticsManager)
-            .invocation { trackEvent(Event.SHOW_CONVERSION, mapOf(EventParam.BASE to currencyUIModel.name)) }
+            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.name))) }
             .wasInvoked()
     }
 
@@ -163,7 +163,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         )
 
         verify(analyticsManager)
-            .invocation { trackEvent(Event.COPY_CLIPBOARD) }
+            .invocation { trackEvent(Event.CopyClipboard) }
             .wasInvoked()
     }
 
@@ -212,7 +212,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals(currency.name, it?.base)
 
             verify(analyticsManager)
-                .invocation { trackEvent(Event.BASE_CHANGE, mapOf(EventParam.BASE to currency.name)) }
+                .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }
                 .wasInvoked()
         }
     }

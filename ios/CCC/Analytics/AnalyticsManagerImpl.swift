@@ -15,16 +15,17 @@ class AnalyticsManagerImpl: AnalyticsManager {
         Analytics.setUserProperty(value, forName: userProperty.key)
     }
 
-    func trackEvent(event: Event, params: [EventParam: String]?) {
-        if params != nil {
+    func trackEvent(event: Event) {
+        if event.getParams() == nil {
+            Analytics.logEvent(event.key, parameters: nil)
+        } else {
+
             var analyticsParams = [String: String]()
-            for (key, value) in params! {
-                analyticsParams[key.key] = value
-        }
+            for (key, value) in event.getParams()! {
+                analyticsParams[key] = value
+            }
 
             Analytics.logEvent(event.key, parameters: analyticsParams)
-        } else {
-            Analytics.logEvent(event.key, parameters: nil)
         }
     }
 
