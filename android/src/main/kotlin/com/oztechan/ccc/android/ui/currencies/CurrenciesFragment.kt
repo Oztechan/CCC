@@ -16,8 +16,6 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.EventParam
-import com.oztechan.ccc.analytics.model.FirebaseEvent
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.hideKeyboard
@@ -151,10 +149,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     analyticsManager.setUserProperty(
                         UserProperty.BASE_CURRENCY,
                         viewEffect.newBase
-                    )
-                    analyticsManager.trackEvent(
-                        FirebaseEvent.BASE_CHANGE,
-                        mapOf(EventParam.BASE to viewEffect.newBase)
                     )
                     setNavigationResult(
                         R.id.calculatorFragment,

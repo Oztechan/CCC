@@ -14,7 +14,7 @@ class AnalyticsManagerImpl: AnalyticsManager {
         Analytics.setUserProperty(value, forName: userProperty.key)
     }
 
-    func trackEvent(event: FirebaseEvent, params: [EventParam: String]?) {
+    func trackEvent(event: Event, params: [EventParam: String]?) {
         if params != nil {
             var analyticsParams = [String: String]()
             for (key, value) in params! {

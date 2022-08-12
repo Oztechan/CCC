@@ -3,6 +3,7 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -42,8 +43,11 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository)
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository, analyticsManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
