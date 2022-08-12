@@ -16,7 +16,7 @@ class AnalyticsManagerImpl(
     private val firebaseAnalytics by lazy { Firebase.analytics }
 
     init {
-        setDefaultUserProperties(context)
+        setUserProperty(UserProperty.IsRooted(isDeviceRooted(context)))
     }
 
     override fun trackScreen(screenName: ScreenName) {
@@ -26,8 +26,8 @@ class AnalyticsManagerImpl(
         }
     }
 
-    override fun setUserProperty(userProperty: UserProperty, value: String) {
-        firebaseAnalytics.setUserProperty(userProperty.key, value)
+    override fun setUserProperty(userProperty: UserProperty) {
+        firebaseAnalytics.setUserProperty(userProperty.key, userProperty.value)
     }
 
     override fun trackEvent(event: Event) {
@@ -36,9 +36,5 @@ class AnalyticsManagerImpl(
                 param(it.key, it.value)
             }
         }
-    }
-
-    private fun setDefaultUserProperties(context: Context) {
-        setUserProperty(UserProperty.IS_ROOTED, isDeviceRooted(context))
     }
 }

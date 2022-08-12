@@ -7,7 +7,7 @@ import com.oztechan.ccc.analytics.model.UserProperty
 interface AnalyticsManager {
     fun trackScreen(screenName: ScreenName)
 
-    fun setUserProperty(userProperty: UserProperty, value: String)
+    fun setUserProperty(userProperty: UserProperty)
 
     fun trackEvent(event: Event)
 }

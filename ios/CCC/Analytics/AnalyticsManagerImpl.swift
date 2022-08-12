@@ -11,8 +11,8 @@ import FirebaseAnalytics
 
 class AnalyticsManagerImpl: AnalyticsManager {
 
-    func setUserProperty(userProperty: UserProperty, value: String) {
-        Analytics.setUserProperty(value, forName: userProperty.key)
+    func setUserProperty(userProperty: UserProperty) {
+        Analytics.setUserProperty(userProperty.value, forName: userProperty.key)
     }
 
     func trackEvent(event: Event) {

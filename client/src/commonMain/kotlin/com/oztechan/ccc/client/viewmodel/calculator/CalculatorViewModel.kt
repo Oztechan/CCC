@@ -10,6 +10,7 @@ import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toRates
 import com.oztechan.ccc.client.mapper.toTodayResponse
@@ -90,6 +91,11 @@ class CalculatorViewModel(
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
+
+                analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
+                analyticsManager.setUserProperty(
+                    UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
+                )
             }
             .launchIn(viewModelScope)
     }
@@ -172,6 +178,7 @@ class CalculatorViewModel(
         )
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
     }
 
     fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()

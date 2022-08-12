@@ -14,7 +14,6 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
-import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
 import com.oztechan.ccc.android.util.getImageResourceByName
@@ -66,31 +65,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding.adViewContainer.removeAllViews()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
-    }
-
-    override fun onPause() {
-        Logger.i { "CalculatorFragment onPause" }
-        trackUserProperties()
-        super.onPause()
-    }
-
-    private fun trackUserProperties() = with(calculatorViewModel.state.value) {
-        analyticsManager.setUserProperty(
-            UserProperty.BASE_CURRENCY,
-            base
-        )
-
-        currencyList.filter { it.isActive }
-            .run {
-                analyticsManager.setUserProperty(
-                    UserProperty.CURRENCY_COUNT,
-                    this.count().toString()
-                )
-                analyticsManager.setUserProperty(
-                    UserProperty.ACTIVE_CURRENCIES,
-                    this.joinToString(",") { currency -> currency.name }
-                )
-            }
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)

@@ -4,7 +4,7 @@
 package com.oztechan.ccc.client.model
 
 @Suppress("MagicNumber")
-enum class AppTheme(val order: Int, val typeName: String, val themeValue: Int) {
+enum class AppTheme(val order: Int, val themeName: String, val themeValue: Int) {
     LIGHT(0, "Light", 1),
     DARK(1, "Dark", 2),
     SYSTEM_DEFAULT(2, "System default", -1);

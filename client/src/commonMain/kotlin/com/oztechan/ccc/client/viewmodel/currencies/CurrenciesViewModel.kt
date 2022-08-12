@@ -11,6 +11,7 @@ import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
@@ -62,6 +63,14 @@ class CurrenciesViewModel(
                 verifyCurrentBase()
 
                 filterList(data.query)
+
+                currencyList.filter { it.isActive }
+                    .run {
+                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString()))
+                        analyticsManager.setUserProperty(
+                            UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                        )
+                    }
             }.launchIn(viewModelScope)
 
         filterList("")
@@ -87,6 +96,7 @@ class CurrenciesViewModel(
         settingsDataSource.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
         viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
     }
