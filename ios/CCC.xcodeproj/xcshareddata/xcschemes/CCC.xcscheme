@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1310"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Copy Environment Files"
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist&quot; &quot;$SRCROOT/CCC/Resources/GoogleService-Info.plist&quot;&#10;cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig&quot; &quot;$SRCROOT/CCC/Resources/Config.xcconfig&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "7555FF7A242A565900829871"
+                     BuildableName = "CCC.app"
+                     BlueprintName = "CCC"
+                     ReferencedContainer = "container:CCC.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
