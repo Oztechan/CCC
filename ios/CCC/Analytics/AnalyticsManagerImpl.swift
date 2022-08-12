@@ -10,6 +10,7 @@ import Client
 import FirebaseAnalytics
 
 class AnalyticsManagerImpl: AnalyticsManager {
+
     func setUserProperty(userProperty: UserProperty, value: String) {
         Analytics.setUserProperty(value, forName: userProperty.key)
     }
@@ -27,12 +28,12 @@ class AnalyticsManagerImpl: AnalyticsManager {
         }
     }
 
-    func trackScreen(screenName: String) {
+    func trackScreen(screenName: ScreenName) {
         Analytics.logEvent(
             AnalyticsEventScreenView,
             parameters: [
-                AnalyticsParameterScreenName: screenName,
-                AnalyticsParameterScreenClass: screenName
+                AnalyticsParameterScreenName: screenName.getScreenName(),
+                AnalyticsParameterScreenClass: screenName.getScreenName()
             ]
         )
     }

@@ -30,6 +30,8 @@
 	<string>1</string>
 	<key>GADApplicationIdentifier</key>
 	<string>$(ADMOB_APP_ID)</string>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>INTERSTITIAL_AD_ID</key>
 	<string>$(INTERSTITIAL_AD_ID)</string>
 	<key>LSRequiresIPhoneOS</key>

@@ -16,6 +16,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.hideKeyboard
@@ -184,7 +185,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Currencies)
         Logger.i { "CurrenciesFragment onResume" }
         currenciesViewModel.hideSelectionVisibility()
         currenciesViewModel.event.onQueryChange("")

@@ -20,6 +20,8 @@ struct CurrenciesView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable = CurrenciesObservable(viewModel: koin.get())
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     var onBaseChange: (String) -> Void
 
     var body: some View {
@@ -78,7 +80,10 @@ struct CurrenciesView: View {
             .animation(.default)
             .navigationBarHidden(true)
         }
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Currencies())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }

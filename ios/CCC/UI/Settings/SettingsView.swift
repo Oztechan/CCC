@@ -24,6 +24,8 @@ struct SettingsView: View {
     @State var webViewVisibility: Bool = false
     @State var activeDialog: Dialogs = Dialogs.error
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     enum Dialogs {
         case removeAd, error
     }
@@ -138,7 +140,10 @@ struct SettingsView: View {
                 )
             }
         }
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Settings())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
