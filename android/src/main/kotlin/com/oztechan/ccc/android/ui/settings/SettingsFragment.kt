@@ -115,7 +115,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.settings_active_item_value,
                     activeCurrencyCount
                 )
-                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
+                binding.itemTheme.settingsItemValue.text = appThemeType.themeName
 
                 binding.itemDisableAds.settingsItemValue.text =
                     if (settingsViewModel.isAdFreeNeverActivated()) "" else {
@@ -203,7 +203,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             showSingleChoiceDialog(
                 requireActivity(),
                 getString(R.string.title_dialog_choose_theme),
-                AppTheme.values().map { it.typeName }.toTypedArray(),
+                AppTheme.values().map { it.themeName }.toTypedArray(),
                 currentThemeType.order
             ) { index ->
                 AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }

@@ -51,7 +51,7 @@ private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Conte
 
 fun Context.getMarketLink() = getString(
     when (device as Device.ANDROID) {
-        Device.ANDROID.GOOGLE -> R.string.app_market_link_google
-        Device.ANDROID.HUAWEI -> R.string.app_market_link_huawei
+        is Device.ANDROID.Google -> R.string.app_market_link_google
+        is Device.ANDROID.Huawei -> R.string.app_market_link_huawei
     }
 )
