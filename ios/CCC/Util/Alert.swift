@@ -45,7 +45,7 @@ func showAlert(
     view.backgroundView.layer.cornerRadius = 10
     let cancelButton = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
     cancelButton.setTitle(MR.strings().cancel.get(), for: .normal)
-    
+
     var config = SwiftMessages.defaultConfig
     config.presentationStyle = .center
     config.duration = .forever
