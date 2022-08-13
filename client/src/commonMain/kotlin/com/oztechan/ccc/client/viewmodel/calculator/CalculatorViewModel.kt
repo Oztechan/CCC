@@ -168,7 +168,7 @@ class CalculatorViewModel(
         loading = false
     )
 
-    private fun currentBaseChanged(newBase: String) {
+    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
         data.rates = null
         settingsDataSource.currentBase = newBase
         _state.update(

@@ -162,22 +162,26 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         val mockValue = Random.nextBoolean()
         viewModel.event.updateAllCurrenciesState(mockValue)
 
-        verify(currencyDataSource)
-            .invocation { updateAllCurrencyState(mockValue) }
-            .wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine { updateAllCurrencyState(mockValue) }
+                .wasInvoked()
+        }
     }
 
     @Test
     fun onItemClick() {
         viewModel.event.onItemClick(clientCurrency)
 
-        verify(currencyDataSource)
-            .invocation {
-                updateCurrencyStateByName(
-                    clientCurrency.name,
-                    !clientCurrency.isActive
-                )
-            }.wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine {
+                    updateCurrencyStateByName(
+                        clientCurrency.name,
+                        !clientCurrency.isActive
+                    )
+                }.wasInvoked()
+        }
     }
 
     @Test
