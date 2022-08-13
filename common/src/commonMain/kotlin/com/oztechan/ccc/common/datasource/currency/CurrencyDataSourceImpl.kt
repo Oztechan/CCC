@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.datasource.BaseDataSource
+import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 internal class CurrencyDataSourceImpl(
     private val currencyQueries: CurrencyQueries,
     private val ioDispatcher: CoroutineDispatcher
-) : CurrencyDataSource, BaseDataSource(ioDispatcher) {
+) : CurrencyDataSource, BaseDBDataSource(ioDispatcher) {
 
     override fun collectAllCurrencies(): Flow<List<Currency>> {
         Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" }

@@ -56,14 +56,14 @@ class WatchersViewModel(
         _effect.emit(WatchersEffect.SelectTarget(watcher))
     }
 
-    override fun onBaseChanged(watcher: Watcher?, newBase: String) {
+    override fun onBaseChanged(watcher: Watcher?, newBase: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
         watcher?.id?.let {
             watcherDataSource.updateBaseById(newBase, it)
         }
     }
 
-    override fun onTargetChanged(watcher: Watcher?, newTarget: String) {
+    override fun onTargetChanged(watcher: Watcher?, newTarget: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
         watcher?.id?.let {
             watcherDataSource.updateTargetById(newTarget, it)
@@ -85,12 +85,12 @@ class WatchersViewModel(
         }
     }
 
-    override fun onDeleteClick(watcher: Watcher) {
+    override fun onDeleteClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onDeleteClick $watcher" }
         watcherDataSource.deleteWatcher(watcher.id)
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) {
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
         watcherDataSource.updateRelationById(isGreater, watcher.id)
     }
@@ -108,10 +108,12 @@ class WatchersViewModel(
                 rate
             }
             else -> {
-                watcherDataSource.updateRateById(
-                    rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-                    watcher.id
-                )
+                viewModelScope.launch {
+                    watcherDataSource.updateRateById(
+                        rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+                        watcher.id
+                    )
+                }
                 rate
             }
         }
