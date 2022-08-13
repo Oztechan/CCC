@@ -79,11 +79,12 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
-        given(offlineRatesDataSource)
-            .invocation { getOfflineRatesByBase(currency.name) }
-            .thenReturn(currencyResponse.rates)
 
         runTest {
+            given(offlineRatesDataSource)
+                .coroutine { getOfflineRatesByBase(currency.name) }
+                .thenReturn(currencyResponse.rates)
+
             given(backendApiService)
                 .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)

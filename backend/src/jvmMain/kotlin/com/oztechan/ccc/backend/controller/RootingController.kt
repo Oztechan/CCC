@@ -9,7 +9,7 @@ import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 class RootingController(
     private val offlineRatesDataSource: OfflineRatesDataSource
 ) {
-    fun getOfflineCurrencyResponseByBase(
+    suspend fun getOfflineCurrencyResponseByBase(
         base: String
     ) = offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
 }
