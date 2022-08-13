@@ -19,10 +19,8 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable = SettingsObservable(viewModel: koin.get())
-    @State var dialogVisibility: Bool = false
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
-    @State var activeDialog: Dialogs = Dialogs.error
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -115,31 +113,6 @@ struct SettingsView: View {
         .sheet(isPresented: $webViewVisibility) {
             WebView(url: NSURL(string: MR.strings().github_url.get())! as URL)
         }
-        .alert(isPresented: $dialogVisibility) {
-            switch activeDialog {
-            case .error:
-                return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().error_text_unknown.get()),
-                    dismissButton: .destructive(Text(MR.strings().cancel.get()))
-                )
-            case .removeAd:
-                return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().txt_remove_ads_text.get()),
-                    primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                        RewardedAd(
-                            rewardFunction: { observable.viewModel.updateAddFreeDate() },
-                            errorFunction: {
-                                activeDialog = Dialogs.error
-                                self.dialogVisibility.toggle()
-                            }
-                        ).show()
-                    }),
-                    secondaryButton: .destructive(Text(MR.strings().cancel.get()))
-                )
-            }
-        }
         .onAppear {
             observable.startObserving()
             analyticsManager.trackScreen(screenName: ScreenName.Settings())
@@ -171,8 +144,23 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            activeDialog = Dialogs.removeAd
-            dialogVisibility.toggle()
+            showAlert(
+                title: MR.strings().txt_remove_ads.get(),
+                text: MR.strings().txt_remove_ads_text.get(),
+                buttonText: MR.strings().txt_ok.get(),
+                action: {
+                    RewardedAd(
+                        rewardFunction: { observable.viewModel.updateAddFreeDate() },
+                        errorFunction: {
+                            showAlert(
+                                title: MR.strings().txt_remove_ads.get(),
+                                text: MR.strings().error_text_unknown.get(),
+                                buttonText: MR.strings().cancel.get()
+                            )
+                        }
+                    ).show()
+                }
+            )
         default:
             logger.i(message: {"SettingsView unknown effect"})
         }
