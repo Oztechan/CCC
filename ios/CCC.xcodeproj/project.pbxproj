@@ -45,7 +45,7 @@
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CACB69228A7CDDE00A2D13C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACB69128A7CDDE00A2D13C /* Alert.swift */; };
-		5CB8AD2328A6AF6200F1605B /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5CB8AD2228A6AF6200F1605B /* Config.xcconfig */; };
+		5CACB69428A7EF1800A2D13C /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5CACB69328A7EF1800A2D13C /* Config.xcconfig */; };
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
 		5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */; };
 		5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */; };
@@ -106,7 +106,7 @@
 		5C9A59BA25C350DE006745B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69128A7CDDE00A2D13C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
-		5CB8AD2228A6AF6200F1605B /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyView.swift; sourceTree = "<group>"; };
@@ -265,7 +265,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */,
 				5C31E43E28145D32008C42B9 /* Launch Screen.storyboard */,
-				5CB8AD2228A6AF6200F1605B /* Config.xcconfig */,
+				5CACB69328A7EF1800A2D13C /* Config.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -432,7 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */,
-				5CB8AD2328A6AF6200F1605B /* Config.xcconfig in Resources */,
+				5CACB69428A7EF1800A2D13C /* Config.xcconfig in Resources */,
 				7555FF85242A565B00829871 /* Assets.xcassets in Resources */,
 				5C31E43F28145D32008C42B9 /* Launch Screen.storyboard in Resources */,
 				5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */,
@@ -555,7 +555,7 @@
 /* Begin XCBuildConfiguration section */
 		7555FFA3242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CB8AD2228A6AF6200F1605B /* Config.xcconfig */;
+			baseConfigurationReference = 5CACB69328A7EF1800A2D13C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -617,7 +617,7 @@
 		};
 		7555FFA4242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CB8AD2228A6AF6200F1605B /* Config.xcconfig */;
+			baseConfigurationReference = 5CACB69328A7EF1800A2D13C /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

@@ -21,7 +21,7 @@ internal val viewModelModule = module {
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get(), get()) }
     viewModelDefinition { SelectCurrencyViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
-    viewModelDefinition { WatchersViewModel(get(), get()) }
+    viewModelDefinition { WatchersViewModel(get(), get(), get()) }
 }
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
