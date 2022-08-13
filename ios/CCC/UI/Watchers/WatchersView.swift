@@ -45,26 +45,29 @@ struct WatchersView: View {
                         }
                         .listRowInsets(.init())
                         .listRowBackground(MR.colors().background.get())
+                        .background(MR.colors().background.get())
                     }
+                    .background(MR.colors().background.get())
 
-                    if observable.state.watcherList.count == 0 {
-                        Text(MR.strings().txt_click_to_add.get())
-                            .font(.footnote)
-                            .frame(width: .infinity, height: .infinity, alignment: .center)
-                            .padding()
-                    }
+                    Spacer()
 
                     VStack {
-                        Button {
-                            observable.event.onAddClick()
-                        } label: {
-                            Label(MR.strings().txt_add.get(), systemImage: "plus")
+                        HStack {
+                            Spacer()
+
+                            Button {
+                                observable.event.onAddClick()
+                            } label: {
+                                Label(MR.strings().txt_add.get(), systemImage: "plus")
+                            }
+                            .foregroundColor(MR.colors().text.get())
+                            .padding(.vertical, 15)
+                            .background(MR.colors().background_strong.get())
+
+                            Spacer()
+
                         }
-                        .foregroundColor(MR.colors().text.get())
-                        .padding(.top, 10)
-                        .padding(.bottom, 20)
                     }
-                    .padding(12)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .background(MR.colors().background_strong.get())
 
@@ -87,9 +90,18 @@ struct WatchersView: View {
                         .cornerRadius(5)
 
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .background(MR.colors().background.get())
+                }
+
+                if observable.viewModel.shouldShowBannerAd() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_WATCHERS".getSecretValue()
+                    )
+                    .frame(maxHeight: 50)
+                    .padding(.bottom, 55)
                 }
             }
-            .background(MR.colors().background.get())
+            .background(MR.colors().background_strong.get())
             .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(

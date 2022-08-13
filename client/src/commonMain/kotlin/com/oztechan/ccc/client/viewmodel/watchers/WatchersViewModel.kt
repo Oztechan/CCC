@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Watcher
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
@@ -21,7 +22,8 @@ import kotlinx.coroutines.launch
 
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
-    private val watcherDataSource: WatcherDataSource
+    private val watcherDataSource: WatcherDataSource,
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
@@ -40,6 +42,8 @@ class WatchersViewModel(
                 _state.update(watcherList = it.toUIModelList())
             }.launchIn(viewModelScope)
     }
+
+    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
 
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
