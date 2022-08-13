@@ -76,11 +76,11 @@ struct CalculatorView: View {
                         )
                     }
 
-//                    if observable.viewModel.shouldShowBannerAd() {
-//                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-//                            .frame(maxHeight: 50)
-//                            .padding(.bottom, 20)
-//                    }
+                    if observable.viewModel.shouldShowBannerAd() {
+                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+                            .frame(maxHeight: 50)
+                            .padding(.bottom, 20)
+                    }
 
                 }
             }

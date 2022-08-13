@@ -32,7 +32,7 @@ struct Application: App {
             FirebaseApp.configure()
         }
 
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         startKoin()
 
