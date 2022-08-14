@@ -42,7 +42,6 @@ class MainViewModel(
     init {
         analyticsManager.setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
         analyticsManager.setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString()))
-        analyticsManager.setUserProperty(UserProperty.DevicePlatform(device.name))
 
         @Suppress("MagicNumber")
         when (device) {
@@ -55,6 +54,7 @@ class MainViewModel(
                     ?.let { analyticsManager.setUserProperty(UserProperty.AppTheme(it)) }
             }
         }
+        analyticsManager.setUserProperty(UserProperty.DevicePlatform(device.name))
     }
 
     private fun setupInterstitialAdTimer() {
