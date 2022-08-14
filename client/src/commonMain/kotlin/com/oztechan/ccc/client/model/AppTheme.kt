@@ -3,6 +3,8 @@
  */
 package com.oztechan.ccc.client.model
 
+import com.oztechan.ccc.client.device
+
 @Suppress("MagicNumber")
 enum class AppTheme(val order: Int, val themeName: String, val themeValue: Int) {
     LIGHT(0, "Light", 1),
@@ -11,7 +13,7 @@ enum class AppTheme(val order: Int, val themeName: String, val themeValue: Int) 
 
     companion object {
         // dark theme applies below SDK 29
-        const val SYSTEM_DARK = "System dark"
+        private const val SYSTEM_DARK = "System dark"
 
         fun getThemeByValue(value: Int) = values().firstOrNull { it.themeValue == value }
 
@@ -20,5 +22,15 @@ enum class AppTheme(val order: Int, val themeName: String, val themeValue: Int) 
         fun getThemeByOrder(order: Int) = values().firstOrNull { it.order == order }
 
         fun getThemeByOrderOrDefault(order: Int) = getThemeByOrder(order) ?: SYSTEM_DEFAULT
+
+        @Suppress("MagicNumber")
+        fun getAnalyticsThemeName(themeValue: Int) = when (device) {
+            Device.IOS -> SYSTEM_DEFAULT.themeName
+            is Device.ANDROID -> if (device.versionCode < 29) {
+                SYSTEM_DARK
+            } else {
+                getThemeByValue(themeValue)?.themeName ?: SYSTEM_DEFAULT.themeName
+            }
+        }
     }
 }

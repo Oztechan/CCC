@@ -10,7 +10,6 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -42,18 +41,9 @@ class MainViewModel(
     init {
         analyticsManager.setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
         analyticsManager.setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString()))
-
-        @Suppress("MagicNumber")
-        when (device) {
-            Device.IOS -> analyticsManager.setUserProperty(UserProperty.AppTheme(AppTheme.SYSTEM_DEFAULT.themeName))
-            is Device.ANDROID -> if (device.versionCode < 29) {
-                analyticsManager.setUserProperty(UserProperty.AppTheme(AppTheme.SYSTEM_DARK))
-            } else {
-                AppTheme.getThemeByValue(settingsDataSource.appTheme)
-                    ?.themeName
-                    ?.let { analyticsManager.setUserProperty(UserProperty.AppTheme(it)) }
-            }
-        }
+        analyticsManager.setUserProperty(
+            UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme))
+        )
         analyticsManager.setUserProperty(UserProperty.DevicePlatform(device.name))
     }
 
