@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
@@ -67,6 +68,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     private val currency = Currency("USD", "Dollar", "$", 12345.678, true)
+    private val currencyList = listOf(currency)
     private val currencyUIModel = currency.toUIModel()
     private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
 
@@ -78,7 +80,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
-            .thenReturn(flow { listOf(currency) })
+            .thenReturn(flow { currencyList })
 
         runTest {
             given(offlineRatesDataSource)
@@ -93,6 +95,23 @@ class CalculatorViewModelTest : BaseViewModelTest() {
                 .coroutine { getCurrencyByName(currency.name) }
                 .thenReturn(currency)
         }
+    }
+
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasInvoked()
     }
 
     @Test
@@ -111,7 +130,6 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     // Event
-
     @Test
     fun onBarClick() = viewModel.effect.before {
         viewModel.event.onBarClick()
@@ -214,6 +232,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
             verify(analyticsManager)
                 .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }
+                .wasInvoked()
+
+            verify(analyticsManager)
+                .invocation { setUserProperty(UserProperty.BaseCurrency(currency.name)) }
                 .wasInvoked()
         }
     }
