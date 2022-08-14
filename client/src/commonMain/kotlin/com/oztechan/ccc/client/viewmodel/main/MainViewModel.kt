@@ -42,7 +42,7 @@ class MainViewModel(
         analyticsManager.setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
         analyticsManager.setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString()))
         analyticsManager.setUserProperty(
-            UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme))
+            UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, device))
         )
         analyticsManager.setUserProperty(UserProperty.DevicePlatform(device.name))
     }
