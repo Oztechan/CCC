@@ -32,17 +32,17 @@ billing-->android
 
 ad-->android
 
-analytics --> android
+config{config}-->client
+
+analytics{analytics} --> android
 analytics --> ios
-analytics{analytics}-->client
+analytics-->client
 
 res{res}-->android
 res-->ios
 
 client{client}-->android
 client-->ios
-
-config{config}-->client
 
 common{common}-->client
 common-->backend
