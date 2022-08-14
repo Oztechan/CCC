@@ -54,8 +54,14 @@ class MainViewModelTest : BaseViewModelTest() {
         MainViewModel(settingsDataSource, configService, sessionRepository, analyticsManager)
     }
 
+    private val appThemeValue = Random.nextInt()
+
     @BeforeTest
     fun setup() {
+        given(settingsDataSource)
+            .invocation { appTheme }
+            .thenReturn(appThemeValue)
+
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .then { nowAsLong() }
@@ -68,10 +74,6 @@ class MainViewModelTest : BaseViewModelTest() {
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
-        given(settingsDataSource)
-            .invocation { appTheme }
-            .thenReturn(Random.nextInt())
-
         viewModel // init
 
         verify(analyticsManager)
@@ -114,16 +116,10 @@ class MainViewModelTest : BaseViewModelTest() {
 
     @Test
     fun getAppTheme() {
-        val int: Int = Random.nextInt()
-
-        given(settingsDataSource)
-            .invocation { appTheme }
-            .thenReturn(int)
-
-        assertEquals(int, viewModel.getAppTheme())
+        assertEquals(appThemeValue, viewModel.getAppTheme())
 
         verify(settingsDataSource)
-            .invocation { firstRun }
+            .invocation { appTheme }
             .wasInvoked()
     }
 
