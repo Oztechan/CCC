@@ -5,6 +5,7 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.github.submob.scopemob.castTo
+import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.repository.session.SessionRepository
@@ -25,6 +26,7 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -43,8 +45,22 @@ class MainViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsDataSource, configService, sessionRepository)
+        MainViewModel(settingsDataSource, configService, sessionRepository, analyticsManager)
+    }
+
+    @BeforeTest
+    fun setup() {
+        given(settingsDataSource)
+            .invocation { adFreeEndDate }
+            .then { nowAsLong() }
+
+        given(settingsDataSource)
+            .invocation { sessionCount }
+            .then { 1L }
     }
 
     // SEED
@@ -107,21 +123,6 @@ class MainViewModelTest : BaseViewModelTest() {
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun getSessionCount() {
-        val mockSessionCount = Random.nextLong()
-
-        given(settingsDataSource)
-            .invocation { sessionCount }
-            .then { mockSessionCount }
-
-        assertEquals(mockSessionCount, viewModel.getSessionCount())
-
-        verify(settingsDataSource)
-            .invocation { sessionCount }
             .wasInvoked()
     }
 

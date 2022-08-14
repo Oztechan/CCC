@@ -4,9 +4,9 @@ import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 
 interface OfflineRatesDataSource {
-    fun insertOfflineRates(currencyResponse: CurrencyResponse)
+    suspend fun insertOfflineRates(currencyResponse: CurrencyResponse)
 
-    fun getOfflineRatesByBase(baseName: String): Rates?
+    suspend fun getOfflineRatesByBase(baseName: String): Rates?
 
-    fun getOfflineCurrencyResponseByBase(baseName: String): String?
+    suspend fun getOfflineCurrencyResponseByBase(baseName: String): String?
 }

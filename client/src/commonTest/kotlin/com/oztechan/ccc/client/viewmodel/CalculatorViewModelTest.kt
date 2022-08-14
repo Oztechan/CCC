@@ -3,6 +3,9 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
+import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -49,13 +52,17 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
             settingsDataSource,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
-            sessionRepository
+            sessionRepository,
+            analyticsManager
         )
     }
 
@@ -72,19 +79,20 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
-        given(offlineRatesDataSource)
-            .invocation { getOfflineRatesByBase(currency.name) }
-            .thenReturn(currencyResponse.rates)
 
         runTest {
+            given(offlineRatesDataSource)
+                .coroutine { getOfflineRatesByBase(currency.name) }
+                .thenReturn(currencyResponse.rates)
+
             given(backendApiService)
                 .coroutine { getRates(currency.name) }
                 .thenReturn(currencyResponse)
-        }
 
-        given(currencyDataSource)
-            .invocation { getCurrencyByName(currency.name) }
-            .thenReturn(currency)
+            given(currencyDataSource)
+                .coroutine { getCurrencyByName(currency.name) }
+                .thenReturn(currency)
+        }
     }
 
     @Test
@@ -140,6 +148,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             ),
             it
         )
+
+        verify(analyticsManager)
+            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.name))) }
+            .wasInvoked()
     }
 
     @Test
@@ -150,6 +162,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             CalculatorEffect.CopyToClipboard(currencyUIModel.rate.toString()),
             it
         )
+
+        verify(analyticsManager)
+            .invocation { trackEvent(Event.CopyClipboard) }
+            .wasInvoked()
     }
 
     @Test
@@ -195,6 +211,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals(currency.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
             assertEquals(currency.name, it?.base)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }
+                .wasInvoked()
         }
     }
 }

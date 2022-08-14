@@ -18,7 +18,6 @@ let logger = LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
 @main
 struct Application: App {
     @Environment(\.scenePhase) private var scenePhase
-    @State var alertVisibility: Bool = false
 
     private let notificationManager = NotificationManager()
     private let backgroundRepository: BackgroundRepository
@@ -33,7 +32,7 @@ struct Application: App {
             FirebaseApp.configure()
         }
 
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         startKoin()
 
@@ -53,13 +52,6 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .alert(isPresented: $alertVisibility) {
-                    Alert(
-                        title: Text(MR.strings().txt_watcher_alert_title.get()),
-                        message: Text(MR.strings().txt_watcher_alert_sub_title.get()),
-                        dismissButton: .destructive(Text(MR.strings().txt_ok.get()))
-                    )
-                }
         }.onChange(of: scenePhase) { phase in
             logger.i(message: {"Application onChange scenePhase \(phase)"})
 
@@ -112,7 +104,11 @@ struct Application: App {
                     body: MR.strings().txt_watcher_alert_sub_title.get()
                 )
             } else {
-                self.alertVisibility = true
+                showAlert(
+                    title: MR.strings().txt_watcher_alert_title.get(),
+                    text: MR.strings().txt_watcher_alert_sub_title.get(),
+                    buttonText: MR.strings().txt_ok.get()
+                )
             }
 
             task.setTaskCompleted(success: true)

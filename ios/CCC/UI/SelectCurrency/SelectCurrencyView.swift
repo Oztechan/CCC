@@ -21,6 +21,8 @@ struct SelectCurrencyView: View {
     @StateObject var observable = SelectCurrencyObservable(viewModel: koin.get())
     @Binding var isBarShown: Bool
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     var onCurrencySelected: (String) -> Void
 
     var body: some View {
@@ -61,7 +63,10 @@ struct SelectCurrencyView: View {
                 }
             }
         }
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.SelectCurrency())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }

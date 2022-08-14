@@ -13,7 +13,8 @@ func startKoin() {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
     _koin = IOSKoinKt.doInitIOS(
-        userDefaults: userDefaults
+        userDefaults: userDefaults,
+        analyticsManager: AnalyticsManagerImpl()
     ).koin
 }
 

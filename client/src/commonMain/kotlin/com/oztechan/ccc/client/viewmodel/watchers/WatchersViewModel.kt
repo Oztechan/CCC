@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Watcher
+import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
@@ -21,7 +22,8 @@ import kotlinx.coroutines.launch
 
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
-    private val watcherDataSource: WatcherDataSource
+    private val watcherDataSource: WatcherDataSource,
+    private val sessionRepository: SessionRepository
 ) : BaseSEEDViewModel(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
@@ -41,6 +43,8 @@ class WatchersViewModel(
             }.launchIn(viewModelScope)
     }
 
+    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
+
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
         _effect.emit(WatchersEffect.Back)
@@ -56,24 +60,25 @@ class WatchersViewModel(
         _effect.emit(WatchersEffect.SelectTarget(watcher))
     }
 
-    override fun onBaseChanged(watcher: Watcher?, newBase: String) {
+    override fun onBaseChanged(watcher: Watcher?, newBase: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
         watcher?.id?.let {
             watcherDataSource.updateBaseById(newBase, it)
         }
     }
 
-    override fun onTargetChanged(watcher: Watcher?, newTarget: String) {
+    override fun onTargetChanged(watcher: Watcher?, newTarget: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
         watcher?.id?.let {
             watcherDataSource.updateTargetById(newTarget, it)
         }
     }
 
-    override fun onAddClick() {
+    override fun onAddClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onAddClick" }
+
         if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            viewModelScope.launch { _effect.emit(WatchersEffect.MaximumNumberOfWatchers) }
+            _effect.emit(WatchersEffect.MaximumNumberOfWatchers)
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
                 watcherDataSource.addWatcher(
@@ -84,12 +89,12 @@ class WatchersViewModel(
         }
     }
 
-    override fun onDeleteClick(watcher: Watcher) {
+    override fun onDeleteClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onDeleteClick $watcher" }
         watcherDataSource.deleteWatcher(watcher.id)
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) {
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
         watcherDataSource.updateRelationById(isGreater, watcher.id)
     }
@@ -107,10 +112,12 @@ class WatchersViewModel(
                 rate
             }
             else -> {
-                watcherDataSource.updateRateById(
-                    rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-                    watcher.id
-                )
+                viewModelScope.launch {
+                    watcherDataSource.updateRateById(
+                        rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+                        watcher.id
+                    )
+                }
                 rate
             }
         }

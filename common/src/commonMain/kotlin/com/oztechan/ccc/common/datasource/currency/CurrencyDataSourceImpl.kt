@@ -1,52 +1,59 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toModelList
+import com.oztechan.ccc.common.model.Currency
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class CurrencyDataSourceImpl(
-    private val currencyQueries: CurrencyQueries
-) : CurrencyDataSource {
+    private val currencyQueries: CurrencyQueries,
+    private val ioDispatcher: CoroutineDispatcher
+) : CurrencyDataSource, BaseDBDataSource(ioDispatcher) {
 
-    override fun collectAllCurrencies() = currencyQueries
-        .collectAllCurrencies()
-        .asFlow()
-        .mapToList()
-        .map { it.sortedBy { (name) -> name } }
-        .mapToModel()
-        .also { Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" } }
+    override fun collectAllCurrencies(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" }
+        return currencyQueries.collectAllCurrencies()
+            .asFlow()
+            .mapToList(ioDispatcher)
+            .map { it.sortedBy { (name) -> name } }
+            .mapToModel()
+    }
 
-    override fun collectActiveCurrencies() = currencyQueries
-        .collectActiveCurrencies()
-        .asFlow()
-        .mapToList()
-        .map { it.sortedBy { (name) -> name } }
-        .mapToModel()
-        .also { Logger.v { "CurrencyDataSourceImpl collectActiveCurrencies" } }
+    override fun collectActiveCurrencies(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl collectActiveCurrencies" }
+        return currencyQueries.collectActiveCurrencies()
+            .asFlow()
+            .mapToList(ioDispatcher)
+            .map { it.sortedBy { (name) -> name } }
+            .mapToModel()
+    }
 
-    override fun getActiveCurrencies() = currencyQueries
-        .getActiveCurrencies()
-        .executeAsList()
-        .toModelList()
-        .also { Logger.v { "CurrencyDataSourceImpl getActiveCurrencies" } }
+    override suspend fun getActiveCurrencies() = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl getActiveCurrencies" }
+        currencyQueries.getActiveCurrencies().executeAsList().toModelList()
+    }
 
-    override fun updateCurrencyStateByName(name: String, isActive: Boolean) = currencyQueries
-        .updateCurrencyStateByName(isActive.toLong(), name)
-        .also { Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByName $name $isActive" } }
+    override suspend fun updateCurrencyStateByName(name: String, isActive: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByName $name $isActive" }
+        currencyQueries.updateCurrencyStateByName(isActive.toLong(), name)
+    }
 
-    override fun updateAllCurrencyState(value: Boolean) = currencyQueries
-        .updateAllCurrencyState(value.toLong())
-        .also { Logger.v { "CurrencyDataSourceImpl updateAllCurrencyState $value" } }
+    override suspend fun updateAllCurrencyState(value: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateAllCurrencyState $value" }
+        currencyQueries.updateAllCurrencyState(value.toLong())
+    }
 
-    override fun getCurrencyByName(name: String) = currencyQueries
-        .getCurrencyByName(name)
-        .executeAsOneOrNull()
-        ?.toModel()
-        .also { Logger.v { "CurrencyDataSourceImpl getCurrencyByName $name" } }
+    override suspend fun getCurrencyByName(name: String) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl getCurrencyByName $name" }
+        currencyQueries.getCurrencyByName(name).executeAsOneOrNull()?.toModel()
+    }
 }

@@ -22,6 +22,8 @@ struct CalculatorView: View {
 
     @State var isBarShown = false
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -74,11 +76,11 @@ struct CalculatorView: View {
                         )
                     }
 
-//                    if observable.viewModel.shouldShowBannerAd() {
-//                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-//                            .frame(maxHeight: 50)
-//                            .padding(.bottom, 20)
-//                    }
+                    if observable.viewModel.shouldShowBannerAd() {
+                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+                            .frame(maxHeight: 50)
+                            .padding(.bottom, 20)
+                    }
 
                 }
             }
@@ -94,7 +96,10 @@ struct CalculatorView: View {
                 ).environmentObject(navigationStack)
             }
         )
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Calculator())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }

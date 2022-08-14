@@ -1,6 +1,6 @@
 PODS:
-  - client (0.0.1481)
-  - res (0.0.1481)
+  - client (0.0.1490)
+  - res (0.0.1490)
 
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
@@ -13,8 +13,8 @@ EXTERNAL SOURCES:
     :path: "../res/res.podspec"
 
 SPEC CHECKSUMS:
-  client: f20cbff6c8f011e356ac7c494b4ae3a3e71f65e6
-  res: 1169ca65c9007e247db91150c197bf906cd7654a
+  client: c490fb2a510f7771c2518143a26913df07921a71
+  res: 83ff527e9c9415f8ddf0fbdfcf62ba987c711a29
 
 PODFILE CHECKSUM: 3af52908f4dea1100643ca962006066a8db38086
 

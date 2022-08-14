@@ -3,6 +3,7 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -42,8 +43,11 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Mock
     private val sessionRepository = mock(classOf<SessionRepository>())
 
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository)
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository, analyticsManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -158,22 +162,26 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         val mockValue = Random.nextBoolean()
         viewModel.event.updateAllCurrenciesState(mockValue)
 
-        verify(currencyDataSource)
-            .invocation { updateAllCurrencyState(mockValue) }
-            .wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine { updateAllCurrencyState(mockValue) }
+                .wasInvoked()
+        }
     }
 
     @Test
     fun onItemClick() {
         viewModel.event.onItemClick(clientCurrency)
 
-        verify(currencyDataSource)
-            .invocation {
-                updateCurrencyStateByName(
-                    clientCurrency.name,
-                    !clientCurrency.isActive
-                )
-            }.wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine {
+                    updateCurrencyStateByName(
+                        clientCurrency.name,
+                        !clientCurrency.isActive
+                    )
+                }.wasInvoked()
+        }
     }
 
     @Test

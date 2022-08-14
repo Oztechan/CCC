@@ -7,6 +7,10 @@ import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
+import com.oztechan.ccc.analytics.model.Param
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toRates
 import com.oztechan.ccc.client.mapper.toTodayResponse
@@ -49,7 +53,8 @@ class CalculatorViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
-    private val sessionRepository: SessionRepository
+    private val sessionRepository: SessionRepository,
+    private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
@@ -86,6 +91,11 @@ class CalculatorViewModel(
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update(currencyList = it.toUIModelList())
+
+                analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
+                analyticsManager.setUserProperty(
+                    UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
+                )
             }
             .launchIn(viewModelScope)
     }
@@ -103,16 +113,18 @@ class CalculatorViewModel(
             data.rates = it
             calculateConversions(it, RateState.Online(it.date))
         }.also {
-            offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
+            viewModelScope.launch {
+                offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
+            }
         }
 
-    private fun getRatesFailed(t: Throwable) {
+    private fun getRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesDataSource.getOfflineRatesByBase(
             settingsDataSource.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
-        } ?: viewModelScope.launch {
+        } ?: run {
             Logger.w(Exception("No offline rates")) { this@CalculatorViewModel::class.simpleName.toString() }
 
             state.value.currencyList.size
@@ -158,7 +170,7 @@ class CalculatorViewModel(
         loading = false
     )
 
-    private fun currentBaseChanged(newBase: String) {
+    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
         data.rates = null
         settingsDataSource.currentBase = newBase
         _state.update(
@@ -166,6 +178,9 @@ class CalculatorViewModel(
             input = _state.value.input,
             symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
+
+        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
     }
 
     fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
@@ -187,6 +202,7 @@ class CalculatorViewModel(
 
     override fun onItemClick(currency: Currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
+
         var finalResult = currency.rate
             .getFormatted()
             .toStandardDigits()
@@ -208,6 +224,9 @@ class CalculatorViewModel(
 
     override fun onItemImageLongClick(currency: Currency) {
         Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
+
+        analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.name)))
+
         viewModelScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
@@ -223,6 +242,9 @@ class CalculatorViewModel(
 
     override fun onItemAmountLongClick(amount: String) {
         Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
+
+        analyticsManager.trackEvent(Event.CopyClipboard)
+
         viewModelScope.launch {
             _effect.emit(CalculatorEffect.CopyToClipboard(amount))
         }

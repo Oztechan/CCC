@@ -135,7 +135,6 @@
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>
     <string name="txt_add">Add</string>
-    <string name="txt_click_to_add">Click Add button to add a new watcher</string>
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>

@@ -20,6 +20,8 @@ struct CurrenciesView: View {
     @EnvironmentObject private var navigationStack: NavigationStack
     @StateObject var observable = CurrenciesObservable(viewModel: koin.get())
 
+    private let analyticsManager: AnalyticsManager = koin.get()
+
     var onBaseChange: (String) -> Void
 
     var body: some View {
@@ -67,18 +69,21 @@ struct CurrenciesView: View {
                     )
                 }
 
-//                if observable.viewModel.shouldShowBannerAd() {
-//                    BannerAdView(
-//                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
-//                    ).frame(maxHeight: 50)
-//                    .padding(.bottom, 20)
-//                }
+                if observable.viewModel.shouldShowBannerAd() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
+                    ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
+                }
 
             }
             .animation(.default)
             .navigationBarHidden(true)
         }
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Currencies())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }

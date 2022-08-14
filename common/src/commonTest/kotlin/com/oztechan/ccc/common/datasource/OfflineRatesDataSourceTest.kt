@@ -12,16 +12,19 @@ import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
+@Suppress("OPT_IN_USAGE")
 class OfflineRatesDataSourceTest {
 
     @Mock
     private val offlineRatesQueries = mock(classOf<OfflineRatesQueries>())
 
     private val dataSource: OfflineRatesDataSource by lazy {
-        OfflineRatesDataSourceImpl(offlineRatesQueries)
+        OfflineRatesDataSourceImpl(offlineRatesQueries, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     private val currencyResponseEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
@@ -34,7 +37,9 @@ class OfflineRatesDataSourceTest {
 
     @Test
     fun insertOfflineRates() {
-        dataSource.insertOfflineRates(currencyResponse)
+        runTest {
+            dataSource.insertOfflineRates(currencyResponse)
+        }
 
         verify(offlineRatesQueries)
             .invocation { insertOfflineRates(currencyResponse.toOfflineRates()) }

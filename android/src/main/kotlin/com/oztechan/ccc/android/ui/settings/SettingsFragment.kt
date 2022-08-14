@@ -14,7 +14,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -115,7 +115,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.settings_active_item_value,
                     activeCurrencyCount
                 )
-                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
+                binding.itemTheme.settingsItemValue.text = appThemeType.themeName
 
                 binding.itemDisableAds.settingsItemValue.text =
                     if (settingsViewModel.isAdFreeNeverActivated()) "" else {
@@ -184,10 +184,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
             itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
-            itemSync.root.setOnClickListener {
-                onSyncClick()
-                analyticsManager.trackEvent(FirebaseEvent.OFFLINE_SYNC)
-            }
+            itemSync.root.setOnClickListener { onSyncClick() }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }
             itemShare.root.setOnClickListener { onShareClick() }
@@ -197,7 +194,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Settings)
         Logger.i { "SettingsFragment onResume" }
     }
 
@@ -206,7 +203,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             showSingleChoiceDialog(
                 requireActivity(),
                 getString(R.string.title_dialog_choose_theme),
-                AppTheme.values().map { it.typeName }.toTypedArray(),
+                AppTheme.values().map { it.themeName }.toTypedArray(),
                 currentThemeType.order
             ) { index ->
                 AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
