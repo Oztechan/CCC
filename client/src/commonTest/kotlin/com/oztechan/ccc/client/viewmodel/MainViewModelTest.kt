@@ -6,8 +6,10 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
+import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
@@ -52,8 +54,14 @@ class MainViewModelTest : BaseViewModelTest() {
         MainViewModel(settingsDataSource, configService, sessionRepository, analyticsManager)
     }
 
+    private val appThemeValue = Random.nextInt()
+
     @BeforeTest
     fun setup() {
+        given(settingsDataSource)
+            .invocation { appTheme }
+            .thenReturn(appThemeValue)
+
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .then { nowAsLong() }
@@ -61,6 +69,27 @@ class MainViewModelTest : BaseViewModelTest() {
         given(settingsDataSource)
             .invocation { sessionCount }
             .then { 1L }
+    }
+
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.IsAdFree(viewModel.isAdFree().toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme)))
+            }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.DevicePlatform(device.name)) }
+            .wasInvoked()
     }
 
     // SEED
@@ -87,16 +116,10 @@ class MainViewModelTest : BaseViewModelTest() {
 
     @Test
     fun getAppTheme() {
-        val int: Int = Random.nextInt()
-
-        given(settingsDataSource)
-            .invocation { appTheme }
-            .thenReturn(int)
-
-        assertEquals(int, viewModel.getAppTheme())
+        assertEquals(appThemeValue, viewModel.getAppTheme())
 
         verify(settingsDataSource)
-            .invocation { firstRun }
+            .invocation { appTheme }
             .wasInvoked()
     }
 
