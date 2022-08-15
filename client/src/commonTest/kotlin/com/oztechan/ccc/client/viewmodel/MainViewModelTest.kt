@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
@@ -104,7 +105,7 @@ class MainViewModelTest : BaseViewModelTest() {
     fun isAdFree_for_future_should_return_true() {
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .then { nowAsLong() + 100 }
+            .then { nowAsLong() + SECOND }
 
         assertEquals(true, viewModel.isAdFree())
 
@@ -117,7 +118,7 @@ class MainViewModelTest : BaseViewModelTest() {
     fun isAdFree_for_future_should_return_false() {
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .then { nowAsLong() - 100 }
+            .then { nowAsLong() - SECOND }
 
         assertEquals(false, viewModel.isAdFree())
 
@@ -209,7 +210,7 @@ class MainViewModelTest : BaseViewModelTest() {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .then { nowAsLong() - 1 }
+            .then { nowAsLong() - SECOND }
 
         effect.before {
             onResume()
