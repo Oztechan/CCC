@@ -45,7 +45,6 @@
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CACB69228A7CDDE00A2D13C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACB69128A7CDDE00A2D13C /* Alert.swift */; };
-		5CACB69428A7EF1800A2D13C /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5CACB69328A7EF1800A2D13C /* Config.xcconfig */; };
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
 		5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */; };
 		5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */; };
@@ -394,7 +393,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
@@ -432,7 +431,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */,
-				5CACB69428A7EF1800A2D13C /* Config.xcconfig in Resources */,
 				7555FF85242A565B00829871 /* Assets.xcassets in Resources */,
 				5C31E43F28145D32008C42B9 /* Launch Screen.storyboard in Resources */,
 				5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */,
