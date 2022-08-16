@@ -84,7 +84,9 @@ class MainViewModelTest : BaseViewModelTest() {
             .wasInvoked()
         verify(analyticsManager)
             .invocation {
-                setUserProperty(UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme)))
+                setUserProperty(
+                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, device))
+                )
             }
             .wasInvoked()
         verify(analyticsManager)
