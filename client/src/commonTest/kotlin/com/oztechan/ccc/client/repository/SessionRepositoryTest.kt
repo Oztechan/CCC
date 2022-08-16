@@ -4,6 +4,7 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.repository.session.SessionRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
@@ -43,7 +44,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + 100)
+            .thenReturn(nowAsLong() + SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -82,7 +83,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + 100)
+            .thenReturn(nowAsLong() + SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -121,7 +122,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - 100)
+            .thenReturn(nowAsLong() - SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -160,7 +161,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + 100)
+            .thenReturn(nowAsLong() + SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -199,7 +200,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - 100)
+            .thenReturn(nowAsLong() - SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -238,7 +239,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + 100)
+            .thenReturn(nowAsLong() + SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -277,7 +278,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - 100)
+            .thenReturn(nowAsLong() - SECOND)
 
         given(configService)
             .invocation { appConfig }
@@ -316,7 +317,7 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - 100)
+            .thenReturn(nowAsLong() - SECOND)
 
         given(configService)
             .invocation { appConfig }
