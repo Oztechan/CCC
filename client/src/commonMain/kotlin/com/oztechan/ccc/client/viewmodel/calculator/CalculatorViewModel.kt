@@ -80,7 +80,6 @@ class CalculatorViewModel(
             .launchIn(viewModelScope)
 
         state.map { it.input }
-            .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
@@ -262,8 +261,7 @@ class CalculatorViewModel(
 
     override fun onBaseChange(base: String) {
         Logger.d { "CalculatorViewModel onBaseChange $base" }
-        currentBaseChanged(base)
-        calculateOutput(_state.value.input)
+        _state.update(base = base)
     }
     // endregion
 }
