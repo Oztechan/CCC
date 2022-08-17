@@ -13,7 +13,9 @@ import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
 
-let logger = LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
+var logger: KermitLogger = {
+    return LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
+}()
 
 @main
 struct Application: App {
