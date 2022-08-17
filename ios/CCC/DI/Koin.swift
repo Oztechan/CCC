@@ -9,20 +9,14 @@
 import SwiftUI
 import Client
 
-func startKoin() {
+var koin: Koin_coreKoin = {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    _koin = IOSKoinKt.doInitIOS(
+    return IOSKoinKt.doInitIOS(
         userDefaults: userDefaults,
         analyticsManager: AnalyticsManagerImpl()
     ).koin
-}
-
-private var _koin: Koin_coreKoin?
-
-var koin: Koin_coreKoin {
-    return _koin!
-}
+}()
 
 extension Koin_coreKoin {
     // swiftlint:disable force_cast
