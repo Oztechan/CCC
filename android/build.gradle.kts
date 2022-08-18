@@ -11,6 +11,7 @@ plugins {
         id(ANDROID_APP)
         id(CRASHLYTICS)
         id(GOOGLE_SERVICES)
+        id(FIREBASE_PER_PLUGIN)
         id(SAFE_ARGS)
         kotlin(ANDROID)
     }
@@ -109,6 +110,7 @@ dependencies {
         implementation(LIFECYCLE_RUNTIME)
         implementation(WORK_RUNTIME) // android 12 crash fix
         implementation(SPLASH_SCREEN)
+        implementation(FIREBASE_PER)
         implementation(BASE_MOB)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)

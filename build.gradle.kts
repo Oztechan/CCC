@@ -23,6 +23,7 @@ buildscript {
             classpath(ANDROID_GRADLE_PLUGIN)
             classpath(KOTLIN_GRADLE_PLUGIN)
             classpath(GSM)
+            classpath(FIREBASE_PER_PLUGIN)
             classpath(CRASHLYTICS)
             classpath(NAVIGATION)
             classpath(KOTLIN_SERIALIZATION)
