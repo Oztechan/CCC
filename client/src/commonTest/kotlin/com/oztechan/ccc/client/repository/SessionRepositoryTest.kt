@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.BuildKonfig
-import com.oztechan.ccc.client.device
+import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.session.SessionRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.SECOND
@@ -30,8 +30,10 @@ class SessionRepositoryTest {
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
+    private val device = Device.IOS
+
     private val repository: SessionRepositoryImpl by lazy {
-        SessionRepositoryImpl(configService, settingsDataSource)
+        SessionRepositoryImpl(configService, settingsDataSource, device)
     }
 
     @Test

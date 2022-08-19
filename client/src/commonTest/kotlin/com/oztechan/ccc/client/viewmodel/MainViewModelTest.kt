@@ -8,8 +8,8 @@ import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.BuildKonfig
-import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
@@ -56,6 +56,7 @@ class MainViewModelTest : BaseViewModelTest() {
     }
 
     private val appThemeValue = Random.nextInt()
+    private val mockDevice = Device.IOS
 
     @BeforeTest
     fun setup() {
@@ -70,6 +71,10 @@ class MainViewModelTest : BaseViewModelTest() {
         given(settingsDataSource)
             .invocation { sessionCount }
             .then { 1L }
+
+        given(sessionRepository)
+            .invocation { device }
+            .then { mockDevice }
     }
 
     // Analytics
@@ -86,12 +91,12 @@ class MainViewModelTest : BaseViewModelTest() {
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, device))
+                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, mockDevice))
                 )
             }
             .wasInvoked()
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.DevicePlatform(device.name)) }
+            .invocation { setUserProperty(UserProperty.DevicePlatform(mockDevice.name)) }
             .wasInvoked()
     }
 
@@ -310,7 +315,7 @@ class MainViewModelTest : BaseViewModelTest() {
         val mockConfig = AppConfig(
             appUpdate = listOf(
                 AppUpdate(
-                    name = device.name,
+                    name = mockDevice.name,
                     updateForceVersion = BuildKonfig.versionCode + 1,
                     updateLatestVersion = BuildKonfig.versionCode + 1
                 )

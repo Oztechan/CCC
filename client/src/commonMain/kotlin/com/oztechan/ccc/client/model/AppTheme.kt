@@ -23,7 +23,7 @@ enum class AppTheme(val order: Int, val themeName: String, val themeValue: Int) 
         @Suppress("MagicNumber")
         fun getAnalyticsThemeName(themeValue: Int, device: Device) = when (device) {
             Device.IOS -> SYSTEM_DEFAULT.themeName
-            is Device.ANDROID -> if (device.versionCode < 29) {
+            is Device.Android -> if (device.versionCode < 29) {
                 SYSTEM_DARK
             } else {
                 getThemeByValueOrDefault(themeValue).themeName
