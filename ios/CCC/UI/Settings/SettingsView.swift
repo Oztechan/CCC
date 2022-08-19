@@ -149,7 +149,7 @@ struct SettingsView: View {
             showAlert(
                 title: MR.strings().txt_remove_ads.get(),
                 text: MR.strings().txt_remove_ads_text.get(),
-                buttonText: MR.strings().txt_ok.get(),
+                buttonText: MR.strings().txt_watch.get(),
                 action: {
                     RewardedAd(
                         rewardFunction: { observable.viewModel.updateAddFreeDate() },
