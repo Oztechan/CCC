@@ -8,4 +8,6 @@ interface SessionRepository {
     fun checkAppUpdate(isAppUpdateShown: Boolean): Boolean?
 
     fun shouldShowAppReview(): Boolean
+
+    fun shouldShowRemoveAds(): Boolean
 }
