@@ -205,6 +205,21 @@ class SettingsViewModelTest : BaseViewModelTest() {
     }
 
     @Test
+    fun shouldShowRemoveAds() {
+        val mockBoolean = Random.nextBoolean()
+
+        given(sessionRepository)
+            .invocation { shouldShowRemoveAds() }
+            .thenReturn(mockBoolean)
+
+        assertEquals(mockBoolean, viewModel.shouldShowRemoveAds())
+
+        verify(sessionRepository)
+            .invocation { shouldShowRemoveAds() }
+            .wasInvoked()
+    }
+
+    @Test
     fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
         given(settingsDataSource)
             .invocation { adFreeEndDate }

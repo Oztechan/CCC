@@ -97,6 +97,8 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
 
+    fun shouldShowRemoveAds() = sessionRepository.shouldShowRemoveAds()
+
     fun isRewardExpired() = settingsDataSource.adFreeEndDate.isRewardExpired()
 
     fun isAdFreeNeverActivated() = settingsDataSource.adFreeEndDate == 0.toLong()

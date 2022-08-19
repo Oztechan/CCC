@@ -16,6 +16,7 @@ import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.getMarketLink
+import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSingleChoiceDialog
@@ -74,11 +75,17 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_theme_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_theme_sub_title)
         }
-        with(itemDisableAds) {
-            imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
-            settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
-            settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+
+        if (settingsViewModel.shouldShowRemoveAds()) {
+            with(itemDisableAds) {
+                imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
+                settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
+                settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+            }
+        } else {
+            itemDisableAds.root.gone()
         }
+
         with(itemSync) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_sync)
             settingsItemTitle.text = getString(R.string.settings_item_sync_title)
