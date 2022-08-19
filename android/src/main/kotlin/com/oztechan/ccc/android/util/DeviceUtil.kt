@@ -9,10 +9,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
-import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.model.Device
-import mustafaozhan.github.com.mycurrencies.R
 import java.util.Locale
 
 fun updateBaseContextLocale(context: Context): Context? {
@@ -48,10 +45,3 @@ private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Conte
     resources.updateConfiguration(configuration, resources.displayMetrics)
     return context
 }
-
-fun Context.getMarketLink() = getString(
-    when (device as Device.ANDROID) {
-        is Device.ANDROID.Google -> R.string.app_market_link_google
-        is Device.ANDROID.Huawei -> R.string.app_market_link_huawei
-    }
-)

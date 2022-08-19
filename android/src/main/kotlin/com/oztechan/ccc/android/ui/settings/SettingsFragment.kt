@@ -15,7 +15,6 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
-import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -150,19 +149,14 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
                 SettingsEffect.FeedBack -> sendFeedBack()
-                SettingsEffect.Share -> share()
-                SettingsEffect.SupportUs -> showDialog(
+                is SettingsEffect.Share -> share(viewEffect.marketLink)
+                is SettingsEffect.SupportUs -> showDialog(
                     requireActivity(),
                     R.string.support_us,
                     R.string.rate_and_support,
                     R.string.rate
                 ) {
-                    startIntent(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(requireContext().getMarketLink())
-                        )
-                    )
+                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
                 }
                 SettingsEffect.OnGitHub -> startIntent(
                     Intent(
@@ -221,9 +215,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         intent.resolveActivity(it)?.let { startActivity(intent) }
     }
 
-    private fun share() = Intent(Intent.ACTION_SEND).apply {
+    private fun share(marketLink: String) = Intent(Intent.ACTION_SEND).apply {
         type = TEXT_TYPE
-        putExtra(Intent.EXTRA_TEXT, requireContext().getMarketLink())
+        putExtra(Intent.EXTRA_TEXT, marketLink)
         startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
     }
 

@@ -8,6 +8,7 @@ import com.github.submob.logmob.e
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
+import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.session.SessionRepository
@@ -134,12 +135,12 @@ class SettingsViewModel(
 
     override fun onShareClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onShareClick" }
-        _effect.emit(SettingsEffect.Share)
+        _effect.emit(SettingsEffect.Share(device.marketLink))
     }
 
     override fun onSupportUsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSupportUsClick" }
-        _effect.emit(SettingsEffect.SupportUs)
+        _effect.emit(SettingsEffect.SupportUs(device.marketLink))
     }
 
     override fun onOnGitHubClick() = viewModelScope.launchIgnored {

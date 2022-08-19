@@ -53,8 +53,6 @@
 
     <!--Dialog-->
     <string name="rate_and_support">You can rate us and review our app in the market :)</string>
-    <string name="app_market_link_google">https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies</string>
-    <string name="app_market_link_huawei">https://appgallery.huawei.com/app/C104920917</string>
     <string name="rate">RATE</string>
     <string name="update">Update</string>
     <string name="github_url">https://github.com/CurrencyConverterCalculator/CCC</string>

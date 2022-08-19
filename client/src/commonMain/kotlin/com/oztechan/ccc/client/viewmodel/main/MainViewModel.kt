@@ -72,7 +72,7 @@ class MainViewModel(
     private fun checkAppUpdate() {
         sessionRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
             viewModelScope.launch {
-                _effect.emit(MainEffect.AppUpdateEffect(isCancelable))
+                _effect.emit(MainEffect.AppUpdateEffect(isCancelable, device.marketLink))
                 data.isAppUpdateShown = true
             }
         }
