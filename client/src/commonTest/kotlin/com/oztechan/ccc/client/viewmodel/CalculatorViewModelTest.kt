@@ -7,7 +7,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.client.mapper.toUIModel
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
@@ -50,7 +50,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
 
     @Mock
-    private val sessionRepository = mock(classOf<SessionRepository>())
+    private val adRepository = mock(classOf<AdRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -61,7 +61,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
-            sessionRepository,
+            adRepository,
             analyticsManager
         )
     }
@@ -99,13 +99,13 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionRepository)
+        given(adRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionRepository)
+        verify(adRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }

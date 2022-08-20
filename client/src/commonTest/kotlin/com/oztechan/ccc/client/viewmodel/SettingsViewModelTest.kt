@@ -3,12 +3,14 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.model.RemoveAdType
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
@@ -61,7 +63,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
 
     @Mock
-    private val sessionRepository = mock(classOf<SessionRepository>())
+    private val appConfigRepository = mock(classOf<AppConfigRepository>())
+
+    @Mock
+    private val adRepository = mock(classOf<AdRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -73,7 +78,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
             currencyDataSource,
             offlineRatesDataSource,
             watcherDataSource,
-            sessionRepository,
+            adRepository,
+            appConfigRepository,
             analyticsManager
         )
     }
@@ -106,8 +112,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
             .invocation { collectWatchers() }
             .then { flowOf(watcherLists) }
 
-        given(sessionRepository)
-            .invocation { device }
+        given(appConfigRepository)
+            .invocation { getDeviceType() }
             .then { Device.IOS }
     }
 
@@ -198,13 +204,13 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionRepository)
+        given(adRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionRepository)
+        verify(adRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
@@ -213,13 +219,13 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun shouldShowRemoveAds() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionRepository)
+        given(adRepository)
             .invocation { shouldShowRemoveAds() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowRemoveAds())
 
-        verify(sessionRepository)
+        verify(adRepository)
             .invocation { shouldShowRemoveAds() }
             .wasInvoked()
     }
@@ -305,17 +311,35 @@ class SettingsViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onShareClick() = viewModel.effect.before {
-        viewModel.event.onShareClick()
-    }.after {
-        assertTrue { it is SettingsEffect.Share }
+    fun onShareClick() {
+        val link = "link"
+
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { link }
+
+        viewModel.effect.before {
+            viewModel.event.onShareClick()
+        }.after {
+            assertTrue { it is SettingsEffect.Share }
+            assertEquals(link, it?.castTo<SettingsEffect.Share>()?.marketLink)
+        }
     }
 
     @Test
-    fun onSupportUsClick() = viewModel.effect.before {
-        viewModel.event.onSupportUsClick()
-    }.after {
-        assertTrue { it is SettingsEffect.SupportUs }
+    fun onSupportUsClick() {
+        val link = "link"
+
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { link }
+
+        viewModel.effect.before {
+            viewModel.event.onSupportUsClick()
+        }.after {
+            assertTrue { it is SettingsEffect.SupportUs }
+            assertEquals(link, it?.castTo<SettingsEffect.SupportUs>()?.marketLink)
+        }
     }
 
     @Test

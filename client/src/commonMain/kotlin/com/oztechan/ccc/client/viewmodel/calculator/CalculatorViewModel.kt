@@ -17,7 +17,7 @@ import com.oztechan.ccc.client.mapper.toTodayResponse
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -53,7 +53,7 @@ class CalculatorViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
-    private val sessionRepository: SessionRepository,
+    private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), CalculatorEvent {
     // region SEED
@@ -182,7 +182,7 @@ class CalculatorViewModel(
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
     }
 
-    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {

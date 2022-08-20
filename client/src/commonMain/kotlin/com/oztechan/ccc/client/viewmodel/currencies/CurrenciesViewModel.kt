@@ -15,7 +15,7 @@ import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 class CurrenciesViewModel(
     private val settingsDataSource: SettingsDataSource,
     private val currencyDataSource: CurrencyDataSource,
-    private val sessionRepository: SessionRepository,
+    private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), CurrenciesEvent {
     // region SEED
@@ -117,7 +117,7 @@ class CurrenciesViewModel(
         _state.update(selectionVisibility = false)
     }
 
-    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
     fun isFirstRun() = settingsDataSource.firstRun
 

@@ -1,16 +1,14 @@
 package com.oztechan.ccc.client.repository
 
-import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.repository.session.SessionRepositoryImpl
+import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
-import com.oztechan.ccc.config.model.AppReview
-import com.oztechan.ccc.config.model.AppUpdate
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -18,22 +16,21 @@ import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class SessionRepositoryTest {
+class AdRepositoryTest {
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
-    private val device = Device.IOS
+    private var device: Device = Device.IOS
 
-    private val repository: SessionRepositoryImpl by lazy {
-        SessionRepositoryImpl(configService, settingsDataSource, device)
+    private val repository: AdRepository by lazy {
+        AdRepositoryImpl(settingsDataSource, configService, device)
     }
 
     @Test
@@ -397,130 +394,66 @@ class SessionRepositoryTest {
     }
 
     @Test
-    fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
+    fun shouldShowRemoveAds_Returns_False_When_Device_Is_Huawei() {
+        device = Device.Android.Huawei(1)
+        assertFalse { repository.shouldShowRemoveAds() }
+    }
+
+    @Test
+    fun shouldShowRemoveAds_Returns_True_When_ShouldShowBannerAd_Returns_True() {
+        val someInt = Random.nextInt()
+
+        given(settingsDataSource)
+            .invocation { sessionCount }
+            .thenReturn(someInt + 1L)
+
+        given(settingsDataSource)
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() - SECOND)
+
+        given(configService)
+            .invocation { appConfig }
+            .then { AppConfig(adConfig = AdConfig(someInt)) }
+
+        given(settingsDataSource)
+            .invocation { firstRun }
+            .thenReturn(false)
+
+        assertTrue { repository.shouldShowRemoveAds() }
+    }
+
+    @Test
+    fun shouldShowRemoveAds_Returns_True_When_ShouldShowInterstitialAd_Returns_True() {
+        val someInt = Random.nextInt()
+        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
 
         given(configService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(false, repository.checkAppUpdate(false))
+        given(settingsDataSource)
+            .invocation { firstRun }
+            .then { false }
 
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
+        given(settingsDataSource)
+            .invocation { sessionCount }
+            .thenReturn(someInt.toLong() + 1)
+
+        given(settingsDataSource)
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() - SECOND)
+
+        assertTrue { repository.shouldShowRemoveAds() }
     }
 
     @Test
-    fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
-        val mockName = device.name
+    fun shouldShowRemoveAds_Returns_False_When_Should_Show_InterstitialAd_And_ShowShowBannerAd_Returns_False() {
+        val someInt = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode - 1
-                )
+            adConfig = AdConfig(
+                bannerAdSessionCount = someInt,
+                interstitialAdSessionCount = someInt
             )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        assertEquals(true, repository.checkAppUpdate(false))
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode - 1,
-                    updateForceVersion = BuildKonfig.versionCode - 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        assertEquals(null, repository.checkAppUpdate(false))
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun checkAppUpdate_should_return_null_when_device_name_is_different_than_remote() {
-        val mockName = "mock"
-        val mockAppConfig = AppConfig(
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        assertEquals(null, repository.checkAppUpdate(false))
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        assertEquals(null, repository.checkAppUpdate(true))
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
-        val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
         )
 
         given(configService)
@@ -529,68 +462,16 @@ class SessionRepositoryTest {
 
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(mockInteger.toLong() + 1)
-
-        assertTrue { repository.shouldShowAppReview() }
-
-        verify(settingsDataSource)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
-        val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+            .thenReturn(someInt.toLong() - 1)
 
         given(settingsDataSource)
-            .invocation { sessionCount }
-            .thenReturn(mockInteger.toLong() - 1)
-
-        assertFalse { repository.shouldShowAppReview() }
-
-        verify(settingsDataSource)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
-        val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() + SECOND)
 
         given(settingsDataSource)
-            .invocation { sessionCount }
-            .thenReturn(mockInteger.toLong())
+            .invocation { firstRun }
+            .thenReturn(true)
 
-        assertFalse { repository.shouldShowAppReview() }
-
-        verify(settingsDataSource)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
+        assertFalse { repository.shouldShowRemoveAds() }
     }
 }
