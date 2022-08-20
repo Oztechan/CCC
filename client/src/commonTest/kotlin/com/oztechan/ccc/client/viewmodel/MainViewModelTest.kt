@@ -194,6 +194,10 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowAppReview() }
             .then { true }
 
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { "" }
+
         assertEquals(true, data.isNewSession)
 
         event.onResume()
