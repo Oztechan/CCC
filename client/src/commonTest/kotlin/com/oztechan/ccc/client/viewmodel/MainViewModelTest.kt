@@ -334,6 +334,10 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowAppReview() }
             .then { true }
 
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { "" }
+
         viewModel.effect.before {
             viewModel.onResume()
         }.after {
