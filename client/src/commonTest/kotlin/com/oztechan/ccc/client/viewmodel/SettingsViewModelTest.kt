@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.after
@@ -104,6 +105,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
         given(watcherDataSource)
             .invocation { collectWatchers() }
             .then { flowOf(watcherLists) }
+
+        given(sessionRepository)
+            .invocation { device }
+            .then { Device.IOS }
     }
 
     // SEED

@@ -48,10 +48,10 @@ class AppThemeTest {
     fun getAnalyticsThemeName() = with(AppTheme) {
         assertEquals(AppTheme.SYSTEM_DEFAULT.themeName, getAnalyticsThemeName(1, Device.IOS))
 
-        assertEquals(SYSTEM_DARK, getAnalyticsThemeName(1, Device.ANDROID.Google(28)))
-        assertEquals(SYSTEM_DARK, getAnalyticsThemeName(1, Device.ANDROID.Huawei(28)))
+        assertEquals(SYSTEM_DARK, getAnalyticsThemeName(1, Device.Android.Google(28)))
+        assertEquals(SYSTEM_DARK, getAnalyticsThemeName(1, Device.Android.Huawei(28)))
 
-        assertEquals(getThemeByValueOrDefault(1).themeName, getAnalyticsThemeName(1, Device.ANDROID.Google(30)))
-        assertEquals(getThemeByValueOrDefault(1).themeName, getAnalyticsThemeName(1, Device.ANDROID.Huawei(30)))
+        assertEquals(getThemeByValueOrDefault(1).themeName, getAnalyticsThemeName(1, Device.Android.Google(30)))
+        assertEquals(getThemeByValueOrDefault(1).themeName, getAnalyticsThemeName(1, Device.Android.Huawei(30)))
     }
 }

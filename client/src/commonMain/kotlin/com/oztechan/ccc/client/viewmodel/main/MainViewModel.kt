@@ -8,7 +8,6 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
-import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.session.SessionRepository
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -42,9 +41,9 @@ class MainViewModel(
         analyticsManager.setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
         analyticsManager.setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString()))
         analyticsManager.setUserProperty(
-            UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, device))
+            UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, sessionRepository.device))
         )
-        analyticsManager.setUserProperty(UserProperty.DevicePlatform(device.name))
+        analyticsManager.setUserProperty(UserProperty.DevicePlatform(sessionRepository.device.name))
     }
 
     private fun setupInterstitialAdTimer() {
@@ -72,7 +71,7 @@ class MainViewModel(
     private fun checkAppUpdate() {
         sessionRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
             viewModelScope.launch {
-                _effect.emit(MainEffect.AppUpdateEffect(isCancelable, device.marketLink))
+                _effect.emit(MainEffect.AppUpdateEffect(isCancelable, sessionRepository.device.marketLink))
                 data.isAppUpdateShown = true
             }
         }

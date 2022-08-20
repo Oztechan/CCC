@@ -3,7 +3,6 @@ package com.oztechan.ccc.client.repository.session
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
-import com.oztechan.ccc.client.device
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -11,7 +10,8 @@ import com.oztechan.ccc.config.ConfigService
 
 class SessionRepositoryImpl(
     private val configService: ConfigService,
-    private val settingsDataSource: SettingsDataSource
+    private val settingsDataSource: SettingsDataSource,
+    override val device: Device
 ) : SessionRepository {
     override fun shouldShowBannerAd() = !settingsDataSource.firstRun &&
         settingsDataSource.adFreeEndDate.isRewardExpired() &&
@@ -39,7 +39,7 @@ class SessionRepositoryImpl(
         ?: false
 
     override fun shouldShowRemoveAds() = when {
-        device is Device.ANDROID.Huawei -> false
+        device is Device.Android.Huawei -> false
         shouldShowBannerAd() || shouldShowInterstitialAd() -> true
         else -> false
     }
