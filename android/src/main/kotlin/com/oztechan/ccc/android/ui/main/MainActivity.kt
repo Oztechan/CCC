@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.ad.AdManager
-import com.oztechan.ccc.android.util.getMarketLink
 import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.updateAppTheme
@@ -51,18 +50,18 @@ class MainActivity : BaseActivity() {
                     getString(R.string.android_interstitial_ad_id)
                 )
                 MainEffect.RequestReview -> requestAppReview(this)
-                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable)
+                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable, viewEffect.marketLink)
             }
         }.launchIn(lifecycleScope)
 
-    private fun showAppUpdateDialog(isCancelable: Boolean) = showDialog(
+    private fun showAppUpdateDialog(isCancelable: Boolean, marketLink: String) = showDialog(
         activity = this,
         title = R.string.txt_update_dialog_title,
         message = R.string.txt_update_dialog_description,
         positiveButton = R.string.update,
         cancelable = isCancelable
     ) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getMarketLink())))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(marketLink)))
     }
 
     private fun checkDestination() = with(getNavigationController()) {
