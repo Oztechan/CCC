@@ -17,6 +17,8 @@ object Versions {
     const val FIREBASE_REMOTE_CONFIG = "21.1.1"
     const val DESUGARING = "1.1.5"
     const val GSM = "4.3.13"
+    const val FIREBASE_PER = "20.1.0"
+    const val FIREBASE_PER_PLUGIN = "1.4.1"
     const val CRASHLYTICS = "2.9.1"
     const val ADMOB = "21.1.0"
     const val NAVIGATION = "2.5.1"
