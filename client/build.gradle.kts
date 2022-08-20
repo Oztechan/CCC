@@ -157,6 +157,6 @@ configure<BuildKonfigExtension> {
     packageName = "${ProjectSettings.PROJECT_ID}.client"
 
     defaultConfigs {
-        buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString())
+        buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
     }
 }
