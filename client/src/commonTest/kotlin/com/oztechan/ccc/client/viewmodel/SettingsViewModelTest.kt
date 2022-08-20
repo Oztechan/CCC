@@ -3,6 +3,7 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
@@ -209,7 +210,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(appConfigRepository)
+        verify(adRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
@@ -224,7 +225,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
         assertEquals(mockBoolean, viewModel.shouldShowRemoveAds())
 
-        verify(appConfigRepository)
+        verify(adRepository)
             .invocation { shouldShowRemoveAds() }
             .wasInvoked()
     }
@@ -310,17 +311,35 @@ class SettingsViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onShareClick() = viewModel.effect.before {
-        viewModel.event.onShareClick()
-    }.after {
-        assertTrue { it is SettingsEffect.Share }
+    fun onShareClick() {
+        val link = "link"
+
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { link }
+
+        viewModel.effect.before {
+            viewModel.event.onShareClick()
+        }.after {
+            assertTrue { it is SettingsEffect.Share }
+            assertEquals(link, it?.castTo<SettingsEffect.Share>()?.marketLink)
+        }
     }
 
     @Test
-    fun onSupportUsClick() = viewModel.effect.before {
-        viewModel.event.onSupportUsClick()
-    }.after {
-        assertTrue { it is SettingsEffect.SupportUs }
+    fun onSupportUsClick() {
+        val link = "link"
+
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { link }
+
+        viewModel.effect.before {
+            viewModel.event.onSupportUsClick()
+        }.after {
+            assertTrue { it is SettingsEffect.SupportUs }
+            assertEquals(link, it?.castTo<SettingsEffect.SupportUs>()?.marketLink)
+        }
     }
 
     @Test
