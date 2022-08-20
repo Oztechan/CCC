@@ -14,7 +14,6 @@ import org.koin.dsl.module
 internal val repositoryModule = module {
     single<AppConfigRepository> { AppConfigRepositoryImpl(get(), get(), provideDevice()) }
     single<AdRepository> { AdRepositoryImpl(get(), get(), provideDevice()) }
-    singleOf(::AppConfigRepositoryImpl) { bind<AppConfigRepository>() }
     singleOf(::BackgroundRepositoryImpl) { bind<BackgroundRepository>() }
 }
 
