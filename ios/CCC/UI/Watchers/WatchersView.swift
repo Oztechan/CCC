@@ -99,6 +99,8 @@ struct WatchersView: View {
                     )
                     .frame(maxHeight: 50)
                     .padding(.bottom, 55)
+                } else {
+                    Text("").padding(5)
                 }
             }
             .background(MR.colors().background_strong.get())
