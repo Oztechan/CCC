@@ -9,7 +9,7 @@ import kotlinx.coroutines.Job
 sealed class MainEffect : BaseEffect() {
     object ShowInterstitialAd : MainEffect()
     object RequestReview : MainEffect()
-    data class AppUpdateEffect(val isCancelable: Boolean) : MainEffect()
+    data class AppUpdateEffect(val isCancelable: Boolean, val marketLink: String) : MainEffect()
 }
 
 // Event

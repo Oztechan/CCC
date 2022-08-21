@@ -36,8 +36,6 @@ sealed class SettingsEffect : BaseEffect() {
     object OpenCurrencies : SettingsEffect()
     object OpenWatchers : SettingsEffect()
     object FeedBack : SettingsEffect()
-    object Share : SettingsEffect()
-    object SupportUs : SettingsEffect()
     object OnGitHub : SettingsEffect()
     object RemoveAds : SettingsEffect()
     object ThemeDialog : SettingsEffect()
@@ -45,6 +43,8 @@ sealed class SettingsEffect : BaseEffect() {
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
     object AlreadyAdFree : SettingsEffect()
+    data class Share(val marketLink: String) : SettingsEffect()
+    data class SupportUs(val marketLink: String) : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()
 }
 

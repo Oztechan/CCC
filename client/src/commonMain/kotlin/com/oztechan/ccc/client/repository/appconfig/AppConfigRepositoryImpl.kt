@@ -1,23 +1,20 @@
-package com.oztechan.ccc.client.repository.session
+package com.oztechan.ccc.client.repository.appconfig
 
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
-import com.oztechan.ccc.client.device
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
 
-class SessionRepositoryImpl(
+class AppConfigRepositoryImpl(
     private val configService: ConfigService,
-    private val settingsDataSource: SettingsDataSource
-) : SessionRepository {
-    override fun shouldShowBannerAd() = !settingsDataSource.firstRun &&
-        settingsDataSource.adFreeEndDate.isRewardExpired() &&
-        settingsDataSource.sessionCount > configService.appConfig.adConfig.bannerAdSessionCount
+    private val settingsDataSource: SettingsDataSource,
+    private val device: Device
+) : AppConfigRepository {
+    override fun getDeviceType(): Device = device
 
-    override fun shouldShowInterstitialAd() =
-        settingsDataSource.sessionCount > configService.appConfig.adConfig.interstitialAdSessionCount
+    override fun getMarketLink(): String = device.marketLink
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean

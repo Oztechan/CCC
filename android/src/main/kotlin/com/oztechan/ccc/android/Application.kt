@@ -23,17 +23,16 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            enableStrictMode()
+        if (!BuildConfig.DEBUG) {
+            initCrashlytics()
+            initAnalytics(this)
         }
 
         initLogger()
-
         Logger.i { "Application onCreate" }
 
-        if (!BuildConfig.DEBUG) {
-            initAnalytics(this)
-            initCrashlytics()
+        if (BuildConfig.DEBUG) {
+            enableStrictMode()
         }
 
         initAds(this)

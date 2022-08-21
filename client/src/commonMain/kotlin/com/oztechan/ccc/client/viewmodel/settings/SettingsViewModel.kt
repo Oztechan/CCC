@@ -10,7 +10,8 @@ import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
@@ -37,7 +38,8 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
     watcherDataSource: WatcherDataSource,
-    private val sessionRepository: SessionRepository,
+    private val adRepository: AdRepository,
+    private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel(), SettingsEvent {
     // region SEED
@@ -95,7 +97,9 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
+
+    fun shouldShowRemoveAds() = adRepository.shouldShowRemoveAds()
 
     fun isRewardExpired() = settingsDataSource.adFreeEndDate.isRewardExpired()
 
@@ -132,12 +136,12 @@ class SettingsViewModel(
 
     override fun onShareClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onShareClick" }
-        _effect.emit(SettingsEffect.Share)
+        _effect.emit(SettingsEffect.Share(appConfigRepository.getMarketLink()))
     }
 
     override fun onSupportUsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSupportUsClick" }
-        _effect.emit(SettingsEffect.SupportUs)
+        _effect.emit(SettingsEffect.SupportUs(appConfigRepository.getMarketLink()))
     }
 
     override fun onOnGitHubClick() = viewModelScope.launchIgnored {

@@ -4,7 +4,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Watcher
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val watcherDataSource: WatcherDataSource,
-    private val sessionRepository: SessionRepository
+    private val adRepository: AdRepository
 ) : BaseSEEDViewModel(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
@@ -43,7 +43,7 @@ class WatchersViewModel(
             }.launchIn(viewModelScope)
     }
 
-    fun shouldShowBannerAd() = sessionRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
@@ -107,7 +107,7 @@ class WatchersViewModel(
                 viewModelScope.launch { _effect.emit(WatchersEffect.MaximumInput) }
                 rate.dropLast(1)
             }
-            rate.toDoubleOrNull()?.isNaN() != false -> {
+            rate.toSupportedCharacters().toDoubleOrNull()?.isNaN() != false -> {
                 viewModelScope.launch { _effect.emit(WatchersEffect.InvalidInput) }
                 rate
             }

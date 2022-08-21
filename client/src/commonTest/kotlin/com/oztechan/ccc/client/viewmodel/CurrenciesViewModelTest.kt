@@ -5,7 +5,7 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.client.mapper.toUIModel
-import com.oztechan.ccc.client.repository.session.SessionRepository
+import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -41,13 +41,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val sessionRepository = mock(classOf<SessionRepository>())
+    private val adRepository = mock(classOf<AdRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, sessionRepository, analyticsManager)
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, adRepository, analyticsManager)
     }
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
@@ -113,13 +113,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionRepository)
+        given(adRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
-        verify(sessionRepository)
+        verify(adRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
