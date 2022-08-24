@@ -35,7 +35,7 @@ object Versions {
     const val BUILD_KONFIG = "0.13.3"
     const val WORK_RUNTIME = "2.7.1"
     const val SPLASH_SCREEN = "1.0.0"
-    const val KOVER = "0.5.1"
+    const val KOVER = "0.6.0"
     const val ROOT_BEER = "0.1.0"
     const val MOCKATIVE = "1.2.6"
     const val SCOPE_MOB = "2.1.6"
