@@ -192,7 +192,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onQueryChange() = with(viewModel) {
-        val dollar = ClientCurrency("USD", "American Dollar", "$")
+        val dollar = ClientCurrency("USD", "American Dollar", "$", "1231")
 
         val originalList = mutableListOf<ClientCurrency>().apply {
             add(clientCurrency)
@@ -291,7 +291,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onDoneClick() {
-        val dollar = ClientCurrency("USD", "American Dollar", "$", isActive = true)
+        val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
 
         viewModel.effect.before {
             viewModel.onDoneClick()

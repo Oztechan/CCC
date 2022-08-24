@@ -48,8 +48,9 @@ fun Currency.getCurrencyConversionByRate(
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.name != currentBase &&
         it.isActive &&
-        it.rate.toString() != "NaN" &&
-        it.rate.toString() != "0.0"
+        it.rate != "NaN" &&
+        it.rate != "0.0" &&
+        it.rate != "0"
 } ?: mutableListOf()
 
 @Suppress("ComplexMethod", "LongMethod")
