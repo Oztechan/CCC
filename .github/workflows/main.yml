@@ -69,13 +69,13 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/reports/kover/report.xml
+          files: build/reports/kover/merged/xml/report.xml
 
       - name: Upload to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/reports/kover/report.xml
+          coverage-reports: build/reports/kover/merged/xml/report.xml
 
       - name: Set Job Status
         id: status
