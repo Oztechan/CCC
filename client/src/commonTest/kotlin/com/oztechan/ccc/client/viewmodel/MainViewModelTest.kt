@@ -4,7 +4,6 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.BuildKonfig
@@ -34,6 +33,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -256,7 +256,7 @@ class MainViewModelTest : BaseViewModelTest() {
             assertEquals(true, data.adVisibility)
             assertEquals(true, data.adJob.isActive)
 
-            assertTrue { it is MainEffect.ShowInterstitialAd }
+            assertIs<MainEffect.ShowInterstitialAd>(it)
 
             data.adJob.cancel()
             assertEquals(false, data.adJob.isActive)
@@ -345,8 +345,8 @@ class MainViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.onResume()
         }.after {
-            assertTrue { it is MainEffect.AppUpdateEffect }
-            assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == mockBoolean }
+            assertIs<MainEffect.AppUpdateEffect>(it)
+            assertEquals(mockBoolean, it.isCancelable)
             assertTrue { viewModel.data.isAppUpdateShown }
         }
 
@@ -390,7 +390,7 @@ class MainViewModelTest : BaseViewModelTest() {
             effect.before {
                 onResume()
             }.after {
-                assertTrue { it is MainEffect.RequestReview }
+                assertIs<MainEffect.RequestReview>(it)
             }
 
             verify(appConfigRepository)

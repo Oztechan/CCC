@@ -24,6 +24,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNull
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
@@ -112,7 +113,8 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onItemClick(currencyUIModel)
         }.after {
-            assertEquals(SelectCurrencyEffect.CurrencyChange(currencyUIModel.name), it)
+            assertIs<SelectCurrencyEffect.CurrencyChange>(it)
+            assertEquals(currencyUIModel.name, it.newBase)
         }
     }
 
@@ -121,7 +123,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onSelectClick()
         }.after {
-            assertEquals(SelectCurrencyEffect.OpenCurrencies, it)
+            assertIs<SelectCurrencyEffect.OpenCurrencies>(it)
         }
     }
 }
