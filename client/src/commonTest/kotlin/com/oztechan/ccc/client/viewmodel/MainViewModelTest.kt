@@ -141,7 +141,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .then { nowAsLong() + SECOND }
 
-        assertEquals(true, viewModel.isAdFree())
+        assertTrue { viewModel.isAdFree() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -154,7 +154,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .then { nowAsLong() - SECOND }
 
-        assertEquals(false, viewModel.isAdFree())
+        assertFalse { viewModel.isAdFree() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -165,8 +165,8 @@ class MainViewModelTest : BaseViewModelTest() {
     @Test
     fun onPause() = with(viewModel) {
         event.onPause()
-        assertEquals(false, data.adVisibility)
-        assertEquals(true, data.adJob.isCancelled)
+        assertFalse { data.adVisibility }
+        assertTrue { data.adJob.isCancelled }
     }
 
     @Test
@@ -198,14 +198,14 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { getMarketLink() }
             .then { "" }
 
-        assertEquals(true, data.isNewSession)
+        assertTrue { data.isNewSession }
 
         event.onResume()
 
         verify(settingsDataSource)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasInvoked()
-        assertEquals(false, data.isNewSession)
+        assertFalse { data.isNewSession }
 
         event.onResume()
 
@@ -213,7 +213,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasNotInvoked()
 
-        assertEquals(false, data.isNewSession)
+        assertFalse { data.isNewSession }
     }
 
     @Test
@@ -253,13 +253,13 @@ class MainViewModelTest : BaseViewModelTest() {
         effect.before {
             onResume()
         }.after {
-            assertEquals(true, data.adVisibility)
-            assertEquals(true, data.adJob.isActive)
+            assertTrue { data.adVisibility }
+            assertTrue { data.adJob.isActive }
 
             assertIs<MainEffect.ShowInterstitialAd>(it)
 
             data.adJob.cancel()
-            assertEquals(false, data.adJob.isActive)
+            assertFalse { data.adJob.isActive }
         }
 
         verify(configService)

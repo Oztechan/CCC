@@ -17,6 +17,8 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
@@ -60,7 +62,10 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(false, repository.checkAppUpdate(false))
+        repository.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertFalse { it }
+        }
 
         verify(configService)
             .invocation { appConfig }
@@ -84,7 +89,10 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(true, repository.checkAppUpdate(false))
+        repository.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertTrue { it }
+        }
 
         verify(configService)
             .invocation { appConfig }
@@ -108,7 +116,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(false))
+        assertNull(repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -132,7 +140,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(false))
+        assertNull(repository.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -156,7 +164,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(true))
+        assertNull(repository.checkAppUpdate(true))
 
         verify(configService)
             .invocation { appConfig }
