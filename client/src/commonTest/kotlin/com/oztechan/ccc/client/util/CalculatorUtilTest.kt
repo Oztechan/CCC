@@ -59,6 +59,7 @@ class CalculatorUtilTest {
             add(Currency(CurrencyType.GGP.toString(), "", "", 0.0.toString(), true))
             add(Currency(CurrencyType.RON.toString(), "", "", "0.0", true))
             add(Currency(CurrencyType.CZK.toString(), "", "", 0.toString(), true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", "0", true))
         }
         assertEquals(mutableListOf(), list.toValidList(base))
         assertEquals(mutableListOf(), null.toValidList(base))
