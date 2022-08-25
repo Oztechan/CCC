@@ -25,6 +25,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -118,10 +119,8 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
             viewModel.state.before {
                 viewModel.addPurchaseMethods(listOf(removeAdData))
             }.after {
-                assertEquals(
-                    true,
-                    it?.adRemoveTypes?.contains(RemoveAdType.getById(removeAdData.id))
-                )
+                assertNotNull(it)
+                assertTrue { it.adRemoveTypes.contains(RemoveAdType.getById(removeAdData.id)) }
             }
         }
 

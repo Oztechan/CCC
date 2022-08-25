@@ -24,8 +24,11 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
 class SelectCurrencyViewModelTest : BaseViewModelTest() {
@@ -69,9 +72,10 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
                 currencyList = currencyList
             )
         }.after {
-            assertEquals(true, it?.loading)
-            assertEquals(false, it?.enoughCurrency)
-            assertEquals(currencyList, it?.currencyList)
+            assertNotNull(it)
+            assertTrue { it.loading }
+            assertFalse { it.enoughCurrency }
+            assertEquals(currencyList, it.currencyList)
         }
     }
 
@@ -83,9 +87,10 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
             .thenReturn(flowOf(currencyListNotEnough))
 
         viewModel.state.firstOrNull().let {
-            assertEquals(false, it?.loading)
-            assertEquals(false, it?.enoughCurrency)
-            assertEquals(currencyListNotEnough.toUIModelList(), it?.currencyList)
+            assertNotNull(it)
+            assertFalse { it.loading }
+            assertFalse { it.enoughCurrency }
+            assertEquals(currencyListNotEnough.toUIModelList(), it.currencyList)
         }
 
         verify(currencyDataSource)
@@ -97,9 +102,10 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
     fun init_updates_the_states_with_enough_currency() {
         runTest {
             viewModel.state.firstOrNull().let {
-                assertEquals(false, it?.loading)
-                assertEquals(true, it?.enoughCurrency)
-                assertEquals(currencyListEnough.toUIModelList(), it?.currencyList)
+                assertNotNull(it)
+                assertFalse { it.loading }
+                assertTrue { it.enoughCurrency }
+                assertEquals(currencyListEnough.toUIModelList(), it.currencyList)
             }
         }
 

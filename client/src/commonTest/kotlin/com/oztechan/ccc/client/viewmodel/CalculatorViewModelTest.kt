@@ -131,8 +131,9 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     fun onItemClick() = viewModel.state.before {
         viewModel.event.onItemClick(currencyUIModel)
     }.after {
-        assertEquals(currencyUIModel.name, it?.base)
-        assertEquals(currencyUIModel.rate.toString(), it?.input)
+        assertNotNull(it)
+        assertEquals(currencyUIModel.name, it.base)
+        assertEquals(currencyUIModel.rate.toString(), it.input)
     }
 
     @Test
@@ -175,13 +176,15 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         state.before {
             event.onKeyPress(key)
         }.after {
-            assertEquals(key, it?.input)
+            assertNotNull(it)
+            assertEquals(key, it.input)
         }
 
         state.before {
             event.onKeyPress(KEY_AC)
         }.after {
-            assertEquals("", it?.input)
+            assertNotNull(it)
+            assertEquals("", it.input)
         }
 
         state.before {
@@ -189,7 +192,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             event.onKeyPress(key)
             event.onKeyPress(KEY_DEL)
         }.after {
-            assertEquals(key, it?.input)
+            assertNotNull(it)
+            assertEquals(key, it.input)
         }
     }
 
@@ -208,9 +212,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.event.onBaseChange(currency.name)
         }.after {
+            assertNotNull(it)
             assertEquals(currency.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
-            assertEquals(currency.name, it?.base)
+            assertEquals(currency.name, it.base)
 
             verify(analyticsManager)
                 .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }

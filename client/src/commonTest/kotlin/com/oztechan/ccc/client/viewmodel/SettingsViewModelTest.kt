@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
@@ -43,6 +42,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
@@ -139,11 +139,12 @@ class SettingsViewModelTest : BaseViewModelTest() {
                 loading = loading
             )
         }.after {
-            assertEquals(activeCurrencyCount, it?.activeCurrencyCount)
-            assertEquals(activeWatcherCount, it?.activeWatcherCount)
-            assertEquals(appThemeType, it?.appThemeType)
-            assertEquals(addFreeEndDate, it?.addFreeEndDate)
-            assertEquals(loading, it?.loading)
+            assertNotNull(it)
+            assertEquals(activeCurrencyCount, it.activeCurrencyCount)
+            assertEquals(activeWatcherCount, it.activeWatcherCount)
+            assertEquals(appThemeType, it.appThemeType)
+            assertEquals(addFreeEndDate, it.addFreeEndDate)
+            assertEquals(loading, it.loading)
         }
     }
 
@@ -151,9 +152,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
     @Test
     fun init_updates_states_correctly() = runTest {
         viewModel.state.firstOrNull().let {
-            assertEquals(AppTheme.SYSTEM_DEFAULT, it?.appThemeType) // mocked -1
-            assertEquals(currencyList.size, it?.activeCurrencyCount)
-            assertEquals(watcherLists.size, it?.activeWatcherCount)
+            assertNotNull(it)
+            assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
+            assertEquals(currencyList.size, it.activeCurrencyCount)
+            assertEquals(watcherLists.size, it.activeWatcherCount)
         }
     }
 
@@ -263,7 +265,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.updateAddFreeDate()
         }.after {
-            assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
+            assertNotNull(it)
+            assertTrue { it.addFreeEndDate.isNotEmpty() }
 
             verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
@@ -276,7 +279,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.updateAddFreeDate()
         }.after {
-            assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
+            assertNotNull(it)
+            assertTrue { it.addFreeEndDate.isNotEmpty() }
 
             verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
