@@ -27,7 +27,10 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
 import com.oztechan.ccc.common.model.Currency as CommonCurrency
 
@@ -85,9 +88,10 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
                 selectionVisibility = true
             )
         }.after {
-            assertEquals(currencyListClient, it?.currencyList)
-            assertEquals(true, it?.loading)
-            assertEquals(true, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(currencyListClient, it.currencyList)
+            assertTrue { it.loading }
+            assertTrue { it.selectionVisibility }
         }
     }
 
@@ -95,8 +99,9 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Test
     fun init_updates_states_correctly() = runTest {
         viewModel.state.firstOrNull().let {
-            assertEquals(currencyListClient, it?.currencyList)
-            assertEquals(false, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(currencyListClient, it.currencyList)
+            assertFalse { it.selectionVisibility }
             assertEquals(currencyListClient.toMutableList(), viewModel.data.unFilteredList)
         }
     }
@@ -106,7 +111,8 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     fun hideSelectionVisibility() = viewModel.state.before {
         viewModel.hideSelectionVisibility()
     }.after {
-        assertEquals(false, it?.selectionVisibility)
+        assertNotNull(it)
+        assertFalse { it.selectionVisibility }
     }
 
     @Test
@@ -197,45 +203,50 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             data.unFilteredList = originalList
             event.onQueryChange("USD")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(dollar))
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(dollar) }
             assertEquals("USD", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertFalse { it.loading }
         }
 
         viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("Euro")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(clientCurrency))
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(clientCurrency) }
             assertEquals("Euro", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertFalse { it.loading }
         }
 
         viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("$")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(dollar))
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(dollar) }
             assertEquals("$", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertFalse { it.loading }
         }
 
         viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("something")
         }.after {
-            assertEquals(true, it?.currencyList?.isEmpty())
+            assertNotNull(it)
+            assertTrue { it.currencyList.isEmpty() }
             assertEquals("something", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertFalse { it.loading }
         }
 
         viewModel.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("o")
         }.after {
-            assertEquals(2, it?.currencyList?.size)
+            assertNotNull(it)
+            assertEquals(2, it.currencyList.size)
             assertEquals("o", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertFalse { it.loading }
         }
     }
 
@@ -245,13 +256,15 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.event.onItemLongClick()
         }.after {
-            assertEquals(!previousValue, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(!previousValue, it.selectionVisibility)
         }
 
         viewModel.state.before {
             viewModel.event.onItemLongClick()
         }.after {
-            assertEquals(previousValue, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(previousValue, it.selectionVisibility)
         }
     }
 
@@ -270,7 +283,8 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.onCloseClick()
         }.after {
-            assertEquals(false, it?.selectionVisibility)
+            assertNotNull(it)
+            assertFalse { it.selectionVisibility }
             assertEquals("", viewModel.data.query)
         }
     }
