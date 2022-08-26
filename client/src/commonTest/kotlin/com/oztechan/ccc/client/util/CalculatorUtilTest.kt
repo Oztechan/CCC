@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.util
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -119,6 +120,18 @@ class CalculatorUtilTest {
         ).forEach {
             assertEquals("0123456789", it.toStandardDigits(), "actual string $it")
         }
+    }
+
+    @Test
+    fun indexToNumber() {
+        val value = Random.nextInt()
+        assertEquals(value + 1, value.indexToNumber())
+    }
+
+    @Test
+    fun numberToIndex() {
+        val value = Random.nextInt()
+        assertEquals(value - 1, value.numberToIndex())
     }
 
     @Test

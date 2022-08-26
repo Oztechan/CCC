@@ -25,6 +25,7 @@ import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
+import com.oztechan.ccc.client.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -236,7 +237,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 it
             )
         }.toTypedArray(),
-        settingsViewModel.state.value.precision - 1
+        settingsViewModel.state.value.precision.numberToIndex()
     ) {
         settingsViewModel.event.onPrecisionSelect(it)
     }

@@ -13,6 +13,7 @@ import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
@@ -181,10 +182,10 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.SelectPrecision)
     }
 
-    override fun onPrecisionSelect(value: Int) {
-        Logger.d { "SettingsViewModel onPrecisionSelect $value" }
-        settingsDataSource.precision = value + 1
-        _state.update(precision = value + 1)
+    override fun onPrecisionSelect(index: Int) {
+        Logger.d { "SettingsViewModel onPrecisionSelect $index" }
+        settingsDataSource.precision = index.indexToNumber()
+        _state.update(precision = index.indexToNumber())
     }
     // endregion
 }
