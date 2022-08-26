@@ -10,4 +10,6 @@ interface SettingsDataSource {
     var adFreeEndDate: Long
 
     var sessionCount: Long
+
+    var precision: Int
 }

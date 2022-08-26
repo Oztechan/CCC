@@ -81,6 +81,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .invocation { collectActiveCurrencies() }
             .thenReturn(flow { listOf(currency) })
 
+        given(settingsDataSource)
+            .invocation { precision }
+            .thenReturn(3)
+
         runTest {
             given(offlineRatesDataSource)
                 .coroutine { getOfflineRatesByBase(currency.name) }
