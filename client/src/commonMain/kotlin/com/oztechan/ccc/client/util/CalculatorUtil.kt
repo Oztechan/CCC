@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
 
-internal const val MAXIMUM_FLOATING_POINT = 9
+const val MAXIMUM_FLOATING_POINT = 9
 
 expect fun Double.getFormatted(precision: Int): String
 
