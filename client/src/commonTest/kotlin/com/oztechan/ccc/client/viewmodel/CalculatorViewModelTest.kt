@@ -133,7 +133,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }.after {
         assertNotNull(it)
         assertEquals(currencyUIModel.name, it.base)
-        assertEquals(currencyUIModel.rate.toString(), it.input)
+        assertEquals(currencyUIModel.rate, it.input)
     }
 
     @Test
@@ -157,10 +157,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onItemAmountLongClick() = viewModel.effect.before {
-        viewModel.event.onItemAmountLongClick(currencyUIModel.rate.toString())
+        viewModel.event.onItemAmountLongClick(currencyUIModel.rate)
     }.after {
         assertEquals(
-            CalculatorEffect.CopyToClipboard(currencyUIModel.rate.toString()),
+            CalculatorEffect.CopyToClipboard(currencyUIModel.rate),
             it
         )
 

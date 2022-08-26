@@ -164,6 +164,8 @@ class CalculatorViewModel(
     private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update(
         currencyList = _state.value.currencyList.onEach {
             it.rate = rates.calculateResult(it.name, _state.value.output)
+                .getFormatted()
+                .toStandardDigits()
         },
         rateState = rateState,
         loading = false
@@ -203,9 +205,6 @@ class CalculatorViewModel(
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
 
         var finalResult = currency.rate
-            .getFormatted()
-            .toStandardDigits()
-            .toSupportedCharacters()
 
         while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
             finalResult = finalResult.dropLast(1)

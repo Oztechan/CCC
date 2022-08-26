@@ -37,7 +37,7 @@ class CalculatorUtilTest {
 
     @Test
     fun getCurrencyConversionByRate() {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0.toString(), true)
         val base = "EUR"
         val rates = Rates(base, null, usd = 5.0)
 
@@ -53,12 +53,13 @@ class CalculatorUtilTest {
 
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(CurrencyType.EUR.toString(), "", "", 1.2, true))
-            add(Currency(CurrencyType.USD.toString(), "", "", 1.2, false))
-            add(Currency(CurrencyType.TRY.toString(), "", "", Double.NaN, true))
-            add(Currency(CurrencyType.GGP.toString(), "", "", 0.0, true))
-            add(Currency(CurrencyType.RON.toString(), "", "", "0.0".toDouble(), true))
-            add(Currency(CurrencyType.CZK.toString(), "", "", 0.toDouble(), true))
+            add(Currency(CurrencyType.EUR.toString(), "", "", 1.2.toString(), true))
+            add(Currency(CurrencyType.USD.toString(), "", "", 1.2.toString(), false))
+            add(Currency(CurrencyType.TRY.toString(), "", "", Double.NaN.toString(), true))
+            add(Currency(CurrencyType.GGP.toString(), "", "", 0.0.toString(), true))
+            add(Currency(CurrencyType.RON.toString(), "", "", "0.0", true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", 0.toString(), true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", "0", true))
         }
         assertEquals(mutableListOf(), list.toValidList(base))
         assertEquals(mutableListOf(), null.toValidList(base))
