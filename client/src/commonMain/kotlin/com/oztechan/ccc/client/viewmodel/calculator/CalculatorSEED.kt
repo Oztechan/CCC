@@ -52,7 +52,6 @@ data class CalculatorData(
         internal const val MAXIMUM_OUTPUT = 18
         internal const val MAXIMUM_INPUT = 44
         internal const val CHAR_DOT = '.'
-        internal const val PRECISION = 9
         internal const val KEY_DEL = "DEL"
         internal const val KEY_AC = "AC"
     }
