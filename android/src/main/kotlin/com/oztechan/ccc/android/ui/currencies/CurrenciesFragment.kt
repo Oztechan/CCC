@@ -18,6 +18,7 @@ import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
+import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.hideKeyboard
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.setNavigationResult
@@ -57,7 +58,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onDestroyView() {
         Logger.i { "CurrenciesFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         binding.recyclerViewCurrencies.adapter = null
         super.onDestroyView()
     }
