@@ -2,7 +2,6 @@ package com.oztechan.ccc.ad
 
 import android.app.Activity
 import android.content.Context
-import android.view.ViewGroup
 
 interface AdManager {
 
@@ -11,7 +10,7 @@ interface AdManager {
         width: Int,
         adId: String,
         onAdLoaded: (Int?) -> Unit
-    ): ViewGroup
+    ): BannerAdView
 
     fun showInterstitialAd(
         activity: Activity,

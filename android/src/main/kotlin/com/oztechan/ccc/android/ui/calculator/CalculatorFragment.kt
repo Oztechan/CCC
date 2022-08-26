@@ -16,6 +16,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
+import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getImageResourceByName
 import com.oztechan.ccc.android.util.getNavigationResult
 import com.oztechan.ccc.android.util.setBackgroundByName
@@ -62,7 +63,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onDestroyView() {
         Logger.i { "CalculatorFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
     }
