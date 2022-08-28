@@ -4,6 +4,7 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
@@ -74,6 +75,22 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(clientCurrency.name)
+    }
+
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasInvoked()
     }
 
     // SEED
