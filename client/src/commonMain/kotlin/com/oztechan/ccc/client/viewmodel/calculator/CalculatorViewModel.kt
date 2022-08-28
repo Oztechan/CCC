@@ -75,11 +75,12 @@ class CalculatorViewModel(
             .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel base changed $it" }
-                currentBaseChanged(it)
+                currentBaseChanged(it, true)
             }
             .launchIn(viewModelScope)
 
         state.map { it.input }
+            .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
@@ -171,7 +172,7 @@ class CalculatorViewModel(
         loading = false
     )
 
-    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
+    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
         data.rates = null
         settingsDataSource.currentBase = newBase
         _state.update(
@@ -180,8 +181,10 @@ class CalculatorViewModel(
             symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
 
-        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+        if (shouldTrack) {
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+        }
     }
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
@@ -260,7 +263,8 @@ class CalculatorViewModel(
 
     override fun onBaseChange(base: String) {
         Logger.d { "CalculatorViewModel onBaseChange $base" }
-        _state.update(base = base)
+        currentBaseChanged(base)
+        calculateOutput(_state.value.input)
     }
     // endregion
 }
