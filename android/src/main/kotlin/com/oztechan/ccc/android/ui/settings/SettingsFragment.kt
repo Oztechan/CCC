@@ -15,6 +15,7 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -52,7 +53,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onDestroyView() {
         Logger.i { "SettingsFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         super.onDestroyView()
     }
 
