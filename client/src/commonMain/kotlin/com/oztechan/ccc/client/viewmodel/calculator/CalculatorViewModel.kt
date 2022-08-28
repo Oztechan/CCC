@@ -204,22 +204,11 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency) {
+    override fun onItemClick(currency: Currency) = with(currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
-
-        var finalResult = currency.rate
-
-        while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
-            finalResult = finalResult.dropLast(1)
-        }
-
-        if (finalResult.last() == CHAR_DOT) {
-            finalResult = finalResult.dropLast(1)
-        }
-
         _state.update(
-            base = currency.name,
-            input = finalResult
+            base = name,
+            input = if (rate.last() == CHAR_DOT) rate.dropLast(1) else rate
         )
     }
 
