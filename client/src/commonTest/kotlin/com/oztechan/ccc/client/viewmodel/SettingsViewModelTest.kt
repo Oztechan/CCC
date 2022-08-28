@@ -13,6 +13,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
@@ -29,6 +30,7 @@ import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -95,6 +97,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         Watcher(2, "USD", "EUR", false, 2.3)
     )
 
+    private val mockedPrecision = 3
+
     @BeforeTest
     fun setup() {
         given(settingsDataSource)
@@ -107,7 +111,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
         given(settingsDataSource)
             .invocation { precision }
-            .thenReturn(3)
+            .thenReturn(mockedPrecision)
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
@@ -133,6 +137,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
+        val precision = Random.nextInt()
 
         state.before {
             state.update(
@@ -140,7 +145,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
                 activeWatcherCount = activeWatcherCount,
                 appThemeType = appThemeType,
                 addFreeEndDate = addFreeEndDate,
-                loading = loading
+                loading = loading,
+                precision = precision
             )
         }.after {
             assertNotNull(it)
@@ -149,6 +155,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             assertEquals(appThemeType, it.appThemeType)
             assertEquals(addFreeEndDate, it.addFreeEndDate)
             assertEquals(loading, it.loading)
+            assertEquals(precision, it.precision)
         }
     }
 
@@ -160,6 +167,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
             assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
             assertEquals(currencyList.size, it.activeCurrencyCount)
             assertEquals(watcherLists.size, it.activeWatcherCount)
+            assertEquals(mockedPrecision, it.precision)
         }
     }
 
@@ -404,5 +412,29 @@ class SettingsViewModelTest : BaseViewModelTest() {
         verify(analyticsManager)
             .invocation { trackEvent(Event.OfflineSync) }
             .wasInvoked()
+    }
+
+    @Test
+    fun onPrecisionClick() = viewModel.effect.before {
+        viewModel.event.onPrecisionClick()
+    }.after {
+        assertIs<SettingsEffect.SelectPrecision>(it)
+    }
+
+    @Test
+    fun onPrecisionSelect() {
+        val value = Random.nextInt()
+        viewModel.state.before {
+            viewModel.event.onPrecisionSelect(value)
+        }.after {
+            assertNotNull(it)
+            assertEquals(value.indexToNumber(), it.precision)
+
+            println("-----")
+            verify(settingsDataSource)
+                .setter(settingsDataSource::precision)
+                .with(eq(value.indexToNumber()))
+                .wasInvoked()
+        }
     }
 }

@@ -30,7 +30,7 @@ interface SettingsEvent : BaseEvent {
     fun onSyncClick()
     fun onThemeClick()
     fun onPrecisionClick()
-    fun onPrecisionSelect(value: Int)
+    fun onPrecisionSelect(index: Int)
 }
 
 // Effect

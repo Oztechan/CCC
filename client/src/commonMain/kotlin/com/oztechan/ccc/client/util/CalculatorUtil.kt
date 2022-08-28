@@ -52,6 +52,10 @@ fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
         it.rate != "0"
 } ?: mutableListOf()
 
+fun Int.indexToNumber() = this + 1
+
+fun Int.numberToIndex() = this - 1
+
 @Suppress("ComplexMethod", "LongMethod")
 fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
     CurrencyType.AED.toString() -> aed
