@@ -195,6 +195,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     fun onKeyPress() = with(viewModel) {
         val key = "1"
 
+        // emits when input is empty
         state.before {
             event.onKeyPress(key)
         }.after {
@@ -202,6 +203,15 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals(key, it.input)
         }
 
+        // adds when input is not empty
+        state.before {
+            event.onKeyPress(key)
+        }.after {
+            assertNotNull(it)
+            assertEquals(key + key, it.input)
+        }
+
+        // resets to "" when AC clicked
         state.before {
             event.onKeyPress(KEY_AC)
         }.after {
@@ -209,6 +219,15 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals("", it.input)
         }
 
+        // does nothing when press DEL if input is already empty
+        state.before {
+            event.onKeyPress(KEY_DEL)
+        }.after {
+            assertNotNull(it)
+            assertEquals("", it.input)
+        }
+
+        // Deletes last digit when press DEL
         state.before {
             event.onKeyPress(key)
             event.onKeyPress(key)
