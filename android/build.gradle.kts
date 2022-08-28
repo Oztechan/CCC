@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
 import config.DeviceFlavour.Companion.googleImplementation
@@ -89,6 +90,7 @@ android {
         getByName(BuildType.debug) {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+
             with(Keys(project, BuildType.DEBUG)) {
                 resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
@@ -97,6 +99,8 @@ android {
                 resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
                 resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
+
+            extensions.getByName<FirebasePerfExtension>("FirebasePerformance").setInstrumentationEnabled(false)
         }
     }
 }

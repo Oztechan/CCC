@@ -9,11 +9,13 @@ import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Compani
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_CURRENT_BASE
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_PRECISION
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_SESSION_COUNT
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_AD_FREE_END_DATE
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_APP_THEME
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_CURRENT_BASE
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_PRECISION
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_SESSION_COUNT
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
@@ -100,6 +102,19 @@ class SettingsDataSourceTest {
             .wasInvoked()
     }
 
+    @Test
+    fun default_precision() {
+        given(settings)
+            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
+            .thenReturn(DEFAULT_PRECISION)
+
+        assertEquals(DEFAULT_PRECISION, dataSource.precision)
+
+        verify(settings)
+            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
+            .wasInvoked()
+    }
+
     // setters
     @Test
     fun set_firstRun() {
@@ -148,6 +163,16 @@ class SettingsDataSourceTest {
 
         verify(settings)
             .invocation { putLong(KEY_SESSION_COUNT, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_precision() {
+        val mockValue = Random.nextInt()
+        dataSource.precision = mockValue
+
+        verify(settings)
+            .invocation { putInt(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 }

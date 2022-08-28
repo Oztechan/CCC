@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
@@ -23,6 +24,7 @@ import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.res.toImageFileName
 import mustafaozhan.github.com.mycurrencies.R
@@ -49,6 +51,11 @@ fun FrameLayout.setBannerAd(
     )
 } else {
     gone()
+}
+
+fun FrameLayout.destroyBanner() {
+    children.firstOrNull()?.castTo<BannerAdView>()?.onDestroy?.invoke()
+    removeAllViews()
 }
 
 fun View.animateHeight(startHeight: Int, endHeight: Int) {

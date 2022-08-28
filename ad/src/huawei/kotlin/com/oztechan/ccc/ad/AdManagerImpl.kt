@@ -2,8 +2,7 @@ package com.oztechan.ccc.ad
 
 import android.app.Activity
 import android.content.Context
-import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.view.View
 import co.touchlab.kermit.Logger
 
 class AdManagerImpl : AdManager {
@@ -13,9 +12,11 @@ class AdManagerImpl : AdManager {
         width: Int,
         adId: String,
         onAdLoaded: (Int?) -> Unit
-    ): ViewGroup {
+    ): BannerAdView {
         Logger.i { "AdManagerImpl getBannerAd" }
-        return FrameLayout(context)
+        return BannerAdView(context, View(context)) {
+
+        }
     }
 
     override fun showInterstitialAd(

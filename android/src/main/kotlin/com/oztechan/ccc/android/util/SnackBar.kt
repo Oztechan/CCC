@@ -25,27 +25,29 @@ fun View?.showSnack(
             Logger.i { "Snackbar action click" }
             action?.invoke()
         }
-        setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
+        view.apply {
+            setBackgroundColor(ContextCompat.getColor(context, R.color.color_background_snack_bar))
 
-        findViewById<TextView>(R.id.snackbar_text)?.apply {
-            gravity = Gravity.CENTER
+            findViewById<TextView>(R.id.snackbar_text)?.apply {
+                gravity = Gravity.CENTER
 
-            ContextCompat.getDrawable(context, icon ?: R.drawable.ic_dialog_and_snackbar)?.apply {
-                setBounds(
-                    0,
-                    0,
-                    resources.getDimensionPixelSize(R.dimen.snack_icon_size),
-                    resources.getDimensionPixelSize(R.dimen.snack_icon_size)
-                )
-            }?.let { drawable ->
-                setCompoundDrawables(drawable, null, null, null)
-                compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.margin_eight)
+                ContextCompat.getDrawable(context, icon ?: R.drawable.ic_dialog_and_snackbar)?.apply {
+                    setBounds(
+                        0,
+                        0,
+                        resources.getDimensionPixelSize(R.dimen.snack_icon_size),
+                        resources.getDimensionPixelSize(R.dimen.snack_icon_size)
+                    )
+                }?.let { drawable ->
+                    setCompoundDrawables(drawable, null, null, null)
+                    compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.margin_eight)
+                }
             }
-        }
 
-        findViewById<TextView>(R.id.snackbar_action)?.apply {
-            setTypeface(null, Typeface.BOLD)
-            setTextColor(ContextCompat.getColor(context, R.color.color_text_action_snack_bar))
+            findViewById<TextView>(R.id.snackbar_action)?.apply {
+                setTypeface(null, Typeface.BOLD)
+                setTextColor(ContextCompat.getColor(context, R.color.color_text_action_snack_bar))
+            }
         }
     }.show()
 }
