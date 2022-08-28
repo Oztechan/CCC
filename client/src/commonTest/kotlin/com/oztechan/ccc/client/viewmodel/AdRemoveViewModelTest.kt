@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -71,7 +73,9 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
             viewModel.effect.before {
                 viewModel.updateAddFreeDate(adRemoveType)
             }.after {
-                assertEquals(AdRemoveEffect.AdsRemoved(adRemoveType, false), it)
+                assertIs<AdRemoveEffect.AdsRemoved>(it)
+                assertEquals(adRemoveType, it.removeAdType)
+                assertEquals(false, it.isRestorePurchase)
 
                 verify(settingsDataSource)
                     .invocation { adFreeEndDate = adRemoveType.calculateAdRewardEnd() }
@@ -94,8 +98,8 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
                 )
             )
         }.after {
-            assertTrue { it is AdRemoveEffect.AdsRemoved }
-            assertEquals(true, (it as? AdRemoveEffect.AdsRemoved)?.isRestorePurchase == true)
+            assertIs<AdRemoveEffect.AdsRemoved>(it)
+            assertTrue { it.isRestorePurchase }
         }
     }
 
@@ -115,10 +119,8 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
             viewModel.state.before {
                 viewModel.addPurchaseMethods(listOf(removeAdData))
             }.after {
-                assertEquals(
-                    true,
-                    it?.adRemoveTypes?.contains(RemoveAdType.getById(removeAdData.id))
-                )
+                assertNotNull(it)
+                assertTrue { it.adRemoveTypes.contains(RemoveAdType.getById(removeAdData.id)) }
             }
         }
 
@@ -128,31 +130,36 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.VIDEO)
         }.after {
-            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.VIDEO), it)
+            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
+            assertEquals(RemoveAdType.VIDEO, it.removeAdType)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.MONTH)
         }.after {
-            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.MONTH), it)
+            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
+            assertEquals(RemoveAdType.MONTH, it.removeAdType)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.QUARTER)
         }.after {
-            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.QUARTER), it)
+            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
+            assertEquals(RemoveAdType.QUARTER, it.removeAdType)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.HALF_YEAR)
         }.after {
-            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.HALF_YEAR), it)
+            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
+            assertEquals(RemoveAdType.HALF_YEAR, it.removeAdType)
         }
 
         effect.before {
             event.onAdRemoveItemClick(RemoveAdType.YEAR)
         }.after {
-            assertEquals(AdRemoveEffect.LaunchRemoveAdFlow(RemoveAdType.YEAR), it)
+            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
+            assertEquals(RemoveAdType.YEAR, it.removeAdType)
         }
     }
 }
