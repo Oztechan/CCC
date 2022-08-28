@@ -57,7 +57,8 @@ class SettingsViewModel(
     init {
         _state.update(
             appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
-            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString()
+            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
+            precision = settingsDataSource.precision
         )
 
         currencyDataSource.collectActiveCurrencies()
@@ -173,6 +174,17 @@ class SettingsViewModel(
         } else {
             synchroniseRates()
         }
+    }
+
+    override fun onPrecisionClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPrecisionClick" }
+        _effect.emit(SettingsEffect.SelectPrecision)
+    }
+
+    override fun onPrecisionSelect(value: Int) {
+        Logger.d { "SettingsViewModel onPrecisionSelect $value" }
+        settingsDataSource.precision = value + 1
+        _state.update(precision = value + 1)
     }
     // endregion
 }

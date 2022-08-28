@@ -105,6 +105,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
+        given(settingsDataSource)
+            .invocation { precision }
+            .thenReturn(3)
+
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
