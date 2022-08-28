@@ -165,8 +165,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
                 SettingsEffect.FeedBack -> sendFeedBack()
                 is SettingsEffect.Share -> share(viewEffect.marketLink)
-                is SettingsEffect.SupportUs -> showDialog(
-                    requireActivity(),
+                is SettingsEffect.SupportUs -> activity?.showDialog(
                     R.string.support_us,
                     R.string.rate_and_support,
                     R.string.rate
@@ -218,8 +217,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun changeTheme() = AppTheme.getThemeByValue(settingsViewModel.getAppTheme())
         ?.let { currentThemeType ->
-            showSingleChoiceDialog(
-                requireActivity(),
+            activity?.showSingleChoiceDialog(
                 getString(R.string.title_dialog_choose_theme),
                 AppTheme.values().map { it.themeName }.toTypedArray(),
                 currentThemeType.order
@@ -228,8 +226,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         }
 
-    private fun showPrecisionDialog() = showSingleChoiceDialog(
-        requireActivity(),
+    private fun showPrecisionDialog() = activity?.showSingleChoiceDialog(
         R.string.title_dialog_choose_precision,
         (1..MAXIMUM_FLOATING_POINT).map {
             requireContext().getString(
