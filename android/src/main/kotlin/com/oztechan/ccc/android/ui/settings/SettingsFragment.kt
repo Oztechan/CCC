@@ -15,6 +15,7 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
@@ -23,6 +24,8 @@ import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
+import com.oztechan.ccc.client.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -52,7 +55,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onDestroyView() {
         Logger.i { "SettingsFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         super.onDestroyView()
     }
 
@@ -83,6 +86,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         } else {
             itemDisableAds.root.gone()
+        }
+
+        with(itemPrecision) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_precision)
+            settingsItemTitle.text = getString(R.string.settings_item_precision_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_precision_sub_title)
         }
 
         with(itemSync) {
@@ -123,17 +132,23 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 )
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
 
-                binding.itemDisableAds.settingsItemValue.text =
-                    if (settingsViewModel.isAdFreeNeverActivated()) "" else {
-                        if (settingsViewModel.isRewardExpired()) {
-                            getString(R.string.settings_item_remove_ads_value_expired)
-                        } else {
-                            getString(
-                                R.string.settings_item_remove_ads_value_will_expire,
-                                addFreeEndDate
-                            )
-                        }
+                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isAdFreeNeverActivated()) {
+                    ""
+                } else {
+                    if (settingsViewModel.isRewardExpired()) {
+                        getString(R.string.settings_item_remove_ads_value_expired)
+                    } else {
+                        getString(
+                            R.string.settings_item_remove_ads_value_will_expire,
+                            addFreeEndDate
+                        )
                     }
+                }
+
+                binding.itemPrecision.settingsItemValue.text = requireContext().getString(
+                    if (it.precision == 1) R.string.settings_item_precision_value else R.string.settings_item_precision_value_plural,
+                    it.precision
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -174,6 +189,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
                 SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
+                SettingsEffect.SelectPrecision -> showPrecisionDialog()
                 SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -190,6 +206,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemFeedback.root.setOnClickListener { onFeedBackClick() }
             itemShare.root.setOnClickListener { onShareClick() }
             itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+            itemPrecision.root.setOnClickListener { onPrecisionClick() }
         }
     }
 
@@ -210,6 +227,20 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
             }
         }
+
+    private fun showPrecisionDialog() = showSingleChoiceDialog(
+        requireActivity(),
+        R.string.title_dialog_choose_precision,
+        (1..MAXIMUM_FLOATING_POINT).map {
+            requireContext().getString(
+                if (it == 1) R.string.settings_item_precision_value else R.string.settings_item_precision_value_plural,
+                it
+            )
+        }.toTypedArray(),
+        settingsViewModel.state.value.precision.numberToIndex()
+    ) {
+        settingsViewModel.event.onPrecisionSelect(it)
+    }
 
     private fun startIntent(intent: Intent) = getBaseActivity()?.packageManager?.let {
         intent.resolveActivity(it)?.let { startActivity(intent) }

@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.util
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -37,7 +38,7 @@ class CalculatorUtilTest {
 
     @Test
     fun getCurrencyConversionByRate() {
-        val currency = Currency("USD", "Dollar", "$", 0.0, true)
+        val currency = Currency("USD", "Dollar", "$", 0.0.toString(), true)
         val base = "EUR"
         val rates = Rates(base, null, usd = 5.0)
 
@@ -53,12 +54,13 @@ class CalculatorUtilTest {
 
         val list: MutableList<Currency> = mutableListOf()
         list.apply {
-            add(Currency(CurrencyType.EUR.toString(), "", "", 1.2, true))
-            add(Currency(CurrencyType.USD.toString(), "", "", 1.2, false))
-            add(Currency(CurrencyType.TRY.toString(), "", "", Double.NaN, true))
-            add(Currency(CurrencyType.GGP.toString(), "", "", 0.0, true))
-            add(Currency(CurrencyType.RON.toString(), "", "", "0.0".toDouble(), true))
-            add(Currency(CurrencyType.CZK.toString(), "", "", 0.toDouble(), true))
+            add(Currency(CurrencyType.EUR.toString(), "", "", 1.2.toString(), true))
+            add(Currency(CurrencyType.USD.toString(), "", "", 1.2.toString(), false))
+            add(Currency(CurrencyType.TRY.toString(), "", "", Double.NaN.toString(), true))
+            add(Currency(CurrencyType.GGP.toString(), "", "", 0.0.toString(), true))
+            add(Currency(CurrencyType.RON.toString(), "", "", "0.0", true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", 0.toString(), true))
+            add(Currency(CurrencyType.CZK.toString(), "", "", "0", true))
         }
         assertEquals(mutableListOf(), list.toValidList(base))
         assertEquals(mutableListOf(), null.toValidList(base))
@@ -72,17 +74,17 @@ class CalculatorUtilTest {
     @Test
     fun getFormatted() {
         val actualDouble1 = 1234567.7891
-        assertEquals("1 234 567.789", actualDouble1.getFormatted())
+        assertEquals("1 234 567.789", actualDouble1.getFormatted(3))
         val actualDouble2 = 1234567.7890
-        assertEquals("1 234 567.789", actualDouble2.getFormatted())
+        assertEquals("1 234 567.789", actualDouble2.getFormatted(3))
         val actualDouble3 = 1234567.7891
         assertEquals("1 234 567.7891", actualDouble3.getFormatted(4))
         val actualDouble4 = 1234567.7890
         assertEquals("1 234 567.789", actualDouble4.getFormatted(4))
         val actualDouble5 = 0.000000001
-        assertEquals("0.000000001", actualDouble5.getFormatted())
+        assertEquals("0.000000001", actualDouble5.getFormatted(3))
         val actualDouble6 = 0.0000000001
-        assertEquals("0", actualDouble6.getFormatted())
+        assertEquals("0", actualDouble6.getFormatted(3))
     }
 
     @Test
@@ -118,6 +120,18 @@ class CalculatorUtilTest {
         ).forEach {
             assertEquals("0123456789", it.toStandardDigits(), "actual string $it")
         }
+    }
+
+    @Test
+    fun indexToNumber() {
+        val value = Random.nextInt()
+        assertEquals(value + 1, value.indexToNumber())
+    }
+
+    @Test
+    fun numberToIndex() {
+        val value = Random.nextInt()
+        assertEquals(value - 1, value.numberToIndex())
     }
 
     @Test

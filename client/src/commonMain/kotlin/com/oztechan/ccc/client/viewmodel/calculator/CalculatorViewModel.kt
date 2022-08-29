@@ -18,6 +18,7 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -29,7 +30,6 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
@@ -75,11 +75,12 @@ class CalculatorViewModel(
             .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel base changed $it" }
-                currentBaseChanged(it)
+                currentBaseChanged(it, true)
             }
             .launchIn(viewModelScope)
 
         state.map { it.input }
+            .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel input changed $it" }
                 calculateOutput(it)
@@ -140,8 +141,8 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         _state.update(loading = true)
         data.parser
-            .calculate(input.toSupportedCharacters(), PRECISION)
-            .mapTo { if (isFinite()) getFormatted() else "" }
+            .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
+            .mapTo { if (isFinite()) getFormatted(settingsDataSource.precision) else "" }
             .whether(
                 { output -> output.length <= MAXIMUM_OUTPUT },
                 { input.length <= MAXIMUM_INPUT }
@@ -164,12 +165,14 @@ class CalculatorViewModel(
     private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update(
         currencyList = _state.value.currencyList.onEach {
             it.rate = rates.calculateResult(it.name, _state.value.output)
+                .getFormatted(settingsDataSource.precision)
+                .toStandardDigits()
         },
         rateState = rateState,
         loading = false
     )
 
-    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
+    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
         data.rates = null
         settingsDataSource.currentBase = newBase
         _state.update(
@@ -178,8 +181,10 @@ class CalculatorViewModel(
             symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
         )
 
-        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+        if (shouldTrack) {
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+        }
     }
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
@@ -203,9 +208,6 @@ class CalculatorViewModel(
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
 
         var finalResult = currency.rate
-            .getFormatted()
-            .toStandardDigits()
-            .toSupportedCharacters()
 
         while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
             finalResult = finalResult.dropLast(1)
@@ -261,7 +263,8 @@ class CalculatorViewModel(
 
     override fun onBaseChange(base: String) {
         Logger.d { "CalculatorViewModel onBaseChange $base" }
-        _state.update(base = base)
+        currentBaseChanged(base)
+        calculateOutput(_state.value.input)
     }
     // endregion
 }

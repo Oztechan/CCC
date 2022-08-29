@@ -15,6 +15,8 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
@@ -32,7 +34,7 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
         runCatching { service.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
+            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(backendApi)
@@ -49,8 +51,9 @@ class BackendApiServiceTest : BaseServiceTest<BackendApiService>() {
         runCatching { service.getRates(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
+            assertNotNull(it.exceptionOrNull()?.message)
+            assertEquals(mockThrowable.message, it.exceptionOrNull()!!.message)
+            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(backendApi)

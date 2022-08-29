@@ -13,6 +13,7 @@ import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
@@ -57,7 +58,8 @@ class SettingsViewModel(
     init {
         _state.update(
             appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
-            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString()
+            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
+            precision = settingsDataSource.precision
         )
 
         currencyDataSource.collectActiveCurrencies()
@@ -173,6 +175,17 @@ class SettingsViewModel(
         } else {
             synchroniseRates()
         }
+    }
+
+    override fun onPrecisionClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPrecisionClick" }
+        _effect.emit(SettingsEffect.SelectPrecision)
+    }
+
+    override fun onPrecisionSelect(index: Int) {
+        Logger.d { "SettingsViewModel onPrecisionSelect $index" }
+        settingsDataSource.precision = index.indexToNumber()
+        _state.update(precision = index.indexToNumber())
     }
     // endregion
 }

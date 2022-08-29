@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
@@ -14,6 +13,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsState
@@ -30,6 +30,7 @@ import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -42,6 +43,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
@@ -94,6 +97,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         Watcher(2, "USD", "EUR", false, 2.3)
     )
 
+    private val mockedPrecision = 3
+
     @BeforeTest
     fun setup() {
         given(settingsDataSource)
@@ -103,6 +108,10 @@ class SettingsViewModelTest : BaseViewModelTest() {
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(0)
+
+        given(settingsDataSource)
+            .invocation { precision }
+            .thenReturn(mockedPrecision)
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
@@ -128,6 +137,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
+        val precision = Random.nextInt()
 
         state.before {
             state.update(
@@ -135,14 +145,17 @@ class SettingsViewModelTest : BaseViewModelTest() {
                 activeWatcherCount = activeWatcherCount,
                 appThemeType = appThemeType,
                 addFreeEndDate = addFreeEndDate,
-                loading = loading
+                loading = loading,
+                precision = precision
             )
         }.after {
-            assertEquals(activeCurrencyCount, it?.activeCurrencyCount)
-            assertEquals(activeWatcherCount, it?.activeWatcherCount)
-            assertEquals(appThemeType, it?.appThemeType)
-            assertEquals(addFreeEndDate, it?.addFreeEndDate)
-            assertEquals(loading, it?.loading)
+            assertNotNull(it)
+            assertEquals(activeCurrencyCount, it.activeCurrencyCount)
+            assertEquals(activeWatcherCount, it.activeWatcherCount)
+            assertEquals(appThemeType, it.appThemeType)
+            assertEquals(addFreeEndDate, it.addFreeEndDate)
+            assertEquals(loading, it.loading)
+            assertEquals(precision, it.precision)
         }
     }
 
@@ -150,9 +163,11 @@ class SettingsViewModelTest : BaseViewModelTest() {
     @Test
     fun init_updates_states_correctly() = runTest {
         viewModel.state.firstOrNull().let {
-            assertEquals(AppTheme.SYSTEM_DEFAULT, it?.appThemeType) // mocked -1
-            assertEquals(currencyList.size, it?.activeCurrencyCount)
-            assertEquals(watcherLists.size, it?.activeWatcherCount)
+            assertNotNull(it)
+            assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
+            assertEquals(currencyList.size, it.activeCurrencyCount)
+            assertEquals(watcherLists.size, it.activeWatcherCount)
+            assertEquals(mockedPrecision, it.precision)
         }
     }
 
@@ -166,7 +181,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
                 updateTheme(mockTheme)
             }.after {
                 assertEquals(mockTheme, state.value.appThemeType)
-                assertEquals(SettingsEffect.ChangeTheme(mockTheme.themeValue), it)
+                assertIs<SettingsEffect.ChangeTheme>(it)
+                assertEquals(mockTheme.themeValue, it.themeValue)
             }
         }
 
@@ -181,7 +197,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onRemoveAdsClick()
         }.after {
-            assertTrue { it is SettingsEffect.AlreadyAdFree }
+            assertIs<SettingsEffect.AlreadyAdFree>(it)
         }
 
         verify(settingsDataSource)
@@ -261,7 +277,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.updateAddFreeDate()
         }.after {
-            assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
+            assertNotNull(it)
+            assertTrue { it.addFreeEndDate.isNotEmpty() }
 
             verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
@@ -274,7 +291,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.updateAddFreeDate()
         }.after {
-            assertEquals(true, it?.addFreeEndDate?.isNotEmpty())
+            assertNotNull(it)
+            assertTrue { it.addFreeEndDate.isNotEmpty() }
 
             verify(settingsDataSource)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
@@ -286,14 +304,14 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun onBackClick() = viewModel.effect.before {
         viewModel.event.onBackClick()
     }.after {
-        assertTrue { it is SettingsEffect.Back }
+        assertIs<SettingsEffect.Back>(it)
     }
 
     @Test
     fun onCurrenciesClick() = viewModel.effect.before {
         viewModel.event.onCurrenciesClick()
     }.after {
-        assertTrue { it is SettingsEffect.OpenCurrencies }
+        assertIs<SettingsEffect.OpenCurrencies>(it)
     }
 
     @Test
@@ -307,7 +325,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun onFeedBackClick() = viewModel.effect.before {
         viewModel.event.onFeedBackClick()
     }.after {
-        assertTrue { it is SettingsEffect.FeedBack }
+        assertIs<SettingsEffect.FeedBack>(it)
     }
 
     @Test
@@ -321,8 +339,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onShareClick()
         }.after {
-            assertTrue { it is SettingsEffect.Share }
-            assertEquals(link, it?.castTo<SettingsEffect.Share>()?.marketLink)
+            assertIs<SettingsEffect.Share>(it)
+            assertEquals(link, it.marketLink)
         }
     }
 
@@ -337,8 +355,8 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onSupportUsClick()
         }.after {
-            assertTrue { it is SettingsEffect.SupportUs }
-            assertEquals(link, it?.castTo<SettingsEffect.SupportUs>()?.marketLink)
+            assertIs<SettingsEffect.SupportUs>(it)
+            assertEquals(link, it.marketLink)
         }
     }
 
@@ -346,7 +364,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun onOnGitHubClick() = viewModel.effect.before {
         viewModel.event.onOnGitHubClick()
     }.after {
-        assertTrue { it is SettingsEffect.OnGitHub }
+        assertIs<SettingsEffect.OnGitHub>(it)
     }
 
     @Test
@@ -354,7 +372,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
         viewModel.effect.before {
             viewModel.event.onRemoveAdsClick()
         }.after {
-            assertTrue { it is SettingsEffect.RemoveAds }
+            assertIs<SettingsEffect.RemoveAds>(it)
         }
 
         verify(settingsDataSource)
@@ -366,7 +384,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
     fun onThemeClick() = viewModel.effect.before {
         viewModel.event.onThemeClick()
     }.after {
-        assertTrue { it is SettingsEffect.ThemeDialog }
+        assertIs<SettingsEffect.ThemeDialog>(it)
     }
 
     @Test
@@ -381,18 +399,42 @@ class SettingsViewModelTest : BaseViewModelTest() {
             viewModel.event.onSyncClick()
         }.after {
             assertTrue { viewModel.state.value.loading }
-            assertTrue { it is SettingsEffect.Synchronising }
+            assertIs<SettingsEffect.Synchronising>(it)
         }
 
         viewModel.effect.before {
             viewModel.event.onSyncClick()
         }.after {
             assertTrue { viewModel.data.synced }
-            assertTrue { it is SettingsEffect.OnlyOneTimeSync }
+            assertIs<SettingsEffect.OnlyOneTimeSync>(it)
         }
 
         verify(analyticsManager)
             .invocation { trackEvent(Event.OfflineSync) }
             .wasInvoked()
+    }
+
+    @Test
+    fun onPrecisionClick() = viewModel.effect.before {
+        viewModel.event.onPrecisionClick()
+    }.after {
+        assertIs<SettingsEffect.SelectPrecision>(it)
+    }
+
+    @Test
+    fun onPrecisionSelect() {
+        val value = Random.nextInt()
+        viewModel.state.before {
+            viewModel.event.onPrecisionSelect(value)
+        }.after {
+            assertNotNull(it)
+            assertEquals(value.indexToNumber(), it.precision)
+
+            println("-----")
+            verify(settingsDataSource)
+                .setter(settingsDataSource::precision)
+                .with(eq(value.indexToNumber()))
+                .wasInvoked()
+        }
     }
 }

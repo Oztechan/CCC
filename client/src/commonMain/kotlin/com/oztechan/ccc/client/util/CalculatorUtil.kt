@@ -8,13 +8,12 @@ package com.oztechan.ccc.client.util
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
 
-internal const val MAXIMUM_FLOATING_POINT = CalculatorData.PRECISION
+const val MAXIMUM_FLOATING_POINT = 9
 
-expect fun Double.getFormatted(precision: Int = 3): String
+expect fun Double.getFormatted(precision: Int): String
 
 expect fun Double.removeScientificNotation(): String
 
@@ -48,9 +47,14 @@ fun Currency.getCurrencyConversionByRate(
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.name != currentBase &&
         it.isActive &&
-        it.rate.toString() != "NaN" &&
-        it.rate.toString() != "0.0"
+        it.rate != "NaN" &&
+        it.rate != "0.0" &&
+        it.rate != "0"
 } ?: mutableListOf()
+
+fun Int.indexToNumber() = this + 1
+
+fun Int.numberToIndex() = this - 1
 
 @Suppress("ComplexMethod", "LongMethod")
 fun Rates.getConversionByName(name: String) = when (name.uppercase()) {

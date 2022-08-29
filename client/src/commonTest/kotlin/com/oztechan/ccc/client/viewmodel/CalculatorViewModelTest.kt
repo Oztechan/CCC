@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
@@ -33,6 +34,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
 class CalculatorViewModelTest : BaseViewModelTest() {
@@ -67,6 +69,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     private val currency = Currency("USD", "Dollar", "$", 12345.678, true)
+    private val currencyList = listOf(currency)
     private val currencyUIModel = currency.toUIModel()
     private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
 
@@ -78,7 +81,11 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
-            .thenReturn(flow { listOf(currency) })
+            .thenReturn(flow { currencyList })
+
+        given(settingsDataSource)
+            .invocation { precision }
+            .thenReturn(3)
 
         runTest {
             given(offlineRatesDataSource)
@@ -93,6 +100,23 @@ class CalculatorViewModelTest : BaseViewModelTest() {
                 .coroutine { getCurrencyByName(currency.name) }
                 .thenReturn(currency)
         }
+    }
+
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasInvoked()
     }
 
     @Test
@@ -111,43 +135,42 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     // Event
-
     @Test
     fun onBarClick() = viewModel.effect.before {
         viewModel.event.onBarClick()
     }.after {
-        assertEquals(CalculatorEffect.OpenBar, it)
+        assertIs<CalculatorEffect.OpenBar>(it)
     }
 
     @Test
     fun onSettingsClicked() = viewModel.effect.before {
         viewModel.event.onSettingsClicked()
     }.after {
-        assertEquals(CalculatorEffect.OpenSettings, it)
+        assertIs<CalculatorEffect.OpenSettings>(it)
     }
 
     @Test
     fun onItemClick() = viewModel.state.before {
         viewModel.event.onItemClick(currencyUIModel)
     }.after {
-        assertEquals(currencyUIModel.name, it?.base)
-        assertEquals(currencyUIModel.rate.toString(), it?.input)
+        assertNotNull(it)
+        assertEquals(currencyUIModel.name, it.base)
+        assertEquals(currencyUIModel.rate, it.input)
     }
 
     @Test
     fun onItemImageLongClick() = viewModel.effect.before {
         viewModel.event.onItemImageLongClick(currencyUIModel)
     }.after {
+        assertIs<CalculatorEffect.ShowRate>(it)
         assertEquals(
-            CalculatorEffect.ShowRate(
-                currencyUIModel.getCurrencyConversionByRate(
-                    viewModel.state.value.base,
-                    viewModel.data.rates
-                ),
-                currencyUIModel.name
+            currencyUIModel.getCurrencyConversionByRate(
+                viewModel.state.value.base,
+                viewModel.data.rates
             ),
-            it
+            it.text
         )
+        assertEquals(currencyUIModel.name, it.name)
 
         verify(analyticsManager)
             .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.name))) }
@@ -156,10 +179,10 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onItemAmountLongClick() = viewModel.effect.before {
-        viewModel.event.onItemAmountLongClick(currencyUIModel.rate.toString())
+        viewModel.event.onItemAmountLongClick(currencyUIModel.rate)
     }.after {
         assertEquals(
-            CalculatorEffect.CopyToClipboard(currencyUIModel.rate.toString()),
+            CalculatorEffect.CopyToClipboard(currencyUIModel.rate),
             it
         )
 
@@ -175,13 +198,15 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         state.before {
             event.onKeyPress(key)
         }.after {
-            assertEquals(key, it?.input)
+            assertNotNull(it)
+            assertEquals(key, it.input)
         }
 
         state.before {
             event.onKeyPress(KEY_AC)
         }.after {
-            assertEquals("", it?.input)
+            assertNotNull(it)
+            assertEquals("", it.input)
         }
 
         state.before {
@@ -189,7 +214,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             event.onKeyPress(key)
             event.onKeyPress(KEY_DEL)
         }.after {
-            assertEquals(key, it?.input)
+            assertNotNull(it)
+            assertEquals(key, it.input)
         }
     }
 
@@ -208,12 +234,17 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         viewModel.state.before {
             viewModel.event.onBaseChange(currency.name)
         }.after {
+            assertNotNull(it)
             assertEquals(currency.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
-            assertEquals(currency.name, it?.base)
+            assertEquals(currency.name, it.base)
 
             verify(analyticsManager)
                 .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }
+                .wasInvoked()
+
+            verify(analyticsManager)
+                .invocation { setUserProperty(UserProperty.BaseCurrency(currency.name)) }
                 .wasInvoked()
         }
     }

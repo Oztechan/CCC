@@ -7,7 +7,7 @@ fun Currency.toUIModel() = CurrencyUIModel(
     name = name,
     longName = longName,
     symbol = symbol,
-    rate = rate,
+    rate = rate.toString(),
     isActive = isActive
 )
 

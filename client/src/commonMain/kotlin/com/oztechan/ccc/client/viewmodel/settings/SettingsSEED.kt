@@ -13,7 +13,8 @@ data class SettingsState(
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeEndDate: String = "",
-    val loading: Boolean = false
+    val loading: Boolean = false,
+    val precision: Int = 0
 ) : BaseState()
 
 // Event
@@ -28,6 +29,8 @@ interface SettingsEvent : BaseEvent {
     fun onRemoveAdsClick()
     fun onSyncClick()
     fun onThemeClick()
+    fun onPrecisionClick()
+    fun onPrecisionSelect(index: Int)
 }
 
 // Effect
@@ -43,6 +46,7 @@ sealed class SettingsEffect : BaseEffect() {
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
     object AlreadyAdFree : SettingsEffect()
+    object SelectPrecision : SettingsEffect()
     data class Share(val marketLink: String) : SettingsEffect()
     data class SupportUs(val marketLink: String) : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()
@@ -61,13 +65,15 @@ fun MutableStateFlow<SettingsState>.update(
     activeWatcherCount: Int = value.activeWatcherCount,
     appThemeType: AppTheme = value.appThemeType,
     addFreeEndDate: String = value.addFreeEndDate,
-    loading: Boolean = value.loading
+    loading: Boolean = value.loading,
+    precision: Int = value.precision
 ) {
     value = value.copy(
         activeCurrencyCount = activeCurrencyCount,
         activeWatcherCount = activeWatcherCount,
         appThemeType = appThemeType,
         addFreeEndDate = addFreeEndDate,
-        loading = loading
+        loading = loading,
+        precision = precision
     )
 }
