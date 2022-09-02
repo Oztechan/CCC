@@ -79,7 +79,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     // Analytics
     @Test
-    fun ifUserPropertiesSetCorrect() {
+    fun if_user_properties_set_correct() {
         viewModel // init
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
@@ -91,6 +91,30 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
                 )
             }
             .wasInvoked()
+    }
+
+    // Analytics
+    @Test
+    fun user_properties_should_not_set_if_there_is_no_active_currency() {
+        val nonActiveCurrencyList = listOf(CommonCurrency("EUR", "Euro", "€", isActive = false))
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(flowOf(nonActiveCurrencyList))
+
+        viewModel // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(nonActiveCurrencyList.count().toString())) }
+            .wasNotInvoked()
+
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasNotInvoked()
     }
 
     // SEED
@@ -308,6 +332,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onDoneClick() {
+        // where there is single currency
         val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
 
         viewModel.effect.before {
@@ -317,7 +342,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             assertTrue { viewModel.data.query.isEmpty() }
         }
 
-        // given
+        // where there are 2 active currencies
         viewModel.data.unFilteredList = mutableListOf(clientCurrency, dollar)
 
         viewModel.effect.before {
@@ -329,6 +354,17 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             verify(settingsDataSource)
                 .invocation { firstRun = false }
                 .wasInvoked()
+        }
+
+        // where there are 2 currencies but only 1 active
+        val dollarNotActive = ClientCurrency("USD", "American Dollar", "$", "123", isActive = false)
+        viewModel.data.unFilteredList = mutableListOf(clientCurrency, dollarNotActive)
+
+        viewModel.effect.before {
+            viewModel.onDoneClick()
+        }.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+            assertEquals(true, viewModel.data.query.isEmpty())
         }
     }
 }
