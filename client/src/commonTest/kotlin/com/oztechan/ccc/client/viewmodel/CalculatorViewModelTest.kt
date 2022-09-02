@@ -131,6 +131,63 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             assertEquals(result, it.currencyList)
         }
 
+        verify(offlineRatesDataSource)
+            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun when_api_fails_and_there_is_no_offline_rate_error_state_displayed() = runTest {
+        given(backendApiService)
+            .coroutine { getRates(currency1.name) }
+            .thenThrow(Exception())
+
+        given(offlineRatesDataSource)
+            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .thenReturn(null)
+
+        viewModel.effect.before {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.after {
+            assertIs<CalculatorEffect.Error>(it)
+
+            viewModel.state.value.let { state ->
+                assertNotNull(state)
+                assertFalse { state.loading }
+                assertEquals(RateState.Error, state.rateState)
+            }
+        }
+
+        verify(offlineRatesDataSource)
+            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun when_api_fails_and_there_is_no_offline_and_no_enough_currency_few_currency_effect_emitted() = runTest {
+        given(backendApiService)
+            .coroutine { getRates(currency1.name) }
+            .thenThrow(Exception())
+
+        given(offlineRatesDataSource)
+            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .thenReturn(null)
+
+        given(currencyDataSource)
+            .invocation { collectActiveCurrencies() }
+            .thenReturn(flowOf(listOf(currency1)))
+
+        viewModel.effect.before {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.after {
+            assertIs<CalculatorEffect.FewCurrency>(it)
+
+            viewModel.state.value.let { state ->
+                assertNotNull(state)
+                assertFalse { state.loading }
+                assertEquals(RateState.Error, state.rateState)
+            }
+        }
 
         verify(offlineRatesDataSource)
             .coroutine { getOfflineRatesByBase(currency1.name) }
