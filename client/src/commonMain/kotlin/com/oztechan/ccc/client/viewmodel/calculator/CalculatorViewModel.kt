@@ -139,7 +139,6 @@ class CalculatorViewModel(
     }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
-        _state.update(loading = true)
         data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
             .mapTo { if (isFinite()) getFormatted(settingsDataSource.precision) else "" }
@@ -176,6 +175,7 @@ class CalculatorViewModel(
         data.rates = null
         settingsDataSource.currentBase = newBase
         _state.update(
+            loading = true,
             base = newBase,
             input = _state.value.input,
             symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()

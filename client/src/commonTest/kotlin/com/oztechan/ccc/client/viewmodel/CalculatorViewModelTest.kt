@@ -8,10 +8,15 @@ import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
+import com.oztechan.ccc.client.mapper.toUIModelList
+import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
+import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
+import com.oztechan.ccc.client.util.getFormatted
+import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
@@ -28,12 +33,13 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
@@ -68,20 +74,21 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         )
     }
 
-    private val currency = Currency("USD", "Dollar", "$", 12345.678, true)
-    private val currencyList = listOf(currency)
-    private val currencyUIModel = currency.toUIModel()
-    private val currencyResponse = CurrencyResponse(currency.name, null, Rates())
+    private val currency1 = Currency("USD", "Dollar", "$", 12345.678, true)
+    private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
+    private val currencyList = listOf(currency1, currency2)
+    private val currencyUIModel = currency1.toUIModel()
+    private val currencyResponse = CurrencyResponse(currency1.name, null, Rates())
 
     @BeforeTest
     fun setup() {
         given(settingsDataSource)
             .invocation { currentBase }
-            .thenReturn(currency.name)
+            .thenReturn(currency1.name)
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
-            .thenReturn(flow { currencyList })
+            .thenReturn(flowOf(currencyList))
 
         given(settingsDataSource)
             .invocation { precision }
@@ -89,17 +96,45 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
         runTest {
             given(offlineRatesDataSource)
-                .coroutine { getOfflineRatesByBase(currency.name) }
+                .coroutine { getOfflineRatesByBase(currency1.name) }
                 .thenReturn(currencyResponse.rates)
 
             given(backendApiService)
-                .coroutine { getRates(currency.name) }
+                .coroutine { getRates(currency1.name) }
                 .thenReturn(currencyResponse)
 
             given(currencyDataSource)
-                .coroutine { getCurrencyByName(currency.name) }
-                .thenReturn(currency)
+                .coroutine { getCurrencyByName(currency1.name) }
+                .thenReturn(currency1)
         }
+    }
+
+    @Test
+    fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
+        given(backendApiService)
+            .coroutine { getRates(currency1.name) }
+            .thenThrow(Exception())
+
+        viewModel.state.before {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.after {
+            assertNotNull(it)
+            assertFalse { it.loading }
+            assertEquals(RateState.Offline(currencyResponse.rates.date), it.rateState)
+
+            val result = currencyList.toUIModelList().onEach { currency ->
+                currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
+                    .getFormatted(settingsDataSource.precision)
+                    .toStandardDigits()
+            }
+
+            assertEquals(result, it.currencyList)
+        }
+
+
+        verify(offlineRatesDataSource)
+            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .wasInvoked()
     }
 
     // Analytics
@@ -223,28 +258,28 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     fun onBaseChanged() {
         given(settingsDataSource)
             .invocation { currentBase }
-            .thenReturn(currency.name)
+            .thenReturn(currency1.name)
 
         runTest {
             given(backendApiService)
-                .coroutine { getRates(currency.name) }
+                .coroutine { getRates(currency1.name) }
                 .thenReturn(currencyResponse)
         }
 
         viewModel.state.before {
-            viewModel.event.onBaseChange(currency.name)
+            viewModel.event.onBaseChange(currency1.name)
         }.after {
             assertNotNull(it)
-            assertEquals(currency.name, viewModel.data.rates?.base)
+            assertEquals(currency1.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
-            assertEquals(currency.name, it.base)
+            assertEquals(currency1.name, it.base)
 
             verify(analyticsManager)
-                .invocation { trackEvent(Event.BaseChange(Param.Base(currency.name))) }
+                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.name))) }
                 .wasInvoked()
 
             verify(analyticsManager)
-                .invocation { setUserProperty(UserProperty.BaseCurrency(currency.name)) }
+                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.name)) }
                 .wasInvoked()
         }
     }
