@@ -2,12 +2,13 @@ package com.oztechan.ccc.client.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class AppThemeTest {
     @Test
     fun getThemeByValue() {
         val appTheme = AppTheme.getThemeByValue(3)
-        assertEquals(null, appTheme)
+        assertNull(appTheme)
 
         AppTheme.values().forEach {
             assertEquals(it, AppTheme.getThemeByValue(it.themeValue))
@@ -27,7 +28,7 @@ class AppThemeTest {
     @Test
     fun getThemeByOrder() {
         val appTheme = AppTheme.getThemeByOrder(3)
-        assertEquals(null, appTheme)
+        assertNull(appTheme)
 
         AppTheme.values().forEach {
             assertEquals(it, AppTheme.getThemeByOrder(it.order))

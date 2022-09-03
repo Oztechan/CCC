@@ -314,7 +314,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             viewModel.onDoneClick()
         }.after {
             assertIs<CurrenciesEffect.FewCurrency>(it)
-            assertEquals(true, viewModel.data.query.isEmpty())
+            assertTrue { viewModel.data.query.isEmpty() }
         }
 
         // given
@@ -324,7 +324,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             viewModel.onDoneClick()
         }.after {
             assertIs<CurrenciesEffect.OpenCalculator>(it)
-            assertEquals(true, viewModel.data.query.isEmpty())
+            assertTrue { viewModel.data.query.isEmpty() }
 
             verify(settingsDataSource)
                 .invocation { firstRun = false }

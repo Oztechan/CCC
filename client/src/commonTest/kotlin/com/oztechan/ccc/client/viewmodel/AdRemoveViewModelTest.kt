@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -75,7 +76,7 @@ class AdRemoveViewModelTest : BaseViewModelTest() {
             }.after {
                 assertIs<AdRemoveEffect.AdsRemoved>(it)
                 assertEquals(adRemoveType, it.removeAdType)
-                assertEquals(false, it.isRestorePurchase)
+                assertFalse { it.isRestorePurchase }
 
                 verify(settingsDataSource)
                     .invocation { adFreeEndDate = adRemoveType.calculateAdRewardEnd() }

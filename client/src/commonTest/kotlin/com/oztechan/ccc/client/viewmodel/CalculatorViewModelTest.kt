@@ -327,8 +327,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             viewModel.event.onBaseChange(currency1.name)
         }.after {
             assertNotNull(it)
-            assertEquals(currency1.name, viewModel.data.rates?.base)
             assertNotNull(viewModel.data.rates)
+            assertEquals(currency1.name, viewModel.data.rates!!.base)
             assertEquals(currency1.name, it.base)
 
             verify(analyticsManager)
