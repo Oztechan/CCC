@@ -55,7 +55,6 @@ class MainActivity : BaseActivity() {
         }.launchIn(lifecycleScope)
 
     private fun showAppUpdateDialog(isCancelable: Boolean, marketLink: String) = showDialog(
-        activity = this,
         title = R.string.txt_update_dialog_title,
         message = R.string.txt_update_dialog_description,
         positiveButton = R.string.update,

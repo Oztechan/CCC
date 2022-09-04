@@ -86,8 +86,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             when (viewEffect) {
                 is AdRemoveEffect.LaunchRemoveAdFlow -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
-                        showDialog(
-                            activity = requireActivity(),
+                        activity?.showDialog(
                             title = R.string.txt_remove_ads,
                             message = R.string.txt_remove_ads_text,
                             positiveButton = R.string.txt_watch
