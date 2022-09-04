@@ -5,8 +5,12 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.after
 import com.oztechan.ccc.client.util.before
+import com.oztechan.ccc.client.util.toStandardDigits
+import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
+import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
+import com.oztechan.ccc.client.viewmodel.watchers.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
@@ -16,6 +20,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -49,6 +54,20 @@ class WatchersViewModelTest : BaseViewModelTest() {
         given(watcherDataSource)
             .invocation { collectWatchers() }
             .thenReturn(flowOf(listOf(watcher)))
+    }
+
+    @Test
+    fun states_updates_correctly() {
+        val state = MutableStateFlow(WatchersState())
+
+        val watchersList = listOf(watcherUIModel)
+        state.update(
+            watcherList = watchersList,
+        )
+
+        state.value.let {
+            assertEquals(watchersList, it.watcherList)
+        }
     }
 
     @Test
@@ -171,6 +190,39 @@ class WatchersViewModelTest : BaseViewModelTest() {
             verify(watcherDataSource)
                 .coroutine { updateRelationById(mockBoolean, watcherUIModel.id) }
                 .wasInvoked()
+        }
+    }
+
+    @Test
+    fun onRateChange() = runTest {
+        // when rate is normal
+        var rate = "12"
+        assertEquals(rate, viewModel.event.onRateChange(watcherUIModel, rate))
+
+        verify(watcherDataSource)
+            .coroutine {
+                updateRateById(
+                    rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+                    watcherUIModel.id
+                )
+            }
+            .wasInvoked()
+
+        // when rate is not valid
+        rate = "asd"
+        viewModel.effect.before {
+            assertEquals(rate, viewModel.event.onRateChange(watcherUIModel, rate))
+        }.after {
+            assertNotNull(it)
+            assertIs<WatchersEffect.InvalidInput>(it)
+        }
+        // when rate is too long
+        rate = "12345678910"
+        viewModel.effect.before {
+            assertEquals(rate.dropLast(1), viewModel.event.onRateChange(watcherUIModel, rate))
+        }.after {
+            assertNotNull(it)
+            assertIs<WatchersEffect.MaximumInput>(it)
         }
     }
 }
