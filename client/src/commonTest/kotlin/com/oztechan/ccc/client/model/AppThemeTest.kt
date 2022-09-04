@@ -26,22 +26,22 @@ class AppThemeTest {
     }
 
     @Test
-    fun getThemeByOrder() {
-        val appTheme = AppTheme.getThemeByOrder(3)
+    fun getThemeByOrdinal() {
+        val appTheme = AppTheme.getThemeByOrdinal(3)
         assertNull(appTheme)
 
         AppTheme.values().forEach {
-            assertEquals(it, AppTheme.getThemeByOrder(it.order))
+            assertEquals(it, AppTheme.getThemeByOrdinal(it.ordinal))
         }
     }
 
     @Test
-    fun getThemeByOrderOrDefault() {
-        val appTheme = AppTheme.getThemeByOrderOrDefault(3)
+    fun getThemeByOrdinalOrDefault() {
+        val appTheme = AppTheme.getThemeByOrdinalOrDefault(3)
         assertEquals(AppTheme.SYSTEM_DEFAULT, appTheme)
 
         AppTheme.values().forEach {
-            assertEquals(it, AppTheme.getThemeByOrderOrDefault(it.order))
+            assertEquals(it, AppTheme.getThemeByOrdinalOrDefault(it.ordinal))
         }
     }
 

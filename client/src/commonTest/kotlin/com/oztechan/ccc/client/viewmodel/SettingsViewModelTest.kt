@@ -134,7 +134,7 @@ class SettingsViewModelTest : BaseViewModelTest() {
 
         val activeCurrencyCount = Random.nextInt()
         val activeWatcherCount = Random.nextInt()
-        val appThemeType = AppTheme.getThemeByOrderOrDefault(Random.nextInt() % 3)
+        val appThemeType = AppTheme.getThemeByOrdinalOrDefault(Random.nextInt() % 3)
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
         val precision = Random.nextInt()
