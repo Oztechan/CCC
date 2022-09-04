@@ -65,10 +65,10 @@ class CurrenciesViewModel(
                 filterList(data.query)
 
                 currencyList.filter { it.isActive }
-                    .run {
-                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString()))
+                    .let {
+                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                         analyticsManager.setUserProperty(
-                            UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
                         )
                     }
             }.launchIn(viewModelScope)
