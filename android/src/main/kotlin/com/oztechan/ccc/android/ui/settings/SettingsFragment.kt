@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
@@ -158,7 +159,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         .onEach { viewEffect ->
             Logger.i { "SettingsFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
+                SettingsEffect.Back -> findNavController().popBackStack()
                 SettingsEffect.OpenCurrencies -> navigate(
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()

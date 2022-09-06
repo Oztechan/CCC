@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
@@ -123,7 +124,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     view?.hideKeyboard()
                 }
                 CurrenciesEffect.Back -> {
-                    getBaseActivity()?.onBackPressed()
+                    findNavController().popBackStack()
                     view?.hideKeyboard()
                 }
                 is CurrenciesEffect.ChangeBase -> setNavigationResult(
