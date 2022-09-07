@@ -6,6 +6,7 @@
     package="mustafaozhan.github.com.mycurrencies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <application
         android:name="com.oztechan.ccc.android.Application"
