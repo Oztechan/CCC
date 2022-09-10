@@ -18,7 +18,14 @@ kotlin {
     sourceSets {
 
         val commonMain by getting
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
+                    implementation(kotlin(TEST))
+                    implementation(kotlin(TEST_ANNOTATIONS))
+                }
+            }
+        }
 
         val androidMain by getting {
             dependencies {
