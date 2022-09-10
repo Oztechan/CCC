@@ -221,9 +221,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             activity?.showSingleChoiceDialog(
                 getString(R.string.title_dialog_choose_theme),
                 AppTheme.values().map { it.themeName }.toTypedArray(),
-                currentThemeType.order
+                currentThemeType.ordinal
             ) { index ->
-                AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
+                AppTheme.getThemeByOrdinal(index)?.let { settingsViewModel.updateTheme(it) }
             }
         }
 
