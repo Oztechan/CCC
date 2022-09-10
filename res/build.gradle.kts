@@ -32,7 +32,14 @@ kotlin {
                 implementation(Dependencies.Common.MOKO_RESOURCES)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
+                    implementation(kotlin(TEST))
+                    implementation(kotlin(TEST_ANNOTATIONS))
+                }
+            }
+        }
 
         val androidMain by getting
         val androidTest by getting
