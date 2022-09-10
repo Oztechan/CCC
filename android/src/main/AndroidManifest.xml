@@ -35,21 +35,8 @@
             android:required="false" />
 
         <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/android_admob_app_id" />
-
-        <meta-data
             android:name="google_analytics_automatic_screen_reporting_enabled"
             android:value="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
-            android:value="true" />
-
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
-            android:value="true" />
-
     </application>
 
     <queries>

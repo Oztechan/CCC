@@ -76,29 +76,11 @@ android {
         getByName(BuildType.release) {
             signingConfig = signingConfigs.getByName(BuildType.release)
             isMinifyEnabled = false
-
-            with(Keys(project, BuildType.RELEASE)) {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
-            }
         }
 
         getByName(BuildType.debug) {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-
-            with(Keys(project, BuildType.DEBUG)) {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
-            }
 
             extensions.getByName<FirebasePerfExtension>("FirebasePerformance").setInstrumentationEnabled(false)
         }
