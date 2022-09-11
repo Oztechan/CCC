@@ -11,8 +11,6 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -24,6 +22,8 @@ import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
 import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

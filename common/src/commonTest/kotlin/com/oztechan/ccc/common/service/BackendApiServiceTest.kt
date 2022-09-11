@@ -8,12 +8,12 @@ import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
 import com.oztechan.ccc.test.BaseSubjectTest
+import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,7 +26,7 @@ import kotlin.test.assertTrue
 class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
 
     override val subject: BackendApiService by lazy {
-        BackendApiServiceImpl(backendApi, newSingleThreadContext(this::class.simpleName.toString()))
+        BackendApiServiceImpl(backendApi, createTestDispatcher())
     }
 
     @Mock

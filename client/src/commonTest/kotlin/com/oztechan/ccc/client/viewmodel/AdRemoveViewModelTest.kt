@@ -6,8 +6,6 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdType
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveState
@@ -16,6 +14,8 @@ import com.oztechan.ccc.client.viewmodel.adremove.update
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

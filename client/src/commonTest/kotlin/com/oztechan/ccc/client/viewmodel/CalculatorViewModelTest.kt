@@ -11,8 +11,6 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -29,6 +27,8 @@ import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

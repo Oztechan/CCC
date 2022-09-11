@@ -5,11 +5,11 @@ import com.oztechan.ccc.common.datasource.watcher.WatcherDataSourceImpl
 import com.oztechan.ccc.common.db.sql.WatcherQueries
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.test.BaseSubjectTest
+import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
@@ -18,7 +18,7 @@ import kotlin.test.Test
 class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
 
     override val subject: WatcherDataSource by lazy {
-        WatcherDataSourceImpl(watcherQueries, newSingleThreadContext(this::class.simpleName.toString()))
+        WatcherDataSourceImpl(watcherQueries, createTestDispatcher())
     }
 
     @Mock
