@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Dependencies {
     object Common {
-        const val TEST = "test"
+        const val TEST = "test-common"
         const val TEST_ANNOTATIONS = "test-annotations-common"
         const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
         const val MULTIPLATFORM_SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.MULTIPLATFORM_SETTINGS}"
@@ -42,7 +42,6 @@ object Dependencies {
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
         const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
-        const val TEST_JUNIT = "test-junit"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
@@ -65,6 +64,7 @@ object Dependencies {
         const val LOG_BACK = "ch.qos.logback:logback-classic:${Versions.LOG_BACK}"
         const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
         const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
+        const val TEST_JUNIT = "test-junit"
     }
 
     object ClassPaths {
@@ -113,5 +113,6 @@ object Dependencies {
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
         const val CONFIG = ":config"
+        const val TEST = ":test"
     }
 }

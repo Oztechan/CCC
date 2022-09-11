@@ -5,13 +5,14 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyState
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -31,14 +32,15 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
-class SelectCurrencyViewModelTest : BaseViewModelTest() {
+class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyViewModel>() {
+
+    override val subject: SelectCurrencyViewModel by lazy {
+        SelectCurrencyViewModel(currencyDataSource)
+    }
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
-    private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(currencyDataSource)
-    }
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
 
@@ -48,7 +50,9 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
     private val currencyListEnough = listOf(currencyDollar, currencyEuro)
 
     @BeforeTest
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListEnough))
@@ -57,7 +61,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
     // SEED
     @Test
     fun check_data_is_null() {
-        assertNull(viewModel.data)
+        assertNull(subject.data)
     }
 
     @Test
@@ -86,7 +90,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyListNotEnough))
 
-        viewModel.state.firstOrNull().let {
+        subject.state.firstOrNull().let {
             assertNotNull(it)
             assertFalse { it.loading }
             assertFalse { it.enoughCurrency }
@@ -101,7 +105,7 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
     @Test
     fun init_updates_the_states_with_enough_currency() {
         runTest {
-            viewModel.state.firstOrNull().let {
+            subject.state.firstOrNull().let {
                 assertNotNull(it)
                 assertFalse { it.loading }
                 assertTrue { it.enoughCurrency }
@@ -116,8 +120,8 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onItemClick() {
-        viewModel.effect.before {
-            viewModel.event.onItemClick(currencyUIModel)
+        subject.effect.before {
+            subject.event.onItemClick(currencyUIModel)
         }.after {
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
             assertEquals(currencyUIModel.name, it.newBase)
@@ -126,8 +130,8 @@ class SelectCurrencyViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onSelectClick() {
-        viewModel.effect.before {
-            viewModel.event.onSelectClick()
+        subject.effect.before {
+            subject.event.onSelectClick()
         }.after {
             assertIs<SelectCurrencyEffect.OpenCurrencies>(it)
         }

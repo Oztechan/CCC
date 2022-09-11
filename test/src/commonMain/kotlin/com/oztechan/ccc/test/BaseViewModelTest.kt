@@ -1,6 +1,5 @@
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.test
 
-import com.github.submob.logmob.initLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -9,14 +8,13 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 @Suppress("OPT_IN_USAGE")
-open class BaseViewModelTest {
-
+abstract class BaseViewModelTest<T> : BaseSubjectTest<T>() {
     private val dispatcher = UnconfinedTestDispatcher()
 
     @BeforeTest
-    fun start() {
+    override fun setup() {
+        super.setup()
         Dispatchers.setMain(dispatcher)
-        initLogger(true)
     }
 
     @AfterTest

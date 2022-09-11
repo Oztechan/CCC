@@ -1,10 +1,11 @@
 package com.oztechan.ccc.client.model
 
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class AppThemeTest {
+class AppThemeTest : BaseTest() {
     @Test
     fun getThemeByValue() {
         val appTheme = AppTheme.getThemeByValue(3)

@@ -1,44 +1,39 @@
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
         id(ANDROID_LIB)
-        id(MOKO_RESOURCES)
     }
 }
 
-version = ProjectSettings.getVersionName(project)
-
 kotlin {
+
     android()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "Res"
-        }
-    }
+    jvm()
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Common.MOKO_RESOURCES)
+                with(Dependencies.Common) {
+                    api(kotlin(TEST))
+                    api(kotlin(TEST_ANNOTATIONS))
+                    implementation(COROUTINES_TEST)
+                    implementation(LOG_MOB)
+                }
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(project(Dependencies.Modules.TEST))
-            }
-        }
+        val commonTest by getting
 
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+            }
+        }
         val androidTest by getting
 
         val iosX64Main by getting
@@ -59,6 +54,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+
+        val jvmMain by getting {
+            dependencies {
+                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+            }
+        }
+        val jvmTest by getting
     }
 }
 
@@ -73,9 +75,4 @@ android {
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.res"
-    disableStaticFrameworkWarning = true
 }
