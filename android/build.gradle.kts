@@ -100,6 +100,7 @@ dependencies {
         implementation(BASE_MOB)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
+        testImplementation(kotlin(TEST_JUNIT))
     }
 
     googleImplementation(Dependencies.Android.GOOGLE.PLAY_CORE)
