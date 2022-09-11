@@ -42,6 +42,7 @@ object Dependencies {
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
         const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
+        const val TEST_JUNIT = "test-junit5"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
