@@ -1,5 +1,6 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.test.BaseTest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -8,7 +9,7 @@ import kotlin.test.assertEquals
 import com.oztechan.ccc.common.db.sql.Watcher as WatcherEntity
 
 @Suppress("OPT_IN_USAGE")
-class WatcherTest {
+class WatcherTest : BaseTest() {
 
     private val entity = WatcherEntity(
         id = 1L,

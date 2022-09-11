@@ -1,9 +1,10 @@
 package com.oztechan.ccc.res
 
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ResourcesTest {
+class ResourcesTest : BaseTest() {
 
     @Test
     fun `toImageFileName lowers the case`() {
