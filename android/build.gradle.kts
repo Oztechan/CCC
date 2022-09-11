@@ -18,6 +18,7 @@ plugins {
     }
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
@@ -100,7 +101,6 @@ dependencies {
         implementation(BASE_MOB)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
-        testImplementation(kotlin(TEST_JUNIT))
     }
 
     googleImplementation(Dependencies.Android.GOOGLE.PLAY_CORE)
@@ -117,4 +117,6 @@ dependencies {
         implementation(project(BILLING))
         implementation(project(AD))
     }
+
+    testImplementation(project(Dependencies.Modules.TEST))
 }

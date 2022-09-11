@@ -8,6 +8,7 @@ plugins {
     }
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION

@@ -1,16 +1,19 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.free.FreeApiServiceImpl
+import com.oztechan.ccc.test.BaseSubjectTest
+import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,18 +23,22 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
+class FreeApiServiceTest : BaseSubjectTest<FreeApiService>() {
+
+    override val subject: FreeApiService by lazy {
+        FreeApiServiceImpl(freeApi, createTestDispatcher())
+    }
+
     @Mock
     private val freeApi = mock(classOf<FreeApi>())
 
-    override val service: FreeApiService = FreeApiServiceImpl(
-        freeApi,
-        newSingleThreadContext(this::class.simpleName.toString())
-    )
+    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val mockThrowable = Throwable("mock")
+    private val mockBase = "EUR"
 
     @Test
     fun getRates_parameter_can_not_be_empty() = runTest {
-        runCatching { service.getRates("") }.let {
+        runCatching { subject.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertIs<UnknownNetworkException>(it.exceptionOrNull())
@@ -48,7 +55,7 @@ class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
             .coroutine { freeApi.getRates(mockBase) }
             .thenThrow(mockThrowable)
 
-        runCatching { service.getRates(mockBase) }.let {
+        runCatching { subject.getRates(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertNotNull(it.exceptionOrNull()?.message)
@@ -67,7 +74,7 @@ class FreeApiServiceTest : BaseServiceTest<FreeApiService>() {
             .coroutine { freeApi.getRates(mockBase) }
             .thenReturn(mockEntity)
 
-        runCatching { service.getRates(mockBase) }.let {
+        runCatching { subject.getRates(mockBase) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
             assertEquals(mockEntity.toModel(), it.getOrNull())

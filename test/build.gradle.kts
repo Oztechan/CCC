@@ -1,25 +1,28 @@
 plugins {
     with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
         kotlin(MULTIPLATFORM)
-        id(KOTLIN_X_SERIALIZATION)
+        id(ANDROID_LIB)
     }
 }
 
 kotlin {
+
     android()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
+    jvm()
+
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-
         val commonMain by getting {
             dependencies {
                 with(Dependencies.Common) {
-                    implementation(KTOR_JSON)
+                    api(kotlin(TEST))
+                    api(kotlin(TEST_ANNOTATIONS))
+                    implementation(COROUTINES_TEST)
                     implementation(LOG_MOB)
                 }
             }
@@ -28,7 +31,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.FIREBASE_REMOTE_CONFIG)
+                api(kotlin(Dependencies.JVM.TEST_JUNIT))
             }
         }
         val androidTest by getting
@@ -51,6 +54,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+
+        val jvmMain by getting {
+            dependencies {
+                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+            }
+        }
+        val jvmTest by getting
     }
 }
 

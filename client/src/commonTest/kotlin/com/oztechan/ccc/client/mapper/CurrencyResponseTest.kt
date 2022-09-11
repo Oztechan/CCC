@@ -4,10 +4,11 @@ import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.util.nowAsInstant
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CurrencyResponseTest {
+class CurrencyResponseTest : BaseTest() {
 
     @Test
     fun toRates() {

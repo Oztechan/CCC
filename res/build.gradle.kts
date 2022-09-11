@@ -34,10 +34,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(kotlin(TEST))
-                    implementation(kotlin(TEST_ANNOTATIONS))
-                }
+                implementation(project(Dependencies.Modules.TEST))
             }
         }
 
@@ -69,6 +66,7 @@ android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
 
+        @Suppress("UnstableApiUsage")
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
