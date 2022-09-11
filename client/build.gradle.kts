@@ -67,11 +67,10 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 with(Dependencies.Common) {
-                    implementation(kotlin(TEST))
-                    implementation(kotlin(TEST_ANNOTATIONS))
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
+                implementation(project(Dependencies.Modules.TEST))
             }
         }
 
