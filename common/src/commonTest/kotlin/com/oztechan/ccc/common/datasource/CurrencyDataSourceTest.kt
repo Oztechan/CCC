@@ -1,10 +1,10 @@
 package com.oztechan.ccc.common.datasource
 
-import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
 import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.toLong
+import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
@@ -12,23 +12,17 @@ import io.mockative.verify
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-class CurrencyDataSourceTest {
+class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
 
-    @Mock
-    private val currencyQueries = mock(classOf<CurrencyQueries>())
-
-    private val dataSource: CurrencyDataSource by lazy {
+    override val subject: CurrencyDataSource by lazy {
         CurrencyDataSourceImpl(currencyQueries, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
-    @BeforeTest
-    fun setup() {
-        initLogger(true)
-    }
+    @Mock
+    private val currencyQueries = mock(classOf<CurrencyQueries>())
 
     @Test
     fun updateCurrencyStateByName() {
@@ -36,7 +30,7 @@ class CurrencyDataSourceTest {
         val mockState = Random.nextBoolean()
 
         runTest {
-            dataSource.updateCurrencyStateByName(mockName, mockState)
+            subject.updateCurrencyStateByName(mockName, mockState)
         }
 
         verify(currencyQueries)
@@ -49,7 +43,7 @@ class CurrencyDataSourceTest {
         val mockState = Random.nextBoolean()
 
         runTest {
-            dataSource.updateAllCurrencyState(mockState)
+            subject.updateAllCurrencyState(mockState)
         }
 
         verify(currencyQueries)

@@ -2,12 +2,14 @@ package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
+import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -22,7 +24,12 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class AppConfigRepositoryTest {
+class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
+
+    override val subject: AppConfigRepository by lazy {
+        AppConfigRepositoryImpl(configService, settingsDataSource, device)
+    }
+
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
@@ -31,18 +38,14 @@ class AppConfigRepositoryTest {
 
     private val device = Device.IOS
 
-    private val repository: AppConfigRepositoryImpl by lazy {
-        AppConfigRepositoryImpl(configService, settingsDataSource, device)
-    }
-
     @Test
     fun getDeviceType() {
-        assertEquals(device, repository.getDeviceType())
+        assertEquals(device, subject.getDeviceType())
     }
 
     @Test
     fun getMarketLink() {
-        assertEquals(device.marketLink, repository.getMarketLink())
+        assertEquals(device.marketLink, subject.getMarketLink())
     }
 
     @Test
@@ -62,7 +65,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        repository.checkAppUpdate(false).let {
+        subject.checkAppUpdate(false).let {
             assertNotNull(it)
             assertFalse { it }
         }
@@ -89,7 +92,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        repository.checkAppUpdate(false).let {
+        subject.checkAppUpdate(false).let {
             assertNotNull(it)
             assertTrue { it }
         }
@@ -116,7 +119,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertNull(repository.checkAppUpdate(false))
+        assertNull(subject.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -140,7 +143,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertNull(repository.checkAppUpdate(false))
+        assertNull(subject.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -164,7 +167,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertNull(repository.checkAppUpdate(true))
+        assertNull(subject.checkAppUpdate(true))
 
         verify(configService)
             .invocation { appConfig }
@@ -186,7 +189,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() + 1)
 
-        assertTrue { repository.shouldShowAppReview() }
+        assertTrue { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -212,7 +215,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() - 1)
 
-        assertFalse { repository.shouldShowAppReview() }
+        assertFalse { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -238,7 +241,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong())
 
-        assertFalse { repository.shouldShowAppReview() }
+        assertFalse { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
