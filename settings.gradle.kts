@@ -16,5 +16,6 @@ include(
     ":client", // Shared with all FE targets
     ":res", // Shared with all FE targets
     ":config", // Shared with all FE targets
-    ":common" // Shared with all FE & BE targets
+    ":common", // Shared with all FE & BE targets
+    ":test"
 )
