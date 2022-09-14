@@ -6,6 +6,7 @@ package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.RootingController
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
@@ -19,8 +20,9 @@ suspend fun Route.getCurrencyByName(rootingController: RootingController) = get(
         Logger.i { "GET Request $PARAMETER_BASE $base" }
         rootingController.getOfflineCurrencyResponseByBase(base)?.let {
             call.respond(it)
-        }
+        } ?: call.respond(HttpStatusCode.NotFound)
     } ?: run {
         Logger.i { "GET Request  $PARAMETER_BASE" }
+        call.respond(HttpStatusCode.BadRequest)
     }
 }
