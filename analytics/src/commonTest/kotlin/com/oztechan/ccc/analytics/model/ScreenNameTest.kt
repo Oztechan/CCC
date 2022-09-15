@@ -1,10 +1,11 @@
 package com.oztechan.ccc.analytics.model
 
+import com.oztechan.ccc.test.BaseTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ScreenNameTest {
+class ScreenNameTest : BaseTest() {
     @Test
     fun `screenName Calculator return correct name`() {
         val screenName = ScreenName.Calculator

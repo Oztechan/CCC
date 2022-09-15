@@ -6,12 +6,13 @@ package com.oztechan.ccc.client.util
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.test.BaseTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-class CalculatorUtilTest {
+class CalculatorUtilTest : BaseTest() {
 
     @Test
     fun calculateResult() {

@@ -1,10 +1,11 @@
 package com.oztechan.ccc.client.mapper
 
 import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CurrencyTest {
+class CurrencyTest : BaseTest() {
 
     private val currencyDollar = Currency("Dollar", "American Dollar", "$", 123.123, true)
 

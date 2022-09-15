@@ -3,12 +3,13 @@ package com.oztechan.ccc.common.mapper
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.util.assertAllTrue
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
 import com.oztechan.ccc.common.api.model.Rates as RatesEntity
 
-class CurrencyResponseTest {
+class CurrencyResponseTest : BaseTest() {
     @Suppress("LongMethod")
     @Test
     fun toModel() {

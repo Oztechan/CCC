@@ -3,10 +3,11 @@ package com.oztechan.ccc.android.util
 import com.oztechan.ccc.billing.model.PurchaseHistory
 import com.oztechan.ccc.billing.model.PurchaseMethod
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PurchaseUtilTest {
+class PurchaseUtilTest : BaseTest() {
     @Test
     fun `toRemoveAdDataList maps correctly`() {
         val purchaseMethodList = listOf(

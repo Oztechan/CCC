@@ -2,9 +2,10 @@ package com.oztechan.ccc.common.mapper
 
 import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.util.assertAllTrue
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 
-class RatesTest {
+class RatesTest : BaseTest() {
 
     @Suppress("LongMethod")
     @Test

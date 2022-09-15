@@ -1,10 +1,11 @@
 package com.oztechan.ccc.common.util
 
+import com.oztechan.ccc.test.BaseTest
 import kotlinx.datetime.Clock
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class DateUtilTest {
+class DateUtilTest : BaseTest() {
     @Test
     fun nowAsLongTest() = assertTrue {
         Clock.System.now().toEpochMilliseconds() <= nowAsLong()
