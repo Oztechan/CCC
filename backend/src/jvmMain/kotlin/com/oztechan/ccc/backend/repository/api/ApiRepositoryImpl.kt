@@ -29,7 +29,7 @@ class ApiRepositoryImpl(
     override fun startSyncApi() {
         Logger.i { "ApiController startSyncApi" }
 
-        CoroutineScope(ioDispatcher).launch {
+        CoroutineScope(ioDispatcher.limitedParallelism()).launch {
             while (isActive) {
                 updatePopularCurrencies()
                 delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
