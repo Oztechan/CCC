@@ -6,8 +6,8 @@ package com.oztechan.ccc.backend.repository.api
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
+import com.oztechan.ccc.backend.util.fillMissingRatesWith
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
@@ -64,7 +64,7 @@ class ApiRepositoryImpl(
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
                             offlineRatesDataSource.insertOfflineRates(
-                                getModifiedResponse(nonPremiumResponse, premiumResponse)
+                                premiumResponse.fillMissingRatesWith(nonPremiumResponse)
                             )
                         }
                 }
@@ -82,30 +82,6 @@ class ApiRepositoryImpl(
                 .onFailure { Logger.e(it) }
                 .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
         }
-    }
-
-    private fun getModifiedResponse(
-        nonPremiumResponse: CurrencyResponse,
-        premiumResponse: CurrencyResponse
-    ): CurrencyResponse {
-
-        premiumResponse.rates = premiumResponse.rates.copy(
-            btc = nonPremiumResponse.rates.btc,
-            clf = nonPremiumResponse.rates.clf,
-            cnh = nonPremiumResponse.rates.cnh,
-            jep = nonPremiumResponse.rates.jep,
-            kpw = nonPremiumResponse.rates.kpw,
-            mro = nonPremiumResponse.rates.mro,
-            std = nonPremiumResponse.rates.std,
-            svc = nonPremiumResponse.rates.svc,
-            xag = nonPremiumResponse.rates.xag,
-            xau = nonPremiumResponse.rates.xau,
-            xpd = nonPremiumResponse.rates.xpd,
-            xpt = nonPremiumResponse.rates.xpt,
-            zwl = nonPremiumResponse.rates.zwl
-        )
-
-        return premiumResponse
     }
 
     companion object {
