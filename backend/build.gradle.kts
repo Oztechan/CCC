@@ -8,6 +8,7 @@ plugins {
     with(Dependencies.Plugins) {
         application
         kotlin(MULTIPLATFORM)
+        id(KSP) version (Versions.KSP)
     }
 }
 
@@ -44,8 +45,27 @@ kotlin {
                 }
             }
         }
+
+        val jvmTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
+                    implementation(MOCKATIVE)
+                    implementation(COROUTINES_TEST)
+                }
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
     }
 }
+
+dependencies {
+    ksp(Dependencies.Processors.MOCKATIVE)
+}
+
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
+}
+
 
 tasks.register<Jar>("fatJar") {
     archiveBaseName.set("${project.name}-fat")
