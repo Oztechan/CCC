@@ -2,8 +2,6 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
@@ -15,6 +13,8 @@ import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

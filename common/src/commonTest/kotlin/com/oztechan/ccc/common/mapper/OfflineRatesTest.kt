@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.mapper
 
 import com.oztechan.ccc.common.api.model.CurrencyResponse
-import com.oztechan.ccc.common.util.assertAllTrue
 import com.oztechan.ccc.test.BaseTest
+import com.oztechan.ccc.test.util.assertAllTrue
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test

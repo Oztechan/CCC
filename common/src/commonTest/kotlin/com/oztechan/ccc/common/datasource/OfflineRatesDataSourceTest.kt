@@ -8,11 +8,11 @@ import com.oztechan.ccc.common.db.sql.OfflineRatesQueries
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toOfflineRates
 import com.oztechan.ccc.test.BaseSubjectTest
+import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
@@ -20,7 +20,7 @@ import kotlin.test.Test
 class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSource>() {
 
     override val subject: OfflineRatesDataSource by lazy {
-        OfflineRatesDataSourceImpl(offlineRatesQueries, newSingleThreadContext(this::class.simpleName.toString()))
+        OfflineRatesDataSourceImpl(offlineRatesQueries, createTestDispatcher())
     }
 
     @Mock
