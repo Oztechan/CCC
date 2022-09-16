@@ -15,6 +15,7 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.test.BaseViewModelTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -36,7 +37,11 @@ import com.oztechan.ccc.client.model.Currency as ClientCurrency
 import com.oztechan.ccc.common.model.Currency as CommonCurrency
 
 @Suppress("TooManyFunctions")
-class CurrenciesViewModelTest : BaseViewModelTest() {
+class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
+
+    override val subject: CurrenciesViewModel by lazy {
+        CurrenciesViewModel(settingsDataSource, currencyDataSource, adRepository, analyticsManager)
+    }
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
@@ -50,10 +55,6 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
-    private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, adRepository, analyticsManager)
-    }
-
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
     private val clientCurrency = commonCurrency.toUIModel()
 
@@ -63,7 +64,9 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     private val currencyListFlow = flowOf(currencyListCommon)
 
     @BeforeTest
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
         given(currencyDataSource)
             .invocation { collectAllCurrencies() }
             .thenReturn(currencyListFlow)
@@ -80,7 +83,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     // Analytics
     @Test
     fun if_user_properties_set_correct() {
-        viewModel // init
+        subject // init
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
             .wasInvoked()
@@ -102,7 +105,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             .invocation { collectAllCurrencies() }
             .thenReturn(flowOf(nonActiveCurrencyList))
 
-        viewModel // init
+        subject // init
 
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(nonActiveCurrencyList.count().toString())) }
@@ -139,18 +142,18 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     // init
     @Test
     fun init_updates_states_correctly() = runTest {
-        viewModel.state.firstOrNull().let {
+        subject.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currencyListClient, it.currencyList)
             assertFalse { it.selectionVisibility }
-            assertEquals(currencyListClient.toMutableList(), viewModel.data.unFilteredList)
+            assertEquals(currencyListClient.toMutableList(), subject.data.unFilteredList)
         }
     }
 
     // public methods
     @Test
-    fun hideSelectionVisibility() = viewModel.state.before {
-        viewModel.hideSelectionVisibility()
+    fun hideSelectionVisibility() = subject.state.before {
+        subject.hideSelectionVisibility()
     }.after {
         assertNotNull(it)
         assertFalse { it.selectionVisibility }
@@ -164,7 +167,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
+        assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
         verify(adRepository)
             .invocation { shouldShowBannerAd() }
@@ -178,7 +181,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             .invocation { firstRun }
             .thenReturn(mockValue)
 
-        assertEquals(mockValue, viewModel.isFirstRun())
+        assertEquals(mockValue, subject.isFirstRun())
 
         verify(settingsDataSource)
             .invocation { firstRun }
@@ -190,8 +193,8 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         val query = "query"
         // runTest can be removed after kotlin move to new memory management
         runTest {
-            viewModel.event.onQueryChange(query)
-            assertEquals(query, viewModel.data.query)
+            subject.event.onQueryChange(query)
+            assertEquals(query, subject.data.query)
         }
     }
 
@@ -207,7 +210,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             .thenReturn("EUR")
 
         val mockValue = Random.nextBoolean()
-        viewModel.event.updateAllCurrenciesState(mockValue)
+        subject.event.updateAllCurrenciesState(mockValue)
 
         runTest {
             verify(currencyDataSource)
@@ -218,7 +221,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onItemClick() {
-        viewModel.event.onItemClick(clientCurrency)
+        subject.event.onItemClick(clientCurrency)
 
         runTest {
             verify(currencyDataSource)
@@ -232,7 +235,7 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onQueryChange() = with(viewModel) {
+    fun onQueryChange() = with(subject) {
         val dollar = ClientCurrency("USD", "American Dollar", "$", "1231")
 
         val originalList = mutableListOf<ClientCurrency>().apply {
@@ -240,69 +243,69 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
             add(dollar)
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("USD")
         }.after {
             assertNotNull(it)
             assertTrue { it.currencyList.contains(dollar) }
-            assertEquals("USD", viewModel.data.query)
+            assertEquals("USD", subject.data.query)
             assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("Euro")
         }.after {
             assertNotNull(it)
             assertTrue { it.currencyList.contains(clientCurrency) }
-            assertEquals("Euro", viewModel.data.query)
+            assertEquals("Euro", subject.data.query)
             assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("$")
         }.after {
             assertNotNull(it)
             assertTrue { it.currencyList.contains(dollar) }
-            assertEquals("$", viewModel.data.query)
+            assertEquals("$", subject.data.query)
             assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("something")
         }.after {
             assertNotNull(it)
             assertTrue { it.currencyList.isEmpty() }
-            assertEquals("something", viewModel.data.query)
+            assertEquals("something", subject.data.query)
             assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("o")
         }.after {
             assertNotNull(it)
             assertEquals(2, it.currencyList.size)
-            assertEquals("o", viewModel.data.query)
+            assertEquals("o", subject.data.query)
             assertFalse { it.loading }
         }
     }
 
     @Test
     fun onItemLongClick() {
-        val previousValue = viewModel.state.value.selectionVisibility
-        viewModel.state.before {
-            viewModel.event.onItemLongClick()
+        val previousValue = subject.state.value.selectionVisibility
+        subject.state.before {
+            subject.event.onItemLongClick()
         }.after {
             assertNotNull(it)
             assertEquals(!previousValue, it.selectionVisibility)
         }
 
-        viewModel.state.before {
-            viewModel.event.onItemLongClick()
+        subject.state.before {
+            subject.event.onItemLongClick()
         }.after {
             assertNotNull(it)
             assertEquals(previousValue, it.selectionVisibility)
@@ -311,22 +314,22 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onCloseClick() {
-        viewModel.effect.before {
-            viewModel.onCloseClick()
+        subject.effect.before {
+            subject.onCloseClick()
         }.after {
             assertIs<CurrenciesEffect.Back>(it)
-            assertEquals("", viewModel.data.query)
+            assertEquals("", subject.data.query)
         }
 
         // show selections
-        viewModel.event.onItemLongClick()
+        subject.event.onItemLongClick()
 
-        viewModel.state.before {
-            viewModel.onCloseClick()
+        subject.state.before {
+            subject.onCloseClick()
         }.after {
             assertNotNull(it)
             assertFalse { it.selectionVisibility }
-            assertEquals("", viewModel.data.query)
+            assertEquals("", subject.data.query)
         }
     }
 
@@ -335,21 +338,21 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         // where there is single currency
         val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
 
-        viewModel.effect.before {
-            viewModel.onDoneClick()
+        subject.effect.before {
+            subject.onDoneClick()
         }.after {
             assertIs<CurrenciesEffect.FewCurrency>(it)
-            assertTrue { viewModel.data.query.isEmpty() }
+            assertTrue { subject.data.query.isEmpty() }
         }
 
         // where there are 2 active currencies
-        viewModel.data.unFilteredList = mutableListOf(clientCurrency, dollar)
+        subject.data.unFilteredList = mutableListOf(clientCurrency, dollar)
 
-        viewModel.effect.before {
-            viewModel.onDoneClick()
+        subject.effect.before {
+            subject.onDoneClick()
         }.after {
             assertIs<CurrenciesEffect.OpenCalculator>(it)
-            assertTrue { viewModel.data.query.isEmpty() }
+            assertTrue { subject.data.query.isEmpty() }
 
             verify(settingsDataSource)
                 .invocation { firstRun = false }
@@ -358,13 +361,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
 
         // where there are 2 currencies but only 1 active
         val dollarNotActive = ClientCurrency("USD", "American Dollar", "$", "123", isActive = false)
-        viewModel.data.unFilteredList = mutableListOf(clientCurrency, dollarNotActive)
+        subject.data.unFilteredList = mutableListOf(clientCurrency, dollarNotActive)
 
-        viewModel.effect.before {
-            viewModel.onDoneClick()
+        subject.effect.before {
+            subject.onDoneClick()
         }.after {
             assertIs<CurrenciesEffect.FewCurrency>(it)
-            assertEquals(true, viewModel.data.query.isEmpty())
+            assertEquals(true, subject.data.query.isEmpty())
         }
     }
 }

@@ -28,6 +28,7 @@ import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.test.BaseViewModelTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -44,7 +45,19 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
-class CalculatorViewModelTest : BaseViewModelTest() {
+@Suppress("TooManyFunctions")
+class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
+
+    override val subject: CalculatorViewModel by lazy {
+        CalculatorViewModel(
+            settingsDataSource,
+            backendApiService,
+            currencyDataSource,
+            offlineRatesDataSource,
+            adRepository,
+            analyticsManager
+        )
+    }
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
@@ -64,17 +77,6 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
-    private val viewModel: CalculatorViewModel by lazy {
-        CalculatorViewModel(
-            settingsDataSource,
-            backendApiService,
-            currencyDataSource,
-            offlineRatesDataSource,
-            adRepository,
-            analyticsManager
-        )
-    }
-
     private val currency1 = Currency("USD", "Dollar", "$", 12345.678, true)
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
     private val currencyList = listOf(currency1, currency2)
@@ -82,7 +84,9 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     private val currencyResponse = CurrencyResponse(currency1.name, null, Rates())
 
     @BeforeTest
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
         given(settingsDataSource)
             .invocation { currentBase }
             .thenReturn(currency1.name)
@@ -116,8 +120,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .coroutine { getRates(currency1.name) }
             .thenThrow(Exception())
 
-        viewModel.state.before {
-            viewModel.event.onKeyPress("1") // trigger api call
+        subject.state.before {
+            subject.event.onKeyPress("1") // trigger api call
         }.after {
             assertNotNull(it)
             assertFalse { it.loading }
@@ -147,12 +151,12 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .coroutine { getOfflineRatesByBase(currency1.name) }
             .thenReturn(null)
 
-        viewModel.effect.before {
-            viewModel.event.onKeyPress("1") // trigger api call
+        subject.effect.before {
+            subject.event.onKeyPress("1") // trigger api call
         }.after {
             assertIs<CalculatorEffect.Error>(it)
 
-            viewModel.state.value.let { state ->
+            subject.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
                 assertEquals(RateState.Error, state.rateState)
@@ -178,12 +182,12 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(listOf(currency1)))
 
-        viewModel.effect.before {
-            viewModel.event.onKeyPress("1") // trigger api call
+        subject.effect.before {
+            subject.event.onKeyPress("1") // trigger api call
         }.after {
             assertIs<CalculatorEffect.FewCurrency>(it)
 
-            viewModel.state.value.let { state ->
+            subject.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
                 assertEquals(RateState.Error, state.rateState)
@@ -198,7 +202,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
-        viewModel // init
+        subject // init
 
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
@@ -220,7 +224,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
+        assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
         verify(adRepository)
             .invocation { shouldShowBannerAd() }
@@ -229,23 +233,23 @@ class CalculatorViewModelTest : BaseViewModelTest() {
 
     // Event
     @Test
-    fun onBarClick() = viewModel.effect.before {
-        viewModel.event.onBarClick()
+    fun onBarClick() = subject.effect.before {
+        subject.event.onBarClick()
     }.after {
         assertIs<CalculatorEffect.OpenBar>(it)
     }
 
     @Test
-    fun onSettingsClicked() = viewModel.effect.before {
-        viewModel.event.onSettingsClicked()
+    fun onSettingsClicked() = subject.effect.before {
+        subject.event.onSettingsClicked()
     }.after {
         assertIs<CalculatorEffect.OpenSettings>(it)
     }
 
     @Test
     fun onItemClick() {
-        viewModel.state.before {
-            viewModel.event.onItemClick(currencyUIModel)
+        subject.state.before {
+            subject.event.onItemClick(currencyUIModel)
         }.after {
             assertNotNull(it)
             assertEquals(currencyUIModel.name, it.base)
@@ -255,8 +259,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
         // when last digit is . it should be removed
         val currency = CurrencyUIModel("USD", "", "", "123.")
 
-        viewModel.state.before {
-            viewModel.event.onItemClick(currency)
+        subject.state.before {
+            subject.event.onItemClick(currency)
         }.after {
             assertNotNull(it)
             assertEquals(currency.name, it.base)
@@ -265,14 +269,14 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onItemImageLongClick() = viewModel.effect.before {
-        viewModel.event.onItemImageLongClick(currencyUIModel)
+    fun onItemImageLongClick() = subject.effect.before {
+        subject.event.onItemImageLongClick(currencyUIModel)
     }.after {
         assertIs<CalculatorEffect.ShowRate>(it)
         assertEquals(
             currencyUIModel.getCurrencyConversionByRate(
-                viewModel.state.value.base,
-                viewModel.data.rates
+                subject.state.value.base,
+                subject.data.rates
             ),
             it.text
         )
@@ -284,8 +288,8 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onItemAmountLongClick() = viewModel.effect.before {
-        viewModel.event.onItemAmountLongClick(currencyUIModel.rate)
+    fun onItemAmountLongClick() = subject.effect.before {
+        subject.event.onItemAmountLongClick(currencyUIModel.rate)
     }.after {
         assertEquals(
             CalculatorEffect.CopyToClipboard(currencyUIModel.rate),
@@ -298,7 +302,7 @@ class CalculatorViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onKeyPress() = with(viewModel) {
+    fun onKeyPress() = with(subject) {
         val key = "1"
 
         // emits when input is empty
@@ -356,12 +360,12 @@ class CalculatorViewModelTest : BaseViewModelTest() {
                 .thenReturn(currencyResponse)
         }
 
-        viewModel.state.before {
-            viewModel.event.onBaseChange(currency1.name)
+        subject.state.before {
+            subject.event.onBaseChange(currency1.name)
         }.after {
             assertNotNull(it)
-            assertNotNull(viewModel.data.rates)
-            assertEquals(currency1.name, viewModel.data.rates!!.base)
+            assertNotNull(subject.data.rates)
+            assertEquals(currency1.name, subject.data.rates!!.base)
             assertEquals(currency1.name, it.base)
 
             verify(analyticsManager)
