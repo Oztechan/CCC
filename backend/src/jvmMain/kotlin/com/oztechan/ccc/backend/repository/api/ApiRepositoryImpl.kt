@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.backend.controller
+package com.oztechan.ccc.backend.repository.api
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
@@ -19,16 +19,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
-private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
-
-class ApiController(
+class ApiRepositoryImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val offlineRatesDataSource: OfflineRatesDataSource,
-    private val ioDispatcher: CoroutineDispatcher
-) {
-    fun startSyncApi() {
+    private val ioDispatcher: CoroutineDispatcher,
+) : ApiRepository {
+
+    override fun startSyncApi() {
         Logger.i { "ApiController startSyncApi" }
 
         CoroutineScope(ioDispatcher).launch {
@@ -45,6 +43,9 @@ class ApiController(
             }
         }
     }
+
+    override suspend fun getOfflineCurrencyResponseByBase(base: String) =
+        offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
 
     private suspend fun updatePopularCurrencies() {
         Logger.i { "ApiController updatePopularCurrencies" }
@@ -105,5 +106,10 @@ class ApiController(
         )
 
         return premiumResponse
+    }
+
+    companion object {
+        private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
+        private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
     }
 }
