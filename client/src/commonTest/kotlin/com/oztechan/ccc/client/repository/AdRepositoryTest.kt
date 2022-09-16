@@ -9,6 +9,7 @@ import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
+import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -20,7 +21,12 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class AdRepositoryTest {
+class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
+
+    override val subject: AdRepository by lazy {
+        AdRepositoryImpl(settingsDataSource, configService, device)
+    }
+
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
@@ -28,10 +34,6 @@ class AdRepositoryTest {
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
 
     private var device: Device = Device.IOS
-
-    private val repository: AdRepository by lazy {
-        AdRepositoryImpl(settingsDataSource, configService, device)
-    }
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_smaller_than_banner_000() {
@@ -53,7 +55,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -92,7 +94,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -131,7 +133,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -170,7 +172,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -209,7 +211,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -248,7 +250,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -287,7 +289,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertFalse { repository.shouldShowBannerAd() }
+        assertFalse { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -326,7 +328,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertTrue { repository.shouldShowBannerAd() }
+        assertTrue { subject.shouldShowBannerAd() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -358,7 +360,7 @@ class AdRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(someInt.toLong() + 1)
 
-        assertTrue { repository.shouldShowInterstitialAd() }
+        assertTrue { subject.shouldShowInterstitialAd() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -382,7 +384,7 @@ class AdRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(someInt.toLong() - 1)
 
-        assertFalse { repository.shouldShowInterstitialAd() }
+        assertFalse { subject.shouldShowInterstitialAd() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -396,7 +398,7 @@ class AdRepositoryTest {
     @Test
     fun shouldShowRemoveAds_Returns_False_When_Device_Is_Huawei() {
         device = Device.Android.Huawei(1)
-        assertFalse { repository.shouldShowRemoveAds() }
+        assertFalse { subject.shouldShowRemoveAds() }
     }
 
     @Test
@@ -419,7 +421,7 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        assertTrue { repository.shouldShowRemoveAds() }
+        assertTrue { subject.shouldShowRemoveAds() }
     }
 
     @Test
@@ -443,7 +445,7 @@ class AdRepositoryTest {
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        assertTrue { repository.shouldShowRemoveAds() }
+        assertTrue { subject.shouldShowRemoveAds() }
     }
 
     @Test
@@ -472,6 +474,6 @@ class AdRepositoryTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        assertFalse { repository.shouldShowRemoveAds() }
+        assertFalse { subject.shouldShowRemoveAds() }
     }
 }
