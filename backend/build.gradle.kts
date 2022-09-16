@@ -44,6 +44,12 @@ kotlin {
                 }
             }
         }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
     }
 }
 
