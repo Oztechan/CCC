@@ -28,6 +28,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@Suppress("TooManyFunctions")
 class SettingsDataSourceTest : BaseSubjectTest<SettingsDataSource>() {
 
     override val subject: SettingsDataSource by lazy {
