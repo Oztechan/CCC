@@ -11,7 +11,7 @@ import NavigationStack
 import Client
 
 struct SliderView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
