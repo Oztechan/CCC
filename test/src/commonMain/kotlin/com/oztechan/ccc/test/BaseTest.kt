@@ -6,7 +6,7 @@ import kotlin.test.BeforeTest
 
 open class BaseTest {
     @BeforeTest
-    fun setup() {
+    open fun setup() {
         initLogger(true).also {
             Logger.i { "BaseTest setup" }
         }

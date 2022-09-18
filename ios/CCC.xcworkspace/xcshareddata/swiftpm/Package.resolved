@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "8467858fc4cee858511380ac0f9ea5a17d007b5d",
-        "version" : "9.3.0"
+        "revision" : "7f31a43f8c49bd4a1723bc9fecdfaa4411dd9f36",
+        "version" : "9.5.0"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
       "state" : {
-        "revision" : "e137e77fb4562045a829d4910717073890292e57",
-        "version" : "9.9.0"
+        "revision" : "62da919d067f94b195418765ac12f7b8a3e551bb",
+        "version" : "9.10.0"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "fa0fcd43f272a260e7f734f23e6dc55e16fcae0a",
-        "version" : "1.19.1"
+        "revision" : "b8230909dedc640294d7324d37f4c91ad3dcf177",
+        "version" : "1.20.1"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/matteopuc/swiftui-navigation-stack",
       "state" : {
-        "revision" : "be0db68ed0d84ed543bf8f7600a1f84de015f753",
-        "version" : "1.0.4"
+        "revision" : "bc6a8188a937e5da34d07117092131292f9ad9e8",
+        "version" : "1.0.5"
       }
     }
   ],

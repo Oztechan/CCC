@@ -17,7 +17,7 @@ typealias SelectCurrencyObservable = ObservableSEED
 struct SelectCurrencyView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = SelectCurrencyObservable(viewModel: koin.get())
     @Binding var isBarShown: Bool
 
