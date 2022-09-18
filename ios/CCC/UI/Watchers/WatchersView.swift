@@ -15,7 +15,7 @@ typealias WatchersObservable = ObservableSEED
 <WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
 
 struct WatchersView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = WatchersObservable(viewModel: koin.get())
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)

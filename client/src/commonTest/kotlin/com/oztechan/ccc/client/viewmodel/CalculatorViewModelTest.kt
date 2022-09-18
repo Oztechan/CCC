@@ -45,6 +45,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
+@Suppress("TooManyFunctions")
 class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     override val subject: CalculatorViewModel by lazy {
