@@ -27,7 +27,7 @@ class ApiRepositoryImpl(
 ) : ApiRepository {
 
     override fun startSyncApi() {
-        Logger.i { "ApiController startSyncApi" }
+        Logger.i { "ApiRepositoryImpl startSyncApi" }
 
         CoroutineScope(ioDispatcher).launch {
             while (isActive) {
@@ -44,8 +44,10 @@ class ApiRepositoryImpl(
         }
     }
 
-    override suspend fun getOfflineCurrencyResponseByBase(base: String) =
-        offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
+    override suspend fun getOfflineCurrencyResponseByBase(base: String): String? {
+        Logger.i { "ApiRepositoryImpl getOfflineCurrencyResponseByBase" }
+        return offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
+    }
 
     private suspend fun updatePopularCurrencies() {
         Logger.i { "ApiController updatePopularCurrencies" }
