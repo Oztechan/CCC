@@ -17,7 +17,7 @@ typealias CurrenciesObservable = ObservableSEED
 struct CurrenciesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = CurrenciesObservable(viewModel: koin.get())
 
     private let analyticsManager: AnalyticsManager = koin.get()

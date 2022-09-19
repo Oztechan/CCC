@@ -17,7 +17,7 @@ typealias CalculatorObservable = ObservableSEED
 struct CalculatorView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = CalculatorObservable(viewModel: koin.get())
 
     @State var isBarShown = false
