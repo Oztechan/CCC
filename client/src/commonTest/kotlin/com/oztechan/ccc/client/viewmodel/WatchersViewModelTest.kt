@@ -30,6 +30,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
+@Suppress("OPT_IN_USAGE", "TooManyFunctions")
 class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
     override val subject: WatchersViewModel by lazy {

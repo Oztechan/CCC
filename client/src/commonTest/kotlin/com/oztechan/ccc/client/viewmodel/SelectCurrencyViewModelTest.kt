@@ -32,6 +32,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.model.Currency as CurrencyCommon
 
+@Suppress("OPT_IN_USAGE")
 class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyViewModel>() {
 
     override val subject: SelectCurrencyViewModel by lazy {

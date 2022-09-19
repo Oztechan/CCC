@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
 
+@Suppress("OPT_IN_USAGE")
 class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>() {
 
     override val subject: BackgroundRepository by lazy {

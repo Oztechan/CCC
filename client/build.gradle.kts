@@ -39,14 +39,6 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-
-        all {
-            languageSettings.apply {
-                optIn("kotlinx.coroutines.FlowPreview")
-                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            }
-        }
-
         val commonMain by getting {
             dependencies {
                 with(Dependencies.Common) {
@@ -114,6 +106,7 @@ ksp {
     arg("mockative.stubsUnitByDefault", "true")
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
@@ -121,11 +114,6 @@ android {
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
-        }
-
-        // todo needed for android coroutine testing
-        testOptions {
-            unitTests.isReturnDefaultValues = true
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
