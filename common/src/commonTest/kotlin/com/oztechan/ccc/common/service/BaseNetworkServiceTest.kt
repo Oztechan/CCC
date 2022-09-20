@@ -3,6 +3,7 @@ package com.oztechan.ccc.common.service
 import com.oztechan.ccc.common.api.free.FreeApi
 import com.oztechan.ccc.common.error.ModelMappingException
 import com.oztechan.ccc.common.error.NetworkException
+import com.oztechan.ccc.common.error.TerminationException
 import com.oztechan.ccc.common.error.TimeoutException
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.service.free.FreeApiService
@@ -42,13 +43,12 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             .coroutine { getRates(base) }
             .thenThrow(CancellationException(exception))
 
-        assertFailsWith(CancellationException::class) {
+        assertFailsWith(TerminationException::class) {
             subject.getRates(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause!!.cause)
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
+            assertEquals(exception.message, it.cause!!.cause!!.message)
         }
     }
 
@@ -61,10 +61,8 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
         assertFailsWith(NetworkException::class) {
             subject.getRates(base)
         }.let {
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
+            assertNotNull(it.cause)
+            assertEquals(exception.message, it.cause!!.message)
         }
     }
 
@@ -77,10 +75,8 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
         assertFailsWith(TimeoutException::class) {
             subject.getRates(base)
         }.let {
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
+            assertNotNull(it.cause)
+            assertEquals(exception.message, it.cause!!.message)
         }
     }
 
@@ -95,8 +91,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause!!.cause)
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
+            assertEquals(exception.message, it.cause!!.cause!!.message)
         }
     }
 
@@ -111,8 +106,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause!!.cause)
-            assertNotNull(it.message)
-            assertEquals(exception.message, it.message)
+            assertEquals(exception.message, it.cause!!.cause!!.message)
         }
     }
 }
