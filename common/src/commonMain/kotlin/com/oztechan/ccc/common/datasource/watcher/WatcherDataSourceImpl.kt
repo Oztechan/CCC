@@ -12,7 +12,7 @@ import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class WatcherDataSourceImpl(
+internal class WatcherDataSourceImpl(
     private val watcherQueries: WatcherQueries,
     private val ioDispatcher: CoroutineDispatcher
 ) : WatcherDataSource, BaseDBDataSource(ioDispatcher) {

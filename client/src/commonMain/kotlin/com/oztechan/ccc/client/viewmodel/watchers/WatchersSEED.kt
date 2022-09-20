@@ -43,7 +43,7 @@ class WatchersData : BaseData() {
 }
 
 // Extension
-fun MutableStateFlow<WatchersState>.update(
+internal fun MutableStateFlow<WatchersState>.update(
     watcherList: List<Watcher> = value.watcherList,
 ) {
     value = value.copy(

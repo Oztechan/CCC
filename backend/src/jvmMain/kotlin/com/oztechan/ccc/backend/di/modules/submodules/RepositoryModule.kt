@@ -6,6 +6,6 @@ import com.oztechan.ccc.common.di.DISPATCHER_IO
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-var repositoryModule = module {
+internal val repositoryModule = module {
     single<ApiRepository> { ApiRepositoryImpl(get(), get(), get(), get(named(DISPATCHER_IO))) }
 }

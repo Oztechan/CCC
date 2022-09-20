@@ -43,7 +43,7 @@ data class CurrenciesData(
 }
 
 // Extension
-fun MutableStateFlow<CurrenciesState>.update(
+internal fun MutableStateFlow<CurrenciesState>.update(
     currencyList: List<Currency> = value.currencyList,
     loading: Boolean = value.loading,
     selectionVisibility: Boolean = value.selectionVisibility

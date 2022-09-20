@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 
-open class BaseNetworkService(
+internal open class BaseNetworkService(
     private val ioDispatcher: CoroutineDispatcher
 ) {
     protected suspend fun <T> apiRequest(

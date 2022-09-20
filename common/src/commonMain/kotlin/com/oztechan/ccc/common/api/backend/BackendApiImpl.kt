@@ -9,7 +9,7 @@ import io.ktor.client.request.parameter
 import io.ktor.http.path
 import io.ktor.http.takeFrom
 
-class BackendApiImpl(private val client: HttpClient) : BackendApi {
+internal class BackendApiImpl(private val client: HttpClient) : BackendApi {
 
     override suspend fun getRates(base: String): CurrencyResponse = client.get {
         url {

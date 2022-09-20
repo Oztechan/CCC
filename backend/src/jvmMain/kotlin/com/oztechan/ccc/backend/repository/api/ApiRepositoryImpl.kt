@@ -19,7 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class ApiRepositoryImpl(
+internal class ApiRepositoryImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val offlineRatesDataSource: OfflineRatesDataSource,

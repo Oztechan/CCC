@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import com.oztechan.ccc.common.db.sql.Watcher as WatcherEntity
 
-fun WatcherEntity.toModel() = Watcher(
+internal fun WatcherEntity.toModel() = Watcher(
     id = id,
     base = base,
     target = target,
