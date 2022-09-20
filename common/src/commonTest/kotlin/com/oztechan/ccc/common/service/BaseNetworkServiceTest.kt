@@ -19,7 +19,9 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotNull
 
 @Suppress("OPT_IN_USAGE")
 class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
@@ -32,14 +34,21 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
 
     private val base = "EUR"
 
+    private val exception = Exception("Test exception")
+
     @Test
     fun `CancellationException should return exception itself`() = runTest {
         given(freeApi)
             .coroutine { getRates(base) }
-            .thenThrow(CancellationException())
+            .thenThrow(CancellationException(exception))
 
         assertFailsWith(CancellationException::class) {
             subject.getRates(base)
+        }.let {
+            assertNotNull(it.cause)
+            assertEquals(exception, it.cause!!.cause)
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
         }
     }
 
@@ -47,10 +56,15 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     fun `IOException should return NetworkException`() = runTest {
         given(freeApi)
             .coroutine { getRates(base) }
-            .thenThrow(IOException(""))
+            .thenThrow(IOException(exception.message.toString()))
 
         assertFailsWith(NetworkException::class) {
             subject.getRates(base)
+        }.let {
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
         }
     }
 
@@ -58,10 +72,15 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     fun `ConnectTimeoutException should return TimeoutException`() = runTest {
         given(freeApi)
             .coroutine { getRates(base) }
-            .thenThrow(ConnectTimeoutException(""))
+            .thenThrow(ConnectTimeoutException(exception.message.toString()))
 
         assertFailsWith(TimeoutException::class) {
             subject.getRates(base)
+        }.let {
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
         }
     }
 
@@ -69,10 +88,15 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     fun `SerializationException should return ModelMappingException`() = runTest {
         given(freeApi)
             .coroutine { getRates(base) }
-            .thenThrow(SerializationException())
+            .thenThrow(SerializationException(exception))
 
         assertFailsWith(ModelMappingException::class) {
             subject.getRates(base)
+        }.let {
+            assertNotNull(it.cause)
+            assertEquals(exception, it.cause!!.cause)
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
         }
     }
 
@@ -80,10 +104,15 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     fun `Any other exception should return UnknownNetworkException`() = runTest {
         given(freeApi)
             .coroutine { getRates(base) }
-            .thenThrow(Exception())
+            .thenThrow(Exception(exception))
 
         assertFailsWith(UnknownNetworkException::class) {
             subject.getRates(base)
+        }.let {
+            assertNotNull(it.cause)
+            assertEquals(exception, it.cause!!.cause)
+            assertNotNull(it.message)
+            assertEquals(exception.message, it.message)
         }
     }
 }
