@@ -31,8 +31,8 @@ internal open class BaseNetworkService(
     } catch (e: Throwable) {
         throw when (e) {
             is CancellationException -> e
-            is IOException -> NetworkException(e)
             is ConnectTimeoutException -> TimeoutException(e)
+            is IOException -> NetworkException(e)
             is SerializationException -> ModelMappingException(e)
             else -> UnknownNetworkException(e)
         }
