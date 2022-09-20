@@ -39,7 +39,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
-class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
+internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     override val subject: MainViewModel by lazy {
         MainViewModel(settingsDataSource, configService, appConfigRepository, adRepository, analyticsManager)

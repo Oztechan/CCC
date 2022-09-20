@@ -46,7 +46,7 @@ import kotlin.test.assertNotNull
 import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
-class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
+internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     override val subject: CalculatorViewModel by lazy {
         CalculatorViewModel(

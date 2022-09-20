@@ -7,7 +7,7 @@ import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PurchaseUtilTest : BaseTest() {
+internal class PurchaseUtilTest : BaseTest() {
     @Test
     fun `toRemoveAdDataList maps correctly`() {
         val purchaseMethodList = listOf(

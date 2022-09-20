@@ -32,7 +32,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
+internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     override val subject: AdRemoveViewModel by lazy {
         AdRemoveViewModel(settingsDataSource)

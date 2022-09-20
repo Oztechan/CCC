@@ -24,7 +24,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
+internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
 
     override val subject: AppConfigRepository by lazy {
         AppConfigRepositoryImpl(configService, settingsDataSource, device)

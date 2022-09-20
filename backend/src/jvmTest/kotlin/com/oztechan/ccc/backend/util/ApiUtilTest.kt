@@ -7,7 +7,7 @@ import org.junit.Test
 import kotlin.random.Random
 import kotlin.test.assertEquals
 
-class ApiUtilTest : BaseTest() {
+internal class ApiUtilTest : BaseTest() {
 
     @Test
     fun fillMissingRatesWith() {

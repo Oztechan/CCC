@@ -6,7 +6,7 @@ import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class WatcherTest : BaseTest() {
+internal class WatcherTest : BaseTest() {
 
     private val watcher = Watcher(
         id = 1L,

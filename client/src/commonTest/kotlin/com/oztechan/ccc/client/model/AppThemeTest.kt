@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class AppThemeTest : BaseTest() {
+internal class AppThemeTest : BaseTest() {
     @Test
     fun getThemeByValue() {
         val appTheme = AppTheme.getThemeByValue(3)

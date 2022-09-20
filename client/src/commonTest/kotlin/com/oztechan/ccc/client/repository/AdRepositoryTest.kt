@@ -21,7 +21,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
+internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     override val subject: AdRepository by lazy {
         AdRepositoryImpl(settingsDataSource, configService, device)

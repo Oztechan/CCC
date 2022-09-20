@@ -16,7 +16,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 
 @Suppress("OPT_IN_USAGE")
-class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>() {
+internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>() {
 
     override val subject: BackgroundRepository by lazy {
         BackgroundRepositoryImpl(watcherDataSource, backendApiService)
