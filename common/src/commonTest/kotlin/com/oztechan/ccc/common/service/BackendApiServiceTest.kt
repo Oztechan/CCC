@@ -23,7 +23,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
+internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
 
     override val subject: BackendApiService by lazy {
         BackendApiServiceImpl(backendApi, createTestDispatcher())

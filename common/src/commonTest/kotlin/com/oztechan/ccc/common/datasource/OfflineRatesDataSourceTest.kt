@@ -17,7 +17,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSource>() {
+internal class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSource>() {
 
     override val subject: OfflineRatesDataSource by lazy {
         OfflineRatesDataSourceImpl(offlineRatesQueries, createTestDispatcher())

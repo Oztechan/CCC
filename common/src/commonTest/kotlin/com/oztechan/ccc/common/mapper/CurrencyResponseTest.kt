@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
 import com.oztechan.ccc.common.api.model.Rates as RatesEntity
 
-class CurrencyResponseTest : BaseTest() {
+internal class CurrencyResponseTest : BaseTest() {
     @Suppress("LongMethod")
     @Test
     fun toModel() {

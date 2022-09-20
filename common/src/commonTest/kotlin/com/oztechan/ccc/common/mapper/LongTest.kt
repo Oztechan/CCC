@@ -6,7 +6,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class LongTest : BaseTest() {
+internal class LongTest : BaseTest() {
     @Test
     fun toBoolean() {
         assertTrue { 1L.toBoolean() }

@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import com.oztechan.ccc.common.db.sql.Watcher as WatcherEntity
 
 @Suppress("OPT_IN_USAGE")
-class WatcherTest : BaseTest() {
+internal class WatcherTest : BaseTest() {
 
     private val entity = WatcherEntity(
         id = 1L,
