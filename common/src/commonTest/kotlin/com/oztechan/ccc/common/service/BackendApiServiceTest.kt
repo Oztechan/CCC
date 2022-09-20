@@ -58,8 +58,10 @@ internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
         runCatching { subject.getRates(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertNotNull(it.exceptionOrNull()?.message)
-            assertEquals(mockThrowable.message, it.exceptionOrNull()!!.message)
+            assertNotNull(it.exceptionOrNull())
+            assertNotNull(it.exceptionOrNull()!!.cause)
+            assertNotNull(it.exceptionOrNull()!!.message)
+            assertEquals(mockThrowable.message, it.exceptionOrNull()!!.cause!!.message)
             assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
