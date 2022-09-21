@@ -37,7 +37,7 @@ class BaseDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause)
-            assertEquals(exception.message, it.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 }
