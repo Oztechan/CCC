@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class EventTest : BaseTest() {
+internal class EventTest : BaseTest() {
     @Test
     fun `event keys are set correctly`() {
         assertEquals("base_change", Event.BaseChange(Param.Base("")).key)

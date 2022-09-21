@@ -30,7 +30,7 @@ sealed class AdRemoveEffect : BaseEffect() {
 }
 
 // Extension
-fun MutableStateFlow<AdRemoveState>.update(
+internal fun MutableStateFlow<AdRemoveState>.update(
     adRemoveTypes: List<RemoveAdType> = value.adRemoveTypes,
     loading: Boolean = value.loading
 ) {

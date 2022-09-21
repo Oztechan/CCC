@@ -12,7 +12,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-class CalculatorUtilTest : BaseTest() {
+internal class CalculatorUtilTest : BaseTest() {
 
     @Test
     fun calculateResult() {

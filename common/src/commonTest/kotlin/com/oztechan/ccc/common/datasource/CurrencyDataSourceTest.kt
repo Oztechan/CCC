@@ -15,7 +15,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
+internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
 
     override val subject: CurrencyDataSource by lazy {
         CurrencyDataSourceImpl(currencyQueries, createTestDispatcher())

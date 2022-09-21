@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.util
 import co.touchlab.kermit.Logger
 import io.ktor.client.plugins.logging.Logger as LoggerKtor
 
-class KtorLogger : LoggerKtor {
+internal class KtorLogger : LoggerKtor {
     override fun log(message: String) {
         if (message.contains(KTOR_LOG_MASK_REQUEST) ||
             message.contains(KTOR_LOG_MASK_RESPONSE)

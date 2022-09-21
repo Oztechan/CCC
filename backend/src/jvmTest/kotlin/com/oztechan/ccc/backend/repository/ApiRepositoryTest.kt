@@ -18,7 +18,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ApiRepositoryTest : BaseSubjectTest<ApiRepository>() {
+internal class ApiRepositoryTest : BaseSubjectTest<ApiRepository>() {
     override val subject: ApiRepository by lazy {
         ApiRepositoryImpl(premiumApiService, freeApiService, offlineRatesDataSource, createTestDispatcher())
     }

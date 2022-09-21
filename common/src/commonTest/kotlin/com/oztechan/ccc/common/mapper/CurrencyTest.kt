@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
 
 @Suppress("OPT_IN_USAGE")
-class CurrencyTest : BaseTest() {
+internal class CurrencyTest : BaseTest() {
 
     private val entity = CurrencyEntity("Dollar", "United State Dollar", "$", 12.3, 1)
 

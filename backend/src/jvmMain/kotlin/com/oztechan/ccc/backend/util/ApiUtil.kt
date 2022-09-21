@@ -2,7 +2,7 @@ package com.oztechan.ccc.backend.util
 
 import com.oztechan.ccc.common.model.CurrencyResponse
 
-fun CurrencyResponse.fillMissingRatesWith(
+internal fun CurrencyResponse.fillMissingRatesWith(
     nonPremiumResponse: CurrencyResponse
 ) = apply {
     rates = rates.copy(

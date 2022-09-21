@@ -13,22 +13,22 @@ import com.oztechan.ccc.common.model.Rates
 
 const val MAXIMUM_FLOATING_POINT = 9
 
-expect fun Double.getFormatted(precision: Int): String
+internal expect fun Double.getFormatted(precision: Int): String
 
-expect fun Double.removeScientificNotation(): String
+internal expect fun Double.removeScientificNotation(): String
 
-fun Rates?.calculateResult(name: String, input: String?) = this
+internal fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
-fun String.toSupportedCharacters() = replace(",", ".")
+internal fun String.toSupportedCharacters() = replace(",", ".")
     .replace("٫", ".")
     .replace(" ", "")
     .replace("−", "-")
 
-fun String.toStandardDigits(): String {
+internal fun String.toStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
         char.toString().toIntOrNull()
@@ -39,7 +39,7 @@ fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-fun Currency.getCurrencyConversionByRate(
+internal fun Currency.getCurrencyConversionByRate(
     base: String,
     rate: Rates?
 ) = "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
@@ -52,12 +52,12 @@ fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
         it.rate != "0"
 } ?: mutableListOf()
 
-fun Int.indexToNumber() = this + 1
+internal fun Int.indexToNumber() = this + 1
 
 fun Int.numberToIndex() = this - 1
 
 @Suppress("ComplexMethod", "LongMethod")
-fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
+internal fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all

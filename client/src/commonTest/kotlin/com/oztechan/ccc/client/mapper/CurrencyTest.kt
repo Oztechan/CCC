@@ -5,7 +5,7 @@ import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CurrencyTest : BaseTest() {
+internal class CurrencyTest : BaseTest() {
 
     private val currencyDollar = Currency("Dollar", "American Dollar", "$", 123.123, true)
 

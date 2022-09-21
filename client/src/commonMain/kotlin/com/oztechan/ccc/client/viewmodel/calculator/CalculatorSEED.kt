@@ -59,7 +59,7 @@ data class CalculatorData(
 
 // Extension
 @Suppress("LongParameterList")
-fun MutableStateFlow<CalculatorState>.update(
+internal fun MutableStateFlow<CalculatorState>.update(
     input: String = value.input,
     base: String = value.base,
     currencyList: List<Currency> = value.currencyList,

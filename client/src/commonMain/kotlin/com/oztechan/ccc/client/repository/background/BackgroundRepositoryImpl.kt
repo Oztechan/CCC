@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
 
-class BackgroundRepositoryImpl(
+internal class BackgroundRepositoryImpl(
     private val watchersDataSource: WatcherDataSource,
     private val backendApiService: BackendApiService,
 ) : BackgroundRepository {

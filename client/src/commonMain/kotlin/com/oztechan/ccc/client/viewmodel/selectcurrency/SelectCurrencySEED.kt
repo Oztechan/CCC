@@ -26,7 +26,7 @@ sealed class SelectCurrencyEffect : BaseEffect() {
 }
 
 // Extension
-fun MutableStateFlow<SelectCurrencyState>.update(
+internal fun MutableStateFlow<SelectCurrencyState>.update(
     loading: Boolean = value.loading,
     enoughCurrency: Boolean = value.enoughCurrency,
     currencyList: List<Currency> = value.currencyList

@@ -37,7 +37,7 @@ import com.oztechan.ccc.client.model.Currency as ClientCurrency
 import com.oztechan.ccc.common.model.Currency as CommonCurrency
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
-class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
+internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     override val subject: CurrenciesViewModel by lazy {
         CurrenciesViewModel(settingsDataSource, currencyDataSource, adRepository, analyticsManager)

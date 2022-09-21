@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
 
-class AdRepositoryImpl(
+internal class AdRepositoryImpl(
     private val settingsDataSource: SettingsDataSource,
     private val configService: ConfigService,
     private val device: Device

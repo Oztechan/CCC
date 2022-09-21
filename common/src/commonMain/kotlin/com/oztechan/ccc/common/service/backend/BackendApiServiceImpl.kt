@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher
 
-class BackendApiServiceImpl(
+internal class BackendApiServiceImpl(
     private val backendApi: BackendApi,
     ioDispatcher: CoroutineDispatcher
 ) : BackendApiService, BaseNetworkService(ioDispatcher) {

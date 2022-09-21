@@ -5,7 +5,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ScreenNameTest : BaseTest() {
+internal class ScreenNameTest : BaseTest() {
     @Test
     fun `screenName Calculator return correct name`() {
         val screenName = ScreenName.Calculator

@@ -60,7 +60,7 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
 }
 
 // Extension
-fun MutableStateFlow<SettingsState>.update(
+internal fun MutableStateFlow<SettingsState>.update(
     activeCurrencyCount: Int = value.activeCurrencyCount,
     activeWatcherCount: Int = value.activeWatcherCount,
     appThemeType: AppTheme = value.appThemeType,

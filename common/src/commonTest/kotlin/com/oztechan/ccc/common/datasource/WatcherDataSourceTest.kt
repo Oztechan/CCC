@@ -15,7 +15,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
+internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
 
     override val subject: WatcherDataSource by lazy {
         WatcherDataSourceImpl(watcherQueries, createTestDispatcher())

@@ -27,7 +27,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
+internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
 
     override val subject: PremiumApiService by lazy {
         PremiumApiServiceImpl(premiumAPI, createTestDispatcher())

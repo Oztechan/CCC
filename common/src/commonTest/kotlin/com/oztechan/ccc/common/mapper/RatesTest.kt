@@ -5,7 +5,7 @@ import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
 import kotlin.test.Test
 
-class RatesTest : BaseTest() {
+internal class RatesTest : BaseTest() {
 
     @Suppress("LongMethod")
     @Test
