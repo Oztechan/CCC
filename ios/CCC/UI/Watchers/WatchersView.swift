@@ -165,8 +165,8 @@ struct WatchersView: View {
         case is WatchersEffect.SelectTarget:
             targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
-        case is WatchersEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get(), isTop: true)
+        case is WatchersEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get(), isTop: true)
         case is WatchersEffect.InvalidInput:
             showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
         case is WatchersEffect.MaximumNumberOfWatchers:

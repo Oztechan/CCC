@@ -104,7 +104,7 @@ class WatchersViewModel(
 
         return when {
             rate.length > MAXIMUM_INPUT -> {
-                viewModelScope.launch { _effect.emit(WatchersEffect.MaximumInput) }
+                viewModelScope.launch { _effect.emit(WatchersEffect.TooBigNumber) }
                 rate.dropLast(1)
             }
             rate.toSupportedCharacters().toDoubleOrNull()?.isNaN() != false -> {

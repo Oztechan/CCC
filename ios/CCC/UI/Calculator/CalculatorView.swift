@@ -117,8 +117,8 @@ struct CalculatorView: View {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
-        case is CalculatorEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get())
+        case is CalculatorEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
