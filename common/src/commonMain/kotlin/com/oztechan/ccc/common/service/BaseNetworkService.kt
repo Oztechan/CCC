@@ -3,6 +3,7 @@ package com.oztechan.ccc.common.service
 import com.oztechan.ccc.common.error.EmptyParameterException
 import com.oztechan.ccc.common.error.ModelMappingException
 import com.oztechan.ccc.common.error.NetworkException
+import com.oztechan.ccc.common.error.TerminationException
 import com.oztechan.ccc.common.error.TimeoutException
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import io.ktor.client.network.sockets.ConnectTimeoutException
@@ -30,9 +31,9 @@ internal open class BaseNetworkService(
         suspendBlock.invoke()
     } catch (e: Throwable) {
         throw when (e) {
-            is CancellationException -> e
-            is IOException -> NetworkException(e)
+            is CancellationException -> TerminationException(e)
             is ConnectTimeoutException -> TimeoutException(e)
+            is IOException -> NetworkException(e)
             is SerializationException -> ModelMappingException(e)
             else -> UnknownNetworkException(e)
         }
