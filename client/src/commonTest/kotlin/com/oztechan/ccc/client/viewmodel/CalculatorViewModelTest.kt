@@ -199,6 +199,30 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .wasInvoked()
     }
 
+    @Test
+    fun `when input is too long it should drop the last digit and give warning`() {
+        val fortyFiveDigitNumber = "1234567890+1234567890+1234567890+1234567890+1"
+        subject.effect.before {
+            subject.event.onKeyPress(fortyFiveDigitNumber)
+        }.after {
+            assertIs<CalculatorEffect.TooBigNumber>(it)
+            assertFalse { subject.state.value.loading }
+            assertEquals(fortyFiveDigitNumber.dropLast(1), subject.state.value.input)
+        }
+    }
+
+    @Test
+    fun `when output is too long it should drop the last digit and give warning`() {
+        val nineteenDigitNumber = "123 567 901 345 789"
+        subject.effect.before {
+            subject.event.onKeyPress(nineteenDigitNumber)
+        }.after {
+            assertIs<CalculatorEffect.TooBigNumber>(it)
+            assertFalse { subject.state.value.loading }
+            assertEquals(nineteenDigitNumber.dropLast(1), subject.state.value.input)
+        }
+    }
+
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
