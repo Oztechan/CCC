@@ -37,7 +37,7 @@ sealed class CalculatorEffect : BaseEffect() {
     object Error : CalculatorEffect()
     object FewCurrency : CalculatorEffect()
     object OpenBar : CalculatorEffect()
-    object MaximumInput : CalculatorEffect()
+    object TooBigNumber : CalculatorEffect()
     object OpenSettings : CalculatorEffect()
     data class CopyToClipboard(val amount: String) : CalculatorEffect()
     data class ShowRate(val text: String, val name: String) : CalculatorEffect()

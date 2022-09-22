@@ -118,7 +118,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                CalculatorEffect.MaximumInput -> view?.showSnack(R.string.text_max_input)
+                CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()

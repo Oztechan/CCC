@@ -154,7 +154,7 @@ class CalculatorViewModel(
                     ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
                     ?: run { getRates() }
             } ?: run {
-            _effect.emit(CalculatorEffect.MaximumInput)
+            _effect.emit(CalculatorEffect.TooBigNumber)
             _state.update(
                 input = input.dropLast(1),
                 loading = false

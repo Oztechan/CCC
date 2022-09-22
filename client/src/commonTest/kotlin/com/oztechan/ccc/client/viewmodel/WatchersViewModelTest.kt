@@ -222,7 +222,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             assertEquals(rate.dropLast(1), subject.event.onRateChange(watcherUIModel, rate))
         }.after {
             assertNotNull(it)
-            assertIs<WatchersEffect.MaximumInput>(it)
+            assertIs<WatchersEffect.TooBigNumber>(it)
         }
     }
 }
