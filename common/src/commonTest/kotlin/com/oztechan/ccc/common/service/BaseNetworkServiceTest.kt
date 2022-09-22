@@ -62,7 +62,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getRates(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 
@@ -76,7 +76,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getRates(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 
@@ -90,8 +90,8 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getRates(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception, it.cause!!.cause)
-            assertEquals(exception.message, it.cause!!.cause!!.message)
+            assertEquals(exception, it.cause.cause)
+            assertEquals(exception.message, it.cause.cause!!.message)
         }
     }
 
@@ -105,8 +105,8 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getRates(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception, it.cause!!.cause)
-            assertEquals(exception.message, it.cause!!.cause!!.message)
+            assertEquals(exception, it.cause.cause)
+            assertEquals(exception.message, it.cause.cause!!.message)
         }
     }
 }
