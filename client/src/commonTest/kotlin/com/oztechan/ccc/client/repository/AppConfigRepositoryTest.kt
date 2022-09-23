@@ -251,4 +251,9 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { appConfig }
             .wasInvoked()
     }
+
+    @Test
+    fun getVersion() {
+        assertEquals("${device.name.substring(1)} ${BuildKonfig.versionName}", subject.getVersion())
+    }
 }
