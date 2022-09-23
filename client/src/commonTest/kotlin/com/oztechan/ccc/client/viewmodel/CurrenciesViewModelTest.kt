@@ -156,6 +156,26 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         }
     }
 
+    @Test
+    fun `show FewCurrency effect if there is less active currency than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(currencyListCommon)
+                    }
+                )
+        }
+
+        subject.effect.before {
+            // init
+        }.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+        }
+    }
+
     // public methods
     @Test
     fun hideSelectionVisibility() = subject.state.before {
