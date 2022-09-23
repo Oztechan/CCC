@@ -3,8 +3,7 @@
   -->
 <resources>
     <!--Text Sizes-->
-    <dimen name="text_size_xxs">11sp</dimen>
-    <dimen name="text_size_xs">13sp</dimen>
+    <dimen name="text_size_xs">11sp</dimen>
     <dimen name="text_size_s">15sp</dimen>
     <dimen name="text_size">17sp</dimen>
     <dimen name="text_size_l">19sp</dimen>
@@ -25,10 +24,10 @@
     <dimen name="height_separator">0.33dp</dimen>
 
     <!-- Settings -->
-    <dimen name="height_settings_item_layout">100dp</dimen>
-    <dimen name="height_settings_item_row">75dp</dimen>
-    <dimen name="width_height_settings_icon">36dp</dimen>
-    <dimen name="margin_start_settings_item_separator">60dp</dimen>
+    <dimen name="height_settings_item_layout">72dp</dimen>
+    <dimen name="height_settings_item_row">64dp</dimen>
+    <dimen name="width_height_settings_icon">32dp</dimen>
+    <dimen name="margin_start_settings_item_separator">56dp</dimen>
 
     <!--Currency Icon Size-->
     <dimen name="currency_icon_size">36dp</dimen>
