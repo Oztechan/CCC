@@ -13,6 +13,7 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -21,8 +22,10 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -147,6 +150,26 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             assertEquals(currencyListClient, it.currencyList)
             assertFalse { it.selectionVisibility }
             assertEquals(currencyListClient.toMutableList(), subject.data.unFilteredList)
+        }
+    }
+
+    @Test
+    fun `show FewCurrency effect if there is less active currency than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(currencyListCommon)
+                    }
+                )
+        }
+
+        subject.effect.before {
+            // init
+        }.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
         }
     }
 

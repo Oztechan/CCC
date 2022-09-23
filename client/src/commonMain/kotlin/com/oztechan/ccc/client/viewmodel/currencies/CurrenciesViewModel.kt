@@ -76,12 +76,11 @@ class CurrenciesViewModel(
         filterList("")
     }
 
-    private fun verifyListSize() = _state.value.currencyList
-        .filter { it.isActive }.size
-        .whether { it < MINIMUM_ACTIVE_CURRENCY }
+    private suspend fun verifyListSize() = _state.value.currencyList
+        .filter { it.isActive }
+        .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { settingsDataSource.firstRun }
-        ?.mapTo { viewModelScope }
-        ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
+        ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private fun verifyCurrentBase() = settingsDataSource.currentBase.either(
         { isEmpty() },
