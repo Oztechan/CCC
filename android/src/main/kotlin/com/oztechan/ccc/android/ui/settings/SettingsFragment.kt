@@ -60,6 +60,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         super.onDestroyView()
     }
 
+    @Suppress("LongMethod")
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
             adManager = adManager,
@@ -120,6 +121,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_on_github_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_on_github_sub_title)
         }
+        with(itemVersion) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_version)
+            settingsItemTitle.text = getString(R.string.settings_item_version_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_version_sub_title)
+        }
     }
 
     private fun observeStates() = settingsViewModel.state
@@ -132,6 +138,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     activeCurrencyCount
                 )
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
+                binding.itemVersion.settingsItemValue.text = version
 
                 binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isAdFreeNeverActivated()) {
                     ""

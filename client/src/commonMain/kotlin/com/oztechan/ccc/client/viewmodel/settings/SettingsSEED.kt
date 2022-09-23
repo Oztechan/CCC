@@ -14,10 +14,12 @@ data class SettingsState(
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val addFreeEndDate: String = "",
     val loading: Boolean = false,
-    val precision: Int = 0
+    val precision: Int = 0,
+    val version: String = ""
 ) : BaseState()
 
 // Event
+@Suppress("TooManyFunctions")
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
@@ -60,13 +62,15 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
 }
 
 // Extension
+@Suppress("LongParameterList")
 internal fun MutableStateFlow<SettingsState>.update(
     activeCurrencyCount: Int = value.activeCurrencyCount,
     activeWatcherCount: Int = value.activeWatcherCount,
     appThemeType: AppTheme = value.appThemeType,
     addFreeEndDate: String = value.addFreeEndDate,
     loading: Boolean = value.loading,
-    precision: Int = value.precision
+    precision: Int = value.precision,
+    version: String = value.version
 ) {
     value = value.copy(
         activeCurrencyCount = activeCurrencyCount,
@@ -74,6 +78,7 @@ internal fun MutableStateFlow<SettingsState>.update(
         appThemeType = appThemeType,
         addFreeEndDate = addFreeEndDate,
         loading = loading,
-        precision = precision
+        precision = precision,
+        version = version
     )
 }

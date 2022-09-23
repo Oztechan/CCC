@@ -99,6 +99,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     )
 
     private val mockedPrecision = 3
+    private val version = "version"
 
     @BeforeTest
     override fun setup() {
@@ -127,6 +128,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         given(appConfigRepository)
             .invocation { getDeviceType() }
             .then { Device.IOS }
+
+        given(appConfigRepository)
+            .invocation { getVersion() }
+            .then { version }
     }
 
     // SEED
@@ -141,6 +146,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         val addFreeEndDate = "23.12.2121"
         val loading = Random.nextBoolean()
         val precision = Random.nextInt()
+        val version = "asdasd"
 
         state.before {
             state.update(
@@ -149,7 +155,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
                 appThemeType = appThemeType,
                 addFreeEndDate = addFreeEndDate,
                 loading = loading,
-                precision = precision
+                precision = precision,
+                version = version
             )
         }.after {
             assertNotNull(it)
@@ -159,6 +166,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertEquals(addFreeEndDate, it.addFreeEndDate)
             assertEquals(loading, it.loading)
             assertEquals(precision, it.precision)
+            assertEquals(version, it.version)
         }
     }
 
@@ -171,6 +179,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertEquals(currencyList.size, it.activeCurrencyCount)
             assertEquals(watcherLists.size, it.activeWatcherCount)
             assertEquals(mockedPrecision, it.precision)
+            assertEquals(version, it.version)
         }
     }
 
