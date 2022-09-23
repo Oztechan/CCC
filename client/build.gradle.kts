@@ -3,6 +3,7 @@
  */
 
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -145,5 +146,6 @@ configure<BuildKonfigExtension> {
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
+        buildConfigField(STRING, "versionName", ProjectSettings.getVersionName(project), const = true)
     }
 }

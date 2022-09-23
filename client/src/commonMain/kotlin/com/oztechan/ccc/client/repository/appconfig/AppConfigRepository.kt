@@ -11,4 +11,6 @@ interface AppConfigRepository {
     fun checkAppUpdate(isAppUpdateShown: Boolean): Boolean?
 
     fun shouldShowAppReview(): Boolean
+
+    fun getVersion(): String
 }

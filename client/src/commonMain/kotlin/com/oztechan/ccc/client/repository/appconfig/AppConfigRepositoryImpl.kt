@@ -33,4 +33,6 @@ internal class AppConfigRepositoryImpl(
         .whether { settingsDataSource.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false
+
+    override fun getVersion(): String = "${device.name.first()} ${BuildKonfig.versionName}"
 }
