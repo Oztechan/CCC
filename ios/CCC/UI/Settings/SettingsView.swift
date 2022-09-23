@@ -95,6 +95,14 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
+                    
+                    SettingsItemView(
+                        imgName: "123.rectangle",
+                        title: MR.strings().settings_item_version_title.get(),
+                        subTitle: MR.strings().settings_item_version_sub_title.get(),
+                        value: observable.state.version,
+                        onClick: {}
+                    )
                 }
                 .background(MR.colors().background.get())
                 .edgesIgnoringSafeArea(.bottom)
