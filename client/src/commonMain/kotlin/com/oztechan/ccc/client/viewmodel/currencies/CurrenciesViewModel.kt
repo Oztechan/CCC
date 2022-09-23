@@ -83,7 +83,7 @@ class CurrenciesViewModel(
         ?.mapTo { viewModelScope }
         ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private fun verifyCurrentBase() = settingsDataSource.currentBase.either(
+    private suspend fun verifyCurrentBase() = settingsDataSource.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -98,7 +98,7 @@ class CurrenciesViewModel(
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
-        viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
+        _effect.emit(CurrenciesEffect.ChangeBase(newBase))
     }
 
     private fun filterList(txt: String) = data.unFilteredList
