@@ -206,7 +206,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
-        val firstActiveBase = currencyListClient.firstOrNull { it.isActive }?.name.orEmpty()
+        val firstActiveBase = commonCurrency.name // first active currency
 
         given(currencyDataSource)
             .invocation { collectAllCurrencies() }
@@ -221,12 +221,11 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             .invocation { currentBase }
             .thenReturn("")
 
-        subject.effect.before {
-            // init
-        }.after {
-            assertIs<CurrenciesEffect.ChangeBase>(it)
-            assertEquals(firstActiveBase, it.newBase)
-        }
+        subject.effect.before {} // init
+            .after {
+                assertIs<CurrenciesEffect.ChangeBase>(it)
+                assertEquals(firstActiveBase, it.newBase)
+            }
 
         verify(settingsDataSource)
             .invocation { currentBase = firstActiveBase }
