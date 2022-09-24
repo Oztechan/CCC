@@ -34,6 +34,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertIsNot
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
@@ -154,7 +155,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     }
 
     @Test
-    fun `show FewCurrency effect if there is less active currency than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+    fun `show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
         runTest {
             given(currencyDataSource)
                 .invocation { collectAllCurrencies() }
@@ -170,6 +171,60 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             // init
         }.after {
             assertIs<CurrenciesEffect.FewCurrency>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency, commonCurrency, commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.before {
+            // init
+        }.after {
+            assertIsNot<CurrenciesEffect.FewCurrency>(it)
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() {
+        given(settingsDataSource)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.before {
+            // init
+        }.after {
+            assertIsNot<CurrenciesEffect.FewCurrency>(it)
+            assertIs<CurrenciesEffect.ChangeBase>(it)
         }
     }
 
