@@ -34,7 +34,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
-import kotlin.test.assertIsNot
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
@@ -170,9 +169,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 )
         }
 
-        subject.effect.before {
-            // init
-        }.after {
+        subject.effect.after {
             assertIs<CurrenciesEffect.FewCurrency>(it)
         }
     }
@@ -194,10 +191,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 )
         }
 
-        subject.effect.before {
-            // init
-        }.after {
-            assertIsNot<CurrenciesEffect.FewCurrency>(it)
+        subject.effect.after {
             assertIs<CurrenciesEffect.ChangeBase>(it)
         }
     }
@@ -223,10 +217,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 )
         }
 
-        subject.effect.before {
-            // init
-        }.after {
-            assertIsNot<CurrenciesEffect.FewCurrency>(it)
+        subject.effect.after {
             assertIs<CurrenciesEffect.ChangeBase>(it)
         }
     }
