@@ -221,11 +221,10 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             .invocation { currentBase }
             .thenReturn("")
 
-        subject.effect.before {} // init
-            .after {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(firstActiveBase, it.newBase)
-            }
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(firstActiveBase, it.newBase)
+        }
 
         verify(settingsDataSource)
             .invocation { currentBase = firstActiveBase }
