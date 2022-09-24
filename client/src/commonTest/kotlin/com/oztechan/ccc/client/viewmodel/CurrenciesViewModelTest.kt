@@ -164,7 +164,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 .thenReturn(
                     flow {
                         delay(SECOND)
-                        emit(currencyListCommon)
+                        emit(listOf(commonCurrency))
                     }
                 )
         }
