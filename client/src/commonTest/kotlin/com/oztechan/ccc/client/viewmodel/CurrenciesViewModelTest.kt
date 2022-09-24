@@ -249,11 +249,10 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             .invocation { currentBase }
             .thenReturn(commonCurrency.name) // not active one
 
-        subject.effect.before {} // init
-            .after {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(commonCurrency2.name, it.newBase)
-            }
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(commonCurrency2.name, it.newBase)
+        }
 
         verify(settingsDataSource)
             .invocation { currentBase = commonCurrency2.name }
