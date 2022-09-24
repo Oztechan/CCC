@@ -59,10 +59,13 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
-    private val clientCurrency = commonCurrency.toUIModel()
+    private val commonCurrency2 = CommonCurrency("USD", "Euro", "€", isActive = true)
 
-    private val currencyListCommon = listOf(commonCurrency)
-    private val currencyListClient = listOf(clientCurrency)
+    private val clientCurrency = commonCurrency.toUIModel()
+    private val clientCurrency2 = commonCurrency2.toUIModel()
+
+    private val currencyListCommon = listOf(commonCurrency, commonCurrency2)
+    private val currencyListClient = listOf(clientCurrency, clientCurrency2)
 
     private val currencyListFlow = flowOf(currencyListCommon)
 
@@ -267,6 +270,33 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         }
     }
 
+    @Test
+    fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
+        val firstActiveBase = commonCurrency.name // first active currency
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(
+                flow {
+                    delay(SECOND)
+                    emit(currencyListCommon)
+                }
+            )
+
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("")
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(firstActiveBase, it.newBase)
+        }
+
+        verify(settingsDataSource)
+            .invocation { currentBase = firstActiveBase }
+            .wasInvoked()
+    }
+
     // Event
     @Test
     fun updateAllCurrenciesState() {
@@ -406,6 +436,8 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     fun onDoneClick() {
         // where there is single currency
         val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
+
+        subject.data.unFilteredList = mutableListOf(clientCurrency)
 
         subject.effect.before {
             subject.onDoneClick()

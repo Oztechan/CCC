@@ -59,7 +59,8 @@ class SettingsViewModel(
         _state.update(
             appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
             addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
-            precision = settingsDataSource.precision
+            precision = settingsDataSource.precision,
+            version = appConfigRepository.getVersion()
         )
 
         currencyDataSource.collectActiveCurrencies()

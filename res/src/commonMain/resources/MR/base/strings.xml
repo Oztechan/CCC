@@ -126,6 +126,9 @@
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
 
+    <string name="settings_item_version_title">Version</string>
+    <string name="settings_item_version_sub_title">App version</string>
+
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>
 
