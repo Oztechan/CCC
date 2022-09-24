@@ -33,16 +33,7 @@ struct SelectCurrencyView: View {
 
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
-                if observable.state.currencyList.count < 2 {
-
-                    SelectCurrenciesBottomView(
-                        text: MR.strings().choose_at_least_two_currency.get(),
-                        buttonText: MR.strings().select.get(),
-                        onButtonClick: observable.event.onSelectClick
-                    ).listRowBackground(MR.colors().background.get())
-
-                } else {
-
+                VStack {
                     Form {
                         if observable.state.loading {
                             FormProgressView()
@@ -60,6 +51,18 @@ struct SelectCurrencyView: View {
                     }
                     .background(MR.colors().background.get())
                     .navigationBarTitle(MR.strings().txt_select_base_currency.get())
+
+                    Spacer()
+
+                    SelectCurrenciesBottomView(
+                        text: observable.state.enoughCurrency ?
+                        MR.strings().txt_update_favorite_currencies.get() :
+                            MR.strings().choose_at_least_two_currency.get(),
+                        buttonText: observable.state.enoughCurrency ?
+                        MR.strings().update.get() :
+                            MR.strings().select.get(),
+                        onButtonClick: observable.event.onSelectClick
+                    ).listRowBackground(MR.colors().background.get())
                 }
             }
         }
