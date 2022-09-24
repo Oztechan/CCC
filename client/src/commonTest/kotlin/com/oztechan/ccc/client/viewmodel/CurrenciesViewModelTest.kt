@@ -58,8 +58,9 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
-    private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
-    private val commonCurrency2 = CommonCurrency("USD", "Euro", "€", isActive = true)
+    private var commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
+    private val commonCurrency2 = CommonCurrency("USD", "Dollar", "$", isActive = true)
+    private val commonCurrency3 = CommonCurrency("TRY", "Turkish Lira", "₺", isActive = true)
 
     private val clientCurrency = commonCurrency.toUIModel()
     private val clientCurrency2 = commonCurrency2.toUIModel()
@@ -228,6 +229,34 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         verify(settingsDataSource)
             .invocation { currentBase = firstActiveBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `verifyCurrentBase should set first active currency base when currentBase is unset`() = runTest {
+        commonCurrency = commonCurrency.copy(isActive = false) // make first item in list not active
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(
+                flow {
+                    delay(SECOND)
+                    emit(listOf(commonCurrency, commonCurrency2, commonCurrency3))
+                }
+            )
+
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn(commonCurrency.name) // not active one
+
+        subject.effect.before {} // init
+            .after {
+                assertIs<CurrenciesEffect.ChangeBase>(it)
+                assertEquals(commonCurrency2.name, it.newBase)
+            }
+
+        verify(settingsDataSource)
+            .invocation { currentBase = commonCurrency2.name }
             .wasInvoked()
     }
 
