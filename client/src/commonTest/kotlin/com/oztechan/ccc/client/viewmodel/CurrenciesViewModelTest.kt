@@ -13,6 +13,7 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -21,8 +22,10 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -56,10 +59,13 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
     private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
-    private val clientCurrency = commonCurrency.toUIModel()
+    private val commonCurrency2 = CommonCurrency("USD", "Euro", "€", isActive = true)
 
-    private val currencyListCommon = listOf(commonCurrency)
-    private val currencyListClient = listOf(clientCurrency)
+    private val clientCurrency = commonCurrency.toUIModel()
+    private val clientCurrency2 = commonCurrency2.toUIModel()
+
+    private val currencyListCommon = listOf(commonCurrency, commonCurrency2)
+    private val currencyListClient = listOf(clientCurrency, clientCurrency2)
 
     private val currencyListFlow = flowOf(currencyListCommon)
 
@@ -196,6 +202,33 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             subject.event.onQueryChange(query)
             assertEquals(query, subject.data.query)
         }
+    }
+
+    @Test
+    fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
+        val firstActiveBase = commonCurrency.name // first active currency
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(
+                flow {
+                    delay(SECOND)
+                    emit(currencyListCommon)
+                }
+            )
+
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("")
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(firstActiveBase, it.newBase)
+        }
+
+        verify(settingsDataSource)
+            .invocation { currentBase = firstActiveBase }
+            .wasInvoked()
     }
 
     // Event
@@ -337,6 +370,8 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     fun onDoneClick() {
         // where there is single currency
         val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
+
+        subject.data.unFilteredList = mutableListOf(clientCurrency)
 
         subject.effect.before {
             subject.onDoneClick()
