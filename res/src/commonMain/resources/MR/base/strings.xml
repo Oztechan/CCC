@@ -81,6 +81,7 @@
 
     <!-- SelectCurrencyBottomSheet -->
     <string name="txt_select_base_currency">Select currency</string>
+    <string name="txt_update_favorite_currencies">You can update your favorite currencies</string>
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>
