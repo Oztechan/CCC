@@ -260,6 +260,30 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }
     }
 
+    @Test
+    fun `calculate output should return formatted finite output or empty string`() {
+        subject.state.before {
+            subject.event.onKeyPress("1/0")
+        }.after {
+            assertNotNull(it)
+            assertEquals("", it.output)
+        }
+        subject.state.before {
+            subject.event.onKeyPress("AC") // clean input
+            subject.event.onKeyPress("1/1")
+        }.after {
+            assertNotNull(it)
+            assertEquals("1", it.output)
+        }
+        subject.state.before {
+            subject.event.onKeyPress("AC") // clean input
+            subject.event.onKeyPress("1111/1")
+        }.after {
+            assertNotNull(it)
+            assertEquals("1 111", it.output)
+        }
+    }
+
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
