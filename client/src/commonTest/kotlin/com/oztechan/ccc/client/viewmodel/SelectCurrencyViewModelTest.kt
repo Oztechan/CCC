@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -67,19 +68,22 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
 
     @Test
     fun states_updates_correctly() {
-        val currencyList = listOf(currencyUIModel)
         val state = MutableStateFlow(SelectCurrencyState())
+
+        val currencyList = listOf(currencyUIModel)
+        val loading = Random.nextBoolean()
+        val enoughCurrency = Random.nextBoolean()
 
         state.before {
             state.update(
-                loading = true,
-                enoughCurrency = false,
+                loading = loading,
+                enoughCurrency = enoughCurrency,
                 currencyList = currencyList
             )
         }.after {
             assertNotNull(it)
-            assertTrue { it.loading }
-            assertFalse { it.enoughCurrency }
+            assertEquals(loading, it.loading)
+            assertEquals(enoughCurrency, it.enoughCurrency)
             assertEquals(currencyList, it.currencyList)
         }
     }

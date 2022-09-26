@@ -18,7 +18,9 @@ import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
+import com.oztechan.ccc.client.viewmodel.calculator.CalculatorState
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.client.viewmodel.calculator.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -34,6 +36,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -111,6 +114,40 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             given(currencyDataSource)
                 .coroutine { getCurrencyByName(currency1.name) }
                 .thenReturn(currency1)
+        }
+    }
+
+    @Test
+    fun states_updates_correctly() {
+        val state = MutableStateFlow(CalculatorState())
+
+        val input = "input"
+        val base = "base"
+        val currencyList = listOf(currencyUIModel)
+        val output = "output"
+        val symbol = "symbol"
+        val loading = Random.nextBoolean()
+        val rateState = RateState.None
+
+        state.before {
+            state.update(
+                input = input,
+                base = base,
+                currencyList = currencyList,
+                output = output,
+                symbol = symbol,
+                loading = loading,
+                rateState = rateState
+            )
+        }.after {
+            assertNotNull(it)
+            assertEquals(input, it.input)
+            assertEquals(base, it.base)
+            assertEquals(currencyList, it.currencyList)
+            assertEquals(output, it.output)
+            assertEquals(symbol, it.symbol)
+            assertEquals(loading, it.loading)
+            assertEquals(rateState, it.rateState)
         }
     }
 
