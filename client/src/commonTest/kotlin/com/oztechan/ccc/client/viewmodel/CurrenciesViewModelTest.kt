@@ -157,6 +157,72 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         }
     }
 
+    @Test
+    fun `show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency, commonCurrency, commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() {
+        given(settingsDataSource)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        given(settingsDataSource)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+        }
+    }
+
     // public methods
     @Test
     fun hideSelectionVisibility() = subject.state.before {
