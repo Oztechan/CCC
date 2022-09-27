@@ -17,6 +17,7 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -27,7 +28,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
@@ -53,10 +53,12 @@ class CurrenciesViewModel(
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
-                _state.update(
-                    currencyList = currencyList,
-                    selectionVisibility = false
-                )
+                _state.update {
+                    copy(
+                        currencyList = currencyList,
+                        selectionVisibility = false
+                    )
+                }
                 data.unFilteredList = currencyList.toMutableList()
 
                 verifyListSize()
@@ -107,13 +109,13 @@ class CurrenciesViewModel(
                 symbol.contains(txt, true)
         }.toMutableList()
         .let {
-            _state.update(currencyList = it, loading = false)
+            _state.update { copy(currencyList = it, loading = false) }
         }.run {
             data.query = txt
         }
 
-    fun hideSelectionVisibility() {
-        _state.update(selectionVisibility = false)
+    fun hideSelectionVisibility() = _state.update {
+        copy(selectionVisibility = false)
     }
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
@@ -146,13 +148,13 @@ class CurrenciesViewModel(
 
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
         Logger.d { "CurrenciesViewModel onItemLongClick" }
-        _state.update(selectionVisibility = !it)
+        _state.update { copy(selectionVisibility = !it) }
     }
 
     override fun onCloseClick() = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
-            _state.update(selectionVisibility = false)
+            _state.update { copy(selectionVisibility = false) }
         } else {
             _effect.emit(CurrenciesEffect.Back)
         }.run {

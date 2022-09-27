@@ -9,6 +9,7 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,11 +37,13 @@ class SelectCurrencyViewModel(
     init {
         currencyDataSource.collectActiveCurrencies()
             .onEach {
-                _state.update(
-                    currencyList = it.toUIModelList(),
-                    loading = false,
-                    enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
-                )
+                _state.update {
+                    copy(
+                        currencyList = it.toUIModelList(),
+                        loading = false,
+                        enoughCurrency = it.size >= MINIMUM_ACTIVE_CURRENCY
+                    )
+                }
             }.launchIn(viewModelScope)
     }
 

@@ -4,7 +4,6 @@ import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.RemoveAdType
-import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class AdRemoveState(
@@ -27,15 +26,4 @@ sealed class AdRemoveEffect : BaseEffect() {
         val removeAdType: RemoveAdType,
         val isRestorePurchase: Boolean
     ) : AdRemoveEffect()
-}
-
-// Extension
-internal fun MutableStateFlow<AdRemoveState>.update(
-    adRemoveTypes: List<RemoveAdType> = value.adRemoveTypes,
-    loading: Boolean = value.loading
-) {
-    value = value.copy(
-        adRemoveTypes = adRemoveTypes,
-        loading = loading
-    )
 }

@@ -1,12 +1,10 @@
 package com.oztechan.ccc.client.viewmodel.watchers
 
-
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.Watcher
-import kotlinx.coroutines.flow.MutableStateFlow
 
 data class WatchersState(
     val watcherList: List<Watcher> = emptyList(),
@@ -40,13 +38,4 @@ class WatchersData : BaseData() {
         const val MAXIMUM_INPUT = 9
         const val MAXIMUM_NUMBER_OF_WATCHER = 5
     }
-}
-
-// Extension
-internal fun MutableStateFlow<WatchersState>.update(
-    watcherList: List<Watcher> = value.watcherList,
-) {
-    value = value.copy(
-        watcherList = watcherList
-    )
 }

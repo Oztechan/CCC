@@ -5,9 +5,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
-import com.oztechan.ccc.client.viewmodel.watchers.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
@@ -20,7 +18,6 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -56,18 +53,6 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         given(watcherDataSource)
             .invocation { collectWatchers() }
             .thenReturn(flowOf(listOf(watcher)))
-    }
-
-    @Test
-    fun states_updates_correctly() {
-        val state = MutableStateFlow(WatchersState())
-
-        val watchersList = listOf(watcherUIModel)
-        state.update(
-            watcherList = watchersList,
-        )
-
-        assertEquals(watchersList, state.value.watcherList)
     }
 
     @Test

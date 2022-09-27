@@ -8,6 +8,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
@@ -39,7 +40,7 @@ class WatchersViewModel(
     init {
         watcherDataSource.collectWatchers()
             .onEach {
-                _state.update(watcherList = it.toUIModelList())
+                _state.update { copy(watcherList = it.toUIModelList()) }
             }.launchIn(viewModelScope)
     }
 

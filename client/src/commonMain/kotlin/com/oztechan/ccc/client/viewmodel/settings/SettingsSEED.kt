@@ -5,7 +5,6 @@ import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.AppTheme
-import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class SettingsState(
@@ -59,26 +58,4 @@ data class SettingsData(var synced: Boolean = false) : BaseData() {
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
     }
-}
-
-// Extension
-@Suppress("LongParameterList")
-internal fun MutableStateFlow<SettingsState>.update(
-    activeCurrencyCount: Int = value.activeCurrencyCount,
-    activeWatcherCount: Int = value.activeWatcherCount,
-    appThemeType: AppTheme = value.appThemeType,
-    addFreeEndDate: String = value.addFreeEndDate,
-    loading: Boolean = value.loading,
-    precision: Int = value.precision,
-    version: String = value.version
-) {
-    value = value.copy(
-        activeCurrencyCount = activeCurrencyCount,
-        activeWatcherCount = activeWatcherCount,
-        appThemeType = appThemeType,
-        addFreeEndDate = addFreeEndDate,
-        loading = loading,
-        precision = precision,
-        version = version
-    )
 }
