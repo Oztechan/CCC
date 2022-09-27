@@ -7,15 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.android.util.getThemeMode
 import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
-import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.updateBaseContextLocale
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
@@ -34,7 +35,7 @@ class MainActivity : BaseActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
-        updateAppTheme(mainViewModel.getAppTheme())
+        AppCompatDelegate.setDefaultNightMode(getThemeMode(mainViewModel.getAppTheme()))
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
