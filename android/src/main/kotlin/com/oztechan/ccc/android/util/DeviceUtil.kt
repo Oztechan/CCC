@@ -22,13 +22,11 @@ fun updateBaseContextLocale(context: Context): Context? {
     }
 }
 
-fun updateAppTheme(appThemeValue: Int) = AppCompatDelegate.setDefaultNightMode(
-    when (AppTheme.getThemeByValue(appThemeValue)) {
-        AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-        AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-    }
-)
+fun getThemeMode(appThemeValue: Int) = when (AppTheme.getThemeByValue(appThemeValue)) {
+    AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+    AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+}
 
 @TargetApi(Build.VERSION_CODES.N)
 private fun updateResourcesLocale(context: Context, locale: Locale): Context? {
