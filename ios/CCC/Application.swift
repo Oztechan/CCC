@@ -28,11 +28,11 @@ struct Application: App {
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
     init() {
-        logger.i(message: {"Application init"})
-
         if EnvironmentUtil.isRelease {
             FirebaseApp.configure()
         }
+
+        logger.i(message: {"Application init"})
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
