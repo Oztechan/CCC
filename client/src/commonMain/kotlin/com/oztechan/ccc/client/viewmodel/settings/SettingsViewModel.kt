@@ -17,6 +17,7 @@ import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
@@ -56,26 +57,28 @@ class SettingsViewModel(
     // endregion
 
     init {
-        _state.update(
-            appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
-            addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
-            precision = settingsDataSource.precision,
-            version = appConfigRepository.getVersion()
-        )
+        _state.update {
+            copy(
+                appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
+                addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
+                precision = settingsDataSource.precision,
+                version = appConfigRepository.getVersion()
+            )
+        }
 
         currencyDataSource.collectActiveCurrencies()
             .onEach {
-                _state.update(activeCurrencyCount = it.size)
+                _state.update { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
         watcherDataSource.collectWatchers()
             .onEach {
-                _state.update(activeWatcherCount = it.size)
+                _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
     private suspend fun synchroniseRates() {
-        _state.update(loading = true)
+        _state.update { copy(loading = true) }
 
         _effect.emit(SettingsEffect.Synchronising)
 
@@ -90,12 +93,12 @@ class SettingsViewModel(
 
         _effect.emit(SettingsEffect.Synchronised)
 
-        _state.update(loading = false)
+        _state.update { copy(loading = false) }
         data.synced = true
     }
 
     fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
-        _state.update(appThemeType = theme)
+        _state.update { copy(appThemeType = theme) }
         settingsDataSource.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
@@ -113,7 +116,7 @@ class SettingsViewModel(
     @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
         settingsDataSource.adFreeEndDate = it
-        _state.update(addFreeEndDate = it.toDateString())
+        _state.update { copy(addFreeEndDate = it.toDateString()) }
     }
 
     // region Event
@@ -186,7 +189,7 @@ class SettingsViewModel(
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
         settingsDataSource.precision = index.indexToNumber()
-        _state.update(precision = index.indexToNumber())
+        _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion
 }

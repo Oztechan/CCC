@@ -8,9 +8,7 @@ import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
-import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesState
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.oztechan.ccc.client.viewmodel.currencies.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.SECOND
@@ -23,7 +21,6 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -125,25 +122,6 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 )
             }
             .wasNotInvoked()
-    }
-
-    // SEED
-    @Test
-    fun states_updates_correctly() {
-        val state = MutableStateFlow(CurrenciesState())
-
-        state.before {
-            state.update(
-                currencyList = currencyListClient,
-                loading = true,
-                selectionVisibility = true
-            )
-        }.after {
-            assertNotNull(it)
-            assertEquals(currencyListClient, it.currencyList)
-            assertTrue { it.loading }
-            assertTrue { it.selectionVisibility }
-        }
     }
 
     // init

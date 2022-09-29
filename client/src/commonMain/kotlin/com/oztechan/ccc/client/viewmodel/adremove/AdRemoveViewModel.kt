@@ -15,6 +15,7 @@ import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -66,8 +67,8 @@ class AdRemoveViewModel(
             )
         }
 
-    fun showLoadingView(shouldShow: Boolean) {
-        _state.update(loading = shouldShow)
+    fun showLoadingView(shouldShow: Boolean) = _state.update {
+        copy(loading = shouldShow)
     }
 
     fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
@@ -81,7 +82,7 @@ class AdRemoveViewModel(
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update(adRemoveTypes = tempList, loading = false)
+            _state.update { copy(adRemoveTypes = tempList, loading = false) }
         }
 
     override fun onAdRemoveItemClick(type: RemoveAdType) = viewModelScope.launchIgnored {

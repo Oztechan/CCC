@@ -6,9 +6,7 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyState
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
-import com.oztechan.ccc.client.viewmodel.selectcurrency.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
@@ -18,11 +16,9 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -64,28 +60,6 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     @Test
     fun check_data_is_null() {
         assertNull(subject.data)
-    }
-
-    @Test
-    fun states_updates_correctly() {
-        val state = MutableStateFlow(SelectCurrencyState())
-
-        val currencyList = listOf(currencyUIModel)
-        val loading = Random.nextBoolean()
-        val enoughCurrency = Random.nextBoolean()
-
-        state.before {
-            state.update(
-                loading = loading,
-                enoughCurrency = enoughCurrency,
-                currencyList = currencyList
-            )
-        }.after {
-            assertNotNull(it)
-            assertEquals(loading, it.loading)
-            assertEquals(enoughCurrency, it.enoughCurrency)
-            assertEquals(currencyList, it.currencyList)
-        }
     }
 
     // init

@@ -8,9 +8,7 @@ import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveState
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.oztechan.ccc.client.viewmodel.adremove.update
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
@@ -21,7 +19,6 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -45,23 +42,6 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     @Test
     fun check_data_is_null() {
         assertNull(subject.data)
-    }
-
-    @Test
-    fun states_updates_correctly() {
-        val adRemoveTypes = RemoveAdType.values().toList()
-        val loading = Random.nextBoolean()
-        val state = MutableStateFlow(AdRemoveState())
-
-        state.update(
-            adRemoveTypes = adRemoveTypes,
-            loading = loading
-        )
-
-        state.value.let {
-            assertEquals(loading, it.loading)
-            assertEquals(adRemoveTypes, it.adRemoveTypes)
-        }
     }
 
     // public methods

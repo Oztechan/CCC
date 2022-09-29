@@ -14,9 +14,7 @@ import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
-import com.oztechan.ccc.client.viewmodel.settings.SettingsState
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.oztechan.ccc.client.viewmodel.settings.update
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -35,7 +33,6 @@ import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -132,42 +129,6 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         given(appConfigRepository)
             .invocation { getVersion() }
             .then { version }
-    }
-
-    // SEED
-    @Test
-    fun states_updates_correctly() {
-
-        val state = MutableStateFlow(SettingsState())
-
-        val activeCurrencyCount = Random.nextInt()
-        val activeWatcherCount = Random.nextInt()
-        val appThemeType = AppTheme.getThemeByOrdinalOrDefault(Random.nextInt() % 3)
-        val addFreeEndDate = "23.12.2121"
-        val loading = Random.nextBoolean()
-        val precision = Random.nextInt()
-        val version = "asdasd"
-
-        state.before {
-            state.update(
-                activeCurrencyCount = activeCurrencyCount,
-                activeWatcherCount = activeWatcherCount,
-                appThemeType = appThemeType,
-                addFreeEndDate = addFreeEndDate,
-                loading = loading,
-                precision = precision,
-                version = version
-            )
-        }.after {
-            assertNotNull(it)
-            assertEquals(activeCurrencyCount, it.activeCurrencyCount)
-            assertEquals(activeWatcherCount, it.activeWatcherCount)
-            assertEquals(appThemeType, it.appThemeType)
-            assertEquals(addFreeEndDate, it.addFreeEndDate)
-            assertEquals(loading, it.loading)
-            assertEquals(precision, it.precision)
-            assertEquals(version, it.version)
-        }
     }
 
     // init
