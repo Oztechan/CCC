@@ -127,6 +127,21 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         val currency1 = Currency("USD", "Dollar", "", 1.2, true)
         val currency2 = Currency("EUR", "EUR", "", 1.2, true)
 
+        // when there is no active currency
+        given(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .thenReturn(listOf())
+
+        given(watcherDataSource)
+            .coroutine { getWatchers() }
+            .thenReturn(listOf())
+
+        subject.event.onAddClick()
+
+        verify(watcherDataSource)
+            .coroutine { addWatcher("", "") }
+            .wasInvoked()
+
         // when there is few watcher
         given(watcherDataSource)
             .coroutine { getWatchers() }
