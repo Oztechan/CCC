@@ -10,11 +10,6 @@ import GoogleMobileAds
 import Res
 
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
-
-    var errorFunction: (() -> Void)?
-
-    var interstitialAd: GADInterstitialAd?
-
     func show() {
         GADInterstitialAd.load(
             withAdUnitID: "INTERSTITIAL_AD_ID".getSecretValue(),
@@ -22,14 +17,11 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
             completionHandler: { interstitialAd, error in
                 if let error = error {
                     logger.w(message: {"InterstitialAd show \(error.localizedDescription)"})
-                    self.errorFunction?()
                     return
                 }
 
-                self.interstitialAd = interstitialAd
-                self.interstitialAd?.fullScreenContentDelegate = self
-
-                self.interstitialAd?.present(
+                interstitialAd?.fullScreenContentDelegate = self
+                interstitialAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!
                 )
             }
