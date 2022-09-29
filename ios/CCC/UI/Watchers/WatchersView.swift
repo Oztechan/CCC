@@ -23,8 +23,6 @@ struct WatchersView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
-    var watcher: Client.Watcher?
-
     var body: some View {
         ZStack {
             MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
@@ -113,7 +111,7 @@ struct WatchersView: View {
                     isBarShown: $baseBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onBaseChanged(
-                            watcher: baseBarInfo.watcher,
+                            watcher: baseBarInfo.watcher!,
                             newBase: $0
                         )
                     }
@@ -127,7 +125,7 @@ struct WatchersView: View {
                     isBarShown: $targetBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onTargetChanged(
-                            watcher: targetBarInfo.watcher,
+                            watcher: targetBarInfo.watcher!,
                             newTarget: $0
                         )
                     }
