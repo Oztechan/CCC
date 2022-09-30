@@ -20,6 +20,8 @@ import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
@@ -144,6 +146,33 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
     }
 
+    @Test
+    fun `successful synchroniseRates update the database`() = runTest {
+        subject.data.synced = false
+
+        val currencyResponse = CurrencyResponse("EUR", null, Rates())
+        val currency = Currency("EUR", "", "")
+
+        given(currencyDataSource)
+            .coroutine { currencyDataSource.getActiveCurrencies() }
+            .thenReturn(currencyList)
+
+        given(backendApiService)
+            .coroutine { getRates(currency.name) }
+            .thenReturn(currencyResponse)
+
+        subject.effect.before {
+            subject.event.onSyncClick()
+        }.after {
+            assertTrue { subject.state.value.loading }
+            assertIs<SettingsEffect.Synchronising>(it)
+        }
+
+        verify(offlineRatesDataSource)
+            .coroutine { offlineRatesDataSource.insertOfflineRates(currencyResponse) }
+            .wasInvoked()
+    }
+
     // public methods
     @Test
     fun updateTheme() {
@@ -261,15 +290,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun getAppTheme() {
-        subject.state.before {
-            subject.updateAddFreeDate()
-        }.after {
-            assertNotNull(it)
-            assertTrue { it.addFreeEndDate.isNotEmpty() }
-
-            verify(settingsDataSource)
-                .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
-        }
+        assertEquals(-1, subject.getAppTheme()) // already mocked
     }
 
     // Event
