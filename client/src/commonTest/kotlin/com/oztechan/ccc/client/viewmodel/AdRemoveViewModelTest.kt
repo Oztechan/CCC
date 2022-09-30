@@ -5,6 +5,7 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.client.model.OldPurchase
+import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
@@ -83,6 +84,10 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         }.after {
             assertIs<AdRemoveEffect.AdsRemoved>(it)
             assertTrue { it.isRestorePurchase }
+
+            verify(settingsDataSource)
+                .invocation { adFreeEndDate = it.removeAdType.calculateAdRewardEnd(nowAsLong()) }
+                .wasInvoked()
         }
     }
 
@@ -104,8 +109,20 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             }.after {
                 assertNotNull(it)
                 assertTrue { it.adRemoveTypes.contains(RemoveAdType.getById(removeAdData.id)) }
+                assertFalse { it.loading }
             }
         }
+
+    @Test
+    fun `addPurchaseMethods for unknown id will not add the item`() = subject.state.before {
+        subject.addPurchaseMethods(listOf(RemoveAdData("", "", "unknown")))
+    }.after {
+        assertNotNull(it)
+        println(it.adRemoveTypes.toString())
+        assertTrue { it.adRemoveTypes.isNotEmpty() } // only video should be there
+        assertEquals(RemoveAdType.VIDEO, it.adRemoveTypes.first())
+        assertFalse { it.loading }
+    }
 
     // Event
     @Test

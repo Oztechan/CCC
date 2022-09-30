@@ -6,7 +6,6 @@ package com.oztechan.ccc.client.viewmodel.adremove
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
-import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
@@ -53,13 +52,11 @@ class AdRemoveViewModel(
     fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
             it.type.calculateAdRewardEnd(it.date)
-        }?.whether { oldPurchase ->
-            RemoveAdType.getPurchaseIds().any { it == oldPurchase.type.data.id }
-        }?.whether {
-            date > settingsDataSource.adFreeEndDate
-        }?.whetherNot {
-            type.calculateAdRewardEnd(date).isRewardExpired()
-        }?.apply {
+        }?.whether(
+            { !type.calculateAdRewardEnd(date).isRewardExpired() },
+            { date > settingsDataSource.adFreeEndDate },
+            { RemoveAdType.getPurchaseIds().any { it == type.data.id } }
+        )?.apply {
             updateAddFreeDate(
                 adType = RemoveAdType.getById(type.data.id),
                 startDate = this.date,
