@@ -83,6 +83,10 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         }.after {
             assertIs<AdRemoveEffect.AdsRemoved>(it)
             assertTrue { it.isRestorePurchase }
+
+            verify(settingsDataSource)
+                .invocation { adFreeEndDate = it.removeAdType.calculateAdRewardEnd(nowAsLong()) }
+                .wasInvoked()
         }
     }
 
@@ -104,6 +108,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             }.after {
                 assertNotNull(it)
                 assertTrue { it.adRemoveTypes.contains(RemoveAdType.getById(removeAdData.id)) }
+                assertFalse { it.loading }
             }
         }
 
