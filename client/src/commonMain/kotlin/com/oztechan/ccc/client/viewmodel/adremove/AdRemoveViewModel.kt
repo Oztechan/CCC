@@ -71,12 +71,13 @@ class AdRemoveViewModel(
     fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
         .forEach { removeAdData ->
             val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.getById(removeAdData.id)?.apply {
-                data.cost = removeAdData.cost
-                data.reward = removeAdData.reward
-            }?.let {
-                tempList.add(it)
-            }
+            RemoveAdType.getById(removeAdData.id)
+                ?.apply {
+                    data.cost = removeAdData.cost
+                    data.reward = removeAdData.reward
+                }?.let {
+                    tempList.add(it)
+                }
             tempList.sortBy { it.ordinal }
             _state.update { copy(adRemoveTypes = tempList, loading = false) }
         }
