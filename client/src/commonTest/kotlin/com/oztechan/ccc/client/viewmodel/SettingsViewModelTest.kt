@@ -173,6 +173,30 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .wasInvoked()
     }
 
+    @Test
+    fun `failed synchroniseRates should pass Synchronised effect`() = runTest {
+        subject.data.synced = false
+
+        given(currencyDataSource)
+            .coroutine { currencyDataSource.getActiveCurrencies() }
+            .thenReturn(currencyList)
+
+        given(backendApiService)
+            .coroutine { getRates("") }
+            .thenThrow(Exception("test"))
+
+        subject.effect.before {
+            subject.event.onSyncClick()
+        }.after {
+            assertTrue { subject.state.value.loading }
+            assertIs<SettingsEffect.Synchronising>(it)
+        }
+
+        verify(offlineRatesDataSource)
+            .coroutine { offlineRatesDataSource.insertOfflineRates(CurrencyResponse("", "", Rates())) }
+            .wasNotInvoked()
+    }
+
     // public methods
     @Test
     fun updateTheme() {
