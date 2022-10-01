@@ -21,8 +21,8 @@ struct MainView: View {
     var body: some View {
 
         NavigationStackView(
-            transitionType: .default,
-            easing: Animation.easeInOut
+            transitionType: .custom(.opacity),
+            easing: .default
         ) {
             if observable.viewModel.isFistRun() {
                 SliderView()
