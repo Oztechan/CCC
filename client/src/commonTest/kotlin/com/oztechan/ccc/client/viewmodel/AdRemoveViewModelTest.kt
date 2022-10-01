@@ -11,6 +11,7 @@ import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
@@ -89,6 +90,20 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
                 .invocation { adFreeEndDate = it.removeAdType.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
+    }
+
+    @Test
+    fun `restorePurchase should fail if all the old purchases out dated`() {
+        val oldPurchase = OldPurchase(nowAsLong(), RemoveAdType.MONTH)
+        given(settingsDataSource)
+            .invocation { adFreeEndDate }
+            .thenReturn(nowAsLong() + SECOND)
+
+        subject.restorePurchase(listOf(oldPurchase))
+
+        verify(settingsDataSource)
+            .invocation { adFreeEndDate = oldPurchase.type.calculateAdRewardEnd(oldPurchase.date) }
+            .wasNotInvoked()
     }
 
     @Test
