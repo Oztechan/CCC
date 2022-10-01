@@ -103,6 +103,33 @@ override suspend fun getRates(base: String): CurrencyResponse = client.get {
 }.body()
 ```
 
+## Architecture
+
+```mermaid
+graph TD;
+
+database
+preferences
+
+api
+remoteconfig
+
+api --> service
+remoteconfig --> service
+
+database --> datasource
+preferences --> datasource
+
+datasource --> repository
+service --> repository
+
+datasource --> viewmodel
+repository --> viewmodel
+service --> viewmodel
+
+viewmodel --> view
+```
+
 ## Android Preview
 
 <img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/1.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/2.png" width="320px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/3.png" width="400px"/><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/android/4.png" width="400px"/>
