@@ -41,9 +41,9 @@ kotlin {
                     implementation(KTOR_CONTENT_NEGOTIATION)
                     implementation(SQL_DELIGHT_RUNTIME)
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
-                    implementation(LOG_MOB)
                     implementation(COROUTINES)
                 }
+                implementation(project(Dependencies.Modules.LOG))
             }
         }
         val commonTest by getting {

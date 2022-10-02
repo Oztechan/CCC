@@ -48,11 +48,11 @@ kotlin {
                     implementation(KOIN_CORE)
                     implementation(SCOPE_MOB)
                     implementation(PARSER_MOB)
-                    implementation(LOG_MOB)
                 }
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
+                    implementation(project(LOG))
                     api(project(ANALYTICS))
                 }
             }

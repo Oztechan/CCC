@@ -37,11 +37,11 @@ kotlin {
 
                 with(Dependencies.Common) {
                     implementation(KOIN_CORE)
-                    implementation(LOG_MOB)
                 }
 
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
+                    implementation(project(LOG))
                 }
             }
         }
@@ -65,7 +65,6 @@ dependencies {
 ksp {
     arg("mockative.stubsUnitByDefault", "true")
 }
-
 
 tasks.register<Jar>("fatJar") {
     archiveBaseName.set("${project.name}-fat")

@@ -41,5 +41,7 @@ object Versions {
     const val SCOPE_MOB = "2.1.7"
     const val PARSER_MOB = "1.1.8"
     const val BASE_MOB = "2.1.6"
-    const val LOG_MOB = "2.2.3"
+    const val FIREBASE_CRASHLYTICS = "18.2.13"
+    const val ANR_WATCH_DOG = "1.4.0"
+    const val KERMIT = "1.1.3"
 }

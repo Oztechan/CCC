@@ -50,6 +50,15 @@ common-->backend
 android(android)
 ios(ios)
 backend(backend)
+
+log{log} --> billing
+log --> ad
+log --> config
+log --> client
+log --> common
+log --> android
+log --> ios
+log --> backend
 ```
 
 ```mermaid

@@ -21,7 +21,8 @@ object Dependencies {
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
         const val SCOPE_MOB = "com.github.submob:scopemob:${Versions.SCOPE_MOB}"
         const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
-        const val LOG_MOB = "com.github.submob:logmob:${Versions.LOG_MOB}"
+        const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
+        const val KERMIT_CRASHLYTICS = "co.touchlab:kermit-crashlytics:${Versions.KERMIT}"
     }
 
     object Android {
@@ -42,6 +43,8 @@ object Dependencies {
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
         const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
+        const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
@@ -114,5 +117,8 @@ object Dependencies {
         const val ANALYTICS = ":analytics"
         const val CONFIG = ":config"
         const val TEST = ":test"
+
+        // submodules
+        const val LOG = ":log"
     }
 }
