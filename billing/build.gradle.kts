@@ -45,6 +45,6 @@ dependencies {
 
     with(Dependencies.Modules) {
         implementation(project(LOG))
-        implementation(project(UTIL))
+        implementation(project(SCOPE))
     }
 }

@@ -115,7 +115,7 @@ dependencies {
         implementation(project(BILLING))
         implementation(project(AD))
         implementation(project(LOG))
-        implementation(project(UTIL))
+        implementation(project(SCOPE))
     }
 
     testImplementation(project(Dependencies.Modules.TEST))
