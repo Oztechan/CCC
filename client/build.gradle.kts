@@ -46,13 +46,13 @@ kotlin {
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
-                    implementation(PARSER_MOB)
                 }
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
                     implementation(project(LOG))
                     implementation(project(SCOPE))
+                    implementation(project(PARSER))
                     api(project(ANALYTICS))
                 }
             }

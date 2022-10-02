@@ -24,9 +24,11 @@ include(
 include(
     ":log",
     ":scope",
-    ":base"
+    ":base",
+    ":parser"
 )
 
 project(":log").projectDir = file("log/logmob")
 project(":scope").projectDir = file("scope/scopemob")
 project(":base").projectDir = file("base/basemob")
+project(":parser").projectDir = file("parser/parsermob")

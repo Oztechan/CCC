@@ -22,3 +22,4 @@ secret.properties
 /log
 /scope
 /base
+/parser
