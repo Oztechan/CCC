@@ -98,7 +98,6 @@ dependencies {
         implementation(WORK_RUNTIME) // android 12 crash fix
         implementation(SPLASH_SCREEN)
         implementation(FIREBASE_PER)
-        implementation(BASE_MOB)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
     }
@@ -116,6 +115,7 @@ dependencies {
         implementation(project(AD))
         implementation(project(LOG))
         implementation(project(SCOPE))
+        implementation(project(BASE))
     }
 
     testImplementation(project(Dependencies.Modules.TEST))

@@ -4,3 +4,6 @@
 [submodule "scope"]
 	path = scope
 	url = https://github.com/SubMob/ScopeMob
+[submodule "base"]
+	path = base
+	url = https://github.com/SubMob/BaseMob

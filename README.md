@@ -41,6 +41,8 @@ scope{scope} --> billing
 scope --> android
 scope --> client
 
+base --> android
+
 billing-->android
 
 ad-->android

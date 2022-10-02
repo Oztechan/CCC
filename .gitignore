@@ -21,3 +21,4 @@ secret.properties
 # submodules
 /log
 /scope
+/base
