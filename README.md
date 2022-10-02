@@ -61,6 +61,16 @@ Library
 
 </div>
 
+## How to clone
+
+The project uses submodules, please clone it as below:
+
+```shell
+git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
+cd CCC &&
+git submodule update --init --recursive
+```
+
 ## How to run
 
 Be sure that you have latest Android Studio Canary build installed and XCode 13.0 or later.

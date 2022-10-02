@@ -43,6 +43,8 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
 
       - name: Adding secret files
         run: |
@@ -93,6 +95,8 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
 
       - name: Adding secret files
         run: |

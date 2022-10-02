@@ -39,6 +39,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Adding secret files
@@ -192,6 +193,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Set up JDK 11
