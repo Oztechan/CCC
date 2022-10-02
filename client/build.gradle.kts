@@ -52,7 +52,7 @@ kotlin {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
                     implementation(project(LOG))
-                    implementation(project(UTIL))
+                    implementation(project(SCOPE))
                     api(project(ANALYTICS))
                 }
             }

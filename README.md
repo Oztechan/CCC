@@ -37,9 +37,9 @@ log --> android
 log --> ios
 log --> backend
 
-util{util} --> billing
-util --> android
-util --> client
+scope{scope} --> billing
+scope --> android
+scope --> client
 
 base --> android
 

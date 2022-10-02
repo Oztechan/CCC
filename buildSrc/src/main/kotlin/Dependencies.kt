@@ -118,7 +118,7 @@ object Dependencies {
 
         // submodules
         const val LOG = ":log"
-        const val UTIL = ":util"
+        const val SCOPE = ":scope"
         const val BASE = ":base"
     }
 }

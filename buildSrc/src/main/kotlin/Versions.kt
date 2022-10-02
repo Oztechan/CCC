@@ -6,7 +6,7 @@
 object Versions {
     const val KOTLIN = "1.7.10"
     const val KSP = "$KOTLIN-1.0.6"
-    const val ANDROID_GRADLE_PLUGIN = "7.2.2"
+    const val ANDROID_GRADLE_PLUGIN = "7.3.0"
     const val ANDROID_MATERIAL = "1.6.1"
     const val CONSTRAINT_LAYOUT = "2.1.4"
     const val KTOR = "2.1.1"

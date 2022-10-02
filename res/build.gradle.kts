@@ -73,6 +73,10 @@ android {
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        // todo can be removed after
+        // https://github.com/icerockdev/moko-resources/issues/384
+        // https://github.com/icerockdev/moko-resources/issues/353
+        sourceSets["main"].res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
     }
 }
 

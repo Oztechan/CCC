@@ -20,5 +20,5 @@ secret.properties
 
 # submodules
 /log
-/util
+/scope
 /base
