@@ -10,6 +10,3 @@
 [submodule "parser"]
 	path = parser
 	url = https://github.com/SubMob/ParserMob
-[submodule "util"]
-	path = util
-	url = https://github.com/SubMob/ScopeMob
