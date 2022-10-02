@@ -1,3 +1,6 @@
 [submodule "log"]
 	path = log
 	url = https://github.com/SubMob/LogMob
+[submodule "scope"]
+	path = scope
+	url = https://github.com/SubMob/ScopeMob

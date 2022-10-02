@@ -38,7 +38,6 @@ object Versions {
     const val KOVER = "0.6.0"
     const val ROOT_BEER = "0.1.0"
     const val MOCKATIVE = "1.2.6"
-    const val SCOPE_MOB = "2.1.7"
     const val PARSER_MOB = "1.1.8"
     const val BASE_MOB = "2.1.6"
     const val FIREBASE_CRASHLYTICS = "18.2.13"

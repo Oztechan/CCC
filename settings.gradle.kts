@@ -21,6 +21,10 @@ include(
 )
 
 // submodules
-include(":log")
+include(
+    ":log",
+    ":scope"
+)
 
 project(":log").projectDir = file("log/logmob")
+project(":scope").projectDir = file("scope/scopemob")

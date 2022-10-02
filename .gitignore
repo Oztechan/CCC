@@ -18,5 +18,6 @@
 local.properties
 secret.properties
 
-#submodules
+# submodules
 /log
+/scope
