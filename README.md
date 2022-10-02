@@ -37,6 +37,10 @@ log --> android
 log --> ios
 log --> backend
 
+util{util} --> billing
+util --> android
+util --> client
+
 billing-->android
 
 ad-->android
@@ -55,10 +59,6 @@ client-->ios
 
 common{common}-->client
 common-->backend
-
-util{util} --> billing
-util --> android
-util --> client
 
 android(android)
 ios(ios)
