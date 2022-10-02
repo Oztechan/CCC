@@ -19,7 +19,6 @@ object Dependencies {
         const val SQL_DELIGHT_COROUTINES_EXT = "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
-        const val SCOPE_MOB = "com.github.submob:scopemob:${Versions.SCOPE_MOB}"
         const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
         const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
         const val KERMIT_CRASHLYTICS = "co.touchlab:kermit-crashlytics:${Versions.KERMIT}"
@@ -120,5 +119,6 @@ object Dependencies {
 
         // submodules
         const val LOG = ":log"
+        const val UTIL = ":util"
     }
 }
