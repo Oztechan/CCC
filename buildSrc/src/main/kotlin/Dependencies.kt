@@ -5,7 +5,7 @@
 @Suppress("SpellCheckingInspection")
 object Dependencies {
     object Common {
-        const val TEST = "test-common"
+        const val TEST = "test"
         const val TEST_ANNOTATIONS = "test-annotations-common"
         const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
         const val MULTIPLATFORM_SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.MULTIPLATFORM_SETTINGS}"
