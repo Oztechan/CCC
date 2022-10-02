@@ -63,7 +63,5 @@ dependencies {
         googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
     }
 
-    with(Dependencies.Common) {
-        implementation(LOG_MOB)
-    }
+    implementation(project(Dependencies.Modules.LOG))
 }

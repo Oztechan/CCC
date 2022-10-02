@@ -28,6 +28,15 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
+log{log} --> billing
+log --> ad
+log --> config
+log --> client
+log --> common
+log --> android
+log --> ios
+log --> backend
+
 billing-->android
 
 ad-->android

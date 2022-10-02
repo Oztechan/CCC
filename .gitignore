@@ -17,3 +17,6 @@
 .cxx
 local.properties
 secret.properties
+
+#submodules
+/log

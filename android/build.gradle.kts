@@ -108,7 +108,6 @@ dependencies {
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
         implementation(SCOPE_MOB)
-        implementation(LOG_MOB)
     }
 
     with(Dependencies.Modules) {
@@ -116,6 +115,7 @@ dependencies {
         implementation(project(RES))
         implementation(project(BILLING))
         implementation(project(AD))
+        implementation(project(LOG))
     }
 
     testImplementation(project(Dependencies.Modules.TEST))

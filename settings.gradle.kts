@@ -19,3 +19,8 @@ include(
     ":common", // Shared with all FE & BE targets
     ":test"
 )
+
+// submodules
+include(":log")
+
+project(":log").projectDir = file("log/logmob")

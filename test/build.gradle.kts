@@ -23,8 +23,8 @@ kotlin {
                     api(kotlin(TEST))
                     api(kotlin(TEST_ANNOTATIONS))
                     implementation(COROUTINES_TEST)
-                    implementation(LOG_MOB)
                 }
+                implementation(project(Dependencies.Modules.LOG))
             }
         }
         val commonTest by getting
