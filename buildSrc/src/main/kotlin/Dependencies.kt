@@ -41,7 +41,6 @@ object Dependencies {
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
-        const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
         const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
         const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
 
@@ -120,5 +119,6 @@ object Dependencies {
         // submodules
         const val LOG = ":log"
         const val UTIL = ":util"
+        const val BASE = ":base"
     }
 }

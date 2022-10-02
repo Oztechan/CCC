@@ -28,6 +28,8 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
+base --> android
+
 log{log} --> billing
 log --> ad
 log --> config
@@ -63,6 +65,7 @@ common-->backend
 android(android)
 ios(ios)
 backend(backend)
+
 ```
 
 ```mermaid
