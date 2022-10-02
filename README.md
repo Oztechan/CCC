@@ -56,6 +56,8 @@ analytics-->client
 res{res}-->android
 res-->ios
 
+parser{parser} --> client
+
 client{client}-->android
 client-->ios
 

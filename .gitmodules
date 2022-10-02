@@ -7,3 +7,6 @@
 [submodule "base"]
 	path = base
 	url = https://github.com/SubMob/BaseMob
+[submodule "parser"]
+	path = parser
+	url = https://github.com/SubMob/ParserMob
