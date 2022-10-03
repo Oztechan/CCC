@@ -15,7 +15,7 @@ object Versions {
     const val MULTIPLATFORM_SETTINGS = "0.9"
     const val FIREBASE_ANALYTICS = "21.1.1"
     const val FIREBASE_REMOTE_CONFIG = "21.1.2"
-    const val DESUGARING = "1.1.5"
+    const val DESUGARING = "1.2.2"
     const val GSM = "4.3.14"
     const val FIREBASE_PER = "20.1.1"
     const val FIREBASE_PER_PLUGIN = "1.4.1"
