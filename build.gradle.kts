@@ -61,4 +61,16 @@ tasks.withType<DependencyUpdatesTask> {
 
 koverMerged {
     enable()
+    filters {
+        classes {
+            excludes += listOf(
+                "*Test",
+                "*.*Test",
+                "*.*.*Test",
+                "*.*.*.*Test",
+                "*.*.*.*.*Test",
+                "*.*.*.*.*.*Test"
+            )
+        }
+    }
 }
