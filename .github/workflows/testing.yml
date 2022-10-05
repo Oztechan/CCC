@@ -88,7 +88,7 @@ jobs:
 
   DistributeIOS:
 
-    runs-on: macos-12
+    runs-on: macos-11
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:

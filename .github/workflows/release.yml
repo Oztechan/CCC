@@ -186,7 +186,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   PublishAppStore:
-    runs-on: macos-12
+    runs-on: macos-11
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
