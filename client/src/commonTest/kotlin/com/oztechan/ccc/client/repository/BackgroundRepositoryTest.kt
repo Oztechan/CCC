@@ -3,6 +3,8 @@ package com.oztechan.ccc.client.repository
 import com.oztechan.ccc.client.repository.background.BackgroundRepository
 import com.oztechan.ccc.client.repository.background.BackgroundRepositoryImpl
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseSubjectTest
@@ -14,6 +16,7 @@ import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
 internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>() {
@@ -29,7 +32,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
     private val backendApiService = mock(classOf<BackendApiService>())
 
     @Test
-    fun `if getWatchers throw an error no notification should be send`() = runTest {
+    fun `if getWatchers throw an error should return false`() = runTest {
         given(watcherDataSource)
             .coroutine { getWatchers() }
             .thenThrow(Exception())
@@ -42,7 +45,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
     }
 
     @Test
-    fun `if getRates throw an error no notification should be send`() = runTest {
+    fun `if getRates throw an error should return false`() = runTest {
         val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
         given(watcherDataSource)
@@ -54,6 +57,52 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .thenThrow(Exception())
 
         assertFalse { subject.shouldSendNotification() }
+
+        verify(watcherDataSource)
+            .coroutine { getWatchers() }
+            .wasInvoked()
+
+        verify(backendApiService)
+            .coroutine { getRates(watcher.base) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `if watcher set greater and response rate is more than watcher return true`() = runTest {
+        val watcher = Watcher(1, "EUR", "USD", true, 1.1)
+
+        given(watcherDataSource)
+            .coroutine { getWatchers() }
+            .thenReturn(listOf(watcher))
+
+        given(backendApiService)
+            .coroutine { getRates(watcher.base) }
+            .thenReturn(CurrencyResponse(watcher.base, "", Rates(base = watcher.base, usd = watcher.rate + 1)))
+
+        assertTrue { subject.shouldSendNotification() }
+
+        verify(watcherDataSource)
+            .coroutine { getWatchers() }
+            .wasInvoked()
+
+        verify(backendApiService)
+            .coroutine { getRates(watcher.base) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `if watcher set not greater and response rate is less than watcher return true`() = runTest {
+        val watcher = Watcher(1, "EUR", "USD", false, 1.1)
+
+        given(watcherDataSource)
+            .coroutine { getWatchers() }
+            .thenReturn(listOf(watcher))
+
+        given(backendApiService)
+            .coroutine { getRates(watcher.base) }
+            .thenReturn(CurrencyResponse(watcher.base, "", Rates(base = watcher.base, usd = watcher.rate - 1)))
+
+        assertTrue { subject.shouldSendNotification() }
 
         verify(watcherDataSource)
             .coroutine { getWatchers() }
