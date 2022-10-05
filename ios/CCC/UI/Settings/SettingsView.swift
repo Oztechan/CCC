@@ -107,9 +107,8 @@ struct SettingsView: View {
                         value: observable.state.version,
                         onClick: {}
                     )
-                }
-                .background(MR.colors().background.get())
-                .edgesIgnoringSafeArea(.bottom)
+                }.edgesIgnoringSafeArea(.bottom)
+                    .withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(

@@ -67,7 +67,7 @@ struct CalculatorView: View {
                             .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }
-                    }.background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 

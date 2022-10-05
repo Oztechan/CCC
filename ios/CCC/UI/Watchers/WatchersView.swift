@@ -48,8 +48,7 @@ struct WatchersView: View {
                         .listRowInsets(.init())
                         .listRowBackground(MR.colors().background.get())
                         .background(MR.colors().background.get())
-                    }
-                    .background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     Spacer()
 

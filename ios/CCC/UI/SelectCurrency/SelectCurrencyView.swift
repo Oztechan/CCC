@@ -37,6 +37,11 @@ struct SelectCurrencyView: View {
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
+                    Text(MR.strings().txt_select_base_currency.get())
+                        .font(.title2)
+                        .padding()
+                        .padding(.top, 10)
+
                     Form {
                         if observable.state.loading {
                             FormProgressView()
@@ -51,9 +56,7 @@ struct SelectCurrencyView: View {
                             }.listRowInsets(.init())
                             .listRowBackground(MR.colors().background.get())
                         }
-                    }
-                    .background(MR.colors().background.get())
-                    .navigationBarTitle(MR.strings().txt_select_base_currency.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     Spacer()
 
@@ -66,7 +69,7 @@ struct SelectCurrencyView: View {
                             MR.strings().select.get(),
                         onButtonClick: observable.event.onSelectClick
                     ).listRowBackground(MR.colors().background.get())
-                }
+                }.navigationBarHidden(true)
             }
         }
         .onAppear {
