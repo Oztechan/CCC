@@ -123,6 +123,7 @@ platform :ios do
             update_project_provisioning(
                 profile: ENV["sigh_com.oztechan.ccc_" + match_type + "_profile-path"]
             )
+            xcversion(version: "13.4")
             build_app(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
