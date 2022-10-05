@@ -27,20 +27,21 @@ You can quickly convert and make mathematical operations between currencies.
 
 ```mermaid
 graph TD;
-base --> ANDROID
-
-parser --> client
 
 ad-->ANDROID
 
 billing-->ANDROID
 
+base --> ANDROID
+
 test --> client
 test --> ANDROID
-test --> analytics
 test --> res
+test --> analytics
 test --> BACKEND
 test --> common
+
+parser --> client
 
 scope --> billing
 scope --> ANDROID
@@ -67,6 +68,7 @@ log --> iOS
 log --> test
 log --> common
 log --> BACKEND
+
 
 common-->client
 common-->BACKEND
