@@ -30,6 +30,7 @@ class Application : Application() {
         }
 
         initLogger()
+
         Logger.i { "Application onCreate" }
 
         if (BuildConfig.DEBUG) {
