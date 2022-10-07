@@ -22,13 +22,13 @@ include(
 
 // submodules
 include(
-    ":log",
-    ":scope",
-    ":base",
-    ":parser"
+    ":logmob",
+    ":scopemob",
+    ":basemob",
+    ":parsermob"
 )
 
-project(":log").projectDir = file("log/logmob")
-project(":scope").projectDir = file("scope/scopemob")
-project(":base").projectDir = file("base/basemob")
-project(":parser").projectDir = file("parser/parsermob")
+project(":logmob").projectDir = file("logmob/logmob")
+project(":scopemob").projectDir = file("scopemob/scopemob")
+project(":basemob").projectDir = file("basemob/basemob")
+project(":parsermob").projectDir = file("parsermob/parsermob")

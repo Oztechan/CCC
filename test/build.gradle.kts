@@ -24,7 +24,7 @@ kotlin {
                     api(kotlin(TEST_ANNOTATIONS))
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.LOG))
+                implementation(project(Dependencies.Modules.LOGMOB))
             }
         }
         val commonTest by getting

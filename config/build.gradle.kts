@@ -33,7 +33,7 @@ kotlin {
                 with(Dependencies.Common) {
                     implementation(KTOR_JSON)
                 }
-                implementation(project(Dependencies.Modules.LOG))
+                implementation(project(Dependencies.Modules.LOGMOB))
             }
         }
         val commonTest by getting

@@ -116,9 +116,9 @@ object Dependencies {
         const val TEST = ":test"
 
         // submodules
-        const val LOG = ":log"
-        const val SCOPE = ":scope"
-        const val BASE = ":base"
-        const val PARSER = ":parser"
+        const val LOGMOB = ":logmob"
+        const val SCOPEMOB = ":scopemob"
+        const val BASEMOB = ":basemob"
+        const val PARSERMOB = ":parsermob"
     }
 }

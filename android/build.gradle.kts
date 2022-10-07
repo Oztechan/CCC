@@ -113,9 +113,9 @@ dependencies {
         implementation(project(RES))
         implementation(project(BILLING))
         implementation(project(AD))
-        implementation(project(LOG))
-        implementation(project(SCOPE))
-        implementation(project(BASE))
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
+        implementation(project(BASEMOB))
 
         testImplementation(project(TEST))
     }

@@ -41,7 +41,7 @@ kotlin {
 
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
-                    implementation(project(LOG))
+                    implementation(project(LOGMOB))
                 }
             }
         }
