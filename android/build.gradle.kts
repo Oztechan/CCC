@@ -116,7 +116,7 @@ dependencies {
         implementation(project(LOG))
         implementation(project(SCOPE))
         implementation(project(BASE))
-    }
 
-    testImplementation(project(Dependencies.Modules.TEST))
+        testImplementation(project(TEST))
+    }
 }

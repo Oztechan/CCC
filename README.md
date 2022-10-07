@@ -28,45 +28,68 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
-log{log} --> billing
-log --> ad
-log --> config
-log --> client
-log --> common
-log --> android
-log --> ios
-log --> backend
+ad-->ANDROID
 
-scope{scope} --> billing
-scope --> android
+billing-->ANDROID
+
+base --> ANDROID
+
+test --> client
+test --> ANDROID
+test --> res
+test --> analytics
+test --> BACKEND
+test --> common
+
+parser --> client
+
+scope --> billing
+scope --> ANDROID
 scope --> client
 
-base --> android
+config-->client
 
-billing-->android
-
-ad-->android
-
-config{config}-->client
-
-analytics{analytics} --> android
-analytics --> ios
 analytics-->client
+analytics --> ANDROID
+analytics --> iOS
 
-res{res}-->android
-res-->ios
+client-->ANDROID
+client-->iOS
 
-parser{parser} --> client
+res-->ANDROID
+res-->iOS
 
-client{client}-->android
-client-->ios
+log --> ad
+log --> billing
+log --> config
+log --> ANDROID
+log --> client
+log --> iOS
+log --> test
+log --> common
+log --> BACKEND
 
-common{common}-->client
-common-->backend
 
-android(android)
-ios(ios)
-backend(backend)
+common-->client
+common-->BACKEND
+
+log{log}
+test{test}
+analytics{analytics}
+common{common}
+client{client}
+scope{scope}
+config{config}
+res{res}
+parser{parser}
+
+ad
+billing
+base
+
+ANDROID(ANDROID)
+iOS(iOS)
+BACKEND(BACKEND)
 ```
 
 ```mermaid
