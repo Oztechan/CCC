@@ -28,75 +28,77 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
-ad-->ANDROID
+ad-->android
 
-billing-->ANDROID
+billing-->android
 
-base --> ANDROID
+BASEMOB --> android
 
 test --> client
-test --> ANDROID
+test --> android
 test --> res
 test --> analytics
-test --> BACKEND
+test --> backend
 test --> common
 
-parser --> client
+PARSERMOB --> client
 
-scope --> billing
-scope --> ANDROID
-scope --> client
+SCOPEMOB --> billing
+SCOPEMOB --> android
+SCOPEMOB --> client
 
 config-->client
 
 analytics-->client
-analytics --> ANDROID
-analytics --> iOS
+analytics --> android
+analytics --> ios
 
-client-->ANDROID
-client-->iOS
+client-->android
+client-->ios
 
-res-->ANDROID
-res-->iOS
+res-->android
+res-->ios
 
-log --> ad
-log --> billing
-log --> config
-log --> ANDROID
-log --> client
-log --> iOS
-log --> test
-log --> common
-log --> BACKEND
+LOGMOB --> ad
+LOGMOB --> billing
+LOGMOB --> config
+LOGMOB --> android
+LOGMOB --> client
+LOGMOB --> ios
+LOGMOB --> test
+LOGMOB --> common
+LOGMOB --> backend
 
 
 common-->client
-common-->BACKEND
+common-->backend
 
-log{log}
+LOGMOB{LOGMOB}
 test{test}
 analytics{analytics}
 common{common}
 client{client}
-scope{scope}
+SCOPEMOB{SCOPEMOB}
 config{config}
 res{res}
-parser{parser}
+PARSERMOB{PARSERMOB}
 
 ad
 billing
-base
+BASEMOB
 
-ANDROID(ANDROID)
-iOS(iOS)
-BACKEND(BACKEND)
+android(android)
+ios(ios)
+backend(backend)
 ```
 
 ```mermaid
 graph TD;
-KMP_Library{KMP_Library}
-Target(Target)
-Library
+target(target)
+kmp_library{kmp_library}
+KMP_SUBMODULE_LIBRARY{KMP_SUBMODULE_LIBRARY}
+library
+SUBMODULE_LIBRARY
 ```
 
 </div>
@@ -110,6 +112,13 @@ git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
 cd CCC &&
 git submodule update --init --recursive
 ```
+
+Submodules:
+
+- [LogMob](https://github.com/SubMob/LogMob) KMP logging library with Crashlytics support
+- [ScopeMob](https://github.com/SubMob/ScopeMob) Useful set of Kotlin scope functions with KMP support
+- [BaseMob](https://github.com/SubMob/BaseMob) Android base classes
+- [ParserMob](https://github.com/SubMob/ParserMob) KMP parsing library
 
 ## How to run
 

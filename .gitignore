@@ -19,7 +19,7 @@ local.properties
 secret.properties
 
 # submodules
-/log
-/scope
-/base
-/parser
+/logmob
+/scopemob
+/basemob
+/parsermob

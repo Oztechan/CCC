@@ -50,9 +50,9 @@ kotlin {
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
-                    implementation(project(LOG))
-                    implementation(project(SCOPE))
-                    implementation(project(PARSER))
+                    implementation(project(LOGMOB))
+                    implementation(project(SCOPEMOB))
+                    implementation(project(PARSERMOB))
                     api(project(ANALYTICS))
                 }
             }
