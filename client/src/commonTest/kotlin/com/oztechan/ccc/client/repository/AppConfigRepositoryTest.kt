@@ -254,6 +254,6 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
 
     @Test
     fun getVersion() {
-        assertEquals("${device.name.first()} ${BuildKonfig.versionName}", subject.getVersion())
+        assertEquals("${device.name.first()}${BuildKonfig.versionName}", subject.getVersion())
     }
 }

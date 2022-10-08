@@ -34,5 +34,5 @@ internal class AppConfigRepositoryImpl(
         ?.mapTo { true }
         ?: false
 
-    override fun getVersion(): String = "${device.name.first()} ${BuildKonfig.versionName}"
+    override fun getVersion(): String = "${device.name.first()}${BuildKonfig.versionName}"
 }
