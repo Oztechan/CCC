@@ -36,7 +36,11 @@ kotlin {
                 implementation(project(Dependencies.Modules.LOGMOB))
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
 
         val androidMain by getting {
             dependencies {

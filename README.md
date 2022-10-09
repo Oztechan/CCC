@@ -34,6 +34,7 @@ billing-->android
 
 BASEMOB --> android
 
+test --> config
 test --> client
 test --> android
 test --> res
@@ -61,14 +62,13 @@ res-->ios
 
 LOGMOB --> ad
 LOGMOB --> billing
-LOGMOB --> config
 LOGMOB --> android
-LOGMOB --> client
 LOGMOB --> ios
+LOGMOB --> client
+LOGMOB --> config
 LOGMOB --> test
 LOGMOB --> common
 LOGMOB --> backend
-
 
 common-->client
 common-->backend
