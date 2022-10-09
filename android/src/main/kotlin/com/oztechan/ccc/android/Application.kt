@@ -11,6 +11,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.logmob.ANRWatchDogHandler
 import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
+import com.oztechan.ccc.ad.di.adModule
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
 import com.oztechan.ccc.android.di.module.appModule
@@ -39,7 +40,10 @@ class Application : Application() {
 
         initAndroid(
             context = this,
-            appModule = appModule
+            appModules = listOf(
+                appModule,
+                adModule
+            )
         )
 
         Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())

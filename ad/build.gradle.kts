@@ -59,9 +59,9 @@ android {
 }
 
 dependencies {
-    with(DeviceFlavour) {
-        googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
-    }
+    implementation(Dependencies.Common.KOIN_CORE)
+
+    DeviceFlavour.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
 
     implementation(project(Dependencies.Modules.LOGMOB))
 }
