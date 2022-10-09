@@ -361,6 +361,16 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowBannerAd_Returns_True() {
+        given(configService)
+            .invocation { appConfig }
+            .thenReturn(
+                AppConfig(
+                    AdConfig(0, mockedSessionCount, 0L, 0L),
+                    AppReview(0, 0L),
+                    listOf()
+                )
+            )
+
         given(settingsDataSource)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
@@ -378,6 +388,16 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowInterstitialAd_Returns_True() {
+        given(configService)
+            .invocation { appConfig }
+            .thenReturn(
+                AppConfig(
+                    AdConfig(mockedSessionCount, 0, 0L, 0L),
+                    AppReview(0, 0L),
+                    listOf()
+                )
+            )
+
         given(settingsDataSource)
             .invocation { firstRun }
             .then { false }
