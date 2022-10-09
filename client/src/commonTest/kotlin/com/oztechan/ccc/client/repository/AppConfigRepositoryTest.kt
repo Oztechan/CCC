@@ -6,6 +6,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
@@ -52,6 +53,8 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -79,6 +82,8 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -106,6 +111,8 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -130,6 +137,8 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun checkAppUpdate_should_return_null_when_device_name_is_different_than_remote() {
         val mockName = "mock"
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -154,6 +163,8 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -178,7 +189,9 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, appReviewDialogDelay = 0L),
+            listOf()
         )
 
         given(configService)
@@ -204,7 +217,9 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            listOf()
         )
 
         given(configService)
@@ -230,7 +245,9 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            listOf()
         )
 
         given(configService)

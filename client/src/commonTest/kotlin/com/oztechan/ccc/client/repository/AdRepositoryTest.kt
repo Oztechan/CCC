@@ -9,6 +9,7 @@ import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
+import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -16,6 +17,7 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -35,21 +37,32 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     private var device: Device = Device.IOS
 
+    private var mockedSessionCount = Random.nextInt()
+
+    @BeforeTest
+    override fun setup() {
+        super.setup()
+
+        given(configService)
+            .invocation { appConfig }
+            .thenReturn(
+                AppConfig(
+                    AdConfig(mockedSessionCount, mockedSessionCount, 0L, 0L),
+                    AppReview(0, 0L),
+                    listOf()
+                )
+            )
+    }
+
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_smaller_than_banner_000() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt - 1L)
+            .thenReturn(mockedSessionCount - 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -76,19 +89,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_not_rewardExpired_and_sessionCount_smaller_than_banner_100() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt - 1L)
+            .thenReturn(mockedSessionCount - 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -115,19 +122,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner_010() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt - 1L)
+            .thenReturn(mockedSessionCount - 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -154,19 +155,14 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_bigger_than_banner_001() {
-        val someInt = Random.nextInt()
 
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt + 1L)
+            .thenReturn(mockedSessionCount + 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -193,19 +189,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner_011() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt + 1L)
+            .thenReturn(mockedSessionCount + 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -232,19 +222,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_not_rewardExpired_and_sessionCount_bigger_than_banner_101() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt + 1L)
+            .thenReturn(mockedSessionCount + 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -271,19 +255,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner_110() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt - 1L)
+            .thenReturn(mockedSessionCount - 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -310,19 +288,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_true_when_not_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner_111() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt + 1L)
+            .thenReturn(mockedSessionCount + 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -349,16 +321,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowInterstitialAd_returns_true_when_session_count_bigger_than_remote() {
-        val someInt = Random.nextInt()
-        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt.toLong() + 1)
+            .thenReturn(mockedSessionCount.toLong() + 1)
 
         assertTrue { subject.shouldShowInterstitialAd() }
 
@@ -373,16 +338,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowInterstitialAd_returns_false_when_session_count_smaller_than_remote() {
-        val someInt = Random.nextInt()
-        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt.toLong() - 1)
+            .thenReturn(mockedSessionCount.toLong() - 1)
 
         assertFalse { subject.shouldShowInterstitialAd() }
 
@@ -403,19 +361,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowBannerAd_Returns_True() {
-        val someInt = Random.nextInt()
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt + 1L)
+            .thenReturn(mockedSessionCount + 1L)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
-
-        given(configService)
-            .invocation { appConfig }
-            .then { AppConfig(adConfig = AdConfig(someInt)) }
 
         given(settingsDataSource)
             .invocation { firstRun }
@@ -426,20 +378,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowInterstitialAd_Returns_True() {
-        val someInt = Random.nextInt()
-        val mockAppConfig = AppConfig(adConfig = AdConfig(interstitialAdSessionCount = someInt))
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
         given(settingsDataSource)
             .invocation { firstRun }
             .then { false }
 
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt.toLong() + 1)
+            .thenReturn(mockedSessionCount.toLong() + 1)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -450,21 +395,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_False_When_Should_Show_InterstitialAd_And_ShowShowBannerAd_Returns_False() {
-        val someInt = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            adConfig = AdConfig(
-                bannerAdSessionCount = someInt,
-                interstitialAdSessionCount = someInt
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
         given(settingsDataSource)
             .invocation { sessionCount }
-            .thenReturn(someInt.toLong() - 1)
+            .thenReturn(mockedSessionCount.toLong() - 1)
 
         given(settingsDataSource)
             .invocation { adFreeEndDate }
