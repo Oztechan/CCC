@@ -82,6 +82,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         given(appConfigRepository)
             .invocation { getDeviceType() }
             .then { mockDevice }
+
+        given(adRepository)
+            .invocation { shouldShowInterstitialAd() }
+            .thenReturn(false)
     }
 
     // Analytics
@@ -174,7 +178,11 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun onResume_adjustSessionCount() = with(subject) {
-        val mockConfig = AppConfig()
+        val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
+        )
         val mockSessionCount = Random.nextLong()
 
         given(configService)
@@ -222,10 +230,9 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     @Test
     fun onResume_setupInterstitialAdTimer() = with(subject) {
         val mockConfig = AppConfig(
-            adConfig = AdConfig(
-                interstitialAdInitialDelay = 0L,
-                interstitialAdPeriod = 0L
-            )
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
         )
         val mockSessionCount = Random.nextLong()
 
@@ -278,7 +285,11 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(subject) {
-        val mockConfig = AppConfig()
+        val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
+        )
         val mockSessionCount = Random.nextLong()
 
         given(configService)
@@ -311,10 +322,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
-        given(adRepository)
-            .invocation { shouldShowInterstitialAd() }
-            .then { false }
-
         given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -324,6 +331,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .thenReturn(mockBoolean)
 
         val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockDevice.name,
@@ -366,13 +375,11 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     fun onResume_checkReview_should_request_review_when_shouldShowAppReview_returns_true() =
         with(subject) {
             val mockConfig = AppConfig(
-                appReview = AppReview(appReviewDialogDelay = 0L)
+                AdConfig(0, 0, 0L, 0L),
+                AppReview(0, 0L),
+                listOf()
             )
             val mockSessionCount = Random.nextLong()
-
-            given(adRepository)
-                .invocation { shouldShowInterstitialAd() }
-                .then { false }
 
             given(configService)
                 .invocation { configService.appConfig }
@@ -408,7 +415,9 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     fun onResume_checkReview_should_do_nothing_when_shouldShowAppReview_returns_false() =
         with(subject) {
             val mockConfig = AppConfig(
-                appReview = AppReview(appReviewDialogDelay = 0L)
+                AdConfig(0, 0, 0L, 0L),
+                AppReview(0, 0L),
+                listOf()
             )
             val mockSessionCount = Random.nextLong()
 
