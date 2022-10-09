@@ -1,4 +1,4 @@
-package com.oztechan.ccc.ad.di
+package com.oztechan.ccc.ad.di.module
 
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.AdManagerImpl

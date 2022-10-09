@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 @Suppress("unused")
-class BillingManagerImpl(private val context: Context) : BillingManager {
+internal class BillingManagerImpl(private val context: Context) : BillingManager {
 
     private val _effect = MutableSharedFlow<BillingEffect>()
     override val effect = _effect.asSharedFlow()
