@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import co.touchlab.kermit.Logger
 
-class AdManagerImpl : AdManager {
+internal class AdManagerImpl : AdManager {
 
     override fun getBannerAd(
         context: Context,

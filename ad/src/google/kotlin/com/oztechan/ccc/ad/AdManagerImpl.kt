@@ -14,7 +14,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-class AdManagerImpl : AdManager {
+internal class AdManagerImpl : AdManager {
 
     init {
         Logger.i { "AdManagerImpl init" }
