@@ -15,12 +15,12 @@ import org.koin.core.module.Module
 
 fun initAndroid(
     context: Context,
-    appModule: Module
+    appModules: List<Module>
 ): KoinApplication = startKoin {
     androidContext(context)
 
     modules(
-        appModule + clientModules + commonModules
+        appModules + clientModules + commonModules
     )
 }.also {
     Logger.d { "KoinAndroid initAndroid" }

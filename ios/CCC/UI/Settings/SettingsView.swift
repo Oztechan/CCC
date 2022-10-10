@@ -11,6 +11,7 @@ import Res
 import Client
 import NavigationStack
 import GoogleMobileAds
+import LogMob
 
 typealias SettingsObservable = ObservableSEED
 <SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
@@ -133,7 +134,7 @@ struct SettingsView: View {
 
     // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
-        logger.i(message: {"SettingsView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"SettingsView onEffect \(effect.description)"})
         switch effect {
         case is SettingsEffect.Back:
             navigationStack.pop()
@@ -172,7 +173,7 @@ struct SettingsView: View {
                 }
             )
         default:
-            logger.i(message: {"SettingsView unknown effect"})
+            LoggerKt.i(message: {"SettingsView unknown effect"})
         }
     }
 

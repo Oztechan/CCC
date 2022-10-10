@@ -33,6 +33,8 @@ private val ioDispatcher: CoroutineDispatcher by inject(CoroutineDispatcher::cla
 fun main() {
     initLogger()
 
+    Logger.i { "Application main" }
+
     startKoin {
 
         modules(
@@ -41,8 +43,6 @@ fun main() {
     }.also {
         koin = it.koin
     }
-
-    Logger.i { "Application main" }
 
     apiController.startSyncApi()
 

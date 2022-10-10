@@ -1,21 +1,26 @@
 PODS:
-  - client (0.0.1557)
-  - res (0.0.1557)
+  - client (0.0.1620)
+  - logmob (2.2.58)
+  - res (0.0.1620)
 
 DEPENDENCIES:
   - client (from `../client/client.podspec`)
+  - logmob (from `../logmob/logmob/logmob.podspec`)
   - res (from `../res/res.podspec`)
 
 EXTERNAL SOURCES:
   client:
     :path: "../client/client.podspec"
+  logmob:
+    :path: "../logmob/logmob/logmob.podspec"
   res:
     :path: "../res/res.podspec"
 
 SPEC CHECKSUMS:
-  client: 682499945c4aaa5fb2857893aeb5ec458373e133
-  res: 5cef030bafe400c7a5629c0e505596757aa9b3a2
+  client: f6320924541c66b195c58dd3fd04c9b92e5054df
+  logmob: efb1dc6c99f977f70af086ba07a09031af16424d
+  res: 55ce89aec57fc5f83555d472c7c251d62b354ee3
 
-PODFILE CHECKSUM: 3af52908f4dea1100643ca962006066a8db38086
+PODFILE CHECKSUM: cc0662b6118c984e4d40174bd1aad5e96469b5a9
 
 COCOAPODS: 1.11.2

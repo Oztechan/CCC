@@ -10,6 +10,7 @@ import SwiftUI
 import Client
 import Res
 import NavigationStack
+import LogMob
 
 typealias WatchersObservable = ObservableSEED
 <WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
@@ -151,7 +152,7 @@ struct WatchersView: View {
     }
 
     private func onEffect(effect: WatchersEffect) {
-        logger.i(message: {"WatchersView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"WatchersView onEffect \(effect.description)"})
         switch effect {
         case is WatchersEffect.Back:
             navigationStack.pop()
@@ -170,12 +171,12 @@ struct WatchersView: View {
         case is WatchersEffect.MaximumNumberOfWatchers:
             showSnack(text: MR.strings().text_maximum_number_of_watchers.get(), isTop: true)
         default:
-            logger.i(message: {"WatchersView unknown effect"})
+            LoggerKt.i(message: {"WatchersView unknown effect"})
         }
     }
 
     private func onAuthorisationChange(authorizationStatus: UNAuthorizationStatus?) {
-        logger.i(message: {"WatchersView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))"})
+        LoggerKt.i(message: {"WatchersView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))"})
         switch authorizationStatus {
         case .notDetermined:
             notificationManager.requestAuthorisation()

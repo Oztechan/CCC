@@ -9,6 +9,7 @@
 import SwiftMessages
 import SwiftUI
 import Res
+import LogMob
 
 func showSnack(
     text: String,
@@ -38,7 +39,7 @@ func showSnack(
         buttonImage: nil,
         buttonTitle: buttonText,
         buttonTapHandler: { _ in
-            logger.i(message: {"Snackbar buttonTab"})
+            LoggerKt.i(message: {"Snackbar buttonTab"})
             action?()
         })
 

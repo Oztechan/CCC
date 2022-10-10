@@ -8,6 +8,7 @@
 
 import GoogleMobileAds
 import Res
+import LogMob
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
 
@@ -30,7 +31,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { (rewardedAd, error) in
                 if let error = error {
-                    logger.w(message: {"RewardedAd show error: \(error.localizedDescription)"})
+                    LoggerKt.w(message: {"RewardedAd show error: \(error.localizedDescription)"})
                     self.errorFunction()
                     return
                 }
@@ -41,7 +42,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                 self.rewardedAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
                     userDidEarnRewardHandler: {
-                        logger.i(message: {"RewardedAd userDidEarnReward"})
+                        LoggerKt.i(message: {"RewardedAd userDidEarnReward"})
                         self.rewardFunction()
                     }
                 )

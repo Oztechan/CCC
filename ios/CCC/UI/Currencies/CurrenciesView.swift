@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 import Client
 import NavigationStack
+import LogMob
 
 typealias CurrenciesObservable = ObservableSEED
 <CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
@@ -89,7 +90,7 @@ struct CurrenciesView: View {
     }
 
     private func onEffect(effect: CurrenciesEffect) {
-        logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"CurrenciesView onEffect \(effect.description)"})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
             showSnack(text: MR.strings().choose_at_least_two_currency.get())
@@ -101,7 +102,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
-            logger.i(message: {"CurrenciesView unknown effect"})
+            LoggerKt.i(message: {"CurrenciesView unknown effect"})
         }
     }
 }

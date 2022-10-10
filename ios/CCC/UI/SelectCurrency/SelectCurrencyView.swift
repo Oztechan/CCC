@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 import Client
 import NavigationStack
+import LogMob
 
 typealias SelectCurrencyObservable = ObservableSEED
 <SelectCurrencyViewModel, SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>
@@ -75,7 +76,7 @@ struct SelectCurrencyView: View {
     }
 
     private func onEffect(effect: SelectCurrencyEffect) {
-        logger.i(message: {"SelectCurrencyView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"SelectCurrencyView onEffect \(effect.description)"})
         switch effect {
         // swiftlint:disable force_cast
         case is SelectCurrencyEffect.CurrencyChange:
@@ -84,7 +85,7 @@ struct SelectCurrencyView: View {
         case is SelectCurrencyEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onCurrencySelected))
         default:
-            logger.i(message: {"BarView unknown effect"})
+            LoggerKt.i(message: {"BarView unknown effect"})
         }
     }
 }

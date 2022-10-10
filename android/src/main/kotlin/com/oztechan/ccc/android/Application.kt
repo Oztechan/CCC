@@ -9,8 +9,8 @@ import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.ANRWatchDogHandler
-import com.github.submob.logmob.initCrashlytics
-import com.github.submob.logmob.initLogger
+import com.github.submob.logmob.initAndroidLogger
+import com.oztechan.ccc.ad.di.adModule
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
 import com.oztechan.ccc.android.di.module.appModule
@@ -23,13 +23,13 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        initAndroidLogger(isCrashlyticsEnabled = !BuildConfig.DEBUG)
+
+        Logger.i { "Application onCreate" }
+
         if (!BuildConfig.DEBUG) {
-            initCrashlytics()
             initAnalytics(this)
         }
-
-        initLogger()
-        Logger.i { "Application onCreate" }
 
         if (BuildConfig.DEBUG) {
             enableStrictMode()
@@ -39,7 +39,10 @@ class Application : Application() {
 
         initAndroid(
             context = this,
-            appModule = appModule
+            appModules = listOf(
+                appModule,
+                adModule
+            )
         )
 
         Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())

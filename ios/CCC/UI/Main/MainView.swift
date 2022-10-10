@@ -11,6 +11,7 @@ import NavigationStack
 import Res
 import Client
 import GoogleMobileAds
+import LogMob
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
 
@@ -42,12 +43,12 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        logger.i(message: {"MainView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"MainView onEffect \(effect.description)"})
         switch effect {
         case is MainEffect.ShowInterstitialAd:
             InterstitialAd().show()
         default:
-            logger.i(message: {"MainView unknown effect"})
+            LoggerKt.i(message: {"MainView unknown effect"})
         }
     }
 }

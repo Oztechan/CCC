@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 import Client
 import NavigationStack
+import LogMob
 
 typealias CalculatorObservable = ObservableSEED
 <CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
@@ -40,7 +41,7 @@ struct CalculatorView: View {
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
-                        onBarClick: { observable.event.onBarClick() }
+                        onBarClick: { fatalError("some error in SwiftUI") }
                     )
 
                     Form {
@@ -105,7 +106,7 @@ struct CalculatorView: View {
     }
 
     private func onEffect(effect: CalculatorEffect) {
-        logger.i(message: {"CalculatorView onEffect \(effect.description)"})
+        LoggerKt.i(message: {"CalculatorView onEffect \(effect.description)"})
         switch effect {
         case is CalculatorEffect.Error:
             showSnack(text: MR.strings().error_text_unknown.get())
@@ -135,7 +136,7 @@ struct CalculatorView: View {
                 iconImage: (effect as! CalculatorEffect.ShowRate).name.getImage()
             )
         default:
-            logger.i(message: {"CalculatorView unknown effect"})
+            LoggerKt.i(message: {"CalculatorView unknown effect"})
         }
     }
 }

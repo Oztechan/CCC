@@ -12,10 +12,7 @@ import Client
 import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
-
-var logger: KermitLogger = {
-    return LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
-}()
+import LogMob
 
 @main
 struct Application: App {
@@ -32,7 +29,9 @@ struct Application: App {
             FirebaseApp.configure()
         }
 
-        logger.i(message: {"Application init"})
+        IOSLogMobKt.doInitIOSLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
+
+        LoggerKt.i(message: {"Application init"})
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
@@ -53,7 +52,7 @@ struct Application: App {
         WindowGroup {
             MainView()
         }.onChange(of: scenePhase) { phase in
-            logger.i(message: {"Application onChange scenePhase \(phase)"})
+            LoggerKt.i(message: {"Application onChange scenePhase \(phase)"})
 
             if phase == .background {
                 scheduleAppRefresh()
@@ -62,7 +61,7 @@ struct Application: App {
     }
 
     private func scheduleAppRefresh() {
-        logger.i(message: {"Application scheduleAppRefresh"})
+        LoggerKt.i(message: {"Application scheduleAppRefresh"})
 
         let request = BGAppRefreshTaskRequest(identifier: taskID)
         request.earliestBeginDate = Date(timeIntervalSinceNow: earliestTaskPeriod)
@@ -70,12 +69,12 @@ struct Application: App {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            logger.i(message: {"Application scheduleAppRefresh Could not schedule app refresh: \(error)"})
+            LoggerKt.i(message: {"Application scheduleAppRefresh Could not schedule app refresh: \(error)"})
         }
     }
 
     private func registerAppRefresh() {
-        logger.i(message: {"Application registerAppRefresh"})
+        LoggerKt.i(message: {"Application registerAppRefresh"})
 
         BGTaskScheduler.shared.cancelAllTaskRequests()
 
@@ -84,7 +83,7 @@ struct Application: App {
             handleAppRefresh(task: task as! BGAppRefreshTask)
 
             task.expirationHandler = {
-                logger.i(message: {"Application registerAppRefresh BackgroundTask Expired"})
+                LoggerKt.i(message: {"Application registerAppRefresh BackgroundTask Expired"})
 
                 task.setTaskCompleted(success: false)
             }
@@ -92,7 +91,7 @@ struct Application: App {
     }
 
     private func handleAppRefresh(task: BGAppRefreshTask) {
-        logger.i(message: {"Application handleAppRefresh"})
+        LoggerKt.i(message: {"Application handleAppRefresh"})
 
         scheduleAppRefresh()
 

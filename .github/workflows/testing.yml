@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-
+  pull_request:
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
   ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
@@ -118,7 +118,7 @@ jobs:
 
       - name: Install Cocoapods
         run: |
-          ./gradlew client:podGenIOS res:podGenIOS --parallel
+          ./gradlew client:podGenIOS res:podGenIOS logmob:podGenIOS --parallel
           cd ios/CCC
           pod install --repo-update
 

@@ -8,6 +8,7 @@
 
 import Combine
 import Client
+import LogMob
 
 final class ObservableSEED<
     ViewModel: BaseSEEDViewModel,
@@ -30,7 +31,7 @@ final class ObservableSEED<
 
     // swiftlint:disable force_cast
     init(viewModel: ViewModel) {
-        logger.i(message: {"ObservableSEED \(ViewModel.description()) init"})
+        LoggerKt.i(message: {"ObservableSEED \(ViewModel.description()) init"})
 
         self.viewModel = viewModel
         self.state = State()
@@ -43,7 +44,7 @@ final class ObservableSEED<
     }
 
     func startObserving() {
-        logger.i(message: {"ObservableSEED \(ViewModel.description()) startObserving"})
+        LoggerKt.i(message: {"ObservableSEED \(ViewModel.description()) startObserving"})
 
         if viewModel.state != nil {
             closeable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
@@ -58,7 +59,7 @@ final class ObservableSEED<
     }
 
     func stopObserving() {
-        logger.i(message: {"ObservableSEED \(ViewModel.description()) stopObserving"})
+        LoggerKt.i(message: {"ObservableSEED \(ViewModel.description()) stopObserving"})
         closeable.close()
     }
 }
