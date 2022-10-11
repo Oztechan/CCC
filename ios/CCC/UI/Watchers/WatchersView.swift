@@ -11,12 +11,16 @@ import Provider
 import Res
 import NavigationStack
 
-typealias WatchersObservable = ObservableSEED
-<WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
-
 struct WatchersView: View {
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        WatchersViewModel,
+        WatchersState,
+        WatchersEffect,
+        WatchersEvent,
+        WatchersData
+    >()
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @StateObject var observable = WatchersObservable(viewModel: koin.get())
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)

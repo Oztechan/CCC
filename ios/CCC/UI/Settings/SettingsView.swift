@@ -12,13 +12,17 @@ import Provider
 import NavigationStack
 import GoogleMobileAds
 
-typealias SettingsObservable = ObservableSEED
-<SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
-
 struct SettingsView: View {
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        SettingsViewModel,
+        SettingsState,
+        SettingsEffect,
+        SettingsEvent,
+        SettingsData
+    >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @StateObject var observable = SettingsObservable(viewModel: koin.get())
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
 
