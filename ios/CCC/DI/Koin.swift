@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 
 var koin: Koin_coreKoin = {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!

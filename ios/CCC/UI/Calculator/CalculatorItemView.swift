@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 import Res
 
 struct CalculatorItemView: View {

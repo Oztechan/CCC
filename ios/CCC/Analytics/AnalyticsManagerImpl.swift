@@ -6,7 +6,7 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Client
+import Provider
 import FirebaseAnalytics
 
 class AnalyticsManagerImpl: AnalyticsManager {

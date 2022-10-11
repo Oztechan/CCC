@@ -131,7 +131,7 @@ Open CCC folder with Android Studio and select `android` from configurations and
 ### iOS
 
 ```shell
-./gradlew :provider:podspec :client:podspec :res:podspec --parallel &&
+./gradlew :provider:podspec :res:podspec --parallel &&
 cd ios/CCC &&
 pod install --repo-update
 ```

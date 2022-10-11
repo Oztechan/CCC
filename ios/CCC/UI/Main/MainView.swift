@@ -9,7 +9,7 @@
 import SwiftUI
 import NavigationStack
 import Res
-import Client
+import Provider
 import GoogleMobileAds
 
 typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>

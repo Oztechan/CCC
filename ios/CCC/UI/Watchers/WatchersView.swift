@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 import Res
 import NavigationStack
 
@@ -188,6 +188,6 @@ struct WatchersView: View {
 
     struct BarInfo {
         var isShown: Bool
-        var watcher: Client.Watcher?
+        var watcher: Provider.Watcher?
     }
 }

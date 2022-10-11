@@ -8,7 +8,7 @@
 import SwiftUI
 import Res
 import NavigationStack
-import Client
+import Provider
 
 struct SliderView: View {
     @EnvironmentObject private var navigationStack: NavigationStackCompat
