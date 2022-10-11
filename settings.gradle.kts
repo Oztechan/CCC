@@ -20,6 +20,9 @@ include(
     ":test"
 )
 
+// native
+include(":provider") // used for combining iOS libraries and injecting as pod
+
 // submodules
 include(
     ":logmob",
