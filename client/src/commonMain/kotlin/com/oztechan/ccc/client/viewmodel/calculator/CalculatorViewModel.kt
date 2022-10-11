@@ -204,6 +204,7 @@ class CalculatorViewModel(
     // region Event
     override fun onKeyPress(key: String) {
         Logger.d { "CalculatorViewModel onKeyPress $key" }
+
         when (key) {
             KEY_AC -> _state.update { copy(input = "") }
             KEY_DEL ->

@@ -14,7 +14,7 @@ import GoogleMobileAds
 import BackgroundTasks
 
 var logger: KermitLogger = {
-    return LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
+    return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
 }()
 
 @main
