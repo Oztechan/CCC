@@ -8,6 +8,7 @@ package com.oztechan.ccc.client.di
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.di.module.getAnalyticsModule
 import com.oztechan.ccc.client.di.module.clientModules
 import com.oztechan.ccc.common.di.NativeDependencyWrapper
 import com.oztechan.ccc.common.di.modules.commonModules
@@ -27,17 +28,15 @@ fun initIOS(
 ) = startKoin {
     val appModule = module {
         single { NativeDependencyWrapper(userDefaults) }
-        single { analyticsManager }
     }
 
     modules(
-        appModule + clientModules + commonModules
+        appModule + clientModules + commonModules + getAnalyticsModule(analyticsManager)
     )
 }.also {
     Logger.d { "KoinIOS initIOS" }
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> Koin.getDependency(objCObject: ObjCObject): T = when (objCObject) {
     is ObjCClass -> getOriginalKotlinClass(objCObject)
     is ObjCProtocol -> getOriginalKotlinClass(objCObject)

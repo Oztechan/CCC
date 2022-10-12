@@ -13,8 +13,8 @@ import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.ad.di.module.adModule
 import com.oztechan.ccc.ad.initAds
+import com.oztechan.ccc.analytics.di.module.analyticsModule
 import com.oztechan.ccc.analytics.initAnalytics
-import com.oztechan.ccc.android.di.module.appModule
 import com.oztechan.ccc.billing.di.module.billingModule
 import com.oztechan.ccc.client.di.initAndroid
 import mustafaozhan.github.com.mycurrencies.BuildConfig
@@ -43,8 +43,8 @@ class Application : Application() {
         initAndroid(
             context = this,
             appModules = listOf(
-                appModule,
                 adModule,
+                analyticsModule,
                 billingModule
             )
         )
