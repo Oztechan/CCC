@@ -35,9 +35,9 @@ android {
 
 dependencies {
 
-    with(DeviceFlavour) {
-        googleApi(Dependencies.Android.GOOGLE.BILLING)
-    }
+    DeviceFlavour.googleApi(Dependencies.Android.GOOGLE.BILLING)
+
+    implementation(Dependencies.Common.KOIN_CORE)
 
     with(Dependencies.Android) {
         implementation(LIFECYCLE_RUNTIME)
