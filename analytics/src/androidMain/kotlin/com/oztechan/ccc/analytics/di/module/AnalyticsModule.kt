@@ -1,4 +1,4 @@
-package com.oztechan.ccc.android.di.module
+package com.oztechan.ccc.analytics.di.module
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.AnalyticsManagerImpl
@@ -6,6 +6,6 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-internal var appModule = module {
+val analyticsModule = module {
     singleOf(::AnalyticsManagerImpl) { bind<AnalyticsManager>() }
 }
