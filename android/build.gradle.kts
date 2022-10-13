@@ -116,6 +116,7 @@ dependencies {
         implementation(project(LOGMOB))
         implementation(project(SCOPEMOB))
         implementation(project(BASEMOB))
+        implementation(project(ANALYTICS))
 
         testImplementation(project(TEST))
     }
