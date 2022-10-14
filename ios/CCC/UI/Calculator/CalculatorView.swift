@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import NavigationStack
 
 typealias CalculatorObservable = ObservableSEED

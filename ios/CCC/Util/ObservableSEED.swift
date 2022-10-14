@@ -7,7 +7,7 @@
 //
 
 import Combine
-import Client
+import Provider
 
 final class ObservableSEED<
     ViewModel: BaseSEEDViewModel,

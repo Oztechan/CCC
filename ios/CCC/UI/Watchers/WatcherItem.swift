@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 import Res
 import NavigationStack
 import Combine
@@ -19,7 +19,7 @@ struct WatcherItem: View {
     @Binding var isBaseBarShown: Bool
     @Binding var isTargetBarShown: Bool
 
-    let watcher: Client.Watcher
+    let watcher: Provider.Watcher
     let event: WatchersEvent
 
     var body: some View {

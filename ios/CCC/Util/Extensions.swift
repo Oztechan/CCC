@@ -7,7 +7,7 @@
 //
 
 import Res
-import Client
+import Provider
 import SwiftUI
 
 extension ResourcesStringResource {

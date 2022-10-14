@@ -17,6 +17,10 @@ kotlin {
         ios.deploymentTarget = "14.0"
         framework {
             baseName = "Provider"
+            with(Dependencies.Modules) {
+                export(project(CLIENT))
+                export(project(ANALYTICS))
+            }
         }
     }
 
@@ -29,6 +33,16 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+
+                implementation(Dependencies.Common.KOIN_CORE)
+
+                with(Dependencies.Modules) {
+                    implementation(project(LOGMOB))
+                    api(project(CLIENT))
+                    api(project(ANALYTICS))
+                }
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting

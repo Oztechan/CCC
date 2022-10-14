@@ -11,32 +11,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
         id(ANDROID_LIB)
         id(SQL_DELIGHT)
         id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
 }
-
-version = ProjectSettings.getVersionName(project)
-
 kotlin {
     android()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-
-    cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
-        framework {
-            baseName = "Client"
-            export(project(Dependencies.Modules.ANALYTICS))
-        }
-    }
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -53,7 +39,7 @@ kotlin {
                     implementation(project(LOGMOB))
                     implementation(project(SCOPEMOB))
                     implementation(project(PARSERMOB))
-                    api(project(ANALYTICS))
+                    implementation(project(ANALYTICS))
                 }
             }
         }
