@@ -52,10 +52,14 @@ config-->client
 
 analytics-->client
 analytics --> android
+analytics --> provider
 analytics --> ios
 
 client-->android
-client-->ios
+client --> ios
+client-->provider
+
+provider --> ios
 
 res-->android
 res-->ios
@@ -63,6 +67,7 @@ res-->ios
 LOGMOB --> ad
 LOGMOB --> billing
 LOGMOB --> android
+LOGMOB --> provider
 LOGMOB --> ios
 LOGMOB --> client
 LOGMOB --> config
@@ -82,6 +87,7 @@ SCOPEMOB{SCOPEMOB}
 config{config}
 res{res}
 PARSERMOB{PARSERMOB}
+provider{provider}
 
 ad
 billing
