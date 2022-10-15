@@ -27,7 +27,7 @@ class MainViewModel(
     private val appConfigRepository: AppConfigRepository,
     private val adRepository: AdRepository,
     analyticsManager: AnalyticsManager,
-) : BaseSEEDViewModel(), MainEvent {
+) : BaseSEEDViewModel<BaseState, MainEffect, MainEvent, MainData>(), MainEvent {
     // region SEED
     override val state: StateFlow<BaseState>? = null
 

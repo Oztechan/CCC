@@ -25,15 +25,15 @@ class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val watcherDataSource: WatcherDataSource,
     private val adRepository: AdRepository
-) : BaseSEEDViewModel(), WatchersEvent {
+) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
     override val state = _state.asStateFlow()
 
-    override val event = this as WatchersEvent
-
     private val _effect = MutableSharedFlow<WatchersEffect>()
     override val effect = _effect.asSharedFlow()
+
+    override val event = this as WatchersEvent
 
     override val data = WatchersData()
 

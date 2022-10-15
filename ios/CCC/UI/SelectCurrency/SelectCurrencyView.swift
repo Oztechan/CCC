@@ -14,11 +14,11 @@ import NavigationStack
 struct SelectCurrencyView: View {
 
     @StateObject var observable = ObservableSEEDViewModel<
-        SelectCurrencyViewModel,
         SelectCurrencyState,
         SelectCurrencyEffect,
         SelectCurrencyEvent,
-        BaseData
+        BaseData,
+        SelectCurrencyViewModel
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat

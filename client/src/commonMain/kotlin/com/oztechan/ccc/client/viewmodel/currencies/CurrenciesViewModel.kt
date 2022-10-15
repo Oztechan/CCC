@@ -35,7 +35,7 @@ class CurrenciesViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel(), CurrenciesEvent {
+) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
     override val state = _state.asStateFlow()

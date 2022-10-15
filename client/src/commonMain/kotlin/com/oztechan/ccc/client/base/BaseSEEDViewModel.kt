@@ -7,11 +7,16 @@ package com.oztechan.ccc.client.base
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
-abstract class BaseSEEDViewModel : BaseViewModel() {
+abstract class BaseSEEDViewModel<
+    State : BaseState,
+    Effect : BaseEffect,
+    Event : BaseEvent,
+    Data : BaseData
+    > : BaseViewModel() {
     // region SEED
-    abstract val state: StateFlow<BaseState>?
-    abstract val effect: SharedFlow<BaseEffect>?
-    abstract val event: BaseEvent?
-    abstract val data: BaseData?
+    abstract val state: StateFlow<State>?
+    abstract val effect: SharedFlow<Effect>?
+    abstract val event: Event?
+    abstract val data: Data?
     // endregion
 }

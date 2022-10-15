@@ -56,7 +56,7 @@ class CalculatorViewModel(
     private val offlineRatesDataSource: OfflineRatesDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel(), CalculatorEvent {
+) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
     override val state = _state.asStateFlow()
@@ -213,6 +213,7 @@ class CalculatorViewModel(
                     ?.apply {
                         _state.update { copy(input = substring(0, length - 1)) }
                     }
+
             else -> _state.update { copy(input = state.value.input + key) }
         }
     }

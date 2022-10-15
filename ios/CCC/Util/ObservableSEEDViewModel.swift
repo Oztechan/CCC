@@ -10,11 +10,11 @@ import Combine
 import Provider
 
 final class ObservableSEEDViewModel<
-    ViewModel: BaseSEEDViewModel,
     State: BaseState,
     Effect: BaseEffect,
     Event: BaseEvent,
-    Data: BaseData
+    Data: BaseData,
+    ViewModel: BaseSEEDViewModel<State, Effect, Event, Data>
 >: ObservableObject {
 
     let viewModel: ViewModel = koin.get()
@@ -33,8 +33,8 @@ final class ObservableSEEDViewModel<
         logger.i(message: {"ObservableSEED \(ViewModel.description()) init"})
 
         self.state = State()
-        self.event = viewModel.event as! Event
-        self.data = viewModel.data as? Data
+        self.event = viewModel.event!
+        self.data = viewModel.data
     }
 
     deinit {

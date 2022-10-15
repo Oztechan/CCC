@@ -14,11 +14,11 @@ import NavigationStack
 struct WatchersView: View {
 
     @StateObject var observable = ObservableSEEDViewModel<
-        WatchersViewModel,
         WatchersState,
         WatchersEffect,
         WatchersEvent,
-        WatchersData
+        WatchersData,
+        WatchersViewModel
     >()
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
