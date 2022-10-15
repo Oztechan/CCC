@@ -121,4 +121,9 @@ object Dependencies {
         const val BASEMOB = ":basemob"
         const val PARSERMOB = ":parsermob"
     }
+
+    object Pods {
+        const val PROVIDER = "Provider"
+        const val RES = "Res"
+    }
 }

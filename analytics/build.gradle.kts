@@ -5,8 +5,6 @@ plugins {
     }
 }
 
-version = ProjectSettings.getVersionName(project)
-
 kotlin {
     android()
 

@@ -4,7 +4,6 @@ plugins {
         kotlin(COCOAPODS)
     }
 }
-version = ProjectSettings.getVersionName(project)
 
 kotlin {
     iosX64()
@@ -12,11 +11,15 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
+        with(ProjectSettings) {
+            summary = PROJECT_NAME
+            homepage = HOMEPAGE
+            ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
+            version = getVersionName(project)
+        }
+
         framework {
-            baseName = "Provider"
+            baseName = Dependencies.Pods.PROVIDER
             with(Dependencies.Modules) {
                 export(project(CLIENT))
                 export(project(ANALYTICS))
