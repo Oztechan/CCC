@@ -9,7 +9,7 @@
 import Combine
 import Provider
 
-final class ObservableSEED<
+final class ObservableSEEDViewModel<
     ViewModel: BaseSEEDViewModel,
     State: BaseState,
     Effect: BaseEffect,
@@ -17,7 +17,7 @@ final class ObservableSEED<
     Data: BaseData
 >: ObservableObject {
 
-    let viewModel: ViewModel
+    let viewModel: ViewModel = koin.get()
 
     @Published private(set) var state: State
 
@@ -29,10 +29,9 @@ final class ObservableSEED<
     private var closeable: RuntimeCloseable!
 
     // swiftlint:disable force_cast
-    init(viewModel: ViewModel) {
+    init() {
         logger.i(message: {"ObservableSEED \(ViewModel.description()) init"})
 
-        self.viewModel = viewModel
         self.state = State()
         self.event = viewModel.event as! Event
         self.data = viewModel.data as? Data

@@ -11,15 +11,17 @@ import Res
 import Provider
 import NavigationStack
 
-typealias CalculatorObservable = ObservableSEED
-<CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
-
 struct CalculatorView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        CalculatorViewModel,
+        CalculatorState,
+        CalculatorEffect,
+        CalculatorEvent,
+        CalculatorData
+    >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @StateObject var observable = CalculatorObservable(viewModel: koin.get())
-
     @State var isBarShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()

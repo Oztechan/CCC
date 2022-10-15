@@ -11,14 +11,17 @@ import Res
 import Provider
 import NavigationStack
 
-typealias SelectCurrencyObservable = ObservableSEED
-<SelectCurrencyViewModel, SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>
-
 struct SelectCurrencyView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        SelectCurrencyViewModel,
+        SelectCurrencyState,
+        SelectCurrencyEffect,
+        SelectCurrencyEvent,
+        BaseData
+    >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @StateObject var observable = SelectCurrencyObservable(viewModel: koin.get())
     @Binding var isBarShown: Bool
 
     private let analyticsManager: AnalyticsManager = koin.get()

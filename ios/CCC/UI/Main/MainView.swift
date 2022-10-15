@@ -12,11 +12,15 @@ import Res
 import Provider
 import GoogleMobileAds
 
-typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
-
 struct MainView: View {
 
-    @StateObject var observable = MainObservable(viewModel: koin.get())
+    @StateObject var observable = ObservableSEEDViewModel<
+        MainViewModel,
+        BaseState,
+        MainEffect,
+        MainEvent,
+        MainData
+    >()
 
     var body: some View {
 
