@@ -11,12 +11,9 @@ import co.touchlab.kermit.Logger
 import com.github.submob.logmob.ANRWatchDogHandler
 import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.ad.di.module.adModule
 import com.oztechan.ccc.ad.initAds
-import com.oztechan.ccc.analytics.di.module.analyticsModule
 import com.oztechan.ccc.analytics.initAnalytics
-import com.oztechan.ccc.billing.di.module.billingModule
-import com.oztechan.ccc.client.di.initAndroid
+import com.oztechan.ccc.android.di.initKoin
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 @Suppress("unused")
@@ -40,14 +37,7 @@ class Application : Application() {
 
         initAds(this)
 
-        initAndroid(
-            context = this,
-            appModules = listOf(
-                adModule,
-                analyticsModule,
-                billingModule
-            )
-        )
+        initKoin(this)
 
         Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
     }
