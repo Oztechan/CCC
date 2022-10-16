@@ -4,6 +4,7 @@
 package com.oztechan.ccc.android
 
 import android.app.Application
+import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
@@ -35,11 +36,13 @@ class Application : Application() {
             enableStrictMode()
         }
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
+        }
+
         initAds(this)
 
         initKoin(this)
-
-        Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
     }
 
     private fun enableStrictMode() {
