@@ -43,15 +43,15 @@ class SettingsViewModel(
     private val adRepository: AdRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel(), SettingsEvent {
+) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
     override val state = _state.asStateFlow()
 
-    override val event = this as SettingsEvent
-
     private val _effect = MutableSharedFlow<SettingsEffect>()
     override val effect = _effect.asSharedFlow()
+
+    override val event = this as SettingsEvent
 
     override val data = SettingsData()
     // endregion

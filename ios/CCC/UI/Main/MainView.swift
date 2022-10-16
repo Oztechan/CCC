@@ -15,11 +15,11 @@ import GoogleMobileAds
 struct MainView: View {
 
     @StateObject var observable = ObservableSEEDViewModel<
-        MainViewModel,
         BaseState,
         MainEffect,
         MainEvent,
-        MainData
+        MainData,
+        MainViewModel
     >()
 
     var body: some View {

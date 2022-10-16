@@ -15,11 +15,11 @@ import GoogleMobileAds
 struct SettingsView: View {
 
     @StateObject var observable = ObservableSEEDViewModel<
-        SettingsViewModel,
         SettingsState,
         SettingsEffect,
         SettingsEvent,
-        SettingsData
+        SettingsData,
+        SettingsViewModel
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat

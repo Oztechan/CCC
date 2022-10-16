@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 class AdRemoveViewModel(
     private val settingsDataSource: SettingsDataSource
-) : BaseSEEDViewModel(), AdRemoveEvent {
+) : BaseSEEDViewModel<AdRemoveState, AdRemoveEffect, AdRemoveEvent, BaseData>(), AdRemoveEvent {
     // region SEED
     private val _state = MutableStateFlow(AdRemoveState())
     override val state = _state.asStateFlow()

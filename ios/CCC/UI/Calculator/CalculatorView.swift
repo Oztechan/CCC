@@ -14,11 +14,11 @@ import NavigationStack
 struct CalculatorView: View {
 
     @StateObject var observable = ObservableSEEDViewModel<
-        CalculatorViewModel,
         CalculatorState,
         CalculatorEffect,
         CalculatorEvent,
-        CalculatorData
+        CalculatorData,
+        CalculatorViewModel
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
