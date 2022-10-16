@@ -2,7 +2,7 @@
 
 ## Branch
 
-Branch name should start with issue id and after id there should be `-`
+Branch name should start with `ISSUE_ID` and after the id there should be `-` then continues with description of branch or title of ticket.
 
 Example:
 
