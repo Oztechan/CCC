@@ -6,7 +6,7 @@ include(
     // Targets
     ":android", // android app
     ":backend", // backend app
-    // ios -> not an gradle module
+    // ios -> not a gradle module
 
     // KMP modules
     ":common", // Shared with all FE & BE targets
