@@ -42,7 +42,6 @@
 		5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */; };
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
-		5CA50B4B28E090A300CB3F2B /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA50B4A28E090A300CB3F2B /* Modifiers.swift */; };
 		5CACB69228A7CDDE00A2D13C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CACB69128A7CDDE00A2D13C /* Alert.swift */; };
 		5CB954BF26932408007632DC /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* BannerAdView.swift */; };
 		5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */; };
@@ -106,7 +105,6 @@
 		5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUtil.swift; sourceTree = "<group>"; };
 		5C9A59BA25C350DE006745B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
-		5CA50B4A28E090A300CB3F2B /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
 		5CACB69128A7CDDE00A2D13C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 				5CEA86F42840CF65001386FB /* NotificationManager.swift */,
 				5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */,
 				5CACB69128A7CDDE00A2D13C /* Alert.swift */,
-				5CA50B4A28E090A300CB3F2B /* Modifiers.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -516,7 +513,6 @@
 				5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */,
 				5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */,
 				5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */,
-				5CA50B4B28E090A300CB3F2B /* Modifiers.swift in Sources */,
 				5CB954BF26932408007632DC /* BannerAdView.swift in Sources */,
 				5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
