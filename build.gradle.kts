@@ -63,18 +63,19 @@ koverMerged {
     enable()
     filters {
         classes {
-            excludes += listOf(
-                "*Test",
-                "*.*Test",
-                "*.*.*Test",
-                "*.*.*.*Test",
-                "*.*.*.*.*Test",
-                "*.*.*.*.*.*Test",
-                "*.*.*.*.*.*.*Test",
-                "*.*.*.*.*.*.*.*Test",
-                "*.*.*.*.*.*.*.*.*Test",
-                "*.*.*.*.*.*.*.*.*.*Test"
-            )
+            excludes += buildTestPackagePaths()
         }
+    }
+}
+
+fun buildTestPackagePaths() = mutableListOf<String>().apply {
+    repeat(30) { depth ->
+        var result = ""
+        val prefix = "*."
+        val postfix = "*Test"
+        repeat(depth) {
+            result = "$result$prefix"
+        }
+        add("$result$postfix")
     }
 }
