@@ -99,3 +99,4 @@ extension View {
             return self.background(color)
         #endif
     }
+}
