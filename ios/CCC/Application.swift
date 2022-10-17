@@ -42,7 +42,8 @@ struct Application: App {
             width: 0,
             height: Double.leastNonzeroMagnitude
         ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
+        UICollectionView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
 
         self.backgroundRepository = koin.get()
 

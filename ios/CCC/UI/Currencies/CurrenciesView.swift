@@ -61,8 +61,7 @@ struct CurrenciesView: View {
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
-                }
-                .background(MR.colors().background.get())
+                }.withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(
