@@ -34,8 +34,10 @@ struct WatchersView: View {
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                if notificationManager.authorizationStatus == .authorized {
-
+                switch notificationManager.authorizationStatus {
+                case nil:
+                    Spacer()
+                case .authorized:
                     Form {
                         List(observable.state.watcherList, id: \.id) { watcher in
                             WatcherItem(
@@ -72,7 +74,7 @@ struct WatchersView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .background(MR.colors().background_strong.get())
 
-                } else {
+                default:
                     VStack {
                         Text(MR.strings().txt_enable_notification_permission.get())
                             .multilineTextAlignment(.center)
