@@ -4,40 +4,48 @@
 
 package com.oztechan.ccc.common.service
 
+import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiServiceImpl
+import com.oztechan.ccc.test.BaseSubjectTest
+import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
+internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
+
+    override val subject: PremiumApiService by lazy {
+        PremiumApiServiceImpl(premiumAPI, createTestDispatcher())
+    }
 
     @Mock
     private val premiumAPI = mock(classOf<PremiumApi>())
 
-    override val service: PremiumApiService = PremiumApiServiceImpl(
-        premiumAPI,
-        newSingleThreadContext(this::class.simpleName.toString())
-    )
+    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val mockThrowable = Throwable("mock")
+    private val mockBase = "EUR"
 
     @Test
     fun getRates_parameter_can_not_be_empty() = runTest {
-        runCatching { service.getRates("") }.let {
+        runCatching { subject.getRates("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
+            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(premiumAPI)
@@ -51,11 +59,14 @@ class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
             .coroutine { premiumAPI.getRates(mockBase) }
             .thenThrow(mockThrowable)
 
-        runCatching { service.getRates(mockBase) }.let {
+        runCatching { subject.getRates(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertEquals(mockThrowable.message, it.exceptionOrNull()?.message)
-            assertTrue { it.exceptionOrNull() is UnknownNetworkException }
+            assertNotNull(it.exceptionOrNull())
+            assertNotNull(it.exceptionOrNull()!!.cause)
+            assertNotNull(it.exceptionOrNull()!!.message)
+            assertEquals(mockThrowable.message, it.exceptionOrNull()!!.cause!!.message)
+            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(premiumAPI)
@@ -69,7 +80,7 @@ class PremiumApiServiceTest : BaseServiceTest<PremiumApiService>() {
             .coroutine { premiumAPI.getRates(mockBase) }
             .thenReturn(mockEntity)
 
-        runCatching { service.getRates(mockBase) }.let {
+        runCatching { subject.getRates(mockBase) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
             assertEquals(mockEntity.toModel(), it.getOrNull())

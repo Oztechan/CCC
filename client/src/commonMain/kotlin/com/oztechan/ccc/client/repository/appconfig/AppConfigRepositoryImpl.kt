@@ -7,7 +7,7 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
 
-class AppConfigRepositoryImpl(
+internal class AppConfigRepositoryImpl(
     private val configService: ConfigService,
     private val settingsDataSource: SettingsDataSource,
     private val device: Device
@@ -33,4 +33,6 @@ class AppConfigRepositoryImpl(
         .whether { settingsDataSource.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false
+
+    override fun getVersion(): String = "${device.name.first()}${BuildKonfig.versionName}"
 }

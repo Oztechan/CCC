@@ -4,7 +4,6 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.BuildKonfig
@@ -12,8 +11,6 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -24,6 +21,9 @@ import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -34,11 +34,16 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@Suppress("TooManyFunctions")
-class MainViewModelTest : BaseViewModelTest() {
+@Suppress("TooManyFunctions", "OPT_IN_USAGE")
+internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
+
+    override val subject: MainViewModel by lazy {
+        MainViewModel(settingsDataSource, configService, appConfigRepository, adRepository, analyticsManager)
+    }
 
     @Mock
     private val settingsDataSource = mock(classOf<SettingsDataSource>())
@@ -55,15 +60,13 @@ class MainViewModelTest : BaseViewModelTest() {
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
 
-    private val viewModel: MainViewModel by lazy {
-        MainViewModel(settingsDataSource, configService, appConfigRepository, adRepository, analyticsManager)
-    }
-
     private val appThemeValue = Random.nextInt()
     private val mockDevice = Device.IOS
 
     @BeforeTest
-    fun setup() {
+    override fun setup() {
+        super.setup()
+
         given(settingsDataSource)
             .invocation { appTheme }
             .thenReturn(appThemeValue)
@@ -79,15 +82,19 @@ class MainViewModelTest : BaseViewModelTest() {
         given(appConfigRepository)
             .invocation { getDeviceType() }
             .then { mockDevice }
+
+        given(adRepository)
+            .invocation { shouldShowInterstitialAd() }
+            .thenReturn(false)
     }
 
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
-        viewModel // init
+        subject // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsAdFree(viewModel.isAdFree().toString())) }
+            .invocation { setUserProperty(UserProperty.IsAdFree(subject.isAdFree().toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString())) }
@@ -107,7 +114,7 @@ class MainViewModelTest : BaseViewModelTest() {
     // SEED
     @Test
     fun check_state_is_null() {
-        assertNull(viewModel.state)
+        assertNull(subject.state)
     }
 
     // public methods
@@ -119,7 +126,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { firstRun }
             .thenReturn(boolean)
 
-        assertEquals(boolean, viewModel.isFistRun())
+        assertEquals(boolean, subject.isFistRun())
 
         verify(settingsDataSource)
             .invocation { firstRun }
@@ -128,7 +135,7 @@ class MainViewModelTest : BaseViewModelTest() {
 
     @Test
     fun getAppTheme() {
-        assertEquals(appThemeValue, viewModel.getAppTheme())
+        assertEquals(appThemeValue, subject.getAppTheme())
 
         verify(settingsDataSource)
             .invocation { appTheme }
@@ -141,7 +148,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .then { nowAsLong() + SECOND }
 
-        assertEquals(true, viewModel.isAdFree())
+        assertTrue { subject.isAdFree() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -154,7 +161,7 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { adFreeEndDate }
             .then { nowAsLong() - SECOND }
 
-        assertEquals(false, viewModel.isAdFree())
+        assertFalse { subject.isAdFree() }
 
         verify(settingsDataSource)
             .invocation { adFreeEndDate }
@@ -163,15 +170,19 @@ class MainViewModelTest : BaseViewModelTest() {
 
     // event
     @Test
-    fun onPause() = with(viewModel) {
+    fun onPause() = with(subject) {
         event.onPause()
-        assertEquals(false, data.adVisibility)
-        assertEquals(true, data.adJob.isCancelled)
+        assertFalse { data.adVisibility }
+        assertTrue { data.adJob.isCancelled }
     }
 
     @Test
-    fun onResume_adjustSessionCount() = with(viewModel) {
-        val mockConfig = AppConfig()
+    fun onResume_adjustSessionCount() = with(subject) {
+        val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
+        )
         val mockSessionCount = Random.nextLong()
 
         given(configService)
@@ -198,14 +209,14 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { getMarketLink() }
             .then { "" }
 
-        assertEquals(true, data.isNewSession)
+        assertTrue { data.isNewSession }
 
         event.onResume()
 
         verify(settingsDataSource)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasInvoked()
-        assertEquals(false, data.isNewSession)
+        assertFalse { data.isNewSession }
 
         event.onResume()
 
@@ -213,16 +224,15 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasNotInvoked()
 
-        assertEquals(false, data.isNewSession)
+        assertFalse { data.isNewSession }
     }
 
     @Test
-    fun onResume_setupInterstitialAdTimer() = with(viewModel) {
+    fun onResume_setupInterstitialAdTimer() = with(subject) {
         val mockConfig = AppConfig(
-            adConfig = AdConfig(
-                interstitialAdInitialDelay = 0L,
-                interstitialAdPeriod = 0L
-            )
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
         )
         val mockSessionCount = Random.nextLong()
 
@@ -253,13 +263,13 @@ class MainViewModelTest : BaseViewModelTest() {
         effect.before {
             onResume()
         }.after {
-            assertEquals(true, data.adVisibility)
-            assertEquals(true, data.adJob.isActive)
+            assertTrue { data.adVisibility }
+            assertTrue { data.adJob.isActive }
 
-            assertTrue { it is MainEffect.ShowInterstitialAd }
+            assertIs<MainEffect.ShowInterstitialAd>(it)
 
             data.adJob.cancel()
-            assertEquals(false, data.adJob.isActive)
+            assertFalse { data.adJob.isActive }
         }
 
         verify(configService)
@@ -274,8 +284,12 @@ class MainViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(viewModel) {
-        val mockConfig = AppConfig()
+    fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(subject) {
+        val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
+            listOf()
+        )
         val mockSessionCount = Random.nextLong()
 
         given(configService)
@@ -308,10 +322,6 @@ class MainViewModelTest : BaseViewModelTest() {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
-        given(adRepository)
-            .invocation { shouldShowInterstitialAd() }
-            .then { false }
-
         given(settingsDataSource)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -321,6 +331,8 @@ class MainViewModelTest : BaseViewModelTest() {
             .thenReturn(mockBoolean)
 
         val mockConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockDevice.name,
@@ -342,12 +354,12 @@ class MainViewModelTest : BaseViewModelTest() {
             .invocation { getMarketLink() }
             .then { "" }
 
-        viewModel.effect.before {
-            viewModel.onResume()
+        subject.effect.before {
+            subject.onResume()
         }.after {
-            assertTrue { it is MainEffect.AppUpdateEffect }
-            assertTrue { it?.castTo<MainEffect.AppUpdateEffect>()?.isCancelable == mockBoolean }
-            assertTrue { viewModel.data.isAppUpdateShown }
+            assertIs<MainEffect.AppUpdateEffect>(it)
+            assertEquals(mockBoolean, it.isCancelable)
+            assertTrue { subject.data.isAppUpdateShown }
         }
 
         verify(configService)
@@ -361,15 +373,13 @@ class MainViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onResume_checkReview_should_request_review_when_shouldShowAppReview_returns_true() =
-        with(viewModel) {
+        with(subject) {
             val mockConfig = AppConfig(
-                appReview = AppReview(appReviewDialogDelay = 0L)
+                AdConfig(0, 0, 0L, 0L),
+                AppReview(0, 0L),
+                listOf()
             )
             val mockSessionCount = Random.nextLong()
-
-            given(adRepository)
-                .invocation { shouldShowInterstitialAd() }
-                .then { false }
 
             given(configService)
                 .invocation { configService.appConfig }
@@ -390,7 +400,7 @@ class MainViewModelTest : BaseViewModelTest() {
             effect.before {
                 onResume()
             }.after {
-                assertTrue { it is MainEffect.RequestReview }
+                assertIs<MainEffect.RequestReview>(it)
             }
 
             verify(appConfigRepository)
@@ -403,9 +413,11 @@ class MainViewModelTest : BaseViewModelTest() {
 
     @Test
     fun onResume_checkReview_should_do_nothing_when_shouldShowAppReview_returns_false() =
-        with(viewModel) {
+        with(subject) {
             val mockConfig = AppConfig(
-                appReview = AppReview(appReviewDialogDelay = 0L)
+                AdConfig(0, 0, 0L, 0L),
+                AppReview(0, 0L),
+                listOf()
             )
             val mockSessionCount = Random.nextLong()
 

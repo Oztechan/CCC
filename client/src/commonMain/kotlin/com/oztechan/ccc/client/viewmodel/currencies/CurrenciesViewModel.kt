@@ -17,6 +17,7 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
@@ -27,7 +28,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
@@ -35,7 +35,7 @@ class CurrenciesViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel(), CurrenciesEvent {
+) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(), CurrenciesEvent {
     // region SEED
     private val _state = MutableStateFlow(CurrenciesState())
     override val state = _state.asStateFlow()
@@ -53,10 +53,12 @@ class CurrenciesViewModel(
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
-                _state.update(
-                    currencyList = currencyList,
-                    selectionVisibility = false
-                )
+                _state.update {
+                    copy(
+                        currencyList = currencyList,
+                        selectionVisibility = false
+                    )
+                }
                 data.unFilteredList = currencyList.toMutableList()
 
                 verifyListSize()
@@ -65,10 +67,10 @@ class CurrenciesViewModel(
                 filterList(data.query)
 
                 currencyList.filter { it.isActive }
-                    .run {
-                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString()))
+                    .let {
+                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                         analyticsManager.setUserProperty(
-                            UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
                         )
                     }
             }.launchIn(viewModelScope)
@@ -76,14 +78,13 @@ class CurrenciesViewModel(
         filterList("")
     }
 
-    private fun verifyListSize() = _state.value.currencyList
-        .filter { it.isActive }.size
-        .whether { it < MINIMUM_ACTIVE_CURRENCY }
+    private suspend fun verifyListSize() = _state.value.currencyList
+        .filter { it.isActive }
+        .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { settingsDataSource.firstRun }
-        ?.mapTo { viewModelScope }
-        ?.launch { _effect.emit(CurrenciesEffect.FewCurrency) }
+        ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private fun verifyCurrentBase() = settingsDataSource.currentBase.either(
+    private suspend fun verifyCurrentBase() = settingsDataSource.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -98,7 +99,7 @@ class CurrenciesViewModel(
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
-        viewModelScope.launch { _effect.emit(CurrenciesEffect.ChangeBase(newBase)) }
+        _effect.emit(CurrenciesEffect.ChangeBase(newBase))
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -108,13 +109,13 @@ class CurrenciesViewModel(
                 symbol.contains(txt, true)
         }.toMutableList()
         .let {
-            _state.update(currencyList = it, loading = false)
+            _state.update { copy(currencyList = it, loading = false) }
         }.run {
             data.query = txt
         }
 
-    fun hideSelectionVisibility() {
-        _state.update(selectionVisibility = false)
+    fun hideSelectionVisibility() = _state.update {
+        copy(selectionVisibility = false)
     }
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
@@ -147,13 +148,13 @@ class CurrenciesViewModel(
 
     override fun onItemLongClick() = _state.value.selectionVisibility.let {
         Logger.d { "CurrenciesViewModel onItemLongClick" }
-        _state.update(selectionVisibility = !it)
+        _state.update { copy(selectionVisibility = !it) }
     }
 
     override fun onCloseClick() = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onCloseClick" }
         if (_state.value.selectionVisibility) {
-            _state.update(selectionVisibility = false)
+            _state.update { copy(selectionVisibility = false) }
         } else {
             _effect.emit(CurrenciesEffect.Back)
         }.run {

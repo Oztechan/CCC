@@ -19,9 +19,8 @@ object Dependencies {
         const val SQL_DELIGHT_COROUTINES_EXT = "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
-        const val SCOPE_MOB = "com.github.submob:scopemob:${Versions.SCOPE_MOB}"
-        const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
-        const val LOG_MOB = "com.github.submob:logmob:${Versions.LOG_MOB}"
+        const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
+        const val KERMIT_CRASHLYTICS = "co.touchlab:kermit-crashlytics:${Versions.KERMIT}"
     }
 
     object Android {
@@ -41,7 +40,8 @@ object Dependencies {
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
-        const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
+        const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
@@ -64,6 +64,7 @@ object Dependencies {
         const val LOG_BACK = "ch.qos.logback:logback-classic:${Versions.LOG_BACK}"
         const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
         const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
+        const val TEST_JUNIT = "test-junit"
     }
 
     object ClassPaths {
@@ -112,5 +113,17 @@ object Dependencies {
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
         const val CONFIG = ":config"
+        const val TEST = ":test"
+
+        // submodules
+        const val LOGMOB = ":logmob"
+        const val SCOPEMOB = ":scopemob"
+        const val BASEMOB = ":basemob"
+        const val PARSERMOB = ":parsermob"
+    }
+
+    object Pods {
+        const val PROVIDER = "Provider"
+        const val RES = "Res"
     }
 }

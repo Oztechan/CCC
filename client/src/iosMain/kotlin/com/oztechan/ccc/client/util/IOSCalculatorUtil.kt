@@ -9,7 +9,7 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterDecimalStyle
 
-actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().apply {
+internal actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().apply {
     var currentPrecision = precision.toULong()
     setNumberStyle(NSNumberFormatterDecimalStyle)
     setGroupingSeparator(" ")
@@ -24,7 +24,7 @@ actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().apply {
     }
 }.stringFromNumber(NSNumber(this)).orEmpty()
 
-actual fun Double.removeScientificNotation() = NSNumberFormatter().apply {
+internal actual fun Double.removeScientificNotation() = NSNumberFormatter().apply {
     setNumberStyle(NSNumberFormatterDecimalStyle)
     setGroupingSeparator("")
     setDecimalSeparator(".")

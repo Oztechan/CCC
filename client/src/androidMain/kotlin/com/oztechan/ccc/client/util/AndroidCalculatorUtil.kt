@@ -9,7 +9,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 
-actual fun Double.getFormatted(precision: Int): String {
+internal actual fun Double.getFormatted(precision: Int): String {
 
     var decimalFormat = "###,###."
     repeat(precision) {
@@ -28,7 +28,7 @@ actual fun Double.getFormatted(precision: Int): String {
     return DecimalFormat(decimalFormat, symbols).format(this)
 }
 
-actual fun Double.removeScientificNotation(): String = DecimalFormat("#.#").apply {
+internal actual fun Double.removeScientificNotation(): String = DecimalFormat("#.#").apply {
     maximumFractionDigits = WatchersData.MAXIMUM_INPUT
     decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
 }.format(this)

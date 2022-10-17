@@ -20,11 +20,15 @@ kotlin {
             dependencies {
                 with(Dependencies.Common) {
                     implementation(KTOR_JSON)
-                    implementation(LOG_MOB)
                 }
+                implementation(project(Dependencies.Modules.LOGMOB))
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
 
         val androidMain by getting {
             dependencies {
@@ -58,6 +62,7 @@ android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
 
+        @Suppress("UnstableApiUsage")
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION

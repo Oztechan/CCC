@@ -1,14 +1,17 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.test.BaseTest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
 
 @Suppress("OPT_IN_USAGE")
-class CurrencyTest {
+internal class CurrencyTest : BaseTest() {
 
     private val entity = CurrencyEntity("Dollar", "United State Dollar", "$", 12.3, 1)
 
@@ -20,15 +23,15 @@ class CurrencyTest {
         assertEquals(entity.longName, model.longName)
         assertEquals(entity.symbol, model.symbol)
         assertEquals(entity.rate, model.rate)
-        assertEquals(true, model.isActive)
+        assertTrue { model.isActive }
     }
 
     @Test
     fun toModelIsActive() {
         val entityDeActive = CurrencyEntity("Dollar", "United State Dollar", "$", 12.3, 0)
 
-        assertEquals(true, entity.toModel().isActive)
-        assertEquals(false, entityDeActive.toModel().isActive)
+        assertTrue { entity.toModel().isActive }
+        assertFalse { entityDeActive.toModel().isActive }
     }
 
     @Test
@@ -59,7 +62,7 @@ class CurrencyTest {
                 assertEquals(entity.longName, it.longName)
                 assertEquals(entity.symbol, it.symbol)
                 assertEquals(entity.rate, it.rate)
-                assertEquals(true, it.isActive)
+                assertTrue { it.isActive }
             }
         }
     }

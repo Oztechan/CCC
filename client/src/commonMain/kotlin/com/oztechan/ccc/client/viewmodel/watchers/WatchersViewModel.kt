@@ -8,6 +8,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
@@ -24,22 +25,22 @@ class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val watcherDataSource: WatcherDataSource,
     private val adRepository: AdRepository
-) : BaseSEEDViewModel(), WatchersEvent {
+) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
     override val state = _state.asStateFlow()
 
-    override val event = this as WatchersEvent
-
     private val _effect = MutableSharedFlow<WatchersEffect>()
     override val effect = _effect.asSharedFlow()
+
+    override val event = this as WatchersEvent
 
     override val data = WatchersData()
 
     init {
         watcherDataSource.collectWatchers()
             .onEach {
-                _state.update(watcherList = it.toUIModelList())
+                _state.update { copy(watcherList = it.toUIModelList()) }
             }.launchIn(viewModelScope)
     }
 
@@ -60,18 +61,14 @@ class WatchersViewModel(
         _effect.emit(WatchersEffect.SelectTarget(watcher))
     }
 
-    override fun onBaseChanged(watcher: Watcher?, newBase: String) = viewModelScope.launchIgnored {
+    override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
-        watcher?.id?.let {
-            watcherDataSource.updateBaseById(newBase, it)
-        }
+        watcherDataSource.updateBaseById(newBase, watcher.id)
     }
 
-    override fun onTargetChanged(watcher: Watcher?, newTarget: String) = viewModelScope.launchIgnored {
+    override fun onTargetChanged(watcher: Watcher, newTarget: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
-        watcher?.id?.let {
-            watcherDataSource.updateTargetById(newTarget, it)
-        }
+        watcherDataSource.updateTargetById(newTarget, watcher.id)
     }
 
     override fun onAddClick() = viewModelScope.launchIgnored {
@@ -102,24 +99,18 @@ class WatchersViewModel(
     override fun onRateChange(watcher: Watcher, rate: String): String {
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
 
-        return when {
-            rate.length > MAXIMUM_INPUT -> {
-                viewModelScope.launch { _effect.emit(WatchersEffect.MaximumInput) }
-                rate.dropLast(1)
-            }
-            rate.toSupportedCharacters().toDoubleOrNull()?.isNaN() != false -> {
-                viewModelScope.launch { _effect.emit(WatchersEffect.InvalidInput) }
-                rate
-            }
-            else -> {
+        return if (rate.length > MAXIMUM_INPUT) {
+            viewModelScope.launch { _effect.emit(WatchersEffect.TooBigNumber) }
+            rate.dropLast(1)
+        } else {
+            rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {
                 viewModelScope.launch {
-                    watcherDataSource.updateRateById(
-                        rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-                        watcher.id
-                    )
+                    watcherDataSource.updateRateById(it, watcher.id)
                 }
-                rate
+            } ?: viewModelScope.launch {
+                _effect.emit(WatchersEffect.InvalidInput)
             }
+            rate
         }
     }
     // endregion

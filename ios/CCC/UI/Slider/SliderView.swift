@@ -8,10 +8,10 @@
 import SwiftUI
 import Res
 import NavigationStack
-import Client
+import Provider
 
 struct SliderView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
 
     private let analyticsManager: AnalyticsManager = koin.get()
 

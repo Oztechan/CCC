@@ -2,12 +2,15 @@ package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
+import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -17,10 +20,17 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-class AppConfigRepositoryTest {
+internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
+
+    override val subject: AppConfigRepository by lazy {
+        AppConfigRepositoryImpl(configService, settingsDataSource, device)
+    }
+
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
@@ -29,24 +39,22 @@ class AppConfigRepositoryTest {
 
     private val device = Device.IOS
 
-    private val repository: AppConfigRepositoryImpl by lazy {
-        AppConfigRepositoryImpl(configService, settingsDataSource, device)
-    }
-
     @Test
     fun getDeviceType() {
-        assertEquals(device, repository.getDeviceType())
+        assertEquals(device, subject.getDeviceType())
     }
 
     @Test
     fun getMarketLink() {
-        assertEquals(device.marketLink, repository.getMarketLink())
+        assertEquals(device.marketLink, subject.getMarketLink())
     }
 
     @Test
     fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -60,7 +68,10 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(false, repository.checkAppUpdate(false))
+        subject.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertFalse { it }
+        }
 
         verify(configService)
             .invocation { appConfig }
@@ -71,6 +82,8 @@ class AppConfigRepositoryTest {
     fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -84,7 +97,10 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(true, repository.checkAppUpdate(false))
+        subject.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertTrue { it }
+        }
 
         verify(configService)
             .invocation { appConfig }
@@ -95,6 +111,8 @@ class AppConfigRepositoryTest {
     fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -108,7 +126,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(false))
+        assertNull(subject.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -119,6 +137,8 @@ class AppConfigRepositoryTest {
     fun checkAppUpdate_should_return_null_when_device_name_is_different_than_remote() {
         val mockName = "mock"
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -132,7 +152,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(false))
+        assertNull(subject.checkAppUpdate(false))
 
         verify(configService)
             .invocation { appConfig }
@@ -143,6 +163,8 @@ class AppConfigRepositoryTest {
     fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
         val mockName = device.name
         val mockAppConfig = AppConfig(
+            AdConfig(0, 0, 0L, 0L),
+            AppReview(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -156,7 +178,7 @@ class AppConfigRepositoryTest {
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        assertEquals(null, repository.checkAppUpdate(true))
+        assertNull(subject.checkAppUpdate(true))
 
         verify(configService)
             .invocation { appConfig }
@@ -167,7 +189,9 @@ class AppConfigRepositoryTest {
     fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, appReviewDialogDelay = 0L),
+            listOf()
         )
 
         given(configService)
@@ -178,7 +202,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() + 1)
 
-        assertTrue { repository.shouldShowAppReview() }
+        assertTrue { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -193,7 +217,9 @@ class AppConfigRepositoryTest {
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            listOf()
         )
 
         given(configService)
@@ -204,7 +230,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() - 1)
 
-        assertFalse { repository.shouldShowAppReview() }
+        assertFalse { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -219,7 +245,9 @@ class AppConfigRepositoryTest {
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
-            appReview = AppReview(appReviewSessionCount = mockInteger)
+            AdConfig(0, 0, 0L, 0L),
+            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            listOf()
         )
 
         given(configService)
@@ -230,7 +258,7 @@ class AppConfigRepositoryTest {
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong())
 
-        assertFalse { repository.shouldShowAppReview() }
+        assertFalse { subject.shouldShowAppReview() }
 
         verify(settingsDataSource)
             .invocation { sessionCount }
@@ -239,5 +267,10 @@ class AppConfigRepositoryTest {
         verify(configService)
             .invocation { appConfig }
             .wasInvoked()
+    }
+
+    @Test
+    fun getVersion() {
+        assertEquals("${device.name.first()}${BuildKonfig.versionName}", subject.getVersion())
     }
 }

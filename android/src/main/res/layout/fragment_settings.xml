@@ -75,12 +75,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/item_theme" />
 
             <include
-                android:id="@+id/item_sync"
+                android:id="@+id/item_precision"
                 style="@style/WideFitStyle"
                 layout="@layout/item_settings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_disable_ads" />
+
+            <include
+                android:id="@+id/item_sync"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_precision" />
 
             <include
                 android:id="@+id/item_support_us"
@@ -113,6 +121,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_share" />
+
+            <include
+                android:id="@+id/item_version"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_on_github" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

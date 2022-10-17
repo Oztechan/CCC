@@ -15,7 +15,7 @@ import io.ktor.server.routing.get
 private const val PATH_ROOT = "/"
 private const val INDEX_HTML = "index.html"
 
-suspend fun Route.getRoot() = get(PATH_ROOT) {
+internal suspend fun Route.getRoot() = get(PATH_ROOT) {
     Logger.i { "GET Request $PATH_ROOT" }
     call.respondText(
         javaClass.classLoader?.getResourceByName(INDEX_HTML) ?: "",

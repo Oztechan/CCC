@@ -1,9 +1,10 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class BooleanTest {
+internal class BooleanTest : BaseTest() {
     @Test
     fun toLong() {
         assertEquals(0L, false.toLong())

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 import Res
 
 struct CalculatorItemView: View {
@@ -20,19 +20,15 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
+            Text(item.rate)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture {
-                    onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
-                }
+                .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Text(item.symbol)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture {
-                    onItemAmountLongClick(IOSCalculatorUtilKt.getFormatted(item.rate, precision: Int32.init(3)))
-                }
+                .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Spacer()
 

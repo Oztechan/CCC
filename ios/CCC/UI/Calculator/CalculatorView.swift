@@ -8,18 +8,20 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import NavigationStack
-
-typealias CalculatorObservable = ObservableSEED
-<CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
 
 struct CalculatorView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        CalculatorState,
+        CalculatorEffect,
+        CalculatorEvent,
+        CalculatorData,
+        CalculatorViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable = CalculatorObservable(viewModel: koin.get())
-
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
@@ -65,7 +67,7 @@ struct CalculatorView: View {
                             .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }
-                    }.background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
@@ -117,8 +119,8 @@ struct CalculatorView: View {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
-        case is CalculatorEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get())
+        case is CalculatorEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:

@@ -8,28 +8,27 @@ package com.oztechan.ccc.client.util
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.model.Rates
 
-internal const val MAXIMUM_FLOATING_POINT = CalculatorData.PRECISION
+const val MAXIMUM_FLOATING_POINT = 9
 
-expect fun Double.getFormatted(precision: Int = 3): String
+internal expect fun Double.getFormatted(precision: Int): String
 
-expect fun Double.removeScientificNotation(): String
+internal expect fun Double.removeScientificNotation(): String
 
-fun Rates?.calculateResult(name: String, input: String?) = this
+internal fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByName(name)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
-fun String.toSupportedCharacters() = replace(",", ".")
+internal fun String.toSupportedCharacters() = replace(",", ".")
     .replace("٫", ".")
     .replace(" ", "")
     .replace("−", "-")
 
-fun String.toStandardDigits(): String {
+internal fun String.toStandardDigits(): String {
     val builder = StringBuilder()
     forEach { char ->
         char.toString().toIntOrNull()
@@ -40,7 +39,7 @@ fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-fun Currency.getCurrencyConversionByRate(
+internal fun Currency.getCurrencyConversionByRate(
     base: String,
     rate: Rates?
 ) = "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
@@ -48,12 +47,17 @@ fun Currency.getCurrencyConversionByRate(
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.name != currentBase &&
         it.isActive &&
-        it.rate.toString() != "NaN" &&
-        it.rate.toString() != "0.0"
+        it.rate != "NaN" &&
+        it.rate != "0.0" &&
+        it.rate != "0"
 } ?: mutableListOf()
 
+internal fun Int.indexToNumber() = this + 1
+
+fun Int.numberToIndex() = this - 1
+
 @Suppress("ComplexMethod", "LongMethod")
-fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
+internal fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all

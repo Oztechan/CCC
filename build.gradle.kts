@@ -39,6 +39,7 @@ group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 allprojects {
+    apply(plugin = "kover")
     repositories {
         mavenCentral()
         google()
@@ -57,4 +58,8 @@ allprojects {
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf { candidate.version.isNonStable() }
+}
+
+koverMerged {
+    enable()
 }

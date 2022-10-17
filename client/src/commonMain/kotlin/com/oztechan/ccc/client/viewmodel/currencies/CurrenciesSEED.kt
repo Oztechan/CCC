@@ -5,7 +5,6 @@ import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.Currency
-import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class CurrenciesState(
@@ -40,17 +39,4 @@ data class CurrenciesData(
     companion object {
         internal const val MINIMUM_ACTIVE_CURRENCY = 2
     }
-}
-
-// Extension
-fun MutableStateFlow<CurrenciesState>.update(
-    currencyList: List<Currency> = value.currencyList,
-    loading: Boolean = value.loading,
-    selectionVisibility: Boolean = value.selectionVisibility
-) {
-    value = value.copy(
-        currencyList = currencyList,
-        loading = loading,
-        selectionVisibility = selectionVisibility
-    )
 }

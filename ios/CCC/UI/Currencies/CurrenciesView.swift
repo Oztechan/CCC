@@ -8,17 +8,20 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import NavigationStack
-
-typealias CurrenciesObservable = ObservableSEED
-<CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
 
 struct CurrenciesView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        CurrenciesState,
+        CurrenciesEffect,
+        CurrenciesEvent,
+        CurrenciesData,
+        CurrenciesViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable = CurrenciesObservable(viewModel: koin.get())
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -58,8 +61,7 @@ struct CurrenciesView: View {
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
-                }
-                .background(MR.colors().background.get())
+                }.withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(

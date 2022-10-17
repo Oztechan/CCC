@@ -4,7 +4,7 @@ import com.oztechan.ccc.common.error.DatabaseException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-open class BaseDBDataSource(
+internal open class BaseDBDataSource(
     private val ioDispatcher: CoroutineDispatcher
 ) {
     @Suppress("TooGenericExceptionCaught")

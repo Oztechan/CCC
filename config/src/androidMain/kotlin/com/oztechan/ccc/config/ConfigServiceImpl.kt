@@ -6,12 +6,13 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.oztechan.ccc.config.model.AppConfig
+import com.oztechan.ccc.config.entity.AppConfig
+import com.oztechan.ccc.config.mapper.toModel
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 actual class ConfigServiceImpl : ConfigService {
-    actual override var appConfig = AppConfig()
+    actual override var appConfig = AppConfig().toModel()
 
     init {
         Logger.i { "ConfigServiceImpl init" }
@@ -20,7 +21,7 @@ actual class ConfigServiceImpl : ConfigService {
 
             @Suppress("SwallowedException", "TooGenericExceptionCaught")
             try {
-                appConfig = parseAppConfig(get(KEY_APP_CONFIG).asString())
+                appConfig = parseAppConfig(get(KEY_APP_CONFIG).asString()).toModel()
             } catch (e: Exception) {
                 Logger.i { "No cached appConfig available" }
             }
@@ -37,7 +38,7 @@ actual class ConfigServiceImpl : ConfigService {
 
                     @Suppress("TooGenericExceptionCaught")
                     try {
-                        appConfig = parseAppConfig(getString(KEY_APP_CONFIG))
+                        appConfig = parseAppConfig(getString(KEY_APP_CONFIG)).toModel()
                         setDefaultsAsync(mapOf(KEY_APP_CONFIG to appConfig))
                     } catch (exception: Exception) {
                         Logger.e(exception)

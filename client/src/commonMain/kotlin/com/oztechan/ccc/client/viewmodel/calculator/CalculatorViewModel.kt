@@ -18,18 +18,19 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.PRECISION
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
@@ -55,7 +56,7 @@ class CalculatorViewModel(
     private val offlineRatesDataSource: OfflineRatesDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel(), CalculatorEvent {
+) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
     // region SEED
     private val _state = MutableStateFlow(CalculatorState())
     override val state = _state.asStateFlow()
@@ -69,7 +70,9 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        _state.update(base = settingsDataSource.currentBase, input = "")
+        _state.update {
+            copy(base = settingsDataSource.currentBase, input = "")
+        }
 
         state.map { it.base }
             .distinctUntilChanged()
@@ -90,7 +93,7 @@ class CalculatorViewModel(
         currencyDataSource.collectActiveCurrencies()
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
-                _state.update(currencyList = it.toUIModelList())
+                _state.update { copy(currencyList = it.toUIModelList()) }
 
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                 analyticsManager.setUserProperty(
@@ -130,54 +133,65 @@ class CalculatorViewModel(
             state.value.currencyList.size
                 .whether { it > 1 }
                 ?.let { _effect.emit(CalculatorEffect.Error) }
+                ?: run { _effect.emit(CalculatorEffect.FewCurrency) }
 
-            _state.update(
-                rateState = RateState.Error,
-                loading = false
-            )
+            _state.update {
+                copy(
+                    rateState = RateState.Error,
+                    loading = false
+                )
+            }
         }
     }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
-        _state.update(loading = true)
         data.parser
-            .calculate(input.toSupportedCharacters(), PRECISION)
-            .mapTo { if (isFinite()) getFormatted() else "" }
+            .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
+            .mapTo { if (isFinite()) getFormatted(settingsDataSource.precision) else "" }
             .whether(
                 { output -> output.length <= MAXIMUM_OUTPUT },
                 { input.length <= MAXIMUM_INPUT }
             )?.let { output ->
-                _state.update(output = output)
+                _state.update { copy(output = output) }
                 state.value.currencyList.size
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { state.value.input.isEmpty() }
                     ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
                     ?: run { getRates() }
             } ?: run {
-            _effect.emit(CalculatorEffect.MaximumInput)
-            _state.update(
-                input = input.dropLast(1),
-                loading = false
-            )
+            _effect.emit(CalculatorEffect.TooBigNumber)
+            _state.update {
+                copy(
+                    input = input.dropLast(1),
+                    loading = false
+                )
+            }
         }
     }
 
-    private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update(
-        currencyList = _state.value.currencyList.onEach {
-            it.rate = rates.calculateResult(it.name, _state.value.output)
-        },
-        rateState = rateState,
-        loading = false
-    )
+    private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update {
+        copy(
+            currencyList = _state.value.currencyList.onEach {
+                it.rate = rates.calculateResult(it.name, _state.value.output)
+                    .getFormatted(settingsDataSource.precision)
+                    .toStandardDigits()
+            },
+            rateState = rateState,
+            loading = false
+        )
+    }
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
         data.rates = null
         settingsDataSource.currentBase = newBase
-        _state.update(
-            base = newBase,
-            input = _state.value.input,
-            symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
-        )
+        _state.update {
+            copy(
+                loading = true,
+                base = newBase,
+                input = _state.value.input,
+                symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
+            )
+        }
 
         if (shouldTrack) {
             analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
@@ -190,38 +204,28 @@ class CalculatorViewModel(
     // region Event
     override fun onKeyPress(key: String) {
         Logger.d { "CalculatorViewModel onKeyPress $key" }
+
         when (key) {
-            KEY_AC -> _state.update(input = "")
+            KEY_AC -> _state.update { copy(input = "") }
             KEY_DEL ->
                 state.value.input
                     .whetherNot { isEmpty() }
                     ?.apply {
-                        _state.update(input = substring(0, length - 1))
+                        _state.update { copy(input = substring(0, length - 1)) }
                     }
-            else -> _state.update(input = if (key.isEmpty()) "" else state.value.input + key)
+
+            else -> _state.update { copy(input = state.value.input + key) }
         }
     }
 
-    override fun onItemClick(currency: Currency) {
+    override fun onItemClick(currency: Currency) = with(currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
-
-        var finalResult = currency.rate
-            .getFormatted()
-            .toStandardDigits()
-            .toSupportedCharacters()
-
-        while (finalResult.length >= MAXIMUM_OUTPUT || finalResult.length >= MAXIMUM_INPUT) {
-            finalResult = finalResult.dropLast(1)
+        _state.update {
+            copy(
+                base = name,
+                input = if (rate.last() == CHAR_DOT) rate.dropLast(1) else rate
+            )
         }
-
-        if (finalResult.last() == CHAR_DOT) {
-            finalResult = finalResult.dropLast(1)
-        }
-
-        _state.update(
-            base = currency.name,
-            input = finalResult
-        )
     }
 
     override fun onItemImageLongClick(currency: Currency) {

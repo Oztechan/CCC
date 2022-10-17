@@ -7,23 +7,25 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 import Res
 import NavigationStack
 
-typealias WatchersObservable = ObservableSEED
-<WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
-
 struct WatchersView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable = WatchersObservable(viewModel: koin.get())
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        WatchersState,
+        WatchersEffect,
+        WatchersEvent,
+        WatchersData,
+        WatchersViewModel
+    >()
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
 
     private let analyticsManager: AnalyticsManager = koin.get()
-
-    var watcher: Client.Watcher?
 
     var body: some View {
         ZStack {
@@ -32,8 +34,10 @@ struct WatchersView: View {
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                if notificationManager.authorizationStatus == .authorized {
-
+                switch notificationManager.authorizationStatus {
+                case nil:
+                    Spacer()
+                case .authorized:
                     Form {
                         List(observable.state.watcherList, id: \.id) { watcher in
                             WatcherItem(
@@ -46,8 +50,7 @@ struct WatchersView: View {
                         .listRowInsets(.init())
                         .listRowBackground(MR.colors().background.get())
                         .background(MR.colors().background.get())
-                    }
-                    .background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     Spacer()
 
@@ -71,7 +74,7 @@ struct WatchersView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .background(MR.colors().background_strong.get())
 
-                } else {
+                default:
                     VStack {
                         Text(MR.strings().txt_enable_notification_permission.get())
                             .multilineTextAlignment(.center)
@@ -113,7 +116,7 @@ struct WatchersView: View {
                     isBarShown: $baseBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onBaseChanged(
-                            watcher: baseBarInfo.watcher,
+                            watcher: baseBarInfo.watcher!,
                             newBase: $0
                         )
                     }
@@ -127,7 +130,7 @@ struct WatchersView: View {
                     isBarShown: $targetBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onTargetChanged(
-                            watcher: targetBarInfo.watcher,
+                            watcher: targetBarInfo.watcher!,
                             newTarget: $0
                         )
                     }
@@ -165,8 +168,8 @@ struct WatchersView: View {
         case is WatchersEffect.SelectTarget:
             targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
-        case is WatchersEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get(), isTop: true)
+        case is WatchersEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get(), isTop: true)
         case is WatchersEffect.InvalidInput:
             showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
         case is WatchersEffect.MaximumNumberOfWatchers:
@@ -190,6 +193,6 @@ struct WatchersView: View {
 
     struct BarInfo {
         var isShown: Bool
-        var watcher: Client.Watcher?
+        var watcher: Provider.Watcher?
     }
 }

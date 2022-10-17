@@ -8,13 +8,13 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
 
 var logger: KermitLogger = {
-    return LoggerKt.doInitLogger(enableCrashlytics: EnvironmentUtil.isRelease)
+    return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
 }()
 
 @main
@@ -28,11 +28,11 @@ struct Application: App {
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
     init() {
-        logger.i(message: {"Application init"})
-
         if EnvironmentUtil.isRelease {
             FirebaseApp.configure()
         }
+
+        logger.i(message: {"Application init"})
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
@@ -42,7 +42,8 @@ struct Application: App {
             width: 0,
             height: Double.leastNonzeroMagnitude
         ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
+        UICollectionView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
 
         self.backgroundRepository = koin.get()
 

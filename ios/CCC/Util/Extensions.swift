@@ -7,7 +7,7 @@
 //
 
 import Res
-import Client
+import Provider
 import SwiftUI
 
 extension ResourcesStringResource {
@@ -84,5 +84,19 @@ extension RateState {
 extension String {
     func getSecretValue() -> String {
         return (Bundle.main.infoDictionary?[self] as? String) ?? "this is a secret value"
+    }
+}
+
+extension View {
+    func withClearBackground(color: Color) -> some View {
+        #if swift(>=5.7)
+            if #available(iOS 16.0, *) {
+                return self.background(color).scrollContentBackground(.hidden)
+            } else {
+                return self.background(color)
+            }
+        #else
+            return self.background(color)
+        #endif
     }
 }

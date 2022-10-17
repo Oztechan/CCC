@@ -7,12 +7,12 @@
 //
 
 import SwiftUI
-import Client
+import Provider
 
 var koin: Koin_coreKoin = {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    return IOSKoinKt.doInitIOS(
+    return KoinKt.doInitKoin(
         userDefaults: userDefaults,
         analyticsManager: AnalyticsManagerImpl()
     ).koin

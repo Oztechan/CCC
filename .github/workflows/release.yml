@@ -37,8 +37,9 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Adding secret files
@@ -55,27 +56,31 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
         run: ./gradlew :android:bundleRelease :backend:fatJar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: googleBundle
           path: android/build/outputs/bundle/googleRelease/android-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: huaweiBundle
           path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: backendJar
           path: backend/build/libs/backend-fat-*.jar
@@ -92,7 +97,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: googleBundle
 
@@ -126,7 +131,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: huaweiBundle
 
@@ -157,7 +162,7 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: backendJar
           path: artifact
@@ -186,14 +191,19 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Adding secret files
         run: |
@@ -206,7 +216,7 @@ jobs:
 
       - name: Install Cocoapods
         run: |
-          ./gradlew client:podGenIOS res:podGenIOS --parallel
+          ./gradlew provider:podGenIOS res:podGenIOS --parallel
           cd ios/CCC
           pod install --repo-update
 

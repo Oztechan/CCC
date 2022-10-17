@@ -40,7 +40,7 @@
     <string name="txt_ok">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
-    <string name="text_max_input">Maximum number of input exceeded.</string>
+    <string name="text_too_big_number">Too big number.</string>
     <string name="text_online_last_updated">Online! Last update: %s</string>
     <string name="text_cached_last_updated">Cached! Last update: %s</string>
     <string name="text_offline_last_updated">Offline! Last update: %s</string>
@@ -81,6 +81,7 @@
 
     <!-- SelectCurrencyBottomSheet -->
     <string name="txt_select_base_currency">Select currency</string>
+    <string name="txt_update_favorite_currencies">You can update your favorite currencies</string>
 
     <!-- Settings -->
     <string name="txt_settings">Settings</string>
@@ -102,6 +103,12 @@
     <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
     <string name="txt_ads_already_disabled">Ads are already disabled</string>
 
+    <string name="settings_item_precision_title">Precision</string>
+    <string name="settings_item_precision_sub_title">Max decimal digits</string>
+    <string name="settings_item_precision_value">%d digit</string>
+    <string name="settings_item_precision_value_plural">%d digits</string>
+    <string name="title_dialog_choose_precision">Choose precision</string>
+
     <string name="settings_item_sync_title">Synchronise</string>
     <string name="settings_item_sync_sub_title">Sync to use app offline</string>
     <string name="txt_synchronising">Synchronising</string>
@@ -119,6 +126,9 @@
 
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
+
+    <string name="settings_item_version_title">Version</string>
+    <string name="settings_item_version_sub_title">App version</string>
 
     <!-- Currencies -->
     <string name="txt_currencies">Currencies</string>

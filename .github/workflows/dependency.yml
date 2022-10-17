@@ -13,8 +13,9 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Adding secret files
@@ -27,21 +28,25 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Run dependencyUpdates and buildHealth tasks
         run: ./gradlew dependencyUpdates buildHealth --parallel
 
       - name: Upload Dependency Updates report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dependency-updates
           path: build/dependencyUpdates/report.txt
 
       - name: Upload Build Healt Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-health
           path: build/reports/dependency-analysis/build-health-report.txt

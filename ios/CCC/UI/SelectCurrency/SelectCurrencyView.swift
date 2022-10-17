@@ -8,17 +8,20 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import NavigationStack
-
-typealias SelectCurrencyObservable = ObservableSEED
-<SelectCurrencyViewModel, SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>
 
 struct SelectCurrencyView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        SelectCurrencyState,
+        SelectCurrencyEffect,
+        SelectCurrencyEvent,
+        BaseData,
+        SelectCurrencyViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable = SelectCurrencyObservable(viewModel: koin.get())
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @Binding var isBarShown: Bool
 
     private let analyticsManager: AnalyticsManager = koin.get()
@@ -33,15 +36,11 @@ struct SelectCurrencyView: View {
 
                 Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
-                if observable.state.currencyList.count < 2 {
-
-                    SelectCurrenciesBottomView(
-                        text: MR.strings().choose_at_least_two_currency.get(),
-                        buttonText: MR.strings().select.get(),
-                        onButtonClick: observable.event.onSelectClick
-                    ).listRowBackground(MR.colors().background.get())
-
-                } else {
+                VStack {
+                    Text(MR.strings().txt_select_base_currency.get())
+                        .font(.title2)
+                        .padding()
+                        .padding(.top, 10)
 
                     Form {
                         if observable.state.loading {
@@ -57,10 +56,20 @@ struct SelectCurrencyView: View {
                             }.listRowInsets(.init())
                             .listRowBackground(MR.colors().background.get())
                         }
-                    }
-                    .background(MR.colors().background.get())
-                    .navigationBarTitle(MR.strings().txt_select_base_currency.get())
-                }
+                    }.withClearBackground(color: MR.colors().background.get())
+
+                    Spacer()
+
+                    SelectCurrenciesBottomView(
+                        text: observable.state.enoughCurrency ?
+                        MR.strings().txt_update_favorite_currencies.get() :
+                            MR.strings().choose_at_least_two_currency.get(),
+                        buttonText: observable.state.enoughCurrency ?
+                        MR.strings().update.get() :
+                            MR.strings().select.get(),
+                        onButtonClick: observable.event.onSelectClick
+                    ).listRowBackground(MR.colors().background.get())
+                }.navigationBarHidden(true)
             }
         }
         .onAppear {

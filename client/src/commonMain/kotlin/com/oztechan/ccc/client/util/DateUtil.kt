@@ -8,30 +8,30 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
-const val VIDEO_REWARD = 2
+internal const val VIDEO_REWARD = 2
 private const val BIGGEST_DIGIT = 9
 
-fun Long.isRewardExpired(): Boolean {
+internal fun Long.isRewardExpired(): Boolean {
     return nowAsLong() >= this
 }
 
-fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
+internal fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
 
-fun Long.toDateString(
+internal fun Long.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toInstant().toDateString(timeZone)
 
-fun Instant.toDateString(
+internal fun Instant.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
     "${hour.toDoubleDigits()}:${minute.toDoubleDigits()} " +
         "${dayOfMonth.toDoubleDigits()}.${monthNumber.toDoubleDigits()}.${year.toDoubleDigits()}"
 }
 
-fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
+internal fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 @Suppress("MagicNumber")
-fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
+internal fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
     RemoveAdType.VIDEO -> startDate.toInstant().plus(
         VIDEO_REWARD,
         DateTimeUnit.DAY,

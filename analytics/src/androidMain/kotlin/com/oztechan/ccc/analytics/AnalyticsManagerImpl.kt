@@ -10,7 +10,7 @@ import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.analytics.util.isDeviceRooted
 
-class AnalyticsManagerImpl(
+internal class AnalyticsManagerImpl(
     context: Context
 ) : AnalyticsManager {
     private val firebaseAnalytics by lazy { Firebase.analytics }

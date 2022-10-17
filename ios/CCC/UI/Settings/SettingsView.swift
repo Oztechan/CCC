@@ -8,17 +8,21 @@
 
 import SwiftUI
 import Res
-import Client
+import Provider
 import NavigationStack
 import GoogleMobileAds
 
-typealias SettingsObservable = ObservableSEED
-<SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
-
 struct SettingsView: View {
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        SettingsState,
+        SettingsEffect,
+        SettingsEvent,
+        SettingsData,
+        SettingsViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable = SettingsObservable(viewModel: koin.get())
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
 
@@ -95,9 +99,16 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                }
-                .background(MR.colors().background.get())
-                .edgesIgnoringSafeArea(.bottom)
+
+                    SettingsItemView(
+                        imgName: "123.rectangle",
+                        title: MR.strings().settings_item_version_title.get(),
+                        subTitle: MR.strings().settings_item_version_sub_title.get(),
+                        value: observable.state.version,
+                        onClick: {}
+                    )
+                }.edgesIgnoringSafeArea(.bottom)
+                    .withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(

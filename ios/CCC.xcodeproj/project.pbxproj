@@ -37,7 +37,7 @@
 		5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */; };
 		5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E673F25C5A711001CC0D6 /* SliderView.swift */; };
 		5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E674C25C602BE001CC0D6 /* SnackBar.swift */; };
-		5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */; };
+		5C8FDBDD25BF3FBE00F280FF /* ObservableSEEDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */; };
 		5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */; };
 		5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */; };
 		5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainView.swift */; };
@@ -100,7 +100,7 @@
 		5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrenciesBottomView.swift; sourceTree = "<group>"; };
 		5C6E673F25C5A711001CC0D6 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		5C6E674C25C602BE001CC0D6 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
-		5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSEED.swift; sourceTree = "<group>"; };
+		5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSEEDViewModel.swift; sourceTree = "<group>"; };
 		5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyImageView.swift; sourceTree = "<group>"; };
 		5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUtil.swift; sourceTree = "<group>"; };
 		5C9A59BA25C350DE006745B0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -274,7 +274,7 @@
 		5C6E674325C5C870001CC0D6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				5C8FDBDC25BF3FBE00F280FF /* ObservableSEED.swift */,
+				5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */,
 				5C5D09382562EC0100DA9C4A /* Extensions.swift */,
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
 				5CF57E39269588060081E4BB /* RewardedAd.swift */,
@@ -523,7 +523,7 @@
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
-				5C8FDBDD25BF3FBE00F280FF /* ObservableSEED.swift in Sources */,
+				5C8FDBDD25BF3FBE00F280FF /* ObservableSEEDViewModel.swift in Sources */,
 				5C6E674D25C602BE001CC0D6 /* SnackBar.swift in Sources */,
 				5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */,
 				5C31E43128142110008C42B9 /* CurrenciesItemView.swift in Sources */,

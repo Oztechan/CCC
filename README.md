@@ -28,24 +28,70 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
-billing-->android
-
 ad-->android
 
-config{config}-->client
+billing-->android
 
-analytics{analytics} --> android
-analytics --> ios
+BASEMOB --> android
+
+test --> config
+test --> client
+test --> android
+test --> res
+test --> analytics
+test --> backend
+test --> common
+
+PARSERMOB --> client
+
+SCOPEMOB --> billing
+SCOPEMOB --> android
+SCOPEMOB --> client
+
+config-->client
+
 analytics-->client
+analytics --> android
+analytics --> provider
+analytics --> ios
 
-res{res}-->android
+client-->android
+client --> ios
+client-->provider
+
+provider --> ios
+
+res-->android
 res-->ios
 
-client{client}-->android
-client-->ios
+LOGMOB --> ad
+LOGMOB --> billing
+LOGMOB --> android
+LOGMOB --> provider
+LOGMOB --> ios
+LOGMOB --> client
+LOGMOB --> config
+LOGMOB --> test
+LOGMOB --> common
+LOGMOB --> backend
 
-common{common}-->client
+common-->client
 common-->backend
+
+LOGMOB{LOGMOB}
+test{test}
+analytics{analytics}
+common{common}
+client{client}
+SCOPEMOB{SCOPEMOB}
+config{config}
+res{res}
+PARSERMOB{PARSERMOB}
+provider{provider}
+
+ad
+billing
+BASEMOB
 
 android(android)
 ios(ios)
@@ -54,12 +100,31 @@ backend(backend)
 
 ```mermaid
 graph TD;
-KMP_Library{KMP_Library}
-Target(Target)
-Library
+target(target)
+kmp_library{kmp_library}
+KMP_SUBMODULE_LIBRARY{KMP_SUBMODULE_LIBRARY}
+library
+SUBMODULE_LIBRARY
 ```
 
 </div>
+
+## How to clone
+
+The project uses submodules, please clone it as below:
+
+```shell
+git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
+cd CCC &&
+git submodule update --init --recursive
+```
+
+Submodules:
+
+- [LogMob](https://github.com/SubMob/LogMob) KMP logging library with Crashlytics support
+- [ScopeMob](https://github.com/SubMob/ScopeMob) Useful set of Kotlin scope functions with KMP support
+- [BaseMob](https://github.com/SubMob/BaseMob) Android base classes
+- [ParserMob](https://github.com/SubMob/ParserMob) KMP parsing library
 
 ## How to run
 
@@ -72,7 +137,7 @@ Open CCC folder with Android Studio and select `android` from configurations and
 ### iOS
 
 ```shell
-./gradlew :client:podspec :res:podspec --parallel &&
+./gradlew :provider:podspec :res:podspec --parallel &&
 cd ios/CCC &&
 pod install --repo-update
 ```
@@ -101,6 +166,33 @@ override suspend fun getRates(base: String): CurrencyResponse = client.get {
         takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
     }
 }.body()
+```
+
+## Architecture
+
+```mermaid
+graph TD;
+
+database
+preferences
+
+api
+remoteconfig
+
+api --> service
+remoteconfig --> service
+
+database --> datasource
+preferences --> datasource
+
+datasource --> repository
+service --> repository
+
+datasource --> viewmodel
+repository --> viewmodel
+service --> viewmodel
+
+viewmodel --> view
 ```
 
 ## Android Preview

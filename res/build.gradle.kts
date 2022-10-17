@@ -7,8 +7,6 @@ plugins {
     }
 }
 
-version = ProjectSettings.getVersionName(project)
-
 kotlin {
     android()
 
@@ -17,11 +15,14 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "CCC"
-        homepage = "https://github.com/CurrencyConverterCalculator/CCC"
-        ios.deploymentTarget = "14.0"
+        with(ProjectSettings) {
+            summary = PROJECT_NAME
+            homepage = HOMEPAGE
+            ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
+            version = getVersionName(project)
+        }
         framework {
-            baseName = "Res"
+            baseName = Dependencies.Pods.RES
         }
     }
 
@@ -32,7 +33,11 @@ kotlin {
                 implementation(Dependencies.Common.MOKO_RESOURCES)
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
 
         val androidMain by getting
         val androidTest by getting
@@ -62,12 +67,17 @@ android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
 
+        @Suppress("UnstableApiUsage")
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
 
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        // todo can be removed after
+        // https://github.com/icerockdev/moko-resources/issues/384
+        // https://github.com/icerockdev/moko-resources/issues/353
+        sourceSets["main"].res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
     }
 }
 

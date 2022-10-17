@@ -4,7 +4,6 @@ import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.Currency
-import kotlinx.coroutines.flow.MutableStateFlow
 
 // State
 data class SelectCurrencyState(
@@ -23,17 +22,4 @@ interface SelectCurrencyEvent : BaseEvent {
 sealed class SelectCurrencyEffect : BaseEffect() {
     data class CurrencyChange(val newBase: String) : SelectCurrencyEffect()
     object OpenCurrencies : SelectCurrencyEffect()
-}
-
-// Extension
-fun MutableStateFlow<SelectCurrencyState>.update(
-    loading: Boolean = value.loading,
-    enoughCurrency: Boolean = value.enoughCurrency,
-    currencyList: List<Currency> = value.currencyList
-) {
-    value = value.copy(
-        loading = loading,
-        enoughCurrency = enoughCurrency,
-        currencyList = currencyList
-    )
 }

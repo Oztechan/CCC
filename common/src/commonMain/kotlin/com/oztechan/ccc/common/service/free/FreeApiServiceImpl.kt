@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher
 
-class FreeApiServiceImpl(
+internal class FreeApiServiceImpl(
     private val freeApi: FreeApi,
     ioDispatcher: CoroutineDispatcher
 ) : FreeApiService, BaseNetworkService(ioDispatcher) {

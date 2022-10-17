@@ -2,22 +2,12 @@
 
 ## Branch
 
-Branch name should follow below format:
-
-```
-TYPE/ISSUE_ID-some-description
-```
-
-`TYPE` can be one of the following:
-
-- fix
-- feat
-- ref
+Branch name should start with `ISSUE_ID` and after the id there should be `-` then continues with description of branch or title of ticket.
 
 Example:
 
 ```
-feat/123-bla-bla
+123-My_Cool-Feature_Or-Bug
 ```
 
 ## Commit Message
@@ -37,22 +27,23 @@ Example:
 Pull Request title should follow below format:
 
 ```
-[#ISSUE_ID] SHORT_DESCRIPTION
+[#ISSUE_ID] ISSUE_TITLE
 ```
 
 Example:
 
 ```
-[#123] Bla Bla
+[#123] Whatever the name of ticket is
 ```
 
 ### Description
 
-A short description regarding to PR needs to be presented and it should end with `Resloves #ISSUE_ID`
+Description has to have `Resloves #ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
 
 Example:
 
 ```
-Some description.
 Resolves #123
+
+Some description.
 ```

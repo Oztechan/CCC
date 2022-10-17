@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.util.getFormatted
-import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
@@ -31,7 +29,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             with(txtAmount) {
-                text = item.rate.getFormatted().toStandardDigits()
+                text = item.rate
                 setOnLongClickListener { onOutputLongClick() }
                 setOnClickListener { root.callOnClick() }
             }

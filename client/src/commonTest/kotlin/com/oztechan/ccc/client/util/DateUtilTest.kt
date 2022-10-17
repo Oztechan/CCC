@@ -4,6 +4,7 @@ import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
+import com.oztechan.ccc.test.BaseTest
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -13,7 +14,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class DateUtilTest {
+internal class DateUtilTest : BaseTest() {
     @Test
     fun isRewardExpired() {
         assertTrue { (nowAsLong() - DAY).isRewardExpired() }

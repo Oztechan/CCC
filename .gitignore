@@ -17,3 +17,9 @@
 .cxx
 local.properties
 secret.properties
+
+# submodules
+/logmob
+/scopemob
+/basemob
+/parsermob
