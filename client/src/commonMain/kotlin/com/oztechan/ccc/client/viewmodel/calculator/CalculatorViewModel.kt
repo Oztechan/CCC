@@ -34,10 +34,10 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.storage.AppStorage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    private val settingsDataSource: SettingsDataSource,
+    private val appStorage: AppStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
@@ -71,7 +71,7 @@ class CalculatorViewModel(
 
     init {
         _state.update {
-            copy(base = settingsDataSource.currentBase, input = "")
+            copy(base = appStorage.currentBase, input = "")
         }
 
         state.map { it.base }
@@ -106,7 +106,7 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
     } ?: viewModelScope.launch {
-        runCatching { backendApiService.getRates(settingsDataSource.currentBase) }
+        runCatching { backendApiService.getRates(appStorage.currentBase) }
             .onFailure(::getRatesFailed)
             .onSuccess(::getRatesSuccess)
     }
@@ -124,7 +124,7 @@ class CalculatorViewModel(
     private fun getRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesDataSource.getOfflineRatesByBase(
-            settingsDataSource.currentBase
+            appStorage.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
         } ?: run {
@@ -147,7 +147,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(settingsDataSource.precision) else "" }
+            .mapTo { if (isFinite()) getFormatted(appStorage.precision) else "" }
             .whether(
                 { output -> output.length <= MAXIMUM_OUTPUT },
                 { input.length <= MAXIMUM_INPUT }
@@ -173,7 +173,7 @@ class CalculatorViewModel(
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = rates.calculateResult(it.name, _state.value.output)
-                    .getFormatted(settingsDataSource.precision)
+                    .getFormatted(appStorage.precision)
                     .toStandardDigits()
             },
             rateState = rateState,
@@ -183,7 +183,7 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
         data.rates = null
-        settingsDataSource.currentBase = newBase
+        appStorage.currentBase = newBase
         _state.update {
             copy(
                 loading = true,
@@ -237,7 +237,7 @@ class CalculatorViewModel(
             _effect.emit(
                 CalculatorEffect.ShowRate(
                     currency.getCurrencyConversionByRate(
-                        settingsDataSource.currentBase,
+                        appStorage.currentBase,
                         data.rates
                     ),
                     currency.name

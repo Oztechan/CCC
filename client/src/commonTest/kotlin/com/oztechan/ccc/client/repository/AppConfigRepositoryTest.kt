@@ -4,7 +4,7 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.config.ConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
@@ -28,14 +28,14 @@ import kotlin.test.assertTrue
 internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
 
     override val subject: AppConfigRepository by lazy {
-        AppConfigRepositoryImpl(configService, settingsDataSource, device)
+        AppConfigRepositoryImpl(configService, appStorage, device)
     }
 
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     private val device = Device.IOS
 
@@ -198,13 +198,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() + 1)
 
         assertTrue { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -226,13 +226,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() - 1)
 
         assertFalse { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -254,13 +254,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { appConfig }
             .then { mockAppConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong())
 
         assertFalse { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 

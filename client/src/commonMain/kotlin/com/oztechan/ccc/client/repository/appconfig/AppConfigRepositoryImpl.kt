@@ -4,12 +4,12 @@ import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.config.ConfigService
 
 internal class AppConfigRepositoryImpl(
     private val configService: ConfigService,
-    private val settingsDataSource: SettingsDataSource,
+    private val appStorage: AppStorage,
     private val device: Device
 ) : AppConfigRepository {
     override fun getDeviceType(): Device = device
@@ -30,7 +30,7 @@ internal class AppConfigRepositoryImpl(
 
     override fun shouldShowAppReview(): Boolean = configService.appConfig
         .appReview
-        .whether { settingsDataSource.sessionCount > it.appReviewSessionCount }
+        .whether { appStorage.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false
 

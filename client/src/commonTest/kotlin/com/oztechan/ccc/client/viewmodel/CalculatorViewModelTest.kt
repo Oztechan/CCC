@@ -21,11 +21,11 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -50,7 +50,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     override val subject: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            settingsDataSource,
+            appStorage,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
@@ -60,7 +60,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -87,7 +87,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     override fun setup() {
         super.setup()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
 
@@ -95,7 +95,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { precision }
             .thenReturn(3)
 
@@ -129,7 +129,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
             val result = currencyList.toUIModelList().onEach { currency ->
                 currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
-                    .getFormatted(settingsDataSource.precision)
+                    .getFormatted(appStorage.precision)
                     .toStandardDigits()
             }
 
@@ -398,7 +398,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onBaseChanged() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
 

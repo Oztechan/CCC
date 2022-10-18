@@ -13,7 +13,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
@@ -42,11 +42,11 @@ import kotlin.test.assertTrue
 internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     override val subject: MainViewModel by lazy {
-        MainViewModel(settingsDataSource, configService, appConfigRepository, adRepository, analyticsManager)
+        MainViewModel(appStorage, configService, appConfigRepository, adRepository, analyticsManager)
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
     private val configService = mock(classOf<ConfigService>())
@@ -67,15 +67,15 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     override fun setup() {
         super.setup()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { appTheme }
             .thenReturn(appThemeValue)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .then { nowAsLong() }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .then { 1L }
 
@@ -97,12 +97,12 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { setUserProperty(UserProperty.IsAdFree(subject.isAdFree().toString())) }
             .wasInvoked()
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString())) }
+            .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(settingsDataSource.appTheme, mockDevice))
+                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(appStorage.appTheme, mockDevice))
                 )
             }
             .wasInvoked()
@@ -122,13 +122,13 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     fun isFirstRun() {
         val boolean: Boolean = Random.nextBoolean()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(boolean)
 
         assertEquals(boolean, subject.isFistRun())
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
     }
@@ -137,33 +137,33 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     fun getAppTheme() {
         assertEquals(appThemeValue, subject.getAppTheme())
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { appTheme }
             .wasInvoked()
     }
 
     @Test
     fun isAdFree_for_future_should_return_true() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .then { nowAsLong() + SECOND }
 
         assertTrue { subject.isAdFree() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
     @Test
     fun isAdFree_for_future_should_return_false() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .then { nowAsLong() - SECOND }
 
         assertFalse { subject.isAdFree() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -189,7 +189,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { configService.appConfig }
             .then { mockConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -213,14 +213,14 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
         event.onResume()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasInvoked()
         assertFalse { data.isNewSession }
 
         event.onResume()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount = mockSessionCount + 1 }
             .wasNotInvoked()
 
@@ -240,7 +240,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { configService.appConfig }
             .then { mockConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -256,7 +256,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { shouldShowAppReview() }
             .then { true }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .then { nowAsLong() - SECOND }
 
@@ -278,7 +278,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         verify(adRepository)
             .invocation { shouldShowInterstitialAd() }
             .wasInvoked()
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -296,7 +296,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { configService.appConfig }
             .then { mockConfig }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -322,7 +322,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
 
@@ -385,7 +385,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
                 .invocation { configService.appConfig }
                 .then { mockConfig }
 
-            given(settingsDataSource)
+            given(appStorage)
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 
@@ -425,7 +425,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
                 .invocation { configService.appConfig }
                 .then { mockConfig }
 
-            given(settingsDataSource)
+            given(appStorage)
                 .invocation { sessionCount }
                 .then { mockSessionCount }
 

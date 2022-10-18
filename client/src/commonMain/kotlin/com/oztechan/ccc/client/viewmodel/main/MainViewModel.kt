@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.config.ConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val settingsDataSource: SettingsDataSource,
+    private val appStorage: AppStorage,
     private val configService: ConfigService,
     private val appConfigRepository: AppConfigRepository,
     private val adRepository: AdRepository,
@@ -42,11 +42,11 @@ class MainViewModel(
     init {
         with(analyticsManager) {
             setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
-            setUserProperty(UserProperty.SessionCount(settingsDataSource.sessionCount.toString()))
+            setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(
                     AppTheme.getAnalyticsThemeName(
-                        settingsDataSource.appTheme,
+                        appStorage.appTheme,
                         appConfigRepository.getDeviceType()
                     )
                 )
@@ -72,7 +72,7 @@ class MainViewModel(
 
     private fun adjustSessionCount() {
         if (data.isNewSession) {
-            settingsDataSource.sessionCount++
+            appStorage.sessionCount++
             data.isNewSession = false
         }
     }
@@ -95,11 +95,11 @@ class MainViewModel(
         }
     }
 
-    fun isFistRun() = settingsDataSource.firstRun
+    fun isFistRun() = appStorage.firstRun
 
-    fun getAppTheme() = settingsDataSource.appTheme
+    fun getAppTheme() = appStorage.appTheme
 
-    fun isAdFree() = !settingsDataSource.adFreeEndDate.isRewardExpired()
+    fun isAdFree() = !appStorage.adFreeEndDate.isRewardExpired()
 
     // region Event
     override fun onPause() {

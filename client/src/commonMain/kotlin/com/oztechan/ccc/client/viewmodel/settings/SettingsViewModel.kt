@@ -21,9 +21,9 @@ import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.onEach
 
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
-    private val settingsDataSource: SettingsDataSource,
+    private val appStorage: AppStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
@@ -59,9 +59,9 @@ class SettingsViewModel(
     init {
         _state.update {
             copy(
-                appThemeType = AppTheme.getThemeByValueOrDefault(settingsDataSource.appTheme),
-                addFreeEndDate = settingsDataSource.adFreeEndDate.toDateString(),
-                precision = settingsDataSource.precision,
+                appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
+                addFreeEndDate = appStorage.adFreeEndDate.toDateString(),
+                precision = appStorage.precision,
                 version = appConfigRepository.getVersion()
             )
         }
@@ -99,7 +99,7 @@ class SettingsViewModel(
 
     fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
         _state.update { copy(appThemeType = theme) }
-        settingsDataSource.appTheme = theme.themeValue
+        appStorage.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
@@ -107,15 +107,15 @@ class SettingsViewModel(
 
     fun shouldShowRemoveAds() = adRepository.shouldShowRemoveAds()
 
-    fun isRewardExpired() = settingsDataSource.adFreeEndDate.isRewardExpired()
+    fun isRewardExpired() = appStorage.adFreeEndDate.isRewardExpired()
 
-    fun isAdFreeNeverActivated() = settingsDataSource.adFreeEndDate == 0.toLong()
+    fun isAdFreeNeverActivated() = appStorage.adFreeEndDate == 0.toLong()
 
-    fun getAppTheme() = settingsDataSource.appTheme
+    fun getAppTheme() = appStorage.appTheme
 
     @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
-        settingsDataSource.adFreeEndDate = it
+        appStorage.adFreeEndDate = it
         _state.update { copy(addFreeEndDate = it.toDateString()) }
     }
 
@@ -188,7 +188,7 @@ class SettingsViewModel(
 
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        settingsDataSource.precision = index.indexToNumber()
+        appStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion

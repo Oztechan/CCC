@@ -1,22 +1,20 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.datasource
+package com.oztechan.ccc.common.storage
 
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_AD_FREE_END_DATE
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_APP_THEME
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_CURRENT_BASE
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_FIRST_RUN
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_PRECISION
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.DEFAULT_SESSION_COUNT
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_AD_FREE_END_DATE
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_APP_THEME
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_CURRENT_BASE
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_FIRST_RUN
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_PRECISION
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSourceImp.Companion.KEY_SESSION_COUNT
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_APP_THEME
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_CURRENT_BASE
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_PRECISION
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_APP_THEME
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_CURRENT_BASE
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_PRECISION
+import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
@@ -29,10 +27,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-internal class SettingsDataSourceTest : BaseSubjectTest<SettingsDataSource>() {
+internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
-    override val subject: SettingsDataSource by lazy {
-        SettingsDataSourceImp(settings)
+    override val subject: AppStorage by lazy {
+        AppStorageImpl(settings)
     }
 
     @Mock

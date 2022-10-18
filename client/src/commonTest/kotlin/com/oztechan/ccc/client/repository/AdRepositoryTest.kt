@@ -3,7 +3,7 @@ package com.oztechan.ccc.client.repository
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService
@@ -26,14 +26,14 @@ import kotlin.test.assertTrue
 internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     override val subject: AdRepository by lazy {
-        AdRepositoryImpl(settingsDataSource, configService, device)
+        AdRepositoryImpl(appStorage, configService, device)
     }
 
     @Mock
     private val configService = mock(classOf<ConfigService>())
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     private var device: Device = Device.IOS
 
@@ -56,29 +56,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_smaller_than_banner_000() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -89,29 +89,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_not_rewardExpired_and_sessionCount_smaller_than_banner_100() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -122,29 +122,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner_010() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -156,29 +156,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_bigger_than_banner_001() {
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -189,29 +189,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner_011() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -222,29 +222,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_not_rewardExpired_and_sessionCount_bigger_than_banner_101() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -255,29 +255,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_not_firstRun_and_rewardExpired_and_sessionCount_smaller_than_banner_110() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
         assertFalse { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -288,29 +288,29 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_true_when_not_firstRun_and_rewardExpired_and_sessionCount_bigger_than_banner_111() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
         assertTrue { subject.shouldShowBannerAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -321,13 +321,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowInterstitialAd_returns_true_when_session_count_bigger_than_remote() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() + 1)
 
         assertTrue { subject.shouldShowInterstitialAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -338,13 +338,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowInterstitialAd_returns_false_when_session_count_smaller_than_remote() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() - 1)
 
         assertFalse { subject.shouldShowInterstitialAd() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
@@ -371,15 +371,15 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
                 )
             )
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
@@ -398,15 +398,15 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
                 )
             )
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .then { false }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() + 1)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
@@ -415,15 +415,15 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_False_When_Should_Show_InterstitialAd_And_ShowShowBannerAd_Returns_False() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() - 1)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
