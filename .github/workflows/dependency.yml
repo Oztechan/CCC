@@ -39,11 +39,16 @@ jobs:
       - name: Run dependencyUpdates task
         run: ./gradlew dependencyUpdates --parallel
 
-      - name: Upload Dependency Updates report
-        uses: actions/upload-artifact@v3
-        with:
-          name: dependency-updates
-          path: build/dependencyUpdates/report.txt
+      - name: Set Job Summary
+        run: |
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>Gradle Dependencies</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "<br>" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo `$(cat build/dependencyUpdates/report.txt)` >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
       - name: Set Job Status
         id: status
