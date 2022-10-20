@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     with(Dependencies.Plugins) {
         id(DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
-        id(BUILD_HEALTH) version Versions.BUILD_HEALTH
         id(KOVER) version Versions.KOVER
     }
 }
