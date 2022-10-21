@@ -221,7 +221,7 @@ jobs:
           pod install --repo-update
 
       - name: Publish
-        uses: maierj/fastlane-action@v2.2.0
+        uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'publish'
           subdirectory: 'ios'
