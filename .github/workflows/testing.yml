@@ -123,7 +123,7 @@ jobs:
           pod install --repo-update
 
       - name: Distrubute
-        uses: maierj/fastlane-action@v2.2.0
+        uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'distribute'
           subdirectory: 'ios'
