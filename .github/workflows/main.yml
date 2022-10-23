@@ -163,7 +163,7 @@ jobs:
         if: false == (needs.GradleBuild.outputs.status == 'success') || false == (needs.XCodeBuild.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc
           status: FAILED
