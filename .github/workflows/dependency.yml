@@ -64,7 +64,7 @@ jobs:
         if: needs.DependencyCheck.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc
           status: SUCCESS
@@ -74,7 +74,7 @@ jobs:
         if: false == (needs.DependencyCheck.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc
           status: FAILED
