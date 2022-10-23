@@ -115,7 +115,7 @@ jobs:
           track: internal
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: googleBundle
 
@@ -146,7 +146,7 @@ jobs:
           file-name: "android-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: huaweiBundle
 
@@ -177,7 +177,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: backendJar
 
