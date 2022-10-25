@@ -1,20 +1,20 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.storage
+package com.oztechan.ccc.client.storage
 
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_APP_THEME
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_CURRENT_BASE
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_PRECISION
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_APP_THEME
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_CURRENT_BASE
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_FIRST_RUN
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_PRECISION
-import com.oztechan.ccc.common.storage.AppStorageImpl.Companion.KEY_SESSION_COUNT
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_APP_THEME
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_CURRENT_BASE
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_PRECISION
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_APP_THEME
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_CURRENT_BASE
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_PRECISION
+import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
 import io.mockative.Mock

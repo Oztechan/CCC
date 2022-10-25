@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.di.module.submodule
+package com.oztechan.ccc.client.di.module.submodule
 
 import android.content.Context
 import android.content.SharedPreferences

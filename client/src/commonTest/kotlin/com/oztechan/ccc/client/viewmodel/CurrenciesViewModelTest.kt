@@ -7,10 +7,10 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after

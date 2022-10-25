@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.common.storage
+package com.oztechan.ccc.client.storage
 
 import com.russhwolf.settings.Settings
 

@@ -1,6 +1,6 @@
 package com.oztechan.ccc.provider.di.module
 
-import com.oztechan.ccc.common.di.NativeDependencyWrapper
+import com.oztechan.ccc.client.di.NativeDependencyWrapper
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 

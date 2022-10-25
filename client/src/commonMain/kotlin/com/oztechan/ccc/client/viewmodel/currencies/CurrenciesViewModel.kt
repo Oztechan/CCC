@@ -16,11 +16,11 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.storage.AppStorage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
