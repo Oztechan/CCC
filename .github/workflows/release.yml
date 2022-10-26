@@ -257,7 +257,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: SUCCESS
           color: good
 
@@ -271,6 +271,6 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: FAILED
           color: danger
