@@ -12,6 +12,7 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -23,7 +24,6 @@ import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

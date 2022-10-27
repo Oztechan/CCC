@@ -7,10 +7,10 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong

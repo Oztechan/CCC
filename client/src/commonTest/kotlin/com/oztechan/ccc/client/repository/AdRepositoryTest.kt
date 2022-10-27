@@ -3,7 +3,7 @@ package com.oztechan.ccc.client.repository
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
-import com.oztechan.ccc.common.storage.AppStorage
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.ConfigService

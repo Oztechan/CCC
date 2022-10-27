@@ -11,8 +11,8 @@ import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.config.ConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

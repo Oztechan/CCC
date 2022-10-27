@@ -33,7 +33,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 with(Dependencies.Common) {
-                    implementation(MULTIPLATFORM_SETTINGS)
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(KOIN_CORE)
                     implementation(KTOR_LOGGING)

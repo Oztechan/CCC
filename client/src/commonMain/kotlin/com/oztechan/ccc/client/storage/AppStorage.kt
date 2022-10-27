@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.storage
+package com.oztechan.ccc.client.storage
 
 interface AppStorage {
     var firstRun: Boolean

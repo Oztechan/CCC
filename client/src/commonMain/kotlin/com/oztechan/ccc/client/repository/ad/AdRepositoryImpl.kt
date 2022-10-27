@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.repository.ad
 
 import com.oztechan.ccc.client.model.Device
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.config.ConfigService
 
 internal class AdRepositoryImpl(

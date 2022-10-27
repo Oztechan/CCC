@@ -32,6 +32,7 @@ kotlin {
                     implementation(KOTLIN_X_DATE_TIME)
                     implementation(COROUTINES)
                     implementation(KOIN_CORE)
+                    implementation(MULTIPLATFORM_SETTINGS)
                 }
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
