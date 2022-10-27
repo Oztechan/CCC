@@ -173,26 +173,26 @@ override suspend fun getRates(base: String): CurrencyResponse = client.get {
 ```mermaid
 graph TD;
 
-database
-preferences
+Persistence(Persistence) --> Storage
+Database(Database) --> DataSource
 
-api
-remoteconfig
+API(API) --> Service
+RemoteConfig(RemoteConfig) --> ConfigService
 
-api --> service
-remoteconfig --> service
+Storage --> ViewModel
+DataSource --> ViewModel
 
-database --> datasource
-preferences --> datasource
+Repository --> ViewModel
 
-datasource --> repository
-service --> repository
+Storage --> Repository
+DataSource --> Repository
+Service --> Repository
+ConfigService --> Repository
 
-datasource --> viewmodel
-repository --> viewmodel
-service --> viewmodel
+Service --> ViewModel
+ConfigService --> ViewModel
 
-viewmodel --> view
+ViewModel --> View
 ```
 
 ## Android Preview
