@@ -1,6 +1,6 @@
-package com.oztechan.ccc.common.datasource.settings
+package com.oztechan.ccc.common.storage
 
-interface SettingsDataSource {
+interface AppStorage {
     var firstRun: Boolean
 
     var currentBase: String

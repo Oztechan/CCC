@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
+import com.oztechan.ccc.common.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
@@ -40,11 +40,11 @@ import com.oztechan.ccc.common.model.Currency as CommonCurrency
 internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     override val subject: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsDataSource, currencyDataSource, adRepository, analyticsManager)
+        CurrenciesViewModel(appStorage, currencyDataSource, adRepository, analyticsManager)
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
@@ -75,11 +75,11 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             .invocation { collectAllCurrencies() }
             .thenReturn(currencyListFlow)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn(clientCurrency.name)
     }
@@ -155,7 +155,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
 
@@ -177,11 +177,11 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(true)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
 
@@ -228,13 +228,13 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     @Test
     fun isFirstRun() {
         val mockValue = Random.nextBoolean()
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(mockValue)
 
         assertEquals(mockValue, subject.isFirstRun())
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
     }
@@ -262,7 +262,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 }
             )
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn("")
 
@@ -271,7 +271,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             assertEquals(firstActiveBase, it.newBase)
         }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { currentBase = firstActiveBase }
             .wasInvoked()
     }
@@ -289,7 +289,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
                 }
             )
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn(commonCurrency.name) // not active one
 
@@ -298,7 +298,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             assertEquals(commonCurrency2.name, it.newBase)
         }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { currentBase = commonCurrency2.name }
             .wasInvoked()
     }
@@ -306,11 +306,11 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     // Event
     @Test
     fun updateAllCurrenciesState() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn("EUR")
 
@@ -461,7 +461,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
             assertIs<CurrenciesEffect.OpenCalculator>(it)
             assertTrue { subject.data.query.isEmpty() }
 
-            verify(settingsDataSource)
+            verify(appStorage)
                 .invocation { firstRun = false }
                 .wasInvoked()
         }
