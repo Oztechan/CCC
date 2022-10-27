@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
@@ -28,11 +28,11 @@ import kotlin.test.assertTrue
 internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
 
     override val subject: AppConfigRepository by lazy {
-        AppConfigRepositoryImpl(configService, appStorage, device)
+        AppConfigRepositoryImpl(appConfigService, appStorage, device)
     }
 
     @Mock
-    private val configService = mock(classOf<ConfigService>())
+    private val appConfigService = mock(classOf<AppConfigService>())
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
@@ -64,7 +64,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             )
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -73,7 +73,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             assertFalse { it }
         }
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -93,7 +93,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             )
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -102,7 +102,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             assertTrue { it }
         }
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -122,13 +122,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             )
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(false))
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -148,13 +148,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             )
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(false))
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -174,13 +174,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             )
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(true))
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -194,7 +194,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             listOf()
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -208,7 +208,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -222,7 +222,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             listOf()
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -236,7 +236,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }
@@ -250,7 +250,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             listOf()
         )
 
-        given(configService)
+        given(appConfigService)
             .invocation { appConfig }
             .then { mockAppConfig }
 
@@ -264,7 +264,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
     }

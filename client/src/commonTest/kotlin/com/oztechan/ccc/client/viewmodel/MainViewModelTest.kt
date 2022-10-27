@@ -16,7 +16,7 @@ import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
@@ -42,14 +42,14 @@ import kotlin.test.assertTrue
 internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     override val subject: MainViewModel by lazy {
-        MainViewModel(appStorage, configService, appConfigRepository, adRepository, analyticsManager)
+        MainViewModel(appStorage, appConfigService, appConfigRepository, adRepository, analyticsManager)
     }
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
-    private val configService = mock(classOf<ConfigService>())
+    private val appConfigService = mock(classOf<AppConfigService>())
 
     @Mock
     private val appConfigRepository = mock(classOf<AppConfigRepository>())
@@ -185,8 +185,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         )
         val mockSessionCount = Random.nextLong()
 
-        given(configService)
-            .invocation { configService.appConfig }
+        given(appConfigService)
+            .invocation { appConfigService.appConfig }
             .then { mockConfig }
 
         given(appStorage)
@@ -236,8 +236,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         )
         val mockSessionCount = Random.nextLong()
 
-        given(configService)
-            .invocation { configService.appConfig }
+        given(appConfigService)
+            .invocation { appConfigService.appConfig }
             .then { mockConfig }
 
         given(appStorage)
@@ -272,7 +272,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             assertFalse { data.adJob.isActive }
         }
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
         verify(adRepository)
@@ -292,8 +292,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         )
         val mockSessionCount = Random.nextLong()
 
-        given(configService)
-            .invocation { configService.appConfig }
+        given(appConfigService)
+            .invocation { appConfigService.appConfig }
             .then { mockConfig }
 
         given(appStorage)
@@ -342,8 +342,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             )
         )
 
-        given(configService)
-            .invocation { configService.appConfig }
+        given(appConfigService)
+            .invocation { appConfigService.appConfig }
             .then { mockConfig }
 
         given(appConfigRepository)
@@ -362,7 +362,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             assertTrue { subject.data.isAppUpdateShown }
         }
 
-        verify(configService)
+        verify(appConfigService)
             .invocation { appConfig }
             .wasInvoked()
 
@@ -381,8 +381,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             )
             val mockSessionCount = Random.nextLong()
 
-            given(configService)
-                .invocation { configService.appConfig }
+            given(appConfigService)
+                .invocation { appConfigService.appConfig }
                 .then { mockConfig }
 
             given(appStorage)
@@ -406,7 +406,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             verify(appConfigRepository)
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
-            verify(configService)
+            verify(appConfigService)
                 .invocation { appConfig }
                 .wasInvoked()
         }
@@ -421,8 +421,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             )
             val mockSessionCount = Random.nextLong()
 
-            given(configService)
-                .invocation { configService.appConfig }
+            given(appConfigService)
+                .invocation { appConfigService.appConfig }
                 .then { mockConfig }
 
             given(appStorage)

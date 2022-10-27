@@ -13,7 +13,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.config.ConfigService
+import com.oztechan.ccc.config.AppConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val appStorage: AppStorage,
-    private val configService: ConfigService,
+    private val appConfigService: AppConfigService,
     private val appConfigRepository: AppConfigRepository,
     private val adRepository: AdRepository,
     analyticsManager: AnalyticsManager,
@@ -59,13 +59,13 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
-            delay(configService.appConfig.adConfig.interstitialAdInitialDelay)
+            delay(appConfigService.appConfig.adConfig.interstitialAdInitialDelay)
 
             while (isActive && adRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
-                delay(configService.appConfig.adConfig.interstitialAdPeriod)
+                delay(appConfigService.appConfig.adConfig.interstitialAdPeriod)
             }
         }
     }
@@ -89,7 +89,7 @@ class MainViewModel(
     private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
-                delay(configService.appConfig.appReview.appReviewDialogDelay)
+                delay(appConfigService.appConfig.appReview.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }
         }
