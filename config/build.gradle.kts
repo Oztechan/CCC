@@ -20,6 +20,7 @@ kotlin {
             dependencies {
                 with(Dependencies.Common) {
                     implementation(KTOR_JSON)
+                    implementation(KOIN_CORE)
                 }
                 implementation(project(Dependencies.Modules.LOGMOB))
             }

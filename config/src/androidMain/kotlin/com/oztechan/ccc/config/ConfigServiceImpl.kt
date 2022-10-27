@@ -11,7 +11,7 @@ import com.oztechan.ccc.config.mapper.toModel
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-actual class ConfigServiceImpl : ConfigService {
+internal actual class ConfigServiceImpl : ConfigService {
     actual override var appConfig = AppConfig().toModel()
 
     init {
