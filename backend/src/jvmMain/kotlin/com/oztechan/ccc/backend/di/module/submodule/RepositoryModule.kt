@@ -7,5 +7,5 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 internal val repositoryModule = module {
-    single<ApiRepository> { ApiRepositoryImpl(get(), get(), get(), get(named(DISPATCHER_IO))) }
+    single<ApiRepository> { ApiRepositoryImpl(get(), get(), get(), get(), get(named(DISPATCHER_IO))) }
 }

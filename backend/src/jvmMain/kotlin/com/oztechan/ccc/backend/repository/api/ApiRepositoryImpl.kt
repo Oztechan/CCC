@@ -23,20 +23,21 @@ internal class ApiRepositoryImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val globalScope: CoroutineScope,
     private val ioDispatcher: CoroutineDispatcher,
 ) : ApiRepository {
 
     override fun startSyncApi() {
         Logger.i { "ApiRepositoryImpl startSyncApi" }
 
-        CoroutineScope(ioDispatcher).launch {
+        globalScope.launch(ioDispatcher) {
             while (isActive) {
                 updatePopularCurrencies()
                 delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
             }
         }
 
-        CoroutineScope(ioDispatcher).launch {
+        globalScope.launch(ioDispatcher) {
             while (isActive) {
                 updateUnPopularCurrencies()
                 delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR)

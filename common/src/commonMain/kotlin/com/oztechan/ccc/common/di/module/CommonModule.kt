@@ -4,6 +4,7 @@ import com.oztechan.ccc.common.di.module.submodule.apiModule
 import com.oztechan.ccc.common.di.module.submodule.dataSourceModule
 import com.oztechan.ccc.common.di.module.submodule.databaseModule
 import com.oztechan.ccc.common.di.module.submodule.dispatcherModule
+import com.oztechan.ccc.common.di.module.submodule.scopeModule
 import com.oztechan.ccc.common.di.module.submodule.serviceModule
 import org.koin.core.module.Module
 
@@ -15,4 +16,5 @@ val commonModules: List<Module> = buildList {
     add(serviceModule)
 
     add(dispatcherModule)
+    add(scopeModule)
 }
