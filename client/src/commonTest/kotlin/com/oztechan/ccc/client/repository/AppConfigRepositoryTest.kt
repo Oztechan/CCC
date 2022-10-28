@@ -65,7 +65,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         subject.checkAppUpdate(false).let {
@@ -74,7 +74,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         }
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -94,7 +94,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         subject.checkAppUpdate(false).let {
@@ -103,7 +103,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         }
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -123,13 +123,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(false))
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -149,13 +149,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(false))
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -175,13 +175,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         assertNull(subject.checkAppUpdate(true))
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -195,7 +195,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         given(appStorage)
@@ -209,7 +209,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .wasInvoked()
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -223,7 +223,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         given(appStorage)
@@ -237,7 +237,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .wasInvoked()
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 
@@ -251,7 +251,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         )
 
         given(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .then { mockAppConfig }
 
         given(appStorage)
@@ -265,7 +265,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
             .wasInvoked()
 
         verify(appConfigService)
-            .invocation { appConfig }
+            .invocation { config }
             .wasInvoked()
     }
 

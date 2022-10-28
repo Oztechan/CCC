@@ -6,7 +6,7 @@ internal expect abstract class BaseConfigService<T>(
     configKey: String,
     default: T
 ) {
-    var appConfig: T
+    var config: T
 
     val json: Json
 

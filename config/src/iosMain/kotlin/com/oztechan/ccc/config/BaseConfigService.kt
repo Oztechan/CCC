@@ -7,7 +7,7 @@ internal actual abstract class BaseConfigService<T> actual constructor(
     configKey: String,
     default: T
 ) {
-    actual var appConfig: T
+    actual var config: T
 
     actual abstract fun decode(value: String): T
 
@@ -15,6 +15,6 @@ internal actual abstract class BaseConfigService<T> actual constructor(
 
     init {
         Logger.d { "${this::class.simpleName} init" }
-        appConfig = default
+        config = default
     }
 }

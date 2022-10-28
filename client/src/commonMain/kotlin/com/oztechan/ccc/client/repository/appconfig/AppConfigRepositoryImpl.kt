@@ -18,7 +18,7 @@ internal class AppConfigRepositoryImpl(
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean
-    ): Boolean? = appConfigService.appConfig
+    ): Boolean? = appConfigService.config
         .appUpdate
         .firstOrNull { it.name == device.name }
         ?.whether(
@@ -28,7 +28,7 @@ internal class AppConfigRepositoryImpl(
             it.updateForceVersion <= BuildKonfig.versionCode
         }
 
-    override fun shouldShowAppReview(): Boolean = appConfigService.appConfig
+    override fun shouldShowAppReview(): Boolean = appConfigService.config
         .appReview
         .whether { appStorage.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }

@@ -59,13 +59,13 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
-            delay(appConfigService.appConfig.adConfig.interstitialAdInitialDelay)
+            delay(appConfigService.config.adConfig.interstitialAdInitialDelay)
 
             while (isActive && adRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
-                delay(appConfigService.appConfig.adConfig.interstitialAdPeriod)
+                delay(appConfigService.config.adConfig.interstitialAdPeriod)
             }
         }
     }
@@ -89,7 +89,7 @@ class MainViewModel(
     private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
-                delay(appConfigService.appConfig.appReview.appReviewDialogDelay)
+                delay(appConfigService.config.appReview.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }
         }

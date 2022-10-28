@@ -12,10 +12,10 @@ internal class AdRepositoryImpl(
 ) : AdRepository {
     override fun shouldShowBannerAd() = !appStorage.firstRun &&
         appStorage.adFreeEndDate.isRewardExpired() &&
-        appStorage.sessionCount > appConfigService.appConfig.adConfig.bannerAdSessionCount
+        appStorage.sessionCount > appConfigService.config.adConfig.bannerAdSessionCount
 
     override fun shouldShowInterstitialAd() =
-        appStorage.sessionCount > appConfigService.appConfig.adConfig.interstitialAdSessionCount
+        appStorage.sessionCount > appConfigService.config.adConfig.interstitialAdSessionCount
 
     override fun shouldShowRemoveAds() = when {
         device is Device.Android.Huawei -> false
