@@ -349,6 +349,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { sessionCount }
             .then { mockSessionCount }
 
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
+
         given(appConfigRepository)
             .invocation { checkAppUpdate(false) }
             .thenReturn(mockBoolean)
