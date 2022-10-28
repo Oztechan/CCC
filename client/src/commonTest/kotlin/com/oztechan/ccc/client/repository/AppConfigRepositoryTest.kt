@@ -37,6 +37,9 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     private val reviewConfigService = mock(classOf<ReviewConfigService>())
 
     @Mock
+    private val reviewConfigService = mock(classOf<ReviewConfigService>())
+
+    @Mock
     private val appStorage = mock(classOf<AppStorage>())
 
     private val device = Device.IOS
