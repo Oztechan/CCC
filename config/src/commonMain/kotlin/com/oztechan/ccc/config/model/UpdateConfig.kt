@@ -1,7 +1,6 @@
 package com.oztechan.ccc.config.model
 
-data class AppUpdate(
-    val name: String,
+data class UpdateConfig(
     val updateLatestVersion: Int,
     val updateForceVersion: Int
 )
