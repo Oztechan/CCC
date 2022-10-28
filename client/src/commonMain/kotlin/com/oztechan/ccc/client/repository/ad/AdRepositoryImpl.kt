@@ -3,19 +3,19 @@ package com.oztechan.ccc.client.repository.ad
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.config.ad.AdConfigService
 
 internal class AdRepositoryImpl(
     private val appStorage: AppStorage,
-    private val appConfigService: AppConfigService,
+    private val adConfigService: AdConfigService,
     private val device: Device
 ) : AdRepository {
     override fun shouldShowBannerAd() = !appStorage.firstRun &&
         appStorage.adFreeEndDate.isRewardExpired() &&
-        appStorage.sessionCount > appConfigService.config.adConfig.bannerAdSessionCount
+        appStorage.sessionCount > adConfigService.config.bannerAdSessionCount
 
     override fun shouldShowInterstitialAd() =
-        appStorage.sessionCount > appConfigService.config.adConfig.interstitialAdSessionCount
+        appStorage.sessionCount > adConfigService.config.interstitialAdSessionCount
 
     override fun shouldShowRemoveAds() = when {
         device is Device.Android.Huawei -> false

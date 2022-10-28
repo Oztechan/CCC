@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.config.ad.AdConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,7 @@ class MainViewModel(
     private val appStorage: AppStorage,
     private val appConfigService: AppConfigService,
     private val appConfigRepository: AppConfigRepository,
+    private val adConfigService: AdConfigService,
     private val adRepository: AdRepository,
     analyticsManager: AnalyticsManager,
 ) : BaseSEEDViewModel<BaseState, MainEffect, MainEvent, MainData>(), MainEvent {
@@ -59,13 +61,13 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
-            delay(appConfigService.config.adConfig.interstitialAdInitialDelay)
+            delay(adConfigService.config.interstitialAdInitialDelay)
 
             while (isActive && adRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isAdFree()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
-                delay(appConfigService.config.adConfig.interstitialAdPeriod)
+                delay(adConfigService.config.interstitialAdPeriod)
             }
         }
     }
