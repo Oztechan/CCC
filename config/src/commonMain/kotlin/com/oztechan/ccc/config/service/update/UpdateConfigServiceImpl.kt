@@ -1,8 +1,8 @@
-package com.oztechan.ccc.config.update
+package com.oztechan.ccc.config.service.update
 
-import com.oztechan.ccc.config.BaseConfigService
 import com.oztechan.ccc.config.mapper.toModel
 import com.oztechan.ccc.config.model.UpdateConfig
+import com.oztechan.ccc.config.service.BaseConfigService
 import kotlinx.serialization.decodeFromString
 
 internal class UpdateConfigServiceImpl :

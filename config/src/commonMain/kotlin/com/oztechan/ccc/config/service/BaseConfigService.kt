@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config
+package com.oztechan.ccc.config.service
 
 import kotlinx.serialization.json.Json
 

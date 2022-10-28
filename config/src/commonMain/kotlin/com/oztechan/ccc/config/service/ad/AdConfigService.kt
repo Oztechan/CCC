@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.ad
+package com.oztechan.ccc.config.service.ad
 
 import com.oztechan.ccc.config.model.AdConfig
 
