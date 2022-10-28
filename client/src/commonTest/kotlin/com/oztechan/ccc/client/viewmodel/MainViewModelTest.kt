@@ -60,9 +60,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     private val adConfigService = mock(classOf<AdConfigService>())
 
     @Mock
-    private val adConfigService = mock(classOf<AdConfigService>())
-
-    @Mock
     private val appConfigRepository = mock(classOf<AppConfigRepository>())
 
     @Mock
@@ -199,10 +196,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { config }
             .then { AdConfig(0, 0, 0L, 0L) }
 
-        given(adConfigService)
-            .invocation { config }
-            .then { AdConfig(0, 0, 0L, 0L) }
-
         given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -248,10 +241,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         given(reviewConfigService)
             .invocation { config }
             .then { ReviewConfig(0, 0L) }
-
-        given(adConfigService)
-            .invocation { config }
-            .then { AdConfig(0, 0, 0L, 0L) }
 
         given(adConfigService)
             .invocation { config }
@@ -314,10 +303,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { config }
             .then { AdConfig(0, 0, 0L, 0L) }
 
-        given(adConfigService)
-            .invocation { config }
-            .then { AdConfig(0, 0, 0L, 0L) }
-
         given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -360,10 +345,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { config }
             .then { ReviewConfig(0, 0L) }
 
-        given(adConfigService)
-            .invocation { config }
-            .then { AdConfig(0, 0, 0L, 0L) }
-
         given(appConfigRepository)
             .invocation { shouldShowAppReview() }
             .then { true }
@@ -397,10 +378,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             given(reviewConfigService)
                 .invocation { config }
                 .then { ReviewConfig(0, 0L) }
-
-            given(adConfigService)
-                .invocation { config }
-                .then { AdConfig(0, 0, 0L, 0L) }
 
             given(adConfigService)
                 .invocation { config }
@@ -441,10 +418,6 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             given(reviewConfigService)
                 .invocation { config }
                 .then { ReviewConfig(0, 0L) }
-
-            given(adConfigService)
-                .invocation { config }
-                .then { AdConfig(0, 0, 0L, 0L) }
 
             given(adConfigService)
                 .invocation { config }
