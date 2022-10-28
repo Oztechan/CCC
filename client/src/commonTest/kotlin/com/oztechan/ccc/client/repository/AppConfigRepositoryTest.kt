@@ -8,8 +8,9 @@ import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
-import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.config.model.ReviewConfig
+import com.oztechan.ccc.config.review.ReviewConfigService
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -28,11 +29,14 @@ import kotlin.test.assertTrue
 internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
 
     override val subject: AppConfigRepository by lazy {
-        AppConfigRepositoryImpl(appConfigService, appStorage, device)
+        AppConfigRepositoryImpl(appConfigService, reviewConfigService, appStorage, device)
     }
 
     @Mock
     private val appConfigService = mock(classOf<AppConfigService>())
+
+    @Mock
+    private val reviewConfigService = mock(classOf<ReviewConfigService>())
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
@@ -54,7 +58,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockName = device.name
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
+            ReviewConfig(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -83,7 +87,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockName = device.name
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
+            ReviewConfig(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -112,7 +116,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockName = device.name
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
+            ReviewConfig(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -138,7 +142,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockName = "mock"
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
+            ReviewConfig(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -164,7 +168,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockName = device.name
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
+            ReviewConfig(0, 0L),
             appUpdate = listOf(
                 AppUpdate(
                     name = mockName,
@@ -190,9 +194,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, appReviewDialogDelay = 0L),
+            appReview = ReviewConfig(appReviewSessionCount = mockInteger, appReviewDialogDelay = 0L),
             listOf()
         )
+
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appConfigService)
             .invocation { config }
@@ -218,9 +226,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            appReview = ReviewConfig(appReviewSessionCount = mockInteger, 0L),
             listOf()
         )
+
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appConfigService)
             .invocation { config }
@@ -246,9 +258,13 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         val mockInteger = Random.nextInt()
         val mockAppConfig = AppConfig(
             AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
+            appReview = ReviewConfig(appReviewSessionCount = mockInteger, 0L),
             listOf()
         )
+
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appConfigService)
             .invocation { config }

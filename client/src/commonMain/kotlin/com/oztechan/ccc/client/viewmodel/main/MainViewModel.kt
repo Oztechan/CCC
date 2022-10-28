@@ -13,8 +13,8 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.ad.AdConfigService
+import com.oztechan.ccc.config.review.ReviewConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val appStorage: AppStorage,
-    private val appConfigService: AppConfigService,
+    private val reviewConfigService: ReviewConfigService,
     private val appConfigRepository: AppConfigRepository,
     private val adConfigService: AdConfigService,
     private val adRepository: AdRepository,
@@ -91,7 +91,7 @@ class MainViewModel(
     private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
-                delay(appConfigService.config.appReview.appReviewDialogDelay)
+                delay(reviewConfigService.config.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }
         }
