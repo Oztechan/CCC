@@ -5,11 +5,11 @@ import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.review.ReviewConfigService
+import com.oztechan.ccc.config.update.UpdateConfigService
 
 internal class AppConfigRepositoryImpl(
-    private val appConfigService: AppConfigService,
+    private val updateConfigService: UpdateConfigService,
     private val reviewConfigService: ReviewConfigService,
     private val appStorage: AppStorage,
     private val device: Device
@@ -20,10 +20,8 @@ internal class AppConfigRepositoryImpl(
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean
-    ): Boolean? = appConfigService.config
-        .appUpdate
-        .firstOrNull { it.name == device.name }
-        ?.whether(
+    ): Boolean? = updateConfigService.config
+        .whether(
             { !isAppUpdateShown },
             { updateLatestVersion > BuildKonfig.versionCode }
         )?.let {
