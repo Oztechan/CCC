@@ -6,9 +6,11 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.config.review.ReviewConfigService
 
 internal class AppConfigRepositoryImpl(
     private val appConfigService: AppConfigService,
+    private val reviewConfigService: ReviewConfigService,
     private val appStorage: AppStorage,
     private val device: Device
 ) : AppConfigRepository {
@@ -28,8 +30,7 @@ internal class AppConfigRepositoryImpl(
             it.updateForceVersion <= BuildKonfig.versionCode
         }
 
-    override fun shouldShowAppReview(): Boolean = appConfigService.config
-        .appReview
+    override fun shouldShowAppReview(): Boolean = reviewConfigService.config
         .whether { appStorage.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false

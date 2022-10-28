@@ -1,6 +1,6 @@
 package com.oztechan.ccc.config.model
 
-data class AppReview(
+data class ReviewConfig(
     val appReviewSessionCount: Int,
     val appReviewDialogDelay: Long
 )

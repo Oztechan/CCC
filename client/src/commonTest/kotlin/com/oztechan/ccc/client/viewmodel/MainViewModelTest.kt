@@ -6,7 +6,6 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
-import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
@@ -16,12 +15,10 @@ import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.AppConfigService
 import com.oztechan.ccc.config.ad.AdConfigService
 import com.oztechan.ccc.config.model.AdConfig
-import com.oztechan.ccc.config.model.AppConfig
-import com.oztechan.ccc.config.model.AppReview
-import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.config.model.ReviewConfig
+import com.oztechan.ccc.config.review.ReviewConfigService
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -45,7 +42,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     override val subject: MainViewModel by lazy {
         MainViewModel(
             appStorage,
-            appConfigService,
+            reviewConfigService,
             appConfigRepository,
             adConfigService,
             adRepository,
@@ -57,7 +54,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
-    private val appConfigService = mock(classOf<AppConfigService>())
+    private val reviewConfigService = mock(classOf<ReviewConfigService>())
 
     @Mock
     private val adConfigService = mock(classOf<AdConfigService>())
@@ -189,16 +186,11 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun onResume_adjustSessionCount() = with(subject) {
-        val mockConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            listOf()
-        )
         val mockSessionCount = Random.nextLong()
 
-        given(appConfigService)
-            .invocation { appConfigService.config }
-            .then { mockConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
 
         given(adConfigService)
             .invocation { config }
@@ -244,16 +236,11 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun onResume_setupInterstitialAdTimer() = with(subject) {
-        val mockConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            listOf()
-        )
         val mockSessionCount = Random.nextLong()
 
-        given(appConfigService)
-            .invocation { appConfigService.config }
-            .then { mockConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
 
         given(adConfigService)
             .invocation { config }
@@ -291,12 +278,14 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             assertFalse { data.adJob.isActive }
         }
 
-        verify(appConfigService)
+        verify(reviewConfigService)
             .invocation { config }
             .wasInvoked()
+
         verify(adRepository)
             .invocation { shouldShowInterstitialAd() }
             .wasInvoked()
+
         verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
@@ -304,16 +293,15 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(subject) {
-        val mockConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            listOf()
-        )
         val mockSessionCount = Random.nextLong()
 
-        given(appConfigService)
-            .invocation { appConfigService.config }
-            .then { mockConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
+
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
 
         given(appStorage)
             .invocation { sessionCount }
@@ -349,21 +337,13 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { checkAppUpdate(false) }
             .thenReturn(mockBoolean)
 
-        val mockConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockDevice.name,
-                    updateForceVersion = BuildKonfig.versionCode + 1,
-                    updateLatestVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
 
-        given(appConfigService)
-            .invocation { appConfigService.config }
-            .then { mockConfig }
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
 
         given(appConfigRepository)
             .invocation { shouldShowAppReview() }
@@ -381,7 +361,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             assertTrue { subject.data.isAppUpdateShown }
         }
 
-        verify(appConfigService)
+        verify(reviewConfigService)
             .invocation { config }
             .wasInvoked()
 
@@ -393,16 +373,15 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     @Test
     fun onResume_checkReview_should_request_review_when_shouldShowAppReview_returns_true() =
         with(subject) {
-            val mockConfig = AppConfig(
-                AdConfig(0, 0, 0L, 0L),
-                AppReview(0, 0L),
-                listOf()
-            )
             val mockSessionCount = Random.nextLong()
 
-            given(appConfigService)
-                .invocation { appConfigService.config }
-                .then { mockConfig }
+            given(reviewConfigService)
+                .invocation { config }
+                .then { ReviewConfig(0, 0L) }
+
+            given(adConfigService)
+                .invocation { config }
+                .then { AdConfig(0, 0, 0L, 0L) }
 
             given(appStorage)
                 .invocation { sessionCount }
@@ -425,7 +404,8 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             verify(appConfigRepository)
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
-            verify(appConfigService)
+
+            verify(reviewConfigService)
                 .invocation { config }
                 .wasInvoked()
         }
@@ -433,16 +413,15 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     @Test
     fun onResume_checkReview_should_do_nothing_when_shouldShowAppReview_returns_false() =
         with(subject) {
-            val mockConfig = AppConfig(
-                AdConfig(0, 0, 0L, 0L),
-                AppReview(0, 0L),
-                listOf()
-            )
             val mockSessionCount = Random.nextLong()
 
-            given(appConfigService)
-                .invocation { appConfigService.config }
-                .then { mockConfig }
+            given(reviewConfigService)
+                .invocation { config }
+                .then { ReviewConfig(0, 0L) }
+
+            given(adConfigService)
+                .invocation { config }
+                .then { AdConfig(0, 0, 0L, 0L) }
 
             given(appStorage)
                 .invocation { sessionCount }
