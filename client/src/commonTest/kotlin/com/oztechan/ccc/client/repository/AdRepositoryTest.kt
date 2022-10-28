@@ -6,10 +6,8 @@ import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.config.ad.AdConfigService
 import com.oztechan.ccc.config.model.AdConfig
-import com.oztechan.ccc.config.model.AppConfig
-import com.oztechan.ccc.config.model.AppReview
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -26,11 +24,11 @@ import kotlin.test.assertTrue
 internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     override val subject: AdRepository by lazy {
-        AdRepositoryImpl(appStorage, appConfigService, device)
+        AdRepositoryImpl(appStorage, adConfigService, device)
     }
 
     @Mock
-    private val appConfigService = mock(classOf<AppConfigService>())
+    private val adConfigService = mock(classOf<AdConfigService>())
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
@@ -43,15 +41,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     override fun setup() {
         super.setup()
 
-        given(appConfigService)
+        given(adConfigService)
             .invocation { config }
-            .thenReturn(
-                AppConfig(
-                    AdConfig(mockedSessionCount, mockedSessionCount, 0L, 0L),
-                    AppReview(0, 0L),
-                    listOf()
-                )
-            )
+            .thenReturn(AdConfig(mockedSessionCount, mockedSessionCount, 0L, 0L))
     }
 
     @Test
@@ -82,7 +74,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -115,7 +107,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -148,7 +140,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -182,7 +174,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -215,7 +207,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -248,7 +240,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -281,7 +273,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -314,7 +306,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -331,7 +323,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -348,7 +340,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(appConfigService)
+        verify(adConfigService)
             .invocation { config }
             .wasInvoked()
     }
@@ -361,15 +353,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowBannerAd_Returns_True() {
-        given(appConfigService)
+        given(adConfigService)
             .invocation { config }
-            .thenReturn(
-                AppConfig(
-                    AdConfig(0, mockedSessionCount, 0L, 0L),
-                    AppReview(0, 0L),
-                    listOf()
-                )
-            )
+            .thenReturn(AdConfig(0, mockedSessionCount, 0L, 0L))
 
         given(appStorage)
             .invocation { sessionCount }
@@ -388,15 +374,9 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowRemoveAds_Returns_True_When_ShouldShowInterstitialAd_Returns_True() {
-        given(appConfigService)
+        given(adConfigService)
             .invocation { config }
-            .thenReturn(
-                AppConfig(
-                    AdConfig(mockedSessionCount, 0, 0L, 0L),
-                    AppReview(0, 0L),
-                    listOf()
-                )
-            )
+            .thenReturn(AdConfig(mockedSessionCount, 0, 0L, 0L))
 
         given(appStorage)
             .invocation { firstRun }

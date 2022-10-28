@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 internal val viewModelModule = module {
     viewModelDefinition { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModelDefinition { MainViewModel(get(), get(), get(), get(), get()) }
+    viewModelDefinition { MainViewModel(get(), get(), get(), get(), get(), get()) }
     viewModelDefinition { CurrenciesViewModel(get(), get(), get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get(), get()) }
     viewModelDefinition { SelectCurrencyViewModel(get()) }

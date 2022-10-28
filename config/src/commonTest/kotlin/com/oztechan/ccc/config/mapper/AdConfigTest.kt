@@ -1,9 +1,9 @@
 package com.oztechan.ccc.config.mapper
 
+import com.oztechan.ccc.config.ad.AdConfigEntity
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.config.entity.AdConfig as AdConfigEntity
 
 class AdConfigTest : BaseTest() {
 

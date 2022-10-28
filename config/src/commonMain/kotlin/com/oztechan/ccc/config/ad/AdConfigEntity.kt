@@ -1,10 +1,10 @@
-package com.oztechan.ccc.config.entity
+package com.oztechan.ccc.config.ad
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class AdConfig(
+internal data class AdConfigEntity(
     @SerialName("banner_ad_session_count") val bannerAdSessionCount: Int = 2,
     @SerialName("interstitial_ad_session_count") val interstitialAdSessionCount: Int = 5,
     @SerialName("interstitial_ad_initial_delay") val interstitialAdInitialDelay: Long = 60000,

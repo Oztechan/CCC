@@ -17,6 +17,7 @@ import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.config.ad.AdConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.AppConfig
 import com.oztechan.ccc.config.model.AppReview
@@ -42,7 +43,14 @@ import kotlin.test.assertTrue
 internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     override val subject: MainViewModel by lazy {
-        MainViewModel(appStorage, appConfigService, appConfigRepository, adRepository, analyticsManager)
+        MainViewModel(
+            appStorage,
+            appConfigService,
+            appConfigRepository,
+            adConfigService,
+            adRepository,
+            analyticsManager
+        )
     }
 
     @Mock
@@ -50,6 +58,9 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Mock
     private val appConfigService = mock(classOf<AppConfigService>())
+
+    @Mock
+    private val adConfigService = mock(classOf<AdConfigService>())
 
     @Mock
     private val appConfigRepository = mock(classOf<AppConfigRepository>())
@@ -189,6 +200,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { appConfigService.config }
             .then { mockConfig }
 
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
+
         given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -239,6 +254,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         given(appConfigService)
             .invocation { appConfigService.config }
             .then { mockConfig }
+
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
 
         given(appStorage)
             .invocation { sessionCount }
@@ -296,6 +315,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { appConfigService.config }
             .then { mockConfig }
 
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
+
         given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
@@ -325,6 +348,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         given(appStorage)
             .invocation { sessionCount }
             .then { mockSessionCount }
+
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
 
         given(appConfigRepository)
             .invocation { checkAppUpdate(false) }
@@ -385,6 +412,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
                 .invocation { appConfigService.config }
                 .then { mockConfig }
 
+            given(adConfigService)
+                .invocation { config }
+                .then { AdConfig(0, 0, 0L, 0L) }
+
             given(appStorage)
                 .invocation { sessionCount }
                 .then { mockSessionCount }
@@ -424,6 +455,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             given(appConfigService)
                 .invocation { appConfigService.config }
                 .then { mockConfig }
+
+            given(adConfigService)
+                .invocation { config }
+                .then { AdConfig(0, 0, 0L, 0L) }
 
             given(appStorage)
                 .invocation { sessionCount }
