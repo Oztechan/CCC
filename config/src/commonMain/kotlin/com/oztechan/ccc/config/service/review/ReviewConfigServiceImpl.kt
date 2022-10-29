@@ -1,8 +1,8 @@
-package com.oztechan.ccc.config.review
+package com.oztechan.ccc.config.service.review
 
-import com.oztechan.ccc.config.BaseConfigService
 import com.oztechan.ccc.config.mapper.toModel
 import com.oztechan.ccc.config.model.ReviewConfig
+import com.oztechan.ccc.config.service.BaseConfigService
 import kotlinx.serialization.decodeFromString
 
 internal class ReviewConfigServiceImpl :

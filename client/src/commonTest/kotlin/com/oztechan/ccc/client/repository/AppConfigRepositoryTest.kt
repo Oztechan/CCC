@@ -7,8 +7,8 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.config.model.ReviewConfig
 import com.oztechan.ccc.config.model.UpdateConfig
-import com.oztechan.ccc.config.review.ReviewConfigService
-import com.oztechan.ccc.config.update.UpdateConfigService
+import com.oztechan.ccc.config.service.review.ReviewConfigService
+import com.oztechan.ccc.config.service.update.UpdateConfigService
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf

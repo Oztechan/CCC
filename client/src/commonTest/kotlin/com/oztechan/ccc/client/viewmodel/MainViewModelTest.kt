@@ -15,10 +15,10 @@ import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.ad.AdConfigService
 import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.ReviewConfig
-import com.oztechan.ccc.config.review.ReviewConfigService
+import com.oztechan.ccc.config.service.ad.AdConfigService
+import com.oztechan.ccc.config.service.review.ReviewConfigService
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before

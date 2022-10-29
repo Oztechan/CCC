@@ -1,8 +1,8 @@
-package com.oztechan.ccc.config.ad
+package com.oztechan.ccc.config.service.ad
 
-import com.oztechan.ccc.config.BaseConfigService
 import com.oztechan.ccc.config.mapper.toModel
 import com.oztechan.ccc.config.model.AdConfig
+import com.oztechan.ccc.config.service.BaseConfigService
 import kotlinx.serialization.decodeFromString
 
 internal class AdConfigServiceImpl :

@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.review
+package com.oztechan.ccc.config.service.review
 
 import com.oztechan.ccc.config.model.ReviewConfig
 
