@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+  pull_request:
 
 env:
   ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
