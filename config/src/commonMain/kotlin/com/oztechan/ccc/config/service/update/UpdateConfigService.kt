@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.update
+package com.oztechan.ccc.config.service.update
 
 import com.oztechan.ccc.config.model.UpdateConfig
 

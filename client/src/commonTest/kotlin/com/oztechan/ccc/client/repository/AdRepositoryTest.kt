@@ -6,8 +6,8 @@ import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
-import com.oztechan.ccc.config.ad.AdConfigService
 import com.oztechan.ccc.config.model.AdConfig
+import com.oztechan.ccc.config.service.ad.AdConfigService
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf

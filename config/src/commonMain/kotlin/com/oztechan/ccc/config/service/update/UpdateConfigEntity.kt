@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.update
+package com.oztechan.ccc.config.service.update
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

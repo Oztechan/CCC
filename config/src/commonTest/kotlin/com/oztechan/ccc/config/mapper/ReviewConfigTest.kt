@@ -3,9 +3,9 @@ package com.oztechan.ccc.config.mapper
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.config.review.ReviewConfigEntity as AppReviewEntity
+import com.oztechan.ccc.config.service.review.ReviewConfigEntity as AppReviewEntity
 
-class AppReviewTest : BaseTest() {
+class ReviewConfigTest : BaseTest() {
 
     @Test
     fun toModel() {

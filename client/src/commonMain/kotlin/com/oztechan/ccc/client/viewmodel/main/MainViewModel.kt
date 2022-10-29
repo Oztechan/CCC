@@ -13,8 +13,8 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.config.ad.AdConfigService
-import com.oztechan.ccc.config.review.ReviewConfigService
+import com.oztechan.ccc.config.service.ad.AdConfigService
+import com.oztechan.ccc.config.service.review.ReviewConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
