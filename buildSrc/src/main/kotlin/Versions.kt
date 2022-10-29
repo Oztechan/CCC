@@ -12,6 +12,7 @@ object Versions {
     const val KTOR = "2.1.2"
     const val LOG_BACK = "1.4.4"
     const val KOIN = "3.2.2"
+    const val KOIN_ANDROID = "3.3.0"
     const val MULTIPLATFORM_SETTINGS = "0.9"
     const val FIREBASE_ANALYTICS = "21.2.0"
     const val FIREBASE_REMOTE_CONFIG = "21.2.0"
