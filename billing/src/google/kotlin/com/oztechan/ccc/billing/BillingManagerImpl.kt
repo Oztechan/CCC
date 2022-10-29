@@ -10,13 +10,14 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.ProductDetailsResponseListener
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchaseHistoryRecord
 import com.android.billingclient.api.PurchaseHistoryResponseListener
 import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.billingclient.api.SkuDetails
-import com.android.billingclient.api.SkuDetailsParams
-import com.android.billingclient.api.SkuDetailsResponseListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.billing.model.PurchaseHistory
 import com.oztechan.ccc.billing.model.PurchaseMethod
@@ -31,13 +32,13 @@ internal class BillingManagerImpl(private val context: Context) :
     PurchasesUpdatedListener,
     BillingClientStateListener,
     PurchaseHistoryResponseListener,
-    SkuDetailsResponseListener {
+    ProductDetailsResponseListener {
 
     private lateinit var billingClient: BillingClient
     private lateinit var scope: CoroutineScope
-    private lateinit var skuList: List<String>
+    private lateinit var productList: List<QueryProductDetailsParams.Product>
 
-    private lateinit var skuDetails: List<SkuDetails>
+    private lateinit var productDetailList: List<ProductDetails>
     private var acknowledgePurchaseParams: AcknowledgePurchaseParams? = null
 
     private val _effect = MutableSharedFlow<BillingEffect>()
@@ -50,7 +51,12 @@ internal class BillingManagerImpl(private val context: Context) :
         Logger.i { "BillingManagerImpl startConnection" }
 
         this.scope = lifecycleScope
-        this.skuList = skuList
+        this.productList = skuList.map {
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId(it)
+                .setProductType(BillingClient.ProductType.INAPP)
+                .build()
+        }
 
         billingClient = BillingClient
             .newBuilder(context.applicationContext)
@@ -68,13 +74,23 @@ internal class BillingManagerImpl(private val context: Context) :
 
     override fun launchBillingFlow(activity: Activity, skuId: String) {
         Logger.i { "BillingManagerImpl launchBillingFlow" }
-        skuDetails
-            .firstOrNull { it.sku == skuId }
+        productDetailList
+            .firstOrNull { it.productId == skuId }
             ?.let {
-                val billingFlowParams = BillingFlowParams
-                    .newBuilder()
-                    .setSkuDetails(it)
-                    .build()
+
+                val offerToken = it.subscriptionOfferDetails?.get(productDetailList.indexOf(it))?.offerToken.orEmpty()
+
+                val productDetailsParamsList = listOf(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                        .setProductDetails(it)
+                        .setOfferToken(offerToken)
+                        .build()
+                )
+                val billingFlowParams =
+                    BillingFlowParams.newBuilder()
+                        .setProductDetailsParamsList(productDetailsParamsList)
+                        .build()
+
                 billingClient.launchBillingFlow(activity, billingFlowParams)
             }
     }
@@ -107,7 +123,7 @@ internal class BillingManagerImpl(private val context: Context) :
                     .setPurchaseToken(it.purchaseToken)
                     .build()
             }
-            ?.skus
+            ?.products
             ?.firstOrNull()
             ?.let {
                 scope.launch {
@@ -119,17 +135,21 @@ internal class BillingManagerImpl(private val context: Context) :
     override fun onBillingSetupFinished(billingResult: BillingResult) {
         Logger.i { "BillingManagerImpl onBillingSetupFinished ${billingResult.responseCode}" }
 
-        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, this)
+        val queryPurchaseHistoryParams = QueryPurchaseHistoryParams.newBuilder()
+            .setProductType(BillingClient.ProductType.INAPP)
+            .build()
+
+        billingClient.queryPurchaseHistoryAsync(queryPurchaseHistoryParams, this)
 
         billingClient.whether(
             { isReady },
             { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
         )?.apply {
-            val skuDetailsParams = SkuDetailsParams.newBuilder()
-                .setSkusList(skuList)
-                .setType(BillingClient.SkuType.INAPP)
+            val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
+                .setProductList(productList)
                 .build()
-            querySkuDetailsAsync(skuDetailsParams, this@BillingManagerImpl)
+
+            queryProductDetailsAsync(queryProductDetailsParams, this@BillingManagerImpl)
         }
     }
 
@@ -137,27 +157,28 @@ internal class BillingManagerImpl(private val context: Context) :
         Logger.i { "BillingManagerImpl onBillingServiceDisconnected" }
     }
 
-    override fun onSkuDetailsResponse(
+    override fun onProductDetailsResponse(
         billingResult: BillingResult,
-        skuDetailsList: MutableList<SkuDetails>?
+        productDetasilList: MutableList<ProductDetails>
     ) {
-        Logger.i { "BillingManagerImpl onSkuDetailsResponse ${billingResult.responseCode}" }
+        Logger.i { "BillingManagerImpl onProductDetailsResponse ${billingResult.responseCode}" }
 
         scope.launch {
-            skuDetailsList?.whether {
+            productDetasilList.whether {
                 billingResult.responseCode == BillingClient.BillingResponseCode.OK
             }?.let { detailsList ->
-                skuDetails = detailsList
+                productDetailList = detailsList
 
-                detailsList.map {
-                    PurchaseMethod(
-                        price = it.price,
-                        description = it.description,
-                        id = it.sku
-                    )
-                }.let {
-                    _effect.emit(BillingEffect.AddPurchaseMethods(it))
-                }
+                detailsList
+                    .map {
+                        PurchaseMethod(
+                            price = it.oneTimePurchaseOfferDetails?.formattedPrice.orEmpty(),
+                            description = it.description,
+                            id = it.productId
+                        )
+                    }.let {
+                        _effect.emit(BillingEffect.AddPurchaseMethods(it))
+                    }
             }
         }
     }
@@ -169,7 +190,7 @@ internal class BillingManagerImpl(private val context: Context) :
         Logger.i { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList
-            ?.map { PurchaseHistory(it.skus, it.purchaseTime) }
+            ?.map { PurchaseHistory(it.products, it.purchaseTime) }
             ?.let {
                 scope.launch {
                     _effect.emit(BillingEffect.RestorePurchase(it))
