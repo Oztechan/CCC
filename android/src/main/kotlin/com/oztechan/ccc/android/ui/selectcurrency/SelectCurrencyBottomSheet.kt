@@ -10,12 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.EventParam
-import com.oztechan.ccc.analytics.model.FirebaseEvent
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.setNavigationResult
 import com.oztechan.ccc.android.util.showLoading
-import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -54,7 +52,7 @@ class SelectCurrencyBottomSheet :
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.SelectCurrency)
     }
 
     private fun initViews() {
@@ -70,9 +68,12 @@ class SelectCurrencyBottomSheet :
                 with(binding) {
                     loadingView.showLoading(loading)
 
-                    recyclerViewSelectCurrency.visibleIf(enoughCurrency)
-                    txtNoEnoughCurrency.visibleIf(!enoughCurrency)
-                    btnSelect.visibleIf(!enoughCurrency)
+                    txtNoEnoughCurrency.text = getString(
+                        if (it.enoughCurrency) R.string.txt_update_favorite_currencies else R.string.choose_at_least_two_currency
+                    )
+                    btnSelect.text = getString(
+                        if (it.enoughCurrency) R.string.update else R.string.select
+                    )
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -83,10 +84,6 @@ class SelectCurrencyBottomSheet :
             Logger.i { "SelectCurrencyBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 is SelectCurrencyEffect.CurrencyChange -> {
-                    analyticsManager.trackEvent(
-                        FirebaseEvent.BASE_CHANGE,
-                        mapOf(EventParam.BASE to viewEffect.newBase)
-                    )
                     setNavigationResult(
                         R.id.calculatorFragment,
                         viewEffect.newBase,

@@ -4,19 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.EventParam
-import com.oztechan.ccc.analytics.model.FirebaseEvent
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.util.getFormatted
-import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
 import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
-    private val calculatorEvent: CalculatorEvent,
-    private val analyticsManager: AnalyticsManager
+    private val calculatorEvent: CalculatorEvent
 ) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(
@@ -35,7 +29,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             with(txtAmount) {
-                text = item.rate.getFormatted().toStandardDigits()
+                text = item.rate
                 setOnLongClickListener { onOutputLongClick() }
                 setOnClickListener { root.callOnClick() }
             }
@@ -59,29 +53,17 @@ class CalculatorAdapter(
             }
 
             root.setOnClickListener {
-                analyticsManager.trackEvent(
-                    FirebaseEvent.BASE_CHANGE,
-                    mapOf(EventParam.BASE to item.name)
-                )
-
                 calculatorEvent.onItemClick(item)
             }
         }
 
         private fun onOutputLongClick(): Boolean {
             calculatorEvent.onItemAmountLongClick(itemBinding.txtAmount.text.toString())
-            analyticsManager.trackEvent(FirebaseEvent.COPY_CLIPBOARD)
             return true
         }
 
         private fun onCurrencyLongClick(item: Currency): Boolean {
-            analyticsManager.trackEvent(
-                FirebaseEvent.SHOW_CONVERSION,
-                mapOf(EventParam.BASE to item.name)
-            )
-
             calculatorEvent.onItemImageLongClick(item)
-
             return true
         }
     }

@@ -14,6 +14,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.visible
 import mustafaozhan.github.com.mycurrencies.R
@@ -45,7 +46,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen("${this::class.simpleName} 0")
+        analyticsManager.trackScreen(ScreenName.Slider(0))
 
         Logger.i { "SliderFragment onResume" }
         binding.progressBar.gone()
@@ -57,7 +58,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageSelected(position: Int) {
-                    analyticsManager.trackScreen("${this@SliderFragment::class.simpleName} $position")
+                    analyticsManager.trackScreen(ScreenName.Slider(position))
 
                     Logger.i { "SliderFragment onPageSelected $position" }
 

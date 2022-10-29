@@ -7,6 +7,7 @@ plugins {
     }
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
@@ -34,16 +35,16 @@ android {
 
 dependencies {
 
-    with(DeviceFlavour) {
-        googleApi(Dependencies.Android.GOOGLE.BILLING)
-    }
+    DeviceFlavour.googleApi(Dependencies.Android.GOOGLE.BILLING)
+
+    implementation(Dependencies.Common.KOIN_CORE)
 
     with(Dependencies.Android) {
         implementation(LIFECYCLE_RUNTIME)
     }
 
-    with(Dependencies.Common) {
-        implementation(SCOPE_MOB)
-        implementation(LOG_MOB)
+    with(Dependencies.Modules) {
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
     }
 }

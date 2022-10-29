@@ -3,119 +3,224 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.oztechan.ccc.client.manager.session.SessionManager
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
-import com.oztechan.ccc.client.util.after
-import com.oztechan.ccc.client.util.before
+import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
-import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesState
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.oztechan.ccc.client.viewmodel.currencies.update
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.util.SECOND
+import com.oztechan.ccc.test.BaseViewModelTest
+import com.oztechan.ccc.test.util.after
+import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
 import com.oztechan.ccc.common.model.Currency as CommonCurrency
 
-@Suppress("TooManyFunctions")
-class CurrenciesViewModelTest : BaseViewModelTest() {
+@Suppress("TooManyFunctions", "OPT_IN_USAGE")
+internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
-    @Mock
-    private val settingsRepository = mock(classOf<SettingsRepository>())
-
-    @Mock
-    private val currencyRepository = mock(classOf<CurrencyRepository>())
-
-    @Mock
-    private val sessionManager = mock(classOf<SessionManager>())
-
-    private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(settingsRepository, currencyRepository, sessionManager)
+    override val subject: CurrenciesViewModel by lazy {
+        CurrenciesViewModel(appStorage, currencyDataSource, adRepository, analyticsManager)
     }
 
-    private val commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
-    private val clientCurrency = commonCurrency.toUIModel()
+    @Mock
+    private val appStorage = mock(classOf<AppStorage>())
 
-    private val currencyListCommon = listOf(commonCurrency)
-    private val currencyListClient = listOf(clientCurrency)
+    @Mock
+    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+
+    @Mock
+    private val adRepository = mock(classOf<AdRepository>())
+
+    @Mock
+    private val analyticsManager = mock(classOf<AnalyticsManager>())
+
+    private var commonCurrency = CommonCurrency("EUR", "Euro", "€", isActive = true)
+    private val commonCurrency2 = CommonCurrency("USD", "Dollar", "$", isActive = true)
+    private val commonCurrency3 = CommonCurrency("TRY", "Turkish Lira", "₺", isActive = true)
+
+    private val clientCurrency = commonCurrency.toUIModel()
+    private val clientCurrency2 = commonCurrency2.toUIModel()
+
+    private val currencyListCommon = listOf(commonCurrency, commonCurrency2)
+    private val currencyListClient = listOf(clientCurrency, clientCurrency2)
 
     private val currencyListFlow = flowOf(currencyListCommon)
 
     @BeforeTest
-    fun setup() {
-        given(currencyRepository)
+    override fun setup() {
+        super.setup()
+
+        given(currencyDataSource)
             .invocation { collectAllCurrencies() }
             .thenReturn(currencyListFlow)
 
-        given(settingsRepository)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsRepository)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn(clientCurrency.name)
     }
 
-    // SEED
+    // Analytics
     @Test
-    fun states_updates_correctly() {
-        val state = MutableStateFlow(CurrenciesState())
+    fun if_user_properties_set_correct() {
+        subject // init
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
+            .wasInvoked()
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasInvoked()
+    }
 
-        state.before {
-            state.update(
-                currencyList = currencyListClient,
-                loading = true,
-                selectionVisibility = true
-            )
-        }.after {
-            assertEquals(currencyListClient, it?.currencyList)
-            assertEquals(true, it?.loading)
-            assertEquals(true, it?.selectionVisibility)
-        }
+    // Analytics
+    @Test
+    fun user_properties_should_not_set_if_there_is_no_active_currency() {
+        val nonActiveCurrencyList = listOf(CommonCurrency("EUR", "Euro", "€", isActive = false))
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(flowOf(nonActiveCurrencyList))
+
+        subject // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.CurrencyCount(nonActiveCurrencyList.count().toString())) }
+            .wasNotInvoked()
+
+        verify(analyticsManager)
+            .invocation {
+                setUserProperty(
+                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.name })
+                )
+            }
+            .wasNotInvoked()
     }
 
     // init
     @Test
     fun init_updates_states_correctly() = runTest {
-        viewModel.state.firstOrNull().let {
-            assertEquals(currencyListClient, it?.currencyList)
-            assertEquals(false, it?.selectionVisibility)
-            assertEquals(currencyListClient.toMutableList(), viewModel.data.unFilteredList)
+        subject.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currencyListClient, it.currencyList)
+            assertFalse { it.selectionVisibility }
+            assertEquals(currencyListClient.toMutableList(), subject.data.unFilteredList)
+        }
+    }
+
+    @Test
+    fun `show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
+        given(appStorage)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency, commonCurrency, commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+        }
+    }
+
+    @Test
+    fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() {
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        given(appStorage)
+            .invocation { currentBase }
+            .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
+
+        runTest {
+            given(currencyDataSource)
+                .invocation { collectAllCurrencies() }
+                .thenReturn(
+                    flow {
+                        delay(SECOND)
+                        emit(listOf(commonCurrency))
+                    }
+                )
+        }
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
         }
     }
 
     // public methods
     @Test
-    fun hideSelectionVisibility() = viewModel.state.before {
-        viewModel.hideSelectionVisibility()
+    fun hideSelectionVisibility() = subject.state.before {
+        subject.hideSelectionVisibility()
     }.after {
-        assertEquals(false, it?.selectionVisibility)
+        assertNotNull(it)
+        assertFalse { it.selectionVisibility }
     }
 
     @Test
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(sessionManager)
+        given(adRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
+        assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
-        verify(sessionManager)
+        verify(adRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
@@ -123,13 +228,13 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
     @Test
     fun isFirstRun() {
         val mockValue = Random.nextBoolean()
-        given(settingsRepository)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(mockValue)
 
-        assertEquals(mockValue, viewModel.isFirstRun())
+        assertEquals(mockValue, subject.isFirstRun())
 
-        verify(settingsRepository)
+        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
     }
@@ -139,157 +244,237 @@ class CurrenciesViewModelTest : BaseViewModelTest() {
         val query = "query"
         // runTest can be removed after kotlin move to new memory management
         runTest {
-            viewModel.event.onQueryChange(query)
-            assertEquals(query, viewModel.data.query)
+            subject.event.onQueryChange(query)
+            assertEquals(query, subject.data.query)
         }
+    }
+
+    @Test
+    fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
+        val firstActiveBase = commonCurrency.name // first active currency
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(
+                flow {
+                    delay(SECOND)
+                    emit(currencyListCommon)
+                }
+            )
+
+        given(appStorage)
+            .invocation { currentBase }
+            .thenReturn("")
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(firstActiveBase, it.newBase)
+        }
+
+        verify(appStorage)
+            .invocation { currentBase = firstActiveBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `verifyCurrentBase should set first active currency base when currentBase is unset`() = runTest {
+        commonCurrency = commonCurrency.copy(isActive = false) // make first item in list not active
+
+        given(currencyDataSource)
+            .invocation { collectAllCurrencies() }
+            .thenReturn(
+                flow {
+                    delay(SECOND)
+                    emit(listOf(commonCurrency, commonCurrency2, commonCurrency3))
+                }
+            )
+
+        given(appStorage)
+            .invocation { currentBase }
+            .thenReturn(commonCurrency.name) // not active one
+
+        subject.effect.after {
+            assertIs<CurrenciesEffect.ChangeBase>(it)
+            assertEquals(commonCurrency2.name, it.newBase)
+        }
+
+        verify(appStorage)
+            .invocation { currentBase = commonCurrency2.name }
+            .wasInvoked()
     }
 
     // Event
     @Test
     fun updateAllCurrenciesState() {
-        given(settingsRepository)
+        given(appStorage)
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(settingsRepository)
+        given(appStorage)
             .invocation { currentBase }
             .thenReturn("EUR")
 
         val mockValue = Random.nextBoolean()
-        viewModel.event.updateAllCurrenciesState(mockValue)
+        subject.event.updateAllCurrenciesState(mockValue)
 
-        verify(currencyRepository)
-            .invocation { updateAllCurrencyState(mockValue) }
-            .wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine { updateAllCurrencyState(mockValue) }
+                .wasInvoked()
+        }
     }
 
     @Test
     fun onItemClick() {
-        viewModel.event.onItemClick(clientCurrency)
+        subject.event.onItemClick(clientCurrency)
 
-        verify(currencyRepository)
-            .invocation {
-                updateCurrencyStateByName(
-                    clientCurrency.name,
-                    !clientCurrency.isActive
-                )
-            }.wasInvoked()
+        runTest {
+            verify(currencyDataSource)
+                .coroutine {
+                    updateCurrencyStateByName(
+                        clientCurrency.name,
+                        !clientCurrency.isActive
+                    )
+                }.wasInvoked()
+        }
     }
 
     @Test
-    fun onQueryChange() = with(viewModel) {
-        val dollar = ClientCurrency("USD", "American Dollar", "$")
+    fun onQueryChange() = with(subject) {
+        val dollar = ClientCurrency("USD", "American Dollar", "$", "1231")
 
         val originalList = mutableListOf<ClientCurrency>().apply {
             add(clientCurrency)
             add(dollar)
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("USD")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(dollar))
-            assertEquals("USD", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(dollar) }
+            assertEquals("USD", subject.data.query)
+            assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("Euro")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(clientCurrency))
-            assertEquals("Euro", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(clientCurrency) }
+            assertEquals("Euro", subject.data.query)
+            assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("$")
         }.after {
-            assertEquals(true, it?.currencyList?.contains(dollar))
-            assertEquals("$", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertNotNull(it)
+            assertTrue { it.currencyList.contains(dollar) }
+            assertEquals("$", subject.data.query)
+            assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("something")
         }.after {
-            assertEquals(true, it?.currencyList?.isEmpty())
-            assertEquals("something", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertNotNull(it)
+            assertTrue { it.currencyList.isEmpty() }
+            assertEquals("something", subject.data.query)
+            assertFalse { it.loading }
         }
 
-        viewModel.state.before {
+        subject.state.before {
             data.unFilteredList = originalList
             event.onQueryChange("o")
         }.after {
-            assertEquals(2, it?.currencyList?.size)
-            assertEquals("o", viewModel.data.query)
-            assertEquals(false, it?.loading)
+            assertNotNull(it)
+            assertEquals(2, it.currencyList.size)
+            assertEquals("o", subject.data.query)
+            assertFalse { it.loading }
         }
     }
 
     @Test
     fun onItemLongClick() {
-        val previousValue = viewModel.state.value.selectionVisibility
-        viewModel.state.before {
-            viewModel.event.onItemLongClick()
+        val previousValue = subject.state.value.selectionVisibility
+        subject.state.before {
+            subject.event.onItemLongClick()
         }.after {
-            assertEquals(!previousValue, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(!previousValue, it.selectionVisibility)
         }
 
-        viewModel.state.before {
-            viewModel.event.onItemLongClick()
+        subject.state.before {
+            subject.event.onItemLongClick()
         }.after {
-            assertEquals(previousValue, it?.selectionVisibility)
+            assertNotNull(it)
+            assertEquals(previousValue, it.selectionVisibility)
         }
     }
 
     @Test
     fun onCloseClick() {
-        viewModel.effect.before {
-            viewModel.onCloseClick()
+        subject.effect.before {
+            subject.onCloseClick()
         }.after {
-            assertTrue { it is CurrenciesEffect.Back }
-            assertEquals("", viewModel.data.query)
+            assertIs<CurrenciesEffect.Back>(it)
+            assertEquals("", subject.data.query)
         }
 
         // show selections
-        viewModel.event.onItemLongClick()
+        subject.event.onItemLongClick()
 
-        viewModel.state.before {
-            viewModel.onCloseClick()
+        subject.state.before {
+            subject.onCloseClick()
         }.after {
-            assertEquals(false, it?.selectionVisibility)
-            assertEquals("", viewModel.data.query)
+            assertNotNull(it)
+            assertFalse { it.selectionVisibility }
+            assertEquals("", subject.data.query)
         }
     }
 
     @Test
     fun onDoneClick() {
-        val dollar = ClientCurrency("USD", "American Dollar", "$", isActive = true)
+        // where there is single currency
+        val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
 
-        viewModel.effect.before {
-            viewModel.onDoneClick()
+        subject.data.unFilteredList = mutableListOf(clientCurrency)
+
+        subject.effect.before {
+            subject.onDoneClick()
         }.after {
-            assertTrue { it is CurrenciesEffect.FewCurrency }
-            assertTrue { viewModel.data.query.isEmpty() }
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+            assertTrue { subject.data.query.isEmpty() }
         }
 
-        // given
-        viewModel.data.unFilteredList = mutableListOf(clientCurrency, dollar)
+        // where there are 2 active currencies
+        subject.data.unFilteredList = mutableListOf(clientCurrency, dollar)
 
-        viewModel.effect.before {
-            viewModel.onDoneClick()
+        subject.effect.before {
+            subject.onDoneClick()
         }.after {
-            assertTrue { it is CurrenciesEffect.OpenCalculator }
-            assertTrue { viewModel.data.query.isEmpty() }
+            assertIs<CurrenciesEffect.OpenCalculator>(it)
+            assertTrue { subject.data.query.isEmpty() }
 
-            verify(settingsRepository)
+            verify(appStorage)
                 .invocation { firstRun = false }
                 .wasInvoked()
+        }
+
+        // where there are 2 currencies but only 1 active
+        val dollarNotActive = ClientCurrency("USD", "American Dollar", "$", "123", isActive = false)
+        subject.data.unFilteredList = mutableListOf(clientCurrency, dollarNotActive)
+
+        subject.effect.before {
+            subject.onDoneClick()
+        }.after {
+            assertIs<CurrenciesEffect.FewCurrency>(it)
+            assertEquals(true, subject.data.query.isEmpty())
         }
     }
 }

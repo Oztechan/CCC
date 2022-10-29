@@ -1,3 +1,4 @@
+import config.BuildType
 import config.DeviceFlavour
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     }
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
@@ -30,14 +32,36 @@ android {
             }
         }
     }
+
+    buildTypes {
+        getByName(BuildType.release) {
+            with(config.Keys(project, BuildType.RELEASE)) {
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
+            }
+        }
+
+        getByName(BuildType.debug) {
+            with(config.Keys(project, BuildType.DEBUG)) {
+                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
+                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
+                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
+                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
+                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
+                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
+            }
+        }
+    }
 }
 
 dependencies {
-    with(DeviceFlavour) {
-        googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
-    }
+    implementation(Dependencies.Common.KOIN_CORE)
 
-    with(Dependencies.Common) {
-        implementation(LOG_MOB)
-    }
+    DeviceFlavour.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
+
+    implementation(project(Dependencies.Modules.LOGMOB))
 }

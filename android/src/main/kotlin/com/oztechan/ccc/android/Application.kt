@@ -4,6 +4,7 @@
 package com.oztechan.ccc.android
 
 import android.app.Application
+import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
@@ -13,8 +14,7 @@ import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
-import com.oztechan.ccc.android.di.platformModule
-import com.oztechan.ccc.client.di.initAndroid
+import com.oztechan.ccc.android.di.initKoin
 import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 @Suppress("unused")
@@ -23,27 +23,26 @@ class Application : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            enableStrictMode()
+        if (!BuildConfig.DEBUG) {
+            initCrashlytics()
+            initAnalytics(this)
         }
 
         initLogger()
 
         Logger.i { "Application onCreate" }
 
-        if (!BuildConfig.DEBUG) {
-            initAnalytics(this)
-            initCrashlytics()
+        if (BuildConfig.DEBUG) {
+            enableStrictMode()
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
         }
 
         initAds(this)
 
-        initAndroid(
-            context = this,
-            platformModule = platformModule
-        )
-
-        Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
+        initKoin(this)
     }
 
     private fun enableStrictMode() {

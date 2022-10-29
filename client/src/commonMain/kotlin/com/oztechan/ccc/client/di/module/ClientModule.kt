@@ -1,31 +1,18 @@
 package com.oztechan.ccc.client.di.module
 
-import com.oztechan.ccc.client.di.viewModelDefinition
-import com.oztechan.ccc.client.manager.background.BackgroundManager
-import com.oztechan.ccc.client.manager.background.BackgroundManagerImpl
-import com.oztechan.ccc.client.manager.session.SessionManager
-import com.oztechan.ccc.client.manager.session.SessionManagerImpl
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.oztechan.ccc.client.viewmodel.main.MainViewModel
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
-import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
-import com.oztechan.ccc.config.ConfigManager
-import com.oztechan.ccc.config.ConfigManagerImpl
-import org.koin.dsl.module
+import com.oztechan.ccc.client.di.module.submodule.repositoryModule
+import com.oztechan.ccc.client.di.module.submodule.settingsModule
+import com.oztechan.ccc.client.di.module.submodule.storageModule
+import com.oztechan.ccc.client.di.module.submodule.viewModelModule
+import com.oztechan.ccc.common.di.module.commonModules
+import com.oztechan.ccc.config.di.module.configModules
+import org.koin.core.module.Module
 
-var clientModule = module {
-    viewModelDefinition { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModelDefinition { MainViewModel(get(), get(), get()) }
-    viewModelDefinition { CurrenciesViewModel(get(), get(), get()) }
-    viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get()) }
-    viewModelDefinition { SelectCurrencyViewModel(get()) }
-    viewModelDefinition { AdRemoveViewModel(get()) }
-    viewModelDefinition { WatchersViewModel(get(), get()) }
-
-    single<ConfigManager> { ConfigManagerImpl() }
-    single<SessionManager> { SessionManagerImpl(get(), get()) }
-    single<BackgroundManager> { BackgroundManagerImpl(get(), get()) }
+val clientModules: List<Module> = buildList {
+    add(viewModelModule)
+    add(repositoryModule)
+    add(settingsModule)
+    add(storageModule)
+    addAll(configModules)
+    addAll(commonModules)
 }

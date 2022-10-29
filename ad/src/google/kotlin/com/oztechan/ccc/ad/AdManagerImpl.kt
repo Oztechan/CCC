@@ -14,7 +14,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-class AdManagerImpl : AdManager {
+internal class AdManagerImpl : AdManager {
 
     init {
         Logger.i { "AdManagerImpl init" }
@@ -27,29 +27,33 @@ class AdManagerImpl : AdManager {
         width: Int,
         adId: String,
         onAdLoaded: (Int?) -> Unit
-    ) = AdView(context).apply {
-        Logger.i { "AdManagerImpl getBannerAd" }
+    ): BannerAdView {
 
-        val adWidthPixels = if (width == 0) {
-            context.resources.displayMetrics.widthPixels.toFloat()
-        } else {
-            width.toFloat()
-        }
+        val adView = AdView(context).apply {
+            Logger.i { "AdManagerImpl getBannerAd" }
 
-        setAdSize(
-            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                context,
-                (adWidthPixels / resources.displayMetrics.density).toInt()
-            )
-        )
-        adUnitId = adId
-        adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-                onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
+            val adWidthPixels = if (width == 0) {
+                context.resources.displayMetrics.widthPixels.toFloat()
+            } else {
+                width.toFloat()
             }
+
+            setAdSize(
+                AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                    context,
+                    (adWidthPixels / resources.displayMetrics.density).toInt()
+                )
+            )
+            adUnitId = adId
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
+                }
+            }
+            loadAd(getAdRequest())
         }
-        loadAd(getAdRequest())
+        return BannerAdView(context, banner = adView) { adView.destroy() }
     }
 
     override fun showInterstitialAd(

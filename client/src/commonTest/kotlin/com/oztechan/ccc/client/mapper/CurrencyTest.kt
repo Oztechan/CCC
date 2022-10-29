@@ -1,10 +1,11 @@
 package com.oztechan.ccc.client.mapper
 
 import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CurrencyTest {
+internal class CurrencyTest : BaseTest() {
 
     private val currencyDollar = Currency("Dollar", "American Dollar", "$", 123.123, true)
 
@@ -15,7 +16,7 @@ class CurrencyTest {
         assertEquals(currencyDollar.name, currencyDollarUIModel.name)
         assertEquals(currencyDollar.longName, currencyDollarUIModel.longName)
         assertEquals(currencyDollar.symbol, currencyDollarUIModel.symbol)
-        assertEquals(currencyDollar.rate, currencyDollarUIModel.rate)
+        assertEquals(currencyDollar.rate.toString(), currencyDollarUIModel.rate)
         assertEquals(currencyDollar.isActive, currencyDollarUIModel.isActive)
     }
 
@@ -30,7 +31,7 @@ class CurrencyTest {
             assertEquals(first.name, second.name)
             assertEquals(first.longName, second.longName)
             assertEquals(first.symbol, second.symbol)
-            assertEquals(first.rate, second.rate)
+            assertEquals(first.rate.toString(), second.rate)
             assertEquals(first.isActive, second.isActive)
         }
     }

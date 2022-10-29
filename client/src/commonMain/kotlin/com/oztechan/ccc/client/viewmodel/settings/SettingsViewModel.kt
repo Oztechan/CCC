@@ -5,20 +5,25 @@ package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
+import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
-import com.oztechan.ccc.client.manager.session.SessionManager
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
-import com.oztechan.ccc.common.api.repo.ApiRepository
-import com.oztechan.ccc.common.db.currency.CurrencyRepository
-import com.oztechan.ccc.common.db.offlinerates.OfflineRatesRepository
-import com.oztechan.ccc.common.db.watcher.WatcherRepository
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,82 +33,90 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
-    private val settingsRepository: SettingsRepository,
-    private val apiRepository: ApiRepository,
-    private val currencyRepository: CurrencyRepository,
-    private val offlineRatesRepository: OfflineRatesRepository,
-    watcherRepository: WatcherRepository,
-    private val sessionManager: SessionManager
-) : BaseSEEDViewModel(), SettingsEvent {
+    private val appStorage: AppStorage,
+    private val backendApiService: BackendApiService,
+    private val currencyDataSource: CurrencyDataSource,
+    private val offlineRatesDataSource: OfflineRatesDataSource,
+    watcherDataSource: WatcherDataSource,
+    private val adRepository: AdRepository,
+    private val appConfigRepository: AppConfigRepository,
+    private val analyticsManager: AnalyticsManager
+) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
     private val _state = MutableStateFlow(SettingsState())
     override val state = _state.asStateFlow()
 
-    override val event = this as SettingsEvent
-
     private val _effect = MutableSharedFlow<SettingsEffect>()
     override val effect = _effect.asSharedFlow()
+
+    override val event = this as SettingsEvent
 
     override val data = SettingsData()
     // endregion
 
     init {
-        _state.update(
-            appThemeType = AppTheme.getThemeByValueOrDefault(settingsRepository.appTheme),
-            addFreeEndDate = settingsRepository.adFreeEndDate.toDateString()
-        )
+        _state.update {
+            copy(
+                appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
+                addFreeEndDate = appStorage.adFreeEndDate.toDateString(),
+                precision = appStorage.precision,
+                version = appConfigRepository.getVersion()
+            )
+        }
 
-        currencyRepository.collectActiveCurrencies()
+        currencyDataSource.collectActiveCurrencies()
             .onEach {
-                _state.update(activeCurrencyCount = it.size)
+                _state.update { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
-        watcherRepository.collectWatchers()
+        watcherDataSource.collectWatchers()
             .onEach {
-                _state.update(activeWatcherCount = it.size)
+                _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
     private suspend fun synchroniseRates() {
-        _state.update(loading = true)
+        _state.update { copy(loading = true) }
 
         _effect.emit(SettingsEffect.Synchronising)
 
-        currencyRepository.getActiveCurrencies()
+        currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                runCatching { apiRepository.getRatesByBackend(name) }
+                runCatching { backendApiService.getRates(name) }
                     .onFailure { error -> Logger.e(error) }
-                    .onSuccess { offlineRatesRepository.insertOfflineRates(it) }
+                    .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)
 
-        _state.update(loading = false)
+        _state.update { copy(loading = false) }
         data.synced = true
     }
 
     fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
-        _state.update(appThemeType = theme)
-        settingsRepository.appTheme = theme.themeValue
+        _state.update { copy(appThemeType = theme) }
+        appStorage.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = sessionManager.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun isRewardExpired() = settingsRepository.adFreeEndDate.isRewardExpired()
+    fun shouldShowRemoveAds() = adRepository.shouldShowRemoveAds()
 
-    fun isAdFreeNeverActivated() = settingsRepository.adFreeEndDate == 0.toLong()
+    fun isRewardExpired() = appStorage.adFreeEndDate.isRewardExpired()
 
-    fun getAppTheme() = settingsRepository.appTheme
+    fun isAdFreeNeverActivated() = appStorage.adFreeEndDate == 0.toLong()
+
+    fun getAppTheme() = appStorage.appTheme
 
     @Suppress("unused") // used in iOS
     fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
-        settingsRepository.adFreeEndDate = it
-        _state.update(addFreeEndDate = it.toDateString())
+        appStorage.adFreeEndDate = it
+        _state.update { copy(addFreeEndDate = it.toDateString()) }
     }
 
     // region Event
@@ -129,12 +142,12 @@ class SettingsViewModel(
 
     override fun onShareClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onShareClick" }
-        _effect.emit(SettingsEffect.Share)
+        _effect.emit(SettingsEffect.Share(appConfigRepository.getMarketLink()))
     }
 
     override fun onSupportUsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSupportUsClick" }
-        _effect.emit(SettingsEffect.SupportUs)
+        _effect.emit(SettingsEffect.SupportUs(appConfigRepository.getMarketLink()))
     }
 
     override fun onOnGitHubClick() = viewModelScope.launchIgnored {
@@ -158,11 +171,25 @@ class SettingsViewModel(
 
     override fun onSyncClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSyncClick" }
+
+        analyticsManager.trackEvent(Event.OfflineSync)
+
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {
             synchroniseRates()
         }
+    }
+
+    override fun onPrecisionClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPrecisionClick" }
+        _effect.emit(SettingsEffect.SelectPrecision)
+    }
+
+    override fun onPrecisionSelect(index: Int) {
+        Logger.d { "SettingsViewModel onPrecisionSelect $index" }
+        appStorage.precision = index.indexToNumber()
+        _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion
 }

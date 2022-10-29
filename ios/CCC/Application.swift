@@ -7,35 +7,34 @@
 //
 
 import SwiftUI
-import Resources
-import Client
-import Firebase
+import Res
+import Provider
+import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
 
-let logger = LoggerKt.doInitLogger()
+var logger: KermitLogger = {
+    return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
+}()
 
 @main
 struct Application: App {
     @Environment(\.scenePhase) private var scenePhase
-    @State var alertVisibility: Bool = false
 
     private let notificationManager = NotificationManager()
-    private let backgroundManager: BackgroundManager
+    private let backgroundRepository: BackgroundRepository
 
     private let taskID = "com.oztechan.ccc.CCC.fetch"
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
     init() {
+        if EnvironmentUtil.isRelease {
+            FirebaseApp.configure()
+        }
+
         logger.i(message: {"Application init"})
 
-        #if RELEASE
-            FirebaseApp.configure()
-        #endif
-
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
-
-        startKoin()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -43,9 +42,10 @@ struct Application: App {
             width: 0,
             height: Double.leastNonzeroMagnitude
         ))
-        UITableView.appearance().backgroundColor = MR.colors().transparent.get()
+        UICollectionView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
 
-        self.backgroundManager = koin.get()
+        self.backgroundRepository = koin.get()
 
         registerAppRefresh()
     }
@@ -53,13 +53,6 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .alert(isPresented: $alertVisibility) {
-                    Alert(
-                        title: Text(MR.strings().txt_watcher_alert_title.get()),
-                        message: Text(MR.strings().txt_watcher_alert_sub_title.get()),
-                        dismissButton: .destructive(Text(MR.strings().txt_ok.get()))
-                    )
-                }
         }.onChange(of: scenePhase) { phase in
             logger.i(message: {"Application onChange scenePhase \(phase)"})
 
@@ -104,7 +97,7 @@ struct Application: App {
 
         scheduleAppRefresh()
 
-        if backgroundManager.shouldSendNotification() {
+        if backgroundRepository.shouldSendNotification() {
 
             if scenePhase == .background {
                 self.notificationManager.sendNotification(
@@ -112,7 +105,11 @@ struct Application: App {
                     body: MR.strings().txt_watcher_alert_sub_title.get()
                 )
             } else {
-                self.alertVisibility = true
+                showAlert(
+                    title: MR.strings().txt_watcher_alert_title.get(),
+                    text: MR.strings().txt_watcher_alert_sub_title.get(),
+                    buttonText: MR.strings().txt_ok.get()
+                )
             }
 
             task.setTaskCompleted(success: true)

@@ -13,14 +13,13 @@ import com.github.submob.scopemob.whetherNot
 import mustafaozhan.github.com.mycurrencies.R
 
 @Suppress("LongParameterList")
-fun showDialog(
-    activity: Activity,
+fun Activity.showDialog(
     title: String,
     message: String,
     positiveButton: String,
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
-) = buildDialog(activity, title)
+) = buildDialog(title)
     ?.setMessage(message)
     ?.setPositiveButton(positiveButton) { dialog, _ ->
         Logger.i { "Dialog positive button click" }
@@ -29,34 +28,31 @@ fun showDialog(
     }
     ?.setCancelable(cancelable)
     ?.inCase(cancelable) {
-        setNegativeButton(activity.getString(android.R.string.cancel), null)
+        setNegativeButton(getString(android.R.string.cancel), null)
     }?.show()
 
 @Suppress("LongParameterList")
-fun showDialog(
-    activity: Activity,
+fun Activity.showDialog(
     title: Int,
     message: Int,
     positiveButton: Int,
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
 ) = showDialog(
-    activity,
-    activity.getString(title),
-    activity.getString(message),
-    activity.getString(positiveButton),
+    getString(title),
+    getString(message),
+    getString(positiveButton),
     cancelable,
     function
 )
 
 @Suppress("LongParameterList")
-fun showSingleChoiceDialog(
-    activity: Activity,
+fun Activity.showSingleChoiceDialog(
     title: String,
     items: Array<String>,
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
-) = buildDialog(activity, title)
+) = buildDialog(title)
     ?.setSingleChoiceItems(items, selectedIndex) { dialog, which ->
         Logger.i { "Dialog choice click $which" }
         choiceAction?.invoke(which)
@@ -64,25 +60,20 @@ fun showSingleChoiceDialog(
     }?.show()
 
 @Suppress("LongParameterList")
-fun showSingleChoiceDialog(
-    activity: Activity,
+fun Activity.showSingleChoiceDialog(
     title: Int,
     items: Array<String>,
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
 ) = showSingleChoiceDialog(
-    activity,
-    activity.getString(title),
+    getString(title),
     items,
     selectedIndex,
     choiceAction
 )
 
-private fun buildDialog(
-    activity: Activity,
-    title: String
-) = AlertDialog
-    .Builder(activity, R.style.AlertDialogCustom)
-    .whetherNot { activity.isFinishing }
+private fun Activity.buildDialog(title: String) = AlertDialog
+    .Builder(this, R.style.AlertDialogCustom)
+    .whetherNot { isFinishing }
     ?.setIcon(R.drawable.ic_dialog_and_snackbar)
     ?.setTitle(title)

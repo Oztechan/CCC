@@ -1,5 +1,17 @@
 package com.oztechan.ccc.backend.di
 
-import org.koin.core.Koin
+import co.touchlab.kermit.Logger
+import com.oztechan.ccc.backend.di.module.backendModules
+import com.oztechan.ccc.common.di.module.commonModules
+import org.koin.core.context.startKoin
 
-lateinit var koin: Koin
+fun initKoin() = startKoin {
+    modules(
+        buildList {
+            addAll(backendModules)
+            addAll(commonModules)
+        }
+    )
+}.also {
+    Logger.i { "Koin initialised" }
+}

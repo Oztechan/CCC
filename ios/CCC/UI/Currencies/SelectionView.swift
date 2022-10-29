@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct SelectionView: View {
     var onCloseClick: () -> Void

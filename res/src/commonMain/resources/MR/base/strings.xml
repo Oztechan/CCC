@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?><!--
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">CCC</string>
+
+    <!--Keyboard-->
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="divide">/</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="multiply">*</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="minus">-</string>
+    <string name="dot">.</string>
+    <string name="zero">0</string>
+    <string name="open_parentheses">(</string>
+    <string name="close_parentheses">)</string>
+    <string name="percent">%</string>
+    <string name="plus">+</string>
+    <string name="triple_zero">000</string>
+    <string name="ac">AC</string>
+    <string name="delete">DEL</string>
+
+    <!--CurrenciesFragment-->
+    <string name="search">Search</string>
+    <string name="btn_select_all">Select All</string>
+    <string name="btn_de_select_all">Deselect All</string>
+    <string name="btn_done">Done</string>
+    <string name="txt_select_currencies">Select your currencies</string>
+
+    <!--Snack Texts-->
+    <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
+    <string name="txt_ok">OK</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
+    <string name="text_too_big_number">Too big number.</string>
+    <string name="text_online_last_updated">Online! Last update: %s</string>
+    <string name="text_cached_last_updated">Cached! Last update: %s</string>
+    <string name="text_offline_last_updated">Offline! Last update: %s</string>
+    <string name="text_offline">Offline</string>
+    <string name="text_no_data">No data!</string>
+    <string name="error_text_unknown">Check your connection or try again later.</string>
+    <string name="copied_to_clipboard">Copied to clipboard!</string>
+    <string name="text_invalid_input">Invalid input!</string>
+    <string name="text_maximum_number_of_watchers">Maximum number of watchers exceeded</string>
+
+    <!--Dialog-->
+    <string name="rate_and_support">You can rate us and review our app in the market :)</string>
+    <string name="rate">RATE</string>
+    <string name="update">Update</string>
+    <string name="github_url">https://github.com/CurrencyConverterCalculator/CCC</string>
+    <string name="support_us">Support Us !</string>
+
+    <!--Mail-->
+    <string name="mail_developer">oztechan@gmail.com</string>
+    <string name="mail_feedback_subject">Feedback for CCC</string>
+    <string name="mail_extra_text">Dear Developer,</string>
+    <string name="mail_intent_title">Send Feedback:</string>
+
+    <!--Intro Sliders-->
+    <string name="next">NEXT</string>
+    <string name="got_it">GOT IT</string>
+    <string name="slide_intro_title">Currency Converter Calculator</string>
+    <string name="slide_intro_text">Simple user interface\nFast responses\nAccurate rates\nEasy to use</string>
+    <string name="slide_bug_report_title">Bugs &amp; Issues</string>
+    <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
+    <string name="slide_bug_report_text_2">Click on settings icon \nFeedback > Send us an email\nOn GitHub > Create a GitHub issue</string>
+    <string name="slide_disable_ads_title">Disable Ads</string>
+    <string name="slide_disable_ads_text_1">If you want to disable Ads</string>
+    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads</string>
+    <string name="slide_dark_mode_title">Theme</string>
+    <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
+    <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
+
+    <!-- SelectCurrencyBottomSheet -->
+    <string name="txt_select_base_currency">Select currency</string>
+    <string name="txt_update_favorite_currencies">You can update your favorite currencies</string>
+
+    <!-- Settings -->
+    <string name="txt_settings">Settings</string>
+    <string name="settings_active_item_value">%d active</string>
+
+    <string name="settings_item_currencies_title">Currencies</string>
+    <string name="settings_item_currencies_sub_title">Set your currencies</string>
+
+    <string name="settings_item_watchers_title">Watchers</string>
+    <string name="settings_item_watchers_sub_title">Check in the background</string>
+
+    <string name="settings_item_theme_title">Theme</string>
+    <string name="settings_item_theme_sub_title">Change app theme</string>
+    <string name="title_dialog_choose_theme">Choose app theme</string>
+
+    <string name="settings_item_remove_ads_title">Remove Ads</string>
+    <string name="settings_item_remove_ads_sub_title">Disable ads</string>
+    <string name="settings_item_remove_ads_value_expired">Expired\n</string>
+    <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
+    <string name="txt_ads_already_disabled">Ads are already disabled</string>
+
+    <string name="settings_item_precision_title">Precision</string>
+    <string name="settings_item_precision_sub_title">Max decimal digits</string>
+    <string name="settings_item_precision_value">%d digit</string>
+    <string name="settings_item_precision_value_plural">%d digits</string>
+    <string name="title_dialog_choose_precision">Choose precision</string>
+
+    <string name="settings_item_sync_title">Synchronise</string>
+    <string name="settings_item_sync_sub_title">Sync to use app offline</string>
+    <string name="txt_synchronising">Synchronising</string>
+    <string name="txt_synced">Synchronisation completed!</string>
+    <string name="txt_already_synced">Already synchronised!</string>
+
+    <string name="settings_item_feedback_title">Feedback</string>
+    <string name="settings_item_feedback_sub_title">Write email to us</string>
+
+    <string name="settings_item_share_title">Share</string>
+    <string name="settings_item_share_sub_title">Suggest us to your friends</string>
+
+    <string name="settings_item_support_us_title">Support Us</string>
+    <string name="settings_item_support_us_sub_title">Give review or star in market</string>
+
+    <string name="settings_item_on_github_title">On GitHub</string>
+    <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
+
+    <string name="settings_item_version_title">Version</string>
+    <string name="settings_item_version_sub_title">App version</string>
+
+    <!-- Currencies -->
+    <string name="txt_currencies">Currencies</string>
+
+    <!-- Watchers -->
+    <string name="txt_watchers">Watchers</string>
+    <string name="txt_watchers_description">Watchers will be checked on the background and if the threshold is reached then you will get a notification!</string>
+    <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
+    <string name="txt_watcher_alert_title">Watcher Alert!</string>
+    <string name="txt_watcher_alert_sub_title">The rate threshold is reached.</string>
+    <string name="txt_rate">Rate</string>
+    <string name="txt_grater">&gt;</string>
+    <string name="txt_smaller">&lt;</string>
+    <string name="txt_add">Add</string>
+
+    <!--Rewarded Ad-->
+    <string name="txt_remove_ads">Remove Ads</string>
+    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?</string>
+    <string name="txt_watch">Watch</string>
+
+    <!-- App update -->
+    <string name="txt_update_dialog_title">New Version Available</string>
+    <string name="txt_update_dialog_description">Looks like you have an older version of the app. Please update to get latest features and bug fixes to get best experience.</string>
+
+</resources>

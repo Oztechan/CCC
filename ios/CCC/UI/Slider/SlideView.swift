@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import Resources
+import Res
 
 struct SlideView: View {
     @Environment(\.colorScheme) var colorScheme

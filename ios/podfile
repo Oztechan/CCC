@@ -6,12 +6,7 @@ target 'CCC' do
   use_frameworks!
 
   # Pods for CCC
-  pod 'client', :path => '../client/client.podspec'
-  pod 'resources', :path => '../resources/resources.podspec'
-  pod 'SwiftMessages', '9.0.4', :inhibit_warnings => true
-  pod 'NavigationStack'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'provider', :path => '../provider/provider.podspec'
+  pod 'res', :path => '../res/res.podspec'
 
 end

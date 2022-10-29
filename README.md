@@ -7,6 +7,7 @@ A currency converter application for most of the currencies used in the world.
 You can quickly convert and make mathematical operations between currencies.
 
 <a href="https://play.google.com/store/apps/details?id=mustafaozhan.github.com.mycurrencies"><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/play_store.png?raw=true" width="175px"></a>
+<a href="https://apps.apple.com/us/app/currency-converter-calculator/id1617484510"><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/app_store.png?raw=true" width="175px"></a>
 <a href="https://appgallery.huawei.com/app/C104920917"><img src="https://raw.githubusercontent.com/CurrencyConverterCalculator/CCC/develop/art/appgallery.png?raw=true" width="175px"></a>
 
 <a href="https://github.com/Oztechan/CCC/actions/workflows/main.yml"><img src="https://github.com/CurrencyConverterCalculator/CCC/workflows/CCC%20CI/badge.svg"></a>
@@ -27,22 +28,70 @@ You can quickly convert and make mathematical operations between currencies.
 ```mermaid
 graph TD;
 
-billing-->android
-
 ad-->android
 
-analytics-->android
+billing-->android
 
-resources{resources}-->android
-resources-->ios
+BASEMOB --> android
 
-client{client}-->android
-client-->ios
+test --> config
+test --> client
+test --> android
+test --> res
+test --> analytics
+test --> backend
+test --> common
 
-config{config}-->client
+PARSERMOB --> client
 
-common{common}-->client
+SCOPEMOB --> billing
+SCOPEMOB --> android
+SCOPEMOB --> client
+
+config-->client
+
+analytics-->client
+analytics --> android
+analytics --> provider
+analytics --> ios
+
+client-->android
+client --> ios
+client-->provider
+
+provider --> ios
+
+res-->android
+res-->ios
+
+LOGMOB --> ad
+LOGMOB --> billing
+LOGMOB --> android
+LOGMOB --> provider
+LOGMOB --> ios
+LOGMOB --> client
+LOGMOB --> config
+LOGMOB --> test
+LOGMOB --> common
+LOGMOB --> backend
+
+common-->client
 common-->backend
+
+LOGMOB{LOGMOB}
+test{test}
+analytics{analytics}
+common{common}
+client{client}
+SCOPEMOB{SCOPEMOB}
+config{config}
+res{res}
+PARSERMOB{PARSERMOB}
+provider{provider}
+
+ad
+billing
+BASEMOB
 
 android(android)
 ios(ios)
@@ -51,12 +100,31 @@ backend(backend)
 
 ```mermaid
 graph TD;
-KMP_Library{KMP_Library}
-Target(Target)
-Library
+target(target)
+kmp_library{kmp_library}
+KMP_SUBMODULE_LIBRARY{KMP_SUBMODULE_LIBRARY}
+library
+SUBMODULE_LIBRARY
 ```
 
 </div>
+
+## How to clone
+
+The project uses submodules, please clone it as below:
+
+```shell
+git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
+cd CCC &&
+git submodule update --init --recursive
+```
+
+Submodules:
+
+- [LogMob](https://github.com/SubMob/LogMob) KMP logging library with Crashlytics support
+- [ScopeMob](https://github.com/SubMob/ScopeMob) Useful set of Kotlin scope functions with KMP support
+- [BaseMob](https://github.com/SubMob/BaseMob) Android base classes
+- [ParserMob](https://github.com/SubMob/ParserMob) KMP parsing library
 
 ## How to run
 
@@ -69,12 +137,12 @@ Open CCC folder with Android Studio and select `android` from configurations and
 ### iOS
 
 ```shell
-./gradlew :client:podspec &&
-cd ios/CCC
+./gradlew :provider:podspec :res:podspec --parallel &&
+cd ios/CCC &&
 pod install --repo-update
 ```
 
-Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
+Then open `CCC/ios/CCC.xcworkspace` with XCode after the packages are resolved you can run the project, please not XCode version should be bigger than `13.2.1`
 
 ### Backend
 
@@ -84,15 +152,47 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode and run the build
 
 ## Testing
 
-After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. You will need to change content of the all methods in `com.oztechan.ccc.common.api.service.ApiServiceImpl` with below.
+After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. Please replace all the `getRates` methods in
+
+* `com.oztechan.ccc.common.api.backend.BackendApiImpl`
+* `com.oztechan.ccc.common.api.free.FreeApiImpl`
+* `com.oztechan.ccc.common.api.premium.PremiumApiImpl`
+
+with below;
 
 ```kotlin
-// you have 3 of them
-override suspend fun methodXYZ(base: String) = client.get<CurrencyResponseEntity> {
-        url {
-            takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
-        }
+override suspend fun getRates(base: String): CurrencyResponse = client.get {
+    url {
+        takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
     }
+}.body()
+```
+
+## Architecture
+
+```mermaid
+graph TD;
+
+Persistence(Persistence) --> Storage
+Database(Database) --> DataSource
+
+API(API) --> Service
+RemoteConfig(RemoteConfig) --> ConfigService
+
+Storage --> ViewModel
+DataSource --> ViewModel
+
+Repository --> ViewModel
+
+Storage --> Repository
+DataSource --> Repository
+Service --> Repository
+ConfigService --> Repository
+
+Service --> ViewModel
+ConfigService --> ViewModel
+
+ViewModel --> View
 ```
 
 ## Android Preview

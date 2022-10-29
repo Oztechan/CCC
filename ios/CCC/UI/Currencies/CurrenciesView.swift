@@ -7,18 +7,23 @@
 //
 
 import SwiftUI
-import Resources
-import Client
+import Res
+import Provider
 import NavigationStack
-
-typealias CurrenciesObservable = ObservableSEED
-<CurrenciesViewModel, CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>
 
 struct CurrenciesView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        CurrenciesState,
+        CurrenciesEffect,
+        CurrenciesEvent,
+        CurrenciesData,
+        CurrenciesViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: CurrenciesObservable = koin.get()
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
+
+    private let analyticsManager: AnalyticsManager = koin.get()
 
     var onBaseChange: (String) -> Void
 
@@ -56,8 +61,7 @@ struct CurrenciesView: View {
                         .id(UUID())
                         .listRowBackground(MR.colors().background.get())
                     }
-                }
-                .background(MR.colors().background.get())
+                }.withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(
@@ -67,18 +71,21 @@ struct CurrenciesView: View {
                     )
                 }
 
-//                if observable.viewModel.shouldShowBannerAd() {
-//                    BannerAdView(
-//                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
-//                    ).frame(maxHeight: 50)
-//                    .padding(.bottom, 20)
-//                }
+                if observable.viewModel.shouldShowBannerAd() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
+                    ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
+                }
 
             }
             .animation(.default)
             .navigationBarHidden(true)
         }
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Currencies())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }

@@ -8,21 +8,26 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.FirebaseEvent
-import com.oztechan.ccc.android.util.getMarketLink
+import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.util.destroyBanner
+import com.oztechan.ccc.android.util.getThemeMode
+import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSingleChoiceDialog
 import com.oztechan.ccc.android.util.showSnack
-import com.oztechan.ccc.android.util.updateAppTheme
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
+import com.oztechan.ccc.client.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -52,10 +57,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     override fun onDestroyView() {
         Logger.i { "SettingsFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         super.onDestroyView()
     }
 
+    @Suppress("LongMethod")
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
             adManager = adManager,
@@ -74,11 +80,23 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_theme_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_theme_sub_title)
         }
-        with(itemDisableAds) {
-            imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
-            settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
-            settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+
+        if (settingsViewModel.shouldShowRemoveAds()) {
+            with(itemDisableAds) {
+                imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
+                settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
+                settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+            }
+        } else {
+            itemDisableAds.root.gone()
         }
+
+        with(itemPrecision) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_precision)
+            settingsItemTitle.text = getString(R.string.settings_item_precision_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_precision_sub_title)
+        }
+
         with(itemSync) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_sync)
             settingsItemTitle.text = getString(R.string.settings_item_sync_title)
@@ -104,6 +122,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_on_github_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_on_github_sub_title)
         }
+        with(itemVersion) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_version)
+            settingsItemTitle.text = getString(R.string.settings_item_version_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_version_sub_title)
+        }
     }
 
     private fun observeStates() = settingsViewModel.state
@@ -115,46 +138,52 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.settings_active_item_value,
                     activeCurrencyCount
                 )
-                binding.itemTheme.settingsItemValue.text = appThemeType.typeName
+                binding.itemTheme.settingsItemValue.text = appThemeType.themeName
+                binding.itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text =
-                    if (settingsViewModel.isAdFreeNeverActivated()) "" else {
-                        if (settingsViewModel.isRewardExpired()) {
-                            getString(R.string.settings_item_remove_ads_value_expired)
-                        } else {
-                            getString(
-                                R.string.settings_item_remove_ads_value_will_expire,
-                                addFreeEndDate
-                            )
-                        }
+                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isAdFreeNeverActivated()) {
+                    ""
+                } else {
+                    if (settingsViewModel.isRewardExpired()) {
+                        getString(R.string.settings_item_remove_ads_value_expired)
+                    } else {
+                        getString(
+                            R.string.settings_item_remove_ads_value_will_expire,
+                            addFreeEndDate
+                        )
                     }
+                }
+
+                binding.itemPrecision.settingsItemValue.text = requireContext().getString(
+                    if (it.precision == 1) {
+                        R.string.settings_item_precision_value
+                    } else {
+                        R.string.settings_item_precision_value_plural
+                    },
+                    it.precision
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+    @Suppress("ComplexMethod")
     private fun observeEffects() = settingsViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "SettingsFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                SettingsEffect.Back -> getBaseActivity()?.onBackPressed()
+                SettingsEffect.Back -> findNavController().popBackStack()
                 SettingsEffect.OpenCurrencies -> navigate(
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
                 SettingsEffect.FeedBack -> sendFeedBack()
-                SettingsEffect.Share -> share()
-                SettingsEffect.SupportUs -> showDialog(
-                    requireActivity(),
+                is SettingsEffect.Share -> share(viewEffect.marketLink)
+                is SettingsEffect.SupportUs -> activity?.showDialog(
                     R.string.support_us,
                     R.string.rate_and_support,
                     R.string.rate
                 ) {
-                    startIntent(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(requireContext().getMarketLink())
-                        )
-                    )
+                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
                 }
                 SettingsEffect.OnGitHub -> startIntent(
                     Intent(
@@ -167,23 +196,14 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
                 )
                 SettingsEffect.ThemeDialog -> changeTheme()
-                is SettingsEffect.ChangeTheme -> updateAppTheme(viewEffect.themeValue)
-                SettingsEffect.Synchronising -> showSnack(
-                    requireView(),
-                    R.string.txt_synchronising
+                is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(
+                    getThemeMode(viewEffect.themeValue)
                 )
-                SettingsEffect.Synchronised -> showSnack(
-                    requireView(),
-                    R.string.txt_synced
-                )
-                SettingsEffect.OnlyOneTimeSync -> showSnack(
-                    requireView(),
-                    R.string.txt_already_synced
-                )
-                SettingsEffect.AlreadyAdFree -> showSnack(
-                    requireView(),
-                    R.string.txt_ads_already_disabled
-                )
+                SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
+                SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
+                SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
+                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
+                SettingsEffect.SelectPrecision -> showPrecisionDialog()
                 SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -195,42 +215,52 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
             itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
-            itemSync.root.setOnClickListener {
-                onSyncClick()
-                analyticsManager.trackEvent(FirebaseEvent.OFFLINE_SYNC)
-            }
+            itemSync.root.setOnClickListener { onSyncClick() }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }
             itemShare.root.setOnClickListener { onShareClick() }
             itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+            itemPrecision.root.setOnClickListener { onPrecisionClick() }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Settings)
         Logger.i { "SettingsFragment onResume" }
     }
 
     private fun changeTheme() = AppTheme.getThemeByValue(settingsViewModel.getAppTheme())
         ?.let { currentThemeType ->
-            showSingleChoiceDialog(
-                requireActivity(),
+            activity?.showSingleChoiceDialog(
                 getString(R.string.title_dialog_choose_theme),
-                AppTheme.values().map { it.typeName }.toTypedArray(),
-                currentThemeType.order
+                AppTheme.values().map { it.themeName }.toTypedArray(),
+                currentThemeType.ordinal
             ) { index ->
-                AppTheme.getThemeByOrder(index)?.let { settingsViewModel.updateTheme(it) }
+                AppTheme.getThemeByOrdinal(index)?.let { settingsViewModel.updateTheme(it) }
             }
         }
+
+    private fun showPrecisionDialog() = activity?.showSingleChoiceDialog(
+        R.string.title_dialog_choose_precision,
+        (1..MAXIMUM_FLOATING_POINT).map {
+            requireContext().getString(
+                if (it == 1) R.string.settings_item_precision_value else R.string.settings_item_precision_value_plural,
+                it
+            )
+        }.toTypedArray(),
+        settingsViewModel.state.value.precision.numberToIndex()
+    ) {
+        settingsViewModel.event.onPrecisionSelect(it)
+    }
 
     private fun startIntent(intent: Intent) = getBaseActivity()?.packageManager?.let {
         intent.resolveActivity(it)?.let { startActivity(intent) }
     }
 
-    private fun share() = Intent(Intent.ACTION_SEND).apply {
+    private fun share(marketLink: String) = Intent(Intent.ACTION_SEND).apply {
         type = TEXT_TYPE
-        putExtra(Intent.EXTRA_TEXT, requireContext().getMarketLink())
+        putExtra(Intent.EXTRA_TEXT, marketLink)
         startActivity(Intent.createChooser(this, getString(R.string.settings_item_share_title)))
     }
 

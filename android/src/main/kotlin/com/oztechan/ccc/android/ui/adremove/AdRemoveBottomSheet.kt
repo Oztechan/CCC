@@ -12,6 +12,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
@@ -46,10 +47,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "AdRemoveBottomSheet onViewCreated" }
-        billingManager.startConnection(
-            viewLifecycleOwner.lifecycleScope,
-            RemoveAdType.getPurchaseIds()
-        )
+        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, RemoveAdType.getPurchaseIds())
         initViews()
         observeStates()
         observeEffects()
@@ -65,7 +63,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.AdRemove)
     }
 
     private fun initViews() {
@@ -88,8 +86,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             when (viewEffect) {
                 is AdRemoveEffect.LaunchRemoveAdFlow -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
-                        showDialog(
-                            activity = requireActivity(),
+                        activity?.showDialog(
                             title = R.string.txt_remove_ads,
                             message = R.string.txt_remove_ads_text,
                             positiveButton = R.string.txt_watch
@@ -98,16 +95,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                             showRewardedAd()
                         }
                     } else {
-                        billingManager.launchBillingFlow(
-                            requireActivity(),
-                            viewEffect.removeAdType.data.id
-                        )
+                        billingManager.launchBillingFlow(requireActivity(), viewEffect.removeAdType.data.id)
                     }
                 }
                 is AdRemoveEffect.AdsRemoved -> {
-                    if (viewEffect.removeAdType == RemoveAdType.VIDEO ||
-                        viewEffect.isRestorePurchase
-                    ) {
+                    if (viewEffect.removeAdType == RemoveAdType.VIDEO || viewEffect.isRestorePurchase) {
                         restartActivity()
                     } else {
                         billingManager.acknowledgePurchase()
@@ -140,7 +132,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             adId = getString(R.string.android_rewarded_ad_unit_id),
             onAdFailedToLoad = {
                 adRemoveViewModel.showLoadingView(false)
-                view?.let { showSnack(it, R.string.error_text_unknown) }
+                view?.showSnack(R.string.error_text_unknown)
             },
             onAdLoaded = {
                 adRemoveViewModel.showLoadingView(false)

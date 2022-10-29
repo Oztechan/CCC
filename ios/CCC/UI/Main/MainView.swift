@@ -8,20 +8,24 @@
 
 import SwiftUI
 import NavigationStack
-import Resources
-import Client
+import Res
+import Provider
 import GoogleMobileAds
-
-typealias MainObservable = ObservableSEED<MainViewModel, BaseState, MainEffect, MainEvent, MainData>
 
 struct MainView: View {
 
-    @StateObject var observable: MainObservable = koin.get()
+    @StateObject var observable = ObservableSEEDViewModel<
+        BaseState,
+        MainEffect,
+        MainEvent,
+        MainData,
+        MainViewModel
+    >()
 
     var body: some View {
 
         NavigationStackView(
-            transitionType: .default,
+            transitionType: getTransitionType(),
             easing: Animation.easeInOut
         ) {
             if observable.viewModel.isFistRun() {
@@ -44,10 +48,19 @@ struct MainView: View {
     private func onEffect(effect: MainEffect) {
         logger.i(message: {"MainView onEffect \(effect.description)"})
         switch effect {
-//        case is MainEffect.ShowInterstitialAd:
-//            InterstitialAd().show()
+        case is MainEffect.ShowInterstitialAd:
+            InterstitialAd().show()
         default:
             logger.i(message: {"MainView unknown effect"})
+        }
+    }
+
+    // todo can be removed once https://github.com/matteopuc/swiftui-navigation-stack/issues/80
+    private func getTransitionType() -> NavigationTransition {
+        if #available(iOS 16, *) {
+            return NavigationTransition.custom(.opacity)
+        } else {
+            return .default
         }
     }
 }

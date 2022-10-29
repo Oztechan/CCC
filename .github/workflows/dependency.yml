@@ -13,8 +13,9 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Adding secret files
@@ -27,24 +28,27 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
 
-      - name: Run dependencyUpdates and buildHealth tasks
-        run: ./gradlew dependencyUpdates buildHealth --parallel
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      - name: Upload Dependency Updates report
-        uses: actions/upload-artifact@v2
-        with:
-          name: dependency-updates
-          path: build/dependencyUpdates/report.txt
+      - name: Run dependencyUpdates task
+        run: ./gradlew dependencyUpdates --parallel
 
-      - name: Upload Build Healt Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-health
-          path: build/reports/dependency-analysis/build-health-report.txt
+      - name: Set Job Summary
+        run: |
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>Gradle Dependencies</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "<br>" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo `$(cat build/dependencyUpdates/report.txt)` >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
       - name: Set Job Status
         id: status
@@ -60,9 +64,9 @@ jobs:
         if: needs.DependencyCheck.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: SUCCESS
           color: good
 
@@ -70,8 +74,8 @@ jobs:
         if: false == (needs.DependencyCheck.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: FAILED
           color: danger

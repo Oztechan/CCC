@@ -279,7 +279,7 @@
     </style>
 
     <style name="DataStateStyle" parent="WrapStyle">
-        <item name="android:textSize">@dimen/text_size_xxs</item>
+        <item name="android:textSize">@dimen/text_size_xs</item>
         <item name="android:drawablePadding">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
@@ -315,18 +315,17 @@
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
+    <style name="SelectButtonStyle" parent="BarButtonStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:textColor">@color/color_text</item>
+    </style>
+
     <style name="DoneButtonStyle" parent="SelectButtonStyle">
         <item name="android:drawableEnd">@drawable/ic_done</item>
         <item name="android:text">@string/btn_done</item>
         <item name="android:paddingEnd">@dimen/margin_eight</item>
         <item name="android:background">@color/color_background_weak</item>
-    </style>
-
-    <style name="SelectButtonStyle" parent="BarButtonStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:background">@color/color_background_strong</item>
-        <item name="android:textColor">@color/color_text</item>
-        <item name="android:text">@string/select</item>
     </style>
 
     <style name="SearchViewStyle" parent="WrapStyle">
@@ -342,8 +341,9 @@
         <item name="android:text">@string/txt_select_currencies</item>
     </style>
 
-    <style name="SelectAtLeastTwoCurrenciesStyle" parent="SelectYourCurrenciesStyle">
-        <item name="android:text">@string/choose_at_least_two_currency</item>
+    <style name="SelectAtLeastTwoCurrenciesStyle" parent="FitStyle">
+        <item name="android:background">@color/color_background</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!-- Item -->
@@ -469,7 +469,7 @@
     <style name="SettingsItemValue" parent="WrapStyle">
         <item name="android:gravity">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
-        <item name="android:textSize">@dimen/text_size_xxs</item>
+        <item name="android:textSize">@dimen/text_size_xs</item>
         <item name="android:textColor">@color/color_text_weak</item>
         <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>

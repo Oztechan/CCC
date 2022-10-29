@@ -7,20 +7,24 @@
 //
 
 import SwiftUI
-import Resources
-import Client
+import Res
+import Provider
 import NavigationStack
-
-typealias CalculatorObservable = ObservableSEED
-<CalculatorViewModel, CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>
 
 struct CalculatorView: View {
 
+    @StateObject var observable = ObservableSEEDViewModel<
+        CalculatorState,
+        CalculatorEffect,
+        CalculatorEvent,
+        CalculatorData,
+        CalculatorViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: CalculatorObservable = koin.get()
-
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
+
+    private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
         NavigationView {
@@ -63,7 +67,7 @@ struct CalculatorView: View {
                             .listRowBackground(MR.colors().background.get())
                             .animation(.default)
                         }
-                    }.background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
@@ -74,11 +78,11 @@ struct CalculatorView: View {
                         )
                     }
 
-//                    if observable.viewModel.shouldShowBannerAd() {
-//                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-//                            .frame(maxHeight: 50)
-//                            .padding(.bottom, 20)
-//                    }
+                    if observable.viewModel.shouldShowBannerAd() {
+                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+                            .frame(maxHeight: 50)
+                            .padding(.bottom, 20)
+                    }
 
                 }
             }
@@ -94,7 +98,10 @@ struct CalculatorView: View {
                 ).environmentObject(navigationStack)
             }
         )
-        .onAppear { observable.startObserving() }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Calculator())
+        }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
@@ -112,8 +119,8 @@ struct CalculatorView: View {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
-        case is CalculatorEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get())
+        case is CalculatorEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get())
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:

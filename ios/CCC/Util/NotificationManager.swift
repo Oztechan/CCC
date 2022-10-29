@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Client
-import Resources
+import Provider
+import Res
 import UserNotifications
 
 final class NotificationManager: ObservableObject {

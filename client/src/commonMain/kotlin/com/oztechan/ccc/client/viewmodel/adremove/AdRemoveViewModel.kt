@@ -6,16 +6,16 @@ package com.oztechan.ccc.client.viewmodel.adremove
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
-import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.storage.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.common.settings.SettingsRepository
+import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +24,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdRemoveViewModel(
-    private val settingsRepository: SettingsRepository
-) : BaseSEEDViewModel(), AdRemoveEvent {
+    private val appStorage: AppStorage
+) : BaseSEEDViewModel<AdRemoveState, AdRemoveEffect, AdRemoveEvent, BaseData>(), AdRemoveEvent {
     // region SEED
     private val _state = MutableStateFlow(AdRemoveState())
     override val state = _state.asStateFlow()
@@ -44,7 +44,7 @@ class AdRemoveViewModel(
         isRestorePurchase: Boolean = false
     ) = adType?.let {
         viewModelScope.launch {
-            settingsRepository.adFreeEndDate = it.calculateAdRewardEnd(startDate)
+            appStorage.adFreeEndDate = it.calculateAdRewardEnd(startDate)
             _effect.emit(AdRemoveEffect.AdsRemoved(it, isRestorePurchase))
         }
     }
@@ -52,13 +52,11 @@ class AdRemoveViewModel(
     fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
             it.type.calculateAdRewardEnd(it.date)
-        }?.whether { oldPurchase ->
-            RemoveAdType.getPurchaseIds().any { it == oldPurchase.type.data.id }
-        }?.whether {
-            date > settingsRepository.adFreeEndDate
-        }?.whetherNot {
-            type.calculateAdRewardEnd(date).isRewardExpired()
-        }?.apply {
+        }?.whether(
+            { !type.calculateAdRewardEnd(date).isRewardExpired() },
+            { date > appStorage.adFreeEndDate },
+            { RemoveAdType.getPurchaseIds().any { it == type.data.id } }
+        )?.apply {
             updateAddFreeDate(
                 adType = RemoveAdType.getById(type.data.id),
                 startDate = this.date,
@@ -66,8 +64,8 @@ class AdRemoveViewModel(
             )
         }
 
-    fun showLoadingView(shouldShow: Boolean) {
-        _state.update(loading = shouldShow)
+    fun showLoadingView(shouldShow: Boolean) = _state.update {
+        copy(loading = shouldShow)
     }
 
     fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
@@ -81,7 +79,7 @@ class AdRemoveViewModel(
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update(adRemoveTypes = tempList, loading = false)
+            _state.update { copy(adRemoveTypes = tempList, loading = false) }
         }
 
     override fun onAdRemoveItemClick(type: RemoveAdType) = viewModelScope.launchIgnored {

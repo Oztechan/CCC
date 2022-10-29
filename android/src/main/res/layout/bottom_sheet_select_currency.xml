@@ -24,6 +24,7 @@
         android:id="@+id/recycler_view_select_currency"
         style="@style/BaseBottomSheetDialogRecyclerViewStyle"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/btn_select"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_current_base" />
@@ -32,12 +33,13 @@
         android:id="@+id/txt_no_enough_currency"
         style="@style/SelectAtLeastTwoCurrenciesStyle"
         app:layout_constraintBottom_toBottomOf="@+id/btn_select"
+        app:layout_constraintEnd_toStartOf="@+id/btn_select"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btn_select" />
 
     <Button
         android:id="@+id/btn_select"
         style="@style/SelectButtonStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_select_currency" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

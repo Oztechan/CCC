@@ -13,9 +13,10 @@ import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
+import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getImageResourceByName
 import com.oztechan.ccc.android.util.getNavigationResult
 import com.oztechan.ccc.android.util.setBackgroundByName
@@ -40,7 +41,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private val calculatorViewModel: CalculatorViewModel by viewModel()
 
     private val calculatorAdapter: CalculatorAdapter by lazy {
-        CalculatorAdapter(calculatorViewModel.event, analyticsManager)
+        CalculatorAdapter(calculatorViewModel.event)
     }
 
     override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)
@@ -57,39 +58,14 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(this::class.simpleName.toString())
+        analyticsManager.trackScreen(ScreenName.Calculator)
     }
 
     override fun onDestroyView() {
         Logger.i { "CalculatorFragment onDestroyView" }
-        binding.adViewContainer.removeAllViews()
+        binding.adViewContainer.destroyBanner()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
-    }
-
-    override fun onPause() {
-        Logger.i { "CalculatorFragment onPause" }
-        trackUserProperties()
-        super.onPause()
-    }
-
-    private fun trackUserProperties() = with(calculatorViewModel.state.value) {
-        analyticsManager.setUserProperty(
-            UserProperty.BASE_CURRENCY,
-            base
-        )
-
-        currencyList.filter { it.isActive }
-            .run {
-                analyticsManager.setUserProperty(
-                    UserProperty.CURRENCY_COUNT,
-                    this.count().toString()
-                )
-                analyticsManager.setUserProperty(
-                    UserProperty.ACTIVE_CURRENCIES,
-                    this.joinToString(",") { currency -> currency.name }
-                )
-            }
     }
 
     private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
@@ -132,12 +108,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         .onEach { viewEffect ->
             Logger.i { "CalculatorFragment observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                CalculatorEffect.Error -> showSnack(
-                    requireView(),
-                    R.string.error_text_unknown
-                )
-                CalculatorEffect.FewCurrency -> showSnack(
-                    requireView(),
+                CalculatorEffect.Error -> view?.showSnack(R.string.error_text_unknown)
+                CalculatorEffect.FewCurrency -> view?.showSnack(
                     R.string.choose_at_least_two_currency,
                     R.string.select
                 ) {
@@ -146,10 +118,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
-                CalculatorEffect.MaximumInput -> showSnack(
-                    requireView(),
-                    R.string.text_max_input
-                )
+                CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
@@ -158,9 +127,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
-                is CalculatorEffect.CopyToClipboard -> requireView().copyToClipBoard(viewEffect.amount)
-                is CalculatorEffect.ShowRate -> showSnack(
-                    requireView(),
+                is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
+                is CalculatorEffect.ShowRate -> view?.showSnack(
                     viewEffect.text,
                     icon = requireContext().getImageResourceByName(viewEffect.name)
                 )

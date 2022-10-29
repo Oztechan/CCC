@@ -19,9 +19,8 @@ object Dependencies {
         const val SQL_DELIGHT_COROUTINES_EXT = "com.squareup.sqldelight:coroutines-extensions:${Versions.SQL_DELIGHT}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val MOCKATIVE = "io.mockative:mockative:${Versions.MOCKATIVE}"
-        const val SCOPE_MOB = "com.github.submob:scopemob:${Versions.SCOPE_MOB}"
-        const val PARSER_MOB = "com.github.submob:parsermob:${Versions.PARSER_MOB}"
-        const val LOG_MOB = "com.github.submob:logmob:${Versions.LOG_MOB}"
+        const val KERMIT = "co.touchlab:kermit:${Versions.KERMIT}"
+        const val KERMIT_CRASHLYTICS = "co.touchlab:kermit-crashlytics:${Versions.KERMIT}"
     }
 
     object Android {
@@ -30,6 +29,7 @@ object Dependencies {
         const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
         const val FIREBASE_REMOTE_CONFIG = "com.google.firebase:firebase-config-ktx:${Versions.FIREBASE_REMOTE_CONFIG}"
+        const val FIREBASE_PER = "com.google.firebase:firebase-perf-ktx:${Versions.FIREBASE_PER}"
         const val DESUGARING = "com.android.tools:desugar_jdk_libs:${Versions.DESUGARING}"
         const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
         const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
@@ -40,7 +40,8 @@ object Dependencies {
         const val WORK_RUNTIME = "androidx.work:work-runtime:${Versions.WORK_RUNTIME}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
         const val ROOT_BEER = "com.scottyab:rootbeer-lib:${Versions.ROOT_BEER}"
-        const val BASE_MOB = "com.github.submob:basemob:${Versions.BASE_MOB}"
+        const val FIREBASE_CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx:${Versions.FIREBASE_CRASHLYTICS}"
+        const val ANR_WATCH_DOG = "com.github.anrwatchdog:anrwatchdog:${Versions.ANR_WATCH_DOG}"
 
         object GOOGLE {
             const val BILLING = "com.android.billingclient:billing:${Versions.BILLING}"
@@ -63,6 +64,7 @@ object Dependencies {
         const val LOG_BACK = "ch.qos.logback:logback-classic:${Versions.LOG_BACK}"
         const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
         const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
+        const val TEST_JUNIT = "test-junit"
     }
 
     object ClassPaths {
@@ -71,6 +73,7 @@ object Dependencies {
         const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN}"
         const val SQL_DELIGHT = "com.squareup.sqldelight:gradle-plugin:${Versions.SQL_DELIGHT}"
         const val GSM = "com.google.gms:google-services:${Versions.GSM}"
+        const val FIREBASE_PER_PLUGIN = "com.google.firebase:perf-plugin:${Versions.FIREBASE_PER_PLUGIN}"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS}"
         const val NAVIGATION = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}"
         const val MOKO_RESOURCES = "dev.icerock.moko:resources-generator:${Versions.MOKO_RESOURCES}"
@@ -87,12 +90,12 @@ object Dependencies {
         const val BUILD_KONFIG = "com.codingfeline.buildkonfig"
         const val CRASHLYTICS = "com.google.firebase.crashlytics"
         const val GOOGLE_SERVICES = "com.google.gms.google-services"
+        const val FIREBASE_PER_PLUGIN = "com.google.firebase.firebase-perf"
         const val SAFE_ARGS = "androidx.navigation.safeargs"
         const val KOTLIN_X_SERIALIZATION = "kotlinx-serialization"
         const val SQL_DELIGHT = "com.squareup.sqldelight"
         const val MOKO_RESOURCES = "dev.icerock.mobile.multiplatform-resources"
         const val DEPENDENCY_UPDATES = "com.github.ben-manes.versions"
-        const val BUILD_HEALTH = "com.autonomousapps.dependency-analysis"
         const val KOVER = "org.jetbrains.kotlinx.kover"
         const val KSP = "com.google.devtools.ksp"
     }
@@ -103,11 +106,23 @@ object Dependencies {
 
     object Modules {
         const val CLIENT = ":client"
-        const val RESOURCES = ":resources"
+        const val RES = ":res"
         const val COMMON = ":common"
         const val BILLING = ":billing"
         const val AD = ":ad"
         const val ANALYTICS = ":analytics"
         const val CONFIG = ":config"
+        const val TEST = ":test"
+
+        // submodules
+        const val LOGMOB = ":logmob"
+        const val SCOPEMOB = ":scopemob"
+        const val BASEMOB = ":basemob"
+        const val PARSERMOB = ":parsermob"
+    }
+
+    object Pods {
+        const val PROVIDER = "Provider"
+        const val RES = "Res"
     }
 }

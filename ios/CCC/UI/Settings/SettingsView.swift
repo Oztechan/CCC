@@ -7,22 +7,26 @@
 //
 
 import SwiftUI
-import Resources
-import Client
+import Res
+import Provider
 import NavigationStack
 import GoogleMobileAds
 
-typealias SettingsObservable = ObservableSEED
-<SettingsViewModel, SettingsState, SettingsEffect, SettingsEvent, SettingsData>
-
 struct SettingsView: View {
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        SettingsState,
+        SettingsEffect,
+        SettingsEvent,
+        SettingsData,
+        SettingsViewModel
+    >()
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: SettingsObservable = koin.get()
-    @State var dialogVisibility: Bool = false
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
-    @State var activeDialog: Dialogs = Dialogs.error
+
+    private let analyticsManager: AnalyticsManager = koin.get()
 
     enum Dialogs {
         case removeAd, error
@@ -60,13 +64,15 @@ struct SettingsView: View {
                         onClick: observable.event.onWatchersClicked
                     )
 
-//                    SettingsItemView(
-//                        imgName: "eye.slash.fill",
-//                        title: MR.strings().settings_item_remove_ads_title.get(),
-//                        subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-//                        value: getAdFreeText(),
-//                        onClick: observable.event.onRemoveAdsClick
-//                    )
+                    if observable.viewModel.shouldShowRemoveAds() {
+                        SettingsItemView(
+                            imgName: "eye.slash.fill",
+                            title: MR.strings().settings_item_remove_ads_title.get(),
+                            subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
+                            value: getAdFreeText(),
+                            onClick: observable.event.onRemoveAdsClick
+                        )
+                    }
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
@@ -93,16 +99,23 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                }
-                .background(MR.colors().background.get())
-                .edgesIgnoringSafeArea(.bottom)
 
-//                if observable.viewModel.shouldShowBannerAd() {
-//                    BannerAdView(
-//                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
-//                    ).frame(maxHeight: 50)
-//                    .padding(.bottom, 20)
-//                }
+                    SettingsItemView(
+                        imgName: "123.rectangle",
+                        title: MR.strings().settings_item_version_title.get(),
+                        subTitle: MR.strings().settings_item_version_sub_title.get(),
+                        value: observable.state.version,
+                        onClick: {}
+                    )
+                }.edgesIgnoringSafeArea(.bottom)
+                    .withClearBackground(color: MR.colors().background.get())
+
+                if observable.viewModel.shouldShowBannerAd() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_SETTINGS".getSecretValue()
+                    ).frame(maxHeight: 50)
+                    .padding(.bottom, 20)
+                }
 
             }
             .navigationBarHidden(true)
@@ -113,32 +126,10 @@ struct SettingsView: View {
         .sheet(isPresented: $webViewVisibility) {
             WebView(url: NSURL(string: MR.strings().github_url.get())! as URL)
         }
-        .alert(isPresented: $dialogVisibility) {
-            switch activeDialog {
-            case .error:
-                return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().error_text_unknown.get()),
-                    dismissButton: .destructive(Text(MR.strings().cancel.get()))
-                )
-            case .removeAd:
-                return Alert(
-                    title: Text(MR.strings().txt_remove_ads.get()),
-                    message: Text(MR.strings().txt_remove_ads_text.get()),
-                    primaryButton: .default(Text(MR.strings().txt_ok.get()), action: {
-                        RewardedAd(
-                            rewardFunction: { observable.viewModel.updateAddFreeDate() },
-                            errorFunction: {
-                                activeDialog = Dialogs.error
-                                self.dialogVisibility.toggle()
-                            }
-                        ).show()
-                    }),
-                    secondaryButton: .destructive(Text(MR.strings().cancel.get()))
-                )
-            }
+        .onAppear {
+            observable.startObserving()
+            analyticsManager.trackScreen(screenName: ScreenName.Settings())
         }
-        .onAppear { observable.startObserving() }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
@@ -166,8 +157,23 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            activeDialog = Dialogs.removeAd
-            dialogVisibility.toggle()
+            showAlert(
+                title: MR.strings().txt_remove_ads.get(),
+                text: MR.strings().txt_remove_ads_text.get(),
+                buttonText: MR.strings().txt_watch.get(),
+                action: {
+                    RewardedAd(
+                        rewardFunction: { observable.viewModel.updateAddFreeDate() },
+                        errorFunction: {
+                            showAlert(
+                                title: MR.strings().txt_remove_ads.get(),
+                                text: MR.strings().error_text_unknown.get(),
+                                buttonText: MR.strings().cancel.get()
+                            )
+                        }
+                    ).show()
+                }
+            )
         default:
             logger.i(message: {"SettingsView unknown effect"})
         }

@@ -6,46 +6,33 @@ package com.oztechan.ccc.backend
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.initLogger
-import com.oztechan.ccc.backend.controller.ApiController
-import com.oztechan.ccc.backend.di.koin
-import com.oztechan.ccc.backend.di.modules.controllerModule
+import com.oztechan.ccc.backend.di.initKoin
+import com.oztechan.ccc.backend.repository.api.ApiRepository
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
-import com.oztechan.ccc.common.di.getDependency
-import com.oztechan.ccc.common.di.modules.apiModule
-import com.oztechan.ccc.common.di.modules.getDatabaseModule
-import com.oztechan.ccc.common.di.modules.getSettingsModule
+import com.oztechan.ccc.common.di.DISPATCHER_IO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.core.context.startKoin
+import org.koin.core.qualifier.named
+import org.koin.java.KoinJavaComponent.inject
 
 private const val DEFAULT_PORT = 8080
 private const val REQUEST_QUEUE_LIMIT = 48
 private const val RUNNING_LIMIT = 30
-private val apiController: ApiController by lazy {
-    koin.getDependency(ApiController::class)
-}
 
+private val apiController: ApiRepository by inject(ApiRepository::class.java)
+private val ioDispatcher: CoroutineDispatcher by inject(CoroutineDispatcher::class.java, named(DISPATCHER_IO))
 fun main() {
     initLogger()
 
-    startKoin {
-        modules(
-            apiModule,
-            getDatabaseModule(),
-            getSettingsModule(),
-            controllerModule
-        )
-    }.also {
-        koin = it.koin
-    }
-
     Logger.i { "Application main" }
+
+    initKoin()
 
     apiController.startSyncApi()
 
@@ -60,10 +47,10 @@ fun main() {
         routing {
             Logger.i { "start rooting" }
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(ioDispatcher).launch {
                 getError()
                 getRoot()
-                getCurrencyByName()
+                getCurrencyByName(apiController)
             }
         }
     }.start(wait = true)

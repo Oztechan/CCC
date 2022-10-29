@@ -37,8 +37,9 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Adding secret files
@@ -53,33 +54,33 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
-          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
-          echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
         run: ./gradlew :android:bundleRelease :backend:fatJar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: googleBundle
           path: android/build/outputs/bundle/googleRelease/android-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: huaweiBundle
           path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: backendJar
           path: backend/build/libs/backend-fat-*.jar
@@ -96,7 +97,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: googleBundle
 
@@ -106,7 +107,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
       - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1.0.15
+        uses: r0adkll/upload-google-play@v1.0.19
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
@@ -114,7 +115,7 @@ jobs:
           track: internal
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: googleBundle
 
@@ -130,7 +131,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: huaweiBundle
 
@@ -145,7 +146,7 @@ jobs:
           file-name: "android-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: huaweiBundle
 
@@ -161,7 +162,7 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: backendJar
           path: artifact
@@ -176,7 +177,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: backendJar
 
@@ -185,35 +186,42 @@ jobs:
         run: echo "::set-output name=status::success"
 
   PublishAppStore:
-    runs-on: macos-latest
+    runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           fetch-depth: 0
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Adding secret files
         run: |
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/GoogleService-Info.plist
+          mkdir ios/CCC/Resources/Release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
+          rm ios/CCC/Resources/Debug/GoogleService-Info.plist
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release.xcconfig
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Install Cocoapods
         run: |
-          ./gradlew client:podGenIOS resources:podGenIOS --parallel
+          ./gradlew provider:podGenIOS res:podGenIOS --parallel
           cd ios/CCC
-          pod install
+          pod install --repo-update
 
       - name: Publish
-        uses: maierj/fastlane-action@v2.2.0
+        uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'publish'
           subdirectory: 'ios'
@@ -226,6 +234,8 @@ jobs:
           GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 
       - name: Set Job Status
         id: status
@@ -245,9 +255,9 @@ jobs:
           needs.PublishAppStore.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: SUCCESS
           color: good
 
@@ -259,8 +269,8 @@ jobs:
           false == (needs.PublishAppStore.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: FAILED
           color: danger

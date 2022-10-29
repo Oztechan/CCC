@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
 import config.DeviceFlavour.Companion.googleImplementation
@@ -11,11 +12,13 @@ plugins {
         id(ANDROID_APP)
         id(CRASHLYTICS)
         id(GOOGLE_SERVICES)
+        id(FIREBASE_PER_PLUGIN)
         id(SAFE_ARGS)
         kotlin(ANDROID)
     }
 }
 
+@Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
         compileSdk = COMPILE_SDK_VERSION
@@ -74,28 +77,13 @@ android {
         getByName(BuildType.release) {
             signingConfig = signingConfigs.getByName(BuildType.release)
             isMinifyEnabled = false
-
-            with(Keys(project, BuildType.RELEASE)) {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
-            }
         }
 
         getByName(BuildType.debug) {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            with(Keys(project, BuildType.DEBUG)) {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
-            }
+
+            extensions.getByName<FirebasePerfExtension>("FirebasePerformance").setInstrumentationEnabled(false)
         }
     }
 }
@@ -109,7 +97,7 @@ dependencies {
         implementation(LIFECYCLE_RUNTIME)
         implementation(WORK_RUNTIME) // android 12 crash fix
         implementation(SPLASH_SCREEN)
-        implementation(BASE_MOB)
+        implementation(FIREBASE_PER)
         coreLibraryDesugaring(DESUGARING)
         debugImplementation(LEAK_CANARY)
     }
@@ -118,15 +106,18 @@ dependencies {
 
     with(Dependencies.Common) {
         implementation(KOTLIN_X_DATE_TIME)
-        implementation(SCOPE_MOB)
-        implementation(LOG_MOB)
     }
 
     with(Dependencies.Modules) {
         implementation(project(CLIENT))
-        implementation(project(RESOURCES))
+        implementation(project(RES))
         implementation(project(BILLING))
         implementation(project(AD))
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
+        implementation(project(BASEMOB))
         implementation(project(ANALYTICS))
+
+        testImplementation(project(TEST))
     }
 }

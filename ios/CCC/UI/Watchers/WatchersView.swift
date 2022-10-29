@@ -7,21 +7,25 @@
 //
 
 import SwiftUI
-import Client
-import Resources
+import Provider
+import Res
 import NavigationStack
 
-typealias WatchersObservable = ObservableSEED
-<WatchersViewModel, WatchersState, WatchersEffect, WatchersEvent, WatchersData>
-
 struct WatchersView: View {
-    @EnvironmentObject private var navigationStack: NavigationStack
-    @StateObject var observable: WatchersObservable = koin.get()
+
+    @StateObject var observable = ObservableSEEDViewModel<
+        WatchersState,
+        WatchersEffect,
+        WatchersEvent,
+        WatchersData,
+        WatchersViewModel
+    >()
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
 
-    var watcher: Client.Watcher?
+    private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
         ZStack {
@@ -30,8 +34,10 @@ struct WatchersView: View {
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
 
-                if notificationManager.authorizationStatus == .authorized {
-
+                switch notificationManager.authorizationStatus {
+                case nil:
+                    Spacer()
+                case .authorized:
                     Form {
                         List(observable.state.watcherList, id: \.id) { watcher in
                             WatcherItem(
@@ -43,30 +49,32 @@ struct WatchersView: View {
                         }
                         .listRowInsets(.init())
                         .listRowBackground(MR.colors().background.get())
-                    }
+                        .background(MR.colors().background.get())
+                    }.withClearBackground(color: MR.colors().background.get())
 
-                    if observable.state.watcherList.count == 0 {
-                        Text(MR.strings().txt_click_to_add.get())
-                            .font(.footnote)
-                            .frame(width: .infinity, height: .infinity, alignment: .center)
-                            .padding()
-                    }
+                    Spacer()
 
                     VStack {
-                        Button {
-                            observable.event.onAddClick()
-                        } label: {
-                            Label(MR.strings().txt_add.get(), systemImage: "plus")
+                        HStack {
+                            Spacer()
+
+                            Button {
+                                observable.event.onAddClick()
+                            } label: {
+                                Label(MR.strings().txt_add.get(), systemImage: "plus")
+                            }
+                            .foregroundColor(MR.colors().text.get())
+                            .padding(.vertical, 15)
+                            .background(MR.colors().background_strong.get())
+
+                            Spacer()
+
                         }
-                        .foregroundColor(MR.colors().text.get())
-                        .padding(.top, 10)
-                        .padding(.bottom, 20)
                     }
-                    .padding(12)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .background(MR.colors().background_strong.get())
 
-                } else {
+                default:
                     VStack {
                         Text(MR.strings().txt_enable_notification_permission.get())
                             .multilineTextAlignment(.center)
@@ -85,9 +93,20 @@ struct WatchersView: View {
                         .cornerRadius(5)
 
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        .background(MR.colors().background.get())
+                }
+
+                if observable.viewModel.shouldShowBannerAd() {
+                    BannerAdView(
+                        unitID: "BANNER_AD_UNIT_ID_WATCHERS".getSecretValue()
+                    )
+                    .frame(maxHeight: 50)
+                    .padding(.bottom, 55)
+                } else {
+                    Text("").padding(5)
                 }
             }
-            .background(MR.colors().background.get())
+            .background(MR.colors().background_strong.get())
             .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(
@@ -97,7 +116,7 @@ struct WatchersView: View {
                     isBarShown: $baseBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onBaseChanged(
-                            watcher: baseBarInfo.watcher,
+                            watcher: baseBarInfo.watcher!,
                             newBase: $0
                         )
                     }
@@ -111,7 +130,7 @@ struct WatchersView: View {
                     isBarShown: $targetBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onTargetChanged(
-                            watcher: targetBarInfo.watcher,
+                            watcher: targetBarInfo.watcher!,
                             newTarget: $0
                         )
                     }
@@ -121,6 +140,7 @@ struct WatchersView: View {
         .onAppear {
             observable.startObserving()
             notificationManager.reloadAuthorisationStatus()
+            analyticsManager.trackScreen(screenName: ScreenName.Watchers())
         }
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
@@ -148,8 +168,8 @@ struct WatchersView: View {
         case is WatchersEffect.SelectTarget:
             targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
-        case is WatchersEffect.MaximumInput:
-            showSnack(text: MR.strings().text_max_input.get(), isTop: true)
+        case is WatchersEffect.TooBigNumber:
+            showSnack(text: MR.strings().text_too_big_number.get(), isTop: true)
         case is WatchersEffect.InvalidInput:
             showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
         case is WatchersEffect.MaximumNumberOfWatchers:
@@ -173,6 +193,6 @@ struct WatchersView: View {
 
     struct BarInfo {
         var isShown: Bool
-        var watcher: Client.Watcher?
+        var watcher: Provider.Watcher?
     }
 }

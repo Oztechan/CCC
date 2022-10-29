@@ -8,6 +8,7 @@ plugins {
     with(Dependencies.Plugins) {
         application
         kotlin(MULTIPLATFORM)
+        id(KSP) version (Versions.KSP)
     }
 }
 
@@ -36,15 +37,33 @@ kotlin {
 
                 with(Dependencies.Common) {
                     implementation(KOIN_CORE)
-                    implementation(LOG_MOB)
                 }
 
                 with(Dependencies.Modules) {
                     implementation(project(COMMON))
+                    implementation(project(LOGMOB))
                 }
             }
         }
+
+        val jvmTest by getting {
+            dependencies {
+                with(Dependencies.Common) {
+                    implementation(MOCKATIVE)
+                    implementation(COROUTINES_TEST)
+                }
+                implementation(project(Dependencies.Modules.TEST))
+            }
+        }
     }
+}
+
+dependencies {
+    ksp(Dependencies.Processors.MOCKATIVE)
+}
+
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
 }
 
 tasks.register<Jar>("fatJar") {

@@ -10,7 +10,7 @@ import SwiftUI
 import GoogleMobileAds
 import UIKit
 
-final class BannerAdView: UIViewControllerRepresentable {
+struct BannerAdView: UIViewControllerRepresentable {
 
     private var unitID: String
 
@@ -18,7 +18,7 @@ final class BannerAdView: UIViewControllerRepresentable {
         self.unitID = unitID
     }
 
-    let bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+    let bannerView = GADBannerView(adSize: GADAdSizeBanner)
 
     func makeUIViewController(context: Context) -> UIViewController {
 
@@ -38,7 +38,7 @@ final class BannerAdView: UIViewControllerRepresentable {
         let viewWidth = frame.size.width
 
         viewController.view.addSubview(bannerView)
-        viewController.view.frame = CGRect(origin: .zero, size: kGADAdSizeBanner.size)
+        viewController.view.frame = CGRect(origin: .zero, size: GADAdSizeBanner.size)
 
         bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
         bannerView.load(GADRequest())
