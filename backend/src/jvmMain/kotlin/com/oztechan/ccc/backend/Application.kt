@@ -27,6 +27,8 @@ private const val RUNNING_LIMIT = 30
 
 private val apiController: ApiRepository by inject(ApiRepository::class.java)
 private val ioDispatcher: CoroutineDispatcher by inject(CoroutineDispatcher::class.java, named(DISPATCHER_IO))
+private val globalScope: CoroutineScope by inject(CoroutineScope::class.java)
+
 fun main() {
     initLogger()
 
@@ -47,7 +49,7 @@ fun main() {
         routing {
             Logger.i { "start rooting" }
 
-            CoroutineScope(ioDispatcher).launch {
+            globalScope.launch(ioDispatcher) {
                 getError()
                 getRoot()
                 getCurrencyByName(apiController)

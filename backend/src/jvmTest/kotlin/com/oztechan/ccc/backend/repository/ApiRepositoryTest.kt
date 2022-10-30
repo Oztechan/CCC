@@ -14,13 +14,20 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class ApiRepositoryTest : BaseSubjectTest<ApiRepository>() {
     override val subject: ApiRepository by lazy {
-        ApiRepositoryImpl(premiumApiService, freeApiService, offlineRatesDataSource, createTestDispatcher())
+        ApiRepositoryImpl(
+            premiumApiService,
+            freeApiService,
+            offlineRatesDataSource,
+            TestScope(),
+            createTestDispatcher()
+        )
     }
 
     @Mock
