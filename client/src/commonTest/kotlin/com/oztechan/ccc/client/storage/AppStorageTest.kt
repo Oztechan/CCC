@@ -3,18 +3,16 @@
  */
 package com.oztechan.ccc.client.storage
 
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_APP_THEME
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_CURRENT_BASE
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_PRECISION
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_APP_THEME
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_CURRENT_BASE
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_FIRST_RUN
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_PRECISION
-import com.oztechan.ccc.client.storage.AppStorageImpl.Companion.KEY_SESSION_COUNT
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorageImpl
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_APP_THEME
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
@@ -47,19 +45,6 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
         verify(settings)
             .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun default_currentBase() {
-        given(settings)
-            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
-            .thenReturn(DEFAULT_CURRENT_BASE)
-
-        assertEquals(DEFAULT_CURRENT_BASE, subject.currentBase)
-
-        verify(settings)
-            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
@@ -102,19 +87,6 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
             .wasInvoked()
     }
 
-    @Test
-    fun default_precision() {
-        given(settings)
-            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
-            .thenReturn(DEFAULT_PRECISION)
-
-        assertEquals(DEFAULT_PRECISION, subject.precision)
-
-        verify(settings)
-            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
-            .wasInvoked()
-    }
-
     // setters
     @Test
     fun set_firstRun() {
@@ -123,16 +95,6 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
         verify(settings)
             .invocation { putBoolean(KEY_FIRST_RUN, mockedValue) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun set_currentBase() {
-        val mockValue = "mock"
-        subject.currentBase = mockValue
-
-        verify(settings)
-            .invocation { putString(KEY_CURRENT_BASE, mockValue) }
             .wasInvoked()
     }
 
@@ -163,16 +125,6 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
         verify(settings)
             .invocation { putLong(KEY_SESSION_COUNT, mockValue) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun set_precision() {
-        val mockValue = Random.nextInt()
-        subject.precision = mockValue
-
-        verify(settings)
-            .invocation { putInt(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 }

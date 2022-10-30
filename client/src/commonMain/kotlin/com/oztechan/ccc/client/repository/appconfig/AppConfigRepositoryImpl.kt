@@ -4,7 +4,7 @@ import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.config.service.review.ReviewConfigService
 import com.oztechan.ccc.config.service.update.UpdateConfigService
 

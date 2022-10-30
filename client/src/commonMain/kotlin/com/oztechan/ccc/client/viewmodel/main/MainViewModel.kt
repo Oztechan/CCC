@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.config.service.ad.AdConfigService
 import com.oztechan.ccc.config.service.review.ReviewConfigService

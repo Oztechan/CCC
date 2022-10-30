@@ -4,7 +4,7 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.config.model.ReviewConfig
 import com.oztechan.ccc.config.model.UpdateConfig
 import com.oztechan.ccc.config.service.review.ReviewConfigService
