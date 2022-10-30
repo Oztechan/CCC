@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -50,7 +50,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     override val subject: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            appStorage,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
@@ -60,7 +60,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -87,7 +87,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     override fun setup() {
         super.setup()
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
 
@@ -95,7 +95,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(3)
 
@@ -129,7 +129,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
             val result = currencyList.toUIModelList().onEach { currency ->
                 currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
-                    .getFormatted(appStorage.precision)
+                    .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
 
@@ -398,7 +398,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onBaseChanged() {
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
 

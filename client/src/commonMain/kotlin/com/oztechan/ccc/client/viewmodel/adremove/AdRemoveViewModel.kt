@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored

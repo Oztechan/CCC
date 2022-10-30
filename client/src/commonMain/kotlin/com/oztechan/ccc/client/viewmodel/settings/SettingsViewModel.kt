@@ -12,7 +12,8 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -36,6 +37,7 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
     private val appStorage: AppStorage,
+    private val calculatorStorage: CalculatorStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val offlineRatesDataSource: OfflineRatesDataSource,
@@ -61,7 +63,7 @@ class SettingsViewModel(
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
                 addFreeEndDate = appStorage.adFreeEndDate.toDateString(),
-                precision = appStorage.precision,
+                precision = calculatorStorage.precision,
                 version = appConfigRepository.getVersion()
             )
         }
@@ -188,7 +190,7 @@ class SettingsViewModel(
 
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        appStorage.precision = index.indexToNumber()
+        calculatorStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion

@@ -10,7 +10,8 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -53,6 +54,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     override val subject: SettingsViewModel by lazy {
         SettingsViewModel(
             appStorage,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
@@ -65,6 +67,9 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
+
+    @Mock
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -112,7 +117,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(mockedPrecision)
 
@@ -449,8 +454,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertEquals(value.indexToNumber(), it.precision)
 
             println("-----")
-            verify(appStorage)
-                .setter(appStorage::precision)
+            verify(calculatorStorage)
+                .setter(calculatorStorage::precision)
                 .with(eq(value.indexToNumber()))
                 .wasInvoked()
         }
