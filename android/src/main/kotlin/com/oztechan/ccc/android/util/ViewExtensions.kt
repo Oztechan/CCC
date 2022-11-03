@@ -22,7 +22,6 @@ import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
-import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.client.model.RateState
@@ -75,20 +74,21 @@ fun View.animateHeight(startHeight: Int, endHeight: Int) {
 }
 
 fun <T> Fragment.getNavigationResult(
-    key: String
+    key: String,
+    destinationId: Int
 ) = findNavController()
-    .currentBackStackEntry
-    ?.savedStateHandle
-    ?.getLiveData<T>(key)
+    .getBackStackEntry(destinationId)
+    .savedStateHandle
+    .getLiveData<T>(key)
 
 fun <T> Fragment.setNavigationResult(
     destinationId: Int,
     result: T,
     key: String
 ) = findNavController()
-    .previousBackStackEntry
-    ?.whether { it.destination.id == destinationId }
-    ?.savedStateHandle?.set(key, result)
+    .getBackStackEntry(destinationId)
+    .savedStateHandle
+    .set(key, result)
 
 fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 
@@ -111,11 +111,13 @@ fun TextView.dataState(state: RateState) = when (state) {
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
         visible()
     }
+
     is RateState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
         visible()
     }
+
     is RateState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
             context.getString(R.string.text_offline)
@@ -125,11 +127,13 @@ fun TextView.dataState(state: RateState) = when (state) {
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
         visible()
     }
+
     RateState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
         visible()
     }
+
     RateState.None -> gone()
 }
 

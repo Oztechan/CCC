@@ -68,11 +68,13 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onDestroyView()
     }
 
-    private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
-        ?.observe(viewLifecycleOwner) {
-            Logger.i { "CalculatorFragment observeNavigationResults $it" }
-            calculatorViewModel.event.onBaseChange(it)
-        }
+    private fun observeNavigationResults() = getNavigationResult<String>(
+        CHANGE_BASE_EVENT,
+        R.id.calculatorFragment
+    ).observe(viewLifecycleOwner) {
+        Logger.i { "CalculatorFragment observeNavigationResults $it" }
+        calculatorViewModel.event.onBaseChange(it)
+    }
 
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
