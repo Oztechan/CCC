@@ -77,18 +77,20 @@ fun <T> Fragment.getNavigationResult(
     key: String,
     destinationId: Int
 ) = findNavController()
-    .getBackStackEntry(destinationId)
-    .savedStateHandle
-    .getLiveData<T>(key)
+    .backQueue
+    .lastOrNull { it.destination.id == destinationId }
+    ?.savedStateHandle
+    ?.getLiveData<T>(key)
 
 fun <T> Fragment.setNavigationResult(
     destinationId: Int,
     result: T,
     key: String
 ) = findNavController()
-    .getBackStackEntry(destinationId)
-    .savedStateHandle
-    .set(key, result)
+    .backQueue
+    .lastOrNull { it.destination.id == destinationId }
+    ?.savedStateHandle
+    ?.set(key, result)
 
 fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 
