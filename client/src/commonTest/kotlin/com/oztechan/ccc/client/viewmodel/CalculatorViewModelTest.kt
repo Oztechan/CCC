@@ -127,21 +127,21 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun `init sets the latest base and input`() {
-        val mock1 = "mock1"
-        val mock2 = "mock2"
+        val mock = "mock"
+
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(mock1)
+            .thenReturn(currency1.name)
 
         given(calculatorStorage)
             .invocation { lastInput }
-            .thenReturn(mock2)
+            .thenReturn(mock)
 
         subject.state.before { }
             .after {
                 assertNotNull(it)
-                assertEquals(mock1, it.base)
-                assertEquals(mock2, it.input)
+                assertEquals(currency1.name, it.base)
+                assertEquals(mock, it.input)
             }
     }
 
