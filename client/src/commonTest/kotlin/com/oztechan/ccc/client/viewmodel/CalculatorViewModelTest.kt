@@ -115,6 +115,13 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
+    fun `rates should be fetched on init`() = runTest {
+        verify(backendApiService)
+            .coroutine { getRates(currency1.name) }
+            .wasInvoked()
+    }
+
+    @Test
     fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
         given(backendApiService)
             .coroutine { getRates(currency1.name) }
