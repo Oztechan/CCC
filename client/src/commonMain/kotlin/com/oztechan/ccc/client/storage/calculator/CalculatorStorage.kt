@@ -4,4 +4,6 @@ interface CalculatorStorage {
     var currentBase: String
 
     var precision: Int
+
+    var lastInput: String
 }

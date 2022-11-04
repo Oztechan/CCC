@@ -91,6 +91,10 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { currentBase }
             .thenReturn(currency1.name)
 
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn("")
+
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
@@ -119,6 +123,26 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         verify(backendApiService)
             .coroutine { getRates(currency1.name) }
             .wasInvoked()
+    }
+
+    @Test
+    fun `init sets the latest base and input`() {
+        val mock1 = "mock1"
+        val mock2 = "mock2"
+        given(calculatorStorage)
+            .invocation { currentBase }
+            .thenReturn(mock1)
+
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn(mock2)
+
+        subject.state.before { }
+            .after {
+                assertNotNull(it)
+                assertEquals(mock1, it.base)
+                assertEquals(mock2, it.input)
+            }
     }
 
     @Test

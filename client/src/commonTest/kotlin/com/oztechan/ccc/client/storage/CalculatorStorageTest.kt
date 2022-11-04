@@ -3,8 +3,10 @@ package com.oztechan.ccc.client.storage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_CURRENT_BASE
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_PRECISION
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_CURRENT_BASE
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_PRECISION
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
@@ -53,6 +55,19 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
             .wasInvoked()
     }
 
+    @Test
+    fun default_lastInput() {
+        given(settings)
+            .invocation { getString(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+            .thenReturn(DEFAULT_LAST_INPUT)
+
+        assertEquals(DEFAULT_LAST_INPUT, subject.lastInput)
+
+        verify(settings)
+            .invocation { getString(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+            .wasInvoked()
+    }
+
     // setters
     @Test
     fun set_currentBase() {
@@ -71,6 +86,16 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
 
         verify(settings)
             .invocation { putInt(KEY_PRECISION, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun set_lastInput() {
+        val mockValue = "mock"
+        subject.lastInput = mockValue
+
+        verify(settings)
+            .invocation { putString(KEY_LAST_INPUT, mockValue) }
             .wasInvoked()
     }
 }
