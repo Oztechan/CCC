@@ -71,7 +71,11 @@ class CalculatorViewModel(
 
     init {
         _state.update {
-            copy(base = calculatorStorage.currentBase, input = "")
+            copy(
+                base = calculatorStorage.currentBase,
+                input = "",
+                loading = true
+            )
         }
 
         state.map { it.base }
@@ -106,9 +110,13 @@ class CalculatorViewModel(
     private fun getRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
     } ?: viewModelScope.launch {
+        _state.update { copy(loading = true) }
         runCatching { backendApiService.getRates(calculatorStorage.currentBase) }
             .onFailure(::getRatesFailed)
             .onSuccess(::getRatesSuccess)
+            .also {
+                _state.update { copy(loading = false) }
+            }
     }
 
     private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
@@ -136,10 +144,7 @@ class CalculatorViewModel(
                 ?: run { _effect.emit(CalculatorEffect.FewCurrency) }
 
             _state.update {
-                copy(
-                    rateState = RateState.Error,
-                    loading = false
-                )
+                copy(rateState = RateState.Error)
             }
         }
     }
@@ -161,10 +166,7 @@ class CalculatorViewModel(
             } ?: run {
             _effect.emit(CalculatorEffect.TooBigNumber)
             _state.update {
-                copy(
-                    input = input.dropLast(1),
-                    loading = false
-                )
+                copy(input = input.dropLast(1))
             }
         }
     }
@@ -176,8 +178,7 @@ class CalculatorViewModel(
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             },
-            rateState = rateState,
-            loading = false
+            rateState = rateState
         )
     }
 
@@ -186,7 +187,6 @@ class CalculatorViewModel(
         calculatorStorage.currentBase = newBase
         _state.update {
             copy(
-                loading = true,
                 base = newBase,
                 input = _state.value.input,
                 symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
