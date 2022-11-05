@@ -45,7 +45,7 @@ struct CurrenciesView: View {
                         onQueryChange: { observable.event.onQueryChange(query: $0) }
                     )
                 }
-                
+
                 if observable.state.loading {
                     FormProgressView()
                 } else {

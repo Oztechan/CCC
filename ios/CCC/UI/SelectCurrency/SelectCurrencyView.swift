@@ -50,10 +50,9 @@ struct SelectCurrencyView: View {
                                 SelectCurrencyItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                                
-                            }.listRowInsets(.init())
-                                .listRowBackground(MR.colors().background.get())
-                            
+                            }
+                            .listRowInsets(.init())
+                            .listRowBackground(MR.colors().background.get())
                         }
                         .withClearBackground(color: MR.colors().background.get())
                     }
