@@ -70,11 +70,12 @@ class CalculatorViewModel(
     // endregion
 
     init {
+        fetchRates()
+
         _state.update {
             copy(
                 base = calculatorStorage.currentBase,
-                input = "",
-                loading = true
+                input = ""
             )
         }
 
@@ -107,19 +108,19 @@ class CalculatorViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun getRates() = data.rates?.let {
+    private fun fetchRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
     } ?: viewModelScope.launch {
         _state.update { copy(loading = true) }
         runCatching { backendApiService.getRates(calculatorStorage.currentBase) }
-            .onFailure(::getRatesFailed)
-            .onSuccess(::getRatesSuccess)
+            .onFailure(::fetchRatesFailed)
+            .onSuccess(::fetchRatesSuccess)
             .also {
                 _state.update { copy(loading = false) }
             }
     }
 
-    private fun getRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+    private fun fetchRatesSuccess(currencyResponse: CurrencyResponse) = currencyResponse
         .toRates().let {
             data.rates = it
             calculateConversions(it, RateState.Online(it.date))
@@ -129,7 +130,7 @@ class CalculatorViewModel(
             }
         }
 
-    private fun getRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
+    private fun fetchRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
         offlineRatesDataSource.getOfflineRatesByBase(
             calculatorStorage.currentBase
@@ -162,7 +163,7 @@ class CalculatorViewModel(
                     .whether { it < MINIMUM_ACTIVE_CURRENCY }
                     ?.whetherNot { state.value.input.isEmpty() }
                     ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
-                    ?: run { getRates() }
+                    ?: run { fetchRates() }
             } ?: run {
             _effect.emit(CalculatorEffect.TooBigNumber)
             _state.update {
