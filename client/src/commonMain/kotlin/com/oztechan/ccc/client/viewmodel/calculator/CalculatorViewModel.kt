@@ -75,7 +75,7 @@ class CalculatorViewModel(
         _state.update {
             copy(
                 base = calculatorStorage.currentBase,
-                input = ""
+                input = calculatorStorage.lastInput
             )
         }
 
@@ -91,6 +91,7 @@ class CalculatorViewModel(
             .distinctUntilChanged()
             .onEach {
                 Logger.d { "CalculatorViewModel input changed $it" }
+                calculatorStorage.lastInput = it
                 calculateOutput(it)
             }
             .launchIn(viewModelScope)
