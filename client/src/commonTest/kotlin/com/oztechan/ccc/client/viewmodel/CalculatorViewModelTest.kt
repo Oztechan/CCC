@@ -34,6 +34,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -126,7 +127,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun `init sets the latest base and input`() {
+    fun `init sets the latest base and input`() = runTest {
         val mock = "mock"
 
         given(calculatorStorage)
@@ -137,12 +138,11 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { lastInput }
             .thenReturn(mock)
 
-        subject.state.before { }
-            .after {
-                assertNotNull(it)
-                assertEquals(currency1.name, it.base)
-                assertEquals(mock, it.input)
-            }
+        subject.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency1.name, it.base)
+            assertEquals(mock, it.input)
+        }
     }
 
     @Test

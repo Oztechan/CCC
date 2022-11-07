@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -70,33 +71,18 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        fetchRates()
-
-        _state.update {
-            copy(
-                base = calculatorStorage.currentBase,
-                input = calculatorStorage.lastInput
-            )
-        }
-
-        state.map { it.base }
-            .distinctUntilChanged()
-            .onEach {
-                Logger.d { "CalculatorViewModel base changed $it" }
-                currentBaseChanged(it, true)
-            }
-            .launchIn(viewModelScope)
-
-        state.map { it.input }
-            .distinctUntilChanged()
-            .onEach {
-                Logger.d { "CalculatorViewModel input changed $it" }
-                calculatorStorage.lastInput = it
-                calculateOutput(it)
-            }
-            .launchIn(viewModelScope)
-
         currencyDataSource.collectActiveCurrencies()
+            .onStart {
+                _state.update {
+                    copy(
+                        base = calculatorStorage.currentBase,
+                        input = calculatorStorage.lastInput,
+                    )
+                }
+                fetchRates()
+                observeBase()
+                observeInput()
+            }
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
                 _state.update { copy(currencyList = it.toUIModelList()) }
@@ -108,6 +94,23 @@ class CalculatorViewModel(
             }
             .launchIn(viewModelScope)
     }
+
+    private fun observeBase() = state.map { it.base }
+        .distinctUntilChanged()
+        .onEach {
+            Logger.d { "CalculatorViewModel observeBase $it" }
+            currentBaseChanged(it, true)
+        }
+        .launchIn(viewModelScope)
+
+    private fun observeInput() = state.map { it.input }
+        .distinctUntilChanged()
+        .onEach {
+            Logger.d { "CalculatorViewModel observeInput $it" }
+            calculatorStorage.lastInput = it
+            calculateOutput(it)
+        }
+        .launchIn(viewModelScope)
 
     private fun fetchRates() = data.rates?.let {
         calculateConversions(it, RateState.Cached(it.date))
