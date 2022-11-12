@@ -52,26 +52,10 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
+    fun checkAppUpdate_should_return_true_when_force_and_current_version_bigger_than_current_version() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode + 1) }
-
-        subject.checkAppUpdate(false).let {
-            assertNotNull(it)
-            assertFalse { it }
-        }
-
-        verify(updateConfigService)
-            .invocation { config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
-        given(updateConfigService)
-            .invocation { config }
-            .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode - 1) }
 
         subject.checkAppUpdate(false).let {
             assertNotNull(it)
@@ -84,10 +68,39 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
+    fun checkAppUpdate_should_return_false_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
         given(updateConfigService)
             .invocation { config }
-            .then { UpdateConfig(BuildKonfig.versionCode - 1, BuildKonfig.versionCode - 1) }
+            .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode - 1) }
+
+        subject.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertFalse { it }
+        }
+
+        verify(updateConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_update_is_less_than_current_version() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode - 1, Random.nextInt()) }
+
+        assertNull(subject.checkAppUpdate(false))
+
+        verify(updateConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_update_version_is_equal_to_current_version() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode, Random.nextInt()) }
 
         assertNull(subject.checkAppUpdate(false))
 
