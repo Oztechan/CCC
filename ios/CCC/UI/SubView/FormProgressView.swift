@@ -13,12 +13,19 @@ struct FormProgressView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        HStack {
-            Spacer()
-            ProgressView().transition(.slide)
+        VStack {
+            HStack {
+                Spacer()
+
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .transition(.slide)
+
+                Spacer()
+            }
             Spacer()
         }
-        .listRowInsets(.init())
-        .listRowBackground(MR.colors().background.get())
+        .padding(.top, 20)
+        .background(MR.colors().background.get())
     }
 }

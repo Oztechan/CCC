@@ -42,21 +42,20 @@ struct SelectCurrencyView: View {
                         .padding()
                         .padding(.top, 10)
 
-                    Form {
-                        if observable.state.loading {
-                            FormProgressView()
-                        } else {
-
+                    if observable.state.loading {
+                        FormProgressView()
+                    } else {
+                        Form {
                             List(observable.state.currencyList, id: \.name) { currency in
-
                                 SelectCurrencyItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-
-                            }.listRowInsets(.init())
+                            }
+                            .listRowInsets(.init())
                             .listRowBackground(MR.colors().background.get())
                         }
-                    }.withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: MR.colors().background.get())
+                    }
 
                     Spacer()
 
