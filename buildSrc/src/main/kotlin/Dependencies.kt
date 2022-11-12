@@ -26,7 +26,7 @@ object Dependencies {
     object Android {
         const val ANDROID_MATERIAL = "com.google.android.material:material:${Versions.ANDROID_MATERIAL}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
-        const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
+        const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN_ANDROID}"
         const val FIREBASE_ANALYTICS = "com.google.firebase:firebase-analytics-ktx:${Versions.FIREBASE_ANALYTICS}"
         const val FIREBASE_REMOTE_CONFIG = "com.google.firebase:firebase-config-ktx:${Versions.FIREBASE_REMOTE_CONFIG}"
         const val FIREBASE_PER = "com.google.firebase:firebase-perf-ktx:${Versions.FIREBASE_PER}"

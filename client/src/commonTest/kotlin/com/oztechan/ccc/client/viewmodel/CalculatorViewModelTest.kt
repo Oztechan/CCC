@@ -11,6 +11,7 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateResult
 import com.oztechan.ccc.client.util.getCurrencyConversionByRate
 import com.oztechan.ccc.client.util.getFormatted
@@ -21,7 +22,6 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
@@ -34,6 +34,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -50,7 +51,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     override val subject: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            settingsDataSource,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
@@ -60,7 +61,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -87,15 +88,19 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     override fun setup() {
         super.setup()
 
-        given(settingsDataSource)
+        given(calculatorStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
+
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn("")
 
         given(currencyDataSource)
             .invocation { collectActiveCurrencies() }
             .thenReturn(flowOf(currencyList))
 
-        given(settingsDataSource)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(3)
 
@@ -115,6 +120,32 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
+    fun `rates should be fetched on init`() = runTest {
+        verify(backendApiService)
+            .coroutine { getRates(currency1.name) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `init sets the latest base and input`() = runTest {
+        val mock = "mock"
+
+        given(calculatorStorage)
+            .invocation { currentBase }
+            .thenReturn(currency1.name)
+
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn(mock)
+
+        subject.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency1.name, it.base)
+            assertEquals(mock, it.input)
+        }
+    }
+
+    @Test
     fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
         given(backendApiService)
             .coroutine { getRates(currency1.name) }
@@ -129,7 +160,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
             val result = currencyList.toUIModelList().onEach { currency ->
                 currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
-                    .getFormatted(settingsDataSource.precision)
+                    .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
 
@@ -398,7 +429,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onBaseChanged() {
-        given(settingsDataSource)
+        given(calculatorStorage)
             .invocation { currentBase }
             .thenReturn(currency1.name)
 

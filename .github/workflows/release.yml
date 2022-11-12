@@ -107,7 +107,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
       - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1.0.18
+        uses: r0adkll/upload-google-play@v1.0.19
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
@@ -115,7 +115,7 @@ jobs:
           track: internal
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: googleBundle
 
@@ -146,7 +146,7 @@ jobs:
           file-name: "android-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: huaweiBundle
 
@@ -177,7 +177,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: backendJar
 
@@ -255,9 +255,9 @@ jobs:
           needs.PublishAppStore.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: SUCCESS
           color: good
 
@@ -269,8 +269,8 @@ jobs:
           false == (needs.PublishAppStore.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
-          channel: ccc
+          channel: ccc-github
           status: FAILED
           color: danger

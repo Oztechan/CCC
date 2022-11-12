@@ -7,10 +7,10 @@ package com.oztechan.ccc.client.viewmodel
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
@@ -35,11 +35,11 @@ import kotlin.test.assertTrue
 internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     override val subject: AdRemoveViewModel by lazy {
-        AdRemoveViewModel(settingsDataSource)
+        AdRemoveViewModel(appStorage)
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
 
     // SEED
     @Test
@@ -51,7 +51,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     @Test
     fun updateAddFreeDate() {
         subject.updateAddFreeDate(null)
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasNotInvoked()
 
@@ -63,7 +63,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
                 assertEquals(adRemoveType, it.removeAdType)
                 assertFalse { it.isRestorePurchase }
 
-                verify(settingsDataSource)
+                verify(appStorage)
                     .invocation { adFreeEndDate = adRemoveType.calculateAdRewardEnd() }
                     .wasInvoked()
             }
@@ -72,7 +72,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     @Test
     fun restorePurchase() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
@@ -87,7 +87,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             assertIs<AdRemoveEffect.AdsRemoved>(it)
             assertTrue { it.isRestorePurchase }
 
-            verify(settingsDataSource)
+            verify(appStorage)
                 .invocation { adFreeEndDate = it.removeAdType.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
@@ -97,13 +97,13 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     fun `restorePurchase should fail if all the old purchases out dated`() {
         val oldPurchase = OldPurchase(nowAsLong(), RemoveAdType.MONTH)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
         subject.restorePurchase(listOf(oldPurchase))
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate = oldPurchase.type.calculateAdRewardEnd(oldPurchase.date) }
             .wasNotInvoked()
     }
@@ -112,13 +112,13 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     fun `restorePurchase should fail if all the old purchases expired`() {
         val oldPurchase = OldPurchase(nowAsLong() - (DAY * 32), RemoveAdType.MONTH)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
         subject.restorePurchase(listOf(oldPurchase))
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate = oldPurchase.type.calculateAdRewardEnd(oldPurchase.date) }
             .wasNotInvoked()
     }

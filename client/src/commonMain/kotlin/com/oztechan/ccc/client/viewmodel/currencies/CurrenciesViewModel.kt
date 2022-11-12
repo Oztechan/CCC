@@ -16,11 +16,12 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -31,7 +32,8 @@ import kotlinx.coroutines.flow.onEach
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
-    private val settingsDataSource: SettingsDataSource,
+    private val appStorage: AppStorage,
+    private val calculatorStorage: CalculatorStorage,
     private val currencyDataSource: CurrencyDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
@@ -81,10 +83,10 @@ class CurrenciesViewModel(
     private suspend fun verifyListSize() = _state.value.currencyList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
-        ?.whetherNot { settingsDataSource.firstRun }
+        ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = settingsDataSource.currentBase.either(
+    private suspend fun verifyCurrentBase() = calculatorStorage.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -94,7 +96,7 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
     }?.let { newBase ->
-        settingsDataSource.currentBase = newBase
+        calculatorStorage.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
@@ -120,7 +122,7 @@ class CurrenciesViewModel(
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun isFirstRun() = settingsDataSource.firstRun
+    fun isFirstRun() = appStorage.firstRun
 
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
@@ -140,7 +142,7 @@ class CurrenciesViewModel(
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
-                settingsDataSource.firstRun = false
+                appStorage.firstRun = false
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }

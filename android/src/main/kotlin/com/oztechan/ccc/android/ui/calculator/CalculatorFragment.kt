@@ -68,11 +68,13 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onDestroyView()
     }
 
-    private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
-        ?.observe(viewLifecycleOwner) {
-            Logger.i { "CalculatorFragment observeNavigationResults $it" }
-            calculatorViewModel.event.onBaseChange(it)
-        }
+    private fun observeNavigationResults() = getNavigationResult<String>(
+        CHANGE_BASE_EVENT,
+        R.id.calculatorFragment
+    )?.observe(viewLifecycleOwner) {
+        Logger.i { "CalculatorFragment observeNavigationResults $it" }
+        calculatorViewModel.event.onBaseChange(it)
+    }
 
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
@@ -118,15 +120,18 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
+
                 CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
                 )
+
                 CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
+
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
                 is CalculatorEffect.ShowRate -> view?.showSnack(
                     viewEffect.text,

@@ -10,6 +10,8 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.model.RemoveAdType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -17,7 +19,6 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
@@ -52,7 +53,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     override val subject: SettingsViewModel by lazy {
         SettingsViewModel(
-            settingsDataSource,
+            appStorage,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
             offlineRatesDataSource,
@@ -64,7 +66,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val appStorage = mock(classOf<AppStorage>())
+
+    @Mock
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -104,15 +109,15 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     override fun setup() {
         super.setup()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { appTheme }
             .thenReturn(-1)
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
-        given(settingsDataSource)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(mockedPrecision)
 
@@ -212,11 +217,11 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             }
         }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { appTheme = mockTheme.themeValue }
             .wasInvoked()
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(nowAsLong() + DAY)
 
@@ -226,7 +231,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.AlreadyAdFree>(it)
         }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -234,10 +239,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun isRewardExpired() {
         assertEquals(
-            settingsDataSource.adFreeEndDate.isRewardExpired(),
+            appStorage.adFreeEndDate.isRewardExpired(),
             subject.isRewardExpired()
         )
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -274,26 +279,26 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(1)
 
         assertFalse { subject.isAdFreeNeverActivated() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
 
     @Test
     fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(0)
 
         assertTrue { subject.isAdFreeNeverActivated() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -306,7 +311,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertNotNull(it)
             assertTrue { it.addFreeEndDate.isNotEmpty() }
 
-            verify(settingsDataSource)
+            verify(appStorage)
                 .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
@@ -393,7 +398,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.RemoveAds>(it)
         }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { adFreeEndDate }
             .wasInvoked()
     }
@@ -449,8 +454,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertEquals(value.indexToNumber(), it.precision)
 
             println("-----")
-            verify(settingsDataSource)
-                .setter(settingsDataSource::precision)
+            verify(calculatorStorage)
+                .setter(calculatorStorage::precision)
                 .with(eq(value.indexToNumber()))
                 .wasInvoked()
         }

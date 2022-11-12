@@ -11,11 +11,11 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.RemoveAdData
 import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdRemoveViewModel(
-    private val settingsDataSource: SettingsDataSource
+    private val appStorage: AppStorage
 ) : BaseSEEDViewModel<AdRemoveState, AdRemoveEffect, AdRemoveEvent, BaseData>(), AdRemoveEvent {
     // region SEED
     private val _state = MutableStateFlow(AdRemoveState())
@@ -44,7 +44,7 @@ class AdRemoveViewModel(
         isRestorePurchase: Boolean = false
     ) = adType?.let {
         viewModelScope.launch {
-            settingsDataSource.adFreeEndDate = it.calculateAdRewardEnd(startDate)
+            appStorage.adFreeEndDate = it.calculateAdRewardEnd(startDate)
             _effect.emit(AdRemoveEffect.AdsRemoved(it, isRestorePurchase))
         }
     }
@@ -54,7 +54,7 @@ class AdRemoveViewModel(
             it.type.calculateAdRewardEnd(it.date)
         }?.whether(
             { !type.calculateAdRewardEnd(date).isRewardExpired() },
-            { date > settingsDataSource.adFreeEndDate },
+            { date > appStorage.adFreeEndDate },
             { RemoveAdType.getPurchaseIds().any { it == type.data.id } }
         )?.apply {
             updateAddFreeDate(

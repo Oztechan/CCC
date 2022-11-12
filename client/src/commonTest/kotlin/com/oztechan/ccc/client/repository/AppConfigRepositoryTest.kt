@@ -4,12 +4,11 @@ import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
-import com.oztechan.ccc.common.datasource.settings.SettingsDataSource
-import com.oztechan.ccc.config.ConfigService
-import com.oztechan.ccc.config.model.AdConfig
-import com.oztechan.ccc.config.model.AppConfig
-import com.oztechan.ccc.config.model.AppReview
-import com.oztechan.ccc.config.model.AppUpdate
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.config.model.ReviewConfig
+import com.oztechan.ccc.config.model.UpdateConfig
+import com.oztechan.ccc.config.service.review.ReviewConfigService
+import com.oztechan.ccc.config.service.update.UpdateConfigService
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -28,14 +27,17 @@ import kotlin.test.assertTrue
 internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() {
 
     override val subject: AppConfigRepository by lazy {
-        AppConfigRepositoryImpl(configService, settingsDataSource, device)
+        AppConfigRepositoryImpl(updateConfigService, reviewConfigService, appStorage, device)
     }
 
     @Mock
-    private val configService = mock(classOf<ConfigService>())
+    private val updateConfigService = mock(classOf<UpdateConfigService>())
 
     @Mock
-    private val settingsDataSource = mock(classOf<SettingsDataSource>())
+    private val reviewConfigService = mock(classOf<ReviewConfigService>())
+
+    @Mock
+    private val appStorage = mock(classOf<AppStorage>())
 
     private val device = Device.IOS
 
@@ -50,222 +52,142 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_false_when_force_and_current_version_bigger_than_current_version() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
-
-        subject.checkAppUpdate(false).let {
-            assertNotNull(it)
-            assertFalse { it }
-        }
-
-        verify(configService)
-            .invocation { appConfig }
-            .wasInvoked()
-    }
-
-    @Test
-    fun checkAppUpdate_should_return_true_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode - 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+    fun checkAppUpdate_should_return_true_when_force_and_current_version_bigger_than_current_version() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode + 1) }
 
         subject.checkAppUpdate(false).let {
             assertNotNull(it)
             assertTrue { it }
         }
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(updateConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_update_and_force_version_is_less_than_current_version() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode - 1,
-                    updateForceVersion = BuildKonfig.versionCode - 1
-                )
-            )
-        )
+    fun checkAppUpdate_should_return_false_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode - 1) }
 
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+        subject.checkAppUpdate(false).let {
+            assertNotNull(it)
+            assertFalse { it }
+        }
 
-        assertNull(subject.checkAppUpdate(false))
-
-        verify(configService)
-            .invocation { appConfig }
+        verify(updateConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_device_name_is_different_than_remote() {
-        val mockName = "mock"
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+    fun checkAppUpdate_should_return_null_when_update_is_less_than_current_version() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode - 1, Random.nextInt()) }
 
         assertNull(subject.checkAppUpdate(false))
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(updateConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun checkAppUpdate_should_return_null_when_update_version_is_equal_to_current_version() {
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode, Random.nextInt()) }
+
+        assertNull(subject.checkAppUpdate(false))
+
+        verify(updateConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
     fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
-        val mockName = device.name
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            AppReview(0, 0L),
-            appUpdate = listOf(
-                AppUpdate(
-                    name = mockName,
-                    updateLatestVersion = BuildKonfig.versionCode + 1,
-                    updateForceVersion = BuildKonfig.versionCode + 1
-                )
-            )
-        )
-
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+        given(updateConfigService)
+            .invocation { config }
+            .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode + 1) }
 
         assertNull(subject.checkAppUpdate(true))
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(updateConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
     fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
         val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, appReviewDialogDelay = 0L),
-            listOf()
-        )
 
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() + 1)
 
         assertTrue { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(reviewConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
         val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
-            listOf()
-        )
 
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong() - 1)
 
         assertFalse { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(reviewConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
     @Test
     fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
         val mockInteger = Random.nextInt()
-        val mockAppConfig = AppConfig(
-            AdConfig(0, 0, 0L, 0L),
-            appReview = AppReview(appReviewSessionCount = mockInteger, 0L),
-            listOf()
-        )
 
-        given(configService)
-            .invocation { appConfig }
-            .then { mockAppConfig }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
-        given(settingsDataSource)
+        given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockInteger.toLong())
 
         assertFalse { subject.shouldShowAppReview() }
 
-        verify(settingsDataSource)
+        verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
 
-        verify(configService)
-            .invocation { appConfig }
+        verify(reviewConfigService)
+            .invocation { config }
             .wasInvoked()
     }
 
