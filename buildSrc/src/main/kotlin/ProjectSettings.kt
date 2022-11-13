@@ -12,7 +12,7 @@ object ProjectSettings {
 
     // git rev-list --first-parent --count origin/master +1
     private const val VERSION_DIF = 742
-    private const val BASE_VERSION_CODE = 316
+    private const val BASE_VERSION_CODE = 937
 
     const val PROJECT_NAME = "CCC"
     const val HOMEPAGE = "https://github.com/Oztechan/CCC"
