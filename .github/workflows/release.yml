@@ -115,7 +115,6 @@ jobs:
           releaseFiles: android-google-release.aab
           track: internal
           status: completed
-          userFraction: 1.0
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v2
