@@ -80,7 +80,7 @@ platform :ios do
                 identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
                 profile: "match AppStore com.oztechan.ccc"
             )
-            upload_to_testflight(skip_waiting_for_build_processing: true)
+            pilot(skip_waiting_for_build_processing: true)
             upload_crashlytics_symbols
         end
 
