@@ -40,7 +40,7 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         return viewController
     }
 
-    func adjust() -> some View {
+    func adapt() -> some View {
         let padding = UIScreen.main.focusedView?.safeAreaInsets.bottom ?? 0
         return self
             .frame(maxHeight: adSize.size.height)

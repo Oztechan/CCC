@@ -97,7 +97,7 @@ struct WatchersView: View {
                 }
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adjust()
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
             .background(MR.colors().background_strong.get())

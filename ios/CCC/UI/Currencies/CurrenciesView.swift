@@ -73,7 +73,7 @@ struct CurrenciesView: View {
                 }
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adjust()
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
 
             }

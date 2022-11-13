@@ -80,7 +80,7 @@ struct CalculatorView: View {
                     }
 
                     if observable.viewModel.shouldShowBannerAd() {
-                        AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adjust()
+                        AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                     }
 
                 }
