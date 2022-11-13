@@ -113,6 +113,7 @@ jobs:
           packageName: mustafaozhan.github.com.mycurrencies
           releaseFiles: android-google-release.aab
           track: internal
+          status: completed
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v2
