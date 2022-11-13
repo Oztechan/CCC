@@ -27,12 +27,12 @@ struct SelectCurrenciesBottomView: View {
                 action: onButtonClick,
                 label: { Text(buttonText).foregroundColor(MR.colors().text.get()) }
             )
-            .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
+            .padding(top: 10, leading: 15, bottom: 10, trailing: 15)
             .background(MR.colors().background_weak.get())
             .clipped()
             .cornerRadius(4)
 
         }
-        .padding(EdgeInsets(top: 5, leading: 15, bottom: 10, trailing: 10))
+        .padding(top: 5, leading: 15, bottom: 10, trailing: 10)
     }
 }

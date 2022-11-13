@@ -31,7 +31,7 @@ struct OutputView: View {
                 Text(symbol).foregroundColor(MR.colors().text.get())
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
-            .padding(EdgeInsets(top: 2, leading: 20, bottom: 2, trailing: 20))
+            .padding(top: 2, leading: 20, bottom: 2, trailing: 20)
             .animation(.default)
 
         }

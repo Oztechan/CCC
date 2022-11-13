@@ -51,7 +51,7 @@ struct WatcherItem: View {
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)
-                .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
+                .padding(top: 5, leading: 15, bottom: 5, trailing: 15)
                 .background(MR.colors().background_weak.get())
                 .cornerRadius(7)
                 .onChange(of: amount) {

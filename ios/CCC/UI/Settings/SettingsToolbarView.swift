@@ -20,6 +20,6 @@ struct SettingsToolbarView: View {
                 .font(.title3)
 
             Spacer()
-        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+        }.padding(top: 20, leading: 10, bottom: 5, trailing: 20)
     }
 }

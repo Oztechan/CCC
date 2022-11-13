@@ -32,7 +32,7 @@ struct WatchersToolbarView: View {
                 .padding(10)
         }
         .frame(width: .infinity, height: .nan)
-        .padding(EdgeInsets(top: 15, leading: 10, bottom: 5, trailing: 20))
+        .padding(top: 15, leading: 10, bottom: 5, trailing: 20)
         .background(MR.colors().background_strong.get())
     }
 }

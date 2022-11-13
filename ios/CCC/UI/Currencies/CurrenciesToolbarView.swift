@@ -32,12 +32,11 @@ struct CurrenciesToolbarView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 3)
                         .fill(MR.colors().background.get())
-                        .padding(.bottom, -4)
-                        .padding(.top, -4)
+                        .padding(top: -4, bottom: -4)
                 )
                 .disableAutocorrection(true)
                 .multilineTextAlignment(.center)
-                .padding(.all, 4)
+                .padding(4)
 
                 Spacer()
 
@@ -62,6 +61,6 @@ struct CurrenciesToolbarView: View {
                 )
             }
 
-        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+        }.padding(top: 20, leading: 10, bottom: 5, trailing: 20)
     }
 }
