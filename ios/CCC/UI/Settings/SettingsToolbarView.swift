@@ -17,7 +17,7 @@ struct SettingsToolbarView: View {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
             Text(MR.strings().txt_settings.get())
-                .font(.title3)
+                .font(relative: .title3)
 
             Spacer()
         }.padding(top: 20, leading: 10, bottom: 5, trailing: 20)

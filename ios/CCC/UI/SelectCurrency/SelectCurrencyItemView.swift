@@ -23,10 +23,10 @@ struct SelectCurrencyItemView: View {
                 .frame(width: 45)
                 .foregroundColor(MR.colors().text.get())
             Text(item.longName)
-                .font(.footnote)
+                .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
             Text(item.symbol)
-                .font(.footnote)
+                .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
             Spacer()
 

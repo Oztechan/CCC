@@ -28,17 +28,17 @@ struct SlideView: View {
 
                 Text(title)
                     .multilineTextAlignment(.center)
-                    .font(.largeTitle)
+                    .font(relative: .largeTitle)
 
                 image
                     .frame(width: 196, height: 196, alignment: .center)
-                    .font(.system(size: 128))
+                    .font(size: 128)
                     .accentColor(MR.colors().text.get())
 
                 Text(subTitle1)
                     .lineSpacing(12)
                     .multilineTextAlignment(.center)
-                    .font(.body)
+                    .font(relative: .body)
                     .padding(10)
                     .padding(.bottom, 30)
 
@@ -46,7 +46,7 @@ struct SlideView: View {
                     .lineSpacing(12)
                     .multilineTextAlignment(.center)
                     .padding(10)
-                    .font(.callout)
+                    .font(relative: .callout)
 
                 Spacer()
 
@@ -59,7 +59,7 @@ struct SlideView: View {
                         action: buttonAction,
                         label: {
                             Text(buttonText)
-                                .font(.body)
+                                .font(relative: .body)
                                 .foregroundColor(MR.colors().text.get())
                         }
                     ).padding(top: 10, leading: 10, bottom: 15, trailing: 15)

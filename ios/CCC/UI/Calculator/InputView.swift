@@ -25,7 +25,7 @@ struct InputView: View {
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(MR.colors().text.get())
-                .font(.title2)
+                .font(relative: .title2)
                 .animation(.none)
 
             Spacer()

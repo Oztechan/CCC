@@ -21,7 +21,7 @@ struct SelectCurrenciesBottomView: View {
 
             Text(text)
                 .foregroundColor(MR.colors().text.get())
-                .font(.subheadline)
+                .font(relative: .subheadline)
             Spacer()
             Button(
                 action: onButtonClick,

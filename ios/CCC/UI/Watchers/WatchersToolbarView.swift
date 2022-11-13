@@ -18,14 +18,14 @@ struct WatchersToolbarView: View {
                 ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
                 Text(MR.strings().txt_watchers.get())
-                    .font(.title3)
+                    .font(relative: .title3)
 
                 Spacer()
             }
 
             Text(MR.strings().txt_watchers_description.get())
                 .contentShape(Rectangle())
-                .font(.footnote)
+                .font(relative: .footnote)
                 .multilineTextAlignment(.center)
                 .background(MR.colors().background_strong.get())
                 .foregroundColor(MR.colors().text_weak.get())
