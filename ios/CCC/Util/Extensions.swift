@@ -99,4 +99,20 @@ extension View {
             return self.background(color)
         #endif
     }
+
+    func padding(
+        top: Double = 0,
+        leading: Double = 0,
+        bottom: Double = 0,
+        trailing: Double = 0
+    ) -> some View {
+        return self.padding(
+            EdgeInsets(
+                top: top,
+                leading: leading,
+                bottom: bottom,
+                trailing: trailing
+            )
+        )
+    }
 }
