@@ -80,7 +80,7 @@ struct CalculatorView: View {
                     }
 
                     if observable.viewModel.shouldShowBannerAd() {
-                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
+                        BannerAdView(unitID: SecretUtil.getSecret(key: "BANNER_AD_UNIT_ID_CALCULATOR"))
                             .frame(maxHeight: 50)
                             .padding(.bottom, 20)
                     }

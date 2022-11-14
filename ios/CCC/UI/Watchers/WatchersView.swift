@@ -98,7 +98,7 @@ struct WatchersView: View {
 
                 if observable.viewModel.shouldShowBannerAd() {
                     BannerAdView(
-                        unitID: "BANNER_AD_UNIT_ID_WATCHERS".getSecretValue()
+                        unitID: SecretUtil.getSecret(key: "BANNER_AD_UNIT_ID_WATCHERS")
                     )
                     .frame(maxHeight: 50)
                     .padding(.bottom, 55)
