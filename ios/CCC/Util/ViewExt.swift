@@ -85,6 +85,10 @@ extension View {
 extension Double {
     // clever pixel
     func cp() -> Double {
-        return self * 2 / 3 + self
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return self * 2 / 3 + self
+        } else {
+            return self
+        }
     }
 }
