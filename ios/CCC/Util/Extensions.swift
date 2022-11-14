@@ -115,4 +115,48 @@ extension View {
             )
         )
     }
+
+    func font(relative: Font.TextStyle, size: Double? = nil) -> some View {
+        return self.font(
+            .custom(
+                "SanFrancisco",
+                size: size ?? getSizeFromStyle(style: relative),
+                relativeTo: relative
+            )
+        )
+    }
+
+    func font(size: Double) -> some View {
+        return self.font(.system(size: size))
+    }
+
+    // swiftlint:disable cyclomatic_complexity
+    private func getSizeFromStyle(style: Font.TextStyle) -> Double {
+        switch style {
+        case .largeTitle:
+            return 34
+        case .title:
+            return 28
+        case .title2:
+            return 22
+        case .title3:
+            return 20
+        case .headline:
+            return 17
+        case .subheadline:
+            return 15
+        case .body:
+            return 17
+        case .callout:
+            return 16
+        case .footnote:
+            return 13
+        case .caption:
+            return 12
+        case .caption2:
+            return 11
+        @unknown default:
+            fatalError("Expected to have a valid style")
+        }
+    }
 }

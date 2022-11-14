@@ -51,7 +51,7 @@ struct CurrenciesToolbarView: View {
 
             } else {
 
-                Text(MR.strings().txt_currencies.get()).font(.title3)
+                Text(MR.strings().txt_currencies.get()).font(relative: .title3)
 
                 Spacer()
 

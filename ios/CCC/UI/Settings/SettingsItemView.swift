@@ -21,21 +21,21 @@ struct SettingsItemView: View {
         HStack {
             Image(systemName: imgName)
                 .frame(width: 48, height: 48, alignment: .center)
-                .font(.system(size: 24))
+                .font(size: 24)
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
                 .padding(top: 8, leading: 0, bottom: 8, trailing: 8)
 
             VStack {
                 HStack {
-                    Text(title).font(.title3)
+                    Text(title).font(relative: .title3)
                     Spacer()
                 }
 
                 Spacer()
 
                 HStack {
-                    Text(subTitle).font(.footnote)
+                    Text(subTitle).font(relative: .footnote)
                     Spacer()
                 }
             }.frame(height: 30)
@@ -45,7 +45,7 @@ struct SettingsItemView: View {
             Text(value)
                 .lineLimit(2)
                 .multilineTextAlignment(.trailing)
-                .font(.caption)
+                .font(relative: .caption)
 
             Image(systemName: "chevron.right")
                 .frame(width: 48, height: 48, alignment: .center)

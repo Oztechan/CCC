@@ -24,17 +24,17 @@ struct WatcherItem: View {
 
     var body: some View {
         HStack {
-            Text(MR.strings().one.get()).font(.body)
+            Text(MR.strings().one.get()).font(relative: .body)
 
             CurrencyImageView(imageName: watcher.base)
                 .onTapGesture { event.onBaseClick(watcher: watcher) }
 
             Picker("", selection: $relationSelection) {
                 Text(MR.strings().txt_smaller.get())
-                    .font(.title)
+                    .font(relative: .title)
                     .tag(0)
                 Text(MR.strings().txt_grater.get())
-                    .font(.title)
+                    .font(relative: .title)
                     .tag(1)
             }
             .pickerStyle(.segmented)
@@ -47,7 +47,7 @@ struct WatcherItem: View {
 
             TextField(MR.strings().txt_rate.get(), text: $amount)
                 .keyboardType(.decimalPad)
-                .font(.body)
+                .font(relative: .body)
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)

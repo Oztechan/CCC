@@ -38,7 +38,7 @@ struct SelectCurrencyView: View {
 
                 VStack {
                     Text(MR.strings().txt_select_base_currency.get())
-                        .font(.title2)
+                        .font(relative: .title2)
                         .padding()
                         .padding(.top, 10)
 

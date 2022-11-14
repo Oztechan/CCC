@@ -33,7 +33,7 @@ struct KeyboardView: View {
                             action: { onKeyPress(item)},
                             label: {
                                 Text(item)
-                                    .font(.title2)
+                                    .font(relative: .title2)
                                     .foregroundColor(MR.colors().text.get())
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }

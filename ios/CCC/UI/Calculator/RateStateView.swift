@@ -17,7 +17,7 @@ struct RateStateView: View {
             Circle()
                 .frame(width: 12, height: 12, alignment: .center)
                 .foregroundColor(color)
-            Text(text).font(.caption)
+            Text(text).font(relative: .caption)
         }
         .padding(.bottom, 5)
         .animation(.default)
