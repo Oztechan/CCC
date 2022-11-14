@@ -30,9 +30,12 @@
 		5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536A2818066000D10185 /* WatchersToolbarView.swift */; };
 		5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */; };
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
+		5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71E82922BBD200733C49 /* ViewExt.swift */; };
+		5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EA2922BC0300733C49 /* ResourceExt.swift */; };
+		5C5C71ED2922BFC400733C49 /* RateStateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* RateStateExt.swift */; };
+		5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EE2922C06F00733C49 /* SecretUtil.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
-		5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09382562EC0100DA9C4A /* Extensions.swift */; };
 		5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */; };
 		5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */; };
 		5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6E673F25C5A711001CC0D6 /* SliderView.swift */; };
@@ -93,9 +96,12 @@
 		5C4B53682818057F00D10185 /* WatchersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchersView.swift; sourceTree = "<group>"; };
 		5C4B536A2818066000D10185 /* WatchersToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchersToolbarView.swift; sourceTree = "<group>"; };
 		5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerImpl.swift; sourceTree = "<group>"; };
+		5C5C71E82922BBD200733C49 /* ViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExt.swift; sourceTree = "<group>"; };
+		5C5C71EA2922BC0300733C49 /* ResourceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceExt.swift; sourceTree = "<group>"; };
+		5C5C71EC2922BFC400733C49 /* RateStateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateStateExt.swift; sourceTree = "<group>"; };
+		5C5C71EE2922C06F00733C49 /* SecretUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretUtil.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
-		5C5D09382562EC0100DA9C4A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5C5D093B2562EC2D00DA9C4A /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C693EB925C4AFF800C9373E /* SelectCurrenciesBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrenciesBottomView.swift; sourceTree = "<group>"; };
 		5C6E673F25C5A711001CC0D6 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
@@ -234,6 +240,14 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		5C5C71F02922C2A800733C49 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5CEA86F42840CF65001386FB /* NotificationManager.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		5C5D09342562EBCA00DA9C4A /* DI */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,13 +289,15 @@
 			isa = PBXGroup;
 			children = (
 				5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */,
-				5C5D09382562EC0100DA9C4A /* Extensions.swift */,
 				5C6E674C25C602BE001CC0D6 /* SnackBar.swift */,
+				5CACB69128A7CDDE00A2D13C /* Alert.swift */,
 				5CF57E39269588060081E4BB /* RewardedAd.swift */,
 				5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */,
-				5CEA86F42840CF65001386FB /* NotificationManager.swift */,
 				5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */,
-				5CACB69128A7CDDE00A2D13C /* Alert.swift */,
+				5C5C71EE2922C06F00733C49 /* SecretUtil.swift */,
+				5C5C71E82922BBD200733C49 /* ViewExt.swift */,
+				5C5C71EA2922BC0300733C49 /* ResourceExt.swift */,
+				5C5C71EC2922BFC400733C49 /* RateStateExt.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -326,6 +342,7 @@
 				5C5D093A2562EC1300DA9C4A /* UI */,
 				5C6E674325C5C870001CC0D6 /* Util */,
 				5C5B0E7A28A4082900FACFDE /* Analytics */,
+				5C5C71F02922C2A800733C49 /* Notification */,
 				5C5D093D2562EC5800DA9C4A /* Resources */,
 				7555FF86242A565B00829871 /* Preview Content */,
 			);
@@ -521,6 +538,8 @@
 				5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */,
 				5C4B53692818057F00D10185 /* WatchersView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
+				5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */,
+				5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */,
 				5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */,
 				5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */,
 				5C8FDBDD25BF3FBE00F280FF /* ObservableSEEDViewModel.swift in Sources */,
@@ -534,12 +553,13 @@
 				5C31E42D28142058008C42B9 /* SelectionView.swift in Sources */,
 				5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorView.swift in Sources */,
+				5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */,
 				5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
+				5C5C71ED2922BFC400733C49 /* RateStateExt.swift in Sources */,
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
-				5C5D09392562EC0100DA9C4A /* Extensions.swift in Sources */,
 				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */,
 				5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */,

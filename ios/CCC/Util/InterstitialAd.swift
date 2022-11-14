@@ -12,7 +12,7 @@ import Res
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
     func show() {
         GADInterstitialAd.load(
-            withAdUnitID: "INTERSTITIAL_AD_ID".getSecretValue(),
+            withAdUnitID: SecretUtil.getSecret(key: "INTERSTITIAL_AD_ID"),
             request: GADRequest(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
