@@ -69,7 +69,7 @@ jobs:
 
       - name: 'Move Issue to "🏗 PR Review"'
         uses: 1natsu172/github-action-auto-move-related-issue@v1
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'ready_for_review')
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           config: "auto_move_related_issue.yml"
