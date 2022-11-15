@@ -55,29 +55,40 @@ extension View {
     private func getSizeFromStyle(style: Font.TextStyle) -> Double {
         switch style {
         case .largeTitle:
-            return 34
+            return 34.cp()
         case .title:
-            return 28
+            return 28.cp()
         case .title2:
-            return 22
+            return 22.cp()
         case .title3:
-            return 20
+            return 20.cp()
         case .headline:
-            return 17
+            return 17.cp()
         case .subheadline:
-            return 15
+            return 15.cp()
         case .body:
-            return 17
+            return 17.cp()
         case .callout:
-            return 16
+            return 16.cp()
         case .footnote:
-            return 13
+            return 13.cp()
         case .caption:
-            return 12
+            return 12.cp()
         case .caption2:
-            return 11
+            return 11.cp()
         @unknown default:
             fatalError("Expected to have a valid style")
+        }
+    }
+}
+
+extension Double {
+    // clever pixel
+    func cp() -> Double {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return self * 2 / 3 + self
+        } else {
+            return self
         }
     }
 }
