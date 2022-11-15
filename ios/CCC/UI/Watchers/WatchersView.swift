@@ -97,17 +97,10 @@ struct WatchersView: View {
                 }
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    BannerAdView(
-                        unitID: SecretUtil.getSecret(key: "BANNER_AD_UNIT_ID_WATCHERS")
-                    )
-                    .frame(maxHeight: 50)
-                    .padding(.bottom, 55)
-                } else {
-                    Text("").padding(5)
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
             .background(MR.colors().background_strong.get())
-            .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(
             isPresented: $baseBarInfo.isShown,
