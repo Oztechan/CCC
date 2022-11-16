@@ -20,11 +20,11 @@ struct SettingsItemView: View {
     var body: some View {
         HStack {
             Image(systemName: imgName)
-                .frame(width: 48, height: 48, alignment: .center)
-                .font(size: 24)
+                .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
+                .font(size: 24.cp())
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
-                .padding(top: 8, leading: 0, bottom: 8, trailing: 8)
+                .padding(top: 8.cp(), leading: 0, bottom: 8.cp(), trailing: 8.cp())
 
             VStack {
                 HStack {
@@ -38,7 +38,7 @@ struct SettingsItemView: View {
                     Text(subTitle).font(relative: .footnote)
                     Spacer()
                 }
-            }.frame(height: 30)
+            }.frame(height: 30.cp())
 
             Spacer()
 
@@ -48,7 +48,7 @@ struct SettingsItemView: View {
                 .font(relative: .caption)
 
             Image(systemName: "chevron.right")
-                .frame(width: 48, height: 48, alignment: .center)
+                .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
                 .imageScale(.large)
                 .accentColor(MR.colors().text.get())
         }
