@@ -15,11 +15,13 @@ struct RateStateView: View {
     var body: some View {
         HStack {
             Circle()
-                .frame(width: 12, height: 12, alignment: .center)
+                .frame(width: 12.cp(), height: 12.cp(), alignment: .center)
                 .foregroundColor(color)
-            Text(text).font(relative: .caption)
+
+            Text(text)
+                .font(relative: .caption)
         }
-        .padding(.bottom, 5)
+        .padding(.bottom, 5.cp())
         .animation(.default)
     }
 }
