@@ -39,8 +39,8 @@ struct SelectCurrencyView: View {
                 VStack {
                     Text(MR.strings().txt_select_base_currency.get())
                         .font(relative: .title2)
-                        .padding()
-                        .padding(.top, 10)
+                        .padding(4.cp())
+                        .padding(.top, 10.cp())
 
                     if observable.state.loading {
                         FormProgressView()
