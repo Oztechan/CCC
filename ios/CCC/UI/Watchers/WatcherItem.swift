@@ -38,7 +38,7 @@ struct WatcherItem: View {
                     .tag(1)
             }
             .pickerStyle(.segmented)
-            .frame(maxWidth: 80)
+            .frame(maxWidth: 75.cp())
             .onChange(of: relationSelection) {
                 event.onRelationChange(watcher: watcher, isGreater: $0 == 1)
             }
@@ -51,7 +51,7 @@ struct WatcherItem: View {
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)
-                .padding(top: 5, leading: 15, bottom: 5, trailing: 15)
+                .padding(top: 5.cp(), leading: 15.cp(), bottom: 5.cp(), trailing: 15.cp())
                 .background(MR.colors().background_weak.get())
                 .cornerRadius(7)
                 .onChange(of: amount) {
@@ -64,10 +64,13 @@ struct WatcherItem: View {
                 .onTapGesture { event.onTargetClick(watcher: watcher) }
 
             Image(systemName: "trash")
-                .padding(.leading, 10)
+                .imageScale(.large)
+                .padding(.leading, 10.cp())
                 .onTapGesture { event.onDeleteClick(watcher: watcher) }
 
-        }.onAppear {
+        }
+        .padding(.vertical, 4.cp())
+        .onAppear {
             relationSelection = watcher.isGreater ? 1 : 0
             amount = "\(watcher.rate)"
         }
