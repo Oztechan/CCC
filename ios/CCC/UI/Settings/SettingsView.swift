@@ -111,10 +111,7 @@ struct SettingsView: View {
                     .withClearBackground(color: MR.colors().background.get())
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    BannerAdView(
-                        unitID: SecretUtil.getSecret(key: "BANNER_AD_UNIT_ID_SETTINGS")
-                    ).frame(maxHeight: 50)
-                    .padding(.bottom, 20)
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
                 }
 
             }
