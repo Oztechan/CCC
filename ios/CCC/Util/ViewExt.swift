@@ -92,3 +92,19 @@ extension Double {
         }
     }
 }
+
+extension Image {
+    func resize(width: Double, height: Double) -> some View {
+        return self
+            .resizable()
+            .scaledToFit()
+            .frame(width: width, height: height, alignment: .center)
+    }
+
+    func resize(widthAndHeight: Double) -> some View {
+        return self.resize(
+            width: widthAndHeight,
+            height: widthAndHeight
+        )
+    }
+}

@@ -37,8 +37,7 @@ struct CurrenciesItemView: View {
             Spacer()
 
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
-                .resizable()
-                .frame(width: 20.cp(), height: 20.cp(), alignment: .center)
+                .resize(widthAndHeight: 20.cp())
                 .foregroundColor(MR.colors().accent.get())
 
         }
