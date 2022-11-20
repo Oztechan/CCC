@@ -40,5 +40,5 @@ object Versions {
     const val MOCKATIVE = "1.2.6"
     const val FIREBASE_CRASHLYTICS = "18.3.2"
     const val ANR_WATCH_DOG = "1.4.0"
-    const val KERMIT = "1.2.2"
+    const val KERMIT = "1.1.3"
 }
