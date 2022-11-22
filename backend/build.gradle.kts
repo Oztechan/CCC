@@ -1,6 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -8,6 +11,7 @@ plugins {
     with(Dependencies.Plugins) {
         application
         kotlin(MULTIPLATFORM)
+        id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
 }
@@ -27,7 +31,12 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
+        val commonMain by getting
+        val commonTest by getting
+
         val jvmMain by getting {
+            dependsOn(commonMain)
+
             dependencies {
                 with(Dependencies.JVM) {
                     implementation(KTOR_CORE)
@@ -47,6 +56,8 @@ kotlin {
         }
 
         val jvmTest by getting {
+            dependsOn(commonTest)
+
             dependencies {
                 with(Dependencies.Common) {
                     implementation(MOCKATIVE)
@@ -90,5 +101,14 @@ tasks.named<ProcessResources>("jvmProcessResources") {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+configure<BuildKonfigExtension> {
+    packageName = "${ProjectSettings.PROJECT_ID}.backend"
+
+    defaultConfigs {
+        buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
+        buildConfigField(STRING, "versionName", ProjectSettings.getVersionName(project), const = true)
     }
 }
