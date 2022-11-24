@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?><!--
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">CCC</string>
+
+    <!--Keyboard-->
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="divide">/</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="multiply">*</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="minus">-</string>
+    <string name="dot">.</string>
+    <string name="zero">0</string>
+    <string name="open_parentheses">(</string>
+    <string name="close_parentheses">)</string>
+    <string name="percent">%</string>
+    <string name="plus">+</string>
+    <string name="triple_zero">000</string>
+    <string name="ac">AC</string>
+    <string name="delete">DEL</string>
+
+    <!--CurrenciesFragment-->
+    <string name="search">Ara</string>
+    <string name="btn_select_all">Tümünü seç</string>
+    <string name="btn_de_select_all">Seçimleri temizle</string>
+    <string name="btn_done">Tamam</string>
+    <string name="txt_select_currencies">Para birimlerini seç</string>
+
+    <!--Snack Texts-->
+    <string name="choose_at_least_two_currency">Lütfen en az iki para birimi seçiniz.</string>
+    <string name="txt_ok">Tamam</string>
+    <string name="select">Seç</string>
+    <string name="cancel">Vazgeç</string>
+    <string name="text_too_big_number">Çok büyük sayı.</string>
+    <string name="text_online_last_updated">Güncel! Son güncelleme: %s</string>
+    <string name="text_cached_last_updated">Hafızada! Son güncelleme: %s</string>
+    <string name="text_offline_last_updated">Güncel değil! Son güncelleme: %s</string>
+    <string name="text_offline">Güncel değil</string>
+    <string name="text_no_data">Veri yok!</string>
+    <string name="error_text_unknown">İnternet bağlantınızı kontrol edip tekrar deneyiniz</string>
+    <string name="copied_to_clipboard">Kopyalandı!</string>
+    <string name="text_invalid_input">Geçersiz bir sayı!</string>
+    <string name="text_maximum_number_of_watchers">Maximum sayıda gözlemciye ulaşıldı</string>
+
+    <!--Dialog-->
+    <string name="rate_and_support">Bize markette yorum yapabilir yada yıldız verebilirsiniz :)</string>
+    <string name="rate">Yorum yap</string>
+    <string name="update">Güncelle</string>
+    <string name="github_url">https://github.com/CurrencyConverterCalculator/CCC</string>
+    <string name="support_us">Destek Ol!</string>
+
+    <!--Mail-->
+    <string name="mail_developer">oztechan@gmail.com</string>
+    <string name="mail_feedback_subject">CCC için Görüş ve Yorumlar</string>
+    <string name="mail_extra_text">Değerli geliştirici,</string>
+    <string name="mail_intent_title">Görüş bildir:</string>
+
+    <!--Intro Sliders-->
+    <string name="next">İLERİ</string>
+    <string name="got_it">ANLADIM</string>
+    <string name="slide_intro_title">Currency Converter Calculator</string>
+    <string name="slide_intro_text">Basit kullanici arayüzü\nHızlı çeviri\nGüncel kurlar\nKolay kullanım</string>
+    <string name="slide_bug_report_title">Hata &amp; Sorunlar</string>
+    <string name="slide_bug_report_text_1">Eğer bir hata ya da sorun ile karşılaşırsanız</string>
+    <string name="slide_bug_report_text_2">Ayarlar simgesine tıklayın \nGeri bildirim > Bize mail gönderin\nGitHub'ta aç > Yeni bir Issue oluşturun</string>
+    <string name="slide_disable_ads_title">Reklamlardan kurtul</string>
+    <string name="slide_disable_ads_text_1">Eğer reklamlardan kurtulmak istiyorsanız</string>
+    <string name="slide_disable_ads_text_2">Ayarlar simgesine tıklayın > Reklamlardan kurtul</string>
+    <string name="slide_dark_mode_title">Tema</string>
+    <string name="slide_dark_mode_text_1">Eğer uygulama temasını değiştirmek isterseniz</string>
+    <string name="slide_dark_mode_text_2">Ayarlar simgesine tıklayın > Tema\nİstediğiniz temayı seçin!</string>
+
+    <!-- SelectCurrencyBottomSheet -->
+    <string name="txt_select_base_currency">Para birimi seç</string>
+    <string name="txt_update_favorite_currencies">Favori para birimlerinizi güncelleyebilirsiniz</string>
+
+    <!-- Settings -->
+    <string name="txt_settings">Ayarlar</string>
+    <string name="settings_active_item_value">%d aktif</string>
+
+    <string name="settings_item_currencies_title">Para birimleri</string>
+    <string name="settings_item_currencies_sub_title">Para birimlerinizi seçiniz</string>
+
+    <string name="settings_item_watchers_title">Gözlemciler</string>
+    <string name="settings_item_watchers_sub_title">Kurları arka planda izle</string>
+
+    <string name="settings_item_theme_title">Tema</string>
+    <string name="settings_item_theme_sub_title">Uygulama temasını değişir</string>
+    <string name="title_dialog_choose_theme">Uygulama temasını seç</string>
+
+    <string name="settings_item_remove_ads_title">Reklamları kaldır</string>
+    <string name="settings_item_remove_ads_sub_title">Reklamlardan kurtul</string>
+    <string name="settings_item_remove_ads_value_expired">Bitti\n</string>
+    <string name="settings_item_remove_ads_value_will_expire">Bitiş tarihi\n%s</string>
+    <string name="txt_ads_already_disabled">Reklamlar zaten kaldırıldı</string>
+
+    <string name="settings_item_precision_title">Hassasiyet</string>
+    <string name="settings_item_precision_sub_title">Maksimum ondalık basamak</string>
+    <string name="settings_item_precision_value">%d Basamak</string>
+    <string name="settings_item_precision_value_plural">%d Basamak</string>
+    <string name="title_dialog_choose_precision">Hassasiyeti seç</string>
+
+    <string name="settings_item_sync_title">Güncelle</string>
+    <string name="settings_item_sync_sub_title">İnternetsiz kullanmak için güncelle</string>
+    <string name="txt_synchronising">Güncelleniyor</string>
+    <string name="txt_synced">Güncelleme tamamlandı!</string>
+    <string name="txt_already_synced">Zaten güncel!</string>
+
+    <string name="settings_item_feedback_title">Geri bildirim</string>
+    <string name="settings_item_feedback_sub_title">Bize email gönder</string>
+
+    <string name="settings_item_share_title">Paylaş</string>
+    <string name="settings_item_share_sub_title">Bizi arkadaşlarına tavsiye et</string>
+
+    <string name="settings_item_support_us_title">Destek ol</string>
+    <string name="settings_item_support_us_sub_title">Markette yorum bırak yada yıldız ver</string>
+
+    <string name="settings_item_on_github_title">GitHub'ta aç</string>
+    <string name="settings_item_on_github_sub_title">GitHub'ta bizi ziyaret et</string>
+
+    <string name="settings_item_version_title">Versiyon</string>
+    <string name="settings_item_version_sub_title">Uygulama versiyonu</string>
+
+    <!-- Currencies -->
+    <string name="txt_currencies">Para birimleri</string>
+
+    <!-- Watchers -->
+    <string name="txt_watchers">Gözlemciler</string>
+    <string name="txt_watchers_description">Gözlemciler arka planda döviz kurlarını takip eder ve eğer belirlediğiniz koşul sağlanır ise size bildirim gönderir!</string>
+    <string name="txt_enable_notification_permission">Lütfen ayarlardan bildirim izinlerini açınız</string>
+    <string name="txt_watcher_alert_title">Gözlemci alarmı!</string>
+    <string name="txt_watcher_alert_sub_title">Girmiş olduğunuz koşul gerçekleşti.</string>
+    <string name="txt_rate">Değer</string>
+    <string name="txt_grater">&gt;</string>
+    <string name="txt_smaller">&lt;</string>
+    <string name="txt_add">Ekle</string>
+
+    <!--Rewarded Ad-->
+    <string name="txt_remove_ads">Reklamları kaldır</string>
+    <string name="txt_remove_ads_text">Reklamları 2 günlüğüne kaldımak için bir video izlemek ister misiniz?</string>
+    <string name="txt_watch">İzle</string>
+
+    <!-- App update -->
+    <string name="txt_update_dialog_title">Yeni versiyon mevcut</string>
+    <string name="txt_update_dialog_description">Görünüşe göre eski bir versiyon kullanyıorsunuz. Lütfen en son yenilikleri ve iyileştirmeleri almak için uygulamayı güncelleyiniz.</string>
+
+</resources>
