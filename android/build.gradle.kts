@@ -29,6 +29,8 @@ android {
 
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
+
+            resourceConfigurations.addAll(listOf("en", "tr"))
         }
 
         compileOptions {
