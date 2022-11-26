@@ -11,6 +11,6 @@ internal fun CoroutineScope.launchIgnored(function: suspend () -> Unit) {
     }
 }
 
-inline fun <T> MutableStateFlow<T>.update(function: T.() -> T) {
+internal inline fun <T> MutableStateFlow<T>.update(function: T.() -> T) {
     update { function(value) }
 }
