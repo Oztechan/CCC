@@ -11,6 +11,7 @@ import com.oztechan.ccc.backend.repository.api.ApiRepository
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
+import com.oztechan.ccc.backend.routes.getVersion
 import com.oztechan.ccc.common.di.DISPATCHER_IO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -53,6 +54,7 @@ fun main() {
                 getError()
                 getRoot()
                 getCurrencyByName(apiController)
+                getVersion()
             }
         }
     }.start(wait = true)
