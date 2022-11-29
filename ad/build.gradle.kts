@@ -63,5 +63,5 @@ dependencies {
 
     DeviceFlavour.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
 
-    implementation(project(Dependencies.Modules.LOGMOB.path))
+    implementation(project(Modules.LOGMOB.path))
 }

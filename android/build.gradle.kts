@@ -108,7 +108,7 @@ dependencies {
         implementation(KOTLIN_X_DATE_TIME)
     }
 
-    with(Dependencies.Modules) {
+    with(Modules) {
         implementation(project(CLIENT.path))
         implementation(project(RES.path))
         implementation(project(BILLING.path))

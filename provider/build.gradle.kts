@@ -19,8 +19,8 @@ kotlin {
         }
 
         framework {
-            baseName = Dependencies.Modules.PROVIDER.frameworkName
-            with(Dependencies.Modules) {
+            with(Modules) {
+                baseName = PROVIDER.frameworkName
                 export(project(CLIENT.path))
                 export(project(ANALYTICS.path))
             }
@@ -40,7 +40,7 @@ kotlin {
 
                 implementation(Dependencies.Common.KOIN_CORE)
 
-                with(Dependencies.Modules) {
+                with(Modules) {
                     implementation(project(LOGMOB.path))
                     api(project(CLIENT.path))
                     api(project(ANALYTICS.path))

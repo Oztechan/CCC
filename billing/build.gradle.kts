@@ -43,7 +43,7 @@ dependencies {
         implementation(LIFECYCLE_RUNTIME)
     }
 
-    with(Dependencies.Modules) {
+    with(Modules) {
         implementation(project(LOGMOB.path))
         implementation(project(SCOPEMOB.path))
     }

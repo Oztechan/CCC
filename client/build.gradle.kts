@@ -34,7 +34,7 @@ kotlin {
                     implementation(KOIN_CORE)
                     implementation(MULTIPLATFORM_SETTINGS)
                 }
-                with(Dependencies.Modules) {
+                with(Modules) {
                     implementation(project(COMMON.path))
                     implementation(project(CONFIG.path))
                     implementation(project(LOGMOB.path))
@@ -50,7 +50,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST.path))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -129,7 +129,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.client"
+    packageName = Modules.CLIENT.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)

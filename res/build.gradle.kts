@@ -22,7 +22,7 @@ kotlin {
             version = getVersionName(project)
         }
         framework {
-            baseName = Dependencies.Modules.RES.frameworkName
+            baseName = Modules.RES.frameworkName
         }
     }
 
@@ -35,7 +35,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST.path))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -82,6 +82,6 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.res"
+    multiplatformResourcesPackage = Modules.RES.packageName
     disableStaticFrameworkWarning = true
 }

@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import config.Module
 
 @Suppress("SpellCheckingInspection")
 object Dependencies {
@@ -103,28 +102,5 @@ object Dependencies {
 
     object Processors {
         const val MOCKATIVE = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
-    }
-
-    object Modules {
-        val CLIENT = Module("client")
-        val RES = Module("res")
-        val COMMON = Module("common")
-        val BILLING = Module("billing")
-        val AD = Module("ad")
-        val ANALYTICS = Module("analytics")
-        val CONFIG = Module("config")
-        val TEST = Module("test")
-        val PROVIDER = Module("provider")
-
-        // submodules
-        val LOGMOB = Module("logmob")
-        val SCOPEMOB = Module("scopemob")
-        val BASEMOB = Module("basemob")
-        val PARSERMOB = Module("parsermob")
-
-        // targets
-        val ANDROID = Module("android")
-        val IOS = Module("ios")
-        val BACKEND = Module("backend")
     }
 }
