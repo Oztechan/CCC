@@ -24,7 +24,7 @@ kotlin {
                     api(kotlin(TEST_ANNOTATIONS))
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Dependencies.Modules.LOGMOB.path))
             }
         }
         val commonTest by getting

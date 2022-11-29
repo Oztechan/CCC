@@ -22,7 +22,7 @@ kotlin {
             version = getVersionName(project)
         }
         framework {
-            baseName = Dependencies.Pods.RES
+            baseName = Dependencies.Modules.RES.frameworkName
         }
     }
 
@@ -35,7 +35,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Dependencies.Modules.TEST.path))
             }
         }
 

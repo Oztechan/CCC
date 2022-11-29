@@ -35,12 +35,12 @@ kotlin {
                     implementation(MULTIPLATFORM_SETTINGS)
                 }
                 with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(CONFIG))
-                    implementation(project(LOGMOB))
-                    implementation(project(SCOPEMOB))
-                    implementation(project(PARSERMOB))
-                    implementation(project(ANALYTICS))
+                    implementation(project(COMMON.path))
+                    implementation(project(CONFIG.path))
+                    implementation(project(LOGMOB.path))
+                    implementation(project(SCOPEMOB.path))
+                    implementation(project(PARSERMOB.path))
+                    implementation(project(ANALYTICS.path))
                 }
             }
         }
@@ -50,7 +50,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Dependencies.Modules.TEST.path))
             }
         }
 

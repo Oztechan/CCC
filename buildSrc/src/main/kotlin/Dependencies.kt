@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import config.Module
 
 @Suppress("SpellCheckingInspection")
 object Dependencies {
@@ -105,24 +106,25 @@ object Dependencies {
     }
 
     object Modules {
-        const val CLIENT = ":client"
-        const val RES = ":res"
-        const val COMMON = ":common"
-        const val BILLING = ":billing"
-        const val AD = ":ad"
-        const val ANALYTICS = ":analytics"
-        const val CONFIG = ":config"
-        const val TEST = ":test"
+        val CLIENT = Module("client")
+        val RES = Module("res")
+        val COMMON = Module("common")
+        val BILLING = Module("billing")
+        val AD = Module("ad")
+        val ANALYTICS = Module("analytics")
+        val CONFIG = Module("config")
+        val TEST = Module("test")
+        val PROVIDER = Module("provider")
 
         // submodules
-        const val LOGMOB = ":logmob"
-        const val SCOPEMOB = ":scopemob"
-        const val BASEMOB = ":basemob"
-        const val PARSERMOB = ":parsermob"
-    }
+        val LOGMOB = Module("logmob")
+        val SCOPEMOB = Module("scopemob")
+        val BASEMOB = Module("basemob")
+        val PARSERMOB = Module("parsermob")
 
-    object Pods {
-        const val PROVIDER = "Provider"
-        const val RES = "Res"
+        // targets
+        val ANDROID = Module("android")
+        val IOS = Module("ios")
+        val BACKEND = Module("backend")
     }
 }

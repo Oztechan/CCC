@@ -42,7 +42,7 @@ kotlin {
                     implementation(SQL_DELIGHT_COROUTINES_EXT)
                     implementation(COROUTINES)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Dependencies.Modules.LOGMOB.path))
             }
         }
         val commonTest by getting {
@@ -51,7 +51,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Dependencies.Modules.TEST.path))
             }
         }
 

@@ -49,8 +49,8 @@ kotlin {
                 }
 
                 with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(LOGMOB))
+                    implementation(project(COMMON.path))
+                    implementation(project(LOGMOB.path))
                 }
             }
         }
@@ -63,7 +63,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Dependencies.Modules.TEST.path))
             }
         }
     }

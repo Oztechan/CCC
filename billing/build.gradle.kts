@@ -44,7 +44,7 @@ dependencies {
     }
 
     with(Dependencies.Modules) {
-        implementation(project(LOGMOB))
-        implementation(project(SCOPEMOB))
+        implementation(project(LOGMOB.path))
+        implementation(project(SCOPEMOB.path))
     }
 }
