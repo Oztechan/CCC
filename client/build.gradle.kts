@@ -97,14 +97,13 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.CLIENT.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
     with(DeviceFlavour) {
