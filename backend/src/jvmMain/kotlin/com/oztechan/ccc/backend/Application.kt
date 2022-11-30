@@ -8,7 +8,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.backend.di.initKoin
 import com.oztechan.ccc.backend.repository.api.ApiRepository
-import com.oztechan.ccc.backend.routes.getCurrencyByName
+import com.oztechan.ccc.backend.routes.getCurrencyByBase
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.backend.routes.getVersion
@@ -53,7 +53,7 @@ fun main() {
             globalScope.launch(ioDispatcher) {
                 getError()
                 getRoot()
-                getCurrencyByName(apiController)
+                getCurrencyByBase(apiController)
                 getVersion()
             }
         }

@@ -100,16 +100,16 @@ internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
     }
 
     @Test
-    fun updateCurrencyStateByName() {
-        val mockName = "mock"
+    fun updateCurrencyStateByCode() {
+        val mockCode = "mock"
         val mockState = Random.nextBoolean()
 
         runTest {
-            subject.updateCurrencyStateByName(mockName, mockState)
+            subject.updateCurrencyStateByCode(mockCode, mockState)
         }
 
         verify(currencyQueries)
-            .invocation { updateCurrencyStateByName(mockState.toLong(), mockName) }
+            .invocation { updateCurrencyStateByCode(mockState.toLong(), mockCode) }
             .wasInvoked()
     }
 
@@ -127,17 +127,17 @@ internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
     }
 
     @Test
-    fun getCurrencyByName() {
+    fun getCurrencyByCode() {
         given(currencyQueries)
-            .invocation { getCurrencyByName(currency.name) }
+            .invocation { getCurrencyByCode(currency.name) }
             .thenReturn(query)
 
         runTest {
-            subject.getCurrencyByName(currency.name)
+            subject.getCurrencyByCode(currency.name)
         }
 
         verify(currencyQueries)
-            .invocation { getCurrencyByName(currency.name) }
+            .invocation { getCurrencyByCode(currency.name) }
             .wasInvoked()
     }
 }

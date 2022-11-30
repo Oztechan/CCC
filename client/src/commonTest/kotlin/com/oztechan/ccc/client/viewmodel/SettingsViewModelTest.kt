@@ -163,7 +163,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(currencyList)
 
         given(backendApiService)
-            .coroutine { getRates(currency.name) }
+            .coroutine { getRates(currency.code) }
             .thenReturn(currencyResponse)
 
         subject.effect.before {

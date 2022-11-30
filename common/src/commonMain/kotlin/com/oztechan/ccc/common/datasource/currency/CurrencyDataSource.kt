@@ -10,9 +10,9 @@ interface CurrencyDataSource {
 
     suspend fun getActiveCurrencies(): List<Currency>
 
-    suspend fun updateCurrencyStateByName(name: String, isActive: Boolean)
+    suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean)
 
     suspend fun updateAllCurrencyState(value: Boolean)
 
-    suspend fun getCurrencyByName(name: String): Currency?
+    suspend fun getCurrencyByCode(code: String): Currency?
 }

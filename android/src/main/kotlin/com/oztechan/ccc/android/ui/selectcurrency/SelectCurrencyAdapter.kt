@@ -28,7 +28,7 @@ class SelectCurrencyAdapter(
         BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            imgIcon.setBackgroundByName(item.name)
+            imgIcon.setBackgroundByName(item.code)
             txtSettingItem.text = item.getVariablesOneLine()
             root.setOnClickListener { selectCurrencyEvent.onItemClick(item) }
         }

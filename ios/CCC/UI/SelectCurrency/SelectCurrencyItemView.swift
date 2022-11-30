@@ -19,11 +19,11 @@ struct SelectCurrencyItemView: View {
 
             CurrencyImageView(imageName: item.name)
 
-            Text(item.name)
+            Text(item.code)
                 .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
 
-            Text(item.longName)
+            Text(item.name)
                 .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
 

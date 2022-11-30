@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.map
 import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
 
 internal fun CurrencyEntity.toModel() = Currency(
+    code = code,
     name = name,
-    longName = longName,
     symbol = symbol,
     rate = rate,
     isActive = isActive == 1.toLong()

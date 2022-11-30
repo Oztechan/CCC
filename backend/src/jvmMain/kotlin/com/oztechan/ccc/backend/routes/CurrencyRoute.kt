@@ -15,7 +15,7 @@ import io.ktor.server.routing.get
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-internal suspend fun Route.getCurrencyByName(apiController: ApiRepository) = get(PATH_BY_BASE) {
+internal suspend fun Route.getCurrencyByBase(apiController: ApiRepository) = get(PATH_BY_BASE) {
     call.parameters[PARAMETER_BASE]?.let { base ->
         Logger.i { "GET Request $PARAMETER_BASE $base" }
         apiController.getOfflineCurrencyResponseByBase(base)?.let {

@@ -19,7 +19,7 @@ internal expect fun Double.removeScientificNotation(): String
 
 internal fun Rates?.calculateResult(name: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
-    ?.getConversionByName(name)
+    ?.getConversionByCode(name)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
@@ -42,10 +42,10 @@ internal fun String.toStandardDigits(): String {
 internal fun Currency.getCurrencyConversionByRate(
     base: String,
     rate: Rates?
-) = "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
+) = "1 $base = ${rate?.getConversionByCode(code)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
-    it.name != currentBase &&
+    it.code != currentBase &&
         it.isActive &&
         it.rate != "NaN" &&
         it.rate != "0.0" &&
@@ -57,7 +57,7 @@ internal fun Int.indexToNumber() = this + 1
 fun Int.numberToIndex() = this - 1
 
 @Suppress("ComplexMethod", "LongMethod")
-internal fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
+internal fun Rates.getConversionByCode(code: String) = when (code.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all
