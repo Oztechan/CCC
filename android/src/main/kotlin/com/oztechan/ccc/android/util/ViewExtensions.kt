@@ -19,15 +19,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import co.touchlab.kermit.Logger
-import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.res.toImageFileName
+import com.oztechan.ccc.res.getImageResourceIdByName
 import mustafaozhan.github.com.mycurrencies.R
-import java.io.FileNotFoundException
 
 private const val ANIMATION_DURATION = 500L
 
@@ -150,17 +147,4 @@ fun View.copyToClipBoard(text: String) {
     }
 }
 
-fun ImageView.setBackgroundByName(
-    name: String
-) = setImageResource(context.getImageResourceByName(name))
-
-fun Context.getImageResourceByName(name: String): Int = try {
-    resources.getIdentifier(
-        name.toImageFileName(),
-        "drawable",
-        packageName
-    )
-} catch (e: FileNotFoundException) {
-    Logger.w(e)
-    R.drawable.unknown
-}
+fun ImageView.setBackgroundByName(name: String) = setImageResource(getImageResourceIdByName(name))
