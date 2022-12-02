@@ -91,13 +91,14 @@ struct WatchersView: View {
                         } label: {
                             Label(MR.strings().txt_settings.get(), systemImage: "gear")
                                 .imageScale(.large)
-                                .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
+                                .frame(width: 108.cp(), height: 32.cp(), alignment: .center)
                                 .font(relative: .body)
                         }
                         .padding(4.cp())
                         .background(MR.colors().background_weak.get())
                         .foregroundColor(MR.colors().text.get())
-                        .cornerRadius(5)
+                        .cornerRadius(5.cp())
+                        .padding(8.cp())
 
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .background(MR.colors().background.get())

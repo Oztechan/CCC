@@ -19,9 +19,9 @@ struct RateStateView: View {
                 .foregroundColor(color)
 
             Text(text)
-                .font(relative: .caption)
+                .font(relative: .caption2)
         }
-        .padding(.bottom, 5.cp())
+        .padding(.bottom, 3.cp())
         .animation(.default)
     }
 }
