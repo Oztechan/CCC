@@ -4,7 +4,7 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val KOTLIN = "1.7.21"
+    const val KOTLIN = "1.7.22"
     const val KSP = "$KOTLIN-1.0.8"
     const val ANDROID_GRADLE_PLUGIN = "7.3.1"
     const val ANDROID_MATERIAL = "1.7.0"
