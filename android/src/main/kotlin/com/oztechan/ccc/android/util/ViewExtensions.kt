@@ -25,7 +25,6 @@ import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.res.getImageResourceIdByName
-import mustafaozhan.github.com.mycurrencies.R
 
 private const val ANIMATION_DURATION = 500L
 
@@ -95,7 +94,9 @@ fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 fun View.showLoading(visible: Boolean) = if (visible) {
     visible()
     bringToFront()
-} else gone()
+} else {
+    gone()
+}
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
