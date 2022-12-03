@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.ItemCurrenciesBinding
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEvent
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCurrenciesBinding
 
 class CurrenciesAdapter(
     private val currenciesEvent: CurrenciesEvent

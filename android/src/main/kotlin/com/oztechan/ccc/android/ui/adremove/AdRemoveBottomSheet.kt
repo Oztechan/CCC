@@ -13,6 +13,8 @@ import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.BottomSheetAdRemoveBinding
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
@@ -25,8 +27,6 @@ import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
 import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.BottomSheetAdRemoveBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

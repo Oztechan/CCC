@@ -11,6 +11,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.AD.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

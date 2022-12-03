@@ -60,6 +60,7 @@ kotlin {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.ANALYTICS.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

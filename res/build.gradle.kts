@@ -65,6 +65,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
+        namespace = Modules.RES.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -73,7 +74,6 @@ android {
             targetSdk = TARGET_SDK_VERSION
         }
 
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
         // todo can be removed after
         // https://github.com/icerockdev/moko-resources/issues/384
         // https://github.com/icerockdev/moko-resources/issues/353

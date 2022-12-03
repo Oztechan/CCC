@@ -61,6 +61,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
+        namespace = Modules.CONFIG.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -68,7 +69,5 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

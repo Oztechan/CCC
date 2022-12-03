@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import co.touchlab.kermit.Logger
 import com.google.android.material.snackbar.Snackbar
-import mustafaozhan.github.com.mycurrencies.R
+import com.oztechan.ccc.android.R
 
 @Suppress("LongParameterList", "NestedBlockDepth")
 fun View?.showSnack(
