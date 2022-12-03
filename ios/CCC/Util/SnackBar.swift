@@ -24,7 +24,7 @@ func showSnack(
         backgroundColor: MR.colors().background_weak.get(),
         foregroundColor: MR.colors().text.get(),
         iconImage: iconImage.resized(
-            to: CGSize(width: 64, height: 64)
+            to: CGSize(width: 64.cp(), height: 64.cp())
         )
     )
 
@@ -33,7 +33,7 @@ func showSnack(
     view.configureContent(
         title: "",
         body: text,
-        iconImage: iconImage.resized(to: CGSize(width: 64, height: 64)),
+        iconImage: iconImage.resized(to: CGSize(width: 64.cp(), height: 64.cp())),
         iconText: nil,
         buttonImage: nil,
         buttonTitle: buttonText,
@@ -42,15 +42,19 @@ func showSnack(
             action?()
         })
 
+    view.bodyLabel?.font = view.bodyLabel?.font.withSize(15.cp())
+
     if buttonText != nil {
         view.button?.contentEdgeInsets = UIEdgeInsets(
-            top: 10.0,
-            left: 10.0,
-            bottom: 10.0,
-            right: 10.0
+            top: 10.cp(),
+            left: 10.cp(),
+            bottom: 10.cp(),
+            right: 10.cp()
         )
 
         view.button?.backgroundColor = MR.colors().primary.get()
+        view.button?.titleLabel?.font = view.bodyLabel?.font.withSize(12.cp())
+
     } else {
         view.button?.isHidden = true
     }

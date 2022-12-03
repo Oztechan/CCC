@@ -19,7 +19,7 @@ func showAlert(
     hideOnAction: Bool = true
 ) {
     let view: MessageView = MessageView.viewFromNib(layout: .centeredView)
-    view.configureBackgroundView(width: 250)
+    view.configureBackgroundView(width: 250.cp())
     view.configureTheme(
         backgroundColor: MR.colors().background.get(),
         foregroundColor: MR.colors().text.get()
@@ -28,7 +28,7 @@ func showAlert(
         title: title,
         body: text,
         iconImage: MR.images().ic_app_logo.get().resized(
-            to: CGSize(width: 64, height: 64)
+            to: CGSize(width: 64.cp(), height: 64.cp())
         ),
         iconText: nil,
         buttonImage: nil,
@@ -42,8 +42,13 @@ func showAlert(
     }
 
     view.backgroundView.backgroundColor = MR.colors().background_weak.get()
-    view.backgroundView.layer.cornerRadius = 10
-    let cancelButton = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
+    view.backgroundView.layer.cornerRadius = 10.cp()
+
+    view.titleLabel?.font = view.bodyLabel?.font.withSize(18.cp())
+    view.bodyLabel?.font = view.bodyLabel?.font.withSize(15.cp())
+    view.button?.titleLabel?.font = view.bodyLabel?.font.withSize(12.cp())
+
+    let cancelButton = UIButton(frame: CGRect(x: 100.cp(), y: 100.cp(), width: 100.cp(), height: 50.cp()))
     cancelButton.setTitle(MR.strings().cancel.get(), for: .normal)
 
     var config = SwiftMessages.defaultConfig

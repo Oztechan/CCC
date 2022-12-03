@@ -31,7 +31,7 @@ struct CurrenciesToolbarView: View {
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
                     .background(
-                        RoundedRectangle(cornerRadius: 3)
+                        RoundedRectangle(cornerRadius: 3.cp())
                             .fill(MR.colors().background.get())
                     )
                     .disableAutocorrection(true)

@@ -53,7 +53,7 @@ struct WatcherItem: View {
                 .lineLimit(1)
                 .padding(top: 5.cp(), leading: 15.cp(), bottom: 5.cp(), trailing: 15.cp())
                 .background(MR.colors().background_weak.get())
-                .cornerRadius(7)
+                .cornerRadius(7.cp())
                 .onChange(of: amount) {
                     amount = event.onRateChange(watcher: watcher, rate: $0)
                 }
@@ -64,6 +64,7 @@ struct WatcherItem: View {
                 .onTapGesture { event.onTargetClick(watcher: watcher) }
 
             Image(systemName: "trash")
+                .resize(widthAndHeight: 20.cp())
                 .imageScale(.large)
                 .padding(.leading, 10.cp())
                 .onTapGesture { event.onDeleteClick(watcher: watcher) }
