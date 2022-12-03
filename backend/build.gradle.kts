@@ -19,7 +19,7 @@ plugins {
 
 with(ProjectSettings) {
     application {
-        mainClass.set("$PROJECT_ID.backend.ApplicationKt")
+        mainClass.set("${Modules.BACKEND.packageName}.ApplicationKt")
     }
     group = PROJECT_ID
     version = getVersionName(project)
@@ -44,9 +44,9 @@ kotlin {
                     implementation(KOIN_CORE)
                 }
 
-                with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(LOGMOB))
+                with(Modules) {
+                    implementation(project(COMMON.path))
+                    implementation(project(LOGMOB.path))
                 }
             }
         }
@@ -57,7 +57,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
     }
@@ -76,7 +76,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${ProjectSettings.PROJECT_ID}.backend.ApplicationKt"
+        attributes["Main-Class"] = "${Modules.BACKEND.packageName}.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
@@ -99,7 +99,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.backend"
+    packageName = Modules.BACKEND.packageName
 
     defaultConfigs { } // none
 

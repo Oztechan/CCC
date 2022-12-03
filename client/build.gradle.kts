@@ -34,13 +34,13 @@ kotlin {
                     implementation(KOIN_CORE)
                     implementation(MULTIPLATFORM_SETTINGS)
                 }
-                with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(CONFIG))
-                    implementation(project(LOGMOB))
-                    implementation(project(SCOPEMOB))
-                    implementation(project(PARSERMOB))
-                    implementation(project(ANALYTICS))
+                with(Modules) {
+                    implementation(project(COMMON.path))
+                    implementation(project(CONFIG.path))
+                    implementation(project(LOGMOB.path))
+                    implementation(project(SCOPEMOB.path))
+                    implementation(project(PARSERMOB.path))
+                    implementation(project(ANALYTICS.path))
                 }
             }
         }
@@ -50,7 +50,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -129,7 +129,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.client"
+    packageName = Modules.CLIENT.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
