@@ -22,7 +22,7 @@ kotlin {
             version = getVersionName(project)
         }
         framework {
-            baseName = Dependencies.Pods.RES
+            baseName = Modules.RES.frameworkName
         }
     }
 
@@ -35,7 +35,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -65,6 +65,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
+        namespace = Modules.RES.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -73,7 +74,6 @@ android {
             targetSdk = TARGET_SDK_VERSION
         }
 
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
         // todo can be removed after
         // https://github.com/icerockdev/moko-resources/issues/384
         // https://github.com/icerockdev/moko-resources/issues/353
@@ -82,6 +82,6 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${ProjectSettings.PROJECT_ID}.res"
+    multiplatformResourcesPackage = Modules.RES.packageName
     disableStaticFrameworkWarning = true
 }

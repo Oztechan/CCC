@@ -36,7 +36,7 @@ struct SelectCurrenciesBottomView: View {
             .padding(top: 10.cp(), leading: 15.cp(), bottom: 10.cp(), trailing: 15.cp())
             .background(MR.colors().background_weak.get())
             .clipped()
-            .cornerRadius(4)
+            .cornerRadius(4.cp())
 
         }
         .padding(top: 5.cp(), leading: 15.cp(), bottom: 10.cp(), trailing: 10.cp())

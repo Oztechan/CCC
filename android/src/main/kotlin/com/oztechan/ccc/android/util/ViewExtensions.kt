@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
+import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.res.getImageResourceIdByName
 import mustafaozhan.github.com.mycurrencies.R

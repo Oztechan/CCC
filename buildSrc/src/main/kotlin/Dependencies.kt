@@ -103,26 +103,4 @@ object Dependencies {
     object Processors {
         const val MOCKATIVE = "io.mockative:mockative-processor:${Versions.MOCKATIVE}"
     }
-
-    object Modules {
-        const val CLIENT = ":client"
-        const val RES = ":res"
-        const val COMMON = ":common"
-        const val BILLING = ":billing"
-        const val AD = ":ad"
-        const val ANALYTICS = ":analytics"
-        const val CONFIG = ":config"
-        const val TEST = ":test"
-
-        // submodules
-        const val LOGMOB = ":logmob"
-        const val SCOPEMOB = ":scopemob"
-        const val BASEMOB = ":basemob"
-        const val PARSERMOB = ":parsermob"
-    }
-
-    object Pods {
-        const val PROVIDER = "Provider"
-        const val RES = "Res"
-    }
 }
