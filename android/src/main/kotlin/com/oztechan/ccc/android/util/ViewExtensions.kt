@@ -19,15 +19,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import co.touchlab.kermit.Logger
-import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.res.toImageFileName
-import java.io.FileNotFoundException
+import com.oztechan.ccc.res.getImageResourceIdByName
 
 private const val ANIMATION_DURATION = 500L
 
@@ -97,7 +94,9 @@ fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
 fun View.showLoading(visible: Boolean) = if (visible) {
     visible()
     bringToFront()
-} else gone()
+} else {
+    gone()
+}
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
@@ -150,17 +149,4 @@ fun View.copyToClipBoard(text: String) {
     }
 }
 
-fun ImageView.setBackgroundByName(
-    name: String
-) = setImageResource(context.getImageResourceByName(name))
-
-fun Context.getImageResourceByName(name: String): Int = try {
-    resources.getIdentifier(
-        name.toImageFileName(),
-        "drawable",
-        packageName
-    )
-} catch (e: FileNotFoundException) {
-    Logger.w(e)
-    R.drawable.unknown
-}
+fun ImageView.setBackgroundByName(name: String) = setImageResource(getImageResourceIdByName(name))
