@@ -28,3 +28,11 @@ updates:
     commit-message:
       prefix: "#1239] "
       prefix-development: "[Oztechan/CCC"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "#1239] "
+      prefix-development: "[Oztechan/CCC"
