@@ -20,7 +20,7 @@ struct ToolbarButton: View {
             action: clickEvent,
             label: {
                 Image(systemName: imgName)
-                    .resize(widthAndHeight: 20.cp())
+                    .resize(widthAndHeight: 24.cp())
                     .accentColor(MR.colors().text.get())
                     .padding(.leading, 10.cp())
             }
