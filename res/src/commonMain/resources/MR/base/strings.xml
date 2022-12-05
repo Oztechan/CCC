@@ -30,8 +30,8 @@
 
     <!--CurrenciesFragment-->
     <string name="search">Search</string>
-    <string name="btn_select_all">Select All</string>
-    <string name="btn_de_select_all">Deselect All</string>
+    <string name="btn_select_all">Select all</string>
+    <string name="btn_de_select_all">Deselect all</string>
     <string name="btn_done">Done</string>
     <string name="txt_select_currencies">Select your currencies</string>
 
@@ -56,7 +56,7 @@
     <string name="rate">RATE</string>
     <string name="update">Update</string>
     <string name="github_url">https://github.com/CurrencyConverterCalculator/CCC</string>
-    <string name="support_us">Support Us !</string>
+    <string name="support_us">Support Us!</string>
 
     <!--Mail-->
     <string name="mail_developer">oztechan@gmail.com</string>
@@ -91,7 +91,7 @@
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
 
     <string name="settings_item_watchers_title">Watchers</string>
-    <string name="settings_item_watchers_sub_title">Check in the background</string>
+    <string name="settings_item_watchers_sub_title">Check rates in the background</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
@@ -135,10 +135,10 @@
 
     <!-- Watchers -->
     <string name="txt_watchers">Watchers</string>
-    <string name="txt_watchers_description">Watchers will be checked on the background and if the threshold is reached then you will get a notification!</string>
+    <string name="txt_watchers_description">Watchers will check the rates in the background and if the given condition is valid then you will receive a notification!</string>
     <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
     <string name="txt_watcher_alert_title">Watcher Alert!</string>
-    <string name="txt_watcher_alert_sub_title">The rate threshold is reached.</string>
+    <string name="txt_watcher_alert_sub_title">Given condition is valid.</string>
     <string name="txt_rate">Rate</string>
     <string name="txt_grater">&gt;</string>
     <string name="txt_smaller">&lt;</string>
@@ -146,7 +146,7 @@
 
     <!--Rewarded Ad-->
     <string name="txt_remove_ads">Remove Ads</string>
-    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days ?</string>
+    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days?</string>
     <string name="txt_watch">Watch</string>
 
     <!-- App update -->
