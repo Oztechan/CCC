@@ -40,7 +40,7 @@ internal class CurrencyResponseTest : BaseTest() {
 
     @Suppress("LongMethod")
     @Test
-    fun toOfflineRates() {
+    fun toRates() {
         val rates = Rates(
             "EUR", "12.01.21", 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
             13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0,
@@ -59,7 +59,7 @@ internal class CurrencyResponseTest : BaseTest() {
         )
         val response = CurrencyResponse("EUR", "21.12.21", rates)
 
-        val offline = response.toOfflineRates()
+        val offline = response.toRates()
 
         assertAllTrue(
             offline.base == response.base, offline.date == response.date,

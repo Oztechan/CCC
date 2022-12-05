@@ -21,7 +21,7 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.calculateResult
-import com.oztechan.ccc.client.util.getCurrencyConversionByRate
+import com.oztechan.ccc.client.util.getCurrencyConversionByRates
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
@@ -34,7 +34,7 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.service.backend.BackendApiService
@@ -54,7 +54,7 @@ class CalculatorViewModel(
     private val calculatorStorage: CalculatorStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val ratesDataSource: RatesDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
@@ -130,13 +130,13 @@ class CalculatorViewModel(
             calculateConversions(it, RateState.Online(it.date))
         }.also {
             viewModelScope.launch {
-                offlineRatesDataSource.insertOfflineRates(currencyResponse.toTodayResponse())
+                ratesDataSource.insertRates(currencyResponse.toTodayResponse())
             }
         }
 
     private fun fetchRatesFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getRatesFailed" }
-        offlineRatesDataSource.getOfflineRatesByBase(
+        ratesDataSource.getRatesByBase(
             calculatorStorage.currentBase
         )?.let {
             calculateConversions(it, RateState.Offline(it.date))
@@ -250,7 +250,7 @@ class CalculatorViewModel(
         viewModelScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowRate(
-                    currency.getCurrencyConversionByRate(
+                    currency.getCurrencyConversionByRates(
                         calculatorStorage.currentBase,
                         data.rates
                     ),

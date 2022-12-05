@@ -2,11 +2,11 @@ package com.oztechan.ccc.common.datasource
 
 import com.oztechan.ccc.common.api.model.CurrencyResponse
 import com.oztechan.ccc.common.api.model.Rates
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSourceImpl
-import com.oztechan.ccc.common.db.sql.OfflineRatesQueries
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSourceImpl
+import com.oztechan.ccc.common.db.sql.RatesQueries
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.mapper.toOfflineRates
+import com.oztechan.ccc.common.mapper.toRates
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query
@@ -22,14 +22,14 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-internal class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSource>() {
+internal class RatesDataSourceTest : BaseSubjectTest<RatesDataSource>() {
 
-    override val subject: OfflineRatesDataSource by lazy {
-        OfflineRatesDataSourceImpl(offlineRatesQueries, createTestDispatcher())
+    override val subject: RatesDataSource by lazy {
+        RatesDataSourceImpl(ratesQueries, createTestDispatcher())
     }
 
     @Mock
-    private val offlineRatesQueries = mock(classOf<OfflineRatesQueries>())
+    private val ratesQueries = mock(classOf<RatesQueries>())
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
@@ -41,7 +41,7 @@ internal class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSour
     private val currencyResponse = currencyResponseEntity.toModel()
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        currencyResponse.toOfflineRates()
+        currencyResponse.toRates()
     }
 
     @BeforeTest
@@ -58,43 +58,43 @@ internal class OfflineRatesDataSourceTest : BaseSubjectTest<OfflineRatesDataSour
     }
 
     @Test
-    fun insertOfflineRates() {
+    fun insertRates() {
         runTest {
-            subject.insertOfflineRates(currencyResponse)
+            subject.insertRates(currencyResponse)
         }
 
-        verify(offlineRatesQueries)
-            .invocation { insertOfflineRates(currencyResponse.toOfflineRates()) }
+        verify(ratesQueries)
+            .invocation { insertRates(currencyResponse.toRates()) }
             .wasInvoked()
     }
 
     @Test
-    fun getOfflineRatesByBase() {
-        given(offlineRatesQueries)
-            .invocation { getOfflineRatesByBase(currencyResponse.base) }
+    fun getRatesByBase() {
+        given(ratesQueries)
+            .invocation { getRatesByBase(currencyResponse.base) }
             .then { query }
 
         runTest {
-            subject.getOfflineRatesByBase(currencyResponse.base)
+            subject.getRatesByBase(currencyResponse.base)
         }
 
-        verify(offlineRatesQueries)
-            .invocation { getOfflineRatesByBase(currencyResponse.base) }
+        verify(ratesQueries)
+            .invocation { getRatesByBase(currencyResponse.base) }
             .wasInvoked()
     }
 
     @Test
-    fun getOfflineCurrencyResponseByBase() {
-        given(offlineRatesQueries)
-            .invocation { getOfflineRatesByBase(currencyResponse.base) }
+    fun getCurrencyResponseTextByBase() {
+        given(ratesQueries)
+            .invocation { getRatesByBase(currencyResponse.base) }
             .then { query }
 
         runTest {
-            subject.getOfflineCurrencyResponseByBase(currencyResponse.base)
+            subject.getCurrencyResponseTextByBase(currencyResponse.base)
         }
 
-        verify(offlineRatesQueries)
-            .invocation { getOfflineRatesByBase(currencyResponse.base) }
+        verify(ratesQueries)
+            .invocation { getRatesByBase(currencyResponse.base) }
             .wasInvoked()
     }
 }

@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.common.db.sql.Rates
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
-import com.oztechan.ccc.common.db.sql.Offline_rates as OfflineRates
 
 internal fun CurrencyResponseEntity.toModel(
     fallbackBase: String = base
@@ -12,7 +12,7 @@ internal fun CurrencyResponseEntity.toModel(
     rates = rates.toModel()
 )
 
-internal fun CurrencyResponse.toOfflineRates() = OfflineRates(
+internal fun CurrencyResponse.toRates() = Rates(
     base,
     date,
     rates.aed, rates.afn, rates.all, rates.amd, rates.ang, rates.aoa, rates.ars, rates.aud,

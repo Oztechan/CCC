@@ -1,9 +1,9 @@
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('CNH','Offshore Renminbi','¥',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('MRU','Mauritanian ouguiya','UM',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('SSP','South Sudanese pound','£',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('STN','São Tomé and Príncipe dobra','Db',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('XPD','Palladium ounce','oz',0.0,0);
-INSERT INTO currency (name,longName,symbol,rate,isActive) VALUES ('XPT','Platinum ounce','oz',0.0,0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('CNH', 'Offshore Renminbi','¥', 0.0, 0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('MRU', 'Mauritanian ouguiya', 'UM', 0.0, 0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('SSP', 'South Sudanese pound', '£', 0.0, 0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('STN', 'São Tomé and Príncipe dobra','Db', 0.0, 0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('XPD', 'Palladium ounce','oz', 0.0, 0);
+INSERT INTO currency (name, longName, symbol, rate, isActive) VALUES ('XPT', 'Platinum ounce','oz', 0.0, 0);
 DELETE FROM currency WHERE name='BYR';
 DELETE FROM currency WHERE name='LTL';
 DELETE FROM currency WHERE name='LVL';

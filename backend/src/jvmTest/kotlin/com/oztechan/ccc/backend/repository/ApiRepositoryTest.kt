@@ -4,7 +4,7 @@ package com.oztechan.ccc.backend.repository
 
 import com.oztechan.ccc.backend.repository.api.ApiRepository
 import com.oztechan.ccc.backend.repository.api.ApiRepositoryImpl
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.test.BaseSubjectTest
@@ -24,7 +24,7 @@ internal class ApiRepositoryTest : BaseSubjectTest<ApiRepository>() {
         ApiRepositoryImpl(
             premiumApiService,
             freeApiService,
-            offlineRatesDataSource,
+            ratesDataSource,
             TestScope(),
             createTestDispatcher()
         )
@@ -37,22 +37,22 @@ internal class ApiRepositoryTest : BaseSubjectTest<ApiRepository>() {
     private val freeApiService = mock(classOf<FreeApiService>())
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val ratesDataSource = mock(classOf<RatesDataSource>())
 
     @Test
-    fun `getOfflineCurrencyResponseByBase returns getOfflineCurrencyResponseByBase from offlineRatesDataSource`() =
+    fun `getOfflineCurrencyResponseByBase returns getCurrencyResponseTextByBase from RatesDataSource`() =
         runTest {
             val base = "EUR"
             val result = "result"
 
-            given(offlineRatesDataSource)
-                .coroutine { getOfflineCurrencyResponseByBase(base) }
+            given(ratesDataSource)
+                .coroutine { getCurrencyResponseTextByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getOfflineCurrencyResponseByBase(base))
+            assertEquals(result, subject.getCurrencyResponseTextByBase(base))
 
-            verify(offlineRatesDataSource)
-                .coroutine { getOfflineCurrencyResponseByBase(base) }
+            verify(ratesDataSource)
+                .coroutine { getCurrencyResponseTextByBase(base) }
                 .wasInvoked()
         }
 }

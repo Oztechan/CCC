@@ -7,7 +7,7 @@ package com.oztechan.ccc.backend.repository.api
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.backend.util.fillMissingRatesWith
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 internal class ApiRepositoryImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
-    private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val ratesDataSource: RatesDataSource,
     private val globalScope: CoroutineScope,
     private val ioDispatcher: CoroutineDispatcher,
 ) : ApiRepository {
@@ -45,9 +45,9 @@ internal class ApiRepositoryImpl(
         }
     }
 
-    override suspend fun getOfflineCurrencyResponseByBase(base: String): String? {
-        Logger.i { "ApiRepositoryImpl getOfflineCurrencyResponseByBase" }
-        return offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
+    override suspend fun getCurrencyResponseTextByBase(base: String): String? {
+        Logger.i { "ApiRepositoryImpl getCurrencyResponseTextByBase" }
+        return ratesDataSource.getCurrencyResponseTextByBase(base)
     }
 
     private suspend fun updatePopularCurrencies() {
@@ -66,7 +66,7 @@ internal class ApiRepositoryImpl(
                     runCatching { premiumApiService.getRates(currencyType.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
-                            offlineRatesDataSource.insertOfflineRates(
+                            ratesDataSource.insertRates(
                                 premiumResponse.fillMissingRatesWith(nonPremiumResponse)
                             )
                         }
@@ -83,7 +83,7 @@ internal class ApiRepositoryImpl(
 
             runCatching { freeApiService.getRates(currencyType.name) }
                 .onFailure { Logger.e(it) }
-                .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
+                .onSuccess { ratesDataSource.insertRates(it) }
         }
     }
 

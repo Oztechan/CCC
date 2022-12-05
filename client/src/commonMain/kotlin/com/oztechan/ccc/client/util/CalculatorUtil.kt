@@ -39,10 +39,10 @@ internal fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-internal fun Currency.getCurrencyConversionByRate(
+internal fun Currency.getCurrencyConversionByRates(
     base: String,
-    rate: Rates?
-) = "1 $base = ${rate?.getConversionByCode(code)} ${getVariablesOneLine()}"
+    rates: Rates?
+) = "1 $base = ${rates?.getConversionByCode(code)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.code != currentBase &&
