@@ -24,17 +24,17 @@ struct OutputView: View {
 
                 Text(baseCurrency)
                     .foregroundColor(MR.colors().text.get())
-                    .font(relative: .callout)
+                    .font(relative: .body)
 
                 if !output.isEmpty {
                     Text("=  \(output)")
                         .foregroundColor(MR.colors().text.get())
-                        .font(relative: .callout)
+                        .font(relative: .body)
                 }
 
                 Text(symbol)
                     .foregroundColor(MR.colors().text.get())
-                    .font(relative: .callout)
+                    .font(relative: .body)
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
             .padding(.horizontal, 20.cp())
