@@ -225,10 +225,19 @@ class CalculatorViewModel(
 
     override fun onItemClick(currency: Currency) = with(currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
+
+        val newInput = rate.toSupportedCharacters().let {
+            if (it.last() == CHAR_DOT) {
+                it.dropLast(1)
+            } else {
+                it
+            }
+        }
+
         _state.update {
             copy(
                 base = name,
-                input = if (rate.last() == CHAR_DOT) rate.dropLast(1) else rate
+                input = newInput
             )
         }
     }
