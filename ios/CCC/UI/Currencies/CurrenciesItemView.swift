@@ -23,20 +23,26 @@ struct CurrenciesItemView: View {
             CurrencyImageView(imageName: item.name)
 
             Text(item.name)
-                .frame(width: 45)
+                .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
+
             Text(item.longName)
-                .font(.footnote)
+                .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
+
             Text(item.symbol)
-                .font(.footnote)
+                .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
+
             Spacer()
+
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
+                .resize(widthAndHeight: 20.cp())
                 .foregroundColor(MR.colors().accent.get())
 
         }
         .contentShape(Rectangle())
+        .padding(.vertical, 4.cp())
         .onTapGesture { onItemClick() }
         .onLongPressGesture { onItemLongClick() }
         .lineLimit(1)

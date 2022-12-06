@@ -12,11 +12,6 @@ plugins {
 }
 
 buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        maven("https://dl.bintray.com/icerockdev/plugins")
-    }
     dependencies {
         with(Dependencies.ClassPaths) {
             classpath(ANDROID_GRADLE_PLUGIN)
@@ -38,13 +33,8 @@ group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 allprojects {
-    apply(plugin = "kover")
-    repositories {
-        mavenCentral()
-        google()
-        maven("https://dl.bintray.com/ekito/koin")
-        maven("https://dl.bintray.com/icerockdev/moko")
-        maven("https://kotlin.bintray.com/kotlinx/")
+    apply(plugin = "kover").also {
+        koverMerged.enable()
     }
 
     tasks.withType<KotlinCompile> {
@@ -57,8 +47,4 @@ allprojects {
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf { candidate.version.isNonStable() }
-}
-
-koverMerged {
-    enable()
 }

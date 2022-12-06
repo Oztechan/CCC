@@ -15,10 +15,10 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.FragmentSliderBinding
 import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.visible
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
 import org.koin.android.ext.android.inject
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {

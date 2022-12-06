@@ -1,44 +1,14 @@
 //
-//  Extensions.swift
+//  RateStateExt.swift
 //  CCC
 //
-//  Created by Mustafa Ozhan on 16/11/2020.
-//  Copyright © 2020 orgName. All rights reserved.
+//  Created by Mustafa Ozhan on 14.11.22.
+//  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import Provider
+import Res
 import SwiftUI
-
-extension ResourcesStringResource {
-    func get() -> String {
-        return IOSResourcesKt.getString(stringResource: self).localized()
-    }
-    func get(parameter: Any) -> String {
-        return IOSResourcesKt.getString(stringResource: self, parameter: parameter).localized()
-    }
-}
-
-extension ResourcesColorResource {
-    func get() -> Color {
-        return Color(get())
-    }
-    func get() -> UIColor {
-        return IOSResourcesKt.getColor(colorResource: self)
-    }
-}
-
-extension ResourcesImageResource {
-    func get() -> UIImage {
-        return self.toUIImage()!
-    }
-}
-
-extension String {
-    func getImage() -> UIImage {
-        return IOSResourcesKt.getImageByFileName(name: self).toUIImage()!
-    }
-}
 
 extension RateState {
     func getText() -> String {
@@ -78,25 +48,5 @@ extension RateState {
         default:
             return MR.colors().transparent.get()
         }
-    }
-}
-
-extension String {
-    func getSecretValue() -> String {
-        return (Bundle.main.infoDictionary?[self] as? String) ?? "this is a secret value"
-    }
-}
-
-extension View {
-    func withClearBackground(color: Color) -> some View {
-        #if swift(>=5.7)
-            if #available(iOS 16.0, *) {
-                return self.background(color).scrollContentBackground(.hidden)
-            } else {
-                return self.background(color)
-            }
-        #else
-            return self.background(color)
-        #endif
     }
 }

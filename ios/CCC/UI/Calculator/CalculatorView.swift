@@ -47,6 +47,7 @@ struct CalculatorView: View {
 
                     if observable.state.loading {
                         FormProgressView()
+                            .padding(bottom: 4.cp())
                     } else {
                         Form {
                             List(
@@ -68,6 +69,7 @@ struct CalculatorView: View {
                             .animation(.default)
                         }
                         .withClearBackground(color: MR.colors().background.get())
+                        .padding(bottom: 4.cp())
                     }
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
@@ -80,9 +82,7 @@ struct CalculatorView: View {
                     }
 
                     if observable.viewModel.shouldShowBannerAd() {
-                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-                            .frame(maxHeight: 50)
-                            .padding(.bottom, 20)
+                        AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                     }
 
                 }

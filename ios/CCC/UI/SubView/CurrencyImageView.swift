@@ -13,8 +13,7 @@ struct CurrencyImageView: View {
 
     var body: some View {
         Image(uiImage: imageName.getImage())
-            .resizable()
-            .frame(width: 36, height: 36, alignment: .center)
+            .resize(widthAndHeight: 36.cp())
             .shadow(radius: 3)
     }
 }

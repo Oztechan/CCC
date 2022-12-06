@@ -10,12 +10,16 @@ import SwiftUI
 import GoogleMobileAds
 import UIKit
 
-struct BannerAdView: UIViewControllerRepresentable {
+struct AdaptiveBannerAdView: UIViewControllerRepresentable {
 
     private var unitID: String
 
+    private let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(
+        UIScreen.main.bounds.size.width
+    )
+
     init(unitID: String) {
-        self.unitID = unitID
+        self.unitID = SecretUtil.getSecret(key: unitID)
     }
 
     let bannerView = GADBannerView(adSize: GADAdSizeBanner)
@@ -27,23 +31,20 @@ struct BannerAdView: UIViewControllerRepresentable {
         bannerView.adUnitID = unitID
         bannerView.rootViewController = viewController
 
-        let frame = { () -> CGRect in
-          if #available(iOS 11.0, *) {
-            return viewController.view.frame.inset(by: viewController.view.safeAreaInsets)
-          } else {
-            return viewController.view.frame
-          }
-        }()
-
-        let viewWidth = frame.size.width
-
         viewController.view.addSubview(bannerView)
-        viewController.view.frame = CGRect(origin: .zero, size: GADAdSizeBanner.size)
+        viewController.view.frame = CGRect(origin: .zero, size: adSize.size)
 
-        bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
+        bannerView.adSize = adSize
         bannerView.load(GADRequest())
 
         return viewController
+    }
+
+    func adapt() -> some View {
+        let padding = UIScreen.main.focusedView?.safeAreaInsets.bottom ?? 0
+        return self
+            .frame(maxHeight: adSize.size.height)
+            .padding(.bottom, padding)
     }
 
     func updateUIViewController(

@@ -18,21 +18,21 @@ struct WatchersToolbarView: View {
                 ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
                 Text(MR.strings().txt_watchers.get())
-                    .font(.title3)
+                    .font(relative: .title3)
 
                 Spacer()
             }
 
             Text(MR.strings().txt_watchers_description.get())
                 .contentShape(Rectangle())
-                .font(.footnote)
+                .font(relative: .caption)
                 .multilineTextAlignment(.center)
                 .background(MR.colors().background_strong.get())
                 .foregroundColor(MR.colors().text_weak.get())
-                .padding(10)
+                .padding(10.cp())
         }
         .frame(width: .infinity, height: .nan)
-        .padding(EdgeInsets(top: 15, leading: 10, bottom: 5, trailing: 20))
+        .padding(top: 15.cp(), leading: 10.cp(), trailing: 20.cp())
         .background(MR.colors().background_strong.get())
     }
 }

@@ -22,12 +22,12 @@ kotlin {
                     implementation(KTOR_JSON)
                     implementation(KOIN_CORE)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Modules.LOGMOB.path))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -61,6 +61,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
+        namespace = Modules.CONFIG.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -68,7 +69,5 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

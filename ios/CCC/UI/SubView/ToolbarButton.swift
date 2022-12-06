@@ -20,10 +20,10 @@ struct ToolbarButton: View {
             action: clickEvent,
             label: {
                 Image(systemName: imgName)
-                    .imageScale(.large)
+                    .resize(widthAndHeight: 24.cp())
                     .accentColor(MR.colors().text.get())
-                    .padding(.leading, 10)
+                    .padding(.leading, 10.cp())
             }
-        ).padding(.trailing, 10)
+        ).padding(.trailing, 10.cp())
     }
 }

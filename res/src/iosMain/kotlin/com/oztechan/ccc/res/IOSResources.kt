@@ -7,19 +7,13 @@ package com.oztechan.ccc.res
 
 import dev.icerock.moko.graphics.toUIColor
 import dev.icerock.moko.resources.ColorResource
-import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.ResourceFormatted
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.getColor
-import dev.icerock.moko.resources.getImageByFileName
 import platform.UIKit.UIColor
 import platform.UIKit.UIScreen
-
-fun getImageByFileName(
-    name: String
-): ImageResource = MR.images.getImageByFileName(name.toImageFileName()) ?: MR.images.unknown
 
 fun getString(stringResource: StringResource): StringDesc {
     return StringDesc.Resource(stringResource)
