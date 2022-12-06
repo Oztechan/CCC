@@ -25,7 +25,7 @@ struct MainView: View {
     var body: some View {
 
         NavigationStackView(
-            transitionType: getTransitionType(),
+            transitionType: .default,
             easing: Animation.easeInOut
         ) {
             if observable.viewModel.isFistRun() {
@@ -52,15 +52,6 @@ struct MainView: View {
             InterstitialAd().show()
         default:
             logger.i(message: {"MainView unknown effect"})
-        }
-    }
-
-    // todo can be removed once https://github.com/matteopuc/swiftui-navigation-stack/issues/80
-    private func getTransitionType() -> NavigationTransition {
-        if #available(iOS 16, *) {
-            return NavigationTransition.custom(.opacity)
-        } else {
-            return .default
         }
     }
 }
