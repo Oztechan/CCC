@@ -44,7 +44,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
 internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
@@ -327,6 +326,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onItemClick() {
+        var currency = currencyUIModel
         subject.state.before {
             subject.event.onItemClick(currencyUIModel)
         }.after {
@@ -336,7 +336,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }
 
         // when last digit is . it should be removed
-        val currency = CurrencyUIModel("USD", "", "", "123.")
+        currency = currency.copy(rate = "123.")
 
         subject.state.before {
             subject.event.onItemClick(currency)
@@ -344,6 +344,16 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             assertNotNull(it)
             assertEquals(currency.name, it.base)
             assertEquals("123", it.input)
+        }
+
+        currency = currency.copy(rate = "123 456.78")
+
+        subject.state.before {
+            subject.event.onItemClick(currency)
+        }.after {
+            assertNotNull(it)
+            assertEquals(currency.name, it.base)
+            assertEquals("123456.78", it.input)
         }
     }
 
