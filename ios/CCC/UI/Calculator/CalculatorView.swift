@@ -47,6 +47,7 @@ struct CalculatorView: View {
 
                     if observable.state.loading {
                         FormProgressView()
+                            .padding(bottom: 4.cp())
                     } else {
                         Form {
                             List(
@@ -68,6 +69,7 @@ struct CalculatorView: View {
                             .animation(.default)
                         }
                         .withClearBackground(color: MR.colors().background.get())
+                        .padding(bottom: 4.cp())
                     }
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
