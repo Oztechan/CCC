@@ -1,3 +1,5 @@
+import Modules.packageName
+import Modules.path
 import config.BuildType
 import config.DeviceFlavour
 

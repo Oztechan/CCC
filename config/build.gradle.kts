@@ -1,3 +1,6 @@
+import Modules.packageName
+import Modules.path
+
 plugins {
     with(Dependencies.Plugins) {
         id(ANDROID_LIB)

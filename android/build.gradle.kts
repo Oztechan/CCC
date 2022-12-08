@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import Modules.packageName
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour

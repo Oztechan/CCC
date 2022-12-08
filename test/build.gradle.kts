@@ -1,3 +1,6 @@
+import Modules.packageName
+import Modules.path
+
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
