@@ -69,7 +69,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
-        run: ./gradlew build koverMergedXmlReport --parallel
+        run: ./gradlew build koverMergedXmlReport detektAll --parallel
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3

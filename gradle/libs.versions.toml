@@ -2,6 +2,7 @@
 
 kotlin = "1.7.22"
 ksp = "1.7.22-1.0.8"
+detekt = "1.22.0"
 androidGradlePlugin = "7.3.1"
 androidMaterial = "1.7.0"
 constraintLayout = "2.1.4"
@@ -128,3 +129,4 @@ mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
 dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

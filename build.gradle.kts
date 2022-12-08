@@ -2,6 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     with(libs.plugins) {
         alias(dependencyUpdates)
         alias(kover)
+        alias(detekt)
     }
 }
 
@@ -33,11 +35,31 @@ buildscript {
 group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
-allprojects {
-    apply(plugin = "kover").also {
-        koverMerged.enable()
+apply(plugin = libs.plugins.kover.get().pluginId).also {
+    koverMerged.enable()
+}
+
+apply(plugin = libs.plugins.detekt.get().pluginId).also {
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = true
     }
 
+    tasks.withType<Detekt> {
+        setSource(files(project.projectDir))
+        exclude("**/build/**")
+        exclude {
+            it.file.relativeTo(projectDir).startsWith("build")
+        }
+    }
+    tasks.register("detektAll") {
+        allprojects {
+            this@register.dependsOn(tasks.withType<Detekt>())
+        }
+    }
+}
+
+allprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
