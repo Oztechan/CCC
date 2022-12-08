@@ -10,29 +10,25 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "#1239] "
-      prefix-development: "[Oztechan/CCC"
+      prefix: "[Oztechan/CCC#1239] "
 
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "#1239] "
-      prefix-development: "[Oztechan/CCC"
+      prefix: "[Oztechan/CCC#1239] "
 
   - package-ecosystem: "bundler"
     directory: "/ios"
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "#1239] "
-      prefix-development: "[Oztechan/CCC"
+      prefix: "[Oztechan/CCC#1239] "
 
   - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "#1239] "
-      prefix-development: "[Oztechan/CCC"
+      prefix: "[Oztechan/CCC#1239] "
