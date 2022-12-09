@@ -1,31 +1,33 @@
 import org.gradle.configurationcache.extensions.capitalized
 
-class Modules(
-    val name: String,
-    val path: String = ":$name",
-    val frameworkName: String = name.capitalized(),
-    val packageName: String = "${ProjectSettings.PROJECT_ID}.${name}"
-) {
-    companion object {
-        val CLIENT = Modules("client")
-        val RES = Modules("res")
-        val COMMON = Modules("common")
-        val BILLING = Modules("billing")
-        val AD = Modules("ad")
-        val ANALYTICS = Modules("analytics")
-        val CONFIG = Modules("config")
-        val TEST = Modules("test")
-        val PROVIDER = Modules("provider")
+object Modules {
+    val CLIENT = "client"
+    val RES = "res"
+    val COMMON = "common"
+    val BILLING = "billing"
+    val AD = "ad"
+    val ANALYTICS = "analytics"
+    val CONFIG = "config"
+    val TEST = "test"
+    val PROVIDER = "provider"
 
-        // subModuless
-        val LOGMOB = Modules("logmob")
-        val SCOPEMOB = Modules("scopemob")
-        val BASEMOB = Modules("basemob")
-        val PARSERMOB = Modules("parsermob")
+    // subModuless
+    val LOGMOB = "logmob"
+    val SCOPEMOB = "scopemob"
+    val BASEMOB = "basemob"
+    val PARSERMOB = "parsermob"
 
-        // targets
-        val ANDROID = Modules("android")
-        val IOS = Modules("ios")
-        val BACKEND = Modules("backend")
-    }
+    // targets
+    val ANDROID = "android"
+    val IOS = "ios"
+    val BACKEND = "backend"
+
+    val String.path: String
+        get() = ":$this"
+
+    val String.frameworkName: String
+        get() = this.capitalized()
+
+    val String.packageName: String
+        get() = "${ProjectSettings.PROJECT_ID}.${this}"
 }

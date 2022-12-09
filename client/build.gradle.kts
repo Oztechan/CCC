@@ -2,6 +2,8 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import Modules.packageName
+import Modules.path
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension

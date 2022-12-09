@@ -1,3 +1,4 @@
+import Modules.packageName
 import config.DeviceFlavour
 
 plugins {
