@@ -7,7 +7,9 @@ package com.oztechan.ccc.backend.routes
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.util.getResourceByName
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
+import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -17,8 +19,12 @@ private const val INDEX_HTML = "index.html"
 
 internal suspend fun Route.getRoot() = get(PATH_ROOT) {
     Logger.i { "GET Request $PATH_ROOT" }
-    call.respondText(
-        javaClass.classLoader?.getResourceByName(INDEX_HTML) ?: "",
-        ContentType.Text.Html
-    )
+
+    javaClass.classLoader?.getResourceByName(INDEX_HTML)?.let {
+        call.respondText(
+            text = it,
+            contentType = ContentType.Text.Html,
+            status = HttpStatusCode.OK
+        )
+    } ?: call.respond(HttpStatusCode.NotFound)
 }
