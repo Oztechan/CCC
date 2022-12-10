@@ -135,7 +135,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
                 is CalculatorEffect.ShowRate -> view?.showSnack(
                     viewEffect.text,
-                    icon = getImageResourceIdByName(viewEffect.name)
+                    icon = getImageResourceIdByName(viewEffect.code)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

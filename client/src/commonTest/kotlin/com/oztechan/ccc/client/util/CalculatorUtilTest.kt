@@ -28,11 +28,11 @@ internal class CalculatorUtilTest : BaseTest() {
         assertEquals(0.0, null.calculateResult(target, "5.0"))
 
         val inputOne = "1.0"
-        assertEquals(rates.getConversionByName(target), rates.calculateResult(target, inputOne))
+        assertEquals(rates.getConversionByCode(target), rates.calculateResult(target, inputOne))
 
         val inputTwo = "2.0"
         assertEquals(
-            rates.getConversionByName(target)?.times(2),
+            rates.getConversionByCode(target)?.times(2),
             rates.calculateResult(target, inputTwo)
         )
     }
@@ -44,7 +44,7 @@ internal class CalculatorUtilTest : BaseTest() {
         val rates = Rates(base, null, usd = 5.0)
 
         assertEquals(
-            "1 $base = ${rates.getConversionByName(currency.name)} ${currency.getVariablesOneLine()}",
+            "1 $base = ${rates.getConversionByCode(currency.code)} ${currency.getVariablesOneLine()}",
             currency.getCurrencyConversionByRate(base, rates)
         )
     }
@@ -136,7 +136,7 @@ internal class CalculatorUtilTest : BaseTest() {
     }
 
     @Test
-    fun getConversionByName() {
+    fun getConversionByCode() {
         val rates = Rates(
             "base", "12.12.21", 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
             13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0,
@@ -154,10 +154,10 @@ internal class CalculatorUtilTest : BaseTest() {
             169.0, 170.0
         )
         CurrencyType.values().forEachIndexed { index, currencyType ->
-            assertEquals((index + 1).toDouble(), rates.getConversionByName(currencyType.toString()))
+            assertEquals((index + 1).toDouble(), rates.getConversionByCode(currencyType.toString()))
         }
 
-        assertEquals(0.0, rates.getConversionByName("some string"))
-        assertEquals(0.0, rates.getConversionByName(""))
+        assertEquals(0.0, rates.getConversionByCode("some string"))
+        assertEquals(0.0, rates.getConversionByCode(""))
     }
 }
