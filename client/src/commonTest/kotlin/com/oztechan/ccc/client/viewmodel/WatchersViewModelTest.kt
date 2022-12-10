@@ -154,7 +154,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         subject.event.onAddClick()
 
         verify(watcherDataSource)
-            .coroutine { addWatcher(currency1.name, currency2.name) }
+            .coroutine { addWatcher(currency1.code, currency2.code) }
             .wasInvoked()
 
         // when there are so much watcher

@@ -1,3 +1,6 @@
+import Modules.packageName
+import Modules.path
+
 plugins {
     with(Dependencies.Plugins) {
         kotlin(MULTIPLATFORM)
@@ -24,7 +27,7 @@ kotlin {
                     api(kotlin(TEST_ANNOTATIONS))
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Modules.LOGMOB.path))
             }
         }
         val commonTest by getting
@@ -66,6 +69,7 @@ kotlin {
 
 android {
     with(ProjectSettings) {
+        namespace = Modules.TEST.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -73,7 +77,5 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

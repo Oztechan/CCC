@@ -19,10 +19,10 @@ kotlin {
         }
 
         framework {
-            baseName = Dependencies.Pods.PROVIDER
-            with(Dependencies.Modules) {
-                export(project(CLIENT))
-                export(project(ANALYTICS))
+            with(Modules) {
+                baseName = PROVIDER.frameworkName
+                export(project(CLIENT.path))
+                export(project(ANALYTICS.path))
             }
         }
     }
@@ -40,10 +40,10 @@ kotlin {
 
                 implementation(Dependencies.Common.KOIN_CORE)
 
-                with(Dependencies.Modules) {
-                    implementation(project(LOGMOB))
-                    api(project(CLIENT))
-                    api(project(ANALYTICS))
+                with(Modules) {
+                    implementation(project(LOGMOB.path))
+                    api(project(CLIENT.path))
+                    api(project(ANALYTICS.path))
                 }
             }
         }

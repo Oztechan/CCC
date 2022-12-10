@@ -4,13 +4,13 @@
 
 @Suppress("SpellCheckingInspection")
 object Versions {
-    const val KOTLIN = "1.7.21"
+    const val KOTLIN = "1.7.22"
     const val KSP = "$KOTLIN-1.0.8"
     const val ANDROID_GRADLE_PLUGIN = "7.3.1"
     const val ANDROID_MATERIAL = "1.7.0"
     const val CONSTRAINT_LAYOUT = "2.1.4"
-    const val KTOR = "2.1.3"
-    const val LOG_BACK = "1.4.4"
+    const val KTOR = "2.2.1"
+    const val LOG_BACK = "1.4.5"
     const val KOIN = "3.2.2"
     const val KOIN_ANDROID = "3.3.0"
     const val MULTIPLATFORM_SETTINGS = "0.9"
@@ -18,7 +18,7 @@ object Versions {
     const val FIREBASE_REMOTE_CONFIG = "21.2.0"
     const val DESUGARING = "1.2.2"
     const val GSM = "4.3.14"
-    const val FIREBASE_PER = "20.2.0"
+    const val FIREBASE_PER = "20.3.0"
     const val FIREBASE_PER_PLUGIN = "1.4.2"
     const val CRASHLYTICS = "2.9.2"
     const val ADMOB = "21.3.0"

@@ -21,31 +21,31 @@ struct CalculatorItemView: View {
         HStack {
 
             Text(item.rate)
-                .font(relative: .subheadline)
+                .font(relative: .body)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Text(item.symbol)
-                .font(relative: .footnote)
+                .font(relative: .subheadline)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Spacer()
 
-            Text(item.name)
-                .font(relative: .footnote)
+            Text(item.code)
+                .font(relative: .subheadline)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
-            CurrencyImageView(imageName: item.name)
+            CurrencyImageView(imageName: item.code)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
         }
-        .padding(.vertical, 5.cp())
+        .padding(.vertical, 4.cp())
         .contentShape(Rectangle())
         .onTapGesture { onItemClick(item) }
     }

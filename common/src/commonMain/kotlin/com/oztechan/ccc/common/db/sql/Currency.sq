@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS currency(
-name TEXT NOT NULL PRIMARY KEY,
-longName TEXT NOT NULL,
+code TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
 symbol TEXT NOT NULL,
 rate REAL NOT NULL DEFAULT 0.0,
 isActive INTEGER NOT NULL DEFAULT 0
@@ -186,11 +186,11 @@ SELECT * FROM currency WHERE isActive=1;
 getActiveCurrencies:
 SELECT * FROM currency WHERE isActive=1;
 
-updateCurrencyStateByName:
-UPDATE currency SET isActive=? WHERE name=?;
+updateCurrencyStateByCode:
+UPDATE currency SET isActive=? WHERE code=?;
 
 updateAllCurrencyState:
 UPDATE currency SET isActive=?;
 
-getCurrencyByName:
-SELECT * FROM currency WHERE name=?;
+getCurrencyByCode:
+SELECT * FROM currency WHERE code=?;

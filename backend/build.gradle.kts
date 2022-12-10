@@ -1,6 +1,12 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import Modules.packageName
+import Modules.path
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -8,13 +14,14 @@ plugins {
     with(Dependencies.Plugins) {
         application
         kotlin(MULTIPLATFORM)
+        id(BUILD_KONFIG)
         id(KSP) version (Versions.KSP)
     }
 }
 
 with(ProjectSettings) {
     application {
-        mainClass.set("$PROJECT_ID.backend.ApplicationKt")
+        mainClass.set("${Modules.BACKEND.packageName}.ApplicationKt")
     }
     group = PROJECT_ID
     version = getVersionName(project)
@@ -39,9 +46,9 @@ kotlin {
                     implementation(KOIN_CORE)
                 }
 
-                with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(LOGMOB))
+                with(Modules) {
+                    implementation(project(COMMON.path))
+                    implementation(project(LOGMOB.path))
                 }
             }
         }
@@ -52,7 +59,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
     }
@@ -71,7 +78,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${ProjectSettings.PROJECT_ID}.backend.ApplicationKt"
+        attributes["Main-Class"] = "${Modules.BACKEND.packageName}.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
@@ -90,5 +97,18 @@ tasks.named<ProcessResources>("jvmProcessResources") {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+configure<BuildKonfigExtension> {
+    packageName = Modules.BACKEND.packageName
+
+    defaultConfigs { } // none
+
+    targetConfigs {
+        create(KotlinPlatformType.jvm.name) {
+            buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
+            buildConfigField(STRING, "versionName", ProjectSettings.getVersionName(project), const = true)
+        }
     }
 }

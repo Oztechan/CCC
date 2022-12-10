@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.util.getThemeMode
 import com.oztechan.ccc.android.util.requestAppReview
 import com.oztechan.ccc.android.util.showDialog
@@ -22,7 +23,6 @@ import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

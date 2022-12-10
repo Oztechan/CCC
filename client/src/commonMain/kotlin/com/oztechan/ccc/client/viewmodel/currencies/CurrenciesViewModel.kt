@@ -72,7 +72,7 @@ class CurrenciesViewModel(
                     .let {
                         analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                         analyticsManager.setUserProperty(
-                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
+                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.code })
                         )
                     }
             }.launchIn(viewModelScope)
@@ -90,11 +90,11 @@ class CurrenciesViewModel(
         { isEmpty() },
         { base ->
             state.value.currencyList
-                .filter { it.name == base }
+                .filter { it.code == base }
                 .toList().firstOrNull()?.isActive == false
         }
     )?.mapTo {
-        state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
+        state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
         calculatorStorage.currentBase = newBase
 
@@ -105,9 +105,9 @@ class CurrenciesViewModel(
     }
 
     private fun filterList(txt: String) = data.unFilteredList
-        .filter { (name, longName, symbol) ->
-            name.contains(txt, true) ||
-                longName.contains(txt, true) ||
+        .filter { (code, name, symbol) ->
+            code.contains(txt, true) ||
+                name.contains(txt, true) ||
                 symbol.contains(txt, true)
         }.toMutableList()
         .let {
@@ -131,8 +131,8 @@ class CurrenciesViewModel(
     }
 
     override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
-        Logger.d { "CurrenciesViewModel onItemClick ${currency.name}" }
-        currencyDataSource.updateCurrencyStateByName(currency.name, !currency.isActive)
+        Logger.d { "CurrenciesViewModel onItemClick ${currency.code}" }
+        currencyDataSource.updateCurrencyStateByCode(currency.code, !currency.isActive)
     }
 
     override fun onDoneClick() = viewModelScope.launchIgnored {

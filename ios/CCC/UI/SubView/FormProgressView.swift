@@ -20,12 +20,13 @@ struct FormProgressView: View {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .transition(.slide)
+                    .scaleEffect(1.25.cp())
 
                 Spacer()
             }
             Spacer()
         }
-        .padding(.top, 20)
+        .padding(.top, 20.cp())
         .background(MR.colors().background.get())
     }
 }

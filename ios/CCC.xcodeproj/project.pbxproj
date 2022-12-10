@@ -788,7 +788,7 @@
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.4;
+				minimumVersion = 1.0.6;
 			};
 		};
 		5CF0622C28AD93CE00C579F6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {

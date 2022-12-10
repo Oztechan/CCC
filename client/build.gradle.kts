@@ -2,6 +2,8 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
+import Modules.packageName
+import Modules.path
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
@@ -34,13 +36,13 @@ kotlin {
                     implementation(KOIN_CORE)
                     implementation(MULTIPLATFORM_SETTINGS)
                 }
-                with(Dependencies.Modules) {
-                    implementation(project(COMMON))
-                    implementation(project(CONFIG))
-                    implementation(project(LOGMOB))
-                    implementation(project(SCOPEMOB))
-                    implementation(project(PARSERMOB))
-                    implementation(project(ANALYTICS))
+                with(Modules) {
+                    implementation(project(COMMON.path))
+                    implementation(project(CONFIG.path))
+                    implementation(project(LOGMOB.path))
+                    implementation(project(SCOPEMOB.path))
+                    implementation(project(PARSERMOB.path))
+                    implementation(project(ANALYTICS.path))
                 }
             }
         }
@@ -50,7 +52,7 @@ kotlin {
                     implementation(MOCKATIVE)
                     implementation(COROUTINES_TEST)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST.path))
             }
         }
 
@@ -97,14 +99,13 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.CLIENT.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
     with(DeviceFlavour) {
@@ -129,7 +130,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.client"
+    packageName = Modules.CLIENT.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)

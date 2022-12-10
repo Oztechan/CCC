@@ -1,3 +1,4 @@
+import Modules.packageName
 import config.DeviceFlavour
 
 plugins {
@@ -10,6 +11,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.BILLING.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -43,8 +45,8 @@ dependencies {
         implementation(LIFECYCLE_RUNTIME)
     }
 
-    with(Dependencies.Modules) {
-        implementation(project(LOGMOB))
-        implementation(project(SCOPEMOB))
+    with(Modules) {
+        implementation(project(LOGMOB.path))
+        implementation(project(SCOPEMOB.path))
     }
 }

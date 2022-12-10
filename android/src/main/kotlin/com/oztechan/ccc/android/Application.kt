@@ -15,7 +15,6 @@ import com.github.submob.logmob.initLogger
 import com.oztechan.ccc.ad.initAds
 import com.oztechan.ccc.analytics.initAnalytics
 import com.oztechan.ccc.android.di.initKoin
-import mustafaozhan.github.com.mycurrencies.BuildConfig
 
 @Suppress("unused")
 class Application : Application() {

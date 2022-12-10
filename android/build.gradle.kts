@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import Modules.packageName
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
@@ -21,6 +22,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     with(ProjectSettings) {
+        namespace = Modules.ANDROID.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -108,16 +110,16 @@ dependencies {
         implementation(KOTLIN_X_DATE_TIME)
     }
 
-    with(Dependencies.Modules) {
-        implementation(project(CLIENT))
-        implementation(project(RES))
-        implementation(project(BILLING))
-        implementation(project(AD))
-        implementation(project(LOGMOB))
-        implementation(project(SCOPEMOB))
-        implementation(project(BASEMOB))
-        implementation(project(ANALYTICS))
+    with(Modules) {
+        implementation(project(CLIENT.path))
+        implementation(project(RES.path))
+        implementation(project(BILLING.path))
+        implementation(project(AD.path))
+        implementation(project(LOGMOB.path))
+        implementation(project(SCOPEMOB.path))
+        implementation(project(BASEMOB.path))
+        implementation(project(ANALYTICS.path))
 
-        testImplementation(project(TEST))
+        testImplementation(project(TEST.path))
     }
 }

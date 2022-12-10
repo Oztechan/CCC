@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
+import com.oztechan.ccc.android.databinding.ItemCalculatorBinding
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
-import mustafaozhan.github.com.mycurrencies.databinding.ItemCalculatorBinding
 
 class CalculatorAdapter(
     private val calculatorEvent: CalculatorEvent
@@ -40,14 +40,14 @@ class CalculatorAdapter(
                 setOnClickListener { root.callOnClick() }
             }
 
-            with(txtType) {
-                text = item.name
+            with(txtCode) {
+                text = item.code
                 setOnLongClickListener { onCurrencyLongClick(item) }
                 setOnClickListener { root.callOnClick() }
             }
 
             with(imgItem) {
-                setBackgroundByName(item.name)
+                setBackgroundByName(item.code)
                 setOnLongClickListener { onCurrencyLongClick(item) }
                 setOnClickListener { root.callOnClick() }
             }

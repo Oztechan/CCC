@@ -47,6 +47,7 @@ struct CalculatorView: View {
 
                     if observable.state.loading {
                         FormProgressView()
+                            .padding(bottom: 4.cp())
                     } else {
                         Form {
                             List(
@@ -54,7 +55,7 @@ struct CalculatorView: View {
                                     observable.state.currencyList,
                                     currentBase: observable.state.base
                                 ),
-                                id: \.name
+                                id: \.code
                             ) {
                                 CalculatorItemView(
                                     item: $0,
@@ -68,6 +69,7 @@ struct CalculatorView: View {
                             .animation(.default)
                         }
                         .withClearBackground(color: MR.colors().background.get())
+                        .padding(bottom: 4.cp())
                     }
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
@@ -134,7 +136,7 @@ struct CalculatorView: View {
         case is CalculatorEffect.ShowRate:
             showSnack(
                 text: (effect as! CalculatorEffect.ShowRate).text,
-                iconImage: (effect as! CalculatorEffect.ShowRate).name.getImage()
+                iconImage: (effect as! CalculatorEffect.ShowRate).code.getImage()
             )
         default:
             logger.i(message: {"CalculatorView unknown effect"})

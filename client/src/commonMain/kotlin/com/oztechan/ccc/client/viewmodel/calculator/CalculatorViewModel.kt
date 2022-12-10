@@ -89,7 +89,7 @@ class CalculatorViewModel(
 
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                 analyticsManager.setUserProperty(
-                    UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.code })
                 )
             }
             .launchIn(viewModelScope)
@@ -179,7 +179,7 @@ class CalculatorViewModel(
     private fun calculateConversions(rates: Rates, rateState: RateState) = _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
-                it.rate = rates.calculateResult(it.name, _state.value.output)
+                it.rate = rates.calculateResult(it.code, _state.value.output)
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             },
@@ -194,7 +194,7 @@ class CalculatorViewModel(
             copy(
                 base = newBase,
                 input = _state.value.input,
-                symbol = currencyDataSource.getCurrencyByName(newBase)?.symbol.orEmpty()
+                symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
             )
         }
 
@@ -224,19 +224,28 @@ class CalculatorViewModel(
     }
 
     override fun onItemClick(currency: Currency) = with(currency) {
-        Logger.d { "CalculatorViewModel onItemClick ${currency.name}" }
+        Logger.d { "CalculatorViewModel onItemClick ${currency.code}" }
+
+        val newInput = rate.toSupportedCharacters().let {
+            if (it.last() == CHAR_DOT) {
+                it.dropLast(1)
+            } else {
+                it
+            }
+        }
+
         _state.update {
             copy(
-                base = name,
-                input = if (rate.last() == CHAR_DOT) rate.dropLast(1) else rate
+                base = code,
+                input = newInput
             )
         }
     }
 
     override fun onItemImageLongClick(currency: Currency) {
-        Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.name}" }
+        Logger.d { "CalculatorViewModel onItemImageLongClick ${currency.code}" }
 
-        analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.name)))
+        analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.code)))
 
         viewModelScope.launch {
             _effect.emit(
@@ -245,7 +254,7 @@ class CalculatorViewModel(
                         calculatorStorage.currentBase,
                         data.rates
                     ),
-                    currency.name
+                    currency.code
                 )
             )
         }

@@ -103,7 +103,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
             subject.event.onItemClick(currencyUIModel)
         }.after {
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyUIModel.name, it.newBase)
+            assertEquals(currencyUIModel.code, it.newBase)
         }
     }
 
