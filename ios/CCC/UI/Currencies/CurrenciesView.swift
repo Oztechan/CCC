@@ -50,7 +50,7 @@ struct CurrenciesView: View {
                     FormProgressView()
                 } else {
                     Form {
-                        List(observable.state.currencyList, id: \.name) { currency in
+                        List(observable.state.currencyList, id: \.code) { currency in
                             CurrenciesItemView(
                                 item: currency,
                                 onItemClick: { observable.event.onItemClick(currency: currency) },

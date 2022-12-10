@@ -53,17 +53,17 @@ internal class ApiRepositoryImpl(
     private suspend fun updatePopularCurrencies() {
         Logger.i { "ApiController updatePopularCurrencies" }
 
-        CurrencyType.getPopularCurrencies().forEach { base ->
+        CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
             delay(SECOND)
 
             // non premium call for filling null values
-            runCatching { freeApiService.getRates(base.name) }
+            runCatching { freeApiService.getRates(currencyType.name) }
                 .onFailure { Logger.e(it) }
                 .onSuccess { nonPremiumResponse ->
 
                     // premium api call
-                    runCatching { premiumApiService.getRates(base.name) }
+                    runCatching { premiumApiService.getRates(currencyType.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
                             offlineRatesDataSource.insertOfflineRates(
@@ -77,11 +77,11 @@ internal class ApiRepositoryImpl(
     private suspend fun updateUnPopularCurrencies() {
         Logger.i { "ApiController updateUnPopularCurrencies" }
 
-        CurrencyType.getNonPopularCurrencies().forEach { base ->
+        CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
             delay(SECOND)
 
-            runCatching { freeApiService.getRates(base.name) }
+            runCatching { freeApiService.getRates(currencyType.name) }
                 .onFailure { Logger.e(it) }
                 .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
         }

@@ -20,7 +20,7 @@ struct CurrenciesItemView: View {
     var body: some View {
         HStack {
 
-            CurrencyImageView(imageName: item.name)
+            CurrencyImageView(imageName: item.code)
 
             Text(item.code)
                 .font(relative: .footnote)

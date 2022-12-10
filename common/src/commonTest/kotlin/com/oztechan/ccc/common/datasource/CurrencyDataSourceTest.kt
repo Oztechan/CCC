@@ -129,15 +129,15 @@ internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
     @Test
     fun getCurrencyByCode() {
         given(currencyQueries)
-            .invocation { getCurrencyByCode(currency.name) }
+            .invocation { getCurrencyByCode(currency.code) }
             .thenReturn(query)
 
         runTest {
-            subject.getCurrencyByCode(currency.name)
+            subject.getCurrencyByCode(currency.code)
         }
 
         verify(currencyQueries)
-            .invocation { getCurrencyByCode(currency.name) }
+            .invocation { getCurrencyByCode(currency.code) }
             .wasInvoked()
     }
 }

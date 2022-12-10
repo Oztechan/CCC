@@ -352,7 +352,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.event.onItemClick(currency)
         }.after {
             assertNotNull(it)
-            assertEquals(currency.name, it.base)
+            assertEquals(currency.code, it.base)
             assertEquals("123456.78", it.input)
         }
     }
@@ -369,7 +369,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             ),
             it.text
         )
-        assertEquals(currencyUIModel.code, it.name)
+        assertEquals(currencyUIModel.code, it.code)
 
         verify(analyticsManager)
             .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.code))) }

@@ -34,13 +34,13 @@ struct CalculatorItemView: View {
 
             Spacer()
 
-            Text(item.name)
+            Text(item.code)
                 .font(relative: .subheadline)
                 .foregroundColor(MR.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
-            CurrencyImageView(imageName: item.name)
+            CurrencyImageView(imageName: item.code)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 
