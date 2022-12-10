@@ -17,9 +17,9 @@ internal expect fun Double.getFormatted(precision: Int): String
 
 internal expect fun Double.removeScientificNotation(): String
 
-internal fun Rates?.calculateResult(name: String, input: String?) = this
+internal fun Rates?.calculateResult(code: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
-    ?.getConversionByCode(name)
+    ?.getConversionByCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
