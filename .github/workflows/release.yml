@@ -206,6 +206,13 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.3'
+          bundler-cache: true
+          working-directory: 'ios'
+
       - name: Adding secret files
         run: |
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
@@ -220,13 +227,6 @@ jobs:
           ./gradlew provider:podGenIOS res:podGenIOS --parallel
           cd ios/CCC
           pod install --repo-update
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.3'
-          bundler-cache: true
-          working-directory: 'ios'
 
       - name: Publish
         uses: maierj/fastlane-action@v3.0.0
