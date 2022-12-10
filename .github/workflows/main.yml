@@ -129,7 +129,7 @@ jobs:
       - name: Ruby Setup
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.3'
+          ruby-version: '3.0'
           bundler-cache: true
           working-directory: 'ios'
 
