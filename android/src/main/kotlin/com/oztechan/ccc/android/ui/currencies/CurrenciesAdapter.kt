@@ -45,7 +45,7 @@ class CurrenciesAdapter(
         BaseVBViewHolder<Currency>(itemBinding) {
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
-            imgIcon.setBackgroundByName(item.name)
+            imgIcon.setBackgroundByName(item.code)
             txtSettingItem.text = item.getVariablesOneLine()
             checkBox.isChecked = item.isActive
             root.setOnClickListener { currenciesEvent.onItemClick(item) }

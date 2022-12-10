@@ -81,7 +81,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
     private val currencyList = listOf(currency1, currency2)
     private val currencyUIModel = currency1.toUIModel()
-    private val currencyResponse = CurrencyResponse(currency1.name, null, Rates())
+    private val currencyResponse = CurrencyResponse(currency1.code, null, Rates())
 
     @BeforeTest
     override fun setup() {
@@ -89,7 +89,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(currency1.name)
+            .thenReturn(currency1.code)
 
         given(calculatorStorage)
             .invocation { lastInput }
@@ -105,15 +105,15 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
         runTest {
             given(offlineRatesDataSource)
-                .coroutine { getOfflineRatesByBase(currency1.name) }
+                .coroutine { getOfflineRatesByBase(currency1.code) }
                 .thenReturn(currencyResponse.rates)
 
             given(backendApiService)
-                .coroutine { getRates(currency1.name) }
+                .coroutine { getRates(currency1.code) }
                 .thenReturn(currencyResponse)
 
             given(currencyDataSource)
-                .coroutine { getCurrencyByName(currency1.name) }
+                .coroutine { getCurrencyByCode(currency1.code) }
                 .thenReturn(currency1)
         }
     }
@@ -121,7 +121,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     @Test
     fun `rates should be fetched on init`() = runTest {
         verify(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getRates(currency1.code) }
             .wasInvoked()
     }
 
@@ -131,7 +131,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(currency1.name)
+            .thenReturn(currency1.code)
 
         given(calculatorStorage)
             .invocation { lastInput }
@@ -139,7 +139,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
         subject.state.firstOrNull().let {
             assertNotNull(it)
-            assertEquals(currency1.name, it.base)
+            assertEquals(currency1.code, it.base)
             assertEquals(mock, it.input)
         }
     }
@@ -147,7 +147,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     @Test
     fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
 
         subject.state.before {
@@ -158,7 +158,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             assertEquals(RateState.Offline(currencyResponse.rates.date), it.rateState)
 
             val result = currencyList.toUIModelList().onEach { currency ->
-                currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
+                currency.rate = currencyResponse.rates.calculateResult(currency.code, it.output)
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
@@ -167,18 +167,18 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }
 
         verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .coroutine { getOfflineRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
     fun when_api_fails_and_there_is_no_offline_rate_error_state_displayed() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
 
         given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .coroutine { getOfflineRatesByBase(currency1.code) }
             .thenReturn(null)
 
         subject.effect.before {
@@ -194,18 +194,18 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }
 
         verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .coroutine { getOfflineRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
     fun when_api_fails_and_there_is_no_offline_and_no_enough_currency_few_currency_effect_emitted() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
 
         given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .coroutine { getOfflineRatesByBase(currency1.code) }
             .thenReturn(null)
 
         given(currencyDataSource)
@@ -225,7 +225,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }
 
         verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+            .coroutine { getOfflineRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
@@ -288,7 +288,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasInvoked()
@@ -331,7 +331,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.event.onItemClick(currencyUIModel)
         }.after {
             assertNotNull(it)
-            assertEquals(currencyUIModel.name, it.base)
+            assertEquals(currencyUIModel.code, it.base)
             assertEquals(currencyUIModel.rate, it.input)
         }
 
@@ -342,7 +342,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.event.onItemClick(currency)
         }.after {
             assertNotNull(it)
-            assertEquals(currency.name, it.base)
+            assertEquals(currency.code, it.base)
             assertEquals("123", it.input)
         }
 
@@ -352,7 +352,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.event.onItemClick(currency)
         }.after {
             assertNotNull(it)
-            assertEquals(currency.name, it.base)
+            assertEquals(currency.code, it.base)
             assertEquals("123456.78", it.input)
         }
     }
@@ -369,10 +369,10 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             ),
             it.text
         )
-        assertEquals(currencyUIModel.name, it.name)
+        assertEquals(currencyUIModel.code, it.code)
 
         verify(analyticsManager)
-            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.name))) }
+            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.code))) }
             .wasInvoked()
     }
 
@@ -441,28 +441,28 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     fun onBaseChanged() {
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(currency1.name)
+            .thenReturn(currency1.code)
 
         runTest {
             given(backendApiService)
-                .coroutine { getRates(currency1.name) }
+                .coroutine { getRates(currency1.code) }
                 .thenReturn(currencyResponse)
         }
 
         subject.state.before {
-            subject.event.onBaseChange(currency1.name)
+            subject.event.onBaseChange(currency1.code)
         }.after {
             assertNotNull(it)
             assertNotNull(subject.data.rates)
-            assertEquals(currency1.name, subject.data.rates!!.base)
-            assertEquals(currency1.name, it.base)
+            assertEquals(currency1.code, subject.data.rates!!.base)
+            assertEquals(currency1.code, it.base)
 
             verify(analyticsManager)
-                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.name))) }
+                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
                 .wasInvoked()
 
             verify(analyticsManager)
-                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.name)) }
+                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
                 .wasInvoked()
         }
     }

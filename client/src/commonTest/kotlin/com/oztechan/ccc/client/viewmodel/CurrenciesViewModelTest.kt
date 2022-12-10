@@ -85,7 +85,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(clientCurrency.name)
+            .thenReturn(clientCurrency.code)
     }
 
     // Analytics
@@ -98,7 +98,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasInvoked()
@@ -122,7 +122,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasNotInvoked()
@@ -255,7 +255,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
-        val firstActiveBase = commonCurrency.name // first active currency
+        val firstActiveBase = commonCurrency.code // first active currency
 
         given(currencyDataSource)
             .invocation { collectAllCurrencies() }
@@ -295,15 +295,15 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(commonCurrency.name) // not active one
+            .thenReturn(commonCurrency.code) // not active one
 
         subject.effect.after {
             assertIs<CurrenciesEffect.ChangeBase>(it)
-            assertEquals(commonCurrency2.name, it.newBase)
+            assertEquals(commonCurrency2.code, it.newBase)
         }
 
         verify(calculatorStorage)
-            .invocation { currentBase = commonCurrency2.name }
+            .invocation { currentBase = commonCurrency2.code }
             .wasInvoked()
     }
 
@@ -335,8 +335,8 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         runTest {
             verify(currencyDataSource)
                 .coroutine {
-                    updateCurrencyStateByName(
-                        clientCurrency.name,
+                    updateCurrencyStateByCode(
+                        clientCurrency.code,
                         !clientCurrency.isActive
                     )
                 }.wasInvoked()

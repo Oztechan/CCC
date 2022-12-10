@@ -17,13 +17,13 @@ struct SelectCurrencyItemView: View {
     var body: some View {
         HStack {
 
-            CurrencyImageView(imageName: item.name)
+            CurrencyImageView(imageName: item.code)
 
-            Text(item.name)
+            Text(item.code)
                 .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
 
-            Text(item.longName)
+            Text(item.name)
                 .font(relative: .footnote)
                 .foregroundColor(MR.colors().text.get())
 

@@ -13,8 +13,8 @@ internal class CurrencyTest : BaseTest() {
     fun toUIModel() {
         val currencyDollarUIModel = currencyDollar.toUIModel()
 
+        assertEquals(currencyDollar.code, currencyDollarUIModel.code)
         assertEquals(currencyDollar.name, currencyDollarUIModel.name)
-        assertEquals(currencyDollar.longName, currencyDollarUIModel.longName)
         assertEquals(currencyDollar.symbol, currencyDollarUIModel.symbol)
         assertEquals(currencyDollar.rate.toString(), currencyDollarUIModel.rate)
         assertEquals(currencyDollar.isActive, currencyDollarUIModel.isActive)
@@ -28,8 +28,8 @@ internal class CurrencyTest : BaseTest() {
         val currencyUIModelList = currencyList.toUIModelList()
 
         currencyList.zip(currencyUIModelList) { first, second ->
+            assertEquals(first.code, second.code)
             assertEquals(first.name, second.name)
-            assertEquals(first.longName, second.longName)
             assertEquals(first.symbol, second.symbol)
             assertEquals(first.rate.toString(), second.rate)
             assertEquals(first.isActive, second.isActive)

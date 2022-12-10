@@ -42,9 +42,9 @@ internal class CurrencyDataSourceImpl(
         currencyQueries.getActiveCurrencies().executeAsList().toModelList()
     }
 
-    override suspend fun updateCurrencyStateByName(name: String, isActive: Boolean) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByName $name $isActive" }
-        currencyQueries.updateCurrencyStateByName(isActive.toLong(), name)
+    override suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByCode $code $isActive" }
+        currencyQueries.updateCurrencyStateByCode(isActive.toLong(), code)
     }
 
     override suspend fun updateAllCurrencyState(value: Boolean) = dbQuery {
@@ -52,8 +52,8 @@ internal class CurrencyDataSourceImpl(
         currencyQueries.updateAllCurrencyState(value.toLong())
     }
 
-    override suspend fun getCurrencyByName(name: String) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl getCurrencyByName $name" }
-        currencyQueries.getCurrencyByName(name).executeAsOneOrNull()?.toModel()
+    override suspend fun getCurrencyByCode(code: String) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl getCurrencyByCode $code" }
+        currencyQueries.getCurrencyByCode(code).executeAsOneOrNull()?.toModel()
     }
 }
