@@ -7,8 +7,8 @@ import org.koin.java.KoinJavaComponent.inject
 
 @Suppress("unused", "UnusedReceiverParameter")
 internal fun Application.client() {
-    val apiController: ApiRepository by inject(ApiRepository::class.java)
+    val apiRepository: ApiRepository by inject(ApiRepository::class.java)
 
     Logger.i { "start sync" }
-    apiController.startSyncApi()
+    apiRepository.startSyncApi()
 }

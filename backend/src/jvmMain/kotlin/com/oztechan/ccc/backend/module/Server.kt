@@ -17,7 +17,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 @Suppress("unused")
 internal fun Application.server() {
-    val apiController: ApiRepository by inject(ApiRepository::class.java)
+    val apiRepository: ApiRepository by inject(ApiRepository::class.java)
     val globalScope: CoroutineScope by inject(CoroutineScope::class.java)
     val ioDispatcher: CoroutineDispatcher by inject(CoroutineDispatcher::class.java, named(DISPATCHER_IO))
 
@@ -27,7 +27,7 @@ internal fun Application.server() {
         globalScope.launch(ioDispatcher) {
             getError()
             getRoot()
-            getCurrencyByBase(apiController)
+            getCurrencyByBase(apiRepository)
             getVersion()
         }
     }
