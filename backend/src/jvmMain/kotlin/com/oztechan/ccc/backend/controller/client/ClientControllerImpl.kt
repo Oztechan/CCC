@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-
-package com.oztechan.ccc.backend.repository.api
+package com.oztechan.ccc.backend.controller.client
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
@@ -19,16 +15,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-internal class ApiRepositoryImpl(
+internal class ClientControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val offlineRatesDataSource: OfflineRatesDataSource,
     private val globalScope: CoroutineScope,
     private val ioDispatcher: CoroutineDispatcher,
-) : ApiRepository {
+) : ClientController {
 
     override fun startSyncApi() {
-        Logger.i { "ApiRepositoryImpl startSyncApi" }
+        Logger.i { "ClientControllerImpl startSyncApi" }
 
         globalScope.launch(ioDispatcher) {
             while (isActive) {
@@ -46,7 +42,7 @@ internal class ApiRepositoryImpl(
     }
 
     private suspend fun updatePopularCurrencies() {
-        Logger.i { "ApiController updatePopularCurrencies" }
+        Logger.i { "ClientControllerImpl updatePopularCurrencies" }
 
         CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
@@ -70,7 +66,7 @@ internal class ApiRepositoryImpl(
     }
 
     private suspend fun updateUnPopularCurrencies() {
-        Logger.i { "ApiController updateUnPopularCurrencies" }
+        Logger.i { "ClientControllerImpl updateUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
