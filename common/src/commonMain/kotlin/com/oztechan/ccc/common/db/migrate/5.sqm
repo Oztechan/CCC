@@ -1,2 +1,8 @@
 ALTER TABLE currency RENAME COLUMN name TO code;
 ALTER TABLE currency RENAME COLUMN longName TO name;
+
+UPDATE currency SET name = 'IMF Special drawing rights' WHERE code = 'XDR';
+UPDATE currency SET name = 'Bosnia-Herzegovina convertible marka' WHERE code = 'BAM';
+UPDATE currency SET name = 'Unidad de fomento' WHERE code = 'CLF';
+UPDATE currency SET name = 'Offshore Chinese Yuan Renminbi' WHERE code = 'CNH';
+UPDATE currency SET name = 'Chinese Yuan Renminbi' WHERE code = 'CNY';

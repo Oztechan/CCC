@@ -46,11 +46,10 @@ platform :ios do
     desc "iOS Lanes"
 
         lane :build do
-            install_certificate_and_profile(match_type: "development")
+            install_certificate_and_profile(match_type: "adhoc")
             build_project(
-                match_type: "development",
-                identity: "Apple Development: Mustafa Ozhan (4WHZWC8B47)",
-                profile: "match Development com.oztechan.ccc"
+                match_type: "adhoc",
+                profile: "match AdHoc com.oztechan.ccc"
             )
         end
 
@@ -59,7 +58,6 @@ platform :ios do
             add_test_devices
             build_project(
                 match_type: "adhoc",
-                identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
                 profile: "match AdHoc com.oztechan.ccc"
             )
             firebase_app_distribution(
@@ -77,7 +75,6 @@ platform :ios do
             add_test_devices
             build_project(
                 match_type: "appstore",
-                identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
                 profile: "match AppStore com.oztechan.ccc"
             )
             pilot(skip_waiting_for_build_processing: true)
@@ -124,15 +121,15 @@ platform :ios do
                 profile: ENV["sigh_com.oztechan.ccc_" + match_type + "_profile-path"]
             )
             xcversion(version: '~> 14')
-            build_app(
+            gym(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
                 configuration: "Release",
-                xcargs: "-allowProvisioningUpdates",
-                codesigning_identity: options[:identity],
+                xcargs: "-allowProvisioningUpdates CODE_SIGN_STYLE=Manual",
+                codesigning_identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
+                export_method: method,
                 export_options: {
                     signingStyle: "manual",
-                    method: method,
                     provisioningProfiles: {
                         "com.oztechan.ccc": options[:profile]
                     }
