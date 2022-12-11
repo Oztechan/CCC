@@ -126,13 +126,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: true
-          working-directory: 'ios'
-
       - name: Install Cocoapods
         run: |
           ./gradlew provider:podGenIOS res:podGenIOS --parallel
