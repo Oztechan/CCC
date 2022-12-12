@@ -16,8 +16,8 @@ import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.inject
 
 @Suppress("unused")
-internal fun Application.server() {
-    Logger.i { "Application server" }
+internal fun Application.serverModule() {
+    Logger.i { "ServerModuleKt Application.serverModule" }
 
     val serverController: ServerController by inject(ServerController::class.java)
     val globalScope: CoroutineScope by inject(CoroutineScope::class.java)

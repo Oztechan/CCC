@@ -17,8 +17,8 @@ private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
 private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
 
 @Suppress("unused", "UnusedReceiverParameter")
-internal fun Application.client() {
-    Logger.i { "Application client" }
+internal fun Application.clientModule() {
+    Logger.i { "ClientModuleKt Application.clientModule" }
 
     val clientController: ClientController by inject(ClientController::class.java)
     val globalScope: CoroutineScope by inject(CoroutineScope::class.java)
