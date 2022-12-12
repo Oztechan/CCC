@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
-gem "fastlane"
-
-eval_gemfile("fastlane/Pluginfile")
+gem "cocoapods", "1.11.2"
+gem "fastlane", "2.211.0"
+gem "fastlane-plugin-firebase_app_distribution", "0.3.7"
+gem "bundler", "2.3.14"
+gem "xcode-install", "2.8.1"
