@@ -45,11 +45,6 @@ internal class ApiRepositoryImpl(
         }
     }
 
-    override suspend fun getOfflineCurrencyResponseByBase(base: String): String? {
-        Logger.i { "ApiRepositoryImpl getOfflineCurrencyResponseByBase" }
-        return offlineRatesDataSource.getOfflineCurrencyResponseByBase(base)
-    }
-
     private suspend fun updatePopularCurrencies() {
         Logger.i { "ApiController updatePopularCurrencies" }
 
