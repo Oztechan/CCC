@@ -13,15 +13,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.qualifier.named
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.ktor.ext.inject
 
 @Suppress("unused")
 internal fun Application.serverModule() {
     Logger.i { "ServerModuleKt Application.serverModule" }
 
-    val serverController: ServerController by inject(ServerController::class.java)
-    val globalScope: CoroutineScope by inject(CoroutineScope::class.java)
-    val ioDispatcher: CoroutineDispatcher by inject(CoroutineDispatcher::class.java, named(DISPATCHER_IO))
+    val serverController: ServerController by inject()
+    val globalScope: CoroutineScope by inject()
+    val ioDispatcher: CoroutineDispatcher by inject(named(DISPATCHER_IO))
 
     routing {
         globalScope.launch(ioDispatcher) {
