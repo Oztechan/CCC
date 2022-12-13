@@ -5,7 +5,6 @@
 package com.oztechan.ccc.backend
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.di.initKoin
 import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -14,9 +13,7 @@ private const val REQUEST_QUEUE_LIMIT = 48
 private const val RUNNING_LIMIT = 30
 
 fun main(args: Array<String>) {
-    Logger.i { "Application main" }
-
-    initKoin()
+    Logger.i { "ApplicationKt main" }
 
     embeddedServer(
         factory = Netty,
