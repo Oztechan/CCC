@@ -48,7 +48,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Add Android secret files
-        uses: Oztechan/CCC/.github/workflows/subflow_android_secrets.yml@1438-Add_reusable_flows
+        uses: ./.github/actions/android_secrets
+        env:
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          RELEASE_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}
+          DEBUG_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
