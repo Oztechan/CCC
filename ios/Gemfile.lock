@@ -216,6 +216,7 @@ PLATFORMS
   x86_64-darwin-22
 
 DEPENDENCIES
+  bundler (= 2.3.26)
   fastlane (= 2.211.0)
   fastlane-plugin-firebase_app_distribution (= 0.3.7)
   xcode-install (= 2.8.1)
