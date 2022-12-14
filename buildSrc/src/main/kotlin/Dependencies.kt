@@ -59,10 +59,11 @@ object Dependencies {
     }
 
     object JVM {
+        const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
         const val KTOR_CORE = "io.ktor:ktor-server-core:${Versions.KTOR}"
         const val KTOR_NETTY = "io.ktor:ktor-server-netty:${Versions.KTOR}"
+        const val KOIN_KTOR = "io.insert-koin:koin-ktor:${Versions.KOIN}"
         const val SQLLITE_DRIVER = "com.squareup.sqldelight:sqlite-driver:${Versions.SQL_DELIGHT}"
-        const val KTOR = "io.ktor:ktor-client-apache:${Versions.KTOR}"
         const val TEST_JUNIT = "test-junit"
     }
 
