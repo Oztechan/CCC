@@ -7,42 +7,17 @@ import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
-import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 internal class ClientControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
-    private val offlineRatesDataSource: OfflineRatesDataSource,
-    private val globalScope: CoroutineScope,
-    private val ioDispatcher: CoroutineDispatcher,
+    private val offlineRatesDataSource: OfflineRatesDataSource
 ) : ClientController {
 
-    override fun startSyncApi() {
-        Logger.i { "ClientControllerImpl startSyncApi" }
-
-        globalScope.launch(ioDispatcher) {
-            while (isActive) {
-                updatePopularCurrencies()
-                delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
-            }
-        }
-
-        globalScope.launch(ioDispatcher) {
-            while (isActive) {
-                updateUnPopularCurrencies()
-                delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR)
-            }
-        }
-    }
-
-    private suspend fun updatePopularCurrencies() {
-        Logger.i { "ClientControllerImpl updatePopularCurrencies" }
+    override suspend fun syncPopularCurrencies() {
+        Logger.i { "ClientControllerImpl syncPopularCurrencies" }
 
         CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
@@ -65,8 +40,8 @@ internal class ClientControllerImpl(
         }
     }
 
-    private suspend fun updateUnPopularCurrencies() {
-        Logger.i { "ClientControllerImpl updateUnPopularCurrencies" }
+    override suspend fun syncUnPopularCurrencies() {
+        Logger.i { "ClientControllerImpl syncUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
@@ -76,10 +51,5 @@ internal class ClientControllerImpl(
                 .onFailure { Logger.e(it) }
                 .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
         }
-    }
-
-    companion object {
-        private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
-        private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
     }
 }
