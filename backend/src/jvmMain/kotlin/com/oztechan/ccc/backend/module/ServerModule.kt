@@ -2,7 +2,7 @@ package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.server.ServerController
-import com.oztechan.ccc.backend.routes.getCurrencyByBase
+import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.backend.routes.getVersion
@@ -27,7 +27,7 @@ internal fun Application.serverModule() {
         globalScope.launch(ioDispatcher) {
             getError()
             getRoot()
-            getCurrencyByBase(serverController)
+            getCurrencyByName(serverController)
             getVersion()
         }
     }
