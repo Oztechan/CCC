@@ -21,7 +21,7 @@ struct SlideView: View {
 
     var body: some View {
         ZStack {
-            Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+//            Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
             VStack {
 
                 Spacer()
@@ -32,7 +32,7 @@ struct SlideView: View {
 
                 image
                     .resize(widthAndHeight: 144.cp())
-                    .accentColor(MR.colors().text.get())
+//                    .accentColor(MR.colors().text.get())
                     .padding(4.cp())
 
                 Text(subTitle1)
@@ -60,11 +60,24 @@ struct SlideView: View {
                         label: {
                             Text(buttonText)
                                 .font(relative: .body)
-                                .foregroundColor(MR.colors().text.get())
+//                                .foregroundColor(MR.colors().text.get())
                         }
                     ).padding(top: 10.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 15.cp())
                 }
             }
         }
+    }
+}
+
+struct SlideViewPreviews: PreviewProvider {
+    static var previews: some View {
+        SlideView(
+            title: "Test Title",
+            image: Image(systemName: "gear"),
+            subTitle1: "Subtitle 1",
+            subTitle2: "Subtitle 2",
+            buttonText: "Button",
+            buttonAction: {}
+        )
     }
 }
