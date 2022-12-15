@@ -39,11 +39,7 @@ kotlin {
                 with(Dependencies.JVM) {
                     implementation(KTOR_CORE)
                     implementation(KTOR_NETTY)
-                    implementation(LOG_BACK)
-                }
-
-                with(Dependencies.Common) {
-                    implementation(KOIN_CORE)
+                    implementation(KOIN_KTOR)
                 }
 
                 with(Modules) {
