@@ -72,6 +72,7 @@ struct SlideView: View {
 struct SlideViewPreviews: PreviewProvider {
     static var previews: some View {
         SlideView(
+//            title: MR.strings().slide_intro_title.get() // this doens't work too
             title: "Test Title",
             image: Image(systemName: "gear"),
             subTitle1: "Subtitle 1",
