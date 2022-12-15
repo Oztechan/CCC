@@ -43,7 +43,7 @@ jobs:
           fetch-depth: 0
 
       - name: Add Android secret files
-        uses: .github/actions/android_secrets
+        uses: ./.github/actions/android_secrets
         env:
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
