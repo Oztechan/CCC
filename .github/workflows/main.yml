@@ -47,7 +47,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Add Android secret files
-        uses: ./.github/actions/android_secrets_action
+        uses: ./.github/actions/android_secrets_action@1438-Add-reusable_flows
         env:
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
@@ -95,7 +95,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Add Android secret files
-        uses: ./.github/actions/android_secrets_action
+        uses: ./.github/actions/android_secrets_action@1438-Add-reusable_flows
         env:
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
