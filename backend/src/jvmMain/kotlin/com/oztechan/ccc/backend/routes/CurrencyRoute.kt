@@ -25,7 +25,7 @@ internal suspend fun Route.getCurrencyByName(
     call.parameters[PARAMETER_BASE]?.let { base ->
         Logger.i { "Parameter: $PARAMETER_BASE $base" }
 
-        serverController.getOfflineCurrencyResponseByBase(base)
+        serverController.getCurrencyResponseTextByBase(base)
             ?.let {
                 call.respondText(
                     contentType = ContentType.Application.Json,
