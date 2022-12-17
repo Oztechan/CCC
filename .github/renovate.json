@@ -3,5 +3,8 @@
   "extends": [
     "config:base"
   ],
-  "commitMessageAction": "[Oztechan/CCC/#1457] "
+  "commitMessageAction": "[Oztechan/CCC#1457] Update",
+  "git-submodules": {
+    "enabled": true
+  }
 }
