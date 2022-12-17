@@ -11,11 +11,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-    with(Dependencies.Plugins) {
+    with(libs.plugins) {
         application
-        kotlin(MULTIPLATFORM)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+        id(multiplatform.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 
@@ -36,10 +36,10 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                with(Dependencies.JVM) {
-                    implementation(KTOR_CORE)
-                    implementation(KTOR_NETTY)
-                    implementation(KOIN_KTOR)
+                with(libs.jvm) {
+                    implementation(ktorCore)
+                    implementation(ktorNetty)
+                    implementation(koinKtor)
                 }
 
                 with(Modules) {
@@ -51,9 +51,9 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                with(libs.common) {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
                 implementation(project(Modules.TEST.path))
             }
@@ -62,7 +62,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {

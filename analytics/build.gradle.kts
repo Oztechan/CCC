@@ -2,9 +2,9 @@ import Modules.packageName
 import Modules.path
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
     }
 }
 
@@ -20,7 +20,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Common.KOIN_CORE)
+                implementation(libs.common.koinCore)
             }
         }
         val commonTest by getting {
@@ -31,9 +31,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(FIREBASE_ANALYTICS)
-                    implementation(ROOT_BEER)
+                with(libs.android) {
+                    implementation(firebaseAnalytics)
+                    implementation(rootBeer)
                 }
             }
         }

@@ -2,10 +2,10 @@ import Modules.packageName
 import Modules.path
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
-        kotlin(MULTIPLATFORM)
-        id(KOTLIN_X_SERIALIZATION)
+    with(libs.plugins) {
+        id(androidLib.get().pluginId)
+        id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -21,9 +21,9 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KTOR_JSON)
-                    implementation(KOIN_CORE)
+                with(libs.common) {
+                    implementation(ktorJson)
+                    implementation(koinCore)
                 }
                 implementation(project(Modules.LOGMOB.path))
             }
@@ -36,7 +36,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.FIREBASE_REMOTE_CONFIG)
+                implementation(libs.android.firebaseRemoteConfig)
             }
         }
         val androidTest by getting
