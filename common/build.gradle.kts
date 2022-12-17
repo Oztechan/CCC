@@ -9,13 +9,13 @@ import config.Keys
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(KOTLIN_X_SERIALIZATION)
-        id(ANDROID_LIB)
-        id(SQL_DELIGHT)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(sqlDelight.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 
@@ -34,24 +34,24 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(KOIN_CORE)
-                    implementation(KTOR_LOGGING)
-                    implementation(KTOR_JSON)
-                    implementation(KTOR_CONTENT_NEGOTIATION)
-                    implementation(SQL_DELIGHT_RUNTIME)
-                    implementation(SQL_DELIGHT_COROUTINES_EXT)
-                    implementation(COROUTINES)
+                with(libs.common) {
+                    implementation(kotlinXDateTime)
+                    implementation(koinCore)
+                    implementation(ktorLogging)
+                    implementation(ktorJson)
+                    implementation(ktorContentNegotiation)
+                    implementation(sqlDelightRuntime)
+                    implementation(sqlDelightCoroutinesExt)
+                    implementation(coroutines)
                 }
                 implementation(project(Modules.LOGMOB.path))
             }
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                with(libs.common) {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
                 implementation(project(Modules.TEST.path))
             }
@@ -59,9 +59,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(SQL_DELIGHT)
-                    implementation(KTOR)
+                with(libs.android) {
+                    implementation(sqlDelight)
+                    implementation(ktor)
                 }
             }
         }
@@ -72,9 +72,9 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                with(Dependencies.IOS) {
-                    implementation(KTOR)
-                    implementation(SQL_DELIGHT)
+                with(libs.ios) {
+                    implementation(ktor)
+                    implementation(sqlDelight)
                 }
             }
             dependsOn(commonMain)
@@ -94,9 +94,9 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                with(Dependencies.JVM) {
-                    implementation(KTOR)
-                    implementation(SQLLITE_DRIVER)
+                with(libs.jvm) {
+                    implementation(ktor)
+                    implementation(sqlliteDriver)
                 }
             }
         }
@@ -105,7 +105,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {

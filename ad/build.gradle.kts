@@ -4,9 +4,9 @@ import config.BuildType
 import config.DeviceFlavour
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
-        kotlin(ANDROID)
+    with(libs.plugins) {
+        id(androidLib.get().pluginId)
+        id(android.get().pluginId)
     }
 }
 
@@ -62,9 +62,10 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.Common.KOIN_CORE)
+    implementation(libs.common.koinCore)
 
-    DeviceFlavour.googleImplementation(Dependencies.Android.GOOGLE.ADMOB)
+    @Suppress("UnstableApiUsage")
+    DeviceFlavour.googleImplementation(libs.android.google.admob)
 
     implementation(project(Modules.LOGMOB.path))
 }

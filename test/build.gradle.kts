@@ -2,9 +2,9 @@ import Modules.packageName
 import Modules.path
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
     }
 }
 
@@ -22,10 +22,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    api(kotlin(TEST))
-                    api(kotlin(TEST_ANNOTATIONS))
-                    implementation(COROUTINES_TEST)
+                with(libs.common) {
+                    api(test)
+                    api(testAnnotations)
+                    implementation(coroutinesTest)
                 }
                 implementation(project(Modules.LOGMOB.path))
             }
@@ -34,7 +34,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+                api(libs.jvm.testJunit)
             }
         }
         val androidTest by getting
@@ -60,7 +60,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+                api(libs.jvm.testJunit)
             }
         }
         val jvmTest by getting

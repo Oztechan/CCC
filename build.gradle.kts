@@ -5,26 +5,26 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(DEPENDENCY_UPDATES) version Versions.DEPENDENCY_UPDATES
-        id(KOVER) version Versions.KOVER
+    with(libs.plugins) {
+        alias(dependencyUpdates)
+        alias(kover)
     }
 }
 
 buildscript {
     dependencies {
-        with(Dependencies.ClassPaths) {
-            classpath(ANDROID_GRADLE_PLUGIN)
-            classpath(KOTLIN_GRADLE_PLUGIN)
-            classpath(GSM)
-            classpath(FIREBASE_PER_PLUGIN)
-            classpath(CRASHLYTICS)
-            classpath(NAVIGATION)
-            classpath(KOTLIN_SERIALIZATION)
-            classpath(SQL_DELIGHT)
-            classpath(MOKO_RESOURCES)
-            classpath(BUILD_KONFIG)
-            classpath(KOVER)
+        with(libs.classpaths) {
+            classpath(androidGradlePlugin)
+            classpath(kotlinGradlePlugin)
+            classpath(gsm)
+            classpath(firebasePerPlugin)
+            classpath(crashlytics)
+            classpath(navigation)
+            classpath(kotlinSerialization)
+            classpath(sqlDelight)
+            classpath(mokoResources)
+            classpath(buildKonfig)
+            classpath(kover)
         }
     }
 }

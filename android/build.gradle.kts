@@ -9,13 +9,13 @@ import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_APP)
-        id(CRASHLYTICS)
-        id(GOOGLE_SERVICES)
-        id(FIREBASE_PER_PLUGIN)
-        id(SAFE_ARGS)
-        kotlin(ANDROID)
+    with(libs.plugins) {
+        id(androidApp.get().pluginId)
+        id(crashlytics.get().pluginId)
+        id(googleServices.get().pluginId)
+        id(firebasePerPlugin.get().pluginId)
+        id(safeArgs.get().pluginId)
+        id(android.get().pluginId)
     }
 }
 
@@ -91,23 +91,28 @@ android {
 }
 
 dependencies {
-    with(Dependencies.Android) {
-        implementation(ANDROID_MATERIAL)
-        implementation(CONSTRAINT_LAYOUT)
-        implementation(NAVIGATION)
-        implementation(KOIN_ANDROID)
-        implementation(LIFECYCLE_RUNTIME)
-        implementation(WORK_RUNTIME) // android 12 crash fix
-        implementation(SPLASH_SCREEN)
-        implementation(FIREBASE_PER)
-        coreLibraryDesugaring(DESUGARING)
-        debugImplementation(LEAK_CANARY)
-    }
+    with(libs) {
+        with(common) {
+            implementation(kotlinXDateTime)
+        }
 
-    googleImplementation(Dependencies.Android.GOOGLE.PLAY_CORE)
+        with(android) {
+            implementation(androidMaterial)
+            implementation(constraintLayout)
+            implementation(navigation)
+            implementation(koinAndroid)
+            implementation(lifecycleRuntime)
+            implementation(workRuntime) // android 12 crash fix
+            implementation(splashScreen)
+            implementation(firebasePer)
+            coreLibraryDesugaring(desugaring)
+            debugImplementation(leakCanary)
+        }
 
-    with(Dependencies.Common) {
-        implementation(KOTLIN_X_DATE_TIME)
+        with(android.google) {
+            @Suppress("UnstableApiUsage")
+            googleImplementation(playCore)
+        }
     }
 
     with(Modules) {

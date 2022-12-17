@@ -3,11 +3,11 @@ import Modules.packageName
 import Modules.path
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
-        id(ANDROID_LIB)
-        id(MOKO_RESOURCES)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(cocoapods.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(mokoResources.get().pluginId)
     }
 }
 
@@ -34,7 +34,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Common.MOKO_RESOURCES)
+                implementation(libs.common.mokoResources)
             }
         }
         val commonTest by getting {

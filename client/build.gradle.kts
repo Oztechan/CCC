@@ -11,12 +11,12 @@ import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
-        id(SQL_DELIGHT)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(sqlDelight.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 kotlin {
@@ -30,11 +30,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(COROUTINES)
-                    implementation(KOIN_CORE)
-                    implementation(MULTIPLATFORM_SETTINGS)
+                with(libs.common) {
+                    implementation(kotlinXDateTime)
+                    implementation(coroutines)
+                    implementation(koinCore)
+                    implementation(multiplatformSettings)
                 }
                 with(Modules) {
                     implementation(project(COMMON.path))
@@ -48,9 +48,9 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                with(libs.common) {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
                 implementation(project(Modules.TEST.path))
             }
@@ -58,10 +58,10 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(ANDROID_MATERIAL)
-                    implementation(KOIN_ANDROID)
-                    implementation(LIFECYCLE_VIEWMODEL)
+                with(libs.android) {
+                    implementation(androidMaterial)
+                    implementation(koinAndroid)
+                    implementation(lifecycleViewmodel)
                 }
             }
         }
@@ -89,7 +89,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {

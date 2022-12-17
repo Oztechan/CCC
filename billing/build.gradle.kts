@@ -2,9 +2,9 @@ import Modules.packageName
 import config.DeviceFlavour
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
-        kotlin(ANDROID)
+    with(libs.plugins) {
+        id(androidLib.get().pluginId)
+        id(android.get().pluginId)
     }
 }
 
@@ -36,13 +36,19 @@ android {
 }
 
 dependencies {
+    with(libs) {
+        with(common) {
+            implementation(koinCore)
+        }
 
-    DeviceFlavour.googleApi(Dependencies.Android.GOOGLE.BILLING)
+        with(android) {
+            implementation(lifecycleRuntime)
 
-    implementation(Dependencies.Common.KOIN_CORE)
-
-    with(Dependencies.Android) {
-        implementation(LIFECYCLE_RUNTIME)
+            with(google) {
+                @Suppress("UnstableApiUsage")
+                DeviceFlavour.googleApi(billing)
+            }
+        }
     }
 
     with(Modules) {

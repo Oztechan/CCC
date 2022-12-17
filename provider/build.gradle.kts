@@ -1,7 +1,7 @@
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
+    with(libs.plugins) {
+        id(multiplatform.get().pluginId)
+        id(cocoapods.get().pluginId)
     }
 }
 
@@ -38,7 +38,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
 
-                implementation(Dependencies.Common.KOIN_CORE)
+                implementation(libs.common.koinCore)
 
                 with(Modules) {
                     implementation(project(LOGMOB.path))
