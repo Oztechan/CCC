@@ -13,7 +13,7 @@ import com.oztechan.ccc.client.model.RateState
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateResult
-import com.oztechan.ccc.client.util.getCurrencyConversionByRate
+import com.oztechan.ccc.client.util.getCurrencyConversionByRates
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
@@ -21,7 +21,7 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.model.Rates
@@ -53,7 +53,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             calculatorStorage,
             backendApiService,
             currencyDataSource,
-            offlineRatesDataSource,
+            ratesDataSource,
             adRepository,
             analyticsManager
         )
@@ -69,7 +69,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val ratesDataSource = mock(classOf<RatesDataSource>())
 
     @Mock
     private val adRepository = mock(classOf<AdRepository>())
@@ -104,8 +104,8 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .thenReturn(3)
 
         runTest {
-            given(offlineRatesDataSource)
-                .coroutine { getOfflineRatesByBase(currency1.code) }
+            given(ratesDataSource)
+                .coroutine { getRatesByBase(currency1.code) }
                 .thenReturn(currencyResponse.rates)
 
             given(backendApiService)
@@ -145,7 +145,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
+    fun when_api_fails_and_there_is_rate_in_db_then_conversion_is_calculated() = runTest {
         given(backendApiService)
             .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
@@ -166,19 +166,19 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             assertEquals(result, it.currencyList)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.code) }
+        verify(ratesDataSource)
+            .coroutine { getRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_offline_rate_error_state_displayed() = runTest {
+    fun when_api_fails_and_there_is_no_rate_in_db_then_error_state_displayed() = runTest {
         given(backendApiService)
             .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
 
-        given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.code) }
+        given(ratesDataSource)
+            .coroutine { getRatesByBase(currency1.code) }
             .thenReturn(null)
 
         subject.effect.before {
@@ -193,8 +193,8 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             }
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.code) }
+        verify(ratesDataSource)
+            .coroutine { getRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
@@ -204,8 +204,8 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .coroutine { getRates(currency1.code) }
             .thenThrow(Exception())
 
-        given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.code) }
+        given(ratesDataSource)
+            .coroutine { getRatesByBase(currency1.code) }
             .thenReturn(null)
 
         given(currencyDataSource)
@@ -224,8 +224,8 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             }
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.code) }
+        verify(ratesDataSource)
+            .coroutine { getRatesByBase(currency1.code) }
             .wasInvoked()
     }
 
@@ -363,7 +363,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }.after {
         assertIs<CalculatorEffect.ShowRate>(it)
         assertEquals(
-            currencyUIModel.getCurrencyConversionByRate(
+            currencyUIModel.getCurrencyConversionByRates(
                 subject.state.value.base,
                 subject.data.rates
             ),

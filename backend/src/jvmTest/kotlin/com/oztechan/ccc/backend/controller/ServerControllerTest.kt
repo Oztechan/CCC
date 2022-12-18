@@ -2,7 +2,7 @@ package com.oztechan.ccc.backend.controller
 
 import com.oztechan.ccc.backend.controller.server.ServerController
 import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -16,26 +16,26 @@ import kotlin.test.assertEquals
 @Suppress("OPT_IN_USAGE")
 internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
     override val subject: ServerController by lazy {
-        ServerControllerImpl(offlineRatesDataSource)
+        ServerControllerImpl(ratesDataSource)
     }
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val ratesDataSource = mock(classOf<RatesDataSource>())
 
     @Test
-    fun `getOfflineCurrencyResponseByBase returns getOfflineCurrencyResponseByBase from offlineRatesDataSource`() =
+    fun `getOfflineCurrencyResponseByBase returns getCurrencyResponseTextByBase from RatesDataSource`() =
         runTest {
             val base = "EUR"
             val result = "result"
 
-            given(offlineRatesDataSource)
-                .coroutine { getOfflineCurrencyResponseByBase(base) }
+            given(ratesDataSource)
+                .coroutine { getCurrencyResponseTextByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getOfflineCurrencyResponseByBase(base))
+            assertEquals(result, subject.getCurrencyResponseTextByBase(base))
 
-            verify(offlineRatesDataSource)
-                .coroutine { getOfflineCurrencyResponseByBase(base) }
+            verify(ratesDataSource)
+                .coroutine { getCurrencyResponseTextByBase(base) }
                 .wasInvoked()
         }
 }

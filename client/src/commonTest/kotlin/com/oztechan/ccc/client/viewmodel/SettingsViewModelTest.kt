@@ -18,7 +18,7 @@ import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
@@ -57,7 +57,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             calculatorStorage,
             backendApiService,
             currencyDataSource,
-            offlineRatesDataSource,
+            ratesDataSource,
             watcherDataSource,
             adRepository,
             appConfigRepository,
@@ -78,7 +78,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val ratesDataSource = mock(classOf<RatesDataSource>())
 
     @Mock
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
@@ -173,8 +173,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { offlineRatesDataSource.insertOfflineRates(currencyResponse) }
+        verify(ratesDataSource)
+            .coroutine { ratesDataSource.insertRates(currencyResponse) }
             .wasInvoked()
     }
 
@@ -197,8 +197,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { offlineRatesDataSource.insertOfflineRates(CurrencyResponse("", "", Rates())) }
+        verify(ratesDataSource)
+            .coroutine { ratesDataSource.insertRates(CurrencyResponse("", "", Rates())) }
             .wasNotInvoked()
     }
 

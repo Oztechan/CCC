@@ -3,7 +3,7 @@ package com.oztechan.ccc.backend.controller.client
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.backend.util.fillMissingRatesWith
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 internal class ClientControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
-    private val offlineRatesDataSource: OfflineRatesDataSource
+    private val ratesDataSource: RatesDataSource
 ) : ClientController {
 
     override suspend fun syncPopularCurrencies() {
@@ -32,7 +32,7 @@ internal class ClientControllerImpl(
                     runCatching { premiumApiService.getRates(currencyType.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
-                            offlineRatesDataSource.insertOfflineRates(
+                            ratesDataSource.insertRates(
                                 premiumResponse.fillMissingRatesWith(nonPremiumResponse)
                             )
                         }
@@ -49,7 +49,7 @@ internal class ClientControllerImpl(
 
             runCatching { freeApiService.getRates(currencyType.name) }
                 .onFailure { Logger.e(it) }
-                .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
+                .onSuccess { ratesDataSource.insertRates(it) }
         }
     }
 }

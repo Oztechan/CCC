@@ -38,14 +38,14 @@ internal class CalculatorUtilTest : BaseTest() {
     }
 
     @Test
-    fun getCurrencyConversionByRate() {
+    fun getCurrencyConversionByRates() {
         val currency = Currency("USD", "Dollar", "$", 0.0.toString(), true)
         val base = "EUR"
         val rates = Rates(base, null, usd = 5.0)
 
         assertEquals(
             "1 $base = ${rates.getConversionByCode(currency.code)} ${currency.getVariablesOneLine()}",
-            currency.getCurrencyConversionByRate(base, rates)
+            currency.getCurrencyConversionByRates(base, rates)
         )
     }
 
