@@ -5,9 +5,10 @@ ksp = "1.7.22-1.0.8"
 androidGradlePlugin = "7.3.1"
 androidMaterial = "1.7.0"
 constraintLayout = "2.1.4"
-ktor = "2.2.1"
-koin = "3.2.2"
+koinCore = "3.2.2"
 koinAndroid = "3.3.0"
+koinKtor = "3.2.2"
+ktor = "2.2.1"
 multiplatformSettings = "0.9"
 firebaseAnalytics = "21.2.0"
 firebaseRemoteConfig = "21.2.0"
@@ -41,7 +42,7 @@ kermit = "1.2.2"
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
 common-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
@@ -89,7 +90,7 @@ ios-sqlDelight = { module = "com.squareup.sqldelight:native-driver", version.ref
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-ktorCore = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 jvm-ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
