@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
@@ -17,8 +19,6 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.FragmentSliderBinding
-import com.oztechan.ccc.android.util.gone
-import com.oztechan.ccc.android.util.visible
 import org.koin.android.ext.android.inject
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
@@ -49,7 +49,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         analyticsManager.trackScreen(ScreenName.Slider(0))
 
         Logger.i { "SliderFragment onResume" }
-        binding.progressBar.gone()
+        binding.progressBar.isGone = true
     }
 
     private fun setListeners() {
@@ -81,8 +81,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
                 .whether { it < layouts.size }
                 ?.let { binding.viewPager.currentItem = it }
                 ?: run {
-                    binding.bottomBarSeparator.gone()
-                    binding.progressBar.visible()
+                    binding.bottomBarSeparator.isGone = true
+                    binding.progressBar.isVisible = true
                     navigate(
                         R.id.sliderFragment,
                         SliderFragmentDirections.actionSliderFragmentToCurrenciesFragment()
