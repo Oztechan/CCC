@@ -14,4 +14,6 @@ actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
     qualifier = qualifier,
     createdAtStart = createdAtStart,
     definition = definition
-)
+).let {
+    Pair(it.module, it.factory)
+}
