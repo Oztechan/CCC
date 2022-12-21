@@ -15,7 +15,7 @@ import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.BottomSheetSelectCurrencyBinding
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.setNavigationResult
-import com.oztechan.ccc.android.util.showLoading
+import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -66,7 +66,7 @@ class SelectCurrencyBottomSheet :
                 selectCurrencyAdapter.submitList(currencyList)
 
                 with(binding) {
-                    loadingView.showLoading(loading)
+                    loadingView.visibleIf(loading, true)
 
                     txtNoEnoughCurrency.text = getString(
                         if (it.enoughCurrency) {
