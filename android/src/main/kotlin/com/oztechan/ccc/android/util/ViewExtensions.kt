@@ -17,6 +17,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.submob.scopemob.castTo
@@ -42,11 +44,11 @@ fun FrameLayout.setBannerAd(
     addView(
         adManager.getBannerAd(context, width, adId) { height ->
             if (height != null) animateHeight(0, height)
-            visible()
+            isVisible = true
         }
     )
 } else {
-    gone()
+    isGone = true
 }
 
 fun FrameLayout.destroyBanner() {
@@ -89,34 +91,28 @@ fun <T> Fragment.setNavigationResult(
     ?.savedStateHandle
     ?.set(key, result)
 
-fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
+fun View?.visibleIf(visible: Boolean) = this?.apply {
+    if (visible) isVisible = true else isGone = true
+}
 
 fun View.showLoading(visible: Boolean) = if (visible) {
-    visible()
+    isVisible = true
     bringToFront()
 } else {
-    gone()
-}
-
-fun View?.visible() {
-    this?.visibility = View.VISIBLE
-}
-
-fun View?.gone() {
-    this?.visibility = View.GONE
+    isGone = true
 }
 
 fun TextView.dataState(state: RateState) = when (state) {
     is RateState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
-        visible()
+        isVisible = true
     }
 
     is RateState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
-        visible()
+        isVisible = true
     }
 
     is RateState.Offline -> {
@@ -126,16 +122,16 @@ fun TextView.dataState(state: RateState) = when (state) {
             context.getString(R.string.text_offline_last_updated, state.lastUpdate)
         }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
-        visible()
+        isVisible = true
     }
 
     RateState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
-        visible()
+        isVisible = true
     }
 
-    RateState.None -> gone()
+    RateState.None -> isGone = true
 }
 
 private const val CLIPBOARD_LABEL = "clipboard_label"
