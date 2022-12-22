@@ -1,6 +1,5 @@
 package com.oztechan.ccc.android.ui.compose.content.watchers
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.ui.compose.annotations.ProjectPreviews
+import com.oztechan.ccc.android.ui.compose.component.ImageView
 import com.oztechan.ccc.android.ui.compose.component.Preview
 import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEvent
@@ -65,7 +65,9 @@ fun WatchersViewContent(
 
         LazyColumn(Modifier.weight(1f)) {
             items(state.value.watcherList) {
-                Text(text = "TODO")
+                WatcherItem(watcher = it) { rate ->
+                    event.onRateChange(it, rate)
+                }
             }
         }
 
@@ -79,10 +81,9 @@ fun WatchersViewContent(
             TextButton(
                 onClick = event::onAddClick,
             ) {
-                Image(
+                ImageView(
                     painter = painterResource(id = R.drawable.ic_plus),
-                    contentDescription = "",
-                    modifier = Modifier.padding(2.dp),
+                    modifier = Modifier.padding(2.dp)
                 )
 
                 Text(
@@ -100,7 +101,16 @@ fun WatchersViewContent(
 @ProjectPreviews
 fun WatchersViewContentPreview() = Preview {
     WatchersViewContent(
-        state = mutableStateOf(WatchersState(watcherList = listOf(), base = "", target = "")),
+        state = mutableStateOf(
+            WatchersState(
+                watcherList = listOf(
+                    Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = "123"),
+                    Watcher(id = 0, base = "USD", target = "EUR", isGreater = false, rate = "123")
+                ),
+                base = "",
+                target = ""
+            )
+        ),
         event = object : WatchersEvent {
             override fun onBackClick() = Unit
             override fun onBaseClick(watcher: Watcher) = Unit
