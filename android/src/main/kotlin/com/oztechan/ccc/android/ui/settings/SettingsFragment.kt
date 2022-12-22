@@ -20,6 +20,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.FragmentSettingsBinding
+import com.oztechan.ccc.android.ui.content.ComposeActivity
 import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getThemeMode
 import com.oztechan.ccc.android.util.setBannerAd
@@ -72,6 +73,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_currencies_sub_title)
+        }
+
+        with(itemWatchers) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
+            settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
         }
 
         with(itemTheme) {
@@ -176,6 +183,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
+
                 SettingsEffect.FeedBack -> sendFeedBack()
                 is SettingsEffect.Share -> share(viewEffect.marketLink)
                 is SettingsEffect.SupportUs -> activity?.showDialog(
@@ -185,26 +193,30 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 ) {
                     startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
                 }
+
                 SettingsEffect.OnGitHub -> startIntent(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(getString(R.string.github_url))
                     )
                 )
+
                 SettingsEffect.RemoveAds -> navigate(
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
                 )
+
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(
                     getThemeMode(viewEffect.themeValue)
                 )
+
                 SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
                 SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
                 SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
                 SettingsEffect.SelectPrecision -> showPrecisionDialog()
-                SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
+                SettingsEffect.OpenWatchers -> startActivity(Intent(context, ComposeActivity::class.java))
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -213,6 +225,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             backButton.setOnClickListener { onBackClick() }
 
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
+            itemWatchers.root.setOnClickListener { onWatchersClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
             itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
             itemSync.root.setOnClickListener { onSyncClick() }

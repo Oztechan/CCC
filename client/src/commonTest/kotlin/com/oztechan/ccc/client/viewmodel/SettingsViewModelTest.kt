@@ -338,8 +338,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onWatchersClicked() = subject.effect.before {
-        subject.event.onWatchersClicked()
+    fun onWatchersClick() = subject.effect.before {
+        subject.event.onWatchersClick()
     }.after {
         assertEquals(SettingsEffect.OpenWatchers, it)
     }

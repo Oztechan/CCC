@@ -105,6 +105,7 @@ dependencies {
             debugImplementation(composeTooling)
             implementation(material3)
             implementation(androidMaterial)
+            implementation(composeActivity)
             implementation(constraintLayout)
             implementation(navigation)
             implementation(koinAndroid)

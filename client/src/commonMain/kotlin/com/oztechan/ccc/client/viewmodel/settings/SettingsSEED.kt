@@ -22,7 +22,7 @@ data class SettingsState(
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
-    fun onWatchersClicked()
+    fun onWatchersClick()
     fun onFeedBackClick()
     fun onShareClick()
     fun onSupportUsClick()
