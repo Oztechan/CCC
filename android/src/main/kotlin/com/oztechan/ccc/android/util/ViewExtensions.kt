@@ -91,15 +91,13 @@ fun <T> Fragment.setNavigationResult(
     ?.savedStateHandle
     ?.set(key, result)
 
-fun View?.visibleIf(visible: Boolean) = this?.apply {
-    if (visible) isVisible = true else isGone = true
-}
-
-fun View.showLoading(visible: Boolean) = if (visible) {
-    isVisible = true
-    bringToFront()
-} else {
-    isGone = true
+fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply {
+    if (visible) {
+        isVisible = true
+        if (bringFront) bringToFront()
+    } else {
+        isGone = true
+    }
 }
 
 fun TextView.dataState(state: RateState) = when (state) {

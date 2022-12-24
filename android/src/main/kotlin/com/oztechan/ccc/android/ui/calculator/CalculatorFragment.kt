@@ -22,8 +22,8 @@ import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getNavigationResult
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.android.util.setBannerAd
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
+import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
@@ -100,7 +100,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     txtSymbol.text = " $symbol"
                 }
 
-                binding.loadingView.showLoading(loading)
+                binding.loadingView.visibleIf(loading, true)
                 binding.txtAppStatus.dataState(rateState)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
