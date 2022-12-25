@@ -1,8 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import Modules.packageName
-import Modules.path
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import config.Keys
@@ -45,7 +43,7 @@ kotlin {
                     implementation(sqlDelightCoroutinesExt)
                     implementation(coroutines)
                 }
-                implementation(project(Modules.LOGMOB.path))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting {
@@ -54,7 +52,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
 

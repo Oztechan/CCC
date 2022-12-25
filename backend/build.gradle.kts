@@ -1,8 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import Modules.packageName
-import Modules.path
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
@@ -44,8 +42,8 @@ kotlin {
                 }
 
                 with(Modules) {
-                    implementation(project(COMMON.path))
-                    implementation(project(LOGMOB.path))
+                    implementation(project(COMMON))
+                    implementation(project(LOGMOB))
                 }
             }
         }
@@ -56,7 +54,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
     }

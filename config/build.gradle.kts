@@ -1,6 +1,3 @@
-import Modules.packageName
-import Modules.path
-
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
@@ -26,12 +23,12 @@ kotlin {
                     implementation(ktorJson)
                     implementation(koinCore)
                 }
-                implementation(project(Modules.LOGMOB.path))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
 

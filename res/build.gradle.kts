@@ -1,7 +1,3 @@
-import Modules.frameworkName
-import Modules.packageName
-import Modules.path
-
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
@@ -40,7 +36,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
 

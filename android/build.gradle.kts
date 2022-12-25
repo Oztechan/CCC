@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import Modules.packageName
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
@@ -117,15 +116,15 @@ dependencies {
     }
 
     with(Modules) {
-        implementation(project(CLIENT.path))
-        implementation(project(RES.path))
-        implementation(project(BILLING.path))
-        implementation(project(AD.path))
-        implementation(project(LOGMOB.path))
-        implementation(project(SCOPEMOB.path))
-        implementation(project(BASEMOB.path))
-        implementation(project(ANALYTICS.path))
+        implementation(project(CLIENT))
+        implementation(project(RES))
+        implementation(project(BILLING))
+        implementation(project(AD))
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
+        implementation(project(BASEMOB))
+        implementation(project(ANALYTICS))
 
-        testImplementation(project(TEST.path))
+        testImplementation(project(TEST))
     }
 }
