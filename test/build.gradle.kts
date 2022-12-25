@@ -2,6 +2,7 @@ import Modules.packageName
 import Modules.path
 
 plugins {
+    @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)

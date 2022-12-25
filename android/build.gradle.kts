@@ -9,6 +9,7 @@ import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
+    @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
         id(androidApp.get().pluginId)
         id(crashlytics.get().pluginId)
