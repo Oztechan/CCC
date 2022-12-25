@@ -1,4 +1,5 @@
 plugins {
+    @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)

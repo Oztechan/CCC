@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
+    @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
         application
         id(multiplatform.get().pluginId)
