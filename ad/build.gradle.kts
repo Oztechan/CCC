@@ -1,5 +1,3 @@
-import Modules.packageName
-import Modules.path
 import config.BuildType
 import config.DeviceFlavour
 
@@ -68,5 +66,5 @@ dependencies {
     @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
 
-    implementation(project(Modules.LOGMOB.path))
+    implementation(project(Modules.LOGMOB))
 }

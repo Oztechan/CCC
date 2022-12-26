@@ -1,4 +1,3 @@
-import Modules.packageName
 import config.DeviceFlavour
 
 plugins {
@@ -53,7 +52,7 @@ dependencies {
     }
 
     with(Modules) {
-        implementation(project(LOGMOB.path))
-        implementation(project(SCOPEMOB.path))
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
     }
 }

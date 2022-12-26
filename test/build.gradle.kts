@@ -1,6 +1,3 @@
-import Modules.packageName
-import Modules.path
-
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     with(libs.plugins) {
@@ -28,7 +25,7 @@ kotlin {
                     api(testAnnotations)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.LOGMOB.path))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting
