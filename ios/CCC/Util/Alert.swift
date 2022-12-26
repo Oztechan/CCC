@@ -46,10 +46,9 @@ func showAlert(
 
     view.titleLabel?.font = view.bodyLabel?.font.withSize(18.cp())
     view.bodyLabel?.font = view.bodyLabel?.font.withSize(15.cp())
-    view.button?.titleLabel?.font = view.bodyLabel?.font.withSize(12.cp())
+    view.button?.titleLabel?.font = view.bodyLabel?.font.withSize(15.cp())
 
     let cancelButton = UIButton(frame: CGRect(x: 100.cp(), y: 100.cp(), width: 100.cp(), height: 50.cp()))
-    cancelButton.setTitle(MR.strings().cancel.get(), for: .normal)
 
     var config = SwiftMessages.defaultConfig
     config.presentationStyle = .center
