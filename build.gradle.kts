@@ -36,25 +36,26 @@ group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 apply(plugin = libs.plugins.kover.get().pluginId).also {
-    koverMerged.enable()
+    koverMerged {
+        allprojects {
+            enable()
+        }
+    }
 }
 
 apply(plugin = libs.plugins.detekt.get().pluginId).also {
     detekt {
         buildUponDefaultConfig = true
         allRules = true
-    }
 
-    tasks.withType<Detekt> {
-        setSource(files(project.projectDir))
-        exclude("**/build/**")
-        exclude {
-            it.file.relativeTo(projectDir).startsWith("build")
-        }
-    }
-    tasks.register("detektAll") {
         allprojects {
-            this@register.dependsOn(tasks.withType<Detekt>())
+            tasks.withType<Detekt> {
+                setSource(files(project.projectDir))
+                exclude("**/build/**")
+            }
+            tasks.register("detektAll") {
+                dependsOn(tasks.withType<Detekt>())
+            }
         }
     }
 }
