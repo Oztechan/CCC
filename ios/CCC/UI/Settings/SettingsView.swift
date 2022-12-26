@@ -11,6 +11,7 @@ import Res
 import Provider
 import NavigationStack
 import GoogleMobileAds
+import PopupView
 
 struct SettingsView: View {
 
@@ -25,6 +26,7 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
+    @State var isRemoveAdsDialogShown: Bool = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -117,6 +119,18 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
+        .popup(isPresented: $isRemoveAdsDialogShown) {
+            AlertView(
+                title: MR.strings().txt_remove_ads.get(),
+                message: MR.strings().txt_remove_ads_text.get(),
+                buttonText: MR.strings().txt_watch.get(),
+                buttonAction: {
+                    RewardedAd(
+                        onReward: { observable.viewModel.updateAddFreeDate() }
+                    ).show()
+                }
+            )
+        }
         .sheet(isPresented: $emailViewVisibility) {
             MailView(isShowing: $emailViewVisibility)
         }
@@ -154,23 +168,7 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyAdFree:
             showSnack(text: MR.strings().txt_ads_already_disabled.get())
         case is SettingsEffect.RemoveAds:
-            showAlert(
-                title: MR.strings().txt_remove_ads.get(),
-                text: MR.strings().txt_remove_ads_text.get(),
-                buttonText: MR.strings().txt_watch.get(),
-                action: {
-                    RewardedAd(
-                        rewardFunction: { observable.viewModel.updateAddFreeDate() },
-                        errorFunction: {
-                            showAlert(
-                                title: MR.strings().txt_remove_ads.get(),
-                                text: MR.strings().error_text_unknown.get(),
-                                buttonText: MR.strings().cancel.get()
-                            )
-                        }
-                    ).show()
-                }
-            )
+            isRemoveAdsDialogShown.toggle()
         default:
             logger.i(message: {"SettingsView unknown effect"})
         }
