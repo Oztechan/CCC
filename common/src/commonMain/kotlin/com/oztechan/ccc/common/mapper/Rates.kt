@@ -5,7 +5,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
 import com.oztechan.ccc.common.api.model.Rates as APIRates
-import com.oztechan.ccc.common.db.sql.Rates as DBRates
+import com.oztechan.ccc.common.database.sql.Rates as DBRates
 
 internal fun DBRates.toRatesEntity() = APIRates(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,

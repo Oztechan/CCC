@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.common.db.sql.Watcher as WatcherEntity
+import com.oztechan.ccc.common.database.sql.Watcher as WatcherEntity
 
 @Suppress("OPT_IN_USAGE")
 internal class WatcherTest : BaseTest() {
@@ -32,7 +32,6 @@ internal class WatcherTest : BaseTest() {
 
     @Test
     fun toModelList() {
-
         val anotherWatcher = WatcherEntity(
             id = 2L,
             base = "USD",

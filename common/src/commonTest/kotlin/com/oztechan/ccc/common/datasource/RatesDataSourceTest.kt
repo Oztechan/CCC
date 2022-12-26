@@ -2,9 +2,9 @@ package com.oztechan.ccc.common.datasource
 
 import com.oztechan.ccc.common.api.model.CurrencyResponse
 import com.oztechan.ccc.common.api.model.Rates
+import com.oztechan.ccc.common.database.sql.RatesQueries
 import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.datasource.rates.RatesDataSourceImpl
-import com.oztechan.ccc.common.db.sql.RatesQueries
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toRates
 import com.oztechan.ccc.test.BaseSubjectTest

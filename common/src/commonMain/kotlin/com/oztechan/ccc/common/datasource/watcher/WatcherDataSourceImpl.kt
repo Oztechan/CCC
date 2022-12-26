@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource.watcher
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.database.sql.WatcherQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.db.sql.WatcherQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModelList
