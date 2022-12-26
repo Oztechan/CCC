@@ -34,38 +34,18 @@ struct AlertView: View {
 
             HStack {
                 if isCancellable == true {
-                    Button(
-                        action: { },
-                        label: {
-                            Text(MR.strings().cancel.get())
-                                .foregroundColor(MR.colors().background_weak.get())
-                                .font(relative: .footnote)
-                        }
+                    ActionButton(
+                        buttonText: MR.strings().cancel.get(),
+                        buttonAction: {},
+                        isPrimary: false
                     )
-                    .frame(width: 50.cp(), height: 15.cp(), alignment: .center)
-                    .padding(10.cp())
-                    .background(MR.colors().text.get())
-                    .clipped()
-                    .cornerRadius(4.cp())
-                    .shadow(radius: 1)
-                    .padding(.horizontal, 10.cp())
                 }
 
-                Button(
-                    action: { buttonAction() },
-                    label: {
-                        Text(buttonText)
-                            .foregroundColor(MR.colors().background_weak.get())
-                            .font(relative: .footnote)
-                    }
+                ActionButton(
+                    buttonText: buttonText,
+                    buttonAction: buttonAction,
+                    isPrimary: true
                 )
-                .frame(width: 50.cp(), height: 15.cp(), alignment: .center)
-                .padding(10.cp())
-                .background(MR.colors().primary.get())
-                .clipped()
-                .cornerRadius(4.cp())
-                .shadow(radius: 1)
-                .padding(.horizontal, 10.cp())
             }
         }
         .padding(20.cp())

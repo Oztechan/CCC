@@ -27,6 +27,10 @@ struct SettingsView: View {
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
     @State var isRemoveAdsDialogShown: Bool = false
+    @State var isAdsAlreadyDisabledSnackShown: Bool = false
+    @State var isAlreadySyncedSnackShown: Bool = false
+    @State var isSynchronisingShown: Bool = false
+    @State var isSyncedSnackShown: Bool = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -119,6 +123,34 @@ struct SettingsView: View {
             }
             .navigationBarHidden(true)
         }
+        .popup(
+            isPresented: $isAdsAlreadyDisabledSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_ads_already_disabled.get())
+        }
+        .popup(
+            isPresented: $isAlreadySyncedSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_already_synced.get())
+        }
+        .popup(
+            isPresented: $isSynchronisingShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_synchronising.get())
+        }
+        .popup(
+            isPresented: $isSyncedSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_synced.get())
+        }
         .popup(isPresented: $isRemoveAdsDialogShown) {
             AlertView(
                 title: MR.strings().txt_remove_ads.get(),
@@ -160,13 +192,13 @@ struct SettingsView: View {
         case is SettingsEffect.OnGitHub:
             webViewVisibility.toggle()
         case is SettingsEffect.Synchronising:
-            showSnack(text: MR.strings().txt_synchronising.get())
+            isSynchronisingShown.toggle()
         case is SettingsEffect.Synchronised:
-            showSnack(text: MR.strings().txt_synced.get())
+            isSyncedSnackShown.toggle()
         case is SettingsEffect.OnlyOneTimeSync:
-            showSnack(text: MR.strings().txt_already_synced.get())
+            isAlreadySyncedSnackShown.toggle()
         case is SettingsEffect.AlreadyAdFree:
-            showSnack(text: MR.strings().txt_ads_already_disabled.get())
+            isAdsAlreadyDisabledSnackShown.toggle()
         case is SettingsEffect.RemoveAds:
             isRemoveAdsDialogShown.toggle()
         default:

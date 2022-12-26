@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 import Provider
 import NavigationStack
+import PopupView
 
 struct CalculatorView: View {
 
@@ -23,6 +24,14 @@ struct CalculatorView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
+    @State var isTooBigNumberSnackShown = false
+    @State var isGenericErrorSnackShown = false
+    @State var isFewCurrencySnackShown = false
+    @State var isCopyClipboardSnackShown = false
+
+    @State var isShowRatesSnackShown = false
+    static var ratesText: String?
+    static var ratesIcon: String?
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -91,6 +100,52 @@ struct CalculatorView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .popup(
+            isPresented: $isTooBigNumberSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().text_too_big_number.get())
+        }
+        .popup(
+            isPresented: $isGenericErrorSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().error_text_unknown.get())
+        }
+        .popup(
+            isPresented: $isFewCurrencySnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(
+                text: MR.strings().choose_at_least_two_currency.get(),
+                buttonText: MR.strings().select.get(),
+                buttonAction: {
+                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                }
+            )
+        }
+        .popup(
+            isPresented: $isCopyClipboardSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().copied_to_clipboard.get())
+        }
+        .popup(
+            isPresented: $isShowRatesSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            if CalculatorView.ratesText != nil && CalculatorView.ratesIcon != nil{
+                SnackView(
+                    text: CalculatorView.ratesText!,
+                    iconName: CalculatorView.ratesIcon!
+                )
+            }
+        }
         .sheet(
             isPresented: $isBarShown,
             content: {
@@ -112,17 +167,11 @@ struct CalculatorView: View {
         logger.i(message: {"CalculatorView onEffect \(effect.description)"})
         switch effect {
         case is CalculatorEffect.Error:
-            showSnack(text: MR.strings().error_text_unknown.get())
+            isGenericErrorSnackShown.toggle()
         case is CalculatorEffect.FewCurrency:
-            showSnack(
-                text: MR.strings().choose_at_least_two_currency.get(),
-                buttonText: MR.strings().select.get(),
-                action: {
-                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
-                }
-            )
+            isFewCurrencySnackShown.toggle()
         case is CalculatorEffect.TooBigNumber:
-            showSnack(text: MR.strings().text_too_big_number.get())
+            isTooBigNumberSnackShown.toggle()
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
@@ -131,13 +180,12 @@ struct CalculatorView: View {
         case is CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
             pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
-            showSnack(text: MR.strings().copied_to_clipboard.get())
+            isCopyClipboardSnackShown.toggle()
         // swiftlint:disable force_cast
         case is CalculatorEffect.ShowRate:
-            showSnack(
-                text: (effect as! CalculatorEffect.ShowRate).text,
-                iconImage: (effect as! CalculatorEffect.ShowRate).code.getImage()
-            )
+            CalculatorView.ratesText = (effect as! CalculatorEffect.ShowRate).text
+            CalculatorView.ratesIcon = (effect as! CalculatorEffect.ShowRate).code
+            isShowRatesSnackShown.toggle()
         default:
             logger.i(message: {"CalculatorView unknown effect"})
         }
