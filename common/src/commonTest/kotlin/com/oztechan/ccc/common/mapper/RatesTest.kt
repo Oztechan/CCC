@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.api.model.Rates as APIRates
-import com.oztechan.ccc.common.db.sql.Rates as DBRates
+import com.oztechan.ccc.common.database.sql.Rates as DBRates
 
 internal class RatesTest : BaseTest() {
     private val dbRates = DBRates(

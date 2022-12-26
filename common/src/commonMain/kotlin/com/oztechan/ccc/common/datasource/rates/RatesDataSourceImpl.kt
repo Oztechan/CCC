@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource.rates
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.database.sql.RatesQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.db.sql.RatesQueries
 import com.oztechan.ccc.common.mapper.toCurrencyResponseEntity
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toRates

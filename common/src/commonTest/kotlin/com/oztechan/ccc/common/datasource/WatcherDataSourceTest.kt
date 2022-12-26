@@ -1,9 +1,9 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.database.sql.Watcher
+import com.oztechan.ccc.common.database.sql.WatcherQueries
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSourceImpl
-import com.oztechan.ccc.common.db.sql.Watcher
-import com.oztechan.ccc.common.db.sql.WatcherQueries
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
@@ -59,7 +59,6 @@ internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
 
     @Test
     fun collectWatchers() = runTest {
-
         given(watcherQueries)
             .invocation { getWatchers() }
             .then { query }
@@ -82,7 +81,6 @@ internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
 
     @Test
     fun getWatchers() = runTest {
-
         given(watcherQueries)
             .invocation { getWatchers() }
             .then { query }
