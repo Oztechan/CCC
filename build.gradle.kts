@@ -35,32 +35,28 @@ buildscript {
 group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
-apply(plugin = libs.plugins.kover.get().pluginId).also {
-    koverMerged {
-        allprojects {
-            enable()
-        }
-    }
-}
-
-apply(plugin = libs.plugins.detekt.get().pluginId).also {
-    detekt {
-        buildUponDefaultConfig = true
-        allRules = true
-
-        allprojects {
-            tasks.withType<Detekt> {
-                setSource(files(project.projectDir))
-                exclude("**/build/**")
-            }
-            tasks.register("detektAll") {
-                dependsOn(tasks.withType<Detekt>())
-            }
-        }
-    }
-}
-
 allprojects {
+    apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
+        koverMerged.enable()
+    }
+
+    apply(plugin = rootProject.libs.plugins.detekt.get().pluginId).also {
+        detekt {
+            buildUponDefaultConfig = true
+            allRules = true
+        }
+        tasks.withType<Detekt> {
+            setSource(files(project.projectDir))
+            exclude("**/build/**")
+            exclude {
+                it.file.relativeTo(projectDir).startsWith("build")
+            }
+        }
+        tasks.register("detektAll") {
+            dependsOn(tasks.withType<Detekt>())
+        }
+    }
+
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true

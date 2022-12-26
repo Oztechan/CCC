@@ -20,9 +20,9 @@ private const val ERROR_HTML = "error.html"
 internal suspend fun Route.getError() = get(PATH_ERROR) {
     Logger.i { "GET Request $PATH_ERROR" }
 
-    javaClass.classLoader?.getResourceByName(ERROR_HTML)?.let {
+    javaClass.classLoader?.getResourceByName(ERROR_HTML)?.let { resource ->
         call.respondText(
-            text = it,
+            text = resource,
             contentType = ContentType.Text.Html,
             status = HttpStatusCode.OK
         )
