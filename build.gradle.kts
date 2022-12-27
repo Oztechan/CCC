@@ -44,12 +44,13 @@ allprojects {
         detekt {
             buildUponDefaultConfig = true
             allRules = true
+            parallel = true
         }
         tasks.withType<Detekt> {
             setSource(files(project.projectDir))
             exclude("**/build/**")
             exclude {
-                it.file.relativeTo(projectDir).startsWith("build")
+                it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
             }
         }
         tasks.register("detektAll") {
