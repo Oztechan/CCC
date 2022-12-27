@@ -78,8 +78,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
         binding.btnNext.setOnClickListener {
             getNextItem()
-                .whether { it < layouts.size }
-                ?.let { binding.viewPager.currentItem = it }
+                .whether { this < layouts.size }
+                ?.let { position -> binding.viewPager.currentItem = position }
                 ?: run {
                     binding.bottomBarSeparator.isGone = true
                     binding.progressBar.isVisible = true
@@ -124,7 +124,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     private fun getNextItem() = binding.viewPager.currentItem.inc()
 
     companion object {
-        private var layouts = arrayListOf(
+        private val layouts = arrayListOf(
             R.layout.layout_slide_intro,
             R.layout.layout_slide_disable_ads,
             R.layout.layout_slide_bug_report
