@@ -69,19 +69,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
-        run: ./gradlew build koverMergedXmlReport detektAll --parallel
-
-      - name: Upload to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/reports/kover/merged/xml/report.xml
-
-      - name: Upload to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/reports/kover/merged/xml/report.xml
+        run: ./gradlew build --parallel
 
       - name: Set Job Status
         id: status
