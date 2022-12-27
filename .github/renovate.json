@@ -12,5 +12,8 @@
   "commitMessageAction": "[Oztechan/CCC#1457] Dependency update",
   "git-submodules": {
     "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true
   }
 }
