@@ -69,7 +69,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
-        run: ./gradlew build --parallel
+        run: ./gradlew assemble --parallel
 
       - name: Set Job Status
         id: status
@@ -162,7 +162,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
-        run: ./gradlew koverMergedXmlReport detektAll --parallel
+        run: ./gradlew check koverMergedXmlReport detektAll --parallel
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3
