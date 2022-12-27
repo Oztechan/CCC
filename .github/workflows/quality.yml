@@ -50,7 +50,7 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild ]
+    needs: [ Quality ]
     if: always()
     steps:
 
