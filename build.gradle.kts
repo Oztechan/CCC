@@ -56,6 +56,10 @@ allprojects {
         tasks.register("detektAll") {
             dependsOn(tasks.withType<Detekt>())
         }
+
+        dependencies {
+            detektPlugins(rootProject.libs.common.detektFormatting)
+        }
     }
 
     tasks.withType<KotlinCompile> {

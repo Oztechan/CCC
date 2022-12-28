@@ -57,6 +57,7 @@ common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "m
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.ref = "kermit" }
+common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 # ANDROID
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
