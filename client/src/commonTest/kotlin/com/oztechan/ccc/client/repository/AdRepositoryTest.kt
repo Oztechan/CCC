@@ -147,7 +147,6 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Test
     fun shouldShowBannerAd_is_false_when_firstRun_and_not_rewardExpired_and_sessionCount_bigger_than_banner_001() {
-
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
