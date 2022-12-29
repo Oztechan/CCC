@@ -23,12 +23,12 @@ struct AlertView: View {
 
             Text(title)
                 .foregroundColor(MR.colors().text.get())
-                .font(.headline)
+                .font(relative: .headline)
                 .padding(bottom: 20.cp())
 
             Text(message)
                 .foregroundColor(MR.colors().text.get())
-                .font(.subheadline)
+                .font(relative: .subheadline)
                 .multilineTextAlignment(.center)
                 .padding(bottom: 30.cp())
 

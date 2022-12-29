@@ -139,7 +139,7 @@ struct CalculatorView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            if CalculatorView.ratesText != nil && CalculatorView.ratesIcon != nil{
+            if CalculatorView.ratesText != nil && CalculatorView.ratesIcon != nil {
                 SnackView(
                     text: CalculatorView.ratesText!,
                     iconName: CalculatorView.ratesIcon!
