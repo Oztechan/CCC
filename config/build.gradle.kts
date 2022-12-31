@@ -1,6 +1,6 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
         id(kotlinXSerialization.get().pluginId)
@@ -19,7 +19,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(ktorJson)
                     implementation(koinCore)
                 }
@@ -61,7 +61,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.CONFIG.packageName
         compileSdk = COMPILE_SDK_VERSION
 

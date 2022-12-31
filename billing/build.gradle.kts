@@ -2,7 +2,7 @@ import config.DeviceFlavour
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(android.get().pluginId)
     }
@@ -10,7 +10,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.BILLING.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -20,7 +20,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -36,22 +36,22 @@ android {
 }
 
 dependencies {
-    with(libs) {
-        with(common) {
+    libs.apply {
+        common.apply {
             implementation(koinCore)
         }
 
-        with(android) {
+        android.apply {
             implementation(lifecycleRuntime)
 
-            with(google) {
+            google.apply {
                 @Suppress("UnstableApiUsage")
                 DeviceFlavour.googleApi(billing)
             }
         }
     }
 
-    with(Modules) {
+    Modules.apply {
         implementation(project(LOGMOB))
         implementation(project(SCOPEMOB))
     }

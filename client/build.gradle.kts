@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
         id(sqlDelight.get().pluginId)
@@ -29,13 +29,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(kotlinXDateTime)
                     implementation(coroutines)
                     implementation(koinCore)
                     implementation(multiplatformSettings)
                 }
-                with(Modules) {
+                Modules.apply {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
                     implementation(project(LOGMOB))
@@ -47,7 +47,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
@@ -57,7 +57,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(libs.android) {
+                libs.android.apply {
                     implementation(androidMaterial)
                     implementation(koinAndroid)
                     implementation(lifecycleViewmodel)
@@ -97,7 +97,7 @@ ksp {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.CLIENT.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -107,7 +107,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {

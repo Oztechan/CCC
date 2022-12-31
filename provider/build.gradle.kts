@@ -1,6 +1,6 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)
     }
@@ -12,7 +12,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        with(ProjectSettings) {
+        ProjectSettings.apply {
             summary = PROJECT_NAME
             homepage = HOMEPAGE
             ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
@@ -20,7 +20,7 @@ kotlin {
         }
 
         framework {
-            with(Modules) {
+            Modules.apply {
                 baseName = PROVIDER.frameworkName
                 export(project(CLIENT))
                 export(project(ANALYTICS))
@@ -41,7 +41,7 @@ kotlin {
 
                 implementation(libs.common.koinCore)
 
-                with(Modules) {
+                Modules.apply {
                     implementation(project(LOGMOB))
                     api(project(CLIENT))
                     api(project(ANALYTICS))

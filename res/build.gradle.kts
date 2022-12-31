@@ -1,6 +1,6 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)
         id(androidLib.get().pluginId)
@@ -16,7 +16,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        with(ProjectSettings) {
+        ProjectSettings.apply {
             summary = PROJECT_NAME
             homepage = HOMEPAGE
             ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
@@ -65,7 +65,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.RES.packageName
         compileSdk = COMPILE_SDK_VERSION
 

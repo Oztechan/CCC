@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         application
         id(multiplatform.get().pluginId)
         id(buildKonfig.get().pluginId)
@@ -18,7 +18,7 @@ plugins {
     }
 }
 
-with(ProjectSettings) {
+ProjectSettings.apply {
     application {
         mainClass.set("${Modules.BACKEND.packageName}.ApplicationKt")
     }
@@ -35,13 +35,13 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                with(libs.jvm) {
+                libs.jvm.apply {
                     implementation(ktorCore)
                     implementation(ktorNetty)
                     implementation(koinKtor)
                 }
 
-                with(Modules) {
+                Modules.apply {
                     implementation(project(COMMON))
                     implementation(project(LOGMOB))
                 }
@@ -50,7 +50,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
