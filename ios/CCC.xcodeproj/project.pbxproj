@@ -51,6 +51,7 @@
 		5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */; };
 		5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */; };
 		5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA86F42840CF65001386FB /* NotificationManager.swift */; };
+		5CEAF774295F2ECC0018C7FA /* DeviceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */; };
 		5CF0622E28AD93CF00C579F6 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5CF0622D28AD93CF00C579F6 /* FirebaseAnalyticsSwift */; };
 		5CF0623028AD93CF00C579F6 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5CF0622F28AD93CF00C579F6 /* FirebaseCrashlytics */; };
 		5CF0623228AD93CF00C579F6 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 5CF0623128AD93CF00C579F6 /* FirebasePerformance */; };
@@ -119,6 +120,7 @@
 		5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* SelectCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyView.swift; sourceTree = "<group>"; };
 		5CEA86F42840CF65001386FB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceUtil.swift; sourceTree = "<group>"; };
 		5CF57E39269588060081E4BB /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
 		5CF57E3B2695A3B20081E4BB /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
 		5CF898D32823C1F900712580 /* WatcherItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatcherItem.swift; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C039FD425C1B6A2008350A3 /* SubView */ = {
+		5C039FD425C1B6A2008350A3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */,
@@ -164,7 +166,7 @@
 				5C34B8CD29590DC1009C84AB /* AlertView.swift */,
 				5C34B8CF2959A363009C84AB /* ActionButton.swift */,
 			);
-			path = SubView;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		5C31E41C28141C61008C42B9 /* Calculator */ = {
@@ -271,7 +273,7 @@
 				5C31E4322814304F008C42B9 /* Settings */,
 				5C4B53652818053E00D10185 /* Watchers */,
 				5C4B536E28184AEA00D10185 /* SelectCurrency */,
-				5C039FD425C1B6A2008350A3 /* SubView */,
+				5C039FD425C1B6A2008350A3 /* Components */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -301,6 +303,7 @@
 				5C5C71E82922BBD200733C49 /* ViewExt.swift */,
 				5C5C71EA2922BC0300733C49 /* ResourceExt.swift */,
 				5C5C71EC2922BFC400733C49 /* RateStateExt.swift */,
+				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				5CDE468425BC3B2000CA0FB1 /* SelectCurrencyView.swift in Sources */,
 				5C31E43128142110008C42B9 /* CurrenciesItemView.swift in Sources */,
 				5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */,
+				5CEAF774295F2ECC0018C7FA /* DeviceUtil.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainView.swift in Sources */,
 				5C34B8CC29590500009C84AB /* SnackView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,

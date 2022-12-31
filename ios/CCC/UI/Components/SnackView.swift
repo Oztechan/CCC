@@ -10,6 +10,8 @@ import SwiftUI
 import Res
 
 struct SnackView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var text: String
     var iconName: String?
     var buttonText: String?
@@ -18,7 +20,7 @@ struct SnackView: View {
     var body: some View {
         HStack {
             Image(uiImage: iconName?.getImage() ?? MR.images().ic_app_logo.get())
-                .resize(widthAndHeight: 64.cp())
+                .resize(widthAndHeight: 48.cp())
 
             Text(text)
                 .foregroundColor(MR.colors().text.get())
@@ -31,7 +33,7 @@ struct SnackView: View {
                 ActionButton(
                     buttonText: buttonText!,
                     buttonAction: buttonAction,
-                    isPrimary: true
+                    state: .primary
                 )
             }
         }
@@ -40,5 +42,6 @@ struct SnackView: View {
         .cornerRadius(10.cp())
         .shadow(radius: 5)
         .padding(10.cp())
+        .padding(bottom: DeviceUtil.getBottomNotchHeight().cp())
     }
 }

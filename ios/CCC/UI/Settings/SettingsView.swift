@@ -107,7 +107,7 @@ struct SettingsView: View {
                     )
 
                     SettingsItemView(
-                        imgName: "123.rectangle",
+                        imgName: "textformat.123",
                         title: MR.strings().settings_item_version_title.get(),
                         subTitle: MR.strings().settings_item_version_sub_title.get(),
                         value: observable.state.version,
