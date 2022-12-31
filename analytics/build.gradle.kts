@@ -1,6 +1,6 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
     }
@@ -29,7 +29,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(libs.android) {
+                libs.android.apply {
                     implementation(firebaseAnalytics)
                     implementation(rootBeer)
                 }
@@ -60,7 +60,7 @@ kotlin {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.ANALYTICS.packageName
         compileSdk = COMPILE_SDK_VERSION
 

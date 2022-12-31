@@ -1,6 +1,6 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
     }
@@ -20,7 +20,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     api(test)
                     api(testAnnotations)
                     implementation(coroutinesTest)
@@ -66,7 +66,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.TEST.packageName
         compileSdk = COMPILE_SDK_VERSION
 

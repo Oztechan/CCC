@@ -9,7 +9,7 @@ import config.Keys
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(androidApp.get().pluginId)
         id(crashlytics.get().pluginId)
         id(googleServices.get().pluginId)
@@ -21,7 +21,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.ANDROID.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -50,7 +50,7 @@ android {
 
     signingConfigs {
         create(BuildType.release) {
-            with(Keys(project)) {
+            Keys(project).apply {
                 storeFile = file(androidKeyStorePath.value)
                 storePassword = androidStorePassword.value
                 keyAlias = androidKeyAlias.value
@@ -59,7 +59,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -91,12 +91,12 @@ android {
 }
 
 dependencies {
-    with(libs) {
-        with(common) {
+    libs.apply {
+        common.apply {
             implementation(kotlinXDateTime)
         }
 
-        with(android) {
+        android.apply {
             implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)
@@ -109,13 +109,13 @@ dependencies {
             debugImplementation(leakCanary)
         }
 
-        with(android.google) {
+        android.google.apply {
             @Suppress("UnstableApiUsage")
             googleImplementation(playCore)
         }
     }
 
-    with(Modules) {
+    Modules.apply {
         implementation(project(CLIENT))
         implementation(project(RES))
         implementation(project(BILLING))

@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(kotlinXSerialization.get().pluginId)
         id(androidLib.get().pluginId)
@@ -33,7 +33,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(kotlinXDateTime)
                     implementation(koinCore)
                     implementation(ktorLogging)
@@ -48,7 +48,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
@@ -58,7 +58,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                with(libs.android) {
+                libs.android.apply {
                     implementation(sqlDelight)
                     implementation(ktor)
                 }
@@ -71,7 +71,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                with(libs.ios) {
+                libs.ios.apply {
                     implementation(ktor)
                     implementation(sqlDelight)
                 }
@@ -93,7 +93,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                with(libs.jvm) {
+                libs.jvm.apply {
                     implementation(ktor)
                     implementation(sqlliteDriver)
                 }
@@ -112,7 +112,7 @@ ksp {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.COMMON.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -136,7 +136,7 @@ configure<BuildKonfigExtension> {
     packageName = Modules.COMMON.packageName
 
     defaultConfigs {
-        with(Keys(project)) {
+        Keys(project).apply {
             buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value, const = true)
             buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value, const = true)
             buildConfigField(STRING, baseUrlApiPremium.key, baseUrlApiPremium.value, const = true)

@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    with(libs.plugins) {
+    libs.plugins.apply {
         alias(dependencyUpdates)
         alias(kover)
         alias(detekt)
@@ -16,7 +16,7 @@ plugins {
 
 buildscript {
     dependencies {
-        with(libs.classpaths) {
+        libs.classpaths.apply {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
             classpath(gsm)
