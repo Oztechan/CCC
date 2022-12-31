@@ -14,6 +14,8 @@ import PopupView
 
 struct WatchersView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = ObservableSEEDViewModel<
         WatchersState,
         WatchersEffect,
@@ -21,7 +23,6 @@ struct WatchersView: View {
         WatchersData,
         WatchersViewModel
     >()
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)

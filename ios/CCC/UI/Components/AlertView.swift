@@ -11,6 +11,7 @@ import Res
 
 struct AlertView: View {
 
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     let title: String
     let message: String
     let buttonText: String
@@ -37,14 +38,14 @@ struct AlertView: View {
                     ActionButton(
                         buttonText: MR.strings().cancel.get(),
                         buttonAction: {},
-                        isPrimary: false
+                        state: .secondary
                     )
                 }
 
                 ActionButton(
                     buttonText: buttonText,
                     buttonAction: buttonAction,
-                    isPrimary: true
+                    state: .primary
                 )
             }
         }
