@@ -1,12 +1,10 @@
-ALTER TABLE currency RENAME TO Currency;
-ALTER TABLE offline_rates RENAME TO Rates;
-ALTER TABLE watcher RENAME TO Watcher;
+ALTER TABLE Offline_Rates RENAME TO Rates;
 
 ALTER TABLE Currency RENAME COLUMN name TO code;
 ALTER TABLE Currency RENAME COLUMN longName TO name;
 
-UPDATE currency SET name = 'IMF Special drawing rights' WHERE code = 'XDR';
-UPDATE currency SET name = 'Bosnia-Herzegovina convertible marka' WHERE code = 'BAM';
-UPDATE currency SET name = 'Unidad de fomento' WHERE code = 'CLF';
-UPDATE currency SET name = 'Offshore Chinese Yuan Renminbi' WHERE code = 'CNH';
-UPDATE currency SET name = 'Chinese Yuan Renminbi' WHERE code = 'CNY';
+UPDATE Currency SET name = 'IMF Special drawing rights' WHERE code = 'XDR';
+UPDATE Currency SET name = 'Bosnia-Herzegovina convertible marka' WHERE code = 'BAM';
+UPDATE Currency SET name = 'Unidad de fomento' WHERE code = 'CLF';
+UPDATE Currency SET name = 'Offshore Chinese Yuan Renminbi' WHERE code = 'CNH';
+UPDATE Currency SET name = 'Chinese Yuan Renminbi' WHERE code = 'CNY';
