@@ -17,9 +17,9 @@ internal expect fun Double.getFormatted(precision: Int): String
 
 internal expect fun Double.removeScientificNotation(): String
 
-internal fun Conversion?.calculateResult(code: String, input: String?) = this
+internal fun Conversion?.calculateRate(code: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
-    ?.getConversionByCode(code)
+    ?.getRateFromCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
@@ -39,10 +39,10 @@ internal fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-internal fun Currency.getCurrencyConversion(
+internal fun Currency.getConversionStringFromBase(
     base: String,
     conversion: Conversion?
-) = "1 $base = ${conversion?.getConversionByCode(code)} ${getVariablesOneLine()}"
+) = "1 $base = ${conversion?.getRateFromCode(code)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.code != currentBase &&
@@ -56,8 +56,9 @@ internal fun Int.indexToNumber() = this + 1
 
 fun Int.numberToIndex() = this - 1
 
+// todo refactor when reflection is available in Kotlin Native
 @Suppress("ComplexMethod", "LongMethod")
-internal fun Conversion.getConversionByCode(code: String) = when (code.uppercase()) {
+internal fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all

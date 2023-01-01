@@ -20,8 +20,8 @@ import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
-import com.oztechan.ccc.client.util.calculateResult
-import com.oztechan.ccc.client.util.getCurrencyConversion
+import com.oztechan.ccc.client.util.calculateRate
+import com.oztechan.ccc.client.util.getConversionStringFromBase
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
@@ -179,7 +179,7 @@ class CalculatorViewModel(
     private fun calculateConversions(conversion: Conversion, conversionState: ConversionState) = _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
-                it.rate = conversion.calculateResult(it.code, _state.value.output)
+                it.rate = conversion.calculateRate(it.code, _state.value.output)
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             },
@@ -250,7 +250,7 @@ class CalculatorViewModel(
         viewModelScope.launch {
             _effect.emit(
                 CalculatorEffect.ShowConversion(
-                    currency.getCurrencyConversion(
+                    currency.getConversionStringFromBase(
                         calculatorStorage.currentBase,
                         data.conversion
                     ),
