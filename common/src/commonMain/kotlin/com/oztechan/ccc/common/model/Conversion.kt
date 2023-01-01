@@ -4,7 +4,7 @@
 package com.oztechan.ccc.common.model
 
 @Suppress("ConstructorParameterNaming")
-data class Rates(
+data class Conversion(
     var base: String = "",
     var date: String? = null,
     var aed: Double? = null,

@@ -1,4 +1,4 @@
-ALTER TABLE Offline_Rates RENAME TO Rates;
+ALTER TABLE Offline_Rates RENAME TO Conversion;
 
 ALTER TABLE Currency RENAME COLUMN name TO code;
 ALTER TABLE Currency RENAME COLUMN longName TO name;

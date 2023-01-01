@@ -3,8 +3,8 @@ package com.oztechan.ccc.client.repository
 import com.oztechan.ccc.client.repository.background.BackgroundRepository
 import com.oztechan.ccc.client.repository.background.BackgroundRepositoryImpl
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseSubjectTest
@@ -45,7 +45,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
     }
 
     @Test
-    fun `if getRates throw an error should return false`() = runTest {
+    fun `if getConversion throw an error should return false`() = runTest {
         val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
         given(watcherDataSource)
@@ -53,7 +53,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .thenReturn(listOf(watcher))
 
         given(backendApiService)
-            .coroutine { getRates(watcher.base) }
+            .coroutine { getConversion(watcher.base) }
             .thenThrow(Exception())
 
         assertFalse { subject.shouldSendNotification() }
@@ -63,7 +63,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .wasInvoked()
 
         verify(backendApiService)
-            .coroutine { getRates(watcher.base) }
+            .coroutine { getConversion(watcher.base) }
             .wasInvoked()
     }
 
@@ -76,8 +76,8 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .thenReturn(listOf(watcher))
 
         given(backendApiService)
-            .coroutine { getRates(watcher.base) }
-            .thenReturn(CurrencyResponse(watcher.base, "", Rates(base = watcher.base, usd = watcher.rate + 1)))
+            .coroutine { getConversion(watcher.base) }
+            .thenReturn(CurrencyResponse(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate + 1)))
 
         assertTrue { subject.shouldSendNotification() }
 
@@ -86,7 +86,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .wasInvoked()
 
         verify(backendApiService)
-            .coroutine { getRates(watcher.base) }
+            .coroutine { getConversion(watcher.base) }
             .wasInvoked()
     }
 
@@ -99,8 +99,8 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .thenReturn(listOf(watcher))
 
         given(backendApiService)
-            .coroutine { getRates(watcher.base) }
-            .thenReturn(CurrencyResponse(watcher.base, "", Rates(base = watcher.base, usd = watcher.rate - 1)))
+            .coroutine { getConversion(watcher.base) }
+            .thenReturn(CurrencyResponse(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate - 1)))
 
         assertTrue { subject.shouldSendNotification() }
 
@@ -109,7 +109,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
             .wasInvoked()
 
         verify(backendApiService)
-            .coroutine { getRates(watcher.base) }
+            .coroutine { getConversion(watcher.base) }
             .wasInvoked()
     }
 }

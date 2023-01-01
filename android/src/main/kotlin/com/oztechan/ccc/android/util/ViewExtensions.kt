@@ -25,7 +25,7 @@ import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.client.model.RateState
+import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.res.getImageResourceIdByName
 
 private const val ANIMATION_DURATION = 500L
@@ -100,20 +100,20 @@ fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply
     }
 }
 
-fun TextView.dataState(state: RateState) = when (state) {
-    is RateState.Online -> {
+fun TextView.dataState(state: ConversionState) = when (state) {
+    is ConversionState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
         isVisible = true
     }
 
-    is RateState.Cached -> {
+    is ConversionState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
         isVisible = true
     }
 
-    is RateState.Offline -> {
+    is ConversionState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
             context.getString(R.string.text_offline)
         } else {
@@ -123,13 +123,13 @@ fun TextView.dataState(state: RateState) = when (state) {
         isVisible = true
     }
 
-    RateState.Error -> {
+    ConversionState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
         isVisible = true
     }
 
-    RateState.None -> isGone = true
+    ConversionState.None -> isGone = true
 }
 
 private const val CLIPBOARD_LABEL = "clipboard_label"

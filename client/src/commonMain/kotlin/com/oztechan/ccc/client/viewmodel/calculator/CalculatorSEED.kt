@@ -5,9 +5,9 @@ import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
+import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.model.Conversion
 
 // State
 data class CalculatorState(
@@ -17,7 +17,7 @@ data class CalculatorState(
     val output: String = "",
     val symbol: String = "",
     val loading: Boolean = true,
-    val rateState: RateState = RateState.None,
+    val conversionState: ConversionState = ConversionState.None,
 ) : BaseState()
 
 // Event
@@ -45,7 +45,7 @@ sealed class CalculatorEffect : BaseEffect() {
 // Data
 data class CalculatorData(
     var parser: ParserMob = ParserMob(),
-    var rates: Rates? = null
+    var conversion: Conversion? = null
 ) : BaseData() {
     companion object {
         internal const val MAXIMUM_OUTPUT = 18

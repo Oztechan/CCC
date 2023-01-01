@@ -101,7 +101,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
 
                 binding.loadingView.visibleIf(loading, true)
-                binding.txtAppStatus.dataState(rateState)
+                binding.txtAppStatus.dataState(conversionState)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

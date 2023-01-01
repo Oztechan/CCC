@@ -10,10 +10,10 @@ internal class BackendApiServiceImpl(
     private val backendApi: BackendApi,
     ioDispatcher: CoroutineDispatcher
 ) : BackendApiService, BaseNetworkService(ioDispatcher) {
-    override suspend fun getRates(
+    override suspend fun getConversion(
         base: String
     ) = apiRequest {
-        Logger.v { "BackendApiServiceImpl getRates $base" }
-        backendApi.getRates(base.withEmptyParameterCheck()).toModel(base)
+        Logger.v { "BackendApiServiceImpl getConversion $base" }
+        backendApi.getConversion(base.withEmptyParameterCheck()).toModel(base)
     }
 }

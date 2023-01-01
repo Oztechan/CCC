@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.api.model.Conversion
 import com.oztechan.ccc.common.api.model.CurrencyResponse
-import com.oztechan.ccc.common.api.model.Rates
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.free.FreeApiService
@@ -32,30 +32,30 @@ internal class FreeApiServiceTest : BaseSubjectTest<FreeApiService>() {
     @Mock
     private val freeApi = mock(classOf<FreeApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 
     @Test
-    fun getRates_parameter_can_not_be_empty() = runTest {
-        runCatching { subject.getRates("") }.let {
+    fun getConversion_parameter_can_not_be_empty() = runTest {
+        runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(freeApi)
-            .coroutine { freeApi.getRates("") }
+            .coroutine { freeApi.getConversion("") }
             .wasInvoked()
     }
 
     @Test
-    fun getRates_error() = runTest {
+    fun getConversion_error() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getRates(mockBase) }
+            .coroutine { freeApi.getConversion(mockBase) }
             .thenThrow(mockThrowable)
 
-        runCatching { subject.getRates(mockBase) }.let {
+        runCatching { subject.getConversion(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertNotNull(it.exceptionOrNull())
@@ -66,24 +66,24 @@ internal class FreeApiServiceTest : BaseSubjectTest<FreeApiService>() {
         }
 
         verify(freeApi)
-            .coroutine { getRates(mockBase) }
+            .coroutine { getConversion(mockBase) }
             .wasInvoked()
     }
 
     @Test
-    fun getRates_success() = runTest {
+    fun getConversion_success() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getRates(mockBase) }
+            .coroutine { freeApi.getConversion(mockBase) }
             .thenReturn(mockEntity)
 
-        runCatching { subject.getRates(mockBase) }.let {
+        runCatching { subject.getConversion(mockBase) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
             assertEquals(mockEntity.toModel(), it.getOrNull())
         }
 
         verify(freeApi)
-            .coroutine { getRates(mockBase) }
+            .coroutine { getConversion(mockBase) }
             .wasInvoked()
     }
 }
