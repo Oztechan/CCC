@@ -68,12 +68,12 @@ class SettingsViewModel(
             )
         }
 
-        currencyDataSource.collectActiveCurrencies()
+        currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
                 _state.update { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
-        watcherDataSource.collectWatchers()
+        watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)

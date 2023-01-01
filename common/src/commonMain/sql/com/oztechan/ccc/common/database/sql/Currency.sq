@@ -177,11 +177,8 @@ INSERT INTO Currency VALUES ('ZAR', 'South African rand', 'R', 0.0, 0);
 INSERT INTO Currency VALUES ('ZMW', 'Zambian kwacha', 'K', 0.0, 0);
 INSERT INTO Currency VALUES ('ZWL', 'Zimbabwean dollar', '$', 0.0, 0);
 
-collectAllCurrencies:
+getCurrencies:
 SELECT * FROM Currency;
-
-collectActiveCurrencies:
-SELECT * FROM Currency WHERE isActive=1;
 
 getActiveCurrencies:
 SELECT * FROM Currency WHERE isActive=1;
@@ -189,7 +186,7 @@ SELECT * FROM Currency WHERE isActive=1;
 updateCurrencyStateByCode:
 UPDATE Currency SET isActive=? WHERE code=?;
 
-updateAllCurrencyState:
+updateCurrencyStates:
 UPDATE Currency SET isActive=?;
 
 getCurrencyByCode:

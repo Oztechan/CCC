@@ -122,11 +122,11 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(mockedPrecision)
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyList))
 
         given(watcherDataSource)
-            .invocation { collectWatchers() }
+            .invocation { getWatchersFlow() }
             .then { flowOf(watcherLists) }
 
         given(appConfigRepository)
