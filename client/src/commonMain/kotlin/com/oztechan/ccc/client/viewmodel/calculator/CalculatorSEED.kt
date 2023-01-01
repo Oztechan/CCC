@@ -39,7 +39,7 @@ sealed class CalculatorEffect : BaseEffect() {
     object TooBigNumber : CalculatorEffect()
     object OpenSettings : CalculatorEffect()
     data class CopyToClipboard(val amount: String) : CalculatorEffect()
-    data class ShowRate(val text: String, val code: String) : CalculatorEffect()
+    data class ShowConversion(val text: String, val code: String) : CalculatorEffect()
 }
 
 // Data

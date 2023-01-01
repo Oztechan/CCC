@@ -14,7 +14,7 @@
 		5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41D28141C7B008C42B9 /* InputView.swift */; };
 		5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41F28141CA4008C42B9 /* OutputView.swift */; };
 		5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42128141CC9008C42B9 /* KeyboardView.swift */; };
-		5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42328141D1B008C42B9 /* RateStateView.swift */; };
+		5C31E42428141D1B008C42B9 /* ConversionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42328141D1B008C42B9 /* ConversionStateView.swift */; };
 		5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */; };
 		5C31E42A28141F1B008C42B9 /* SlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42928141F1B008C42B9 /* SlideView.swift */; };
 		5C31E42D28142058008C42B9 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42C28142058008C42B9 /* SelectionView.swift */; };
@@ -35,7 +35,7 @@
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
 		5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71E82922BBD200733C49 /* ViewExt.swift */; };
 		5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EA2922BC0300733C49 /* ResourceExt.swift */; };
-		5C5C71ED2922BFC400733C49 /* RateStateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* RateStateExt.swift */; };
+		5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */; };
 		5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EE2922C06F00733C49 /* SecretUtil.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
@@ -85,7 +85,7 @@
 		5C31E41D28141C7B008C42B9 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		5C31E41F28141CA4008C42B9 /* OutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputView.swift; sourceTree = "<group>"; };
 		5C31E42128141CC9008C42B9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
-		5C31E42328141D1B008C42B9 /* RateStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateStateView.swift; sourceTree = "<group>"; };
+		5C31E42328141D1B008C42B9 /* ConversionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionStateView.swift; sourceTree = "<group>"; };
 		5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorItemView.swift; sourceTree = "<group>"; };
 		5C31E42928141F1B008C42B9 /* SlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideView.swift; sourceTree = "<group>"; };
 		5C31E42C28142058008C42B9 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerImpl.swift; sourceTree = "<group>"; };
 		5C5C71E82922BBD200733C49 /* ViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExt.swift; sourceTree = "<group>"; };
 		5C5C71EA2922BC0300733C49 /* ResourceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceExt.swift; sourceTree = "<group>"; };
-		5C5C71EC2922BFC400733C49 /* RateStateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateStateExt.swift; sourceTree = "<group>"; };
+		5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionStateExt.swift; sourceTree = "<group>"; };
 		5C5C71EE2922C06F00733C49 /* SecretUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretUtil.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 				5C31E41D28141C7B008C42B9 /* InputView.swift */,
 				5C31E41F28141CA4008C42B9 /* OutputView.swift */,
 				5C31E42128141CC9008C42B9 /* KeyboardView.swift */,
-				5C31E42328141D1B008C42B9 /* RateStateView.swift */,
+				5C31E42328141D1B008C42B9 /* ConversionStateView.swift */,
 				5C31E42528141D3E008C42B9 /* CalculatorItemView.swift */,
 			);
 			path = Calculator;
@@ -302,7 +302,7 @@
 				5C5C71EE2922C06F00733C49 /* SecretUtil.swift */,
 				5C5C71E82922BBD200733C49 /* ViewExt.swift */,
 				5C5C71EA2922BC0300733C49 /* ResourceExt.swift */,
-				5C5C71EC2922BFC400733C49 /* RateStateExt.swift */,
+				5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */,
 				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 			);
 			path = Util;
@@ -537,7 +537,7 @@
 				5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */,
 				5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */,
 				5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */,
-				5C31E42428141D1B008C42B9 /* RateStateView.swift in Sources */,
+				5C31E42428141D1B008C42B9 /* ConversionStateView.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
 				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
@@ -564,7 +564,7 @@
 				5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */,
 				5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
-				5C5C71ED2922BFC400733C49 /* RateStateExt.swift in Sources */,
+				5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */,
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,

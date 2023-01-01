@@ -1,5 +1,5 @@
 //
-//  RateStateView.swift
+//  ConversionStateView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 23.04.22.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct RateStateView: View {
+struct ConversionStateView: View {
     var color: Color
     var text: String
 

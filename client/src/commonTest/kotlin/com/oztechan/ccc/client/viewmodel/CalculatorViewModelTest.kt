@@ -145,7 +145,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_rate_in_db_then_conversion_is_calculated() = runTest {
+    fun when_api_fails_and_there_is_conversion_in_db_then_exchange_rates_are_calculated() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -172,7 +172,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_rate_in_db_then_error_state_displayed() = runTest {
+    fun when_api_fails_and_there_is_no_conversion_in_db_then_error_state_displayed() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -361,7 +361,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     fun onItemImageLongClick() = subject.effect.before {
         subject.event.onItemImageLongClick(currencyUIModel)
     }.after {
-        assertIs<CalculatorEffect.ShowRate>(it)
+        assertIs<CalculatorEffect.ShowConversion>(it)
         assertEquals(
             currencyUIModel.getCurrencyConversion(
                 subject.state.value.base,

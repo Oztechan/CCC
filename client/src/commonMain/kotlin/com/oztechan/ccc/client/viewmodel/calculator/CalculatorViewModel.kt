@@ -249,7 +249,7 @@ class CalculatorViewModel(
 
         viewModelScope.launch {
             _effect.emit(
-                CalculatorEffect.ShowRate(
+                CalculatorEffect.ShowConversion(
                     currency.getCurrencyConversion(
                         calculatorStorage.currentBase,
                         data.conversion
