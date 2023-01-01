@@ -68,7 +68,7 @@
     <string name="next">NEXT</string>
     <string name="got_it">GOT IT</string>
     <string name="slide_intro_title">Currency Converter Calculator</string>
-    <string name="slide_intro_text">Simple user interface\nFast responses\nAccurate rates\nEasy to use</string>
+    <string name="slide_intro_text">Simple user interface\nFast responses\nAccurate exchange rates\nEasy to use</string>
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
     <string name="slide_bug_report_text_2">Click on settings icon \nFeedback > Send us an email\nOn GitHub > Create a GitHub issue</string>
@@ -91,7 +91,7 @@
     <string name="settings_item_currencies_sub_title">Set your currencies</string>
 
     <string name="settings_item_watchers_title">Watchers</string>
-    <string name="settings_item_watchers_sub_title">Check rates in the background</string>
+    <string name="settings_item_watchers_sub_title">Check exchange rates in the background</string>
 
     <string name="settings_item_theme_title">Theme</string>
     <string name="settings_item_theme_sub_title">Change app theme</string>
@@ -135,7 +135,7 @@
 
     <!-- Watchers -->
     <string name="txt_watchers">Watchers</string>
-    <string name="txt_watchers_description">Watchers will check the rates in the background and if the given condition is valid then you will receive a notification!</string>
+    <string name="txt_watchers_description">Watchers will check the exchange rates in the background and if the given condition is valid then you will receive a notification!</string>
     <string name="txt_enable_notification_permission">Please enable notification permission in Settings</string>
     <string name="txt_watcher_alert_title">Watcher Alert!</string>
     <string name="txt_watcher_alert_sub_title">Given condition is valid.</string>

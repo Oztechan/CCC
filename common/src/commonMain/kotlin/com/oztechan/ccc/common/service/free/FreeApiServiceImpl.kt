@@ -10,10 +10,10 @@ internal class FreeApiServiceImpl(
     private val freeApi: FreeApi,
     ioDispatcher: CoroutineDispatcher
 ) : FreeApiService, BaseNetworkService(ioDispatcher) {
-    override suspend fun getRates(
+    override suspend fun getConversion(
         base: String
     ) = apiRequest {
-        Logger.v { "FreeApiServiceImpl getRates $base" }
-        freeApi.getRates(base.withEmptyParameterCheck()).toModel(base)
+        Logger.v { "FreeApiServiceImpl getConversion $base" }
+        freeApi.getConversion(base.withEmptyParameterCheck()).toModel(base)
     }
 }

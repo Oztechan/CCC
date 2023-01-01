@@ -8,7 +8,7 @@ private const val DATABASE_NAME = "application_database.sqlite"
 
 internal val databaseModule = module {
     single { get<CurrencyConverterCalculatorDatabase>().currencyQueries }
-    single { get<CurrencyConverterCalculatorDatabase>().ratesQueries }
+    single { get<CurrencyConverterCalculatorDatabase>().conversionQueries }
     single { get<CurrencyConverterCalculatorDatabase>().watcherQueries }
 
     single { provideDatabase(DATABASE_NAME) }

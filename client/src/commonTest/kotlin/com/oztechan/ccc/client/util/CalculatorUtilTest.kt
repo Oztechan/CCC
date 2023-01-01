@@ -4,8 +4,8 @@
 package com.oztechan.ccc.client.util
 
 import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.CurrencyType
-import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.test.BaseTest
 import kotlin.random.Random
 import kotlin.test.Test
@@ -19,33 +19,33 @@ internal class CalculatorUtilTest : BaseTest() {
         val date = "12:34:56 01.01.2020"
         val base = "EUR"
         val target = "USD"
-        val rates = Rates(base, date, usd = 5.0)
+        val conversion = Conversion(base, date, usd = 5.0)
 
-        assertEquals(0.0, rates.calculateResult(target, ""))
-        assertEquals(0.0, rates.calculateResult(target, null))
-        assertEquals(25.0, rates.calculateResult(target, "5.0"))
-        assertEquals(0.0, rates.calculateResult("", "5.0"))
+        assertEquals(0.0, conversion.calculateResult(target, ""))
+        assertEquals(0.0, conversion.calculateResult(target, null))
+        assertEquals(25.0, conversion.calculateResult(target, "5.0"))
+        assertEquals(0.0, conversion.calculateResult("", "5.0"))
         assertEquals(0.0, null.calculateResult(target, "5.0"))
 
         val inputOne = "1.0"
-        assertEquals(rates.getConversionByCode(target), rates.calculateResult(target, inputOne))
+        assertEquals(conversion.getConversionByCode(target), conversion.calculateResult(target, inputOne))
 
         val inputTwo = "2.0"
         assertEquals(
-            rates.getConversionByCode(target)?.times(2),
-            rates.calculateResult(target, inputTwo)
+            conversion.getConversionByCode(target)?.times(2),
+            conversion.calculateResult(target, inputTwo)
         )
     }
 
     @Test
-    fun getCurrencyConversionByRates() {
+    fun getCurrencyConversion() {
         val currency = Currency("USD", "Dollar", "$", 0.0.toString(), true)
         val base = "EUR"
-        val rates = Rates(base, null, usd = 5.0)
+        val conversion = Conversion(base, null, usd = 5.0)
 
         assertEquals(
-            "1 $base = ${rates.getConversionByCode(currency.code)} ${currency.getVariablesOneLine()}",
-            currency.getCurrencyConversionByRates(base, rates)
+            "1 $base = ${conversion.getConversionByCode(currency.code)} ${currency.getVariablesOneLine()}",
+            currency.getCurrencyConversion(base, conversion)
         )
     }
 
@@ -137,7 +137,7 @@ internal class CalculatorUtilTest : BaseTest() {
 
     @Test
     fun getConversionByCode() {
-        val rates = Rates(
+        val conversion = Conversion(
             "base", "12.12.21", 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
             13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0,
             27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0,
@@ -154,10 +154,10 @@ internal class CalculatorUtilTest : BaseTest() {
             169.0, 170.0
         )
         CurrencyType.values().forEachIndexed { index, currencyType ->
-            assertEquals((index + 1).toDouble(), rates.getConversionByCode(currencyType.toString()))
+            assertEquals((index + 1).toDouble(), conversion.getConversionByCode(currencyType.toString()))
         }
 
-        assertEquals(0.0, rates.getConversionByCode("some string"))
-        assertEquals(0.0, rates.getConversionByCode(""))
+        assertEquals(0.0, conversion.getConversionByCode("some string"))
+        assertEquals(0.0, conversion.getConversionByCode(""))
     }
 }

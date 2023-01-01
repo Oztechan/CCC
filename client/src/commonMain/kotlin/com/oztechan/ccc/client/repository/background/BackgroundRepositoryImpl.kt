@@ -22,8 +22,8 @@ internal class BackgroundRepositoryImpl(
         runBlocking {
             watchersDataSource.getWatchers().forEach { watcher ->
                 backendApiService
-                    .getRates(watcher.base)
-                    .rates
+                    .getConversion(watcher.base)
+                    .conversion
                     .getConversionByCode(watcher.target)
                     ?.let { conversionRate ->
                         when {

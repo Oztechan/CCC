@@ -29,9 +29,9 @@ struct CalculatorView: View {
     @State var isFewCurrencySnackShown = false
     @State var isCopyClipboardSnackShown = false
 
-    @State var isShowRatesSnackShown = false
-    static var ratesText: String?
-    static var ratesIcon: String?
+    @State var isConversionSnackShown = false
+    static var conversionText: String?
+    static var conversionCode: String?
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -83,10 +83,10 @@ struct CalculatorView: View {
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
-                    if !(observable.state.rateState is RateState.None) {
-                        RateStateView(
-                            color: observable.state.rateState.getColor(),
-                            text: observable.state.rateState.getText()
+                    if !(observable.state.conversionState is ConversionState.None) {
+                        ConversionStateView(
+                            color: observable.state.conversionState.getColor(),
+                            text: observable.state.conversionState.getText()
                         )
                     }
 
@@ -135,14 +135,14 @@ struct CalculatorView: View {
             SnackView(text: MR.strings().copied_to_clipboard.get())
         }
         .popup(
-            isPresented: $isShowRatesSnackShown,
+            isPresented: $isConversionSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            if CalculatorView.ratesText != nil && CalculatorView.ratesIcon != nil {
+            if CalculatorView.conversionText != nil && CalculatorView.conversionCode != nil {
                 SnackView(
-                    text: CalculatorView.ratesText!,
-                    iconName: CalculatorView.ratesIcon!
+                    text: CalculatorView.conversionText!,
+                    iconName: CalculatorView.conversionCode!
                 )
             }
         }
@@ -182,10 +182,10 @@ struct CalculatorView: View {
             pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
             isCopyClipboardSnackShown.toggle()
         // swiftlint:disable force_cast
-        case is CalculatorEffect.ShowRate:
-            CalculatorView.ratesText = (effect as! CalculatorEffect.ShowRate).text
-            CalculatorView.ratesIcon = (effect as! CalculatorEffect.ShowRate).code
-            isShowRatesSnackShown.toggle()
+        case is CalculatorEffect.ShowConversion:
+            CalculatorView.conversionText = (effect as! CalculatorEffect.ShowConversion).text
+            CalculatorView.conversionCode = (effect as! CalculatorEffect.ShowConversion).code
+            isConversionSnackShown.toggle()
         default:
             logger.i(message: {"CalculatorView unknown effect"})
         }

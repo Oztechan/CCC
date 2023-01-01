@@ -8,8 +8,8 @@ package com.oztechan.ccc.client.util
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.CurrencyType
-import com.oztechan.ccc.common.model.Rates
 
 const val MAXIMUM_FLOATING_POINT = 9
 
@@ -17,7 +17,7 @@ internal expect fun Double.getFormatted(precision: Int): String
 
 internal expect fun Double.removeScientificNotation(): String
 
-internal fun Rates?.calculateResult(code: String, input: String?) = this
+internal fun Conversion?.calculateResult(code: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getConversionByCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
@@ -39,10 +39,10 @@ internal fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-internal fun Currency.getCurrencyConversionByRates(
+internal fun Currency.getCurrencyConversion(
     base: String,
-    rates: Rates?
-) = "1 $base = ${rates?.getConversionByCode(code)} ${getVariablesOneLine()}"
+    conversion: Conversion?
+) = "1 $base = ${conversion?.getConversionByCode(code)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.code != currentBase &&
@@ -57,7 +57,7 @@ internal fun Int.indexToNumber() = this + 1
 fun Int.numberToIndex() = this - 1
 
 @Suppress("ComplexMethod", "LongMethod")
-internal fun Rates.getConversionByCode(code: String) = when (code.uppercase()) {
+internal fun Conversion.getConversionByCode(code: String) = when (code.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all

@@ -2,8 +2,8 @@ package com.oztechan.ccc.backend.controller.client
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
-import com.oztechan.ccc.backend.util.fillMissingRatesWith
-import com.oztechan.ccc.common.datasource.rates.RatesDataSource
+import com.oztechan.ccc.backend.util.fillMissingConversionWith
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.model.CurrencyType
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 internal class ClientControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
-    private val ratesDataSource: RatesDataSource
+    private val conversionDataSource: ConversionDataSource
 ) : ClientController {
 
     override suspend fun syncPopularCurrencies() {
@@ -24,16 +24,16 @@ internal class ClientControllerImpl(
             delay(SECOND)
 
             // non premium call for filling null values
-            runCatching { freeApiService.getRates(currencyType.name) }
+            runCatching { freeApiService.getConversion(currencyType.name) }
                 .onFailure { Logger.e(it) }
                 .onSuccess { nonPremiumResponse ->
 
                     // premium api call
-                    runCatching { premiumApiService.getRates(currencyType.name) }
+                    runCatching { premiumApiService.getConversion(currencyType.name) }
                         .onFailure { Logger.e(it) }
                         .onSuccess { premiumResponse ->
-                            ratesDataSource.insertRates(
-                                premiumResponse.fillMissingRatesWith(nonPremiumResponse)
+                            conversionDataSource.insertConversion(
+                                premiumResponse.fillMissingConversionWith(nonPremiumResponse)
                             )
                         }
                 }
@@ -47,9 +47,9 @@ internal class ClientControllerImpl(
 
             delay(SECOND)
 
-            runCatching { freeApiService.getRates(currencyType.name) }
+            runCatching { freeApiService.getConversion(currencyType.name) }
                 .onFailure { Logger.e(it) }
-                .onSuccess { ratesDataSource.insertRates(it) }
+                .onSuccess { conversionDataSource.insertConversion(it) }
         }
     }
 }
