@@ -12,8 +12,8 @@ import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.calculateResult
-import com.oztechan.ccc.client.util.getCurrencyConversion
+import com.oztechan.ccc.client.util.calculateRate
+import com.oztechan.ccc.client.util.getConversionStringFromBase
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
@@ -145,7 +145,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_conversion_in_db_then_exchange_rates_are_calculated() = runTest {
+    fun when_api_fails_and_there_is_conversion_in_db_then_conversion_rates_are_calculated() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -158,7 +158,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             assertEquals(ConversionState.Offline(currencyResponse.conversion.date), it.conversionState)
 
             val result = currencyList.toUIModelList().onEach { currency ->
-                currency.rate = currencyResponse.conversion.calculateResult(currency.code, it.output)
+                currency.rate = currencyResponse.conversion.calculateRate(currency.code, it.output)
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
@@ -363,7 +363,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }.after {
         assertIs<CalculatorEffect.ShowConversion>(it)
         assertEquals(
-            currencyUIModel.getCurrencyConversion(
+            currencyUIModel.getConversionStringFromBase(
                 subject.state.value.base,
                 subject.data.conversion
             ),
