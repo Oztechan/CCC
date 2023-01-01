@@ -96,7 +96,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .thenReturn("")
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyList))
 
         given(calculatorStorage)
@@ -209,7 +209,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .thenReturn(null)
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(listOf(currency1)))
 
         subject.effect.before {

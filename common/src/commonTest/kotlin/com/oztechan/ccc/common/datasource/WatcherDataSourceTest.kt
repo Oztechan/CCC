@@ -58,12 +58,12 @@ internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
     }
 
     @Test
-    fun collectWatchers() = runTest {
+    fun getWatchersFlow() = runTest {
         given(watcherQueries)
             .invocation { getWatchers() }
             .then { query }
 
-        subject.collectWatchers()
+        subject.getWatchersFlow()
 
         verify(watcherQueries)
             .coroutine { getWatchers() }
@@ -102,41 +102,41 @@ internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
     }
 
     @Test
-    fun updateBaseById() = runTest {
-        subject.updateBaseById(base, id)
+    fun updateWatcherBaseById() = runTest {
+        subject.updateWatcherBaseById(base, id)
 
         verify(watcherQueries)
-            .invocation { updateBaseById(base, id) }
+            .invocation { updateWatcherBaseById(base, id) }
             .wasInvoked()
     }
 
     @Test
-    fun updateTargetById() = runTest {
-        subject.updateTargetById(target, id)
+    fun updateWatcherTargetById() = runTest {
+        subject.updateWatcherTargetById(target, id)
 
         verify(watcherQueries)
-            .invocation { updateTargetById(target, id) }
+            .invocation { updateWatcherTargetById(target, id) }
             .wasInvoked()
     }
 
     @Test
-    fun updateRelationById() = runTest {
+    fun updateWatcherRelationById() = runTest {
         val relation = Random.nextBoolean()
-        subject.updateRelationById(relation, id)
+        subject.updateWatcherRelationById(relation, id)
 
         verify(watcherQueries)
-            .invocation { updateRelationById(relation.toLong(), id) }
+            .invocation { updateWatcherRelationById(relation.toLong(), id) }
             .wasInvoked()
     }
 
     @Test
-    fun updateRateById() = runTest {
+    fun updateWatcherRateById() = runTest {
         val rate = 1.2
 
-        subject.updateRateById(rate, id)
+        subject.updateWatcherRateById(rate, id)
 
         verify(watcherQueries)
-            .invocation { updateRateById(rate, id) }
+            .invocation { updateWatcherRateById(rate, id) }
             .wasInvoked()
     }
 }

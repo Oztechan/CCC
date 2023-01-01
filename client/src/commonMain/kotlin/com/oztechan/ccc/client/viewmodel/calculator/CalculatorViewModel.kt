@@ -71,7 +71,7 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        currencyDataSource.collectActiveCurrencies()
+        currencyDataSource.getActiveCurrenciesFlow()
             .onStart {
                 _state.update {
                     copy(

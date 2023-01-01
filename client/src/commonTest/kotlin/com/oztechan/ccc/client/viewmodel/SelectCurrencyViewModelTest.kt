@@ -52,7 +52,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         super.setup()
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyListEnough))
     }
 
@@ -66,7 +66,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     @Test
     fun init_updates_the_states_with_no_enough_currency() = runTest {
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyListNotEnough))
 
         subject.state.firstOrNull().let {
@@ -77,7 +77,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         }
 
         verify(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
@@ -93,7 +93,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         }
 
         verify(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
