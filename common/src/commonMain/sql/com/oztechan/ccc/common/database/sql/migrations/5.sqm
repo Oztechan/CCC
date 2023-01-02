@@ -1,7 +1,24 @@
 ALTER TABLE Offline_Rates RENAME TO Conversion;
 
-ALTER TABLE Currency RENAME COLUMN name TO code;
-ALTER TABLE Currency RENAME COLUMN longName TO name;
+BEGIN TRANSACTION;
+
+CREATE TABLE CurrencyTemp(
+    code TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    rate REAL NOT NULL DEFAULT 0.0,
+    isActive INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO CurrencyTemp(code, name, symbol, rate, isActive)
+SELECT name, longName, symbol, rate, isActive
+FROM Currency;
+
+DROP TABLE Currency;
+
+ALTER TABLE CurrencyTemp RENAME TO Currency;
+
+COMMIT;
 
 UPDATE Currency SET name = 'IMF Special drawing rights' WHERE code = 'XDR';
 UPDATE Currency SET name = 'Bosnia-Herzegovina convertible marka' WHERE code = 'BAM';
