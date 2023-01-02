@@ -67,7 +67,7 @@ struct SettingsView: View {
                         value: MR.strings().settings_active_item_value.get(
                             parameter: observable.state.activeWatcherCount
                         ),
-                        onClick: observable.event.onWatchersClicked
+                        onClick: observable.event.onWatchersClick
                     )
 
                     if observable.viewModel.shouldShowRemoveAds() {

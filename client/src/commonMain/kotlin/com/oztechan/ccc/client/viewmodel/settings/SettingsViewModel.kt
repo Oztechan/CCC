@@ -132,8 +132,8 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
 
-    override fun onWatchersClicked() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onWatchersClicked" }
+    override fun onWatchersClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onWatchersClick" }
         _effect.emit(SettingsEffect.OpenWatchers)
     }
 
