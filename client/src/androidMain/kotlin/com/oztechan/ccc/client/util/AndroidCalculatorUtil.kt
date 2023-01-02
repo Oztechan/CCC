@@ -10,7 +10,6 @@ import java.text.DecimalFormatSymbols
 import java.util.Locale
 
 internal actual fun Double.getFormatted(precision: Int): String {
-
     var decimalFormat = "###,###."
     repeat(precision) {
         decimalFormat = "$decimalFormat#"

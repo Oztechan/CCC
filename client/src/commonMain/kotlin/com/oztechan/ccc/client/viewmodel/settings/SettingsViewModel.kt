@@ -21,8 +21,8 @@ import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.nowAsLong
@@ -40,7 +40,7 @@ class SettingsViewModel(
     private val calculatorStorage: CalculatorStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
     private val adRepository: AdRepository,
     private val appConfigRepository: AppConfigRepository,
@@ -68,18 +68,18 @@ class SettingsViewModel(
             )
         }
 
-        currencyDataSource.collectActiveCurrencies()
+        currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
                 _state.update { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
-        watcherDataSource.collectWatchers()
+        watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
-    private suspend fun synchroniseRates() {
+    private suspend fun synchroniseConversions() {
         _state.update { copy(loading = true) }
 
         _effect.emit(SettingsEffect.Synchronising)
@@ -88,9 +88,9 @@ class SettingsViewModel(
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                runCatching { backendApiService.getRates(name) }
+                runCatching { backendApiService.getConversion(name) }
                     .onFailure { error -> Logger.e(error) }
-                    .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
+                    .onSuccess { conversionDataSource.insertConversion(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)
@@ -179,7 +179,7 @@ class SettingsViewModel(
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {
-            synchroniseRates()
+            synchroniseConversions()
         }
     }
 

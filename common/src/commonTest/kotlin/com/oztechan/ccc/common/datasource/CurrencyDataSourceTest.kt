@@ -1,9 +1,9 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.database.sql.Currency
+import com.oztechan.ccc.common.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
-import com.oztechan.ccc.common.db.sql.Currency
-import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
@@ -55,32 +55,32 @@ internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
     }
 
     @Test
-    fun collectAllCurrencies() {
+    fun getCurrenciesFlow() {
         given(currencyQueries)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrencies() }
             .thenReturn(query)
 
         runTest {
-            subject.collectAllCurrencies()
+            subject.getCurrenciesFlow()
         }
 
         verify(currencyQueries)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrencies() }
             .wasInvoked()
     }
 
     @Test
-    fun collectActiveCurrencies() {
+    fun getActiveCurrenciesFlow() {
         given(currencyQueries)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrencies() }
             .thenReturn(query)
 
         runTest {
-            subject.collectActiveCurrencies()
+            subject.getActiveCurrenciesFlow()
         }
 
         verify(currencyQueries)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrencies() }
             .wasInvoked()
     }
 
@@ -100,44 +100,44 @@ internal class CurrencyDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
     }
 
     @Test
-    fun updateCurrencyStateByName() {
-        val mockName = "mock"
+    fun updateCurrencyStateByCode() {
+        val mockCode = "mock"
         val mockState = Random.nextBoolean()
 
         runTest {
-            subject.updateCurrencyStateByName(mockName, mockState)
+            subject.updateCurrencyStateByCode(mockCode, mockState)
         }
 
         verify(currencyQueries)
-            .invocation { updateCurrencyStateByName(mockState.toLong(), mockName) }
+            .invocation { updateCurrencyStateByCode(mockState.toLong(), mockCode) }
             .wasInvoked()
     }
 
     @Test
-    fun updateAllCurrencyState() {
+    fun updateCurrencyStates() {
         val mockState = Random.nextBoolean()
 
         runTest {
-            subject.updateAllCurrencyState(mockState)
+            subject.updateCurrencyStates(mockState)
         }
 
         verify(currencyQueries)
-            .invocation { updateAllCurrencyState(mockState.toLong()) }
+            .invocation { updateCurrencyStates(mockState.toLong()) }
             .wasInvoked()
     }
 
     @Test
-    fun getCurrencyByName() {
+    fun getCurrencyByCode() {
         given(currencyQueries)
-            .invocation { getCurrencyByName(currency.name) }
+            .invocation { getCurrencyByCode(currency.code) }
             .thenReturn(query)
 
         runTest {
-            subject.getCurrencyByName(currency.name)
+            subject.getCurrencyByCode(currency.code)
         }
 
         verify(currencyQueries)
-            .invocation { getCurrencyByName(currency.name) }
+            .invocation { getCurrencyByCode(currency.code) }
             .wasInvoked()
     }
 }

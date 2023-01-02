@@ -22,8 +22,8 @@ import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getNavigationResult
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.android.util.setBannerAd
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
+import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
@@ -100,8 +100,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     txtSymbol.text = " $symbol"
                 }
 
-                binding.loadingView.showLoading(loading)
-                binding.txtAppStatus.dataState(rateState)
+                binding.loadingView.visibleIf(loading, true)
+                binding.txtAppStatus.dataState(conversionState)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -133,9 +133,9 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 )
 
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
-                is CalculatorEffect.ShowRate -> view?.showSnack(
+                is CalculatorEffect.ShowConversion -> view?.showSnack(
                     viewEffect.text,
-                    icon = getImageResourceIdByName(viewEffect.name)
+                    icon = getImageResourceIdByName(viewEffect.code)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

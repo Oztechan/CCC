@@ -5,11 +5,11 @@
 package com.oztechan.ccc.client.model
 
 data class Currency(
+    val code: String,
     val name: String,
-    val longName: String,
     val symbol: String,
     var rate: String,
     val isActive: Boolean = false
 ) {
-    fun getVariablesOneLine() = "$name $longName $symbol"
+    fun getVariablesOneLine() = "$code $name $symbol"
 }

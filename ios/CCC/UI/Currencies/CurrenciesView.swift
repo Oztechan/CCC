@@ -22,6 +22,7 @@ struct CurrenciesView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State var isFewCurrencySnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -50,7 +51,7 @@ struct CurrenciesView: View {
                     FormProgressView()
                 } else {
                     Form {
-                        List(observable.state.currencyList, id: \.name) { currency in
+                        List(observable.state.currencyList, id: \.code) { currency in
                             CurrenciesItemView(
                                 item: currency,
                                 onItemClick: { observable.event.onItemClick(currency: currency) },
@@ -80,6 +81,13 @@ struct CurrenciesView: View {
             .animation(.default)
             .navigationBarHidden(true)
         }
+        .popup(
+            isPresented: $isFewCurrencySnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().choose_at_least_two_currency.get())
+        }
         .onAppear {
             observable.startObserving()
             analyticsManager.trackScreen(screenName: ScreenName.Currencies())
@@ -92,7 +100,7 @@ struct CurrenciesView: View {
         logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            showSnack(text: MR.strings().choose_at_least_two_currency.get())
+            isFewCurrencySnackShown.toggle()
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:

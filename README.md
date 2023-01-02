@@ -152,7 +152,7 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode after the packages are resolved y
 
 ## Testing
 
-After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. Please replace all the `getRates` methods in
+After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. Please replace all the `getConversion` methods in
 
 * `com.oztechan.ccc.common.api.backend.BackendApiImpl`
 * `com.oztechan.ccc.common.api.free.FreeApiImpl`
@@ -161,7 +161,7 @@ After you run the app probably your all API calls will fail, it is expected sinc
 with below;
 
 ```kotlin
-override suspend fun getRates(base: String): CurrencyResponse = client.get {
+override suspend fun getConversion(base: String): CurrencyResponse = client.get {
     url {
         takeFrom("https://gist.githubusercontent.com/mustafaozhan/fa6d05e65919085f871adc825accea46/raw/d3bf3a7771e872e0c39541fe23b4058f4ae24c41/response.json")
     }

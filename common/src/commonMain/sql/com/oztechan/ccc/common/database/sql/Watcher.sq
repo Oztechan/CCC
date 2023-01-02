@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS Watcher(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    base TEXT NOT NULL,
+    target TEXT NOT NULL,
+    isGreater INTEGER NOT NULL DEFAULT 1,
+    rate REAL NOT NULL DEFAULT 0.0
+);
+
+addWatcher:
+INSERT OR REPLACE INTO Watcher(base, target) VALUES (?,?);
+
+deleteWatcher:
+DELETE FROM Watcher WHERE id = ?;
+
+updateWatcherBaseById:
+UPDATE Watcher SET base=? WHERE id=?;
+
+updateWatcherTargetById:
+UPDATE Watcher SET target=? WHERE id=?;
+
+updateWatcherRelationById:
+UPDATE Watcher SET isGreater=? WHERE id=?;
+
+updateWatcherRateById:
+UPDATE Watcher SET rate=? WHERE id=?;
+
+getWatchers:
+SELECT * FROM Watcher;

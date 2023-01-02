@@ -46,7 +46,7 @@ struct SelectCurrencyView: View {
                         FormProgressView()
                     } else {
                         Form {
-                            List(observable.state.currencyList, id: \.name) { currency in
+                            List(observable.state.currencyList, id: \.code) { currency in
                                 SelectCurrencyItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)

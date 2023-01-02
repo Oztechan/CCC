@@ -76,7 +76,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         super.setup()
 
         given(currencyDataSource)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrenciesFlow() }
             .thenReturn(currencyListFlow)
 
         given(appStorage)
@@ -85,7 +85,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(clientCurrency.name)
+            .thenReturn(clientCurrency.code)
     }
 
     // Analytics
@@ -98,7 +98,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasInvoked()
@@ -110,7 +110,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         val nonActiveCurrencyList = listOf(CommonCurrency("EUR", "Euro", "€", isActive = false))
 
         given(currencyDataSource)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrenciesFlow() }
             .thenReturn(flowOf(nonActiveCurrencyList))
 
         subject // init
@@ -122,7 +122,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasNotInvoked()
@@ -143,7 +143,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     fun `show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY and not firstRun`() {
         runTest {
             given(currencyDataSource)
-                .invocation { collectAllCurrencies() }
+                .invocation { getCurrenciesFlow() }
                 .thenReturn(
                     flow {
                         delay(SECOND)
@@ -165,7 +165,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         runTest {
             given(currencyDataSource)
-                .invocation { collectAllCurrencies() }
+                .invocation { getCurrenciesFlow() }
                 .thenReturn(
                     flow {
                         delay(SECOND)
@@ -191,7 +191,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         runTest {
             given(currencyDataSource)
-                .invocation { collectAllCurrencies() }
+                .invocation { getCurrenciesFlow() }
                 .thenReturn(
                     flow {
                         delay(SECOND)
@@ -255,10 +255,10 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun `verifyCurrentBase should set first active currency base when currentBase is empty`() = runTest {
-        val firstActiveBase = commonCurrency.name // first active currency
+        val firstActiveBase = commonCurrency.code // first active currency
 
         given(currencyDataSource)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrenciesFlow() }
             .thenReturn(
                 flow {
                     delay(SECOND)
@@ -285,7 +285,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         commonCurrency = commonCurrency.copy(isActive = false) // make first item in list not active
 
         given(currencyDataSource)
-            .invocation { collectAllCurrencies() }
+            .invocation { getCurrenciesFlow() }
             .thenReturn(
                 flow {
                     delay(SECOND)
@@ -295,15 +295,15 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(commonCurrency.name) // not active one
+            .thenReturn(commonCurrency.code) // not active one
 
         subject.effect.after {
             assertIs<CurrenciesEffect.ChangeBase>(it)
-            assertEquals(commonCurrency2.name, it.newBase)
+            assertEquals(commonCurrency2.code, it.newBase)
         }
 
         verify(calculatorStorage)
-            .invocation { currentBase = commonCurrency2.name }
+            .invocation { currentBase = commonCurrency2.code }
             .wasInvoked()
     }
 
@@ -323,7 +323,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         runTest {
             verify(currencyDataSource)
-                .coroutine { updateAllCurrencyState(mockValue) }
+                .coroutine { updateCurrencyStates(mockValue) }
                 .wasInvoked()
         }
     }
@@ -335,8 +335,8 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         runTest {
             verify(currencyDataSource)
                 .coroutine {
-                    updateCurrencyStateByName(
-                        clientCurrency.name,
+                    updateCurrencyStateByCode(
+                        clientCurrency.code,
                         !clientCurrency.isActive
                     )
                 }.wasInvoked()

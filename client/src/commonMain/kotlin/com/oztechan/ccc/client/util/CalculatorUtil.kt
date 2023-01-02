@@ -8,8 +8,8 @@ package com.oztechan.ccc.client.util
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.CurrencyType
-import com.oztechan.ccc.common.model.Rates
 
 const val MAXIMUM_FLOATING_POINT = 9
 
@@ -17,9 +17,9 @@ internal expect fun Double.getFormatted(precision: Int): String
 
 internal expect fun Double.removeScientificNotation(): String
 
-internal fun Rates?.calculateResult(name: String, input: String?) = this
+internal fun Conversion?.calculateRate(code: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
-    ?.getConversionByName(name)
+    ?.getRateFromCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
 
@@ -39,13 +39,13 @@ internal fun String.toStandardDigits(): String {
     return builder.toString()
 }
 
-internal fun Currency.getCurrencyConversionByRate(
+internal fun Currency.getConversionStringFromBase(
     base: String,
-    rate: Rates?
-) = "1 $base = ${rate?.getConversionByName(name)} ${getVariablesOneLine()}"
+    conversion: Conversion?
+) = "1 $base = ${conversion?.getRateFromCode(code)} ${getVariablesOneLine()}"
 
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
-    it.name != currentBase &&
+    it.code != currentBase &&
         it.isActive &&
         it.rate != "NaN" &&
         it.rate != "0.0" &&
@@ -56,8 +56,9 @@ internal fun Int.indexToNumber() = this + 1
 
 fun Int.numberToIndex() = this - 1
 
+// todo refactor when reflection is available in Kotlin Native
 @Suppress("ComplexMethod", "LongMethod")
-internal fun Rates.getConversionByName(name: String) = when (name.uppercase()) {
+internal fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.AED.toString() -> aed
     CurrencyType.AFN.toString() -> afn
     CurrencyType.ALL.toString() -> all

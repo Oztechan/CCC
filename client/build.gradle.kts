@@ -9,12 +9,13 @@ import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
-        id(SQL_DELIGHT)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(sqlDelight.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 kotlin {
@@ -28,38 +29,38 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(COROUTINES)
-                    implementation(KOIN_CORE)
-                    implementation(MULTIPLATFORM_SETTINGS)
+                libs.common.apply {
+                    implementation(kotlinXDateTime)
+                    implementation(coroutines)
+                    implementation(koinCore)
+                    implementation(multiplatformSettings)
                 }
-                with(Modules) {
-                    implementation(project(COMMON.path))
-                    implementation(project(CONFIG.path))
-                    implementation(project(LOGMOB.path))
-                    implementation(project(SCOPEMOB.path))
-                    implementation(project(PARSERMOB.path))
-                    implementation(project(ANALYTICS.path))
+                Modules.apply {
+                    implementation(project(COMMON))
+                    implementation(project(CONFIG))
+                    implementation(project(LOGMOB))
+                    implementation(project(SCOPEMOB))
+                    implementation(project(PARSERMOB))
+                    implementation(project(ANALYTICS))
                 }
             }
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                libs.common.apply {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(ANDROID_MATERIAL)
-                    implementation(KOIN_ANDROID)
-                    implementation(LIFECYCLE_VIEWMODEL)
+                libs.android.apply {
+                    implementation(androidMaterial)
+                    implementation(koinAndroid)
+                    implementation(lifecycleViewmodel)
                 }
             }
         }
@@ -87,7 +88,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {
@@ -96,7 +97,7 @@ ksp {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.CLIENT.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -106,7 +107,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {

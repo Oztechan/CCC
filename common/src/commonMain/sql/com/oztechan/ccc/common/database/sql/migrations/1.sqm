@@ -1,0 +1,2 @@
+INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('VES', 'Venezuelan bolívar soberano', 'Bs.', 0.0, 0);
+ALTER TABLE Offline_Rates ADD COLUMN VES REAL DEFAULT 0.0;

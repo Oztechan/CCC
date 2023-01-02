@@ -1,9 +1,10 @@
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
-        id(ANDROID_LIB)
-        id(MOKO_RESOURCES)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(cocoapods.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(mokoResources.get().pluginId)
     }
 }
 
@@ -15,7 +16,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        with(ProjectSettings) {
+        ProjectSettings.apply {
             summary = PROJECT_NAME
             homepage = HOMEPAGE
             ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
@@ -30,12 +31,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Common.MOKO_RESOURCES)
+                implementation(libs.common.mokoResources)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
 
@@ -64,7 +65,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.RES.packageName
         compileSdk = COMPILE_SDK_VERSION
 

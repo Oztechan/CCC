@@ -77,7 +77,6 @@ internal class BillingManagerImpl(private val context: Context) :
         productDetailList
             .firstOrNull { it.productId == skuId }
             ?.let {
-
                 val offerToken = it.subscriptionOfferDetails?.get(productDetailList.indexOf(it))?.offerToken.orEmpty()
 
                 val productDetailsParamsList = listOf(

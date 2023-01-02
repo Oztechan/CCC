@@ -5,24 +5,33 @@
 package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.repository.api.ApiRepository
+import com.oztechan.ccc.backend.controller.server.ServerController
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-internal suspend fun Route.getCurrencyByName(apiController: ApiRepository) = get(PATH_BY_BASE) {
+internal suspend fun Route.getCurrencyByName(
+    serverController: ServerController
+) = get(PATH_BY_BASE) {
+    Logger.i { "GET Request $PATH_BY_BASE" }
+
     call.parameters[PARAMETER_BASE]?.let { base ->
-        Logger.i { "GET Request $PARAMETER_BASE $base" }
-        apiController.getOfflineCurrencyResponseByBase(base)?.let {
-            call.respond(it)
-        } ?: call.respond(HttpStatusCode.NotFound)
-    } ?: run {
-        Logger.i { "GET Request  $PARAMETER_BASE" }
-        call.respond(HttpStatusCode.BadRequest)
-    }
+        Logger.i { "Parameter: $PARAMETER_BASE $base" }
+
+        serverController.getCurrencyResponseTextByBase(base)
+            ?.let {
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    status = HttpStatusCode.OK,
+                    text = it
+                )
+            } ?: call.respond(HttpStatusCode.NotFound)
+    } ?: call.respond(HttpStatusCode.BadRequest)
 }

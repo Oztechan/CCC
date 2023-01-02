@@ -1,7 +1,8 @@
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
     }
 }
 
@@ -19,19 +20,19 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    api(kotlin(TEST))
-                    api(kotlin(TEST_ANNOTATIONS))
-                    implementation(COROUTINES_TEST)
+                libs.common.apply {
+                    api(test)
+                    api(testAnnotations)
+                    implementation(coroutinesTest)
                 }
-                implementation(project(Modules.LOGMOB.path))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting
 
         val androidMain by getting {
             dependencies {
-                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+                api(libs.jvm.testJunit)
             }
         }
         val androidTest by getting
@@ -57,7 +58,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                api(kotlin(Dependencies.JVM.TEST_JUNIT))
+                api(libs.jvm.testJunit)
             }
         }
         val jvmTest by getting
@@ -65,7 +66,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.TEST.packageName
         compileSdk = COMPILE_SDK_VERSION
 

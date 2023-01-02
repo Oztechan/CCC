@@ -40,14 +40,14 @@ class CalculatorAdapter(
                 setOnClickListener { root.callOnClick() }
             }
 
-            with(txtType) {
-                text = item.name
+            with(txtCode) {
+                text = item.code
                 setOnLongClickListener { onCurrencyLongClick(item) }
                 setOnClickListener { root.callOnClick() }
             }
 
             with(imgItem) {
-                setBackgroundByName(item.name)
+                setBackgroundByName(item.code)
                 setOnLongClickListener { onCurrencyLongClick(item) }
                 setOnClickListener { root.callOnClick() }
             }

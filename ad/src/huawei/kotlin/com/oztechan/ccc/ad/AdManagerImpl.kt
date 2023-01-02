@@ -14,9 +14,7 @@ internal class AdManagerImpl : AdManager {
         onAdLoaded: (Int?) -> Unit
     ): BannerAdView {
         Logger.i { "AdManagerImpl getBannerAd" }
-        return BannerAdView(context, View(context)) {
-
-        }
+        return BannerAdView(context, View(context)) { }
     }
 
     override fun showInterstitialAd(

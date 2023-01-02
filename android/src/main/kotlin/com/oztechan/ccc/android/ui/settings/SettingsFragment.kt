@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isGone
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,6 @@ import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.FragmentSettingsBinding
 import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getThemeMode
-import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSingleChoiceDialog
@@ -88,7 +88,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
             }
         } else {
-            itemDisableAds.root.gone()
+            itemDisableAds.root.isGone = true
         }
 
         with(itemPrecision) {

@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "bundler"
 gem "fastlane"
-
-eval_gemfile("fastlane/Pluginfile")
+gem "fastlane-plugin-firebase_app_distribution"
+gem "xcode-install"

@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
-import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.error.DatabaseException
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher

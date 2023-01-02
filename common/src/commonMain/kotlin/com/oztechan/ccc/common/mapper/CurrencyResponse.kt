@@ -1,40 +1,43 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.common.database.sql.Conversion
 import com.oztechan.ccc.common.model.CurrencyResponse
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
-import com.oztechan.ccc.common.db.sql.Offline_rates as OfflineRates
 
 internal fun CurrencyResponseEntity.toModel(
     fallbackBase: String = base
 ) = CurrencyResponse(
     base = fallbackBase,
     date = date,
-    rates = rates.toModel()
+    conversion = conversion.toModel()
 )
 
-internal fun CurrencyResponse.toOfflineRates() = OfflineRates(
+internal fun CurrencyResponse.toConversion() = Conversion(
     base,
     date,
-    rates.aed, rates.afn, rates.all, rates.amd, rates.ang, rates.aoa, rates.ars, rates.aud,
-    rates.awg, rates.azn, rates.bam, rates.bbd, rates.bdt, rates.bgn, rates.bhd, rates.bif,
-    rates.bmd, rates.bnd, rates.bob, rates.brl, rates.bsd, rates.btc, rates.btn, rates.bwp,
-    rates.byn, rates.bzd, rates.cad, rates.cdf, rates.chf, rates.clf, rates.clp, rates.cnh,
-    rates.cny, rates.cop, rates.crc, rates.cuc, rates.cup, rates.cve, rates.czk, rates.djf,
-    rates.dkk, rates.dop, rates.dzd, rates.egp, rates.ern, rates.etb, rates.eur, rates.fjd,
-    rates.fkp, rates.gbp, rates.gel, rates.ggp, rates.ghs, rates.gip, rates.gmd, rates.gnf,
-    rates.gtq, rates.gyd, rates.hkd, rates.hnl, rates.hrk, rates.htg, rates.huf, rates.idr,
-    rates.ils, rates.imp, rates.inr, rates.iqd, rates.irr, rates.isk, rates.jep, rates.jmd,
-    rates.jod, rates.jpy, rates.kes, rates.kgs, rates.khr, rates.kmf, rates.kpw, rates.krw,
-    rates.kwd, rates.kyd, rates.kzt, rates.lak, rates.lbp, rates.lkr, rates.lrd, rates.lsl,
-    rates.lyd, rates.mad, rates.mdl, rates.mga, rates.mkd, rates.mmk, rates.mnt, rates.mop,
-    rates.mro, rates.mru, rates.mur, rates.mvr, rates.mwk, rates.mxn, rates.myr, rates.mzn,
-    rates.nad, rates.ngn, rates.nio, rates.nok, rates.npr, rates.nzd, rates.omr, rates.pab,
-    rates.pen, rates.pgk, rates.php, rates.pkr, rates.pln, rates.pyg, rates.qar, rates.ron,
-    rates.rsd, rates.rub, rates.rwf, rates.sar, rates.sbd, rates.scr, rates.sdg, rates.sek,
-    rates.sgd, rates.shp, rates.sll, rates.sos, rates.srd, rates.ssp, rates.std, rates.stn,
-    rates.svc, rates.syp, rates.szl, rates.thb, rates.tjs, rates.tmt, rates.tnd, rates.top,
-    rates.`try`, rates.ttd, rates.twd, rates.tzs, rates.uah, rates.ugx, rates.usd, rates.uyu,
-    rates.uzs, rates.ves, rates.vnd, rates.vuv, rates.wst, rates.xaf, rates.xag, rates.xau,
-    rates.xcd, rates.xdr, rates.xof, rates.xpd, rates.xpf, rates.xpt, rates.yer, rates.zar,
-    rates.zmw, rates.zwl
+    conversion.aed, conversion.afn, conversion.all, conversion.amd, conversion.ang, conversion.aoa, conversion.ars,
+    conversion.aud, conversion.awg, conversion.azn, conversion.bam, conversion.bbd, conversion.bdt, conversion.bgn,
+    conversion.bhd, conversion.bif, conversion.bmd, conversion.bnd, conversion.bob, conversion.brl, conversion.bsd,
+    conversion.btc, conversion.btn, conversion.bwp, conversion.byn, conversion.bzd, conversion.cad, conversion.cdf,
+    conversion.chf, conversion.clf, conversion.clp, conversion.cnh, conversion.cny, conversion.cop, conversion.crc,
+    conversion.cuc, conversion.cup, conversion.cve, conversion.czk, conversion.djf, conversion.dkk, conversion.dop,
+    conversion.dzd, conversion.egp, conversion.ern, conversion.etb, conversion.eur, conversion.fjd, conversion.fkp,
+    conversion.gbp, conversion.gel, conversion.ggp, conversion.ghs, conversion.gip, conversion.gmd, conversion.gnf,
+    conversion.gtq, conversion.gyd, conversion.hkd, conversion.hnl, conversion.hrk, conversion.htg, conversion.huf,
+    conversion.idr, conversion.ils, conversion.imp, conversion.inr, conversion.iqd, conversion.irr, conversion.isk,
+    conversion.jep, conversion.jmd, conversion.jod, conversion.jpy, conversion.kes, conversion.kgs, conversion.khr,
+    conversion.kmf, conversion.kpw, conversion.krw, conversion.kwd, conversion.kyd, conversion.kzt, conversion.lak,
+    conversion.lbp, conversion.lkr, conversion.lrd, conversion.lsl, conversion.lyd, conversion.mad, conversion.mdl,
+    conversion.mga, conversion.mkd, conversion.mmk, conversion.mnt, conversion.mop, conversion.mro, conversion.mru,
+    conversion.mur, conversion.mvr, conversion.mwk, conversion.mxn, conversion.myr, conversion.mzn, conversion.nad,
+    conversion.ngn, conversion.nio, conversion.nok, conversion.npr, conversion.nzd, conversion.omr, conversion.pab,
+    conversion.pen, conversion.pgk, conversion.php, conversion.pkr, conversion.pln, conversion.pyg, conversion.qar,
+    conversion.ron, conversion.rsd, conversion.rub, conversion.rwf, conversion.sar, conversion.sbd, conversion.scr,
+    conversion.sdg, conversion.sek, conversion.sgd, conversion.shp, conversion.sll, conversion.sos, conversion.srd,
+    conversion.ssp, conversion.std, conversion.stn, conversion.svc, conversion.syp, conversion.szl, conversion.thb,
+    conversion.tjs, conversion.tmt, conversion.tnd, conversion.top, conversion.`try`, conversion.ttd, conversion.twd,
+    conversion.tzs, conversion.uah, conversion.ugx, conversion.usd, conversion.uyu, conversion.uzs, conversion.ves,
+    conversion.vnd, conversion.vuv, conversion.wst, conversion.xaf, conversion.xag, conversion.xau, conversion.xcd,
+    conversion.xdr, conversion.xof, conversion.xpd, conversion.xpf, conversion.xpt, conversion.yer, conversion.zar,
+    conversion.zmw, conversion.zwl
 )
