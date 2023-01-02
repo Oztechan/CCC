@@ -1,8 +1,6 @@
-import Modules.packageName
-import Modules.path
-
 plugins {
-    with(libs.plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
     }
@@ -22,12 +20,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     api(test)
                     api(testAnnotations)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.LOGMOB.path))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting
@@ -68,7 +66,7 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.TEST.packageName
         compileSdk = COMPILE_SDK_VERSION
 

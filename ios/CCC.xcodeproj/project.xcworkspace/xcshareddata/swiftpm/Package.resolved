@@ -91,6 +91,15 @@
       }
     },
     {
+      "identity" : "popupview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/PopupView.git",
+      "state" : {
+        "revision" : "3c82a7d09ba44e1c7d8a2f7d17657de2e03d0f24",
+        "version" : "1.2.1"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
@@ -127,21 +136,12 @@
       }
     },
     {
-      "identity" : "swiftmessages",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwiftKickMobile/SwiftMessages",
-      "state" : {
-        "revision" : "b29dd21090b708aa0ae9ecbaf6e2d0487028dc3f",
-        "version" : "9.0.6"
-      }
-    },
-    {
       "identity" : "swiftui-navigation-stack",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/matteopuc/swiftui-navigation-stack",
       "state" : {
-        "revision" : "be0db68ed0d84ed543bf8f7600a1f84de015f753",
-        "version" : "1.0.4"
+        "revision" : "9e45f85008f5ad1fc0b3ee2d9e0ff1ca77f52efa",
+        "version" : "1.0.6"
       }
     }
   ],

@@ -12,5 +12,5 @@ import kotlinx.serialization.json.JsonNames
 internal data class CurrencyResponse(
     @JsonNames("base", "base_code") var base: String,
     @SerialName("date") var date: String? = null,
-    @JsonNames("rates", "conversion_rates") var rates: Rates
+    @JsonNames("rates", "conversion_rates") var conversion: Conversion
 )

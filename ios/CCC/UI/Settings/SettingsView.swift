@@ -11,6 +11,7 @@ import Res
 import Provider
 import NavigationStack
 import GoogleMobileAds
+import PopupView
 
 struct SettingsView: View {
 
@@ -25,6 +26,11 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
+    @State var isRemoveAdsDialogShown: Bool = false
+    @State var isAdsAlreadyDisabledSnackShown: Bool = false
+    @State var isAlreadySyncedSnackShown: Bool = false
+    @State var isSynchronisingShown: Bool = false
+    @State var isSyncedSnackShown: Bool = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -101,7 +107,7 @@ struct SettingsView: View {
                     )
 
                     SettingsItemView(
-                        imgName: "123.rectangle",
+                        imgName: "textformat.123",
                         title: MR.strings().settings_item_version_title.get(),
                         subTitle: MR.strings().settings_item_version_sub_title.get(),
                         value: observable.state.version,
@@ -116,6 +122,46 @@ struct SettingsView: View {
 
             }
             .navigationBarHidden(true)
+        }
+        .popup(
+            isPresented: $isAdsAlreadyDisabledSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_ads_already_disabled.get())
+        }
+        .popup(
+            isPresented: $isAlreadySyncedSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_already_synced.get())
+        }
+        .popup(
+            isPresented: $isSynchronisingShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_synchronising.get())
+        }
+        .popup(
+            isPresented: $isSyncedSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().txt_synced.get())
+        }
+        .popup(isPresented: $isRemoveAdsDialogShown) {
+            AlertView(
+                title: MR.strings().txt_remove_ads.get(),
+                message: MR.strings().txt_remove_ads_text.get(),
+                buttonText: MR.strings().txt_watch.get(),
+                buttonAction: {
+                    RewardedAd(
+                        onReward: { observable.viewModel.updateAddFreeDate() }
+                    ).show()
+                }
+            )
         }
         .sheet(isPresented: $emailViewVisibility) {
             MailView(isShowing: $emailViewVisibility)
@@ -146,31 +192,15 @@ struct SettingsView: View {
         case is SettingsEffect.OnGitHub:
             webViewVisibility.toggle()
         case is SettingsEffect.Synchronising:
-            showSnack(text: MR.strings().txt_synchronising.get())
+            isSynchronisingShown.toggle()
         case is SettingsEffect.Synchronised:
-            showSnack(text: MR.strings().txt_synced.get())
+            isSyncedSnackShown.toggle()
         case is SettingsEffect.OnlyOneTimeSync:
-            showSnack(text: MR.strings().txt_already_synced.get())
+            isAlreadySyncedSnackShown.toggle()
         case is SettingsEffect.AlreadyAdFree:
-            showSnack(text: MR.strings().txt_ads_already_disabled.get())
+            isAdsAlreadyDisabledSnackShown.toggle()
         case is SettingsEffect.RemoveAds:
-            showAlert(
-                title: MR.strings().txt_remove_ads.get(),
-                text: MR.strings().txt_remove_ads_text.get(),
-                buttonText: MR.strings().txt_watch.get(),
-                action: {
-                    RewardedAd(
-                        rewardFunction: { observable.viewModel.updateAddFreeDate() },
-                        errorFunction: {
-                            showAlert(
-                                title: MR.strings().txt_remove_ads.get(),
-                                text: MR.strings().error_text_unknown.get(),
-                                buttonText: MR.strings().cancel.get()
-                            )
-                        }
-                    ).show()
-                }
-            )
+            isRemoveAdsDialogShown.toggle()
         default:
             logger.i(message: {"SettingsView unknown effect"})
         }

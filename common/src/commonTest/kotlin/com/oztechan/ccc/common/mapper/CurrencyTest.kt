@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
+import com.oztechan.ccc.common.database.sql.Currency as CurrencyEntity
 
 @Suppress("OPT_IN_USAGE")
 internal class CurrencyTest : BaseTest() {

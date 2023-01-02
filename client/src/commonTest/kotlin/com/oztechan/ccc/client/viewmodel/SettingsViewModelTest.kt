@@ -17,12 +17,12 @@ import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isRewardExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.rates.RatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.model.Rates
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
@@ -57,7 +57,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             calculatorStorage,
             backendApiService,
             currencyDataSource,
-            ratesDataSource,
+            conversionDataSource,
             watcherDataSource,
             adRepository,
             appConfigRepository,
@@ -78,7 +78,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val ratesDataSource = mock(classOf<RatesDataSource>())
+    private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Mock
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
@@ -122,11 +122,11 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(mockedPrecision)
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyList))
 
         given(watcherDataSource)
-            .invocation { collectWatchers() }
+            .invocation { getWatchersFlow() }
             .then { flowOf(watcherLists) }
 
         given(appConfigRepository)
@@ -152,10 +152,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `successful synchroniseRates update the database`() = runTest {
+    fun `successful synchroniseConversions update the database`() = runTest {
         subject.data.synced = false
 
-        val currencyResponse = CurrencyResponse("EUR", null, Rates())
+        val currencyResponse = CurrencyResponse("EUR", null, Conversion())
         val currency = Currency("EUR", "", "")
 
         given(currencyDataSource)
@@ -163,7 +163,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(currencyList)
 
         given(backendApiService)
-            .coroutine { getRates(currency.code) }
+            .coroutine { getConversion(currency.code) }
             .thenReturn(currencyResponse)
 
         subject.effect.before {
@@ -173,13 +173,13 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(ratesDataSource)
-            .coroutine { ratesDataSource.insertRates(currencyResponse) }
+        verify(conversionDataSource)
+            .coroutine { conversionDataSource.insertConversion(currencyResponse) }
             .wasInvoked()
     }
 
     @Test
-    fun `failed synchroniseRates should pass Synchronised effect`() = runTest {
+    fun `failed synchroniseConversions should pass Synchronised effect`() = runTest {
         subject.data.synced = false
 
         given(currencyDataSource)
@@ -187,7 +187,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(currencyList)
 
         given(backendApiService)
-            .coroutine { getRates("") }
+            .coroutine { getConversion("") }
             .thenThrow(Exception("test"))
 
         subject.effect.before {
@@ -197,8 +197,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(ratesDataSource)
-            .coroutine { ratesDataSource.insertRates(CurrencyResponse("", "", Rates())) }
+        verify(conversionDataSource)
+            .coroutine { conversionDataSource.insertConversion(CurrencyResponse("", "", Conversion())) }
             .wasNotInvoked()
     }
 

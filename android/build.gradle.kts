@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import Modules.packageName
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
@@ -9,7 +8,8 @@ import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
-    with(libs.plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         id(androidApp.get().pluginId)
         id(crashlytics.get().pluginId)
         id(googleServices.get().pluginId)
@@ -21,7 +21,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.ANDROID.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -54,7 +54,7 @@ android {
 
     signingConfigs {
         create(BuildType.release) {
-            with(Keys(project)) {
+            Keys(project).apply {
                 storeFile = file(androidKeyStorePath.value)
                 storePassword = androidStorePassword.value
                 keyAlias = androidKeyAlias.value
@@ -63,7 +63,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -95,12 +95,12 @@ android {
 }
 
 dependencies {
-    with(libs) {
-        with(common) {
+    libs.apply {
+        common.apply {
             implementation(kotlinXDateTime)
         }
 
-        with(android) {
+        android.apply {
             implementation(composeToolingPreview)
             debugImplementation(composeTooling)
             implementation(material3)
@@ -118,22 +118,22 @@ dependencies {
             debugImplementation(leakCanary)
         }
 
-        with(android.google) {
+        android.google.apply {
             @Suppress("UnstableApiUsage")
             googleImplementation(playCore)
         }
     }
 
-    with(Modules) {
-        implementation(project(CLIENT.path))
-        implementation(project(RES.path))
-        implementation(project(BILLING.path))
-        implementation(project(AD.path))
-        implementation(project(LOGMOB.path))
-        implementation(project(SCOPEMOB.path))
-        implementation(project(BASEMOB.path))
-        implementation(project(ANALYTICS.path))
+    Modules.apply {
+        implementation(project(CLIENT))
+        implementation(project(RES))
+        implementation(project(BILLING))
+        implementation(project(AD))
+        implementation(project(LOGMOB))
+        implementation(project(SCOPEMOB))
+        implementation(project(BASEMOB))
+        implementation(project(ANALYTICS))
 
-        testImplementation(project(TEST.path))
+        testImplementation(project(TEST))
     }
 }

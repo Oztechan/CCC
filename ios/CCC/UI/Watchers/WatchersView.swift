@@ -10,9 +10,12 @@ import SwiftUI
 import Provider
 import Res
 import NavigationStack
+import PopupView
 
 struct WatchersView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = ObservableSEEDViewModel<
         WatchersState,
         WatchersEffect,
@@ -20,10 +23,12 @@ struct WatchersView: View {
         WatchersData,
         WatchersViewModel
     >()
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
+    @State var isInvalidInputSnackShown = false
+    @State var isMaxWatchersSnackShown = false
+    @State var isTooBigNumberSnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -110,6 +115,27 @@ struct WatchersView: View {
             }
             .background(MR.colors().background_strong.get())
         }
+        .popup(
+            isPresented: $isInvalidInputSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().text_invalid_input.get())
+        }
+        .popup(
+            isPresented: $isMaxWatchersSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().text_maximum_number_of_watchers.get())
+        }
+        .popup(
+            isPresented: $isTooBigNumberSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: MR.strings().text_too_big_number.get())
+        }
         .sheet(
             isPresented: $baseBarInfo.isShown,
             content: {
@@ -170,11 +196,11 @@ struct WatchersView: View {
             targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
         case is WatchersEffect.TooBigNumber:
-            showSnack(text: MR.strings().text_too_big_number.get(), isTop: true)
+            isTooBigNumberSnackShown.toggle()
         case is WatchersEffect.InvalidInput:
-            showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
+            isInvalidInputSnackShown.toggle()
         case is WatchersEffect.MaximumNumberOfWatchers:
-            showSnack(text: MR.strings().text_maximum_number_of_watchers.get(), isTop: true)
+            isMaxWatchersSnackShown.toggle()
         default:
             logger.i(message: {"WatchersView unknown effect"})
         }

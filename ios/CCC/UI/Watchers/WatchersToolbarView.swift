@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 
 struct WatchersToolbarView: View {
+    @Environment(\.colorScheme) var colorScheme
     var backEvent: () -> Void
 
     var body: some View {

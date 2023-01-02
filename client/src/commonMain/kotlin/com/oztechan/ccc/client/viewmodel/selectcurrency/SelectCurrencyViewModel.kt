@@ -35,7 +35,7 @@ class SelectCurrencyViewModel(
     // endregion
 
     init {
-        currencyDataSource.collectActiveCurrencies()
+        currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
                 _state.update {
                     copy(

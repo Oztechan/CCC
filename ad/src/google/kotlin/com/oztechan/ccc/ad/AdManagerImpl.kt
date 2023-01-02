@@ -14,6 +14,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
+@Suppress("VisibleForTests")
 internal class AdManagerImpl : AdManager {
 
     init {
@@ -28,7 +29,6 @@ internal class AdManagerImpl : AdManager {
         adId: String,
         onAdLoaded: (Int?) -> Unit
     ): BannerAdView {
-
         val adView = AdView(context).apply {
             Logger.i { "AdManagerImpl getBannerAd" }
 

@@ -51,7 +51,7 @@ class CurrenciesViewModel(
     // endregion
 
     init {
-        currencyDataSource.collectAllCurrencies()
+        currencyDataSource.getCurrenciesFlow()
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
@@ -127,7 +127,7 @@ class CurrenciesViewModel(
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyDataSource.updateAllCurrencyState(state)
+        currencyDataSource.updateCurrencyStates(state)
     }
 
     override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {

@@ -14,10 +14,10 @@ internal class PremiumApiServiceImpl(
     ioDispatcher: CoroutineDispatcher
 ) : PremiumApiService, BaseNetworkService(ioDispatcher) {
 
-    override suspend fun getRates(
+    override suspend fun getConversion(
         base: String
     ) = apiRequest {
-        Logger.v { "PremiumApiServiceImpl getRates $base" }
-        premiumAPI.getRates(base.withEmptyParameterCheck()).toModel(base)
+        Logger.v { "PremiumApiServiceImpl getConversion $base" }
+        premiumAPI.getConversion(base.withEmptyParameterCheck()).toModel(base)
     }
 }

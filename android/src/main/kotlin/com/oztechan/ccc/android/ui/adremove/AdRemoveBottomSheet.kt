@@ -16,10 +16,10 @@ import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.BottomSheetAdRemoveBinding
 import com.oztechan.ccc.android.util.showDialog
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.toOldPurchaseList
 import com.oztechan.ccc.android.util.toRemoveAdDataList
+import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.billing.BillingEffect
 import com.oztechan.ccc.billing.BillingManager
 import com.oztechan.ccc.client.model.RemoveAdType
@@ -74,7 +74,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                binding.loadingView.showLoading(loading)
+                binding.loadingView.visibleIf(loading, true)
                 removeAdsAdapter.submitList(adRemoveTypes)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -98,6 +98,7 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                         billingManager.launchBillingFlow(requireActivity(), viewEffect.removeAdType.data.id)
                     }
                 }
+
                 is AdRemoveEffect.AdsRemoved -> {
                     if (viewEffect.removeAdType == RemoveAdType.VIDEO || viewEffect.isRestorePurchase) {
                         restartActivity()
@@ -117,9 +118,11 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
                 is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
                     viewEffect.purchaseHistoryRecordList.toOldPurchaseList()
                 )
+
                 is BillingEffect.AddPurchaseMethods -> adRemoveViewModel.addPurchaseMethods(
                     viewEffect.purchaseMethodList.toRemoveAdDataList()
                 )
+
                 is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
                     RemoveAdType.getById(viewEffect.id)
                 )

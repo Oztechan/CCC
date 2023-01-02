@@ -30,7 +30,6 @@ env:
 
 jobs:
   DistributeAndroid:
-
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -87,7 +86,6 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-
     runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
