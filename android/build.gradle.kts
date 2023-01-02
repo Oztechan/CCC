@@ -45,6 +45,10 @@ android {
 
         buildFeatures {
             viewBinding = true
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.versions.compose.get()
         }
     }
 
@@ -97,6 +101,9 @@ dependencies {
         }
 
         android.apply {
+            implementation(composeToolingPreview)
+            debugImplementation(composeTooling)
+            implementation(material3)
             implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)

@@ -1,9 +1,11 @@
 [versions]
 
-kotlin = "1.7.22"
-ksp = "1.7.22-1.0.8"
+kotlin = "1.7.20"
+ksp = "1.7.20-1.0.8"
 detekt = "1.22.0"
 androidGradlePlugin = "7.3.1"
+compose = "1.3.2"
+material3 = "1.0.1"
 androidMaterial = "1.7.0"
 constraintLayout = "2.1.4"
 koinCore = "3.3.2"
@@ -61,7 +63,11 @@ common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatt
 
 # ANDROID
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
+android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 android-firebaseAnalytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
 android-firebaseRemoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebaseRemoteConfig" }
@@ -69,7 +75,6 @@ android-firebasePer = { module = "com.google.firebase:firebase-perf-ktx", versio
 android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 android-sqlDelight = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 android-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
