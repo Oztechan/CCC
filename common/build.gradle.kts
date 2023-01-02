@@ -128,7 +128,6 @@ sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
         packageName = "${Modules.COMMON.packageName}.database.sql"
         sourceFolders = listOf("sql")
-        dialect = "sqlite:3.25"
     }
 }
 
