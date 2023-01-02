@@ -1,13 +1,13 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.model.Conversion
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import com.oztechan.ccc.common.api.model.Conversion as APIConversion
 import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
-import com.oztechan.ccc.common.api.model.Rates as APIRates
-import com.oztechan.ccc.common.db.sql.Rates as DBRates
+import com.oztechan.ccc.common.database.sql.Conversion as DBConversion
 
-internal fun DBRates.toRatesEntity() = APIRates(
+internal fun DBConversion.toConversionEntity() = APIConversion(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
     BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF,
     CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,
@@ -21,13 +21,13 @@ internal fun DBRates.toRatesEntity() = APIRates(
     XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL
 )
 
-internal fun DBRates?.toCurrencyResponseEntity() = this?.run {
-    CurrencyResponseEntity(base, date, toRatesEntity())
+internal fun DBConversion?.toCurrencyResponseEntity() = this?.run {
+    CurrencyResponseEntity(base, date, toConversionEntity())
 }
 
 internal fun CurrencyResponseEntity?.toSerializedString() = Json.encodeToString(this)
 
-internal fun DBRates.toModel() = Rates(
+internal fun DBConversion.toModel() = Conversion(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
     BGN, BHD, BIF, BMD, BND, BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF,
     CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,
@@ -41,7 +41,7 @@ internal fun DBRates.toModel() = Rates(
     XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL
 )
 
-internal fun APIRates.toModel() = Rates(
+internal fun APIConversion.toModel() = Conversion(
     base, date, aed, afn, all, amd, ang, aoa, ars, aud, awg, azn, bam, bbd, bdt, bgn, bhd, bif,
     bmd, bnd, bob, brl, bsd, btc, btn, bwp, byn, bzd, cad, cdf, chf, clf, clp, cnh, cny, cop,
     crc, cuc, cup, cve, czk, djf, dkk, dop, dzd, egp, ern, etb, eur, fjd, fkp, gbp, gel, ggp,

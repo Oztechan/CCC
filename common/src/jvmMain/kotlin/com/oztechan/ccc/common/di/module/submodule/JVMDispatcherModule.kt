@@ -10,6 +10,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+@Suppress("InjectDispatcher")
 internal actual val dispatcherModule: Module = module {
     single<CoroutineDispatcher>(named(DISPATCHER_MAIN)) { Dispatchers.Main }
     single(named(DISPATCHER_IO)) { Dispatchers.IO }

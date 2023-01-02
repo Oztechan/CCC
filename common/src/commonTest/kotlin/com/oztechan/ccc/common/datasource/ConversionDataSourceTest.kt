@@ -1,12 +1,12 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.api.model.Conversion
 import com.oztechan.ccc.common.api.model.CurrencyResponse
-import com.oztechan.ccc.common.api.model.Rates
-import com.oztechan.ccc.common.datasource.rates.RatesDataSource
-import com.oztechan.ccc.common.datasource.rates.RatesDataSourceImpl
-import com.oztechan.ccc.common.db.sql.RatesQueries
+import com.oztechan.ccc.common.database.sql.ConversionQueries
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
+import com.oztechan.ccc.common.mapper.toConversion
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.mapper.toRates
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query
@@ -22,14 +22,14 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-internal class RatesDataSourceTest : BaseSubjectTest<RatesDataSource>() {
+internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>() {
 
-    override val subject: RatesDataSource by lazy {
-        RatesDataSourceImpl(ratesQueries, createTestDispatcher())
+    override val subject: ConversionDataSource by lazy {
+        ConversionDataSourceImpl(conversionQueries, createTestDispatcher())
     }
 
     @Mock
-    private val ratesQueries = mock(classOf<RatesQueries>())
+    private val conversionQueries = mock(classOf<ConversionQueries>())
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
@@ -37,11 +37,11 @@ internal class RatesDataSourceTest : BaseSubjectTest<RatesDataSource>() {
     @Mock
     private val sqlCursor = mock(classOf<SqlCursor>())
 
-    private val currencyResponseEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val currencyResponseEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
     private val currencyResponse = currencyResponseEntity.toModel()
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        currencyResponse.toRates()
+        currencyResponse.toConversion()
     }
 
     @BeforeTest
@@ -58,43 +58,43 @@ internal class RatesDataSourceTest : BaseSubjectTest<RatesDataSource>() {
     }
 
     @Test
-    fun insertRates() {
+    fun insertConversion() {
         runTest {
-            subject.insertRates(currencyResponse)
+            subject.insertConversion(currencyResponse)
         }
 
-        verify(ratesQueries)
-            .invocation { insertRates(currencyResponse.toRates()) }
+        verify(conversionQueries)
+            .invocation { insertConversion(currencyResponse.toConversion()) }
             .wasInvoked()
     }
 
     @Test
-    fun getRatesByBase() {
-        given(ratesQueries)
-            .invocation { getRatesByBase(currencyResponse.base) }
+    fun getConversionByBase() {
+        given(conversionQueries)
+            .invocation { getConversionByBase(currencyResponse.base) }
             .then { query }
 
         runTest {
-            subject.getRatesByBase(currencyResponse.base)
+            subject.getConversionByBase(currencyResponse.base)
         }
 
-        verify(ratesQueries)
-            .invocation { getRatesByBase(currencyResponse.base) }
+        verify(conversionQueries)
+            .invocation { getConversionByBase(currencyResponse.base) }
             .wasInvoked()
     }
 
     @Test
     fun getCurrencyResponseTextByBase() {
-        given(ratesQueries)
-            .invocation { getRatesByBase(currencyResponse.base) }
+        given(conversionQueries)
+            .invocation { getConversionByBase(currencyResponse.base) }
             .then { query }
 
         runTest {
             subject.getCurrencyResponseTextByBase(currencyResponse.base)
         }
 
-        verify(ratesQueries)
-            .invocation { getRatesByBase(currencyResponse.base) }
+        verify(conversionQueries)
+            .invocation { getConversionByBase(currencyResponse.base) }
             .wasInvoked()
     }
 }

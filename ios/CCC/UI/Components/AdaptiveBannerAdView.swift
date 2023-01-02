@@ -41,10 +41,9 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     }
 
     func adapt() -> some View {
-        let padding = UIScreen.main.focusedView?.safeAreaInsets.bottom ?? 0
         return self
             .frame(maxHeight: adSize.size.height)
-            .padding(.bottom, padding)
+            .padding(.bottom, DeviceUtil.getBottomNotchHeight().cp())
     }
 
     func updateUIViewController(

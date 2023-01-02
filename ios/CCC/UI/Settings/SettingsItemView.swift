@@ -10,7 +10,7 @@ import SwiftUI
 import Res
 
 struct SettingsItemView: View {
-
+    @Environment(\.colorScheme) var colorScheme
     let imgName: String
     let title: String
     let subTitle: String

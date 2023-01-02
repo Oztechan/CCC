@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
@@ -19,18 +19,18 @@ internal class CurrencyDataSourceImpl(
     private val ioDispatcher: CoroutineDispatcher
 ) : CurrencyDataSource, BaseDBDataSource(ioDispatcher) {
 
-    override fun collectAllCurrencies(): Flow<List<Currency>> {
-        Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" }
-        return currencyQueries.collectAllCurrencies()
+    override fun getCurrenciesFlow(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl getCurrenciesFlow" }
+        return currencyQueries.getCurrencies()
             .asFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
             .mapToModel()
     }
 
-    override fun collectActiveCurrencies(): Flow<List<Currency>> {
-        Logger.v { "CurrencyDataSourceImpl collectActiveCurrencies" }
-        return currencyQueries.collectActiveCurrencies()
+    override fun getActiveCurrenciesFlow(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl getActiveCurrenciesFlow" }
+        return currencyQueries.getActiveCurrencies()
             .asFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
@@ -47,9 +47,9 @@ internal class CurrencyDataSourceImpl(
         currencyQueries.updateCurrencyStateByCode(isActive.toLong(), code)
     }
 
-    override suspend fun updateAllCurrencyState(value: Boolean) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl updateAllCurrencyState $value" }
-        currencyQueries.updateAllCurrencyState(value.toLong())
+    override suspend fun updateCurrencyStates(value: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateCurrencyStates $value" }
+        currencyQueries.updateCurrencyStates(value.toLong())
     }
 
     override suspend fun getCurrencyByCode(code: String) = dbQuery {

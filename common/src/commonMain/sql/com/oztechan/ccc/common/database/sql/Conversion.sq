@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Rates(
+CREATE TABLE IF NOT EXISTS Conversion(
     base TEXT NOT NULL PRIMARY KEY,
     date TEXT,
     AED REAL,
@@ -173,8 +173,8 @@ CREATE TABLE IF NOT EXISTS Rates(
     ZWL REAL
 );
 
-insertRates:
-INSERT OR REPLACE INTO Rates(
+insertConversion:
+INSERT OR REPLACE INTO Conversion(
     base, date, AED, AFN, `ALL`, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND,
     BOB, BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF, CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE, CZK,
     DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GGP, GHS, GIP, GMD, GNF, GTQ, GYD, HKD, HNL,
@@ -186,5 +186,5 @@ INSERT OR REPLACE INTO Rates(
     XPT, YER, ZAR, ZMW, ZWL
 ) VALUES ?;
 
-getRatesByBase:
-SELECT * FROM Rates WHERE base=?;
+getConversionByBase:
+SELECT * FROM Conversion WHERE base=?;

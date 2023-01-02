@@ -13,6 +13,7 @@ import NavigationStack
 import Combine
 
 struct WatcherItem: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var relationSelection = 0
     @State private var amount = ""
 

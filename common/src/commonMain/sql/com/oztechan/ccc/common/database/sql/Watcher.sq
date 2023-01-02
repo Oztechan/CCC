@@ -12,16 +12,16 @@ INSERT OR REPLACE INTO Watcher(base, target) VALUES (?,?);
 deleteWatcher:
 DELETE FROM Watcher WHERE id = ?;
 
-updateBaseById:
+updateWatcherBaseById:
 UPDATE Watcher SET base=? WHERE id=?;
 
-updateTargetById:
+updateWatcherTargetById:
 UPDATE Watcher SET target=? WHERE id=?;
 
-updateRelationById:
+updateWatcherRelationById:
 UPDATE Watcher SET isGreater=? WHERE id=?;
 
-updateRateById:
+updateWatcherRateById:
 UPDATE Watcher SET rate=? WHERE id=?;
 
 getWatchers:

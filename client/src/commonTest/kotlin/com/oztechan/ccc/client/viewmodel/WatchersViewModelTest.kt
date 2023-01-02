@@ -51,7 +51,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         super.setup()
 
         given(watcherDataSource)
-            .invocation { collectWatchers() }
+            .invocation { getWatchersFlow() }
             .thenReturn(flowOf(listOf(watcher)))
     }
 
@@ -104,7 +104,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateBaseById(mockBase, watcherUIModel.id) }
+                .coroutine { updateWatcherBaseById(mockBase, watcherUIModel.id) }
                 .wasInvoked()
         }
     }
@@ -116,14 +116,13 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateTargetById(mockBase, watcherUIModel.id) }
+                .coroutine { updateWatcherTargetById(mockBase, watcherUIModel.id) }
                 .wasInvoked()
         }
     }
 
     @Test
     fun onAddClick() = runTest {
-
         val currency1 = Currency("USD", "Dollar", "", 1.2, true)
         val currency2 = Currency("EUR", "EUR", "", 1.2, true)
 
@@ -188,7 +187,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateRelationById(mockBoolean, watcherUIModel.id) }
+                .coroutine { updateWatcherRelationById(mockBoolean, watcherUIModel.id) }
                 .wasInvoked()
         }
     }
@@ -201,7 +200,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
         verify(watcherDataSource)
             .coroutine {
-                updateRateById(
+                updateWatcherRateById(
                     rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
                     watcherUIModel.id
                 )

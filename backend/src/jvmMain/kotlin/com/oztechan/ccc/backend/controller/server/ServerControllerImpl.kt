@@ -5,13 +5,13 @@
 package com.oztechan.ccc.backend.controller.server
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.datasource.rates.RatesDataSource
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 
 internal class ServerControllerImpl(
-    private val ratesDataSource: RatesDataSource
+    private val conversionDataSource: ConversionDataSource
 ) : ServerController {
     override suspend fun getCurrencyResponseTextByBase(base: String): String? {
         Logger.i { "ServerControllerImpl getCurrencyResponseTextByBase" }
-        return ratesDataSource.getCurrencyResponseTextByBase(base)
+        return conversionDataSource.getCurrencyResponseTextByBase(base)
     }
 }

@@ -2,14 +2,15 @@
 
 kotlin = "1.7.20"
 ksp = "1.7.20-1.0.8"
+detekt = "1.22.0"
 androidGradlePlugin = "7.3.1"
 compose = "1.3.2"
 material3 = "1.1.0-alpha03"
 androidMaterial = "1.7.0"
 constraintLayout = "2.1.4"
-koinCore = "3.3.0"
-koinAndroid = "3.3.1"
-koinKtor = "3.2.2"
+koinCore = "3.3.2"
+koinAndroid = "3.3.2"
+koinKtor = "3.3.0"
 ktor = "2.2.1"
 multiplatformSettings = "0.9"
 firebaseAnalytics = "21.2.0"
@@ -58,6 +59,7 @@ common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "m
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.ref = "kermit" }
+common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 # ANDROID
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
@@ -133,3 +135,4 @@ mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
 dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

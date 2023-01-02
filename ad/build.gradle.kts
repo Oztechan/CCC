@@ -1,10 +1,10 @@
-import Modules.packageName
-import Modules.path
 import config.BuildType
 import config.DeviceFlavour
+import config.Keys
 
 plugins {
-    with(libs.plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(android.get().pluginId)
     }
@@ -12,7 +12,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
         namespace = Modules.AD.packageName
         compileSdk = COMPILE_SDK_VERSION
 
@@ -22,7 +22,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -38,7 +38,7 @@ android {
 
     buildTypes {
         getByName(BuildType.release) {
-            with(config.Keys(project, BuildType.RELEASE)) {
+            Keys(project, BuildType.RELEASE).apply {
                 resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
                 resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
@@ -49,7 +49,7 @@ android {
         }
 
         getByName(BuildType.debug) {
-            with(config.Keys(project, BuildType.DEBUG)) {
+            Keys(project, BuildType.DEBUG).apply {
                 resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
                 resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
@@ -67,5 +67,5 @@ dependencies {
     @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
 
-    implementation(project(Modules.LOGMOB.path))
+    implementation(project(Modules.LOGMOB))
 }

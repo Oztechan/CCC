@@ -2,22 +2,22 @@ package com.oztechan.ccc.backend.util
 
 import com.oztechan.ccc.common.model.CurrencyResponse
 
-internal fun CurrencyResponse.fillMissingRatesWith(
+internal fun CurrencyResponse.fillMissingConversionWith(
     nonPremiumResponse: CurrencyResponse
 ) = apply {
-    rates = rates.copy(
-        btc = nonPremiumResponse.rates.btc,
-        clf = nonPremiumResponse.rates.clf,
-        cnh = nonPremiumResponse.rates.cnh,
-        jep = nonPremiumResponse.rates.jep,
-        kpw = nonPremiumResponse.rates.kpw,
-        mro = nonPremiumResponse.rates.mro,
-        std = nonPremiumResponse.rates.std,
-        svc = nonPremiumResponse.rates.svc,
-        xag = nonPremiumResponse.rates.xag,
-        xau = nonPremiumResponse.rates.xau,
-        xpd = nonPremiumResponse.rates.xpd,
-        xpt = nonPremiumResponse.rates.xpt,
-        zwl = nonPremiumResponse.rates.zwl
+    conversion = conversion.copy(
+        btc = nonPremiumResponse.conversion.btc,
+        clf = nonPremiumResponse.conversion.clf,
+        cnh = nonPremiumResponse.conversion.cnh,
+        jep = nonPremiumResponse.conversion.jep,
+        kpw = nonPremiumResponse.conversion.kpw,
+        mro = nonPremiumResponse.conversion.mro,
+        std = nonPremiumResponse.conversion.std,
+        svc = nonPremiumResponse.conversion.svc,
+        xag = nonPremiumResponse.conversion.xag,
+        xau = nonPremiumResponse.conversion.xau,
+        xpd = nonPremiumResponse.conversion.xpd,
+        xpt = nonPremiumResponse.conversion.xpt,
+        zwl = nonPremiumResponse.conversion.zwl
     )
 }

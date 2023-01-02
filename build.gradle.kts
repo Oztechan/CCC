@@ -2,18 +2,21 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(libs.plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         alias(dependencyUpdates)
         alias(kover)
+        alias(detekt)
     }
 }
 
 buildscript {
     dependencies {
-        with(libs.classpaths) {
+        libs.classpaths.apply {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
             classpath(gsm)
@@ -33,8 +36,30 @@ group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 allprojects {
-    apply(plugin = "kover").also {
+    apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
         koverMerged.enable()
+    }
+
+    apply(plugin = rootProject.libs.plugins.detekt.get().pluginId).also {
+        detekt {
+            buildUponDefaultConfig = true
+            allRules = true
+            parallel = true
+        }
+        tasks.withType<Detekt> {
+            setSource(files(project.projectDir))
+            exclude("**/build/**")
+            exclude {
+                it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+            }
+        }
+        tasks.register("detektAll") {
+            dependsOn(tasks.withType<Detekt>())
+        }
+
+        dependencies {
+            detektPlugins(rootProject.libs.common.detektFormatting)
+        }
     }
 
     tasks.withType<KotlinCompile> {

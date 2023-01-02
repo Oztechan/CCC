@@ -20,9 +20,9 @@ private const val INDEX_HTML = "index.html"
 internal suspend fun Route.getRoot() = get(PATH_ROOT) {
     Logger.i { "GET Request $PATH_ROOT" }
 
-    javaClass.classLoader?.getResourceByName(INDEX_HTML)?.let {
+    javaClass.classLoader?.getResourceByName(INDEX_HTML)?.let { resource ->
         call.respondText(
-            text = it,
+            text = resource,
             contentType = ContentType.Text.Html,
             status = HttpStatusCode.OK
         )

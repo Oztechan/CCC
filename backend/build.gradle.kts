@@ -1,8 +1,6 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-import Modules.packageName
-import Modules.path
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
@@ -11,7 +9,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-    with(libs.plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         application
         id(multiplatform.get().pluginId)
         id(buildKonfig.get().pluginId)
@@ -19,7 +18,7 @@ plugins {
     }
 }
 
-with(ProjectSettings) {
+ProjectSettings.apply {
     application {
         mainClass.set("${Modules.BACKEND.packageName}.ApplicationKt")
     }
@@ -36,26 +35,26 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                with(libs.jvm) {
+                libs.jvm.apply {
                     implementation(ktorCore)
                     implementation(ktorNetty)
                     implementation(koinKtor)
                 }
 
-                with(Modules) {
-                    implementation(project(COMMON.path))
-                    implementation(project(LOGMOB.path))
+                Modules.apply {
+                    implementation(project(COMMON))
+                    implementation(project(LOGMOB))
                 }
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                with(libs.common) {
+                libs.common.apply {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.TEST.path))
+                implementation(project(Modules.TEST))
             }
         }
     }

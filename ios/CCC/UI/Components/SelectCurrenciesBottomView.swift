@@ -25,19 +25,11 @@ struct SelectCurrenciesBottomView: View {
 
             Spacer()
 
-            Button(
-                action: onButtonClick,
-                label: {
-                    Text(buttonText)
-                        .foregroundColor(MR.colors().text.get())
-                        .font(relative: .footnote)
-                }
+            ActionButton(
+                buttonText: buttonText,
+                buttonAction: onButtonClick,
+                state: .neutral
             )
-            .padding(top: 10.cp(), leading: 15.cp(), bottom: 10.cp(), trailing: 15.cp())
-            .background(MR.colors().background_weak.get())
-            .clipped()
-            .cornerRadius(4.cp())
-
         }
         .padding(top: 5.cp(), leading: 15.cp(), bottom: 10.cp(), trailing: 10.cp())
     }

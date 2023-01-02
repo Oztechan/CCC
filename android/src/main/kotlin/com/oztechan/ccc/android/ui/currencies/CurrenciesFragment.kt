@@ -25,7 +25,6 @@ import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.hideKeyboard
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.setNavigationResult
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -88,7 +87,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
-                binding.loadingView.showLoading(loading)
+                binding.loadingView.visibleIf(loading, true)
 
                 with(binding.layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)
@@ -123,10 +122,12 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     )
                     view?.hideKeyboard()
                 }
+
                 CurrenciesEffect.Back -> {
                     findNavController().popBackStack()
                     view?.hideKeyboard()
                 }
+
                 is CurrenciesEffect.ChangeBase -> setNavigationResult(
                     R.id.calculatorFragment,
                     viewEffect.newBase,
@@ -137,11 +138,9 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private fun setListeners() = with(binding) {
         with(currenciesViewModel.event) {
-
             btnDone.setOnClickListener { onDoneClick() }
 
             with(layoutCurrenciesToolbar) {
-
                 backButton.setOnClickListener { onCloseClick() }
                 btnSelectAll.setOnClickListener { updateAllCurrenciesState(true) }
                 btnDeSelectAll.setOnClickListener { updateAllCurrenciesState(false) }
