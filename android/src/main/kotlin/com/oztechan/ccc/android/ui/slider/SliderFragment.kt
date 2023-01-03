@@ -105,7 +105,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             textView.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.color_background_weak
+                    R.color.background_weak
                 )
             )
             binding.layoutDots.addView(textView)
@@ -115,7 +115,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             dots[currentPage].setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.color_text_weak
+                    R.color.text_weak
                 )
             )
         }

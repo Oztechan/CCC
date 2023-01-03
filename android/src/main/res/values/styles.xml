@@ -4,27 +4,27 @@
 <resources>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
-        <item name="android:textColor">@color/color_text</item>
-        <item name="hintTextColor">@color/color_text_weak</item>
-        <item name="android:buttonTint">@color/color_accent</item>
-        <item name="android:itemBackground">@color/color_background_weak</item>
-        <item name="android:editTextColor">@color/color_text</item>
-        <item name="android:textColorHint">@color/color_text_weak</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="hintTextColor">@color/text_weak</item>
+        <item name="android:buttonTint">@color/accent</item>
+        <item name="android:itemBackground">@color/background_weak</item>
+        <item name="android:editTextColor">@color/text</item>
+        <item name="android:textColorHint">@color/text_weak</item>
         <item name="android:tint">@color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.WindowTransition</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
-        <item name="android:navigationBarColor">@color/color_background_strong</item>
+        <item name="android:navigationBarColor">@color/background_strong</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme" />
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/color_background_strong</item>
+        <item name="windowSplashScreenBackground">@color/background_strong</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <item name="windowSplashScreenAnimationDuration">300</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
@@ -77,7 +77,7 @@
     </style>
 
     <style name="ActionButtonOverflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/color_text</item>
+        <item name="android:tint">@color/text</item>
     </style>
 
     <!-- Size -->
@@ -115,7 +115,7 @@
     </style>
 
     <style name="BaseLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:background">@color/background_strong</item>
     </style>
 
     <style name="BaseToolbarStyle">
@@ -123,7 +123,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
-        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:background">@color/background_strong</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -131,30 +131,30 @@
         <item name="android:layout_width">@dimen/margin_zero</item>
         <item name="android:layout_height">@dimen/height_separator</item>
         <item name="android:layout_marginEnd">@dimen/margin_eight</item>
-        <item name="android:background">@color/color_text_weak</item>
+        <item name="android:background">@color/text_weak</item>
     </style>
 
     <style name="BaseRecyclerViewStyle" parent="FitStyle">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/background</item>
     </style>
 
     <style name="BaseBottomSheetDialogRecyclerViewStyle" parent="BaseRecyclerViewStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/margin_eight</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
-        <item name="android:background">@color/color_background_weak</item>
+        <item name="android:background">@color/background_weak</item>
         <item name="android:clipToPadding">false</item>
     </style>
 
     <style name="BaseBottomSheetLayout" parent="MatchStyle">
-        <item name="android:background">@color/color_background_weak</item>
+        <item name="android:background">@color/background_weak</item>
     </style>
 
     <!-- Text -->
     <style name="BaseTextStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_size_l</item>
     </style>
 
@@ -186,7 +186,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_separator</item>
         <item name="alpha">.1</item>
-        <item name="android:background">@color/color_text_weak</item>
+        <item name="android:background">@color/text_weak</item>
     </style>
 
     <style name="SlideButtonNext" parent="WrapStyle">
@@ -194,19 +194,19 @@
         <item name="android:background">@null</item>
         <item name="android:text">@string/next</item>
         <item name="android:paddingBottom">@dimen/margin_four</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
     </style>
 
     <style name="SlideLayout" parent="MatchStyle">
         <item name="android:paddingBottom">@dimen/padding_bottom_slide_layout</item>
-        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:background">@color/background_strong</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="BaseSlideStyle">
         <item name="android:fontFamily">@font/news_cycle_regular</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -234,7 +234,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/news_cycle_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_size_xl</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/selector_keyboard</item>
@@ -247,7 +247,7 @@
 
     <!-- Bar -->
     <style name="LayoutBar">
-        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:background">@color/background_strong</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
@@ -295,7 +295,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:padding">@dimen/margin_eight</item>
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/background</item>
     </style>
 
     <!-- Currencies -->
@@ -306,7 +306,7 @@
         <item name="android:textAppearance">@style/BaseTextStyle</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
     </style>
 
     <style name="BarButtonStyle" parent="Widget.AppCompat.Button.Borderless">
@@ -317,15 +317,15 @@
 
     <style name="SelectButtonStyle" parent="BarButtonStyle">
         <item name="android:textAlignment">center</item>
-        <item name="android:background">@color/color_background_strong</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:background">@color/background_strong</item>
+        <item name="android:textColor">@color/text</item>
     </style>
 
     <style name="DoneButtonStyle" parent="SelectButtonStyle">
         <item name="android:drawableEnd">@drawable/ic_done</item>
         <item name="android:text">@string/btn_done</item>
         <item name="android:paddingEnd">@dimen/margin_eight</item>
-        <item name="android:background">@color/color_background_weak</item>
+        <item name="android:background">@color/background_weak</item>
     </style>
 
     <style name="SearchViewStyle" parent="WrapStyle">
@@ -342,7 +342,7 @@
     </style>
 
     <style name="SelectAtLeastTwoCurrenciesStyle" parent="FitStyle">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/background</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -401,11 +401,11 @@
 
     <!-- Settings -->
     <style name="SettingsLayoutStyle" parent="MatchStyle">
-        <item name="android:background">@color/color_background_strong</item>
+        <item name="android:background">@color/background_strong</item>
     </style>
 
     <style name="SettingsScrollViewStyle" parent="FitStyle">
-        <item name="android:background">@color/color_background</item>
+        <item name="android:background">@color/background</item>
     </style>
 
     <style name="CurrenciesBackButtonStyle" parent="WrapStyle">
@@ -454,14 +454,14 @@
     <style name="SettingsItemTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
         <item name="android:layout_marginTop">@dimen/margin_four</item>
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
     <style name="SettingsItemSubTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
-        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:textColor">@color/text_weak</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textSize">@dimen/text_size_xs</item>
     </style>
@@ -470,7 +470,7 @@
         <item name="android:gravity">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textSize">@dimen/text_size_xs</item>
-        <item name="android:textColor">@color/color_text_weak</item>
+        <item name="android:textColor">@color/text_weak</item>
         <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>
 
@@ -528,7 +528,7 @@
     </style>
 
     <style name="TextAdRemoveItemStyle" parent="WrapStyle">
-        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:padding">@dimen/padding_ad_remove_item_layout</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>

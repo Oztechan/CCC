@@ -6,6 +6,7 @@ package com.oztechan.ccc.android.ui.main
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -31,11 +32,23 @@ class MainActivity : BaseActivity() {
     private val adManager: AdManager by inject()
     private val mainViewModel: MainViewModel by viewModel()
 
+    init {
+        // use dark mode default for old devices
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } // else is in on create since viewModel needs to be injected
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
-        AppCompatDelegate.setDefaultNightMode(getThemeMode(mainViewModel.getAppTheme()))
+
+        // if dark mode is supported use theming according to user preference
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            AppCompatDelegate.setDefaultNightMode(getThemeMode(mainViewModel.getAppTheme()))
+        }
+
         setContentView(R.layout.activity_main)
         checkDestination()
         observeEffects()
@@ -50,6 +63,7 @@ class MainActivity : BaseActivity() {
                     this@MainActivity,
                     getString(R.string.android_interstitial_ad_id)
                 )
+
                 MainEffect.RequestReview -> requestAppReview(this)
                 is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable, viewEffect.marketLink)
             }
