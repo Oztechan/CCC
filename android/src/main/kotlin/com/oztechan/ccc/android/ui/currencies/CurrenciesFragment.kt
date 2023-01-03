@@ -102,7 +102,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     toolbarFragmentCurrencies.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            if (selectionVisibility) R.color.color_background_weak else R.color.color_background_strong
+                            if (selectionVisibility) R.color.background_weak else R.color.background_strong
                         )
                     )
                 }
