@@ -43,7 +43,7 @@ struct ActionButton: View {
     private func getBackgroundColor() -> Color {
         switch state {
         case .primary:
-            return MR.colors().accent.get()
+            return MR.colors().secondary.get()
         case .secondary:
             return MR.colors().text.get()
         case .neutral:

@@ -5,11 +5,11 @@
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/background_strong</item>
+        <item name="colorAccent">@color/secondary</item>
         <item name="android:textColor">@color/text</item>
         <item name="hintTextColor">@color/text_weak</item>
-        <item name="android:buttonTint">@color/accent</item>
+        <item name="android:buttonTint">@color/secondary</item>
         <item name="android:itemBackground">@color/background_weak</item>
         <item name="android:editTextColor">@color/text</item>
         <item name="android:textColorHint">@color/text_weak</item>
