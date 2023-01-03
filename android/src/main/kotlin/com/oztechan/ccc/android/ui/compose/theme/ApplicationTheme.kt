@@ -25,13 +25,13 @@ fun AppTheme(
     val colors = if (darkTheme) {
         darkColorScheme(
             primary = colorResource(id = R.color.primary),
-            secondary = colorResource(id = R.color.accent),
+            secondary = colorResource(id = R.color.secondary),
             background = colorResource(id = R.color.background),
         )
     } else {
         lightColorScheme(
             primary = colorResource(id = R.color.primary),
-            secondary = colorResource(id = R.color.accent),
+            secondary = colorResource(id = R.color.secondary),
             background = colorResource(id = R.color.background),
         )
     }
