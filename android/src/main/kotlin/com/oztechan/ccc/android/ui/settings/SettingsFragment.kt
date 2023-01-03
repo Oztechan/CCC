@@ -20,7 +20,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.FragmentSettingsBinding
-import com.oztechan.ccc.android.ui.content.ComposeActivity
+import com.oztechan.ccc.android.ui.compose.content.ComposeActivity
 import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getThemeMode
 import com.oztechan.ccc.android.util.setBannerAd

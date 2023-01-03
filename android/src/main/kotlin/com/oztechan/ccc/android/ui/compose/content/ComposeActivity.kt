@@ -1,4 +1,4 @@
-package com.oztechan.ccc.android.ui.content
+package com.oztechan.ccc.android.ui.compose.content
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import com.oztechan.ccc.android.ui.theme.AppTheme
+import com.oztechan.ccc.android.ui.compose.content.watchers.WatchersView
+import com.oztechan.ccc.android.ui.compose.theme.AppTheme
 
 class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,7 @@ class ComposeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Text(text = "Hello World!")
+                    WatchersView()
                 }
             }
         }

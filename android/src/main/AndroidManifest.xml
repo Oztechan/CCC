@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name="com.oztechan.ccc.android.ui.content.ComposeActivity"
+            android:name="com.oztechan.ccc.android.ui.compose.content.ComposeActivity"
             android:exported="true" />
 
         <uses-library

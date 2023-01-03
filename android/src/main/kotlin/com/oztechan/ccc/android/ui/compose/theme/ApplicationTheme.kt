@@ -1,4 +1,4 @@
-package com.oztechan.ccc.android.ui.theme
+package com.oztechan.ccc.android.ui.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
