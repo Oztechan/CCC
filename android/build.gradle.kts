@@ -103,6 +103,7 @@ dependencies {
         android.apply {
             implementation(composeToolingPreview)
             debugImplementation(composeTooling)
+            implementation(glance)
             implementation(material3)
             implementation(androidMaterial)
             implementation(composeActivity)
