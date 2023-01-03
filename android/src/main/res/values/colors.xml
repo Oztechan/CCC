@@ -5,14 +5,14 @@
     <!-- Base Mob Colors -->
 
     <!-- Dialog -->
-    <color name="color_text_title_dialog">@color/accent</color>
+    <color name="color_text_title_dialog">@color/secondary</color>
     <color name="color_text_message_dialog">@color/text</color>
     <color name="color_background_dialog">@color/background</color>
     <color name="color_text_positive_button_dialog">@color/primary</color>
     <color name="color_text_neutral_button_dialog">@color/primary</color>
 
     <!-- Snack Bar -->
-    <color name="color_text_action_snack_bar">@color/accent</color>
+    <color name="color_text_action_snack_bar">@color/secondary</color>
     <color name="color_background_snack_bar">@color/background_weak</color>
 
     <!--- Launcher icon -->
