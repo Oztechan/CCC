@@ -6,6 +6,10 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import com.oztechan.ccc.android.ui.main.MainActivity
+import com.oztechan.ccc.android.widget.action.NextBaseAction
+import com.oztechan.ccc.android.widget.action.OpenAppAction
+import com.oztechan.ccc.android.widget.action.PreviousBaseAction
 import com.oztechan.ccc.android.widget.action.RefreshAction
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import kotlinx.coroutines.MainScope
@@ -20,11 +24,19 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
     private val coroutineScope = MainScope()
 
-    private fun refreshData(context: Context) = coroutineScope.launch {
+    private fun refreshData(
+        context: Context,
+        changeBaseToNext: Boolean? = null
+    ) = coroutineScope.launch {
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)
             .firstOrNull()
             ?.let { glanceId ->
+
+                if (changeBaseToNext != null) {
+                    viewModel.updateBase(changeBaseToNext)
+                }
+
                 viewModel.refreshWidgetData()
                 glanceAppWidget.update(context, glanceId)
             }
@@ -42,8 +54,19 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        if (intent.action == RefreshAction.REFRESH_ACTION) {
-            refreshData(context)
+        when (intent.action) {
+            RefreshAction.REFRESH_ACTION -> refreshData(context)
+            NextBaseAction.NEXT_BASE_ACTION -> refreshData(context, true)
+            PreviousBaseAction.PREVIOUS_BASE_ACTION -> refreshData(context, false)
+            OpenAppAction.OPEN_APP_ACTION -> context.startActivity(
+                Intent(context.applicationContext, MainActivity::class.java).apply {
+                    addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                            Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+                }
+            )
         }
     }
 }

@@ -35,12 +35,33 @@ class WidgetViewModel(
 
         currencyList = currencyDataSource.getActiveCurrencies()
             .toUIModelList()
-            .filterNot { it.name == currentBase }
+            .filterNot { it.name == calculatorStorage.currentBase }
             .onEach {
                 it.rate = conversion.getRateFromCode(it.code)?.getFormatted(calculatorStorage.precision).orEmpty()
             }
             .toValidList(calculatorStorage.currentBase)
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
+    }
+
+    suspend fun updateBase(isToNext: Boolean) {
+        val activeCurrencies = currencyDataSource.getActiveCurrencies()
+            .toUIModelList()
+
+        var newBaseIndex = activeCurrencies
+            .map { it.code }
+            .indexOf(calculatorStorage.currentBase)
+
+        if (isToNext) {
+            newBaseIndex++
+        } else {
+            newBaseIndex--
+        }
+
+        when (newBaseIndex) {
+            activeCurrencies.size -> newBaseIndex = 0
+            -1 -> newBaseIndex = activeCurrencies.size
+        }
+        calculatorStorage.currentBase = activeCurrencies[newBaseIndex].code
     }
 
     companion object {
