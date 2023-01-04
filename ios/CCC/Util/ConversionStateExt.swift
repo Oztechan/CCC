@@ -38,11 +38,11 @@ extension ConversionState {
     func getColor() -> Color {
         switch self {
         case is ConversionState.Online:
-            return MR.colors().online.get()
+            return MR.colors().success.get()
         case is ConversionState.Cached:
-            return MR.colors().cached.get()
+            return MR.colors().info.get()
         case is ConversionState.Offline:
-            return MR.colors().offline.get()
+            return MR.colors().warning.get()
         case is ConversionState.Error:
             return MR.colors().error.get()
         default:
