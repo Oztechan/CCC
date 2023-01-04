@@ -1,5 +1,6 @@
 package com.oztechan.ccc.android.ui.compose.content.watchers
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,10 +55,12 @@ fun WatchersViewContent(
     ) {
         Text(
             text = stringResource(id = R.string.txt_watchers_description),
+            color = colorResource(id = R.color.text_weak),
             modifier = Modifier
+                .background(color = colorResource(id = R.color.background_strong))
                 .fillMaxWidth()
                 .padding(20.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         LazyColumn(Modifier.weight(1f)) {
@@ -70,6 +73,7 @@ fun WatchersViewContent(
 
         Box(
             Modifier
+                .background(color = colorResource(id = R.color.background_strong))
                 .fillMaxWidth()
                 .height(75.dp),
             contentAlignment = Alignment.Center

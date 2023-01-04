@@ -28,7 +28,7 @@ fun AppTheme(
         onTertiaryContainer = colorResource(id = R.color.background_weak),
         background = colorResource(id = R.color.background),
         onBackground = colorResource(id = R.color.text),
-        surface = colorResource(id = R.color.background_strong),
+        surface = colorResource(id = R.color.background),
         onSurface = colorResource(id = R.color.text),
         surfaceVariant = colorResource(id = R.color.background_weak),
         onSurfaceVariant = colorResource(id = R.color.text_weak),
