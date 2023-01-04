@@ -1,6 +1,5 @@
 package com.oztechan.ccc.android.ui.compose.content.watchers
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,14 +49,12 @@ fun WatchersViewContent(
     event: WatchersEvent
 ) {
     Column(
-        Modifier.background(color = colorResource(id = R.color.background)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(id = R.string.txt_watchers_description),
             modifier = Modifier
-                .background(color = colorResource(id = R.color.background_strong))
                 .fillMaxWidth()
                 .padding(20.dp),
             textAlign = TextAlign.Center
@@ -73,7 +70,6 @@ fun WatchersViewContent(
 
         Box(
             Modifier
-                .background(color = colorResource(id = R.color.background_strong))
                 .fillMaxWidth()
                 .height(75.dp),
             contentAlignment = Alignment.Center
