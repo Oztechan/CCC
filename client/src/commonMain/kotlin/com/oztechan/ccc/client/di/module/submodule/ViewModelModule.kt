@@ -8,6 +8,7 @@ import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
+import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -22,6 +23,9 @@ internal val viewModelModule = module {
     viewModelDefinition { SelectCurrencyViewModel(get()) }
     viewModelDefinition { AdRemoveViewModel(get()) }
     viewModelDefinition { WatchersViewModel(get(), get(), get()) }
+
+    // has to be singleton
+    single { WidgetViewModel(get()) }
 }
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
