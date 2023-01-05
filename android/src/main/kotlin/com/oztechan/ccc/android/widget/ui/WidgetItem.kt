@@ -17,7 +17,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 
 @Suppress("FunctionNaming")
 @Composable
@@ -46,7 +46,7 @@ fun WidgetItem(
         )
 
         Image(
-            provider = ImageProvider(getImageResourceIdByName(item.code)),
+            provider = ImageProvider(item.code.getImageIdByName()),
             contentDescription = "",
             modifier = GlanceModifier
                 .size(32.dp)
