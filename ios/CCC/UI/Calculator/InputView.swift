@@ -24,7 +24,7 @@ struct InputView: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .font(relative: .title2)
                 .animation(.none)
 

@@ -6,4 +6,4 @@ internal fun String.toImageFileName() = lowercase()
     .replace("try", "tryy")
     .ifEmpty { "unknown" }
 
-fun getImageByName(name: String) = MR.images.getImageByFileName(name.toImageFileName()) ?: MR.images.unknown
+fun getImageByName(name: String) = Res.images.getImageByFileName(name.toImageFileName()) ?: Res.images.unknown

@@ -58,9 +58,9 @@ struct Application: App {
             MainView()
                 .popup(isPresented: $isWatcherAlertShown) {
                     AlertView(
-                        title: MR.strings().txt_watcher_alert_title.get(),
-                        message: MR.strings().txt_watcher_alert_sub_title.get(),
-                        buttonText: MR.strings().txt_ok.get()
+                        title: Res.strings().txt_watcher_alert_title.get(),
+                        message: Res.strings().txt_watcher_alert_sub_title.get(),
+                        buttonText: Res.strings().txt_ok.get()
                     )
                 }
         }.onChange(of: scenePhase) { phase in
@@ -111,8 +111,8 @@ struct Application: App {
 
             if scenePhase == .background {
                 self.notificationManager.sendNotification(
-                    title: MR.strings().txt_watcher_alert_title.get(),
-                    body: MR.strings().txt_watcher_alert_sub_title.get()
+                    title: Res.strings().txt_watcher_alert_title.get(),
+                    body: Res.strings().txt_watcher_alert_sub_title.get()
                 )
             } else {
                 isWatcherAlertShown.toggle()

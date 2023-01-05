@@ -15,21 +15,21 @@ extension ConversionState {
         // swiftlint:disable force_cast
         switch self {
         case is ConversionState.Online:
-            return MR.strings().text_online_last_updated.get(
+            return Res.strings().text_online_last_updated.get(
                 parameter: (self as! ConversionState.Online).lastUpdate ?? ""
             )
         case is ConversionState.Cached:
-            return MR.strings().text_cached_last_updated.get(
+            return Res.strings().text_cached_last_updated.get(
                 parameter: (self as! ConversionState.Cached).lastUpdate ?? ""
             )
         case is ConversionState.Offline:
             if let date = (self as! ConversionState.Offline).lastUpdate {
-                return MR.strings().text_offline_last_updated.get(parameter: date)
+                return Res.strings().text_offline_last_updated.get(parameter: date)
             } else {
-                return MR.strings().text_offline.get()
+                return Res.strings().text_offline.get()
             }
         case is ConversionState.Error:
-            return MR.strings().text_no_data.get()
+            return Res.strings().text_no_data.get()
         default:
             return ""
         }
@@ -38,15 +38,15 @@ extension ConversionState {
     func getColor() -> Color {
         switch self {
         case is ConversionState.Online:
-            return MR.colors().success.get()
+            return Res.colors().success.get()
         case is ConversionState.Cached:
-            return MR.colors().info.get()
+            return Res.colors().info.get()
         case is ConversionState.Offline:
-            return MR.colors().warning.get()
+            return Res.colors().warning.get()
         case is ConversionState.Error:
-            return MR.colors().error.get()
+            return Res.colors().error.get()
         default:
-            return MR.colors().transparent.get()
+            return Res.colors().transparent.get()
         }
     }
 }
