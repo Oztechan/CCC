@@ -7,9 +7,7 @@ import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.Watcher
 
 data class WatchersState(
-    val watcherList: List<Watcher> = emptyList(),
-    val base: String = "",
-    val target: String = ""
+    val watcherList: List<Watcher> = emptyList()
 ) : BaseState()
 
 sealed class WatchersEffect : BaseEffect() {

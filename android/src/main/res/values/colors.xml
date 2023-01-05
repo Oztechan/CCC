@@ -5,7 +5,7 @@
     <!-- Base Mob Colors -->
 
     <!-- Dialog -->
-    <color name="color_text_title_dialog">@color/secondary</color>
+    <color name="color_text_title_dialog">@color/primary</color>
     <color name="color_text_message_dialog">@color/text</color>
     <color name="color_background_dialog">@color/background</color>
     <color name="color_text_positive_button_dialog">@color/primary</color>
