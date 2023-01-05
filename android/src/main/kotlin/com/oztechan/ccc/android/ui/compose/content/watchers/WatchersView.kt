@@ -51,17 +51,17 @@ fun WatchersViewContent(
     onRateChange: (watcher: Watcher, rate: String) -> String,
 ) {
     Column(
-        Modifier.background(color = colorResource(id = R.color.background)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(id = R.string.txt_watchers_description),
+            color = colorResource(id = R.color.text_weak),
             modifier = Modifier
                 .background(color = colorResource(id = R.color.background_strong))
                 .fillMaxWidth()
                 .padding(20.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         LazyColumn(Modifier.weight(1f)) {

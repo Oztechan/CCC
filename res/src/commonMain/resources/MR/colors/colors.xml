@@ -7,13 +7,13 @@
     ~ 200 variant for dark mode
     ~ 500 variant for light mode
     -->
-    <color name="primary"><!--cyan-->
-        <light>#00bcd4ff</light>
-        <dark>#80deeaff</dark>
-    </color>
-    <color name="secondary"><!--teal-->
+    <color name="primary"><!--teal-->
         <light>#009688ff</light>
         <dark>#80cbc4ff</dark>
+    </color>
+    <color name="secondary"><!--cyan-->
+        <light>#00bcd4ff</light>
+        <dark>#80deeaff</dark>
     </color>
     <color name="tertiary"><!--light blue-->
         <light>#03a9f4ff</light>
