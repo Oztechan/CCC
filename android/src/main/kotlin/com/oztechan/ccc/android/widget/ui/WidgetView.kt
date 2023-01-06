@@ -1,17 +1,12 @@
 package com.oztechan.ccc.android.widget.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.padding
-import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 
@@ -25,14 +20,14 @@ fun WidgetView(viewModel: WidgetViewModel) {
         horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
         verticalAlignment = Alignment.Vertical.CenterVertically
     ) {
-        Text(
-            text = viewModel.currentBase,
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 13.sp),
-            modifier = GlanceModifier.padding(horizontal = 2.dp)
-        )
+        HeaderView(currentBase = viewModel.currentBase)
 
         viewModel.currencyList.forEach {
             WidgetItem(item = it)
         }
+
+        Spacer(modifier = GlanceModifier.defaultWeight())
+
+        FooterView(lastUpdate = viewModel.lastUpdate)
     }
 }
