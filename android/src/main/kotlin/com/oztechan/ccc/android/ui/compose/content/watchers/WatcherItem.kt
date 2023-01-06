@@ -2,6 +2,7 @@
 
 package com.oztechan.ccc.android.ui.compose.content.watchers
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +35,9 @@ import com.oztechan.ccc.res.getImageIdByName
 @Composable
 fun WatcherItem(
     watcher: Watcher,
-    onTextChange: (String) -> Unit
+    onRateChange: (String) -> Unit,
+    onBaseClick: () -> Unit,
+    onTargetClick: () -> Unit
 ) {
     val itemPadding: Dp = 2.dp
     val itemHeight: Dp = 36.dp
@@ -61,6 +64,7 @@ fun WatcherItem(
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
+                .clickable { onBaseClick() }
         )
 
         Text(
@@ -72,7 +76,7 @@ fun WatcherItem(
 
         OutlinedTextField(
             value = watcher.rate,
-            onValueChange = onTextChange,
+            onValueChange = onRateChange,
             modifier = Modifier
                 .padding(itemPadding)
                 .width(105.dp),
@@ -97,6 +101,7 @@ fun WatcherItem(
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
+                .clickable { onTargetClick() }
         )
     }
 }
@@ -106,12 +111,15 @@ fun WatcherItem(
 @Suppress("FunctionNaming")
 fun WatcherItemPreview() = Preview {
     WatcherItem(
-        Watcher(
+        watcher = Watcher(
             id = 0,
             base = "EUR",
             target = "USD",
             isGreater = false,
             rate = "123456789"
-        )
-    ) {}
+        ),
+        onRateChange = {},
+        onBaseClick = {},
+        onTargetClick = {}
+    )
 }
