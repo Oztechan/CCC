@@ -49,7 +49,6 @@ allprojects {
             }
             enable()
         }
-        koverMerged.enable()
     }
 
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId).also {
