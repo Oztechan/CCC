@@ -169,6 +169,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
+          coverageCommand: echo
           coverageLocations: build/reports/kover/merged/xml/report.xml
 
       - name: Upload coverage to Codecov
