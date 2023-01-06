@@ -2,7 +2,6 @@
 
 package com.oztechan.ccc.android.ui.compose.content.watchers
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -28,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.ui.compose.annotations.ProjectPreviews
 import com.oztechan.ccc.android.ui.compose.component.ImageView
-import com.oztechan.ccc.android.ui.compose.theme.AppTheme
+import com.oztechan.ccc.android.ui.compose.component.Preview
 import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.res.getImageResourceIdByName
 
@@ -43,7 +41,6 @@ fun WatcherItem(
 
     Row(
         modifier = Modifier
-            .background(color = colorResource(id = R.color.background))
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -52,13 +49,11 @@ fun WatcherItem(
         Text(
             text = stringResource(id = R.string.one),
             modifier = Modifier.padding(itemPadding),
-            color = colorResource(id = R.color.text)
         )
 
         Text(
             text = watcher.base,
             modifier = Modifier.padding(itemPadding),
-            color = colorResource(id = R.color.text)
         )
 
         ImageView(
@@ -71,7 +66,6 @@ fun WatcherItem(
         Text(
             text = "is greater than",
             modifier = Modifier.padding(itemPadding),
-            color = colorResource(id = R.color.text)
         )
 
         Spacer(Modifier.weight(1f))
@@ -85,7 +79,6 @@ fun WatcherItem(
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.txt_rate),
-                    color = colorResource(id = R.color.text)
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -97,7 +90,6 @@ fun WatcherItem(
         Text(
             text = watcher.target,
             modifier = Modifier.padding(itemPadding),
-            color = colorResource(id = R.color.text)
         )
 
         ImageView(
@@ -112,16 +104,14 @@ fun WatcherItem(
 @ProjectPreviews
 @Composable
 @Suppress("FunctionNaming")
-fun WatcherItemPreview() {
-    AppTheme {
-        WatcherItem(
-            Watcher(
-                id = 0,
-                base = "EUR",
-                target = "USD",
-                isGreater = false,
-                rate = "123456789"
-            )
-        ) {}
-    }
+fun WatcherItemPreview() = Preview {
+    WatcherItem(
+        Watcher(
+            id = 0,
+            base = "EUR",
+            target = "USD",
+            isGreater = false,
+            rate = "123456789"
+        )
+    ) {}
 }
