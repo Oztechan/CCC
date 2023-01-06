@@ -170,7 +170,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageCommand: echo
-          coverageLocations: build/reports/kover/merged/xml/report.xml
+          coverageLocations: ${{github.workspace}}/build/reports/kover/merged/xml/report.xml:jacoco
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
