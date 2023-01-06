@@ -3,8 +3,8 @@ package com.oztechan.ccc.android.ui.compose.theme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.colorResource
 import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.ui.compose.util.toColor
 
 @Suppress("FunctionNaming")
 @Composable
@@ -13,35 +13,35 @@ fun AppTheme(
 ) {
     // holo_purple from system used for undiscovered colors
     val colorScheme = ColorScheme(
-        primary = colorResource(id = R.color.primary),
-        onPrimary = colorResource(id = R.color.background_strong),
-        primaryContainer = colorResource(id = R.color.background),
-        onPrimaryContainer = colorResource(id = R.color.background_weak),
-        inversePrimary = colorResource(id = android.R.color.holo_purple),
-        secondary = colorResource(id = R.color.secondary),
-        onSecondary = colorResource(id = R.color.background_strong),
-        secondaryContainer = colorResource(id = R.color.background),
-        onSecondaryContainer = colorResource(id = R.color.background_weak),
-        tertiary = colorResource(id = R.color.tertiary),
-        onTertiary = colorResource(id = R.color.background_strong),
-        tertiaryContainer = colorResource(id = R.color.background),
-        onTertiaryContainer = colorResource(id = R.color.background_weak),
-        background = colorResource(id = R.color.background),
-        onBackground = colorResource(id = R.color.text),
-        surface = colorResource(id = R.color.background),
-        onSurface = colorResource(id = R.color.text),
-        surfaceVariant = colorResource(id = R.color.background_weak),
-        onSurfaceVariant = colorResource(id = R.color.text_weak),
-        surfaceTint = colorResource(id = android.R.color.holo_purple),
-        inverseSurface = colorResource(id = android.R.color.holo_purple),
-        inverseOnSurface = colorResource(id = android.R.color.holo_purple),
-        error = colorResource(id = R.color.error),
-        onError = colorResource(id = R.color.background_strong),
-        errorContainer = colorResource(id = R.color.background),
-        onErrorContainer = colorResource(id = R.color.background_weak),
-        outline = colorResource(id = R.color.background_weak),
-        outlineVariant = colorResource(id = R.color.text_weak),
-        scrim = colorResource(id = android.R.color.holo_purple)
+        primary = R.color.primary.toColor(),
+        onPrimary = R.color.background_strong.toColor(),
+        primaryContainer = R.color.background.toColor(),
+        onPrimaryContainer = R.color.background_weak.toColor(),
+        inversePrimary = android.R.color.holo_purple.toColor(),
+        secondary = R.color.secondary.toColor(),
+        onSecondary = R.color.background_strong.toColor(),
+        secondaryContainer = R.color.background.toColor(),
+        onSecondaryContainer = R.color.background_weak.toColor(),
+        tertiary = R.color.tertiary.toColor(),
+        onTertiary = R.color.background_strong.toColor(),
+        tertiaryContainer = R.color.background.toColor(),
+        onTertiaryContainer = R.color.background_weak.toColor(),
+        background = R.color.background.toColor(),
+        onBackground = R.color.text.toColor(),
+        surface = R.color.background.toColor(),
+        onSurface = R.color.text.toColor(),
+        surfaceVariant = R.color.background_weak.toColor(),
+        onSurfaceVariant = R.color.text_weak.toColor(),
+        surfaceTint = android.R.color.holo_purple.toColor(),
+        inverseSurface = android.R.color.holo_purple.toColor(),
+        inverseOnSurface = android.R.color.holo_purple.toColor(),
+        error = R.color.error.toColor(),
+        onError = R.color.background_strong.toColor(),
+        errorContainer = R.color.background.toColor(),
+        onErrorContainer = R.color.background_weak.toColor(),
+        outline = R.color.background_weak.toColor(),
+        outlineVariant = R.color.text_weak.toColor(),
+        scrim = android.R.color.holo_purple.toColor()
     )
 
     MaterialTheme(

@@ -17,15 +17,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.ui.compose.annotations.ProjectPreviews
+import com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews
 import com.oztechan.ccc.android.ui.compose.component.ImageView
 import com.oztechan.ccc.android.ui.compose.component.Preview
+import com.oztechan.ccc.android.ui.compose.util.toColor
+import com.oztechan.ccc.android.ui.compose.util.toPainter
+import com.oztechan.ccc.android.ui.compose.util.toText
 import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
@@ -55,10 +55,10 @@ fun WatchersViewContent(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(id = R.string.txt_watchers_description),
-            color = colorResource(id = R.color.text_weak),
+            text = R.string.txt_watchers_description.toText(),
+            color = R.color.text_weak.toColor(),
             modifier = Modifier
-                .background(color = colorResource(id = R.color.background_strong))
+                .background(color = R.color.background_strong.toColor())
                 .fillMaxWidth()
                 .padding(20.dp),
             textAlign = TextAlign.Center,
@@ -74,7 +74,7 @@ fun WatchersViewContent(
 
         Box(
             Modifier
-                .background(color = colorResource(id = R.color.background_strong))
+                .background(color = R.color.background_strong.toColor())
                 .fillMaxWidth()
                 .height(75.dp),
             contentAlignment = Alignment.Center
@@ -83,14 +83,14 @@ fun WatchersViewContent(
                 onClick = onAddClick,
             ) {
                 ImageView(
-                    painter = painterResource(id = R.drawable.ic_plus),
+                    painter = R.drawable.ic_plus.toPainter(),
                     modifier = Modifier.padding(2.dp)
                 )
 
                 Text(
-                    text = stringResource(R.string.txt_add),
+                    text = R.string.txt_add.toText(),
                     modifier = Modifier.padding(2.dp),
-                    color = colorResource(id = R.color.text),
+                    color = R.color.text.toColor(),
                 )
             }
         }
@@ -99,7 +99,7 @@ fun WatchersViewContent(
 
 @Suppress("FunctionNaming", "UnrememberedMutableState")
 @Composable
-@ProjectPreviews
+@ThemedPreviews
 fun WatchersViewContentPreview() = Preview {
     WatchersViewContent(
         state = mutableStateOf(

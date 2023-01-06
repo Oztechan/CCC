@@ -26,7 +26,7 @@ import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 
 private const val ANIMATION_DURATION = 500L
 
@@ -143,4 +143,4 @@ fun View.copyToClipBoard(text: String) {
     }
 }
 
-fun ImageView.setBackgroundByName(name: String) = setImageResource(getImageResourceIdByName(name))
+fun ImageView.setBackgroundByName(name: String) = setImageResource(name.getImageIdByName())
