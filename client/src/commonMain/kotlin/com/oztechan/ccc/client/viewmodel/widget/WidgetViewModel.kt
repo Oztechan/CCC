@@ -65,7 +65,7 @@ class WidgetViewModel(
 
         when (newBaseIndex) {
             activeCurrencies.size -> newBaseIndex = 0
-            -1 -> newBaseIndex = activeCurrencies.size - 1
+            -1 -> newBaseIndex = activeCurrencies.lastIndex
         }
         calculatorStorage.currentBase = activeCurrencies[newBaseIndex].code
     }
