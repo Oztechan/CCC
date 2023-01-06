@@ -37,6 +37,18 @@ version = ProjectSettings.getVersionName(project)
 
 allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
+        koverMerged {
+            filters {
+                annotations {
+                    excludes += listOf(
+                        "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
+                        "androidx.compose.ui.tooling.preview.Preview",
+                        "androidx.compose.runtime.Composable"
+                    )
+                }
+            }
+            enable()
+        }
         koverMerged.enable()
     }
 
