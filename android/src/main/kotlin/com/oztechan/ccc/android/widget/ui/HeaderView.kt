@@ -20,7 +20,7 @@ import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.widget.action.NextBaseAction
 import com.oztechan.ccc.android.widget.action.PreviousBaseAction
 import com.oztechan.ccc.android.widget.ui.components.ImageView
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 
 @Suppress("FunctionNaming")
 @Composable
@@ -40,7 +40,7 @@ fun HeaderView(currentBase: String) {
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         ImageView(
-            provider = ImageProvider(getImageResourceIdByName(currentBase)),
+            provider = ImageProvider(currentBase.getImageIdByName()),
             modifier = GlanceModifier
                 .size(32.dp)
                 .padding(horizontal = 2.dp)

@@ -46,7 +46,7 @@ fun WidgetItem(
         )
 
         ImageView(
-            provider = ImageProvider(ImageProvider(item.code.getImageIdByName())),
+            provider = ImageProvider(item.code.getImageIdByName()),
             modifier = GlanceModifier
                 .size(32.dp)
                 .padding(horizontal = 2.dp)

@@ -12,8 +12,7 @@ import com.oztechan.ccc.android.widget.action.OpenAppAction
 import com.oztechan.ccc.android.widget.action.PreviousBaseAction
 import com.oztechan.ccc.android.widget.action.RefreshAction
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -22,22 +21,15 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
     private val viewModel: WidgetViewModel by inject()
 
-    private val coroutineScope = MainScope()
-
     private fun refreshData(
         context: Context,
         changeBaseToNext: Boolean? = null
-    ) = coroutineScope.launch {
+    ) = runBlocking {
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)
             .firstOrNull()
             ?.let { glanceId ->
-
-                if (changeBaseToNext != null) {
-                    viewModel.updateBase(changeBaseToNext)
-                }
-
-                viewModel.refreshWidgetData()
+                viewModel.refreshWidgetData(changeBaseToNext)
                 glanceAppWidget.update(context, glanceId)
             }
     }

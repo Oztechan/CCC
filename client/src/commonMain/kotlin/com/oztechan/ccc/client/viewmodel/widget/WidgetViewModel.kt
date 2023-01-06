@@ -21,11 +21,17 @@ class WidgetViewModel(
     lateinit var lastUpdate: String
     lateinit var currentBase: String
 
-    suspend fun refreshWidgetData() {
-        lastUpdate = ""
-        currentBase = ""
-        currencyList = listOf()
+    suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
+        if (changeBaseToNext != null) {
+            updateBase(changeBaseToNext)
+        }
 
+        cleanWidgetData()
+
+        getFreshWidgetData()
+    }
+
+    private suspend fun getFreshWidgetData() {
         currentBase = calculatorStorage.currentBase
         lastUpdate = nowAsInstant().toDateString()
 
@@ -43,7 +49,7 @@ class WidgetViewModel(
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
     }
 
-    suspend fun updateBase(isToNext: Boolean) {
+    private suspend fun updateBase(isToNext: Boolean) {
         val activeCurrencies = currencyDataSource.getActiveCurrencies()
             .toUIModelList()
 
@@ -59,9 +65,15 @@ class WidgetViewModel(
 
         when (newBaseIndex) {
             activeCurrencies.size -> newBaseIndex = 0
-            -1 -> newBaseIndex = activeCurrencies.size
+            -1 -> newBaseIndex = activeCurrencies.size - 1
         }
         calculatorStorage.currentBase = activeCurrencies[newBaseIndex].code
+    }
+
+    private fun cleanWidgetData() {
+        lastUpdate = ""
+        currentBase = ""
+        currencyList = listOf()
     }
 
     companion object {
