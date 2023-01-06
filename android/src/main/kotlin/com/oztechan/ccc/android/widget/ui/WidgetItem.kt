@@ -17,7 +17,7 @@ import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.client.model.Currency
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 
 @Suppress("FunctionNaming")
 @Composable
@@ -46,7 +46,7 @@ fun WidgetItem(
         )
 
         ImageView(
-            provider = ImageProvider(getImageResourceIdByName(item.code)),
+            provider = ImageProvider(ImageProvider(item.code.getImageIdByName())),
             modifier = GlanceModifier
                 .size(32.dp)
                 .padding(horizontal = 2.dp)

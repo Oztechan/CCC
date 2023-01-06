@@ -16,19 +16,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.ui.compose.annotations.ProjectPreviews
+import com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews
 import com.oztechan.ccc.android.ui.compose.component.ImageView
 import com.oztechan.ccc.android.ui.compose.component.Preview
+import com.oztechan.ccc.android.ui.compose.util.toPainter
+import com.oztechan.ccc.android.ui.compose.util.toText
 import com.oztechan.ccc.client.model.Watcher
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 
 @Suppress("FunctionNaming", "LongMethod")
 @Composable
@@ -47,7 +47,7 @@ fun WatcherItem(
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(id = R.string.one),
+            text = R.string.one.toText(),
             modifier = Modifier.padding(itemPadding),
         )
 
@@ -57,7 +57,7 @@ fun WatcherItem(
         )
 
         ImageView(
-            painter = painterResource(getImageResourceIdByName(watcher.base)),
+            painter = watcher.base.getImageIdByName().toPainter(),
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
@@ -78,7 +78,7 @@ fun WatcherItem(
                 .width(105.dp),
             placeholder = {
                 Text(
-                    text = stringResource(id = R.string.txt_rate),
+                    text = R.string.txt_rate.toText(),
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -93,7 +93,7 @@ fun WatcherItem(
         )
 
         ImageView(
-            painter = painterResource(getImageResourceIdByName(watcher.target)),
+            painter = watcher.target.getImageIdByName().toPainter(),
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
@@ -101,7 +101,7 @@ fun WatcherItem(
     }
 }
 
-@ProjectPreviews
+@ThemedPreviews
 @Composable
 @Suppress("FunctionNaming")
 fun WatcherItemPreview() = Preview {

@@ -1,3 +1,3 @@
 package com.oztechan.ccc.res
 
-fun getImageResourceIdByName(name: String) = getImageResourceByName(name).drawableResId
+fun String.getImageIdByName() = getImageByName(this).drawableResId

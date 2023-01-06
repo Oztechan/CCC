@@ -27,7 +27,7 @@ import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.res.getImageResourceIdByName
+import com.oztechan.ccc.res.getImageIdByName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -135,7 +135,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
                 is CalculatorEffect.ShowConversion -> view?.showSnack(
                     viewEffect.text,
-                    icon = getImageResourceIdByName(viewEffect.code)
+                    icon = viewEffect.code.getImageIdByName()
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
