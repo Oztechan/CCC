@@ -60,9 +60,9 @@ fun View?.showSnack(
     isIndefinite: Boolean = false,
     action: (() -> Unit)? = null
 ) = this?.showSnack(
-    if (text == null) "" else context.getString(text),
-    if (actionText == null) "" else context.getString(actionText),
-    icon,
-    isIndefinite,
-    action
+    text = if (text == null) "" else context.getString(text),
+    actionText = if (actionText == null) "" else context.getString(actionText),
+    icon = icon,
+    isIndefinite = isIndefinite,
+    action = action
 )
