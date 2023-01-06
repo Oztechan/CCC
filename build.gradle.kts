@@ -45,6 +45,7 @@ allprojects {
             buildUponDefaultConfig = true
             allRules = true
             parallel = true
+            config = files("${rootProject.projectDir}/detekt.yml")
         }
         tasks.withType<Detekt> {
             setSource(files(project.projectDir))
