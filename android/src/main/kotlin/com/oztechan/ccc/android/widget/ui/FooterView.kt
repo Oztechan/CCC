@@ -5,7 +5,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.ImageProvider
-import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.layout.Alignment
@@ -18,7 +17,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.ui.main.MainActivity
+import com.oztechan.ccc.android.widget.action.OpenAppAction
 import com.oztechan.ccc.android.widget.action.RefreshAction
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 
@@ -49,7 +48,7 @@ fun FooterView(lastUpdate: String) {
             provider = ImageProvider(R.drawable.ic_app_logo),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(actionStartActivity<MainActivity>())
+                .clickable(actionRunCallback<OpenAppAction>())
         )
     }
 }
