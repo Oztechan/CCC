@@ -164,13 +164,20 @@ jobs:
       - name: Gradle Build
         run: ./gradlew check koverMergedXmlReport detektAll --parallel
 
-      - name: Upload to Codecov
+      - name: Upload coverage to Codeclimate
+        uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: build/reports/kover/merged/xml/report.xml
+
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/reports/kover/merged/xml/report.xml
 
-      - name: Upload to Codacy
+      - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
