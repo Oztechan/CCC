@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
-import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Row
@@ -16,6 +15,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.res.getImageIdByName
 
@@ -45,9 +45,8 @@ fun WidgetItem(
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )
 
-        Image(
-            provider = ImageProvider(item.code.getImageIdByName()),
-            contentDescription = "",
+        ImageView(
+            provider = ImageProvider(ImageProvider(item.code.getImageIdByName())),
             modifier = GlanceModifier
                 .size(32.dp)
                 .padding(horizontal = 2.dp)

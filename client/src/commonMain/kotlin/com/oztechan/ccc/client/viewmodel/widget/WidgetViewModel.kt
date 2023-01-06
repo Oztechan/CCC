@@ -6,9 +6,11 @@ import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.getRateFromCode
+import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.util.nowAsInstant
 
 class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,
@@ -16,13 +18,16 @@ class WidgetViewModel(
     private val currencyDataSource: CurrencyDataSource,
 ) : BaseViewModel() {
     lateinit var currencyList: List<Currency>
+    lateinit var lastUpdate: String
     lateinit var currentBase: String
 
     suspend fun refreshWidgetData() {
+        lastUpdate = ""
         currentBase = ""
         currencyList = listOf()
 
         currentBase = calculatorStorage.currentBase
+        lastUpdate = nowAsInstant().toDateString()
 
         val conversion = backendApiService
             .getConversion(calculatorStorage.currentBase)
