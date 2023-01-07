@@ -11,3 +11,7 @@ style:
   WildcardImport:
     active: true
     excludeImports: [ ] # default config excludes java.util.*
+
+complexity:
+  NamedArguments:
+    active: true
