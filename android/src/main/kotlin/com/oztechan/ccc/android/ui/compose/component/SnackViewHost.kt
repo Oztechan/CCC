@@ -24,7 +24,6 @@ import com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews
 import com.oztechan.ccc.android.ui.compose.util.toColor
 import com.oztechan.ccc.android.ui.compose.util.toPainter
 
-@Suppress("FunctionNaming")
 @Composable
 fun SnackViewHost(
     snackbarHostState: SnackbarHostState,
@@ -42,7 +41,6 @@ fun SnackViewHost(
     }
 }
 
-@Suppress("FunctionNaming")
 @Composable
 fun SnackViewContent(snackbarData: SnackbarData) {
     Row(
@@ -82,7 +80,7 @@ fun SnackViewContent(snackbarData: SnackbarData) {
     }
 }
 
-@Suppress("FunctionNaming", "UnrememberedMutableState")
+@Suppress("UnrememberedMutableState")
 @Composable
 @ThemedPreviews
 fun SnackViewContentPreview() = Preview {
