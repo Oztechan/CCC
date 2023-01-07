@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +31,6 @@ import com.oztechan.ccc.android.ui.compose.util.toText
 import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.res.getImageIdByName
 
-@Suppress("FunctionNaming", "LongMethod")
 @Composable
 fun WatcherItem(
     watcher: Watcher,
@@ -103,7 +103,6 @@ fun WatcherItem(
 
 @ThemedPreviews
 @Composable
-@Suppress("FunctionNaming")
 fun WatcherItemPreview() = Preview {
     WatcherItem(
         Watcher(

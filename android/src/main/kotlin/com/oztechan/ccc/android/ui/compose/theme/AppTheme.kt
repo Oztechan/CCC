@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.ui.compose.util.toColor
 
-@Suppress("FunctionNaming")
 @Composable
 fun AppTheme(
     content: @Composable () -> Unit

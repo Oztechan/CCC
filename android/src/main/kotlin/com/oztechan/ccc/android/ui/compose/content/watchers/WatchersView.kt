@@ -31,7 +31,6 @@ import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import org.koin.androidx.compose.koinViewModel
 
-@Suppress("FunctionNaming")
 @Composable
 fun WatchersView(
     vm: WatchersViewModel = koinViewModel(),
@@ -43,7 +42,6 @@ fun WatchersView(
     )
 }
 
-@Suppress("FunctionNaming")
 @Composable
 fun WatchersViewContent(
     state: State<WatchersState>,
@@ -97,7 +95,7 @@ fun WatchersViewContent(
     }
 }
 
-@Suppress("FunctionNaming", "UnrememberedMutableState")
+@Suppress("UnrememberedMutableState")
 @Composable
 @ThemedPreviews
 fun WatchersViewContentPreview() = Preview {
