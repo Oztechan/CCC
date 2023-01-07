@@ -5,7 +5,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
-@Suppress("FunctionNaming")
 @Composable
 fun NavHostController.SelectCurrencyView() {
     TextButton(
