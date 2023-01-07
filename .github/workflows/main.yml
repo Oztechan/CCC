@@ -162,7 +162,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Gradle Build
-        run: ./gradlew check koverMergedXmlReport detektAll --parallel
+        run: ./gradlew koverMergedXmlReport detektAll --parallel
 
       - name: Upload coverage to Codeclimate
         uses: paambaati/codeclimate-action@v3.2.0
