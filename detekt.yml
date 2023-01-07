@@ -15,3 +15,8 @@ style:
 complexity:
   NamedArguments:
     active: true
+
+naming:
+  FunctionNaming:
+    active: true
+    ignoreAnnotated: [ 'Composable' ]

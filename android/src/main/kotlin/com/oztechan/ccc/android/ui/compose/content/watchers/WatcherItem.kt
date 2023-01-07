@@ -30,7 +30,6 @@ import com.oztechan.ccc.android.ui.compose.util.toText
 import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.res.getImageIdByName
 
-@Suppress("FunctionNaming", "LongMethod")
 @Composable
 fun WatcherItem(
     watcher: Watcher,
@@ -103,7 +102,6 @@ fun WatcherItem(
 
 @ThemedPreviews
 @Composable
-@Suppress("FunctionNaming")
 fun WatcherItemPreview() = Preview {
     WatcherItem(
         Watcher(

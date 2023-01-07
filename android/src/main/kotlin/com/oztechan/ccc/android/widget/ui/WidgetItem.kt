@@ -19,7 +19,6 @@ import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.res.getImageIdByName
 
-@Suppress("FunctionNaming")
 @Composable
 fun WidgetItem(
     item: Currency,
