@@ -15,9 +15,6 @@
   },
   "lockFileMaintenance": {
     "enabled": true,
-    "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance",
-    "schedule": [
-      "at any time"
-    ]
+    "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance"
   }
 }

@@ -22,7 +22,6 @@ import com.oztechan.ccc.android.widget.action.PreviousBaseAction
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.res.getImageIdByName
 
-@Suppress("FunctionNaming")
 @Composable
 fun HeaderView(currentBase: String) {
     Row(

@@ -6,7 +6,6 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 
 @Composable
-@Suppress("FunctionNaming")
 fun ImageView(
     provider: ImageProvider,
     modifier: GlanceModifier = GlanceModifier

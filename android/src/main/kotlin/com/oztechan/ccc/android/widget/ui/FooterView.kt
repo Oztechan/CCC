@@ -21,7 +21,6 @@ import com.oztechan.ccc.android.widget.action.OpenAppAction
 import com.oztechan.ccc.android.widget.action.RefreshAction
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 
-@Suppress("FunctionNaming")
 @Composable
 fun FooterView(lastUpdate: String) {
     Row(

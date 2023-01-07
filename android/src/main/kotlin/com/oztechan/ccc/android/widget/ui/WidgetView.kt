@@ -10,7 +10,6 @@ import androidx.glance.layout.fillMaxSize
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 
-@Suppress("FunctionNaming")
 @Composable
 fun WidgetView(viewModel: WidgetViewModel) {
     Column(
