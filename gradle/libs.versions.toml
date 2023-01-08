@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "1.7.20"
+kotlin = "1.8.0"
 ksp = "1.7.20-1.0.8"
 detekt = "1.22.0"
 androidGradlePlugin = "7.3.1"
