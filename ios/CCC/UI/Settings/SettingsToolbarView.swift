@@ -16,7 +16,7 @@ struct SettingsToolbarView: View {
         HStack {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(MR.strings().txt_settings.get())
+            Text(Res.strings().txt_settings.get())
                 .font(relative: .title3)
 
             Spacer()
