@@ -85,4 +85,5 @@ android {
 multiplatformResources {
     multiplatformResourcesPackage = Modules.RES.packageName
     disableStaticFrameworkWarning = true
+    multiplatformResourcesClassName = Modules.RES.frameworkName
 }

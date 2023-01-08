@@ -30,7 +30,7 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
 
@@ -60,15 +60,15 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(MR.colors().background.get())
+                        .listRowBackground(Res.colors().background.get())
                     }
-                    .withClearBackground(color: MR.colors().background.get())
+                    .withClearBackground(color: Res.colors().background.get())
                 }
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(
-                        text: MR.strings().txt_select_currencies.get(),
-                        buttonText: MR.strings().btn_done.get(),
+                        text: Res.strings().txt_select_currencies.get(),
+                        buttonText: Res.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick
                     )
                 }
@@ -86,7 +86,7 @@ struct CurrenciesView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().choose_at_least_two_currency.get())
+            SnackView(text: Res.strings().choose_at_least_two_currency.get())
         }
         .onAppear {
             observable.startObserving()
