@@ -22,13 +22,13 @@ struct CalculatorItemView: View {
 
             Text(item.rate)
                 .font(relative: .body)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Text(item.symbol)
                 .font(relative: .subheadline)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
@@ -36,7 +36,7 @@ struct CalculatorItemView: View {
 
             Text(item.code)
                 .font(relative: .subheadline)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 

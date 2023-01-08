@@ -9,7 +9,6 @@ import org.koin.core.qualifier.Qualifier
 
 actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
     qualifier: Qualifier?,
-    createdAtStart: Boolean,
     noinline definition: Definition<T>
 ): KoinDefinition<T> = viewModel(
     qualifier = qualifier,

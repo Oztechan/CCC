@@ -27,12 +27,12 @@ struct CurrenciesToolbarView: View {
             if searchVisibilty {
                 Spacer()
 
-                TextField(MR.strings().search.get(), text: $query)
+                TextField(Res.strings().search.get(), text: $query)
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
                     .background(
                         RoundedRectangle(cornerRadius: 3.cp())
-                            .fill(MR.colors().background.get())
+                            .fill(Res.colors().background.get())
                     )
                     .disableAutocorrection(true)
                     .multilineTextAlignment(.center)
@@ -51,7 +51,7 @@ struct CurrenciesToolbarView: View {
 
             } else {
 
-                Text(MR.strings().txt_currencies.get()).font(relative: .title3)
+                Text(Res.strings().txt_currencies.get()).font(relative: .title3)
 
                 Spacer()
 

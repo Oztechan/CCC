@@ -25,16 +25,16 @@ struct WatcherItem: View {
 
     var body: some View {
         HStack {
-            Text(MR.strings().one.get()).font(relative: .body)
+            Text(Res.strings().one.get()).font(relative: .body)
 
             CurrencyImageView(imageName: watcher.base)
                 .onTapGesture { event.onBaseClick(watcher: watcher) }
 
             Picker("", selection: $relationSelection) {
-                Text(MR.strings().txt_smaller.get())
+                Text(Res.strings().txt_smaller.get())
                     .font(relative: .title)
                     .tag(0)
-                Text(MR.strings().txt_grater.get())
+                Text(Res.strings().txt_grater.get())
                     .font(relative: .title)
                     .tag(1)
             }
@@ -46,14 +46,14 @@ struct WatcherItem: View {
 
             Spacer()
 
-            TextField(MR.strings().txt_rate.get(), text: $amount)
+            TextField(Res.strings().txt_rate.get(), text: $amount)
                 .keyboardType(.decimalPad)
                 .font(relative: .body)
                 .multilineTextAlignment(TextAlignment.center)
                 .fixedSize()
                 .lineLimit(1)
                 .padding(top: 5.cp(), leading: 15.cp(), bottom: 5.cp(), trailing: 15.cp())
-                .background(MR.colors().background_weak.get())
+                .background(Res.colors().background_weak.get())
                 .cornerRadius(7.cp())
                 .onChange(of: amount) {
                     amount = event.onRateChange(watcher: watcher, rate: $0)

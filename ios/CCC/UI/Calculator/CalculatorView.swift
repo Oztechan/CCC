@@ -38,7 +38,7 @@ struct CalculatorView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
 
@@ -74,10 +74,10 @@ struct CalculatorView: View {
                                 )
                             }
                             .listRowInsets(.init())
-                            .listRowBackground(MR.colors().background.get())
+                            .listRowBackground(Res.colors().background.get())
                             .animation(.default)
                         }
-                        .withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: Res.colors().background.get())
                         .padding(bottom: 4.cp())
                     }
 
@@ -96,7 +96,7 @@ struct CalculatorView: View {
 
                 }
             }
-            .background(MR.colors().background_strong.get())
+            .background(Res.colors().background_strong.get())
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -105,14 +105,14 @@ struct CalculatorView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().text_too_big_number.get())
+            SnackView(text: Res.strings().text_too_big_number.get())
         }
         .popup(
             isPresented: $isGenericErrorSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().error_text_unknown.get())
+            SnackView(text: Res.strings().error_text_unknown.get())
         }
         .popup(
             isPresented: $isFewCurrencySnackShown,
@@ -120,8 +120,8 @@ struct CalculatorView: View {
             autohideIn: 2.0
         ) {
             SnackView(
-                text: MR.strings().choose_at_least_two_currency.get(),
-                buttonText: MR.strings().select.get(),
+                text: Res.strings().choose_at_least_two_currency.get(),
+                buttonText: Res.strings().select.get(),
                 buttonAction: {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
@@ -132,7 +132,7 @@ struct CalculatorView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().copied_to_clipboard.get())
+            SnackView(text: Res.strings().copied_to_clipboard.get())
         }
         .popup(
             isPresented: $isConversionSnackShown,

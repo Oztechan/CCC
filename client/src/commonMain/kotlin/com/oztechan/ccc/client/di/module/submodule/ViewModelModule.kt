@@ -30,6 +30,5 @@ internal val viewModelModule = module {
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
     qualifier: Qualifier? = null,
-    createdAtStart: Boolean = false,
     noinline definition: Definition<T>
 ): KoinDefinition<T>
