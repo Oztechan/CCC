@@ -49,5 +49,7 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     func updateUIViewController(
         _ uiViewController: UIViewController,
         context: Context
-    ) {}
+    ) {
+        // no impl
+    }
 }
