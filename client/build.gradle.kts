@@ -13,7 +13,6 @@ plugins {
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
-        id(sqlDelight.get().pluginId)
         id(buildKonfig.get().pluginId)
         alias(ksp)
     }
