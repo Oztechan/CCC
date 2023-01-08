@@ -29,9 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.oztechan.ccc.android.ui.compose.content.ComposeActivity"
-            android:exported="true" />
+        <activity android:name="com.oztechan.ccc.android.ui.compose.content.ComposeActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

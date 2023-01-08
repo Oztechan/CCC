@@ -71,6 +71,8 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     private val currencyListFlow = flowOf(currencyListCommon)
 
+    private var dollar = ClientCurrency("USD", "American Dollar", "$", "1231")
+
     @BeforeTest
     override fun setup() {
         super.setup()
@@ -345,8 +347,6 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     @Test
     fun onQueryChange() = with(subject) {
-        val dollar = ClientCurrency("USD", "American Dollar", "$", "1231")
-
         val originalList = mutableListOf<ClientCurrency>().apply {
             add(clientCurrency)
             add(dollar)
@@ -445,7 +445,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     @Test
     fun onDoneClick() {
         // where there is single currency
-        val dollar = ClientCurrency("USD", "American Dollar", "$", "123", isActive = true)
+        val dollarActive = dollar.copy(isActive = true)
 
         subject.data.unFilteredList = mutableListOf(clientCurrency)
 
@@ -457,7 +457,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         }
 
         // where there are 2 active currencies
-        subject.data.unFilteredList = mutableListOf(clientCurrency, dollar)
+        subject.data.unFilteredList = mutableListOf(clientCurrency, dollarActive)
 
         subject.effect.before {
             subject.onDoneClick()
@@ -471,7 +471,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         }
 
         // where there are 2 currencies but only 1 active
-        val dollarNotActive = ClientCurrency("USD", "American Dollar", "$", "123", isActive = false)
+        val dollarNotActive = dollar.copy(isActive = false)
         subject.data.unFilteredList = mutableListOf(clientCurrency, dollarNotActive)
 
         subject.effect.before {

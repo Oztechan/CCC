@@ -52,6 +52,6 @@ struct MailView: UIViewControllerRepresentable {
         _ uiViewController: MFMailComposeViewController,
         context: UIViewControllerRepresentableContext<MailView>
     ) {
-
+        // no impl
     }
 }
