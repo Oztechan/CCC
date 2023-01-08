@@ -217,10 +217,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bundler
   fastlane
   fastlane-plugin-firebase_app_distribution
   xcode-install
-
-BUNDLED WITH
-   2.3.26
