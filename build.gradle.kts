@@ -82,7 +82,6 @@ allprojects {
                 property("sonar.projectKey", "Oztechan_CCC")
                 property("sonar.organization", "oztechan")
                 property("sonar.host.url", "https://sonarcloud.io")
-                property("sonar.coverage.jacoco.xmlReportPaths", "$rootDir/build/reports/kover/merged/xml/report.xml")
             }
         }
     }
