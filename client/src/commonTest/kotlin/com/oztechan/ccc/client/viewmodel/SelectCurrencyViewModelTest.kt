@@ -58,13 +58,13 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
 
     // SEED
     @Test
-    fun check_data_is_null() {
+    fun `check data is null`() {
         assertNull(subject.data)
     }
 
     // init
     @Test
-    fun init_updates_the_states_with_no_enough_currency() = runTest {
+    fun `init updates the states with no enough currency`() = runTest {
         given(currencyDataSource)
             .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyListNotEnough))
@@ -82,7 +82,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     }
 
     @Test
-    fun init_updates_the_states_with_enough_currency() {
+    fun `init updates the states with enough currency`() {
         runTest {
             subject.state.firstOrNull().let {
                 assertNotNull(it)

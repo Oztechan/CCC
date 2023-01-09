@@ -92,7 +92,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     // Analytics
     @Test
-    fun if_user_properties_set_correct() {
+    fun `if user properties set correct`() {
         subject // init
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
@@ -108,7 +108,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     // Analytics
     @Test
-    fun user_properties_should_not_set_if_there_is_no_active_currency() {
+    fun `user properties should not set if there is no active currency`() {
         val nonActiveCurrencyList = listOf(CommonCurrency("EUR", "Euro", "€", isActive = false))
 
         given(currencyDataSource)
@@ -132,7 +132,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
     // init
     @Test
-    fun init_updates_states_correctly() = runTest {
+    fun `init updates states correctly`() = runTest {
         subject.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currencyListClient, it.currencyList)

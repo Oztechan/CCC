@@ -52,7 +52,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_true_when_force_and_current_version_bigger_than_current_version() {
+    fun `checkAppUpdate should return true when force + current version bigger than current version`() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode + 1) }
@@ -68,7 +68,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_false_when_forceVersion_less_than_current_and_updateVersion_bigger_than_current() {
+    fun `checkAppUpdate should return false when forceVersion less than current + updateVersion bigger than current`() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode - 1) }
@@ -84,7 +84,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_update_is_less_than_current_version() {
+    fun `checkAppUpdate should return null when update is less than current version`() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode - 1, Random.nextInt()) }
@@ -97,7 +97,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_update_version_is_equal_to_current_version() {
+    fun `checkAppUpdate should return null when update version is equal to current version`() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode, Random.nextInt()) }
@@ -110,7 +110,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun checkAppUpdate_should_return_null_when_it_is_already_shown() {
+    fun `checkAppUpdate should return null when it is already shown`() {
         given(updateConfigService)
             .invocation { config }
             .then { UpdateConfig(BuildKonfig.versionCode + 1, BuildKonfig.versionCode + 1) }
@@ -123,7 +123,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun shouldShowAppReview_should_return_true_when_sessionCount_is_biggerThan_remote_sessionCount() {
+    fun `shouldShowAppReview should return true when sessionCount is biggerThan remote sessionCount`() {
         val mockInteger = Random.nextInt()
 
         given(reviewConfigService)
@@ -146,7 +146,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun shouldShowAppReview_should_return_false_when_sessionCount_is_less_than_remote_sessionCount() {
+    fun `shouldShowAppReview should return false when sessionCount is less than remote sessionCount`() {
         val mockInteger = Random.nextInt()
 
         given(reviewConfigService)
@@ -169,7 +169,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
     }
 
     @Test
-    fun shouldShowAppReview_should_return_false_when_sessionCount_is_equal_to_remote_sessionCount() {
+    fun `shouldShowAppReview should return false when sessionCount is equal to remote sessionCount`() {
         val mockInteger = Random.nextInt()
 
         given(reviewConfigService)
