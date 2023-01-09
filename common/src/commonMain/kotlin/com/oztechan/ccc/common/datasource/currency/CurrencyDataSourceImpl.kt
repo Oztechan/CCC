@@ -8,7 +8,6 @@ import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toModelList
 import com.oztechan.ccc.common.model.Currency
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +21,7 @@ internal class CurrencyDataSourceImpl(
     override fun getCurrenciesFlow(): Flow<List<Currency>> {
         Logger.v { "CurrencyDataSourceImpl getCurrenciesFlow" }
         return currencyQueries.getCurrencies()
-            .asFlow()
+            .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
             .mapToModel()
@@ -31,7 +30,7 @@ internal class CurrencyDataSourceImpl(
     override fun getActiveCurrenciesFlow(): Flow<List<Currency>> {
         Logger.v { "CurrencyDataSourceImpl getActiveCurrenciesFlow" }
         return currencyQueries.getActiveCurrencies()
-            .asFlow()
+            .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
             .mapToModel()
