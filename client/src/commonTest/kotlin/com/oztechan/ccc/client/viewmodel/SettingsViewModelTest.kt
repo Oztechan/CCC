@@ -140,7 +140,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     // init
     @Test
-    fun init_updates_states_correctly() = runTest {
+    fun `init updates states correctly`() = runTest {
         subject.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
@@ -278,7 +278,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
+    fun `isAdFreeNeverActivated returns false when adFreeEndDate is not zero`() {
         given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(1)
@@ -291,7 +291,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
+    fun `isAdFreeNeverActivated returns true when adFreeEndDate is zero`() {
         given(appStorage)
             .invocation { adFreeEndDate }
             .thenReturn(0)

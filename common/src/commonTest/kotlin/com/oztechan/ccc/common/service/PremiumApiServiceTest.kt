@@ -41,7 +41,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     private val mockBase = "EUR"
 
     @Test
-    fun getConversion_parameter_can_not_be_empty() = runTest {
+    fun `getConversion parameter can not be empty`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -54,7 +54,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     }
 
     @Test
-    fun getConversion_error() = runTest {
+    fun `getConversion error`() = runTest {
         given(premiumAPI)
             .coroutine { premiumAPI.getConversion(mockBase) }
             .thenThrow(mockThrowable)
@@ -75,7 +75,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     }
 
     @Test
-    fun getConversion_success() = runTest {
+    fun `getConversion success`() = runTest {
         given(premiumAPI)
             .coroutine { premiumAPI.getConversion(mockBase) }
             .thenReturn(mockEntity)

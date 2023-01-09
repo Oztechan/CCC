@@ -43,7 +43,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     // SEED
     @Test
-    fun check_data_is_null() {
+    fun `check data is null`() {
         assertNull(subject.data)
     }
 

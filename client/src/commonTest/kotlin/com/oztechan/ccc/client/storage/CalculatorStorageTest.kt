@@ -30,7 +30,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
 
     // defaults
     @Test
-    fun default_currentBase() {
+    fun `default currentBase`() {
         given(settings)
             .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
@@ -43,7 +43,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
     }
 
     @Test
-    fun default_precision() {
+    fun `default precision`() {
         given(settings)
             .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
             .thenReturn(DEFAULT_PRECISION)
@@ -56,7 +56,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
     }
 
     @Test
-    fun default_lastInput() {
+    fun `default lastInput`() {
         given(settings)
             .invocation { getString(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
             .thenReturn(DEFAULT_LAST_INPUT)
@@ -70,7 +70,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
 
     // setters
     @Test
-    fun set_currentBase() {
+    fun `set currentBase`() {
         val mockValue = "mock"
         subject.currentBase = mockValue
 
@@ -80,7 +80,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
     }
 
     @Test
-    fun set_precision() {
+    fun `set precision`() {
         val mockValue = Random.nextInt()
         subject.precision = mockValue
 

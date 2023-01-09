@@ -37,7 +37,7 @@ internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
     private val mockBase = "EUR"
 
     @Test
-    fun getConversion_parameter_can_not_be_empty() = runTest {
+    fun `getConversion parameter can not be empty`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -50,7 +50,7 @@ internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
     }
 
     @Test
-    fun getConversion_error() = runTest {
+    fun `getConversion error`() = runTest {
         given(backendApi)
             .coroutine { backendApi.getConversion(mockBase) }
             .thenThrow(mockThrowable)
@@ -71,7 +71,7 @@ internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
     }
 
     @Test
-    fun getConversion_success() = runTest {
+    fun `getConversion success`() = runTest {
         given(backendApi)
             .coroutine { backendApi.getConversion(mockBase) }
             .thenReturn(mockEntity)
