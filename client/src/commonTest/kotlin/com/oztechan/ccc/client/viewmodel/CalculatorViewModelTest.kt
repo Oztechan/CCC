@@ -145,7 +145,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_conversion_in_db_then_conversion_rates_are_calculated() = runTest {
+    fun `when api fails and there is conversion in db then conversion rates are calculated`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -172,7 +172,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_conversion_in_db_then_error_state_displayed() = runTest {
+    fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -199,7 +199,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_offline_and_no_enough_currency_few_currency_effect_emitted() = runTest {
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())

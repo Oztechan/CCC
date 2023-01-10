@@ -61,11 +61,10 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Generate Artifacts
         uses: gradle/gradle-build-action@v2
-
-      - name: Gradle Build
-        run: ./gradlew :android:bundleRelease :backend:fatJar --parallel
+        with:
+          arguments: :android:bundleRelease :backend:fatJar --parallel
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v3
@@ -203,9 +202,6 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Adding secret files
         run: |
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
@@ -215,11 +211,13 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
+      - name: Generate Pods
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: provider:podGenIOS res:podGenIOS --parallel
+
       - name: Install Cocoapods
-        run: |
-          ./gradlew provider:podGenIOS res:podGenIOS --parallel
-          cd ios/CCC
-          pod install --repo-update
+        run: cd ios/CCC; pod install --repo-update
 
       - name: Publish
         uses: maierj/fastlane-action@v2.3.0

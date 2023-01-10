@@ -36,7 +36,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
     // defaults
     @Test
-    fun default_firstRun() {
+    fun `default firstRun`() {
         given(settings)
             .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
@@ -49,7 +49,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun default_appTheme() {
+    fun `default appTheme`() {
         given(settings)
             .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
@@ -62,7 +62,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun default_adFreeEndDate() {
+    fun `default adFreeEndDate`() {
         given(settings)
             .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
             .thenReturn(DEFAULT_AD_FREE_END_DATE)
@@ -75,7 +75,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun default_sessionCount() {
+    fun `default sessionCount`() {
         given(settings)
             .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .thenReturn(DEFAULT_SESSION_COUNT)
@@ -89,7 +89,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
     // setters
     @Test
-    fun set_firstRun() {
+    fun `set firstRun`() {
         val mockedValue = Random.nextBoolean()
         subject.firstRun = mockedValue
 
@@ -99,7 +99,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun set_appTheme() {
+    fun `set appTheme`() {
         val mockValue = Random.nextInt()
         subject.appTheme = mockValue
 
@@ -109,7 +109,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun set_adFreeEndDate() {
+    fun `set adFreeEndDate`() {
         val mockValue = Random.nextLong()
         subject.adFreeEndDate = mockValue
 
@@ -119,7 +119,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun set_sessionCount() {
+    fun `set sessionCount`() {
         val mockValue = Random.nextLong()
         subject.sessionCount = mockValue
 
