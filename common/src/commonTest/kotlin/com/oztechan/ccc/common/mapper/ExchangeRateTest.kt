@@ -1,15 +1,15 @@
 package com.oztechan.ccc.common.mapper
 
 import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.common.api.model.Conversion as ConversionEntity
-import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
+import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateEntity
 
-internal class CurrencyResponseTest : BaseTest() {
+internal class ExchangeRateTest : BaseTest() {
     @Suppress("LongMethod")
     @Test
     fun toModel() {
@@ -29,7 +29,7 @@ internal class CurrencyResponseTest : BaseTest() {
             158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0,
             170.0
         )
-        val entity = CurrencyResponseEntity("EUR", "15.12.21", conversionEntity)
+        val entity = ExchangeRateEntity("EUR", "15.12.21", conversionEntity)
         entity.toModel()
 
         val model = entity.toModel()
@@ -57,7 +57,7 @@ internal class CurrencyResponseTest : BaseTest() {
             158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0,
             170.0
         )
-        val response = CurrencyResponse("EUR", "21.12.21", conversion)
+        val response = ExchangeRate("EUR", "21.12.21", conversion)
 
         val offline = response.toConversion()
 

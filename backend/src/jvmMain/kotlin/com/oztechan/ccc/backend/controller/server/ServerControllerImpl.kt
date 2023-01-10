@@ -10,8 +10,8 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 internal class ServerControllerImpl(
     private val conversionDataSource: ConversionDataSource
 ) : ServerController {
-    override suspend fun getCurrencyResponseTextByBase(base: String): String? {
-        Logger.i { "ServerControllerImpl getCurrencyResponseTextByBase" }
-        return conversionDataSource.getCurrencyResponseTextByBase(base)
+    override suspend fun getExchangeRateTextByBase(base: String): String? {
+        Logger.i { "ServerControllerImpl getExchangeRateTextByBase" }
+        return conversionDataSource.getExchangeRateTextByBase(base)
     }
 }

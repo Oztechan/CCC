@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonNames
 
 @Suppress("OPT_IN_USAGE")
 @Serializable
-internal data class CurrencyResponse(
+internal data class ExchangeRate(
     @JsonNames("base", "base_code") var base: String,
     @SerialName("date") var date: String? = null,
     @JsonNames("rates", "conversion_rates") var conversion: Conversion

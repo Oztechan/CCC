@@ -23,19 +23,19 @@ internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
     private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Test
-    fun `getOfflineCurrencyResponseByBase returns getCurrencyResponseTextByBase from ConversionDataSource`() =
+    fun `getExchangeRateTextByBase returns getExchangeRateTextByBase from ConversionDataSource`() =
         runTest {
             val base = "EUR"
             val result = "result"
 
             given(conversionDataSource)
-                .coroutine { getCurrencyResponseTextByBase(base) }
+                .coroutine { getExchangeRateTextByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getCurrencyResponseTextByBase(base))
+            assertEquals(result, subject.getExchangeRateTextByBase(base))
 
             verify(conversionDataSource)
-                .coroutine { getCurrencyResponseTextByBase(base) }
+                .coroutine { getExchangeRateTextByBase(base) }
                 .wasInvoked()
         }
 }

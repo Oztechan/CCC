@@ -5,7 +5,7 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
@@ -36,7 +36,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     @Mock
     private val premiumAPI = mock(classOf<PremiumApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
+    private val mockEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 
