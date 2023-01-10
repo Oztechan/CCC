@@ -7,7 +7,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import com.oztechan.ccc.android.widget.AppWidgetReceiver
 
-class OpenAppAction : ActionCallback {
+class WidgetActionCallback : ActionCallback {
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
@@ -17,11 +17,12 @@ class OpenAppAction : ActionCallback {
             context,
             AppWidgetReceiver::class.java
         ).apply {
-            action = OPEN_APP_ACTION
+            action = parameters
+                .getOrDefault(ActionParameters.Key(KEY_ACTION), "")
         }
     )
 
     companion object {
-        const val OPEN_APP_ACTION = "OpenAppAction"
+        const val KEY_ACTION = "key_action"
     }
 }
