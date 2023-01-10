@@ -65,11 +65,10 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Assemble
         uses: gradle/gradle-build-action@v2
-
-      - name: Gradle Build
-        run: ./gradlew assemble --parallel
+        with:
+          arguments: assemble
 
       - name: Set Job Status
         id: status
@@ -111,14 +110,13 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
+      - name: Generate Pods
         uses: gradle/gradle-build-action@v2
+        with:
+          arguments: provider:podGenIOS res:podGenIOS --parallel
 
-      - name: Install Cocoapods
-        run: |
-          ./gradlew provider:podGenIOS res:podGenIOS --parallel
-          cd ios/CCC
-          pod install --repo-update
+      - name: Install Pods
+        run: cd ios/CCC; pod install --repo-update
 
       - name: Build
         uses: maierj/fastlane-action@v2.3.0
@@ -158,12 +156,10 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Run Quality Jobs
-        run: |
-          ./gradlew check koverMergedXmlReport detektAll sonar --parallel
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: check koverMergedXmlReport detektAll sonar --parallel
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
