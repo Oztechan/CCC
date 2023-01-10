@@ -263,21 +263,6 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun shouldShowRemoveAds() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, subject.shouldShowRemoveAds())
-
-        verify(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .wasInvoked()
-    }
-
-    @Test
     fun `isAdFreeNeverActivated returns false when adFreeEndDate is not zero`() {
         given(appStorage)
             .invocation { adFreeEndDate }

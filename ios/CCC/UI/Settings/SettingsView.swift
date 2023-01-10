@@ -70,15 +70,13 @@ struct SettingsView: View {
                         onClick: observable.event.onWatchersClick
                     )
 
-                    if observable.viewModel.shouldShowRemoveAds() {
-                        SettingsItemView(
-                            imgName: "eye.slash.fill",
-                            title: Res.strings().settings_item_remove_ads_title.get(),
-                            subTitle: Res.strings().settings_item_remove_ads_sub_title.get(),
-                            value: getAdFreeText(),
-                            onClick: observable.event.onRemoveAdsClick
-                        )
-                    }
+                    SettingsItemView(
+                        imgName: "eye.slash.fill",
+                        title: Res.strings().settings_item_remove_ads_title.get(),
+                        subTitle: Res.strings().settings_item_remove_ads_sub_title.get(),
+                        value: getAdFreeText(),
+                        onClick: observable.event.onRemoveAdsClick
+                    )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",

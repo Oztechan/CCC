@@ -107,8 +107,6 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun shouldShowRemoveAds() = adRepository.shouldShowRemoveAds()
-
     fun isRewardExpired() = appStorage.adFreeEndDate.isRewardExpired()
 
     fun isAdFreeNeverActivated() = appStorage.adFreeEndDate == 0.toLong()

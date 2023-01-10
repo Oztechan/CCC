@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.repository
 
-import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -24,7 +23,7 @@ import kotlin.test.assertTrue
 internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     override val subject: AdRepository by lazy {
-        AdRepositoryImpl(appStorage, adConfigService, device)
+        AdRepositoryImpl(appStorage, adConfigService)
     }
 
     @Mock
@@ -32,8 +31,6 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
-
-    private var device: Device = Device.IOS
 
     private var mockedSessionCount = Random.nextInt()
 
@@ -342,70 +339,5 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
         verify(adConfigService)
             .invocation { config }
             .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowRemoveAds Returns False When Device Is Huawei`() {
-        device = Device.Android.Huawei(1)
-        assertFalse { subject.shouldShowRemoveAds() }
-    }
-
-    @Test
-    fun `shouldShowRemoveAds Returns True When ShouldShowBannerAd Returns True`() {
-        given(adConfigService)
-            .invocation { config }
-            .thenReturn(AdConfig(0, mockedSessionCount, 0L, 0L))
-
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount + 1L)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(false)
-
-        assertTrue { subject.shouldShowRemoveAds() }
-    }
-
-    @Test
-    fun `shouldShowRemoveAds Returns True When ShouldShowInterstitialAd Returns True`() {
-        given(adConfigService)
-            .invocation { config }
-            .thenReturn(AdConfig(mockedSessionCount, 0, 0L, 0L))
-
-        given(appStorage)
-            .invocation { firstRun }
-            .then { false }
-
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount.toLong() + 1)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - SECOND)
-
-        assertTrue { subject.shouldShowRemoveAds() }
-    }
-
-    @Test
-    fun `shouldShowRemoveAds Returns False When Should Show InterstitialAd + ShowShowBannerAd Returns False`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount.toLong() - 1)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(true)
-
-        assertFalse { subject.shouldShowRemoveAds() }
     }
 }
