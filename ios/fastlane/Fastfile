@@ -47,7 +47,6 @@ platform :ios do
 
         lane :build do
             install_certificate_and_profile(match_type: "adhoc")
-            add_test_devices
             build_project(
                 match_type: "adhoc",
                 profile: "match AdHoc com.oztechan.ccc"
@@ -55,6 +54,12 @@ platform :ios do
         end
 
         lane :distribute do
+            install_certificate_and_profile(match_type: "adhoc")
+            add_test_devices
+            build_project(
+                match_type: "adhoc",
+                profile: "match AdHoc com.oztechan.ccc"
+            )
             firebase_app_distribution(
                 app: ENV["IOS_GOOGLE_FIREBASE_APP_ID"],
                 groups: "QA",
