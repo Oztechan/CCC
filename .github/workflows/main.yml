@@ -149,7 +149,6 @@ jobs:
         run: cd ios/CCC; pod install --repo-update
 
       - name: Build
-        if: ${{ github.event_name == 'pull_request' }} # only build for PRs, not need to distribute
         uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'build'
