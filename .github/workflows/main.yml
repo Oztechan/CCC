@@ -154,7 +154,7 @@ jobs:
           lane: 'build'
           subdirectory: 'ios'
 
-      - name: Distribute
+      - name: Upload iOS ipa to Firebase App Distribution
         if: ${{ github.event_name == 'push' }} # only pushes to develop
         uses: maierj/fastlane-action@v2.3.0
         with:
