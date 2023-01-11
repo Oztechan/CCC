@@ -31,6 +31,16 @@ env:
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
   API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
+  APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+  APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+  APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+  GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+  SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
 
 jobs:
@@ -72,7 +82,7 @@ jobs:
           arguments: assemble
 
       - name: Upload Google APK to Firebase App Distribution
-        if: ${{ github.event_name == 'push' }} # only in develop pushes
+        if: ${{ github.event_name == 'push' }} # only pushes to develop
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
@@ -81,7 +91,7 @@ jobs:
           file: android/build/outputs/apk/google/release/android-google-release.apk
 
       - name: Upload Huawei APK to Firebase App Distribution
-        if: ${{ github.event_name == 'push' }} # only in develop pushes
+        if: ${{ github.event_name == 'push' }} # only pushes to develop
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
@@ -139,40 +149,18 @@ jobs:
         run: cd ios/CCC; pod install --repo-update
 
       - name: Build
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }} # only build for PRs, not need to distribute
         uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'build'
           subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 
-      - name: Distrubute
-        if: ${{ github.event_name == 'push' }}
+      - name: Distribute
+        if: ${{ github.event_name == 'push' }} # only pushes to develop
         uses: maierj/fastlane-action@v2.3.0
         with:
           lane: 'distribute'
           subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
 
       - name: Set Job Status
         id: status
