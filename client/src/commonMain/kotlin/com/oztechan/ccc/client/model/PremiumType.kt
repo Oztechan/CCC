@@ -7,13 +7,13 @@ package com.oztechan.ccc.client.model
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.util.VIDEO_REWARD
 
-enum class RemoveAdType(val data: RemoveAdData) {
-    VIDEO(RemoveAdData("Watch Video", "$VIDEO_REWARD Days", "")),
-    MONTH(RemoveAdData("", "1 Month", "one_month")),
-    QUARTER(RemoveAdData("", "3 Months", "three_months")),
-    HALF_YEAR(RemoveAdData("", "6 Months", "six_months")),
-    YEAR(RemoveAdData("", "1 Year", "one_year")),
-    LIFE_TIME(RemoveAdData("", "Life time", "life_time"));
+enum class PremiumType(val data: PremiumData) {
+    VIDEO(PremiumData("Watch Video", "$VIDEO_REWARD Days", "")),
+    MONTH(PremiumData("", "1 Month", "one_month")),
+    QUARTER(PremiumData("", "3 Months", "three_months")),
+    HALF_YEAR(PremiumData("", "6 Months", "six_months")),
+    YEAR(PremiumData("", "1 Year", "one_year")),
+    LIFE_TIME(PremiumData("", "Life time", "life_time"));
 
     companion object {
         fun getById(sku: String?) = values()

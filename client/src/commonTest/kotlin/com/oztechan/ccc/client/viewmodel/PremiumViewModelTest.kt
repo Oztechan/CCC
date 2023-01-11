@@ -5,12 +5,12 @@
 package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.client.model.OldPurchase
-import com.oztechan.ccc.client.model.RemoveAdData
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumData
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
+import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
+import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
@@ -32,10 +32,10 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
+internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
 
-    override val subject: AdRemoveViewModel by lazy {
-        AdRemoveViewModel(appStorage)
+    override val subject: PremiumViewModel by lazy {
+        PremiumViewModel(appStorage)
     }
 
     @Mock
@@ -55,16 +55,16 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
             .invocation { adFreeEndDate }
             .wasNotInvoked()
 
-        RemoveAdType.values().forEach { adRemoveType ->
+        PremiumType.values().forEach { premiumType ->
             subject.effect.before {
-                subject.updateAddFreeDate(adRemoveType)
+                subject.updateAddFreeDate(premiumType)
             }.after {
-                assertIs<AdRemoveEffect.AdsRemoved>(it)
-                assertEquals(adRemoveType, it.removeAdType)
+                assertIs<PremiumEffect.PremiumActivated>(it)
+                assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
 
                 verify(appStorage)
-                    .invocation { adFreeEndDate = adRemoveType.calculateAdRewardEnd() }
+                    .invocation { adFreeEndDate = premiumType.calculateAdRewardEnd() }
                     .wasInvoked()
             }
         }
@@ -79,23 +79,23 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
         subject.effect.before {
             subject.restorePurchase(
                 listOf(
-                    OldPurchase(nowAsLong(), RemoveAdType.MONTH),
-                    OldPurchase(nowAsLong(), RemoveAdType.YEAR)
+                    OldPurchase(nowAsLong(), PremiumType.MONTH),
+                    OldPurchase(nowAsLong(), PremiumType.YEAR)
                 )
             )
         }.after {
-            assertIs<AdRemoveEffect.AdsRemoved>(it)
+            assertIs<PremiumEffect.PremiumActivated>(it)
             assertTrue { it.isRestorePurchase }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = it.removeAdType.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { adFreeEndDate = it.premiumType.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
 
     @Test
     fun `restorePurchase should fail if all the old purchases out dated`() {
-        val oldPurchase = OldPurchase(nowAsLong(), RemoveAdType.MONTH)
+        val oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
 
         given(appStorage)
             .invocation { adFreeEndDate }
@@ -110,7 +110,7 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
 
     @Test
     fun `restorePurchase should fail if all the old purchases expired`() {
-        val oldPurchase = OldPurchase(nowAsLong() - (DAY * 32), RemoveAdType.MONTH)
+        val oldPurchase = OldPurchase(nowAsLong() - (DAY * 32), PremiumType.MONTH)
 
         given(appStorage)
             .invocation { adFreeEndDate }
@@ -133,65 +133,65 @@ internal class AdRemoveViewModelTest : BaseViewModelTest<AdRemoveViewModel>() {
     }
 
     @Test
-    fun addPurchaseMethods() = RemoveAdType.values()
+    fun addPurchaseMethods() = PremiumType.values()
         .map { it.data }
-        .forEach { removeAdData ->
+        .forEach { premiumData ->
             subject.state.before {
-                subject.addPurchaseMethods(listOf(removeAdData))
+                subject.addPurchaseMethods(listOf(premiumData))
             }.after {
                 assertNotNull(it)
-                assertTrue { it.adRemoveTypes.contains(RemoveAdType.getById(removeAdData.id)) }
+                assertTrue { it.premiumTypes.contains(PremiumType.getById(premiumData.id)) }
                 assertFalse { it.loading }
             }
         }
 
     @Test
     fun `addPurchaseMethods for unknown id will not add the item`() = subject.state.before {
-        subject.addPurchaseMethods(listOf(RemoveAdData("", "", "unknown")))
+        subject.addPurchaseMethods(listOf(PremiumData("", "", "unknown")))
     }.after {
         assertNotNull(it)
-        println(it.adRemoveTypes.toString())
-        assertTrue { it.adRemoveTypes.isNotEmpty() } // only video should be there
-        assertEquals(RemoveAdType.VIDEO, it.adRemoveTypes.first())
+        println(it.premiumTypes.toString())
+        assertTrue { it.premiumTypes.isNotEmpty() } // only video should be there
+        assertEquals(PremiumType.VIDEO, it.premiumTypes.first())
         assertFalse { it.loading }
     }
 
     // Event
     @Test
-    fun onAdRemoveItemClick() = with(subject) {
+    fun onPremiumItemClick() = with(subject) {
         effect.before {
-            event.onAdRemoveItemClick(RemoveAdType.VIDEO)
+            event.onPremiumItemClick(PremiumType.VIDEO)
         }.after {
-            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
-            assertEquals(RemoveAdType.VIDEO, it.removeAdType)
+            assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
+            assertEquals(PremiumType.VIDEO, it.premiumType)
         }
 
         effect.before {
-            event.onAdRemoveItemClick(RemoveAdType.MONTH)
+            event.onPremiumItemClick(PremiumType.MONTH)
         }.after {
-            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
-            assertEquals(RemoveAdType.MONTH, it.removeAdType)
+            assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
+            assertEquals(PremiumType.MONTH, it.premiumType)
         }
 
         effect.before {
-            event.onAdRemoveItemClick(RemoveAdType.QUARTER)
+            event.onPremiumItemClick(PremiumType.QUARTER)
         }.after {
-            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
-            assertEquals(RemoveAdType.QUARTER, it.removeAdType)
+            assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
+            assertEquals(PremiumType.QUARTER, it.premiumType)
         }
 
         effect.before {
-            event.onAdRemoveItemClick(RemoveAdType.HALF_YEAR)
+            event.onPremiumItemClick(PremiumType.HALF_YEAR)
         }.after {
-            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
-            assertEquals(RemoveAdType.HALF_YEAR, it.removeAdType)
+            assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
+            assertEquals(PremiumType.HALF_YEAR, it.premiumType)
         }
 
         effect.before {
-            event.onAdRemoveItemClick(RemoveAdType.YEAR)
+            event.onPremiumItemClick(PremiumType.YEAR)
         }.after {
-            assertIs<AdRemoveEffect.LaunchRemoveAdFlow>(it)
-            assertEquals(RemoveAdType.YEAR, it.removeAdType)
+            assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
+            assertEquals(PremiumType.YEAR, it.premiumType)
         }
     }
 }

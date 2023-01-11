@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.android.ui.adremove
+package com.oztechan.ccc.android.ui.premium
 
 import android.os.Bundle
 import android.view.View
@@ -14,40 +14,40 @@ import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.databinding.BottomSheetAdRemoveBinding
+import com.oztechan.ccc.android.databinding.BottomSheetPremiumBinding
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.toOldPurchaseList
-import com.oztechan.ccc.android.util.toRemoveAdDataList
+import com.oztechan.ccc.android.util.toPremiumDataList
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.billing.BillingEffect
 import com.oztechan.ccc.billing.BillingManager
-import com.oztechan.ccc.client.model.RemoveAdType
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveEffect
-import com.oztechan.ccc.client.viewmodel.adremove.AdRemoveViewModel
+import com.oztechan.ccc.client.model.PremiumType
+import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
+import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("TooManyFunctions")
-class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveBinding>() {
+class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val billingManager: BillingManager by inject()
-    private val adRemoveViewModel: AdRemoveViewModel by viewModel()
+    private val premiumViewModel: PremiumViewModel by viewModel()
 
-    private val removeAdsAdapter: RemoveAdsAdapter by lazy {
-        RemoveAdsAdapter(adRemoveViewModel.event)
+    private val premiumAdapter: PremiumAdapter by lazy {
+        PremiumAdapter(premiumViewModel.event)
     }
 
-    override fun getViewBinding() = BottomSheetAdRemoveBinding.inflate(layoutInflater)
+    override fun getViewBinding() = BottomSheetPremiumBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Logger.i { "AdRemoveBottomSheet onViewCreated" }
-        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, RemoveAdType.getPurchaseIds())
+        Logger.i { "PremiumBottomSheet onViewCreated" }
+        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, PremiumType.getPurchaseIds())
         initViews()
         observeStates()
         observeEffects()
@@ -55,52 +55,52 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     }
 
     override fun onDestroyView() {
-        Logger.i { "AdRemoveBottomSheet onDestroyView" }
+        Logger.i { "PremiumBottomSheet onDestroyView" }
         billingManager.endConnection()
-        binding.recyclerViewRemoveAds.adapter = null
+        binding.recyclerViewPremium.adapter = null
         super.onDestroyView()
     }
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(ScreenName.AdRemove)
+        analyticsManager.trackScreen(ScreenName.Premium)
     }
 
     private fun initViews() {
-        binding.recyclerViewRemoveAds.adapter = removeAdsAdapter
+        binding.recyclerViewPremium.adapter = premiumAdapter
     }
 
-    private fun observeStates() = adRemoveViewModel.state
+    private fun observeStates() = premiumViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
                 binding.loadingView.visibleIf(loading, true)
-                removeAdsAdapter.submitList(adRemoveTypes)
+                premiumAdapter.submitList(premiumTypes)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = adRemoveViewModel.effect
+    private fun observeEffects() = premiumViewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            Logger.i { "AdRemoveBottomSheet observeEffects ${viewEffect::class.simpleName}" }
+            Logger.i { "PremiumBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is AdRemoveEffect.LaunchRemoveAdFlow -> {
-                    if (viewEffect.removeAdType == RemoveAdType.VIDEO) {
+                is PremiumEffect.LaunchActivatePremiumFlow -> {
+                    if (viewEffect.premiumType == PremiumType.VIDEO) {
                         activity?.showDialog(
-                            title = R.string.txt_remove_ads,
-                            message = R.string.txt_remove_ads_text,
+                            title = R.string.txt_premium,
+                            message = R.string.txt_premium_text,
                             positiveButton = R.string.txt_watch
                         ) {
-                            adRemoveViewModel.showLoadingView(true)
+                            premiumViewModel.showLoadingView(true)
                             showRewardedAd()
                         }
                     } else {
-                        billingManager.launchBillingFlow(requireActivity(), viewEffect.removeAdType.data.id)
+                        billingManager.launchBillingFlow(requireActivity(), viewEffect.premiumType.data.id)
                     }
                 }
 
-                is AdRemoveEffect.AdsRemoved -> {
-                    if (viewEffect.removeAdType == RemoveAdType.VIDEO || viewEffect.isRestorePurchase) {
+                is PremiumEffect.PremiumActivated -> {
+                    if (viewEffect.premiumType == PremiumType.VIDEO || viewEffect.isRestorePurchase) {
                         restartActivity()
                     } else {
                         billingManager.acknowledgePurchase()
@@ -112,19 +112,19 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
     private fun observeBillingEffects() = billingManager.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
-            Logger.i { "AdRemoveBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
+            Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
-                is BillingEffect.RestorePurchase -> adRemoveViewModel.restorePurchase(
+                is BillingEffect.RestorePurchase -> premiumViewModel.restorePurchase(
                     viewEffect.purchaseHistoryRecordList.toOldPurchaseList()
                 )
 
-                is BillingEffect.AddPurchaseMethods -> adRemoveViewModel.addPurchaseMethods(
-                    viewEffect.purchaseMethodList.toRemoveAdDataList()
+                is BillingEffect.AddPurchaseMethods -> premiumViewModel.addPurchaseMethods(
+                    viewEffect.purchaseMethodList.toPremiumDataList()
                 )
 
-                is BillingEffect.UpdateAddFreeDate -> adRemoveViewModel.updateAddFreeDate(
-                    RemoveAdType.getById(viewEffect.id)
+                is BillingEffect.UpdateAddFreeDate -> premiumViewModel.updateAddFreeDate(
+                    PremiumType.getById(viewEffect.id)
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -134,14 +134,14 @@ class AdRemoveBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetAdRemoveB
             activity = requireActivity(),
             adId = getString(R.string.android_rewarded_ad_unit_id),
             onAdFailedToLoad = {
-                adRemoveViewModel.showLoadingView(false)
+                premiumViewModel.showLoadingView(false)
                 view?.showSnack(R.string.error_text_unknown)
             },
             onAdLoaded = {
-                adRemoveViewModel.showLoadingView(false)
+                premiumViewModel.showLoadingView(false)
             },
             onReward = {
-                adRemoveViewModel.updateAddFreeDate(RemoveAdType.VIDEO)
+                premiumViewModel.updateAddFreeDate(PremiumType.VIDEO)
             }
         )
     }

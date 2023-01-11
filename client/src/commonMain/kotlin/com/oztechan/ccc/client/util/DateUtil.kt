@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.util
 
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.common.util.nowAsLong
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -31,33 +31,38 @@ internal fun Instant.toDateString(
 internal fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 @Suppress("MagicNumber")
-internal fun RemoveAdType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
-    RemoveAdType.VIDEO -> startDate.toInstant().plus(
+internal fun PremiumType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
+    PremiumType.VIDEO -> startDate.toInstant().plus(
         VIDEO_REWARD,
         DateTimeUnit.DAY,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.MONTH -> startDate.toInstant().plus(
+
+    PremiumType.MONTH -> startDate.toInstant().plus(
         1,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.QUARTER -> startDate.toInstant().plus(
+
+    PremiumType.QUARTER -> startDate.toInstant().plus(
         3,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.HALF_YEAR -> startDate.toInstant().plus(
+
+    PremiumType.HALF_YEAR -> startDate.toInstant().plus(
         6,
         DateTimeUnit.MONTH,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.YEAR -> startDate.toInstant().plus(
+
+    PremiumType.YEAR -> startDate.toInstant().plus(
         1,
         DateTimeUnit.YEAR,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()
-    RemoveAdType.LIFE_TIME -> startDate.toInstant().plus(
+
+    PremiumType.LIFE_TIME -> startDate.toInstant().plus(
         1,
         DateTimeUnit.CENTURY,
         TimeZone.currentSystemDefault()

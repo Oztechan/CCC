@@ -47,8 +47,8 @@
     <!-- Search View -->
     <dimen name="max_width_search_view">256dp</dimen>
 
-    <!-- Ad Remove -->
-    <dimen name="padding_ad_remove_item_layout">16dp</dimen>
+    <!-- Premium -->
+    <dimen name="padding_premium_item_layout">16dp</dimen>
 
     <!-- Splash  -->
     <dimen name="padding_splash_icon">32dp</dimen>

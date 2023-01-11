@@ -2,15 +2,15 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.viewmodel.adremove
+package com.oztechan.ccc.client.viewmodel.premium
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.base.BaseData
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.OldPurchase
-import com.oztechan.ccc.client.model.RemoveAdData
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumData
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculateAdRewardEnd
 import com.oztechan.ccc.client.util.isRewardExpired
@@ -23,29 +23,29 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AdRemoveViewModel(
+class PremiumViewModel(
     private val appStorage: AppStorage
-) : BaseSEEDViewModel<AdRemoveState, AdRemoveEffect, AdRemoveEvent, BaseData>(), AdRemoveEvent {
+) : BaseSEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(), PremiumEvent {
     // region SEED
-    private val _state = MutableStateFlow(AdRemoveState())
+    private val _state = MutableStateFlow(PremiumState())
     override val state = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<AdRemoveEffect>()
+    private val _effect = MutableSharedFlow<PremiumEffect>()
     override val effect = _effect.asSharedFlow()
 
-    override val event = this as AdRemoveEvent
+    override val event = this as PremiumEvent
 
     override val data: BaseData? = null
     // endregion
 
     fun updateAddFreeDate(
-        adType: RemoveAdType?,
+        adType: PremiumType?,
         startDate: Long = nowAsLong(),
         isRestorePurchase: Boolean = false
     ) = adType?.let {
         viewModelScope.launch {
             appStorage.adFreeEndDate = it.calculateAdRewardEnd(startDate)
-            _effect.emit(AdRemoveEffect.AdsRemoved(it, isRestorePurchase))
+            _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
         }
     }
 
@@ -55,10 +55,10 @@ class AdRemoveViewModel(
         }?.whether(
             { !type.calculateAdRewardEnd(date).isRewardExpired() },
             { date > appStorage.adFreeEndDate },
-            { RemoveAdType.getPurchaseIds().any { it == type.data.id } }
+            { PremiumType.getPurchaseIds().any { it == type.data.id } }
         )?.apply {
             updateAddFreeDate(
-                adType = RemoveAdType.getById(type.data.id),
+                adType = PremiumType.getById(type.data.id),
                 startDate = this.date,
                 isRestorePurchase = true
             )
@@ -68,22 +68,22 @@ class AdRemoveViewModel(
         copy(loading = shouldShow)
     }
 
-    fun addPurchaseMethods(removeAdDataList: List<RemoveAdData>) = removeAdDataList
-        .forEach { removeAdData ->
-            val tempList = state.value.adRemoveTypes.toMutableList()
-            RemoveAdType.getById(removeAdData.id)
+    fun addPurchaseMethods(premiumDataList: List<PremiumData>) = premiumDataList
+        .forEach { premiumData ->
+            val tempList = state.value.premiumTypes.toMutableList()
+            PremiumType.getById(premiumData.id)
                 ?.apply {
-                    data.cost = removeAdData.cost
-                    data.reward = removeAdData.reward
+                    data.cost = premiumData.cost
+                    data.reward = premiumData.reward
                 }?.let {
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update { copy(adRemoveTypes = tempList, loading = false) }
+            _state.update { copy(premiumTypes = tempList, loading = false) }
         }
 
-    override fun onAdRemoveItemClick(type: RemoveAdType) = viewModelScope.launchIgnored {
-        Logger.d { "AdRemoveViewModel onAdRemoveItemClick ${type.data.reward}" }
-        _effect.emit(AdRemoveEffect.LaunchRemoveAdFlow(type))
+    override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
+        Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.reward}" }
+        _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
     }
 }

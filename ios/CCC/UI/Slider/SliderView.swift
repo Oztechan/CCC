@@ -29,10 +29,10 @@ struct SliderView: View {
                     navigationStack.push(
 
                         SlideView(
-                            title: Res.strings().slide_disable_ads_title.get(),
-                            image: Image(systemName: "eye.slash.fill"),
-                            subTitle1: Res.strings().slide_disable_ads_text_1.get(),
-                            subTitle2: Res.strings().slide_disable_ads_text_2.get(),
+                            title: Res.strings().slide_premium_title.get(),
+                            image: Image(systemName: "crown.fill"),
+                            subTitle1: Res.strings().slide_premium_text_1_no_ads.get(),
+                            subTitle2: Res.strings().slide_premium_text_2.get(),
                             buttonText: Res.strings().next.get(),
                             buttonAction: {
                                 navigationStack.push(

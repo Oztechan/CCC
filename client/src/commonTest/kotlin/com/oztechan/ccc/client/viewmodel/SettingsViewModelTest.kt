@@ -7,7 +7,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -226,7 +226,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(nowAsLong() + DAY)
 
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
             assertIs<SettingsEffect.AlreadyAdFree>(it)
         }
@@ -297,7 +297,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertTrue { it.addFreeEndDate.isNotEmpty() }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { adFreeEndDate = PremiumType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
@@ -376,11 +376,11 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onRemoveAdsClick() {
+    fun onPremiumClick() {
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.RemoveAds>(it)
+            assertIs<SettingsEffect.Premium>(it)
         }
 
         verify(appStorage)
