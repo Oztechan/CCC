@@ -8,10 +8,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
-internal const val VIDEO_REWARD = 2
+internal const val REWARDED_AD_PREMIUM_IN_DAYS = 2
 private const val BIGGEST_DIGIT = 9
 
-internal fun Long.isRewardExpired(): Boolean {
+internal fun Long.isPremiumExpired(): Boolean {
     return nowAsLong() >= this
 }
 
@@ -31,9 +31,9 @@ internal fun Instant.toDateString(
 internal fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
 
 @Suppress("MagicNumber")
-internal fun PremiumType.calculateAdRewardEnd(startDate: Long = nowAsLong()) = when (this) {
+internal fun PremiumType.calculatePremiumEnd(startDate: Long = nowAsLong()) = when (this) {
     PremiumType.VIDEO -> startDate.toInstant().plus(
-        VIDEO_REWARD,
+        REWARDED_AD_PREMIUM_IN_DAYS,
         DateTimeUnit.DAY,
         TimeZone.currentSystemDefault()
     ).toEpochMilliseconds()

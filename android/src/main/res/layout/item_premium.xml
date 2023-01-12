@@ -15,7 +15,7 @@
         tools:text="Watch Video" />
 
     <TextView
-        android:id="@+id/txt_reward"
+        android:id="@+id/txt_duration"
         style="@style/TextPremiumItemStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

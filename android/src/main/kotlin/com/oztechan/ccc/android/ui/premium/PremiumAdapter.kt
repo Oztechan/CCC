@@ -28,7 +28,7 @@ class PremiumAdapter(
 
         override fun onItemBind(item: PremiumType) = with(itemBinding) {
             root.setOnClickListener { premiumEvent.onPremiumItemClick(item) }
-            txtReward.text = item.data.reward
+            txtDuration.text = item.data.duration
             txtCost.text = item.data.cost
         }
     }

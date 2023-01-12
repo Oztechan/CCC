@@ -80,7 +80,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .thenReturn(appThemeValue)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() }
 
         given(appStorage)
@@ -102,7 +102,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         subject // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsAdFree(subject.isAdFree().toString())) }
+            .invocation { setUserProperty(UserProperty.IsPremium(subject.isPremium().toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
@@ -151,28 +151,28 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun `isAdFree for future should return true`() {
+    fun `isPremium for future should return true`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() + SECOND }
 
-        assertTrue { subject.isAdFree() }
+        assertTrue { subject.isPremium() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun `isAdFree for future should return false`() {
+    fun `isPremium for future should return false`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
-        assertFalse { subject.isAdFree() }
+        assertFalse { subject.isPremium() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -263,7 +263,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .then { true }
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
         effect.before {
@@ -287,7 +287,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 

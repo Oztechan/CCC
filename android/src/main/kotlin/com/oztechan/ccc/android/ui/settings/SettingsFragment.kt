@@ -143,15 +143,15 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
                 binding.itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isAdFreeNeverActivated()) {
+                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isPremiumEverActivated()) {
                     ""
                 } else {
-                    if (settingsViewModel.isRewardExpired()) {
+                    if (settingsViewModel.isPremiumExpired()) {
                         getString(R.string.settings_item_premium_value_expired)
                     } else {
                         getString(
                             R.string.settings_item_premium_value_will_expire,
-                            addFreeEndDate
+                            premiumEndDate
                         )
                     }
                 }
@@ -209,7 +209,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
                 SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
-                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_you_already_have_premium)
+                SettingsEffect.AlreadyPremium -> view?.showSnack(R.string.txt_you_already_have_premium)
                 SettingsEffect.SelectPrecision -> showPrecisionDialog()
                 SettingsEffect.OpenWatchers -> startActivity(Intent(context, ComposeActivity::class.java))
             }

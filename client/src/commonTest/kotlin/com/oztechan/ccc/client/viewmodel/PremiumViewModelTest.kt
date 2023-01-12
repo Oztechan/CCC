@@ -8,7 +8,7 @@ import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.common.util.DAY
@@ -49,22 +49,22 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
 
     // public methods
     @Test
-    fun updateAddFreeDate() {
-        subject.updateAddFreeDate(null)
+    fun updatePremiumEndDate() {
+        subject.updatePremiumEndDate(null)
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasNotInvoked()
 
         PremiumType.values().forEach { premiumType ->
             subject.effect.before {
-                subject.updateAddFreeDate(premiumType)
+                subject.updatePremiumEndDate(premiumType)
             }.after {
                 assertIs<PremiumEffect.PremiumActivated>(it)
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
 
                 verify(appStorage)
-                    .invocation { adFreeEndDate = premiumType.calculateAdRewardEnd() }
+                    .invocation { premiumEndDate = premiumType.calculatePremiumEnd() }
                     .wasInvoked()
             }
         }
@@ -73,7 +73,7 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
     @Test
     fun restorePurchase() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
         subject.effect.before {
@@ -88,7 +88,7 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
             assertTrue { it.isRestorePurchase }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = it.premiumType.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
@@ -98,13 +98,13 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
         val oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
         subject.restorePurchase(listOf(oldPurchase))
 
         verify(appStorage)
-            .invocation { adFreeEndDate = oldPurchase.type.calculateAdRewardEnd(oldPurchase.date) }
+            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
             .wasNotInvoked()
     }
 
@@ -113,13 +113,13 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
         val oldPurchase = OldPurchase(nowAsLong() - (DAY * 32), PremiumType.MONTH)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
         subject.restorePurchase(listOf(oldPurchase))
 
         verify(appStorage)
-            .invocation { adFreeEndDate = oldPurchase.type.calculateAdRewardEnd(oldPurchase.date) }
+            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
             .wasNotInvoked()
     }
 

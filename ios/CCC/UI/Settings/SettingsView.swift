@@ -70,7 +70,7 @@ struct SettingsView: View {
                         imgName: "crown.fill",
                         title: Res.strings().settings_item_premium_title.get(),
                         subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
-                        value: getAdFreeText(),
+                        value: getPremiumText(),
                         onClick: observable.event.onPremiumClick
                     )
 
@@ -152,7 +152,7 @@ struct SettingsView: View {
                 buttonText: Res.strings().txt_watch.get(),
                 buttonAction: {
                     RewardedAd(
-                        onReward: { observable.viewModel.updateAddFreeDate() }
+                        onReward: { observable.viewModel.updatePremiumEndDate() }
                     ).show()
                 }
             )
@@ -191,7 +191,7 @@ struct SettingsView: View {
             isSyncedSnackShown.toggle()
         case is SettingsEffect.OnlyOneTimeSync:
             isAlreadySyncedSnackShown.toggle()
-        case is SettingsEffect.AlreadyAdFree:
+        case is SettingsEffect.AlreadyPremium:
             isAdsAlreadyDisabledSnackShown.toggle()
         case is SettingsEffect.Premium:
             isPremiumDialogShown.toggle()
@@ -200,15 +200,15 @@ struct SettingsView: View {
         }
     }
 
-    private func getAdFreeText() -> String {
-        if observable.viewModel.isAdFreeNeverActivated() {
+    private func getPremiumText() -> String {
+        if observable.viewModel.isPremiumEverActivated() {
             return ""
         } else {
-            if observable.viewModel.isRewardExpired() {
+            if observable.viewModel.isPremiumExpired() {
                 return Res.strings().settings_item_premium_value_expired.get()
             } else {
                 return Res.strings().settings_item_premium_value_will_expire.get(
-                    parameter: observable.state.addFreeEndDate
+                    parameter: observable.state.premiumEndDate
                 )
             }
         }
