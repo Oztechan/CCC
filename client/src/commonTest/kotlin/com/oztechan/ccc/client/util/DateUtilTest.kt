@@ -16,11 +16,11 @@ import kotlin.test.assertTrue
 
 internal class DateUtilTest : BaseTest() {
     @Test
-    fun isRewardExpired() {
-        assertTrue { (nowAsLong() - DAY).isRewardExpired() }
-        assertTrue { (nowAsLong() - SECOND).isRewardExpired() }
-        assertFalse { (nowAsLong() + DAY).isRewardExpired() }
-        assertFalse { (nowAsLong() + SECOND).isRewardExpired() }
+    fun isPremiumExpired() {
+        assertTrue { (nowAsLong() - DAY).isPremiumExpired() }
+        assertTrue { (nowAsLong() - SECOND).isPremiumExpired() }
+        assertFalse { (nowAsLong() + DAY).isPremiumExpired() }
+        assertFalse { (nowAsLong() + SECOND).isPremiumExpired() }
     }
 
     @Test
@@ -42,13 +42,13 @@ internal class DateUtilTest : BaseTest() {
     )
 
     @Test
-    fun calculateAdRewardEnd() = nowAsLong().let {
+    fun calculatePremiumEnd() = nowAsLong().let {
         assertEquals(
             it.toInstant().plus(
-                DateTimePeriod(days = VIDEO_REWARD),
+                DateTimePeriod(days = REWARDED_AD_PREMIUM_IN_DAYS),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.VIDEO.calculateAdRewardEnd(it).toInstant()
+            PremiumType.VIDEO.calculatePremiumEnd(it).toInstant()
         )
 
         assertEquals(
@@ -56,7 +56,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 1),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.MONTH.calculateAdRewardEnd(it).toInstant()
+            PremiumType.MONTH.calculatePremiumEnd(it).toInstant()
         )
 
         assertEquals(
@@ -64,7 +64,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 3),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.QUARTER.calculateAdRewardEnd(it).toInstant()
+            PremiumType.QUARTER.calculatePremiumEnd(it).toInstant()
         )
 
         assertEquals(
@@ -72,7 +72,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 6),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
+            PremiumType.HALF_YEAR.calculatePremiumEnd(it).toInstant()
         )
 
         assertEquals(
@@ -80,7 +80,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(years = 1),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.YEAR.calculateAdRewardEnd(it).toInstant()
+            PremiumType.YEAR.calculatePremiumEnd(it).toInstant()
         )
 
         assertEquals(
@@ -88,7 +88,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(years = 100),
                 TimeZone.currentSystemDefault()
             ),
-            PremiumType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
+            PremiumType.LIFE_TIME.calculatePremiumEnd(it).toInstant()
         )
     }
 

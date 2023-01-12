@@ -123,7 +123,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                     viewEffect.purchaseMethodList.toPremiumDataList()
                 )
 
-                is BillingEffect.UpdateAddFreeDate -> premiumViewModel.updateAddFreeDate(
+                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.updatePremiumEndDate(
                     PremiumType.getById(viewEffect.id)
                 )
             }
@@ -141,7 +141,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 premiumViewModel.showLoadingView(false)
             },
             onReward = {
-                premiumViewModel.updateAddFreeDate(PremiumType.VIDEO)
+                premiumViewModel.updatePremiumEndDate(PremiumType.VIDEO)
             }
         )
     }

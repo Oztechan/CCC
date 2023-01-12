@@ -44,13 +44,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     }
 
     @Test
-    fun `shouldShowBannerAd is false when firstRun and not rewardExpired and sessionCount smaller than banner 000`() {
+    fun `shouldShowBannerAd is false when firstRun and not premiumExpired and sessionCount smaller than banner 000`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
         given(appStorage)
@@ -60,7 +60,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)
@@ -77,145 +77,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     }
 
     @Test
-    fun `shouldShowBannerAd is false when not firstRun + not rewardExpired + sessionCount smaller than banner 100`() {
+    fun `shouldShowBannerAd is false when not firstRun + not premiumExpired + sessionCount smaller than banner 100`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(false)
-
-        assertFalse { subject.shouldShowBannerAd() }
-
-        verify(appStorage)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { firstRun }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowBannerAd is false when firstRun + rewardExpired + sessionCount smaller than banner 010`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount - 1L)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(true)
-
-        assertFalse { subject.shouldShowBannerAd() }
-
-        verify(appStorage)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { firstRun }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowBannerAd is false when firstRun + not rewardExpired + sessionCount bigger than banner 001`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount + 1L)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() + SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(true)
-
-        assertFalse { subject.shouldShowBannerAd() }
-
-        verify(appStorage)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { firstRun }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowBannerAd is false when firstRun + rewardExpired + sessionCount bigger than banner 011`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount + 1L)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
-            .thenReturn(nowAsLong() - SECOND)
-
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(true)
-
-        assertFalse { subject.shouldShowBannerAd() }
-
-        verify(appStorage)
-            .invocation { adFreeEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { firstRun }
-            .wasInvoked()
-
-        verify(appStorage)
-            .invocation { sessionCount }
-            .wasInvoked()
-
-        verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowBannerAd is false when not firstRun + not rewardExpired + sessionCount bigger than banner 101`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount + 1L)
-
-        given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
         given(appStorage)
@@ -225,7 +93,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)
@@ -242,13 +110,145 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     }
 
     @Test
-    fun `shouldShowBannerAd is false when not firstRun + rewardExpired + sessionCount smaller than banner 110`() {
+    fun `shouldShowBannerAd is false when firstRun + premiumExpired + sessionCount smaller than banner 010`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount - 1L)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - SECOND)
+
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        assertFalse { subject.shouldShowBannerAd() }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(adConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `shouldShowBannerAd is false when firstRun + not premiumExpired + sessionCount bigger than banner 001`() {
+        given(appStorage)
+            .invocation { sessionCount }
+            .thenReturn(mockedSessionCount + 1L)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + SECOND)
+
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        assertFalse { subject.shouldShowBannerAd() }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(adConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `shouldShowBannerAd is false when firstRun + premiumExpired + sessionCount bigger than banner 011`() {
+        given(appStorage)
+            .invocation { sessionCount }
+            .thenReturn(mockedSessionCount + 1L)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - SECOND)
+
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(true)
+
+        assertFalse { subject.shouldShowBannerAd() }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(adConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `shouldShowBannerAd is false when not firstRun + not premiumExpired + sessionCount bigger than banner 101`() {
+        given(appStorage)
+            .invocation { sessionCount }
+            .thenReturn(mockedSessionCount + 1L)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + SECOND)
+
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(false)
+
+        assertFalse { subject.shouldShowBannerAd() }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasInvoked()
+
+        verify(adConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `shouldShowBannerAd is false when not firstRun + premiumExpired + sessionCount smaller than banner 110`() {
+        given(appStorage)
+            .invocation { sessionCount }
+            .thenReturn(mockedSessionCount - 1L)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
         given(appStorage)
@@ -258,7 +258,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)
@@ -275,13 +275,13 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     }
 
     @Test
-    fun `shouldShowBannerAd is true when not firstRun + rewardExpired + sessionCount bigger than banner 111`() {
+    fun `shouldShowBannerAd is true when not firstRun + premiumExpired + sessionCount bigger than banner 111`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount + 1L)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - SECOND)
 
         given(appStorage)
@@ -291,7 +291,7 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
         assertTrue { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)

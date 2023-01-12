@@ -19,7 +19,7 @@ internal class PurchaseUtilTest : BaseTest() {
         purchaseMethodList.zip(premiumDataList) { first, second ->
             assertEquals(first.id, second.id)
             assertEquals(first.price, second.cost)
-            assertEquals(first.description, second.reward)
+            assertEquals(first.description, second.duration)
         }
     }
 

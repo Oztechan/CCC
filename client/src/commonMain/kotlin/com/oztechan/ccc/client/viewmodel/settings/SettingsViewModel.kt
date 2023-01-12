@@ -14,9 +14,9 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
@@ -62,7 +62,7 @@ class SettingsViewModel(
         _state.update {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                addFreeEndDate = appStorage.adFreeEndDate.toDateString(),
+                premiumEndDate = appStorage.premiumEndDate.toDateString(),
                 precision = calculatorStorage.precision,
                 version = appConfigRepository.getVersion()
             )
@@ -107,16 +107,16 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun isRewardExpired() = appStorage.adFreeEndDate.isRewardExpired()
+    fun isPremiumExpired() = appStorage.premiumEndDate.isPremiumExpired()
 
-    fun isAdFreeNeverActivated() = appStorage.adFreeEndDate == 0.toLong()
+    fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
 
     fun getAppTheme() = appStorage.appTheme
 
     @Suppress("unused") // used in iOS
-    fun updateAddFreeDate() = PremiumType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
-        appStorage.adFreeEndDate = it
-        _state.update { copy(addFreeEndDate = it.toDateString()) }
+    fun updatePremiumEndDate() = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()).let {
+        appStorage.premiumEndDate = it
+        _state.update { copy(premiumEndDate = it.toDateString()) }
     }
 
     // region Event
@@ -157,10 +157,10 @@ class SettingsViewModel(
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (isRewardExpired()) {
+        if (isPremiumExpired()) {
             _effect.emit(SettingsEffect.Premium)
         } else {
-            _effect.emit(SettingsEffect.AlreadyAdFree)
+            _effect.emit(SettingsEffect.AlreadyPremium)
         }
     }
 

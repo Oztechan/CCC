@@ -5,10 +5,10 @@
 package com.oztechan.ccc.client.model
 
 import com.github.submob.scopemob.whetherNot
-import com.oztechan.ccc.client.util.VIDEO_REWARD
+import com.oztechan.ccc.client.util.REWARDED_AD_PREMIUM_IN_DAYS
 
 enum class PremiumType(val data: PremiumData) {
-    VIDEO(PremiumData("Watch Video", "$VIDEO_REWARD Days", "")),
+    VIDEO(PremiumData("Watch Video", "$REWARDED_AD_PREMIUM_IN_DAYS Days", "")),
     MONTH(PremiumData("", "1 Month", "one_month")),
     QUARTER(PremiumData("", "3 Months", "three_months")),
     HALF_YEAR(PremiumData("", "6 Months", "six_months")),

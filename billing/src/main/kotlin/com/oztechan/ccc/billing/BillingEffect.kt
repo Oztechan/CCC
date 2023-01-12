@@ -14,7 +14,7 @@ sealed class BillingEffect {
         val purchaseMethodList: List<PurchaseMethod>
     ) : BillingEffect()
 
-    data class UpdateAddFreeDate(
+    data class UpdatePremiumEndDate(
         val id: String
     ) : BillingEffect()
 }

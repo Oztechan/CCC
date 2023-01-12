@@ -12,8 +12,8 @@ import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.calculatePremiumEnd
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.common.util.nowAsLong
@@ -38,26 +38,26 @@ class PremiumViewModel(
     override val data: BaseData? = null
     // endregion
 
-    fun updateAddFreeDate(
+    fun updatePremiumEndDate(
         adType: PremiumType?,
         startDate: Long = nowAsLong(),
         isRestorePurchase: Boolean = false
     ) = adType?.let {
         viewModelScope.launch {
-            appStorage.adFreeEndDate = it.calculateAdRewardEnd(startDate)
+            appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
             _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
         }
     }
 
     fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
-            it.type.calculateAdRewardEnd(it.date)
+            it.type.calculatePremiumEnd(it.date)
         }?.whether(
-            { !type.calculateAdRewardEnd(date).isRewardExpired() },
-            { date > appStorage.adFreeEndDate },
+            { !type.calculatePremiumEnd(date).isPremiumExpired() },
+            { date > appStorage.premiumEndDate },
             { PremiumType.getPurchaseIds().any { it == type.data.id } }
         )?.apply {
-            updateAddFreeDate(
+            updatePremiumEndDate(
                 adType = PremiumType.getById(type.data.id),
                 startDate = this.date,
                 isRestorePurchase = true
@@ -74,7 +74,7 @@ class PremiumViewModel(
             PremiumType.getById(premiumData.id)
                 ?.apply {
                     data.cost = premiumData.cost
-                    data.reward = premiumData.reward
+                    data.duration = premiumData.duration
                 }?.let {
                     tempList.add(it)
                 }
@@ -83,7 +83,7 @@ class PremiumViewModel(
         }
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
-        Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.reward}" }
+        Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
         _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
     }
 }

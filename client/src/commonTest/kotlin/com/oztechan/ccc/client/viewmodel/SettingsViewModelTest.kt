@@ -12,9 +12,9 @@ import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
@@ -114,7 +114,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(-1)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
         given(calculatorStorage)
@@ -222,28 +222,28 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .wasInvoked()
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + DAY)
 
         subject.effect.before {
             subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.AlreadyAdFree>(it)
+            assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun isRewardExpired() {
+    fun isPremiumExpired() {
         assertEquals(
-            appStorage.adFreeEndDate.isRewardExpired(),
-            subject.isRewardExpired()
+            appStorage.premiumEndDate.isPremiumExpired(),
+            subject.isPremiumExpired()
         )
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -263,41 +263,41 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `isAdFreeNeverActivated returns false when adFreeEndDate is not zero`() {
+    fun `isPremiumEverActivated returns false when premiumEndDate is not zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(1)
 
-        assertFalse { subject.isAdFreeNeverActivated() }
+        assertFalse { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun `isAdFreeNeverActivated returns true when adFreeEndDate is zero`() {
+    fun `isPremiumEverActivated returns true when premiumEndDate is zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
-        assertTrue { subject.isAdFreeNeverActivated() }
+        assertTrue { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun updateAddFreeDate() {
+    fun updatePremiumEndDate() {
         subject.state.before {
-            subject.updateAddFreeDate()
+            subject.updatePremiumEndDate()
         }.after {
             assertNotNull(it)
-            assertTrue { it.addFreeEndDate.isNotEmpty() }
+            assertTrue { it.premiumEndDate.isNotEmpty() }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = PremiumType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { premiumEndDate = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
@@ -384,7 +384,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
