@@ -22,7 +22,7 @@ import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
@@ -155,7 +155,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `successful synchroniseConversions update the database`() = runTest {
         subject.data.synced = false
 
-        val currencyResponse = CurrencyResponse("EUR", null, Conversion())
+        val exchangeRate = ExchangeRate("EUR", null, Conversion())
         val currency = Currency("EUR", "", "")
 
         given(currencyDataSource)
@@ -164,7 +164,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
         given(backendApiService)
             .coroutine { getConversion(currency.code) }
-            .thenReturn(currencyResponse)
+            .thenReturn(exchangeRate)
 
         subject.effect.before {
             subject.event.onSyncClick()
@@ -174,7 +174,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(currencyResponse) }
+            .coroutine { conversionDataSource.insertConversion(exchangeRate) }
             .wasInvoked()
     }
 
@@ -198,7 +198,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(CurrencyResponse("", "", Conversion())) }
+            .coroutine { conversionDataSource.insertConversion(ExchangeRate("", "", Conversion())) }
             .wasNotInvoked()
     }
 

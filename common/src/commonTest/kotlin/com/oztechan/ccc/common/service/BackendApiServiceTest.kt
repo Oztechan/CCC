@@ -2,7 +2,7 @@ package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.backend.BackendApi
 import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.backend.BackendApiService
@@ -32,7 +32,7 @@ internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
     @Mock
     private val backendApi = mock(classOf<BackendApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
+    private val mockEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 

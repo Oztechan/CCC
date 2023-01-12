@@ -1,18 +1,18 @@
 package com.oztechan.ccc.common.mapper
 
 import com.oztechan.ccc.common.database.sql.Conversion
-import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
+import com.oztechan.ccc.common.model.ExchangeRate
+import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateEntity
 
-internal fun CurrencyResponseEntity.toModel(
+internal fun ExchangeRateEntity.toModel(
     fallbackBase: String = base
-) = CurrencyResponse(
+) = ExchangeRate(
     base = fallbackBase,
     date = date,
     conversion = conversion.toModel()
 )
 
-internal fun CurrencyResponse.toConversion() = Conversion(
+internal fun ExchangeRate.toConversion() = Conversion(
     base,
     date,
     conversion.aed, conversion.afn, conversion.all, conversion.amd, conversion.ang, conversion.aoa, conversion.ars,

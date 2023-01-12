@@ -1,9 +1,9 @@
 package com.oztechan.ccc.backend.util
 
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 
-internal fun CurrencyResponse.fillMissingConversionWith(
-    nonPremiumResponse: CurrencyResponse
+internal fun ExchangeRate.fillMissingConversionWith(
+    nonPremiumResponse: ExchangeRate
 ) = apply {
     conversion = conversion.copy(
         btc = nonPremiumResponse.conversion.btc,

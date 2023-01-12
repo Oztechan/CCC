@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.datasource
 
 import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.database.sql.ConversionQueries
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
@@ -37,11 +37,11 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
     @Mock
     private val sqlCursor = mock(classOf<SqlCursor>())
 
-    private val currencyResponseEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
-    private val currencyResponse = currencyResponseEntity.toModel()
+    private val exchangeRateEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
+    private val exchangeRate = exchangeRateEntity.toModel()
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        currencyResponse.toConversion()
+        exchangeRate.toConversion()
     }
 
     @BeforeTest
@@ -60,41 +60,41 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
     @Test
     fun insertConversion() {
         runTest {
-            subject.insertConversion(currencyResponse)
+            subject.insertConversion(exchangeRate)
         }
 
         verify(conversionQueries)
-            .invocation { insertConversion(currencyResponse.toConversion()) }
+            .invocation { insertConversion(exchangeRate.toConversion()) }
             .wasInvoked()
     }
 
     @Test
     fun getConversionByBase() {
         given(conversionQueries)
-            .invocation { getConversionByBase(currencyResponse.base) }
+            .invocation { getConversionByBase(exchangeRate.base) }
             .then { query }
 
         runTest {
-            subject.getConversionByBase(currencyResponse.base)
+            subject.getConversionByBase(exchangeRate.base)
         }
 
         verify(conversionQueries)
-            .invocation { getConversionByBase(currencyResponse.base) }
+            .invocation { getConversionByBase(exchangeRate.base) }
             .wasInvoked()
     }
 
     @Test
-    fun getCurrencyResponseTextByBase() {
+    fun getExchangeRateTextByBase() {
         given(conversionQueries)
-            .invocation { getConversionByBase(currencyResponse.base) }
+            .invocation { getConversionByBase(exchangeRate.base) }
             .then { query }
 
         runTest {
-            subject.getCurrencyResponseTextByBase(currencyResponse.base)
+            subject.getExchangeRateTextByBase(exchangeRate.base)
         }
 
         verify(conversionQueries)
-            .invocation { getConversionByBase(currencyResponse.base) }
+            .invocation { getConversionByBase(exchangeRate.base) }
             .wasInvoked()
     }
 }

@@ -3,7 +3,7 @@
  */
 package com.oztechan.ccc.common.model
 
-data class CurrencyResponse(
+data class ExchangeRate(
     var base: String,
     var date: String? = null,
     var conversion: Conversion

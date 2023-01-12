@@ -1,6 +1,6 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
 import kotlinx.serialization.decodeFromString
@@ -96,8 +96,8 @@ internal class ConversionTest : BaseTest() {
 
     @Suppress("LongMethod")
     @Test
-    fun toCurrencyResponseEntity() {
-        val response = dbConversion.toCurrencyResponseEntity()
+    fun toExchangeRateEntity() {
+        val response = dbConversion.toExchangeRateEntity()
 
         assertEquals(dbConversion.base, response?.base)
         assertEquals(dbConversion.date, response?.date)
@@ -106,10 +106,10 @@ internal class ConversionTest : BaseTest() {
 
     @Test
     fun toSerializedString() {
-        val subject = dbConversion.toCurrencyResponseEntity()
+        val subject = dbConversion.toExchangeRateEntity()
         val serializedString = subject.toSerializedString()
         assertTrue {
-            Json.decodeFromString<CurrencyResponse>(
+            Json.decodeFromString<ExchangeRate>(
                 serializedString
             ) == subject
         }
