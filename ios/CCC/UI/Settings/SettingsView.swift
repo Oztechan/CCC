@@ -208,7 +208,7 @@ struct SettingsView: View {
                 return Res.strings().settings_item_premium_value_expired.get()
             } else {
                 return Res.strings().settings_item_premium_value_will_expire.get(
-                    parameter: observable.state.addFreeEndDate
+                    parameter: observable.state.premiumEndDate
                 )
             }
         }
