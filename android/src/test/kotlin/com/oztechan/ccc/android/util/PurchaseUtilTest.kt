@@ -2,21 +2,21 @@ package com.oztechan.ccc.android.util
 
 import com.oztechan.ccc.billing.model.PurchaseHistory
 import com.oztechan.ccc.billing.model.PurchaseMethod
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class PurchaseUtilTest : BaseTest() {
     @Test
-    fun `toRemoveAdDataList maps correctly`() {
+    fun `toPremiumDataList maps correctly`() {
         val purchaseMethodList = listOf(
             PurchaseMethod("1", "asd", "123213"),
             PurchaseMethod("2", "zxc", "98989")
         )
-        val removeDataList = purchaseMethodList.toRemoveAdDataList()
+        val premiumDataList = purchaseMethodList.toPremiumDataList()
 
-        purchaseMethodList.zip(removeDataList) { first, second ->
+        purchaseMethodList.zip(premiumDataList) { first, second ->
             assertEquals(first.id, second.id)
             assertEquals(first.price, second.cost)
             assertEquals(first.description, second.reward)
@@ -34,7 +34,7 @@ internal class PurchaseUtilTest : BaseTest() {
 
         purchaseHistoryList.zip(oldPurchaseList) { first, second ->
             assertEquals(first.date, second.date)
-            val type = RemoveAdType.getById(first.ids.firstOrNull())
+            val type = PremiumType.getById(first.ids.firstOrNull())
             assertEquals(type, second.type)
         }
     }

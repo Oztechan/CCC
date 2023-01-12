@@ -9,7 +9,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -114,7 +114,7 @@ class SettingsViewModel(
     fun getAppTheme() = appStorage.appTheme
 
     @Suppress("unused") // used in iOS
-    fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
+    fun updateAddFreeDate() = PremiumType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
         appStorage.adFreeEndDate = it
         _state.update { copy(addFreeEndDate = it.toDateString()) }
     }
@@ -155,10 +155,10 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.OnGitHub)
     }
 
-    override fun onRemoveAdsClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onRemoveAdsClick" }
+    override fun onPremiumClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPremiumClick" }
         if (isRewardExpired()) {
-            _effect.emit(SettingsEffect.RemoveAds)
+            _effect.emit(SettingsEffect.Premium)
         } else {
             _effect.emit(SettingsEffect.AlreadyAdFree)
         }

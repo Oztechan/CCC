@@ -9,24 +9,24 @@
         style="@style/SlideTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/slide_disable_ads_title" />
+        android:text="@string/slide_premium_title" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_slide_items"
-        android:src="@drawable/ic_disable_ads"
+        android:src="@drawable/ic_premium"
         tools:ignore="ContentDescription" />
 
     <TextView
         style="@style/SlideSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/slide_disable_ads_text_1" />
+        android:text="@string/slide_premium_text_1_no_ads_and_widget" />
 
     <TextView
         style="@style/SlideDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/slide_disable_ads_text_2" />
+        android:text="@string/slide_premium_text_2" />
 </LinearLayout>

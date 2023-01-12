@@ -88,9 +88,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
 
         with(itemDisableAds) {
-            imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
-            settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
-            settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_premium)
+            settingsItemTitle.text = getString(R.string.settings_item_premium_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_premium_sub_title_no_ads_and_widget)
         }
 
         with(itemPrecision) {
@@ -147,10 +147,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     ""
                 } else {
                     if (settingsViewModel.isRewardExpired()) {
-                        getString(R.string.settings_item_remove_ads_value_expired)
+                        getString(R.string.settings_item_premium_value_expired)
                     } else {
                         getString(
-                            R.string.settings_item_remove_ads_value_will_expire,
+                            R.string.settings_item_premium_value_will_expire,
                             addFreeEndDate
                         )
                     }
@@ -196,9 +196,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     )
                 )
 
-                SettingsEffect.RemoveAds -> navigate(
+                SettingsEffect.Premium -> navigate(
                     R.id.settingsFragment,
-                    SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
+                    SettingsFragmentDirections.actionCurrenciesFragmentToPremiumBottomSheet()
                 )
 
                 SettingsEffect.ThemeDialog -> changeTheme()
@@ -209,7 +209,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
                 SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
-                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
+                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_you_already_have_premium)
                 SettingsEffect.SelectPrecision -> showPrecisionDialog()
                 SettingsEffect.OpenWatchers -> startActivity(Intent(context, ComposeActivity::class.java))
             }
@@ -222,7 +222,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
             itemWatchers.root.setOnClickListener { onWatchersClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
-            itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
+            itemDisableAds.root.setOnClickListener { onPremiumClick() }
             itemSync.root.setOnClickListener { onSyncClick() }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }

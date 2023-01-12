@@ -37,8 +37,8 @@ internal class ScreenNameTest : BaseTest() {
     }
 
     @Test
-    fun `screenName AdRemove return correct name`() {
-        val screenName = ScreenName.AdRemove
+    fun `screenName Premium return correct name`() {
+        val screenName = ScreenName.Premium
         assertEquals(screenName::class.simpleName.toString(), screenName.getScreenName())
     }
 

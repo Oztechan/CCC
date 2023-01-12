@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.util
 
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.SECOND
 import com.oztechan.ccc.common.util.nowAsLong
@@ -48,7 +48,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(days = VIDEO_REWARD),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.VIDEO.calculateAdRewardEnd(it).toInstant()
+            PremiumType.VIDEO.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
@@ -56,7 +56,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 1),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.MONTH.calculateAdRewardEnd(it).toInstant()
+            PremiumType.MONTH.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
@@ -64,7 +64,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 3),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.QUARTER.calculateAdRewardEnd(it).toInstant()
+            PremiumType.QUARTER.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
@@ -72,7 +72,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(months = 6),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
+            PremiumType.HALF_YEAR.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
@@ -80,7 +80,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(years = 1),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.YEAR.calculateAdRewardEnd(it).toInstant()
+            PremiumType.YEAR.calculateAdRewardEnd(it).toInstant()
         )
 
         assertEquals(
@@ -88,7 +88,7 @@ internal class DateUtilTest : BaseTest() {
                 DateTimePeriod(years = 100),
                 TimeZone.currentSystemDefault()
             ),
-            RemoveAdType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
+            PremiumType.LIFE_TIME.calculateAdRewardEnd(it).toInstant()
         )
     }
 
