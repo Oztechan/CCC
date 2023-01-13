@@ -182,14 +182,12 @@ jobs:
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
-      - name: Install Pods
-        run: cd ios/CCC; pod install --repo-update
-
       - name: Build
-        uses: maierj/fastlane-action@v2.3.0
-        with:
-          lane: 'build'
-          subdirectory: 'ios'
+        run: |
+          cd ios/CCC
+          pod install --repo-update
+          cd ..
+          fastlane build
 
       - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v3
@@ -227,11 +225,10 @@ jobs:
           name: iOSArtifacts
           path: ios
 
-      - name: Distrubute
-        uses: maierj/fastlane-action@v2.3.0
-        with:
-          lane: 'distribute'
-          subdirectory: 'ios'
+      - name: Distribute
+        run: |
+          cd ios
+          fastlane distribute
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v2
@@ -330,7 +327,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   CodeAnalysis:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
