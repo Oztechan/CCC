@@ -7,14 +7,14 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
@@ -22,7 +22,7 @@ import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
@@ -114,7 +114,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(-1)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
         given(calculatorStorage)
@@ -155,7 +155,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun `successful synchroniseConversions update the database`() = runTest {
         subject.data.synced = false
 
-        val currencyResponse = CurrencyResponse("EUR", null, Conversion())
+        val exchangeRate = ExchangeRate("EUR", null, Conversion())
         val currency = Currency("EUR", "", "")
 
         given(currencyDataSource)
@@ -164,7 +164,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
         given(backendApiService)
             .coroutine { getConversion(currency.code) }
-            .thenReturn(currencyResponse)
+            .thenReturn(exchangeRate)
 
         subject.effect.before {
             subject.event.onSyncClick()
@@ -174,7 +174,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(currencyResponse) }
+            .coroutine { conversionDataSource.insertConversion(exchangeRate) }
             .wasInvoked()
     }
 
@@ -198,7 +198,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(CurrencyResponse("", "", Conversion())) }
+            .coroutine { conversionDataSource.insertConversion(ExchangeRate("", "", Conversion())) }
             .wasNotInvoked()
     }
 
@@ -222,28 +222,28 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .wasInvoked()
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + DAY)
 
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.AlreadyAdFree>(it)
+            assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun isRewardExpired() {
+    fun isPremiumExpired() {
         assertEquals(
-            appStorage.adFreeEndDate.isRewardExpired(),
-            subject.isRewardExpired()
+            appStorage.premiumEndDate.isPremiumExpired(),
+            subject.isPremiumExpired()
         )
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -263,56 +263,41 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun shouldShowRemoveAds() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, subject.shouldShowRemoveAds())
-
-        verify(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isAdFreeNeverActivated returns false when adFreeEndDate is not zero`() {
+    fun `isPremiumEverActivated returns false when premiumEndDate is not zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(1)
 
-        assertFalse { subject.isAdFreeNeverActivated() }
+        assertFalse { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun `isAdFreeNeverActivated returns true when adFreeEndDate is zero`() {
+    fun `isPremiumEverActivated returns true when premiumEndDate is zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
-        assertTrue { subject.isAdFreeNeverActivated() }
+        assertTrue { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun updateAddFreeDate() {
+    fun updatePremiumEndDate() {
         subject.state.before {
-            subject.updateAddFreeDate()
+            subject.updatePremiumEndDate()
         }.after {
             assertNotNull(it)
-            assertTrue { it.addFreeEndDate.isNotEmpty() }
+            assertTrue { it.premiumEndDate.isNotEmpty() }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { premiumEndDate = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
@@ -391,15 +376,15 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onRemoveAdsClick() {
+    fun onPremiumClick() {
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.RemoveAds>(it)
+            assertIs<SettingsEffect.Premium>(it)
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 

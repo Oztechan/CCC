@@ -4,6 +4,4 @@ interface AdRepository {
     fun shouldShowBannerAd(): Boolean
 
     fun shouldShowInterstitialAd(): Boolean
-
-    fun shouldShowRemoveAds(): Boolean
 }

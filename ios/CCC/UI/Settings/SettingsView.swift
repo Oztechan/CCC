@@ -26,17 +26,13 @@ struct SettingsView: View {
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var emailViewVisibility: Bool = false
     @State var webViewVisibility: Bool = false
-    @State var isRemoveAdsDialogShown: Bool = false
+    @State var isPremiumDialogShown: Bool = false
     @State var isAdsAlreadyDisabledSnackShown: Bool = false
     @State var isAlreadySyncedSnackShown: Bool = false
     @State var isSynchronisingShown: Bool = false
     @State var isSyncedSnackShown: Bool = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
-
-    enum Dialogs {
-        case removeAd, error
-    }
 
     var onBaseChange: ((String) -> Void)
 
@@ -70,15 +66,13 @@ struct SettingsView: View {
                         onClick: observable.event.onWatchersClick
                     )
 
-                    if observable.viewModel.shouldShowRemoveAds() {
-                        SettingsItemView(
-                            imgName: "eye.slash.fill",
-                            title: Res.strings().settings_item_remove_ads_title.get(),
-                            subTitle: Res.strings().settings_item_remove_ads_sub_title.get(),
-                            value: getAdFreeText(),
-                            onClick: observable.event.onRemoveAdsClick
-                        )
-                    }
+                    SettingsItemView(
+                        imgName: "crown.fill",
+                        title: Res.strings().settings_item_premium_title.get(),
+                        subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
+                        value: getPremiumText(),
+                        onClick: observable.event.onPremiumClick
+                    )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
@@ -128,7 +122,7 @@ struct SettingsView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: Res.strings().txt_ads_already_disabled.get())
+            SnackView(text: Res.strings().txt_you_already_have_premium.get())
         }
         .popup(
             isPresented: $isAlreadySyncedSnackShown,
@@ -151,14 +145,14 @@ struct SettingsView: View {
         ) {
             SnackView(text: Res.strings().txt_synced.get())
         }
-        .popup(isPresented: $isRemoveAdsDialogShown) {
+        .popup(isPresented: $isPremiumDialogShown) {
             AlertView(
-                title: Res.strings().txt_remove_ads.get(),
-                message: Res.strings().txt_remove_ads_text.get(),
+                title: Res.strings().txt_premium.get(),
+                message: Res.strings().txt_premium_text.get(),
                 buttonText: Res.strings().txt_watch.get(),
                 buttonAction: {
                     RewardedAd(
-                        onReward: { observable.viewModel.updateAddFreeDate() }
+                        onReward: { observable.viewModel.updatePremiumEndDate() }
                     ).show()
                 }
             )
@@ -197,24 +191,24 @@ struct SettingsView: View {
             isSyncedSnackShown.toggle()
         case is SettingsEffect.OnlyOneTimeSync:
             isAlreadySyncedSnackShown.toggle()
-        case is SettingsEffect.AlreadyAdFree:
+        case is SettingsEffect.AlreadyPremium:
             isAdsAlreadyDisabledSnackShown.toggle()
-        case is SettingsEffect.RemoveAds:
-            isRemoveAdsDialogShown.toggle()
+        case is SettingsEffect.Premium:
+            isPremiumDialogShown.toggle()
         default:
             logger.i(message: {"SettingsView unknown effect"})
         }
     }
 
-    private func getAdFreeText() -> String {
-        if observable.viewModel.isAdFreeNeverActivated() {
+    private func getPremiumText() -> String {
+        if observable.viewModel.isPremiumEverActivated() {
             return ""
         } else {
-            if observable.viewModel.isRewardExpired() {
-                return Res.strings().settings_item_remove_ads_value_expired.get()
+            if observable.viewModel.isPremiumExpired() {
+                return Res.strings().settings_item_premium_value_expired.get()
             } else {
-                return Res.strings().settings_item_remove_ads_value_will_expire.get(
-                    parameter: observable.state.addFreeEndDate
+                return Res.strings().settings_item_premium_value_will_expire.get(
+                    parameter: observable.state.premiumEndDate
                 )
             }
         }

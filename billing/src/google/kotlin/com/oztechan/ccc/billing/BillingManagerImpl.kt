@@ -126,7 +126,7 @@ internal class BillingManagerImpl(private val context: Context) :
             ?.firstOrNull()
             ?.let {
                 scope.launch {
-                    _effect.emit(BillingEffect.UpdateAddFreeDate(it))
+                    _effect.emit(BillingEffect.UpdatePremiumEndDate(it))
                 }
             }
     }

@@ -2,7 +2,7 @@ package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.free.FreeApi
 import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.service.free.FreeApiService
@@ -32,7 +32,7 @@ internal class FreeApiServiceTest : BaseSubjectTest<FreeApiService>() {
     @Mock
     private val freeApi = mock(classOf<FreeApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
+    private val mockEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 

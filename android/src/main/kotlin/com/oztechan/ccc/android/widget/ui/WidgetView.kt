@@ -8,10 +8,10 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
+import com.oztechan.ccc.client.viewmodel.widget.WidgetState
 
 @Composable
-fun WidgetView(viewModel: WidgetViewModel) {
+fun WidgetView(state: WidgetState) {
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -19,14 +19,14 @@ fun WidgetView(viewModel: WidgetViewModel) {
         horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
         verticalAlignment = Alignment.Vertical.CenterVertically
     ) {
-        HeaderView(currentBase = viewModel.currentBase)
+        HeaderView(currentBase = state.currentBase)
 
-        viewModel.currencyList.forEach {
+        state.currencyList.forEach {
             WidgetItem(item = it)
         }
 
         Spacer(modifier = GlanceModifier.defaultWeight())
 
-        FooterView(lastUpdate = viewModel.lastUpdate)
+        FooterView(lastUpdate = state.lastUpdate)
     }
 }

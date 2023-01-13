@@ -8,7 +8,7 @@ sealed class ScreenName {
 
     @Suppress("unused") // used in iOS
     object Watchers : ScreenName()
-    object AdRemove : ScreenName()
+    object Premium : ScreenName()
     data class Slider(val position: Int) : ScreenName()
 
     fun getScreenName() = when (this) {

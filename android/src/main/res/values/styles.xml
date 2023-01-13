@@ -522,18 +522,18 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <!-- Ad Remove -->
-    <style name="AdRemoveItemLayoutStyle" parent="WideStyle">
+    <!-- Premium -->
+    <style name="PremiumItemLayoutStyle" parent="WideStyle">
         <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
 
-    <style name="TextAdRemoveItemStyle" parent="WrapStyle">
+    <style name="TextPremiumItemStyle" parent="WrapStyle">
         <item name="android:textColor">@color/text</item>
-        <item name="android:padding">@dimen/padding_ad_remove_item_layout</item>
+        <item name="android:padding">@dimen/padding_premium_item_layout</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
-    <style name="AdRemoveItemSeparatorStyle" parent="BaseItemSeparatorStyle">
+    <style name="PremiumItemSeparatorStyle" parent="BaseItemSeparatorStyle">
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
     </style>
 </resources>

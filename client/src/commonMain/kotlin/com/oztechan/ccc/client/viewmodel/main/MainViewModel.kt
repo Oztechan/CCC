@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.config.service.ad.AdConfigService
 import com.oztechan.ccc.config.service.review.ReviewConfigService
 import kotlinx.coroutines.delay
@@ -43,7 +43,7 @@ class MainViewModel(
 
     init {
         with(analyticsManager) {
-            setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
+            setUserProperty(UserProperty.IsPremium(isPremium().toString()))
             setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(
@@ -64,7 +64,7 @@ class MainViewModel(
             delay(adConfigService.config.interstitialAdInitialDelay)
 
             while (isActive && adRepository.shouldShowInterstitialAd()) {
-                if (data.adVisibility && !isAdFree()) {
+                if (data.adVisibility && !isPremium()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
                 delay(adConfigService.config.interstitialAdPeriod)
@@ -101,7 +101,7 @@ class MainViewModel(
 
     fun getAppTheme() = appStorage.appTheme
 
-    fun isAdFree() = !appStorage.adFreeEndDate.isRewardExpired()
+    fun isPremium() = !appStorage.premiumEndDate.isPremiumExpired()
 
     // region Event
     override fun onPause() {

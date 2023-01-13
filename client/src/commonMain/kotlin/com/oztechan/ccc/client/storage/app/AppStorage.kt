@@ -5,7 +5,7 @@ interface AppStorage {
 
     var appTheme: Int
 
-    var adFreeEndDate: Long
+    var premiumEndDate: Long
 
     var sessionCount: Long
 }
