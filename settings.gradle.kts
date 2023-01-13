@@ -50,7 +50,7 @@ include(
     ":parsermob" // KMP, parsing library
 )
 
-project(":logmob").projectDir = file("logmob/logmob")
-project(":scopemob").projectDir = file("scopemob/scopemob")
-project(":basemob").projectDir = file("basemob/basemob")
-project(":parsermob").projectDir = file("parsermob/parsermob")
+project(":logmob").projectDir = file("submodule/logmob/logmob")
+project(":scopemob").projectDir = file("submodule/scopemob/scopemob")
+project(":basemob").projectDir = file("submodule/basemob/basemob")
+project(":parsermob").projectDir = file("submodule/parsermob/parsermob")

@@ -1,12 +1,12 @@
 [submodule "LogMob"]
-	path = logmob
+	path = submodule/logmob
 	url = https://github.com/SubMob/LogMob
 [submodule "ScopeMob"]
-	path = scopemob
+	path = submodule/scopemob
 	url = https://github.com/SubMob/ScopeMob
 [submodule "BaseMob"]
-	path = basemob
+	path = submodule/basemob
 	url = https://github.com/SubMob/BaseMob
 [submodule "ParserMob"]
-	path = parsermob
+	path = submodule/parsermob
 	url = https://github.com/SubMob/ParserMob
