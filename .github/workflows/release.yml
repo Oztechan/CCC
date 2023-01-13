@@ -219,6 +219,13 @@ jobs:
       - name: Install Cocoapods
         run: cd ios/CCC; pod install --repo-update
 
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.3'
+          bundler-cache: true
+          working-directory: 'ios'
+
       - name: Publish
         uses: maierj/fastlane-action@v2.3.0
         with:
