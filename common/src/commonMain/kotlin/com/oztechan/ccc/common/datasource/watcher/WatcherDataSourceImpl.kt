@@ -7,7 +7,6 @@ import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModelList
 import com.oztechan.ccc.common.model.Watcher
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +19,7 @@ internal class WatcherDataSourceImpl(
     override fun getWatchersFlow(): Flow<List<Watcher>> {
         Logger.v { "WatcherDataSourceImpl getWatchersFlow" }
         return watcherQueries.getWatchers()
-            .asFlow()
+            .toDBFlow()
             .mapToList(ioDispatcher)
             .mapToModel()
     }

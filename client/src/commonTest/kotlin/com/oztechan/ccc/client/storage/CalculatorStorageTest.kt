@@ -90,7 +90,7 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
     }
 
     @Test
-    fun set_lastInput() {
+    fun `set lastInput`() {
         val mockValue = "mock"
         subject.lastInput = mockValue
 
