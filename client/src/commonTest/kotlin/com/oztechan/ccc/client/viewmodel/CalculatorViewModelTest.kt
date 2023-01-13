@@ -24,7 +24,7 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
@@ -81,7 +81,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
     private val currencyList = listOf(currency1, currency2)
     private val currencyUIModel = currency1.toUIModel()
-    private val currencyResponse = CurrencyResponse(currency1.code, null, Conversion())
+    private val exchangeRate = ExchangeRate(currency1.code, null, Conversion())
 
     @BeforeTest
     override fun setup() {
@@ -106,11 +106,11 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         runTest {
             given(conversionDataSource)
                 .coroutine { getConversionByBase(currency1.code) }
-                .thenReturn(currencyResponse.conversion)
+                .thenReturn(exchangeRate.conversion)
 
             given(backendApiService)
                 .coroutine { getConversion(currency1.code) }
-                .thenReturn(currencyResponse)
+                .thenReturn(exchangeRate)
 
             given(currencyDataSource)
                 .coroutine { getCurrencyByCode(currency1.code) }
@@ -145,7 +145,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_conversion_in_db_then_conversion_rates_are_calculated() = runTest {
+    fun `when api fails and there is conversion in db then conversion rates are calculated`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -155,10 +155,10 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }.after {
             assertNotNull(it)
             assertFalse { it.loading }
-            assertEquals(ConversionState.Offline(currencyResponse.conversion.date), it.conversionState)
+            assertEquals(ConversionState.Offline(exchangeRate.conversion.date), it.conversionState)
 
             val result = currencyList.toUIModelList().onEach { currency ->
-                currency.rate = currencyResponse.conversion.calculateRate(currency.code, it.output)
+                currency.rate = exchangeRate.conversion.calculateRate(currency.code, it.output)
                     .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
@@ -172,7 +172,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_conversion_in_db_then_error_state_displayed() = runTest {
+    fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -199,7 +199,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_offline_and_no_enough_currency_few_currency_effect_emitted() = runTest {
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() = runTest {
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
@@ -446,7 +446,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         runTest {
             given(backendApiService)
                 .coroutine { getConversion(currency1.code) }
-                .thenReturn(currencyResponse)
+                .thenReturn(exchangeRate)
         }
 
         subject.state.before {

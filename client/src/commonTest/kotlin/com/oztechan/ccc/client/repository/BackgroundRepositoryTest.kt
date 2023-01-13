@@ -4,7 +4,7 @@ import com.oztechan.ccc.client.repository.background.BackgroundRepository
 import com.oztechan.ccc.client.repository.background.BackgroundRepositoryImpl
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseSubjectTest
@@ -77,7 +77,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
 
         given(backendApiService)
             .coroutine { getConversion(watcher.base) }
-            .thenReturn(CurrencyResponse(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate + 1)))
+            .thenReturn(ExchangeRate(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate + 1)))
 
         assertTrue { subject.shouldSendNotification() }
 
@@ -100,7 +100,7 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
 
         given(backendApiService)
             .coroutine { getConversion(watcher.base) }
-            .thenReturn(CurrencyResponse(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate - 1)))
+            .thenReturn(ExchangeRate(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate - 1)))
 
         assertTrue { subject.shouldSendNotification() }
 

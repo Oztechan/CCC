@@ -72,9 +72,10 @@
     <string name="slide_bug_report_title">Bugs &amp; Issues</string>
     <string name="slide_bug_report_text_1">If you experienced any Bug or Issue</string>
     <string name="slide_bug_report_text_2">Click on settings icon \nFeedback > Send us an email\nOn GitHub > Create a GitHub issue</string>
-    <string name="slide_disable_ads_title">Disable Ads</string>
-    <string name="slide_disable_ads_text_1">If you want to disable Ads</string>
-    <string name="slide_disable_ads_text_2">Click on settings icon > Removed Ads</string>
+    <string name="slide_premium_title">Premium</string>
+    <string name="slide_premium_text_1_no_ads_and_widget">If you want to disable Ads and activate Widget</string>
+    <string name="slide_premium_text_1_no_ads">If you want to disable Ads</string>
+    <string name="slide_premium_text_2">Click on settings icon > Premium</string>
     <string name="slide_dark_mode_title">Theme</string>
     <string name="slide_dark_mode_text_1">If you want to change the app theme</string>
     <string name="slide_dark_mode_text_2">Click on settings icon > Theme\nThen chose your theme!</string>
@@ -97,11 +98,12 @@
     <string name="settings_item_theme_sub_title">Change app theme</string>
     <string name="title_dialog_choose_theme">Choose app theme</string>
 
-    <string name="settings_item_remove_ads_title">Remove Ads</string>
-    <string name="settings_item_remove_ads_sub_title">Disable ads</string>
-    <string name="settings_item_remove_ads_value_expired">Expired\n</string>
-    <string name="settings_item_remove_ads_value_will_expire">Will expire\n%s</string>
-    <string name="txt_ads_already_disabled">Ads are already disabled</string>
+    <string name="settings_item_premium_title">Premium</string>
+    <string name="settings_item_premium_sub_title_no_ads">No ads</string>
+    <string name="settings_item_premium_sub_title_no_ads_and_widget">Widget and no ads</string>
+    <string name="settings_item_premium_value_expired">Expired\n</string>
+    <string name="settings_item_premium_value_will_expire">Will expire\n%s</string>
+    <string name="txt_you_already_have_premium">You already have premium</string>
 
     <string name="settings_item_precision_title">Precision</string>
     <string name="settings_item_precision_sub_title">Max decimal digits</string>
@@ -145,8 +147,8 @@
     <string name="txt_add">Add</string>
 
     <!--Rewarded Ad-->
-    <string name="txt_remove_ads">Remove Ads</string>
-    <string name="txt_remove_ads_text">Would you like to watch a video to stop ads for 2 days?</string>
+    <string name="txt_premium">Premium</string>
+    <string name="txt_premium_text">Would you like to watch a video for 2 days of Premium?</string>
     <string name="txt_watch">Watch</string>
 
     <!-- App update -->

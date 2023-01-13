@@ -4,7 +4,7 @@ import com.oztechan.ccc.common.model.Conversion
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import com.oztechan.ccc.common.api.model.Conversion as APIConversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse as CurrencyResponseEntity
+import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateEntity
 import com.oztechan.ccc.common.database.sql.Conversion as DBConversion
 
 internal fun DBConversion.toConversionEntity() = APIConversion(
@@ -21,11 +21,11 @@ internal fun DBConversion.toConversionEntity() = APIConversion(
     XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL
 )
 
-internal fun DBConversion?.toCurrencyResponseEntity() = this?.run {
-    CurrencyResponseEntity(base, date, toConversionEntity())
+internal fun DBConversion?.toExchangeRateEntity() = this?.run {
+    ExchangeRateEntity(base, date, toConversionEntity())
 }
 
-internal fun CurrencyResponseEntity?.toSerializedString() = Json.encodeToString(this)
+internal fun ExchangeRateEntity?.toSerializedString() = Json.encodeToString(this)
 
 internal fun DBConversion.toModel() = Conversion(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,

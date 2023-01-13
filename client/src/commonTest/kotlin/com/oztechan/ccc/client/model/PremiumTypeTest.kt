@@ -5,17 +5,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-internal class RemoveAdTypeTest : BaseTest() {
+internal class PremiumTypeTest : BaseTest() {
 
     @Test
     fun getById() {
-        val adType = RemoveAdType.getById(null)
+        val adType = PremiumType.getById(null)
         assertNull(adType)
 
-        RemoveAdType.values().forEach { removeAdType ->
+        PremiumType.values().forEach { premiumType ->
             assertEquals(
-                removeAdType,
-                RemoveAdType.getById(removeAdType.data.id)
+                premiumType,
+                PremiumType.getById(premiumType.data.id)
             )
         }
     }

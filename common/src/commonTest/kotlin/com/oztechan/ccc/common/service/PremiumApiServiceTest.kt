@@ -5,7 +5,7 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
@@ -36,12 +36,12 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     @Mock
     private val premiumAPI = mock(classOf<PremiumApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Conversion())
+    private val mockEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 
     @Test
-    fun getConversion_parameter_can_not_be_empty() = runTest {
+    fun `getConversion parameter can not be empty`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -54,7 +54,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     }
 
     @Test
-    fun getConversion_error() = runTest {
+    fun `getConversion error`() = runTest {
         given(premiumAPI)
             .coroutine { premiumAPI.getConversion(mockBase) }
             .thenThrow(mockThrowable)
@@ -75,7 +75,7 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     }
 
     @Test
-    fun getConversion_success() = runTest {
+    fun `getConversion success`() = runTest {
         given(premiumAPI)
             .coroutine { premiumAPI.getConversion(mockBase) }
             .thenReturn(mockEntity)

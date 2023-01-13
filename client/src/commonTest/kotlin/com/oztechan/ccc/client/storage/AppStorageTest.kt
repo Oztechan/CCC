@@ -5,13 +5,13 @@ package com.oztechan.ccc.client.storage
 
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.app.AppStorageImpl
-import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_AD_FREE_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_PREMIUM_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_SESSION_COUNT
-import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_AD_FREE_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_FIRST_RUN
+import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_PREMIUM_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
@@ -36,7 +36,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
     // defaults
     @Test
-    fun default_firstRun() {
+    fun `default firstRun`() {
         given(settings)
             .invocation { getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .thenReturn(DEFAULT_FIRST_RUN)
@@ -49,7 +49,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun default_appTheme() {
+    fun `default appTheme`() {
         given(settings)
             .invocation { getInt(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .thenReturn(DEFAULT_APP_THEME)
@@ -62,20 +62,20 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun default_adFreeEndDate() {
+    fun `default premiumEndDate`() {
         given(settings)
-            .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
-            .thenReturn(DEFAULT_AD_FREE_END_DATE)
+            .invocation { getLong(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
+            .thenReturn(DEFAULT_PREMIUM_END_DATE)
 
-        assertEquals(DEFAULT_AD_FREE_END_DATE, subject.adFreeEndDate)
+        assertEquals(DEFAULT_PREMIUM_END_DATE, subject.premiumEndDate)
 
         verify(settings)
-            .invocation { getLong(KEY_AD_FREE_END_DATE, DEFAULT_AD_FREE_END_DATE) }
+            .invocation { getLong(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
             .wasInvoked()
     }
 
     @Test
-    fun default_sessionCount() {
+    fun `default sessionCount`() {
         given(settings)
             .invocation { getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .thenReturn(DEFAULT_SESSION_COUNT)
@@ -89,7 +89,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
 
     // setters
     @Test
-    fun set_firstRun() {
+    fun `set firstRun`() {
         val mockedValue = Random.nextBoolean()
         subject.firstRun = mockedValue
 
@@ -99,7 +99,7 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun set_appTheme() {
+    fun `set appTheme`() {
         val mockValue = Random.nextInt()
         subject.appTheme = mockValue
 
@@ -109,17 +109,17 @@ internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
     }
 
     @Test
-    fun set_adFreeEndDate() {
+    fun `set premiumEndDate`() {
         val mockValue = Random.nextLong()
-        subject.adFreeEndDate = mockValue
+        subject.premiumEndDate = mockValue
 
         verify(settings)
-            .invocation { putLong(KEY_AD_FREE_END_DATE, mockValue) }
+            .invocation { putLong(KEY_PREMIUM_END_DATE, mockValue) }
             .wasInvoked()
     }
 
     @Test
-    fun set_sessionCount() {
+    fun `set sessionCount`() {
         val mockValue = Random.nextLong()
         subject.sessionCount = mockValue
 

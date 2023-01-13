@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.util
 
 import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import org.junit.Test
 import kotlin.random.Random
@@ -11,8 +11,8 @@ internal class ApiUtilTest : BaseTest() {
 
     @Test
     fun fillMissingConversionWith() {
-        val first = CurrencyResponse("", null, Conversion())
-        val second = CurrencyResponse(
+        val first = ExchangeRate("", null, Conversion())
+        val second = ExchangeRate(
             "",
             null,
             Conversion(

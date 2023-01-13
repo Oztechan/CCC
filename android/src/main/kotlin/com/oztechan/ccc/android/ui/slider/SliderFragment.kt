@@ -126,7 +126,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     companion object {
         private val layouts = arrayListOf(
             R.layout.layout_slide_intro,
-            R.layout.layout_slide_disable_ads,
+            R.layout.layout_slide_premium,
             R.layout.layout_slide_bug_report
         )
         private const val TEXT_SIZE = 36f

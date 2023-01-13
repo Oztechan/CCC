@@ -80,7 +80,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .thenReturn(appThemeValue)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() }
 
         given(appStorage)
@@ -102,7 +102,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         subject // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsAdFree(subject.isAdFree().toString())) }
+            .invocation { setUserProperty(UserProperty.IsPremium(subject.isPremium().toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
@@ -121,7 +121,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     // SEED
     @Test
-    fun check_state_is_null() {
+    fun `check state is null`() {
         assertNull(subject.state)
     }
 
@@ -151,28 +151,28 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun isAdFree_for_future_should_return_true() {
+    fun `isPremium for future should return true`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() + SECOND }
 
-        assertTrue { subject.isAdFree() }
+        assertTrue { subject.isPremium() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun isAdFree_for_future_should_return_false() {
+    fun `isPremium for future should return false`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
-        assertFalse { subject.isAdFree() }
+        assertFalse { subject.isPremium() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -185,7 +185,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun onResume_adjustSessionCount() = with(subject) {
+    fun `onResume adjustSessionCount`() = with(subject) {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -235,7 +235,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun onResume_setupInterstitialAdTimer() = with(subject) {
+    fun `onResume setupInterstitialAdTimer`() = with(subject) {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -263,7 +263,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .then { true }
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
         effect.before {
@@ -287,12 +287,12 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun onResume_checkAppUpdate_nothing_happens_when_check_update_returns_null() = with(subject) {
+    fun `onResume checkAppUpdate nothing happens when check update returns null`() = with(subject) {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -325,7 +325,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun onResume_checkAppUpdate_app_review_should_ask_when_check_update_returns_not_null() {
+    fun `onResume checkAppUpdate app review should ask when check update returns not null`() {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
@@ -371,7 +371,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun onResume_checkReview_should_request_review_when_shouldShowAppReview_returns_true() =
+    fun `onResume checkReview should request review when shouldShowAppReview returns true`() =
         with(subject) {
             val mockSessionCount = Random.nextLong()
 
@@ -411,7 +411,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
         }
 
     @Test
-    fun onResume_checkReview_should_do_nothing_when_shouldShowAppReview_returns_false() =
+    fun `onResume checkReview should do nothing when shouldShowAppReview returns false`() =
         with(subject) {
             val mockSessionCount = Random.nextLong()
 

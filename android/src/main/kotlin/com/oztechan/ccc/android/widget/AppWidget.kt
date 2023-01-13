@@ -13,6 +13,6 @@ class AppWidget : GlanceAppWidget(), KoinComponent {
 
     @Composable
     override fun Content() {
-        WidgetView(viewModel = viewModel)
+        WidgetView(state = viewModel.state)
     }
 }

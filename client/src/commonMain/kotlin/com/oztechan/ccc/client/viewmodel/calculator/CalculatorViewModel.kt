@@ -36,7 +36,7 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MIN
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.CurrencyResponse
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -124,13 +124,13 @@ class CalculatorViewModel(
             }
     }
 
-    private fun fetchConversionSuccess(currencyResponse: CurrencyResponse) = currencyResponse
+    private fun fetchConversionSuccess(exchangeRate: ExchangeRate) = exchangeRate
         .toConversion().let {
             data.conversion = it
             calculateConversions(it, ConversionState.Online(it.date))
         }.also {
             viewModelScope.launch {
-                conversionDataSource.insertConversion(currencyResponse.toTodayResponse())
+                conversionDataSource.insertConversion(exchangeRate.toTodayResponse())
             }
         }
 
