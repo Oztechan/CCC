@@ -2,7 +2,6 @@ package com.oztechan.ccc.client.viewmodel.widget
 
 import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
-import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.getRateFromCode
@@ -17,29 +16,36 @@ class WidgetViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
 ) : BaseViewModel() {
-    lateinit var currencyList: List<Currency>
-    lateinit var lastUpdate: String
-    lateinit var currentBase: String
+
+    var state = WidgetState(
+        currentBase = calculatorStorage.currentBase
+    )
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
         if (changeBaseToNext != null) {
             updateBase(changeBaseToNext)
         }
 
-        cleanWidgetData()
+        state = state.copy(
+            currencyList = listOf(),
+            lastUpdate = "",
+            currentBase = ""
+        )
 
         getFreshWidgetData()
     }
 
     private suspend fun getFreshWidgetData() {
-        currentBase = calculatorStorage.currentBase
-        lastUpdate = nowAsInstant().toDateString()
+        state = state.copy(
+            currentBase = calculatorStorage.currentBase,
+            lastUpdate = nowAsInstant().toDateString()
+        )
 
         val conversion = backendApiService
             .getConversion(calculatorStorage.currentBase)
             .conversion
 
-        currencyList = currencyDataSource.getActiveCurrencies()
+        currencyDataSource.getActiveCurrencies()
             .toUIModelList()
             .filterNot { it.name == calculatorStorage.currentBase }
             .onEach {
@@ -47,6 +53,9 @@ class WidgetViewModel(
             }
             .toValidList(calculatorStorage.currentBase)
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
+            .let {
+                state = state.copy(currencyList = it)
+            }
     }
 
     private suspend fun updateBase(isToNext: Boolean) {
@@ -68,12 +77,6 @@ class WidgetViewModel(
             -1 -> newBaseIndex = activeCurrencies.lastIndex
         }
         calculatorStorage.currentBase = activeCurrencies[newBaseIndex].code
-    }
-
-    private fun cleanWidgetData() {
-        lastUpdate = ""
-        currentBase = ""
-        currencyList = listOf()
     }
 
     companion object {
