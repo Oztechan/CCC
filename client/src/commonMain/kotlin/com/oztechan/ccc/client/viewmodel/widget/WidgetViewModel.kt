@@ -2,9 +2,11 @@ package com.oztechan.ccc.client.viewmodel.widget
 
 import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
+import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.getRateFromCode
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
@@ -15,10 +17,12 @@ class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
+    private val appStorage: AppStorage
 ) : BaseViewModel() {
 
     var state = WidgetState(
-        currentBase = calculatorStorage.currentBase
+        currentBase = calculatorStorage.currentBase,
+        isPremium = !appStorage.premiumEndDate.isPremiumExpired()
     )
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
@@ -29,18 +33,16 @@ class WidgetViewModel(
         state = state.copy(
             currencyList = listOf(),
             lastUpdate = "",
-            currentBase = ""
+            currentBase = calculatorStorage.currentBase,
+            isPremium = !appStorage.premiumEndDate.isPremiumExpired()
         )
 
-        getFreshWidgetData()
+        if (state.isPremium) {
+            getFreshWidgetData()
+        }
     }
 
     private suspend fun getFreshWidgetData() {
-        state = state.copy(
-            currentBase = calculatorStorage.currentBase,
-            lastUpdate = nowAsInstant().toDateString()
-        )
-
         val conversion = backendApiService
             .getConversion(calculatorStorage.currentBase)
             .conversion
@@ -54,7 +56,10 @@ class WidgetViewModel(
             .toValidList(calculatorStorage.currentBase)
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
             .let {
-                state = state.copy(currencyList = it)
+                state = state.copy(
+                    currencyList = it,
+                    lastUpdate = nowAsInstant().toDateString()
+                )
             }
     }
 
