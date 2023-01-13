@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews
 import com.oztechan.ccc.android.ui.compose.component.ImageView
@@ -27,18 +30,33 @@ import com.oztechan.ccc.android.ui.compose.util.toColor
 import com.oztechan.ccc.android.ui.compose.util.toPainter
 import com.oztechan.ccc.android.ui.compose.util.toText
 import com.oztechan.ccc.client.model.Watcher
+import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun WatchersView(
+fun NavHostController.WatchersView(
     vm: WatchersViewModel = koinViewModel(),
 ) {
+    LaunchedEffect(key1 = vm.effect) {
+        vm.effect.collect {
+            Logger.i { "WatchersView observeEffects ${it::class.simpleName}" }
+            when (it) {
+                WatchersEffect.Back -> popBackStack()
+                is WatchersEffect.SelectBase -> navigate("select_currency")
+                is WatchersEffect.SelectTarget -> navigate("select_currency")
+                else -> Unit
+            }
+        }
+    }
+
     WatchersViewContent(
         state = vm.state.collectAsState(),
         onAddClick = vm.event::onAddClick,
         onRateChange = vm.event::onRateChange,
+        onBaseClick = vm.event::onBaseClick,
+        onTargetClick = vm.event::onTargetClick
     )
 }
 
@@ -47,6 +65,8 @@ fun WatchersViewContent(
     state: State<WatchersState>,
     onAddClick: () -> Unit,
     onRateChange: (watcher: Watcher, rate: String) -> String,
+    onBaseClick: (watcher: Watcher) -> Unit,
+    onTargetClick: (watcher: Watcher) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,9 +84,18 @@ fun WatchersViewContent(
 
         LazyColumn(Modifier.weight(1f)) {
             items(state.value.watcherList) {
-                WatcherItem(watcher = it) { rate ->
-                    onRateChange(it, rate)
-                }
+                WatcherItem(
+                    watcher = it,
+                    onRateChange = { rate ->
+                        onRateChange(it, rate)
+                    },
+                    onBaseClick = {
+                        onBaseClick(it)
+                    },
+                    onTargetClick = {
+                        onTargetClick(it)
+                    }
+                )
             }
         }
 
@@ -110,5 +139,7 @@ fun WatchersViewContentPreview() = Preview {
         ),
         onAddClick = {},
         onRateChange = { _, _ -> "" },
+        onBaseClick = {},
+        onTargetClick = {}
     )
 }

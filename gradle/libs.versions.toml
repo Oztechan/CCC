@@ -72,6 +72,7 @@ android-constraintLayout = { module = "androidx.constraintlayout:constraintlayou
 android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }

@@ -14,7 +14,7 @@ plugins {
         id(crashlytics.get().pluginId)
         id(googleServices.get().pluginId)
         id(firebasePerPlugin.get().pluginId)
-        id(safeArgs.get().pluginId)
+        id(safeArgs.get().pluginId) // todo can be removed once compose migration done
         id(android.get().pluginId)
     }
 }
@@ -107,6 +107,7 @@ dependencies {
             implementation(material3)
             implementation(androidMaterial)
             implementation(composeActivity)
+            implementation(composeNavigation)
             implementation(constraintLayout)
             implementation(navigation)
             implementation(koinAndroid)
