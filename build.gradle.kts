@@ -41,13 +41,15 @@ allprojects {
         koverMerged {
             filters {
                 classes {
-                    excludes += buildTestPackagePaths()
+                    excludes.addAll(buildTestPackagePaths())
                 }
                 annotations {
-                    excludes += listOf(
-                        "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
-                        "androidx.compose.ui.tooling.preview.Preview",
-                        "androidx.compose.runtime.Composable"
+                    excludes.addAll(
+                        listOf(
+                            "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
+                            "androidx.compose.ui.tooling.preview.Preview",
+                            "androidx.compose.runtime.Composable"
+                        )
                     )
                 }
             }
