@@ -285,13 +285,6 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
             .wasInvoked()
-        verify(analyticsManager)
-            .invocation {
-                setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.code })
-                )
-            }
-            .wasInvoked()
     }
 
     @Test

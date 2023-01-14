@@ -97,13 +97,6 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyListCommon.count().toString())) }
             .wasInvoked()
-        verify(analyticsManager)
-            .invocation {
-                setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyListCommon.joinToString(",") { currency -> currency.code })
-                )
-            }
-            .wasInvoked()
     }
 
     // Analytics
@@ -119,14 +112,6 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
 
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(nonActiveCurrencyList.count().toString())) }
-            .wasNotInvoked()
-
-        verify(analyticsManager)
-            .invocation {
-                setUserProperty(
-                    UserProperty.ActiveCurrencies(nonActiveCurrencyList.joinToString(",") { currency -> currency.code })
-                )
-            }
             .wasNotInvoked()
     }
 
