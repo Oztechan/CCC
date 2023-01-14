@@ -5,6 +5,9 @@ import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.model.Conversion
+import com.oztechan.ccc.common.model.Currency
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
 import com.oztechan.ccc.common.util.nowAsLong
@@ -38,14 +41,17 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
 
-    private val mockBase = "mock"
+    private val base = "EUR"
+
+    private val currency = Currency(code = base, name = "Euro", symbol = "€")
+    private val exchangeRate = ExchangeRate(base = base, conversion = Conversion(base = base))
 
     override fun setup() {
         super.setup()
 
         given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(mockBase)
+            .thenReturn(base)
     }
 
     @Test
@@ -56,7 +62,7 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(mockEndDate)
 
-        assertEquals(mockBase, subject.state.currentBase)
+        assertEquals(base, subject.state.currentBase)
         assertEquals(!appStorage.premiumEndDate.isPremiumExpired(), subject.state.isPremium)
     }
 
@@ -66,15 +72,23 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + DAY)
 
+        given(backendApiService)
+            .coroutine { getConversion(base) }
+            .thenReturn(exchangeRate)
+
+        given(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .thenReturn(listOf(currency))
+
         subject.refreshWidgetData()
 
         verify(backendApiService)
-            .coroutine { getConversion(mockBase) }
+            .coroutine { getConversion(base) }
             .wasInvoked()
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
-            .wasNotInvoked()
+            .wasInvoked()
     }
 
     @Test
@@ -86,7 +100,7 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
         subject.refreshWidgetData()
 
         verify(backendApiService)
-            .coroutine { getConversion(mockBase) }
+            .coroutine { getConversion(base) }
             .wasNotInvoked()
 
         verify(currencyDataSource)
