@@ -128,6 +128,7 @@ sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
         packageName = "${Modules.COMMON.packageName}.database.sql"
         sourceFolders = listOf("sql")
+        verifyMigrations = true
     }
 }
 
