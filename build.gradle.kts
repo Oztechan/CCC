@@ -40,11 +40,16 @@ allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
         koverMerged {
             filters {
+                classes {
+                    excludes.addAll(buildTestPackagePaths())
+                }
                 annotations {
-                    excludes += listOf(
-                        "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
-                        "androidx.compose.ui.tooling.preview.Preview",
-                        "androidx.compose.runtime.Composable"
+                    excludes.addAll(
+                        listOf(
+                            "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
+                            "androidx.compose.ui.tooling.preview.Preview",
+                            "androidx.compose.runtime.Composable"
+                        )
                     )
                 }
             }
@@ -96,4 +101,16 @@ allprojects {
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf { candidate.version.isNonStable() }
+}
+
+fun buildTestPackagePaths() = mutableListOf<String>().apply {
+    repeat(30) { depth ->
+        var result = ""
+        val prefix = "*."
+        val postfix = "*Test"
+        repeat(depth) {
+            result = "$result$prefix"
+        }
+        add("$result$postfix")
+    }
 }
