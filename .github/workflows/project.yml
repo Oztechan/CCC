@@ -16,3 +16,4 @@ jobs:
           organization: Oztechan
           project_id: 2
           resource_node_id: ${{ github.event.issue.node_id }}
+          custom_field_values: '[{\"name\": \"Iteration\",\"type\": \"iteration\",\"value\": \"@current\"}]'
