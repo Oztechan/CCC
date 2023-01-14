@@ -17,21 +17,25 @@ struct SelectCurrencyItemView: View {
     var body: some View {
         HStack {
 
-            CurrencyImageView(imageName: item.name)
+            CurrencyImageView(imageName: item.code)
+
+            Text(item.code)
+                .font(relative: .footnote)
+                .foregroundColor(Res.colors().text.get())
 
             Text(item.name)
-                .frame(width: 45)
-                .foregroundColor(MR.colors().text.get())
-            Text(item.longName)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
+                .font(relative: .footnote)
+                .foregroundColor(Res.colors().text.get())
+
             Text(item.symbol)
-                .font(.footnote)
-                .foregroundColor(MR.colors().text.get())
+                .font(relative: .footnote)
+                .foregroundColor(Res.colors().text.get())
+
             Spacer()
 
         }
         .contentShape(Rectangle())
+        .padding(.vertical, 4.cp())
         .lineLimit(1)
     }
 }

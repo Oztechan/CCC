@@ -10,7 +10,7 @@ import android.app.AlertDialog
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.inCase
 import com.github.submob.scopemob.whetherNot
-import mustafaozhan.github.com.mycurrencies.R
+import com.oztechan.ccc.android.R
 
 @Suppress("LongParameterList")
 fun Activity.showDialog(
@@ -39,11 +39,11 @@ fun Activity.showDialog(
     cancelable: Boolean = true,
     function: (() -> Unit)? = null
 ) = showDialog(
-    getString(title),
-    getString(message),
-    getString(positiveButton),
-    cancelable,
-    function
+    title = getString(title),
+    message = getString(message),
+    positiveButton = getString(positiveButton),
+    cancelable = cancelable,
+    function = function
 )
 
 @Suppress("LongParameterList")
@@ -66,10 +66,10 @@ fun Activity.showSingleChoiceDialog(
     selectedIndex: Int = 1,
     choiceAction: ((Int) -> Unit)? = null
 ) = showSingleChoiceDialog(
-    getString(title),
-    items,
-    selectedIndex,
-    choiceAction
+    title = getString(title),
+    items = items,
+    selectedIndex = selectedIndex,
+    choiceAction = choiceAction
 )
 
 private fun Activity.buildDialog(title: String) = AlertDialog

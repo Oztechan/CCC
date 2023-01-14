@@ -1,7 +1,8 @@
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        kotlin(COCOAPODS)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(cocoapods.get().pluginId)
     }
 }
 
@@ -11,7 +12,7 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        with(ProjectSettings) {
+        ProjectSettings.apply {
             summary = PROJECT_NAME
             homepage = HOMEPAGE
             ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
@@ -19,8 +20,8 @@ kotlin {
         }
 
         framework {
-            baseName = Dependencies.Pods.PROVIDER
-            with(Dependencies.Modules) {
+            Modules.apply {
+                baseName = PROVIDER.frameworkName
                 export(project(CLIENT))
                 export(project(ANALYTICS))
             }
@@ -38,9 +39,9 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
 
-                implementation(Dependencies.Common.KOIN_CORE)
+                implementation(libs.common.koinCore)
 
-                with(Dependencies.Modules) {
+                Modules.apply {
                     implementation(project(LOGMOB))
                     api(project(CLIENT))
                     api(project(ANALYTICS))

@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 import Provider
 import NavigationStack
+import PopupView
 
 struct CalculatorView: View {
 
@@ -23,13 +24,21 @@ struct CalculatorView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
+    @State var isTooBigNumberSnackShown = false
+    @State var isGenericErrorSnackShown = false
+    @State var isFewCurrencySnackShown = false
+    @State var isCopyClipboardSnackShown = false
+
+    @State var isConversionSnackShown = false
+    static var conversionText: String?
+    static var conversionCode: String?
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
         NavigationView {
             ZStack {
-                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
 
@@ -45,16 +54,17 @@ struct CalculatorView: View {
                         onBarClick: { observable.event.onBarClick() }
                     )
 
-                    Form {
-                        if observable.state.loading {
-                            FormProgressView()
-                        } else {
+                    if observable.state.loading {
+                        FormProgressView()
+                            .padding(bottom: 4.cp())
+                    } else {
+                        Form {
                             List(
                                 CalculatorUtilKt.toValidList(
                                     observable.state.currencyList,
                                     currentBase: observable.state.base
                                 ),
-                                id: \.name
+                                id: \.code
                             ) {
                                 CalculatorItemView(
                                     item: $0,
@@ -64,31 +74,78 @@ struct CalculatorView: View {
                                 )
                             }
                             .listRowInsets(.init())
-                            .listRowBackground(MR.colors().background.get())
+                            .listRowBackground(Res.colors().background.get())
                             .animation(.default)
                         }
-                    }.withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: Res.colors().background.get())
+                        .padding(bottom: 4.cp())
+                    }
 
                     KeyboardView(onKeyPress: { observable.event.onKeyPress(key: $0) })
 
-                    if !(observable.state.rateState is RateState.None) {
-                        RateStateView(
-                            color: observable.state.rateState.getColor(),
-                            text: observable.state.rateState.getText()
+                    if !(observable.state.conversionState is ConversionState.None) {
+                        ConversionStateView(
+                            color: observable.state.conversionState.getColor(),
+                            text: observable.state.conversionState.getText()
                         )
                     }
 
                     if observable.viewModel.shouldShowBannerAd() {
-                        BannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR".getSecretValue())
-                            .frame(maxHeight: 50)
-                            .padding(.bottom, 20)
+                        AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                     }
 
                 }
             }
+            .background(Res.colors().background_strong.get())
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .popup(
+            isPresented: $isTooBigNumberSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().text_too_big_number.get())
+        }
+        .popup(
+            isPresented: $isGenericErrorSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().error_text_unknown.get())
+        }
+        .popup(
+            isPresented: $isFewCurrencySnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(
+                text: Res.strings().choose_at_least_two_currency.get(),
+                buttonText: Res.strings().select.get(),
+                buttonAction: {
+                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                }
+            )
+        }
+        .popup(
+            isPresented: $isCopyClipboardSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().copied_to_clipboard.get())
+        }
+        .popup(
+            isPresented: $isConversionSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            if CalculatorView.conversionText != nil && CalculatorView.conversionCode != nil {
+                SnackView(
+                    text: CalculatorView.conversionText!,
+                    iconName: CalculatorView.conversionCode!
+                )
+            }
+        }
         .sheet(
             isPresented: $isBarShown,
             content: {
@@ -110,17 +167,11 @@ struct CalculatorView: View {
         logger.i(message: {"CalculatorView onEffect \(effect.description)"})
         switch effect {
         case is CalculatorEffect.Error:
-            showSnack(text: MR.strings().error_text_unknown.get())
+            isGenericErrorSnackShown.toggle()
         case is CalculatorEffect.FewCurrency:
-            showSnack(
-                text: MR.strings().choose_at_least_two_currency.get(),
-                buttonText: MR.strings().select.get(),
-                action: {
-                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
-                }
-            )
+            isFewCurrencySnackShown.toggle()
         case is CalculatorEffect.TooBigNumber:
-            showSnack(text: MR.strings().text_too_big_number.get())
+            isTooBigNumberSnackShown.toggle()
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
@@ -129,13 +180,12 @@ struct CalculatorView: View {
         case is CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
             pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
-            showSnack(text: MR.strings().copied_to_clipboard.get())
+            isCopyClipboardSnackShown.toggle()
         // swiftlint:disable force_cast
-        case is CalculatorEffect.ShowRate:
-            showSnack(
-                text: (effect as! CalculatorEffect.ShowRate).text,
-                iconImage: (effect as! CalculatorEffect.ShowRate).name.getImage()
-            )
+        case is CalculatorEffect.ShowConversion:
+            CalculatorView.conversionText = (effect as! CalculatorEffect.ShowConversion).text
+            CalculatorView.conversionCode = (effect as! CalculatorEffect.ShowConversion).code
+            isConversionSnackShown.toggle()
         default:
             logger.i(message: {"CalculatorView unknown effect"})
         }

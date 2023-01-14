@@ -1,0 +1,22 @@
+# https://github.com/detekt/detekt/blob/main/detekt-core/src/main/resources/default-detekt-config.yml
+# This file is used to override default detekt rules
+# the rules are not listed here will be used from default detekt config listed in the link above
+
+config:
+  validation: true
+  warningsAsErrors: true
+  checkExhaustiveness: false
+
+style:
+  WildcardImport:
+    active: true
+    excludeImports: [ ] # default config excludes java.util.*
+
+complexity:
+  NamedArguments:
+    active: true
+
+naming:
+  FunctionNaming:
+    active: true
+    ignoreAnnotated: [ 'Composable' ]

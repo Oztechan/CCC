@@ -9,22 +9,22 @@ import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
-import com.oztechan.ccc.client.model.RateState
+import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.client.util.calculateResult
-import com.oztechan.ccc.client.util.getCurrencyConversionByRate
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.util.calculateRate
+import com.oztechan.ccc.client.util.getConversionStringFromBase
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
@@ -34,6 +34,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -43,24 +44,23 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import com.oztechan.ccc.client.model.Currency as CurrencyUIModel
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
 internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
 
     override val subject: CalculatorViewModel by lazy {
         CalculatorViewModel(
-            appStorage,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
-            offlineRatesDataSource,
+            conversionDataSource,
             adRepository,
             analyticsManager
         )
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -69,7 +69,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Mock
     private val adRepository = mock(classOf<AdRepository>())
@@ -81,43 +81,73 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
     private val currencyList = listOf(currency1, currency2)
     private val currencyUIModel = currency1.toUIModel()
-    private val currencyResponse = CurrencyResponse(currency1.name, null, Rates())
+    private val exchangeRate = ExchangeRate(currency1.code, null, Conversion())
 
     @BeforeTest
     override fun setup() {
         super.setup()
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(currency1.name)
+            .thenReturn(currency1.code)
+
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn("")
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyList))
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(3)
 
         runTest {
-            given(offlineRatesDataSource)
-                .coroutine { getOfflineRatesByBase(currency1.name) }
-                .thenReturn(currencyResponse.rates)
+            given(conversionDataSource)
+                .coroutine { getConversionByBase(currency1.code) }
+                .thenReturn(exchangeRate.conversion)
 
             given(backendApiService)
-                .coroutine { getRates(currency1.name) }
-                .thenReturn(currencyResponse)
+                .coroutine { getConversion(currency1.code) }
+                .thenReturn(exchangeRate)
 
             given(currencyDataSource)
-                .coroutine { getCurrencyByName(currency1.name) }
+                .coroutine { getCurrencyByCode(currency1.code) }
                 .thenReturn(currency1)
         }
     }
 
     @Test
-    fun when_api_fails_and_there_is_offline_rate_conversion_is_calculated() = runTest {
+    fun `conversion should be fetched on init`() = runTest {
+        verify(backendApiService)
+            .coroutine { getConversion(currency1.code) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `init sets the latest base and input`() = runTest {
+        val mock = "mock"
+
+        given(calculatorStorage)
+            .invocation { currentBase }
+            .thenReturn(currency1.code)
+
+        given(calculatorStorage)
+            .invocation { lastInput }
+            .thenReturn(mock)
+
+        subject.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency1.code, it.base)
+            assertEquals(mock, it.input)
+        }
+    }
+
+    @Test
+    fun `when api fails and there is conversion in db then conversion rates are calculated`() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
 
         subject.state.before {
@@ -125,30 +155,30 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         }.after {
             assertNotNull(it)
             assertFalse { it.loading }
-            assertEquals(RateState.Offline(currencyResponse.rates.date), it.rateState)
+            assertEquals(ConversionState.Offline(exchangeRate.conversion.date), it.conversionState)
 
             val result = currencyList.toUIModelList().onEach { currency ->
-                currency.rate = currencyResponse.rates.calculateResult(currency.name, it.output)
-                    .getFormatted(appStorage.precision)
+                currency.rate = exchangeRate.conversion.calculateRate(currency.code, it.output)
+                    .getFormatted(calculatorStorage.precision)
                     .toStandardDigits()
             }
 
             assertEquals(result, it.currencyList)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+        verify(conversionDataSource)
+            .coroutine { getConversionByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_offline_rate_error_state_displayed() = runTest {
+    fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
 
-        given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+        given(conversionDataSource)
+            .coroutine { getConversionByBase(currency1.code) }
             .thenReturn(null)
 
         subject.effect.before {
@@ -159,27 +189,27 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
-                assertEquals(RateState.Error, state.rateState)
+                assertEquals(ConversionState.Error, state.conversionState)
             }
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+        verify(conversionDataSource)
+            .coroutine { getConversionByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
-    fun when_api_fails_and_there_is_no_offline_and_no_enough_currency_few_currency_effect_emitted() = runTest {
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() = runTest {
         given(backendApiService)
-            .coroutine { getRates(currency1.name) }
+            .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
 
-        given(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+        given(conversionDataSource)
+            .coroutine { getConversionByBase(currency1.code) }
             .thenReturn(null)
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(listOf(currency1)))
 
         subject.effect.before {
@@ -190,12 +220,12 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             subject.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
-                assertEquals(RateState.Error, state.rateState)
+                assertEquals(ConversionState.Error, state.conversionState)
             }
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { getOfflineRatesByBase(currency1.name) }
+        verify(conversionDataSource)
+            .coroutine { getConversionByBase(currency1.code) }
             .wasInvoked()
     }
 
@@ -258,7 +288,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
         verify(analyticsManager)
             .invocation {
                 setUserProperty(
-                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.name })
+                    UserProperty.ActiveCurrencies(currencyList.joinToString(",") { currency -> currency.code })
                 )
             }
             .wasInvoked()
@@ -296,23 +326,34 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onItemClick() {
+        var currency = currencyUIModel
         subject.state.before {
             subject.event.onItemClick(currencyUIModel)
         }.after {
             assertNotNull(it)
-            assertEquals(currencyUIModel.name, it.base)
+            assertEquals(currencyUIModel.code, it.base)
             assertEquals(currencyUIModel.rate, it.input)
         }
 
         // when last digit is . it should be removed
-        val currency = CurrencyUIModel("USD", "", "", "123.")
+        currency = currency.copy(rate = "123.")
 
         subject.state.before {
             subject.event.onItemClick(currency)
         }.after {
             assertNotNull(it)
-            assertEquals(currency.name, it.base)
+            assertEquals(currency.code, it.base)
             assertEquals("123", it.input)
+        }
+
+        currency = currency.copy(rate = "123 456.78")
+
+        subject.state.before {
+            subject.event.onItemClick(currency)
+        }.after {
+            assertNotNull(it)
+            assertEquals(currency.code, it.base)
+            assertEquals("123456.78", it.input)
         }
     }
 
@@ -320,18 +361,18 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     fun onItemImageLongClick() = subject.effect.before {
         subject.event.onItemImageLongClick(currencyUIModel)
     }.after {
-        assertIs<CalculatorEffect.ShowRate>(it)
+        assertIs<CalculatorEffect.ShowConversion>(it)
         assertEquals(
-            currencyUIModel.getCurrencyConversionByRate(
+            currencyUIModel.getConversionStringFromBase(
                 subject.state.value.base,
-                subject.data.rates
+                subject.data.conversion
             ),
             it.text
         )
-        assertEquals(currencyUIModel.name, it.name)
+        assertEquals(currencyUIModel.code, it.code)
 
         verify(analyticsManager)
-            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.name))) }
+            .invocation { trackEvent(Event.ShowConversion(Param.Base(currencyUIModel.code))) }
             .wasInvoked()
     }
 
@@ -398,30 +439,30 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     @Test
     fun onBaseChanged() {
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { currentBase }
-            .thenReturn(currency1.name)
+            .thenReturn(currency1.code)
 
         runTest {
             given(backendApiService)
-                .coroutine { getRates(currency1.name) }
-                .thenReturn(currencyResponse)
+                .coroutine { getConversion(currency1.code) }
+                .thenReturn(exchangeRate)
         }
 
         subject.state.before {
-            subject.event.onBaseChange(currency1.name)
+            subject.event.onBaseChange(currency1.code)
         }.after {
             assertNotNull(it)
-            assertNotNull(subject.data.rates)
-            assertEquals(currency1.name, subject.data.rates!!.base)
-            assertEquals(currency1.name, it.base)
+            assertNotNull(subject.data.conversion)
+            assertEquals(currency1.code, subject.data.conversion!!.base)
+            assertEquals(currency1.code, it.base)
 
             verify(analyticsManager)
-                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.name))) }
+                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
                 .wasInvoked()
 
             verify(analyticsManager)
-                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.name)) }
+                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
                 .wasInvoked()
         }
     }

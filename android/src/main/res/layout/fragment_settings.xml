@@ -59,12 +59,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <include
-                android:id="@+id/item_theme"
+                android:id="@+id/item_watchers"
                 style="@style/WideFitStyle"
                 layout="@layout/item_settings"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_currencies" />
+
+            <include
+                android:id="@+id/item_theme"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_watchers" />
 
             <include
                 android:id="@+id/item_disable_ads"

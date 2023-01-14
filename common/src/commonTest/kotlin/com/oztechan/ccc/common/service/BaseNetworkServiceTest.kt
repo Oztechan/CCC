@@ -40,11 +40,11 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     @Test
     fun `CancellationException should return exception itself`() = runTest {
         given(freeApi)
-            .coroutine { getRates(base) }
+            .coroutine { getConversion(base) }
             .thenThrow(CancellationException(exception))
 
         assertFailsWith(TerminationException::class) {
-            subject.getRates(base)
+            subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause!!.cause)
@@ -55,11 +55,11 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     @Test
     fun `IOException should return NetworkException`() = runTest {
         given(freeApi)
-            .coroutine { getRates(base) }
+            .coroutine { getConversion(base) }
             .thenThrow(IOException(exception.message.toString()))
 
         assertFailsWith(NetworkException::class) {
-            subject.getRates(base)
+            subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception.message, it.cause.message)
@@ -69,11 +69,11 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     @Test
     fun `ConnectTimeoutException should return TimeoutException`() = runTest {
         given(freeApi)
-            .coroutine { getRates(base) }
+            .coroutine { getConversion(base) }
             .thenThrow(ConnectTimeoutException(exception.message.toString()))
 
         assertFailsWith(TimeoutException::class) {
-            subject.getRates(base)
+            subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception.message, it.cause.message)
@@ -83,11 +83,11 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     @Test
     fun `SerializationException should return ModelMappingException`() = runTest {
         given(freeApi)
-            .coroutine { getRates(base) }
+            .coroutine { getConversion(base) }
             .thenThrow(SerializationException(exception))
 
         assertFailsWith(ModelMappingException::class) {
-            subject.getRates(base)
+            subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause.cause)
@@ -98,11 +98,11 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
     @Test
     fun `Any other exception should return UnknownNetworkException`() = runTest {
         given(freeApi)
-            .coroutine { getRates(base) }
+            .coroutine { getConversion(base) }
             .thenThrow(Exception(exception))
 
         assertFailsWith(UnknownNetworkException::class) {
-            subject.getRates(base)
+            subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause.cause)

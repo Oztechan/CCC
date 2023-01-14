@@ -7,11 +7,11 @@ package com.oztechan.ccc.common.mapper
 import com.oztechan.ccc.common.model.Currency
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.oztechan.ccc.common.db.sql.Currency as CurrencyEntity
+import com.oztechan.ccc.common.database.sql.Currency as CurrencyEntity
 
 internal fun CurrencyEntity.toModel() = Currency(
+    code = code,
     name = name,
-    longName = longName,
     symbol = symbol,
     rate = rate,
     isActive = isActive == 1.toLong()

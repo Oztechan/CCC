@@ -52,21 +52,21 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         super.setup()
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyListEnough))
     }
 
     // SEED
     @Test
-    fun check_data_is_null() {
+    fun `check data is null`() {
         assertNull(subject.data)
     }
 
     // init
     @Test
-    fun init_updates_the_states_with_no_enough_currency() = runTest {
+    fun `init updates the states with no enough currency`() = runTest {
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyListNotEnough))
 
         subject.state.firstOrNull().let {
@@ -77,12 +77,12 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         }
 
         verify(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
     @Test
-    fun init_updates_the_states_with_enough_currency() {
+    fun `init updates the states with enough currency`() {
         runTest {
             subject.state.firstOrNull().let {
                 assertNotNull(it)
@@ -93,7 +93,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
         }
 
         verify(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
@@ -103,7 +103,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
             subject.event.onItemClick(currencyUIModel)
         }.after {
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyUIModel.name, it.newBase)
+            assertEquals(currencyUIModel.code, it.newBase)
         }
     }
 

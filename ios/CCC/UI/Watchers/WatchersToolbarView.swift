@@ -10,6 +10,7 @@ import SwiftUI
 import Res
 
 struct WatchersToolbarView: View {
+    @Environment(\.colorScheme) var colorScheme
     var backEvent: () -> Void
 
     var body: some View {
@@ -17,22 +18,22 @@ struct WatchersToolbarView: View {
             HStack {
                 ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-                Text(MR.strings().txt_watchers.get())
-                    .font(.title3)
+                Text(Res.strings().txt_watchers.get())
+                    .font(relative: .title3)
 
                 Spacer()
             }
 
-            Text(MR.strings().txt_watchers_description.get())
+            Text(Res.strings().txt_watchers_description.get())
                 .contentShape(Rectangle())
-                .font(.footnote)
+                .font(relative: .caption)
                 .multilineTextAlignment(.center)
-                .background(MR.colors().background_strong.get())
-                .foregroundColor(MR.colors().text_weak.get())
-                .padding(10)
+                .background(Res.colors().background_strong.get())
+                .foregroundColor(Res.colors().text_weak.get())
+                .padding(10.cp())
         }
         .frame(width: .infinity, height: .nan)
-        .padding(EdgeInsets(top: 15, leading: 10, bottom: 5, trailing: 20))
-        .background(MR.colors().background_strong.get())
+        .padding(top: 15.cp(), leading: 10.cp(), trailing: 20.cp())
+        .background(Res.colors().background_strong.get())
     }
 }

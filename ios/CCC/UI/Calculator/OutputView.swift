@@ -22,16 +22,22 @@ struct OutputView: View {
             HStack {
                 CurrencyImageView(imageName: baseCurrency)
 
-                Text(baseCurrency).foregroundColor(MR.colors().text.get())
+                Text(baseCurrency)
+                    .foregroundColor(Res.colors().text.get())
+                    .font(relative: .body)
 
                 if !output.isEmpty {
-                    Text("=  \(output)").foregroundColor(MR.colors().text.get())
+                    Text("=  \(output)")
+                        .foregroundColor(Res.colors().text.get())
+                        .font(relative: .body)
                 }
 
-                Text(symbol).foregroundColor(MR.colors().text.get())
+                Text(symbol)
+                    .foregroundColor(Res.colors().text.get())
+                    .font(relative: .body)
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
-            .padding(EdgeInsets(top: 2, leading: 20, bottom: 2, trailing: 20))
+            .padding(.horizontal, 20.cp())
             .animation(.default)
 
         }

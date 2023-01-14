@@ -1,15 +1,17 @@
 import config.DeviceFlavour
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
-        kotlin(ANDROID)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(androidLib.get().pluginId)
+        id(android.get().pluginId)
     }
 }
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.BILLING.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -18,7 +20,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -34,16 +36,22 @@ android {
 }
 
 dependencies {
+    libs.apply {
+        common.apply {
+            implementation(koinCore)
+        }
 
-    DeviceFlavour.googleApi(Dependencies.Android.GOOGLE.BILLING)
+        android.apply {
+            implementation(lifecycleRuntime)
 
-    implementation(Dependencies.Common.KOIN_CORE)
-
-    with(Dependencies.Android) {
-        implementation(LIFECYCLE_RUNTIME)
+            google.apply {
+                @Suppress("UnstableApiUsage")
+                DeviceFlavour.googleApi(billing)
+            }
+        }
     }
 
-    with(Dependencies.Modules) {
+    Modules.apply {
         implementation(project(LOGMOB))
         implementation(project(SCOPEMOB))
     }

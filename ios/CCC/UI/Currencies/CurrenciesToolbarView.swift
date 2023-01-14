@@ -27,17 +27,16 @@ struct CurrenciesToolbarView: View {
             if searchVisibilty {
                 Spacer()
 
-                TextField(MR.strings().search.get(), text: $query)
-                .onChange(of: query) { onQueryChange($0) }
-                .background(
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(MR.colors().background.get())
-                        .padding(.bottom, -4)
-                        .padding(.top, -4)
-                )
-                .disableAutocorrection(true)
-                .multilineTextAlignment(.center)
-                .padding(.all, 4)
+                TextField(Res.strings().search.get(), text: $query)
+                    .font(relative: .headline)
+                    .onChange(of: query) { onQueryChange($0) }
+                    .background(
+                        RoundedRectangle(cornerRadius: 3.cp())
+                            .fill(Res.colors().background.get())
+                    )
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
+                    .padding(1.cp())
 
                 Spacer()
 
@@ -52,7 +51,7 @@ struct CurrenciesToolbarView: View {
 
             } else {
 
-                Text(MR.strings().txt_currencies.get()).font(.title3)
+                Text(Res.strings().txt_currencies.get()).font(relative: .title3)
 
                 Spacer()
 
@@ -62,6 +61,6 @@ struct CurrenciesToolbarView: View {
                 )
             }
 
-        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+        }.padding(top: 20.cp(), leading: 10.cp(), bottom: 10.cp(), trailing: 20.cp())
     }
 }

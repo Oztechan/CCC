@@ -12,6 +12,7 @@ import Provider
 import FirebaseCore
 import GoogleMobileAds
 import BackgroundTasks
+import PopupView
 
 var logger: KermitLogger = {
     return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
@@ -26,6 +27,8 @@ struct Application: App {
 
     private let taskID = "com.oztechan.ccc.CCC.fetch"
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
+
+    @State private var isWatcherAlertShown: Bool = false
 
     init() {
         if EnvironmentUtil.isRelease {
@@ -53,6 +56,13 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .popup(isPresented: $isWatcherAlertShown) {
+                    AlertView(
+                        title: Res.strings().txt_watcher_alert_title.get(),
+                        message: Res.strings().txt_watcher_alert_sub_title.get(),
+                        buttonText: Res.strings().txt_ok.get()
+                    )
+                }
         }.onChange(of: scenePhase) { phase in
             logger.i(message: {"Application onChange scenePhase \(phase)"})
 
@@ -101,15 +111,11 @@ struct Application: App {
 
             if scenePhase == .background {
                 self.notificationManager.sendNotification(
-                    title: MR.strings().txt_watcher_alert_title.get(),
-                    body: MR.strings().txt_watcher_alert_sub_title.get()
+                    title: Res.strings().txt_watcher_alert_title.get(),
+                    body: Res.strings().txt_watcher_alert_sub_title.get()
                 )
             } else {
-                showAlert(
-                    title: MR.strings().txt_watcher_alert_title.get(),
-                    text: MR.strings().txt_watcher_alert_sub_title.get(),
-                    buttonText: MR.strings().txt_ok.get()
-                )
+                isWatcherAlertShown.toggle()
             }
 
             task.setTaskCompleted(success: true)

@@ -38,7 +38,7 @@ class WatchersViewModel(
     override val data = WatchersData()
 
     init {
-        watcherDataSource.collectWatchers()
+        watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(watcherList = it.toUIModelList()) }
             }.launchIn(viewModelScope)
@@ -63,12 +63,12 @@ class WatchersViewModel(
 
     override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
-        watcherDataSource.updateBaseById(newBase, watcher.id)
+        watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
     }
 
     override fun onTargetChanged(watcher: Watcher, newTarget: String) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
-        watcherDataSource.updateTargetById(newTarget, watcher.id)
+        watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
     }
 
     override fun onAddClick() = viewModelScope.launchIgnored {
@@ -79,8 +79,8 @@ class WatchersViewModel(
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
                 watcherDataSource.addWatcher(
-                    base = list.firstOrNull()?.name.orEmpty(),
-                    target = list.lastOrNull()?.name.orEmpty()
+                    base = list.firstOrNull()?.code.orEmpty(),
+                    target = list.lastOrNull()?.code.orEmpty()
                 )
             }
         }
@@ -93,7 +93,7 @@ class WatchersViewModel(
 
     override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
-        watcherDataSource.updateRelationById(isGreater, watcher.id)
+        watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
     }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
@@ -105,7 +105,7 @@ class WatchersViewModel(
         } else {
             rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {
                 viewModelScope.launch {
-                    watcherDataSource.updateRateById(it, watcher.id)
+                    watcherDataSource.updateWatcherRateById(it, watcher.id)
                 }
             } ?: viewModelScope.launch {
                 _effect.emit(WatchersEffect.InvalidInput)

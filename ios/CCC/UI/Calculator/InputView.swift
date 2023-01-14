@@ -24,19 +24,19 @@ struct InputView: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(MR.colors().text.get())
-                .font(.title2)
-                .animation(.default)
+                .foregroundColor(Res.colors().text.get())
+                .font(relative: .title2)
+                .animation(.none)
 
             Spacer()
 
             ToolbarButton(
                 clickEvent: onSettingsClick,
                 imgName: "gear"
-            ).padding(.trailing, 5)
+            ).padding(.trailing, 5.cp())
 
         }
-        .frame(width: .none, height: 36, alignment: .center)
-        .padding(.top, 4)
+        .frame(width: .none, height: 36.cp(), alignment: .center)
+        .padding(.top, 4.cp())
     }
 }

@@ -1,8 +1,9 @@
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_LIB)
-        kotlin(MULTIPLATFORM)
-        id(KOTLIN_X_SERIALIZATION)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(androidLib.get().pluginId)
+        id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -18,22 +19,22 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KTOR_JSON)
-                    implementation(KOIN_CORE)
+                libs.common.apply {
+                    implementation(ktorJson)
+                    implementation(koinCore)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.FIREBASE_REMOTE_CONFIG)
+                implementation(libs.android.firebaseRemoteConfig)
             }
         }
         val androidTest by getting
@@ -60,7 +61,8 @@ kotlin {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.CONFIG.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -68,7 +70,5 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }

@@ -17,18 +17,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import co.touchlab.kermit.Logger
-import com.github.submob.logmob.w
 import com.github.submob.scopemob.castTo
-import com.github.submob.scopemob.whether
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.ad.BannerAdView
-import com.oztechan.ccc.client.model.RateState
-import com.oztechan.ccc.res.toImageFileName
-import mustafaozhan.github.com.mycurrencies.R
-import java.io.FileNotFoundException
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.client.model.ConversionState
+import com.oztechan.ccc.res.getImageIdByName
 
 private const val ANIMATION_DURATION = 500L
 
@@ -46,11 +44,11 @@ fun FrameLayout.setBannerAd(
     addView(
         adManager.getBannerAd(context, width, adId) { height ->
             if (height != null) animateHeight(0, height)
-            visible()
+            isVisible = true
         }
     )
 } else {
-    gone()
+    isGone = true
 }
 
 fun FrameLayout.destroyBanner() {
@@ -75,9 +73,11 @@ fun View.animateHeight(startHeight: Int, endHeight: Int) {
 }
 
 fun <T> Fragment.getNavigationResult(
-    key: String
+    key: String,
+    destinationId: Int
 ) = findNavController()
-    .currentBackStackEntry
+    .backQueue
+    .lastOrNull { it.destination.id == destinationId }
     ?.savedStateHandle
     ?.getLiveData<T>(key)
 
@@ -86,51 +86,50 @@ fun <T> Fragment.setNavigationResult(
     result: T,
     key: String
 ) = findNavController()
-    .previousBackStackEntry
-    ?.whether { it.destination.id == destinationId }
-    ?.savedStateHandle?.set(key, result)
+    .backQueue
+    .lastOrNull { it.destination.id == destinationId }
+    ?.savedStateHandle
+    ?.set(key, result)
 
-fun View?.visibleIf(visible: Boolean) = if (visible) visible() else gone()
-
-fun View.showLoading(visible: Boolean) = if (visible) {
-    visible()
-    bringToFront()
-} else gone()
-
-fun View?.visible() {
-    this?.visibility = View.VISIBLE
+fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply {
+    if (visible) {
+        isVisible = true
+        if (bringFront) bringToFront()
+    } else {
+        isGone = true
+    }
 }
 
-fun View?.gone() {
-    this?.visibility = View.GONE
-}
-
-fun TextView.dataState(state: RateState) = when (state) {
-    is RateState.Online -> {
+fun TextView.dataState(state: ConversionState) = when (state) {
+    is ConversionState.Online -> {
         text = context.getString(R.string.text_online_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_online, 0, 0, 0)
-        visible()
+        isVisible = true
     }
-    is RateState.Cached -> {
+
+    is ConversionState.Cached -> {
         text = context.getString(R.string.text_cached_last_updated, state.lastUpdate)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cached, 0, 0, 0)
-        visible()
+        isVisible = true
     }
-    is RateState.Offline -> {
+
+    is ConversionState.Offline -> {
         text = if (state.lastUpdate.isNullOrEmpty()) {
             context.getString(R.string.text_offline)
         } else {
             context.getString(R.string.text_offline_last_updated, state.lastUpdate)
         }
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_offine, 0, 0, 0)
-        visible()
+        isVisible = true
     }
-    RateState.Error -> {
+
+    ConversionState.Error -> {
         text = context.getString(R.string.text_no_data)
         setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0)
-        visible()
+        isVisible = true
     }
-    RateState.None -> gone()
+
+    ConversionState.None -> isGone = true
 }
 
 private const val CLIPBOARD_LABEL = "clipboard_label"
@@ -144,17 +143,4 @@ fun View.copyToClipBoard(text: String) {
     }
 }
 
-fun ImageView.setBackgroundByName(
-    name: String
-) = setImageResource(context.getImageResourceByName(name))
-
-fun Context.getImageResourceByName(name: String): Int = try {
-    resources.getIdentifier(
-        name.toImageFileName(),
-        "drawable",
-        packageName
-    )
-} catch (e: FileNotFoundException) {
-    Logger.w(e)
-    R.drawable.unknown
-}
+fun ImageView.setBackgroundByName(name: String) = setImageResource(name.getImageIdByName())

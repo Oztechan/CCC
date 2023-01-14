@@ -16,10 +16,10 @@ struct SettingsToolbarView: View {
         HStack {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(MR.strings().txt_settings.get())
-                .font(.title3)
+            Text(Res.strings().txt_settings.get())
+                .font(relative: .title3)
 
             Spacer()
-        }.padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 20))
+        }.padding(top: 20.cp(), leading: 10.cp(), bottom: 10.cp(), trailing: 20.cp())
     }
 }

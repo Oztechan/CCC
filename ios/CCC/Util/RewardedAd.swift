@@ -11,27 +11,21 @@ import Res
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
 
-    var rewardFunction: () -> Void
-    var errorFunction: () -> Void
+    var onReward: () -> Void
 
     var rewardedAd: GADRewardedAd?
 
-    init(
-        rewardFunction: @escaping () -> Void,
-        errorFunction: @escaping () -> Void
-    ) {
-        self.rewardFunction = rewardFunction
-        self.errorFunction = errorFunction
+    init(onReward: @escaping () -> Void) {
+        self.onReward = onReward
     }
 
     func show() {
         GADRewardedAd.load(
-            withAdUnitID: "REWARDED_AD_UNIT_ID".getSecretValue(),
+            withAdUnitID: SecretUtil.getSecret(key: "REWARDED_AD_UNIT_ID"),
             request: GADRequest(),
             completionHandler: { (rewardedAd, error) in
                 if let error = error {
                     logger.w(message: {"RewardedAd show error: \(error.localizedDescription)"})
-                    self.errorFunction()
                     return
                 }
 
@@ -42,7 +36,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
                     userDidEarnRewardHandler: {
                         logger.i(message: {"RewardedAd userDidEarnReward"})
-                        self.rewardFunction()
+                        self.onReward()
                     }
                 )
             }

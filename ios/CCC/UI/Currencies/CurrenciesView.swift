@@ -22,6 +22,7 @@ struct CurrenciesView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State var isFewCurrencySnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -29,7 +30,7 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
 
@@ -46,11 +47,11 @@ struct CurrenciesView: View {
                     )
                 }
 
-                Form {
-                    if observable.state.loading {
-                        FormProgressView()
-                    } else {
-                        List(observable.state.currencyList, id: \.name) { currency in
+                if observable.state.loading {
+                    FormProgressView()
+                } else {
+                    Form {
+                        List(observable.state.currencyList, id: \.code) { currency in
                             CurrenciesItemView(
                                 item: currency,
                                 onItemClick: { observable.event.onItemClick(currency: currency) },
@@ -59,28 +60,33 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(MR.colors().background.get())
+                        .listRowBackground(Res.colors().background.get())
                     }
-                }.withClearBackground(color: MR.colors().background.get())
+                    .withClearBackground(color: Res.colors().background.get())
+                }
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(
-                        text: MR.strings().txt_select_currencies.get(),
-                        buttonText: MR.strings().btn_done.get(),
+                        text: Res.strings().txt_select_currencies.get(),
+                        buttonText: Res.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick
                     )
                 }
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    BannerAdView(
-                        unitID: "BANNER_AD_UNIT_ID_CURRENCIES".getSecretValue()
-                    ).frame(maxHeight: 50)
-                    .padding(.bottom, 20)
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
 
             }
             .animation(.default)
             .navigationBarHidden(true)
+        }
+        .popup(
+            isPresented: $isFewCurrencySnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().choose_at_least_two_currency.get())
         }
         .onAppear {
             observable.startObserving()
@@ -94,7 +100,7 @@ struct CurrenciesView: View {
         logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
         switch effect {
         case is CurrenciesEffect.FewCurrency:
-            showSnack(text: MR.strings().choose_at_least_two_currency.get())
+            isFewCurrencySnackShown.toggle()
         case is CurrenciesEffect.OpenCalculator:
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:

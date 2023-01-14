@@ -30,7 +30,6 @@ env:
 
 jobs:
   DistributeAndroid:
-
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -60,11 +59,10 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
 
-      - name: Setup Gradle
+      - name: Assemble
         uses: gradle/gradle-build-action@v2
-
-      - name: Build
-        run: ./gradlew assembleGoogleRelease assembleHuaweiRelease
+        with:
+          arguments: assembleGoogleRelease assembleHuaweiRelease --parallel
 
       - name: Firebase App Distribution Google
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -87,7 +85,6 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-
     runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -104,9 +101,6 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Adding secret files
         run: |
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
@@ -116,11 +110,13 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
+      - name: Generate Pods
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: provider:podGenIOS res:podGenIOS --parallel
+
       - name: Install Cocoapods
-        run: |
-          ./gradlew provider:podGenIOS res:podGenIOS --parallel
-          cd ios/CCC
-          pod install --repo-update
+        run: cd ios/CCC; pod install --repo-update
 
       - name: Distrubute
         uses: maierj/fastlane-action@v2.3.0

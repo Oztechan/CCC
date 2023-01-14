@@ -4,11 +4,13 @@ import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.config.service.review.ReviewConfigService
+import com.oztechan.ccc.config.service.update.UpdateConfigService
 
 internal class AppConfigRepositoryImpl(
-    private val appConfigService: AppConfigService,
+    private val updateConfigService: UpdateConfigService,
+    private val reviewConfigService: ReviewConfigService,
     private val appStorage: AppStorage,
     private val device: Device
 ) : AppConfigRepository {
@@ -18,18 +20,15 @@ internal class AppConfigRepositoryImpl(
 
     override fun checkAppUpdate(
         isAppUpdateShown: Boolean
-    ): Boolean? = appConfigService.appConfig
-        .appUpdate
-        .firstOrNull { it.name == device.name }
-        ?.whether(
+    ): Boolean? = updateConfigService.config
+        .whether(
             { !isAppUpdateShown },
             { updateLatestVersion > BuildKonfig.versionCode }
         )?.let {
-            it.updateForceVersion <= BuildKonfig.versionCode
-        }
+            it.updateForceVersion > BuildKonfig.versionCode
+        } ?: run { null } // do not show
 
-    override fun shouldShowAppReview(): Boolean = appConfigService.appConfig
-        .appReview
+    override fun shouldShowAppReview(): Boolean = reviewConfigService.config
         .whether { appStorage.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false

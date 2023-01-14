@@ -16,7 +16,8 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.storage.AppStorage
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val appStorage: AppStorage,
+    private val calculatorStorage: CalculatorStorage,
     private val currencyDataSource: CurrencyDataSource,
     private val adRepository: AdRepository,
     private val analyticsManager: AnalyticsManager
@@ -49,7 +51,7 @@ class CurrenciesViewModel(
     // endregion
 
     init {
-        currencyDataSource.collectAllCurrencies()
+        currencyDataSource.getCurrenciesFlow()
             .map { it.toUIModelList() }
             .onEach { currencyList ->
 
@@ -70,7 +72,7 @@ class CurrenciesViewModel(
                     .let {
                         analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
                         analyticsManager.setUserProperty(
-                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.name })
+                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.code })
                         )
                     }
             }.launchIn(viewModelScope)
@@ -84,17 +86,17 @@ class CurrenciesViewModel(
         ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = appStorage.currentBase.either(
+    private suspend fun verifyCurrentBase() = calculatorStorage.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
-                .filter { it.name == base }
+                .filter { it.code == base }
                 .toList().firstOrNull()?.isActive == false
         }
     )?.mapTo {
-        state.value.currencyList.firstOrNull { it.isActive }?.name.orEmpty()
+        state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
-        appStorage.currentBase = newBase
+        calculatorStorage.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
@@ -103,9 +105,9 @@ class CurrenciesViewModel(
     }
 
     private fun filterList(txt: String) = data.unFilteredList
-        .filter { (name, longName, symbol) ->
-            name.contains(txt, true) ||
-                longName.contains(txt, true) ||
+        .filter { (code, name, symbol) ->
+            code.contains(txt, true) ||
+                name.contains(txt, true) ||
                 symbol.contains(txt, true)
         }.toMutableList()
         .let {
@@ -125,12 +127,12 @@ class CurrenciesViewModel(
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyDataSource.updateAllCurrencyState(state)
+        currencyDataSource.updateCurrencyStates(state)
     }
 
     override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
-        Logger.d { "CurrenciesViewModel onItemClick ${currency.name}" }
-        currencyDataSource.updateCurrencyStateByName(currency.name, !currency.isActive)
+        Logger.d { "CurrenciesViewModel onItemClick ${currency.code}" }
+        currencyDataSource.updateCurrencyStateByCode(currency.code, !currency.isActive)
     }
 
     override fun onDoneClick() = viewModelScope.launchIgnored {

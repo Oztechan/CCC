@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.repository.background
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.client.util.getConversionByName
+import com.oztechan.ccc.client.util.getRateFromCode
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
@@ -22,13 +22,13 @@ internal class BackgroundRepositoryImpl(
         runBlocking {
             watchersDataSource.getWatchers().forEach { watcher ->
                 backendApiService
-                    .getRates(watcher.base)
-                    .rates
-                    .getConversionByName(watcher.target)
-                    ?.let { conversionRate ->
+                    .getConversion(watcher.base)
+                    .conversion
+                    .getRateFromCode(watcher.target)
+                    ?.let { rate ->
                         when {
-                            watcher.isGreater && conversionRate > watcher.rate -> return@runBlocking true
-                            !watcher.isGreater && conversionRate < watcher.rate -> return@runBlocking true
+                            watcher.isGreater && rate > watcher.rate -> return@runBlocking true
+                            !watcher.isGreater && rate < watcher.rate -> return@runBlocking true
                         }
                     }
             }

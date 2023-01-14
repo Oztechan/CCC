@@ -21,32 +21,32 @@ struct SlideView: View {
 
     var body: some View {
         ZStack {
-            Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
             VStack {
 
                 Spacer()
 
                 Text(title)
                     .multilineTextAlignment(.center)
-                    .font(.largeTitle)
+                    .font(relative: .largeTitle)
 
                 image
-                    .frame(width: 196, height: 196, alignment: .center)
-                    .font(.system(size: 128))
-                    .accentColor(MR.colors().text.get())
+                    .resize(widthAndHeight: 144.cp())
+                    .accentColor(Res.colors().text.get())
+                    .padding(4.cp())
 
                 Text(subTitle1)
-                    .lineSpacing(12)
+                    .lineSpacing(12.cp())
                     .multilineTextAlignment(.center)
-                    .font(.body)
-                    .padding(10)
-                    .padding(.bottom, 30)
+                    .font(relative: .body)
+                    .padding(10.cp())
+                    .padding(.bottom, 30.cp())
 
                 Text(subTitle2)
-                    .lineSpacing(12)
+                    .lineSpacing(12.cp())
                     .multilineTextAlignment(.center)
-                    .padding(10)
-                    .font(.callout)
+                    .padding(10.cp())
+                    .font(relative: .callout)
 
                 Spacer()
 
@@ -59,10 +59,10 @@ struct SlideView: View {
                         action: buttonAction,
                         label: {
                             Text(buttonText)
-                                .font(.body)
-                                .foregroundColor(MR.colors().text.get())
+                                .font(relative: .body)
+                                .foregroundColor(Res.colors().text.get())
                         }
-                    ).padding(EdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 15))
+                    ).padding(top: 10.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 15.cp())
                 }
             }
         }

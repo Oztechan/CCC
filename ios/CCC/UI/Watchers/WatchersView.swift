@@ -10,9 +10,12 @@ import SwiftUI
 import Provider
 import Res
 import NavigationStack
+import PopupView
 
 struct WatchersView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = ObservableSEEDViewModel<
         WatchersState,
         WatchersEffect,
@@ -20,16 +23,18 @@ struct WatchersView: View {
         WatchersData,
         WatchersViewModel
     >()
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var notificationManager = NotificationManager()
     @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
+    @State var isInvalidInputSnackShown = false
+    @State var isMaxWatchersSnackShown = false
+    @State var isTooBigNumberSnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
                 WatchersToolbarView(backEvent: observable.event.onBackClick)
@@ -48,9 +53,9 @@ struct WatchersView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(MR.colors().background.get())
-                        .background(MR.colors().background.get())
-                    }.withClearBackground(color: MR.colors().background.get())
+                        .listRowBackground(Res.colors().background.get())
+                        .background(Res.colors().background.get())
+                    }.withClearBackground(color: Res.colors().background.get())
 
                     Spacer()
 
@@ -61,22 +66,26 @@ struct WatchersView: View {
                             Button {
                                 observable.event.onAddClick()
                             } label: {
-                                Label(MR.strings().txt_add.get(), systemImage: "plus")
+                                Label(Res.strings().txt_add.get(), systemImage: "plus")
+                                    .imageScale(.large)
+                                    .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
+                                    .font(relative: .body)
                             }
-                            .foregroundColor(MR.colors().text.get())
-                            .padding(.vertical, 15)
-                            .background(MR.colors().background_strong.get())
+                            .foregroundColor(Res.colors().text.get())
+                            .padding(.vertical, 15.cp())
+                            .background(Res.colors().background_strong.get())
 
                             Spacer()
 
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .background(MR.colors().background_strong.get())
+                    .background(Res.colors().background_strong.get())
 
                 default:
                     VStack {
-                        Text(MR.strings().txt_enable_notification_permission.get())
+                        Text(Res.strings().txt_enable_notification_permission.get())
+                            .font(relative: .footnote)
                             .multilineTextAlignment(.center)
                         Button {
                             if let url = URL(
@@ -85,29 +94,47 @@ struct WatchersView: View {
                                 UIApplication.shared.open(url)
                             }
                         } label: {
-                            Label(MR.strings().txt_settings.get(), systemImage: "gear")
+                            Label(Res.strings().txt_settings.get(), systemImage: "gear")
+                                .imageScale(.large)
+                                .frame(width: 108.cp(), height: 32.cp(), alignment: .center)
+                                .font(relative: .body)
                         }
-                        .padding()
-                        .background(MR.colors().background_weak.get())
-                        .foregroundColor(MR.colors().text.get())
-                        .cornerRadius(5)
+                        .padding(4.cp())
+                        .background(Res.colors().background_weak.get())
+                        .foregroundColor(Res.colors().text.get())
+                        .cornerRadius(5.cp())
+                        .padding(8.cp())
 
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(MR.colors().background.get())
+                        .background(Res.colors().background.get())
                 }
 
                 if observable.viewModel.shouldShowBannerAd() {
-                    BannerAdView(
-                        unitID: "BANNER_AD_UNIT_ID_WATCHERS".getSecretValue()
-                    )
-                    .frame(maxHeight: 50)
-                    .padding(.bottom, 55)
-                } else {
-                    Text("").padding(5)
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
-            .background(MR.colors().background_strong.get())
-            .edgesIgnoringSafeArea(.bottom)
+            .background(Res.colors().background_strong.get())
+        }
+        .popup(
+            isPresented: $isInvalidInputSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().text_invalid_input.get())
+        }
+        .popup(
+            isPresented: $isMaxWatchersSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().text_maximum_number_of_watchers.get())
+        }
+        .popup(
+            isPresented: $isTooBigNumberSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().text_too_big_number.get())
         }
         .sheet(
             isPresented: $baseBarInfo.isShown,
@@ -169,11 +196,11 @@ struct WatchersView: View {
             targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
             targetBarInfo.isShown.toggle()
         case is WatchersEffect.TooBigNumber:
-            showSnack(text: MR.strings().text_too_big_number.get(), isTop: true)
+            isTooBigNumberSnackShown.toggle()
         case is WatchersEffect.InvalidInput:
-            showSnack(text: MR.strings().text_invalid_input.get(), isTop: true)
+            isInvalidInputSnackShown.toggle()
         case is WatchersEffect.MaximumNumberOfWatchers:
-            showSnack(text: MR.strings().text_maximum_number_of_watchers.get(), isTop: true)
+            isMaxWatchersSnackShown.toggle()
         default:
             logger.i(message: {"WatchersView unknown effect"})
         }

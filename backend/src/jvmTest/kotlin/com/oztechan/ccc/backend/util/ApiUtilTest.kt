@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.util
 
-import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.model.Conversion
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import org.junit.Test
 import kotlin.random.Random
@@ -10,12 +10,12 @@ import kotlin.test.assertEquals
 internal class ApiUtilTest : BaseTest() {
 
     @Test
-    fun fillMissingRatesWith() {
-        val first = CurrencyResponse("", null, Rates())
-        val second = CurrencyResponse(
+    fun fillMissingConversionWith() {
+        val first = ExchangeRate("", null, Conversion())
+        val second = ExchangeRate(
             "",
             null,
-            Rates(
+            Conversion(
                 btc = Random.nextDouble(),
                 clf = Random.nextDouble(),
                 cnh = Random.nextDouble(),
@@ -32,20 +32,20 @@ internal class ApiUtilTest : BaseTest() {
             )
         )
 
-        first.fillMissingRatesWith(second)
+        first.fillMissingConversionWith(second)
 
-        assertEquals(second.rates.btc, first.rates.btc)
-        assertEquals(second.rates.clf, first.rates.clf)
-        assertEquals(second.rates.cnh, first.rates.cnh)
-        assertEquals(second.rates.jep, first.rates.jep)
-        assertEquals(second.rates.kpw, first.rates.kpw)
-        assertEquals(second.rates.mro, first.rates.mro)
-        assertEquals(second.rates.std, first.rates.std)
-        assertEquals(second.rates.svc, first.rates.svc)
-        assertEquals(second.rates.xag, first.rates.xag)
-        assertEquals(second.rates.xau, first.rates.xau)
-        assertEquals(second.rates.xpd, first.rates.xpd)
-        assertEquals(second.rates.xpt, first.rates.xpt)
-        assertEquals(second.rates.zwl, first.rates.zwl)
+        assertEquals(second.conversion.btc, first.conversion.btc)
+        assertEquals(second.conversion.clf, first.conversion.clf)
+        assertEquals(second.conversion.cnh, first.conversion.cnh)
+        assertEquals(second.conversion.jep, first.conversion.jep)
+        assertEquals(second.conversion.kpw, first.conversion.kpw)
+        assertEquals(second.conversion.mro, first.conversion.mro)
+        assertEquals(second.conversion.std, first.conversion.std)
+        assertEquals(second.conversion.svc, first.conversion.svc)
+        assertEquals(second.conversion.xag, first.conversion.xag)
+        assertEquals(second.conversion.xau, first.conversion.xau)
+        assertEquals(second.conversion.xpd, first.conversion.xpd)
+        assertEquals(second.conversion.xpt, first.conversion.xpt)
+        assertEquals(second.conversion.zwl, first.conversion.zwl)
     }
 }

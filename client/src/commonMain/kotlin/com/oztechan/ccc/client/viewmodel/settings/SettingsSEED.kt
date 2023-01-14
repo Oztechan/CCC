@@ -11,7 +11,7 @@ data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
-    val addFreeEndDate: String = "",
+    val premiumEndDate: String = "",
     val loading: Boolean = false,
     val precision: Int = 0,
     val version: String = ""
@@ -22,12 +22,12 @@ data class SettingsState(
 interface SettingsEvent : BaseEvent {
     fun onBackClick()
     fun onCurrenciesClick()
-    fun onWatchersClicked()
+    fun onWatchersClick()
     fun onFeedBackClick()
     fun onShareClick()
     fun onSupportUsClick()
     fun onOnGitHubClick()
-    fun onRemoveAdsClick()
+    fun onPremiumClick()
     fun onSyncClick()
     fun onThemeClick()
     fun onPrecisionClick()
@@ -41,12 +41,12 @@ sealed class SettingsEffect : BaseEffect() {
     object OpenWatchers : SettingsEffect()
     object FeedBack : SettingsEffect()
     object OnGitHub : SettingsEffect()
-    object RemoveAds : SettingsEffect()
+    object Premium : SettingsEffect()
     object ThemeDialog : SettingsEffect()
     object Synchronising : SettingsEffect()
     object Synchronised : SettingsEffect()
     object OnlyOneTimeSync : SettingsEffect()
-    object AlreadyAdFree : SettingsEffect()
+    object AlreadyPremium : SettingsEffect()
     object SelectPrecision : SettingsEffect()
     data class Share(val marketLink: String) : SettingsEffect()
     data class SupportUs(val marketLink: String) : SettingsEffect()

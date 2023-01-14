@@ -1,14 +1,13 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.db.sql.CurrencyQueries
 import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toModelList
 import com.oztechan.ccc.common.model.Currency
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -19,19 +18,19 @@ internal class CurrencyDataSourceImpl(
     private val ioDispatcher: CoroutineDispatcher
 ) : CurrencyDataSource, BaseDBDataSource(ioDispatcher) {
 
-    override fun collectAllCurrencies(): Flow<List<Currency>> {
-        Logger.v { "CurrencyDataSourceImpl collectAllCurrencies" }
-        return currencyQueries.collectAllCurrencies()
-            .asFlow()
+    override fun getCurrenciesFlow(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl getCurrenciesFlow" }
+        return currencyQueries.getCurrencies()
+            .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
             .mapToModel()
     }
 
-    override fun collectActiveCurrencies(): Flow<List<Currency>> {
-        Logger.v { "CurrencyDataSourceImpl collectActiveCurrencies" }
-        return currencyQueries.collectActiveCurrencies()
-            .asFlow()
+    override fun getActiveCurrenciesFlow(): Flow<List<Currency>> {
+        Logger.v { "CurrencyDataSourceImpl getActiveCurrenciesFlow" }
+        return currencyQueries.getActiveCurrencies()
+            .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
             .mapToModel()
@@ -42,18 +41,18 @@ internal class CurrencyDataSourceImpl(
         currencyQueries.getActiveCurrencies().executeAsList().toModelList()
     }
 
-    override suspend fun updateCurrencyStateByName(name: String, isActive: Boolean) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByName $name $isActive" }
-        currencyQueries.updateCurrencyStateByName(isActive.toLong(), name)
+    override suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByCode $code $isActive" }
+        currencyQueries.updateCurrencyStateByCode(isActive.toLong(), code)
     }
 
-    override suspend fun updateAllCurrencyState(value: Boolean) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl updateAllCurrencyState $value" }
-        currencyQueries.updateAllCurrencyState(value.toLong())
+    override suspend fun updateCurrencyStates(value: Boolean) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl updateCurrencyStates $value" }
+        currencyQueries.updateCurrencyStates(value.toLong())
     }
 
-    override suspend fun getCurrencyByName(name: String) = dbQuery {
-        Logger.v { "CurrencyDataSourceImpl getCurrencyByName $name" }
-        currencyQueries.getCurrencyByName(name).executeAsOneOrNull()?.toModel()
+    override suspend fun getCurrencyByCode(code: String) = dbQuery {
+        Logger.v { "CurrencyDataSourceImpl getCurrencyByCode $code" }
+        currencyQueries.getCurrencyByCode(code).executeAsOneOrNull()?.toModel()
     }
 }

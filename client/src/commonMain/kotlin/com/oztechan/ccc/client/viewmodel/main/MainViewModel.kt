@@ -11,9 +11,10 @@ import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.client.util.isRewardExpired
-import com.oztechan.ccc.config.AppConfigService
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.config.service.ad.AdConfigService
+import com.oztechan.ccc.config.service.review.ReviewConfigService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,8 +24,9 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val appStorage: AppStorage,
-    private val appConfigService: AppConfigService,
+    private val reviewConfigService: ReviewConfigService,
     private val appConfigRepository: AppConfigRepository,
+    private val adConfigService: AdConfigService,
     private val adRepository: AdRepository,
     analyticsManager: AnalyticsManager,
 ) : BaseSEEDViewModel<BaseState, MainEffect, MainEvent, MainData>(), MainEvent {
@@ -41,7 +43,7 @@ class MainViewModel(
 
     init {
         with(analyticsManager) {
-            setUserProperty(UserProperty.IsAdFree(isAdFree().toString()))
+            setUserProperty(UserProperty.IsPremium(isPremium().toString()))
             setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(
@@ -59,13 +61,13 @@ class MainViewModel(
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
-            delay(appConfigService.appConfig.adConfig.interstitialAdInitialDelay)
+            delay(adConfigService.config.interstitialAdInitialDelay)
 
             while (isActive && adRepository.shouldShowInterstitialAd()) {
-                if (data.adVisibility && !isAdFree()) {
+                if (data.adVisibility && !isPremium()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
-                delay(appConfigService.appConfig.adConfig.interstitialAdPeriod)
+                delay(adConfigService.config.interstitialAdPeriod)
             }
         }
     }
@@ -89,7 +91,7 @@ class MainViewModel(
     private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
-                delay(appConfigService.appConfig.appReview.appReviewDialogDelay)
+                delay(reviewConfigService.config.appReviewDialogDelay)
                 _effect.emit(MainEffect.RequestReview)
             }
         }
@@ -99,7 +101,7 @@ class MainViewModel(
 
     fun getAppTheme() = appStorage.appTheme
 
-    fun isAdFree() = !appStorage.adFreeEndDate.isRewardExpired()
+    fun isPremium() = !appStorage.premiumEndDate.isPremiumExpired()
 
     // region Event
     override fun onPause() {

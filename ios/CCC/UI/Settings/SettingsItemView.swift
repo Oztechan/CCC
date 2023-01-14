@@ -10,7 +10,7 @@ import SwiftUI
 import Res
 
 struct SettingsItemView: View {
-
+    @Environment(\.colorScheme) var colorScheme
     let imgName: String
     let title: String
     let subTitle: String
@@ -20,40 +20,40 @@ struct SettingsItemView: View {
     var body: some View {
         HStack {
             Image(systemName: imgName)
-                .frame(width: 48, height: 48, alignment: .center)
-                .font(.system(size: 24))
+                .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
+                .font(size: 24.cp())
                 .imageScale(.large)
-                .accentColor(MR.colors().text.get())
-                .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 8))
+                .accentColor(Res.colors().text.get())
+                .padding(top: 8.cp(), leading: 0, bottom: 8.cp(), trailing: 8.cp())
 
             VStack {
                 HStack {
-                    Text(title).font(.title3)
+                    Text(title).font(relative: .title3)
                     Spacer()
                 }
 
                 Spacer()
 
                 HStack {
-                    Text(subTitle).font(.footnote)
+                    Text(subTitle).font(relative: .footnote)
                     Spacer()
                 }
-            }.frame(height: 30)
+            }.frame(height: 30.cp())
 
             Spacer()
 
             Text(value)
                 .lineLimit(2)
                 .multilineTextAlignment(.trailing)
-                .font(.caption)
+                .font(relative: .caption)
 
             Image(systemName: "chevron.right")
-                .frame(width: 48, height: 48, alignment: .center)
+                .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
                 .imageScale(.large)
-                .accentColor(MR.colors().text.get())
+                .accentColor(Res.colors().text.get())
         }
         .listRowInsets(.init())
-        .listRowBackground(MR.colors().background.get())
+        .listRowBackground(Res.colors().background.get())
         .contentShape(Rectangle())
         .onTapGesture { onClick() }
         .lineLimit(1)

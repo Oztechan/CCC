@@ -9,16 +9,16 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
-import com.oztechan.ccc.android.util.gone
-import com.oztechan.ccc.android.util.visible
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentSliderBinding
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.FragmentSliderBinding
 import org.koin.android.ext.android.inject
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
@@ -49,7 +49,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         analyticsManager.trackScreen(ScreenName.Slider(0))
 
         Logger.i { "SliderFragment onResume" }
-        binding.progressBar.gone()
+        binding.progressBar.isGone = true
     }
 
     private fun setListeners() {
@@ -78,11 +78,11 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
         binding.btnNext.setOnClickListener {
             getNextItem()
-                .whether { it < layouts.size }
-                ?.let { binding.viewPager.currentItem = it }
+                .whether { this < layouts.size }
+                ?.let { position -> binding.viewPager.currentItem = position }
                 ?: run {
-                    binding.bottomBarSeparator.gone()
-                    binding.progressBar.visible()
+                    binding.bottomBarSeparator.isGone = true
+                    binding.progressBar.isVisible = true
                     navigate(
                         R.id.sliderFragment,
                         SliderFragmentDirections.actionSliderFragmentToCurrenciesFragment()
@@ -105,7 +105,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             textView.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.color_background_weak
+                    R.color.background_weak
                 )
             )
             binding.layoutDots.addView(textView)
@@ -115,7 +115,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             dots[currentPage].setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.color_text_weak
+                    R.color.text_weak
                 )
             )
         }
@@ -124,9 +124,9 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     private fun getNextItem() = binding.viewPager.currentItem.inc()
 
     companion object {
-        private var layouts = arrayListOf(
+        private val layouts = arrayListOf(
             R.layout.layout_slide_intro,
-            R.layout.layout_slide_disable_ads,
+            R.layout.layout_slide_premium,
             R.layout.layout_slide_bug_report
         )
         private const val TEXT_SIZE = 36f

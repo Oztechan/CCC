@@ -34,41 +34,40 @@ struct SelectCurrencyView: View {
 
             ZStack {
 
-                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
-                    Text(MR.strings().txt_select_base_currency.get())
-                        .font(.title2)
-                        .padding()
-                        .padding(.top, 10)
+                    Text(Res.strings().txt_select_base_currency.get())
+                        .font(relative: .title2)
+                        .padding(4.cp())
+                        .padding(.top, 10.cp())
 
-                    Form {
-                        if observable.state.loading {
-                            FormProgressView()
-                        } else {
-
-                            List(observable.state.currencyList, id: \.name) { currency in
-
+                    if observable.state.loading {
+                        FormProgressView()
+                    } else {
+                        Form {
+                            List(observable.state.currencyList, id: \.code) { currency in
                                 SelectCurrencyItemView(item: currency)
                                     .onTapGesture { observable.event.onItemClick(currency: currency) }
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-
-                            }.listRowInsets(.init())
-                            .listRowBackground(MR.colors().background.get())
+                            }
+                            .listRowInsets(.init())
+                            .listRowBackground(Res.colors().background.get())
                         }
-                    }.withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: Res.colors().background.get())
+                    }
 
                     Spacer()
 
                     SelectCurrenciesBottomView(
                         text: observable.state.enoughCurrency ?
-                        MR.strings().txt_update_favorite_currencies.get() :
-                            MR.strings().choose_at_least_two_currency.get(),
+                        Res.strings().txt_update_favorite_currencies.get() :
+                            Res.strings().choose_at_least_two_currency.get(),
                         buttonText: observable.state.enoughCurrency ?
-                        MR.strings().update.get() :
-                            MR.strings().select.get(),
+                        Res.strings().update.get() :
+                            Res.strings().select.get(),
                         onButtonClick: observable.event.onSelectClick
-                    ).listRowBackground(MR.colors().background.get())
+                    ).listRowBackground(Res.colors().background.get())
                 }.navigationBarHidden(true)
             }
         }

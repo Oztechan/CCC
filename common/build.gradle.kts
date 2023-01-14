@@ -7,13 +7,14 @@ import config.Keys
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(KOTLIN_X_SERIALIZATION)
-        id(ANDROID_LIB)
-        id(SQL_DELIGHT)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(sqlDelight.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 
@@ -32,34 +33,34 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(KOIN_CORE)
-                    implementation(KTOR_LOGGING)
-                    implementation(KTOR_JSON)
-                    implementation(KTOR_CONTENT_NEGOTIATION)
-                    implementation(SQL_DELIGHT_RUNTIME)
-                    implementation(SQL_DELIGHT_COROUTINES_EXT)
-                    implementation(COROUTINES)
+                libs.common.apply {
+                    implementation(kotlinXDateTime)
+                    implementation(koinCore)
+                    implementation(ktorLogging)
+                    implementation(ktorJson)
+                    implementation(ktorContentNegotiation)
+                    implementation(sqlDelightRuntime)
+                    implementation(sqlDelightCoroutinesExt)
+                    implementation(coroutines)
                 }
-                implementation(project(Dependencies.Modules.LOGMOB))
+                implementation(project(Modules.LOGMOB))
             }
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                libs.common.apply {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(SQL_DELIGHT)
-                    implementation(KTOR)
+                libs.android.apply {
+                    implementation(sqlDelight)
+                    implementation(ktor)
                 }
             }
         }
@@ -70,9 +71,9 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                with(Dependencies.IOS) {
-                    implementation(KTOR)
-                    implementation(SQL_DELIGHT)
+                libs.ios.apply {
+                    implementation(ktor)
+                    implementation(sqlDelight)
                 }
             }
             dependsOn(commonMain)
@@ -92,9 +93,9 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                with(Dependencies.JVM) {
-                    implementation(KTOR)
-                    implementation(SQLLITE_DRIVER)
+                libs.jvm.apply {
+                    implementation(ktor)
+                    implementation(sqlliteDriver)
                 }
             }
         }
@@ -103,7 +104,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {
@@ -111,7 +112,8 @@ ksp {
 }
 
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.COMMON.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -119,23 +121,21 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 }
 
 sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${ProjectSettings.PROJECT_ID}.common.db.sql"
-        sourceFolders = listOf("kotlin")
+        packageName = "${Modules.COMMON.packageName}.database.sql"
+        sourceFolders = listOf("sql")
     }
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.common"
+    packageName = Modules.COMMON.packageName
 
     defaultConfigs {
-        with(Keys(project)) {
+        Keys(project).apply {
             buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value, const = true)
             buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value, const = true)
             buildConfigField(STRING, baseUrlApiPremium.key, baseUrlApiPremium.value, const = true)

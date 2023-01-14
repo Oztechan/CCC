@@ -4,8 +4,8 @@
 
 package com.oztechan.ccc.common.service
 
-import com.oztechan.ccc.common.api.model.CurrencyResponse
-import com.oztechan.ccc.common.api.model.Rates
+import com.oztechan.ccc.common.api.model.Conversion
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.api.premium.PremiumApi
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toModel
@@ -36,30 +36,30 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
     @Mock
     private val premiumAPI = mock(classOf<PremiumApi>())
 
-    private val mockEntity = CurrencyResponse("EUR", "12.21.2121", Rates())
+    private val mockEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val mockThrowable = Throwable("mock")
     private val mockBase = "EUR"
 
     @Test
-    fun getRates_parameter_can_not_be_empty() = runTest {
-        runCatching { subject.getRates("") }.let {
+    fun `getConversion parameter can not be empty`() = runTest {
+        runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(premiumAPI)
-            .coroutine { premiumAPI.getRates("") }
+            .coroutine { premiumAPI.getConversion("") }
             .wasInvoked()
     }
 
     @Test
-    fun getRates_error() = runTest {
+    fun `getConversion error`() = runTest {
         given(premiumAPI)
-            .coroutine { premiumAPI.getRates(mockBase) }
+            .coroutine { premiumAPI.getConversion(mockBase) }
             .thenThrow(mockThrowable)
 
-        runCatching { subject.getRates(mockBase) }.let {
+        runCatching { subject.getConversion(mockBase) }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
             assertNotNull(it.exceptionOrNull())
@@ -70,24 +70,24 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
         }
 
         verify(premiumAPI)
-            .coroutine { getRates(mockBase) }
+            .coroutine { getConversion(mockBase) }
             .wasInvoked()
     }
 
     @Test
-    fun getRates_success() = runTest {
+    fun `getConversion success`() = runTest {
         given(premiumAPI)
-            .coroutine { premiumAPI.getRates(mockBase) }
+            .coroutine { premiumAPI.getConversion(mockBase) }
             .thenReturn(mockEntity)
 
-        runCatching { subject.getRates(mockBase) }.let {
+        runCatching { subject.getConversion(mockBase) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
             assertEquals(mockEntity.toModel(), it.getOrNull())
         }
 
         verify(premiumAPI)
-            .coroutine { getRates(mockBase) }
+            .coroutine { getConversion(mockBase) }
             .wasInvoked()
     }
 }

@@ -14,22 +14,22 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.FragmentCalculatorBinding
 import com.oztechan.ccc.android.util.copyToClipBoard
 import com.oztechan.ccc.android.util.dataState
 import com.oztechan.ccc.android.util.destroyBanner
-import com.oztechan.ccc.android.util.getImageResourceByName
 import com.oztechan.ccc.android.util.getNavigationResult
 import com.oztechan.ccc.android.util.setBackgroundByName
 import com.oztechan.ccc.android.util.setBannerAd
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
+import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.res.getImageIdByName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentCalculatorBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,11 +68,13 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onDestroyView()
     }
 
-    private fun observeNavigationResults() = getNavigationResult<String>(CHANGE_BASE_EVENT)
-        ?.observe(viewLifecycleOwner) {
-            Logger.i { "CalculatorFragment observeNavigationResults $it" }
-            calculatorViewModel.event.onBaseChange(it)
-        }
+    private fun observeNavigationResults() = getNavigationResult<String>(
+        CHANGE_BASE_EVENT,
+        R.id.calculatorFragment
+    )?.observe(viewLifecycleOwner) {
+        Logger.i { "CalculatorFragment observeNavigationResults $it" }
+        calculatorViewModel.event.onBaseChange(it)
+    }
 
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
@@ -98,8 +100,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     txtSymbol.text = " $symbol"
                 }
 
-                binding.loadingView.showLoading(loading)
-                binding.txtAppStatus.dataState(rateState)
+                binding.loadingView.visibleIf(loading, true)
+                binding.txtAppStatus.dataState(conversionState)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -118,19 +120,22 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         CalculatorFragmentDirections.actionCalculatorFragmentToCurrenciesFragment()
                     )
                 }
+
                 CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
                 )
+
                 CalculatorEffect.OpenSettings -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
+
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
-                is CalculatorEffect.ShowRate -> view?.showSnack(
+                is CalculatorEffect.ShowConversion -> view?.showSnack(
                     viewEffect.text,
-                    icon = requireContext().getImageResourceByName(viewEffect.name)
+                    icon = viewEffect.code.getImageIdByName()
                 )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

@@ -9,19 +9,20 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.nowAsLong
@@ -36,9 +37,10 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
     private val appStorage: AppStorage,
+    private val calculatorStorage: CalculatorStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val offlineRatesDataSource: OfflineRatesDataSource,
+    private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
     private val adRepository: AdRepository,
     private val appConfigRepository: AppConfigRepository,
@@ -60,24 +62,24 @@ class SettingsViewModel(
         _state.update {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                addFreeEndDate = appStorage.adFreeEndDate.toDateString(),
-                precision = appStorage.precision,
+                premiumEndDate = appStorage.premiumEndDate.toDateString(),
+                precision = calculatorStorage.precision,
                 version = appConfigRepository.getVersion()
             )
         }
 
-        currencyDataSource.collectActiveCurrencies()
+        currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
                 _state.update { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
-        watcherDataSource.collectWatchers()
+        watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
-    private suspend fun synchroniseRates() {
+    private suspend fun synchroniseConversions() {
         _state.update { copy(loading = true) }
 
         _effect.emit(SettingsEffect.Synchronising)
@@ -86,9 +88,9 @@ class SettingsViewModel(
             .forEach { (name) ->
                 delay(SYNC_DELAY)
 
-                runCatching { backendApiService.getRates(name) }
+                runCatching { backendApiService.getConversion(name) }
                     .onFailure { error -> Logger.e(error) }
-                    .onSuccess { offlineRatesDataSource.insertOfflineRates(it) }
+                    .onSuccess { conversionDataSource.insertConversion(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)
@@ -105,18 +107,16 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun shouldShowRemoveAds() = adRepository.shouldShowRemoveAds()
+    fun isPremiumExpired() = appStorage.premiumEndDate.isPremiumExpired()
 
-    fun isRewardExpired() = appStorage.adFreeEndDate.isRewardExpired()
-
-    fun isAdFreeNeverActivated() = appStorage.adFreeEndDate == 0.toLong()
+    fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
 
     fun getAppTheme() = appStorage.appTheme
 
     @Suppress("unused") // used in iOS
-    fun updateAddFreeDate() = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()).let {
-        appStorage.adFreeEndDate = it
-        _state.update { copy(addFreeEndDate = it.toDateString()) }
+    fun updatePremiumEndDate() = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()).let {
+        appStorage.premiumEndDate = it
+        _state.update { copy(premiumEndDate = it.toDateString()) }
     }
 
     // region Event
@@ -130,8 +130,8 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.OpenCurrencies)
     }
 
-    override fun onWatchersClicked() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onWatchersClicked" }
+    override fun onWatchersClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onWatchersClick" }
         _effect.emit(SettingsEffect.OpenWatchers)
     }
 
@@ -155,12 +155,12 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.OnGitHub)
     }
 
-    override fun onRemoveAdsClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onRemoveAdsClick" }
-        if (isRewardExpired()) {
-            _effect.emit(SettingsEffect.RemoveAds)
+    override fun onPremiumClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPremiumClick" }
+        if (isPremiumExpired()) {
+            _effect.emit(SettingsEffect.Premium)
         } else {
-            _effect.emit(SettingsEffect.AlreadyAdFree)
+            _effect.emit(SettingsEffect.AlreadyPremium)
         }
     }
 
@@ -177,7 +177,7 @@ class SettingsViewModel(
         if (data.synced) {
             _effect.emit(SettingsEffect.OnlyOneTimeSync)
         } else {
-            synchroniseRates()
+            synchroniseConversions()
         }
     }
 
@@ -188,7 +188,7 @@ class SettingsViewModel(
 
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        appStorage.precision = index.indexToNumber()
+        calculatorStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion

@@ -9,12 +9,12 @@ import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
-        id(SQL_DELIGHT)
-        id(BUILD_KONFIG)
-        id(KSP) version (Versions.KSP)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 kotlin {
@@ -28,13 +28,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(KOTLIN_X_DATE_TIME)
-                    implementation(COROUTINES)
-                    implementation(KOIN_CORE)
-                    implementation(MULTIPLATFORM_SETTINGS)
+                libs.common.apply {
+                    implementation(kotlinXDateTime)
+                    implementation(coroutines)
+                    implementation(koinCore)
+                    implementation(multiplatformSettings)
                 }
-                with(Dependencies.Modules) {
+                Modules.apply {
                     implementation(project(COMMON))
                     implementation(project(CONFIG))
                     implementation(project(LOGMOB))
@@ -46,20 +46,20 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                libs.common.apply {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(ANDROID_MATERIAL)
-                    implementation(KOIN_ANDROID)
-                    implementation(LIFECYCLE_VIEWMODEL)
+                libs.android.apply {
+                    implementation(androidMaterial)
+                    implementation(koinAndroid)
+                    implementation(lifecycleViewmodel)
                 }
             }
         }
@@ -87,7 +87,7 @@ kotlin {
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {
@@ -96,18 +96,17 @@ ksp {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.CLIENT.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -129,7 +128,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = "${ProjectSettings.PROJECT_ID}.client"
+    packageName = Modules.CLIENT.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)

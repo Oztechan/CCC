@@ -1,7 +1,8 @@
 plugins {
-    with(Dependencies.Plugins) {
-        kotlin(MULTIPLATFORM)
-        id(ANDROID_LIB)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(multiplatform.get().pluginId)
+        id(androidLib.get().pluginId)
     }
 }
 
@@ -17,20 +18,20 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Common.KOIN_CORE)
+                implementation(libs.common.koinCore)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                with(Dependencies.Android) {
-                    implementation(FIREBASE_ANALYTICS)
-                    implementation(ROOT_BEER)
+                libs.android.apply {
+                    implementation(firebaseAnalytics)
+                    implementation(rootBeer)
                 }
             }
         }
@@ -59,7 +60,8 @@ kotlin {
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.ANALYTICS.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

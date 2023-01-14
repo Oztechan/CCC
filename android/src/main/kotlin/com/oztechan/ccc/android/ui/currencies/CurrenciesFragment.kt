@@ -18,20 +18,19 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.FragmentCurrenciesBinding
 import com.oztechan.ccc.android.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.hideKeyboard
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.setNavigationResult
-import com.oztechan.ccc.android.util.showLoading
 import com.oztechan.ccc.android.util.showSnack
 import com.oztechan.ccc.android.util.visibleIf
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentCurrenciesBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -88,7 +87,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
-                binding.loadingView.showLoading(loading)
+                binding.loadingView.visibleIf(loading, true)
 
                 with(binding.layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)
@@ -103,7 +102,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     toolbarFragmentCurrencies.setBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            if (selectionVisibility) R.color.color_background_weak else R.color.color_background_strong
+                            if (selectionVisibility) R.color.background_weak else R.color.background_strong
                         )
                     )
                 }
@@ -123,10 +122,12 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     )
                     view?.hideKeyboard()
                 }
+
                 CurrenciesEffect.Back -> {
                     findNavController().popBackStack()
                     view?.hideKeyboard()
                 }
+
                 is CurrenciesEffect.ChangeBase -> setNavigationResult(
                     R.id.calculatorFragment,
                     viewEffect.newBase,
@@ -137,11 +138,9 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private fun setListeners() = with(binding) {
         with(currenciesViewModel.event) {
-
             btnDone.setOnClickListener { onDoneClick() }
 
             with(layoutCurrenciesToolbar) {
-
                 backButton.setOnClickListener { onCloseClick() }
                 btnSelectAll.setOnClickListener { updateAllCurrenciesState(true) }
                 btnDeSelectAll.setOnClickListener { updateAllCurrenciesState(false) }

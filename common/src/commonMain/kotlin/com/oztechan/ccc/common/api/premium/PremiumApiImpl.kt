@@ -4,7 +4,7 @@
 package com.oztechan.ccc.common.api.premium
 
 import com.oztechan.ccc.common.BuildKonfig
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,7 +13,7 @@ import io.ktor.http.takeFrom
 
 internal class PremiumApiImpl(private val client: HttpClient) : PremiumApi {
 
-    override suspend fun getRates(base: String): CurrencyResponse = client.get {
+    override suspend fun getConversion(base: String): ExchangeRate = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_API_PREMIUM)
             path(PATH_PREMIUM_VERSION, BuildKonfig.API_KEY_PREMIUM, PATH_LATEST, base)

@@ -1,20 +1,26 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-    with(Dependencies.Plugins) {
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
         application
-        kotlin(MULTIPLATFORM)
-        id(KSP) version (Versions.KSP)
+        id(multiplatform.get().pluginId)
+        id(buildKonfig.get().pluginId)
+        alias(ksp)
     }
 }
 
-with(ProjectSettings) {
+ProjectSettings.apply {
     application {
-        mainClass.set("$PROJECT_ID.backend.ApplicationKt")
+        mainClass.set("${Modules.BACKEND.packageName}.ApplicationKt")
     }
     group = PROJECT_ID
     version = getVersionName(project)
@@ -29,17 +35,13 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                with(Dependencies.JVM) {
-                    implementation(KTOR_CORE)
-                    implementation(KTOR_NETTY)
-                    implementation(LOG_BACK)
+                libs.jvm.apply {
+                    implementation(ktorCore)
+                    implementation(ktorNetty)
+                    implementation(koinKtor)
                 }
 
-                with(Dependencies.Common) {
-                    implementation(KOIN_CORE)
-                }
-
-                with(Dependencies.Modules) {
+                Modules.apply {
                     implementation(project(COMMON))
                     implementation(project(LOGMOB))
                 }
@@ -48,18 +50,18 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                with(Dependencies.Common) {
-                    implementation(MOCKATIVE)
-                    implementation(COROUTINES_TEST)
+                libs.common.apply {
+                    implementation(mockative)
+                    implementation(coroutinesTest)
                 }
-                implementation(project(Dependencies.Modules.TEST))
+                implementation(project(Modules.TEST))
             }
         }
     }
 }
 
 dependencies {
-    ksp(Dependencies.Processors.MOCKATIVE)
+    ksp(libs.processors.mockative)
 }
 
 ksp {
@@ -71,7 +73,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${ProjectSettings.PROJECT_ID}.backend.ApplicationKt"
+        attributes["Main-Class"] = "${Modules.BACKEND.packageName}.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
@@ -90,5 +92,18 @@ tasks.named<ProcessResources>("jvmProcessResources") {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+configure<BuildKonfigExtension> {
+    packageName = Modules.BACKEND.packageName
+
+    defaultConfigs { } // none
+
+    targetConfigs {
+        create(KotlinPlatformType.jvm.name) {
+            buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
+            buildConfigField(STRING, "versionName", ProjectSettings.getVersionName(project), const = true)
+        }
     }
 }

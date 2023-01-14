@@ -7,21 +7,22 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
-import com.oztechan.ccc.client.model.RemoveAdType
+import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
-import com.oztechan.ccc.client.storage.AppStorage
-import com.oztechan.ccc.client.util.calculateAdRewardEnd
+import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isRewardExpired
+import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.offlinerates.OfflineRatesDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.CurrencyResponse
-import com.oztechan.ccc.common.model.Rates
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.util.DAY
@@ -53,9 +54,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     override val subject: SettingsViewModel by lazy {
         SettingsViewModel(
             appStorage,
+            calculatorStorage,
             backendApiService,
             currencyDataSource,
-            offlineRatesDataSource,
+            conversionDataSource,
             watcherDataSource,
             adRepository,
             appConfigRepository,
@@ -67,13 +69,16 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
+    private val calculatorStorage = mock(classOf<CalculatorStorage>())
+
+    @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val offlineRatesDataSource = mock(classOf<OfflineRatesDataSource>())
+    private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Mock
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
@@ -109,19 +114,19 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(-1)
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
-        given(appStorage)
+        given(calculatorStorage)
             .invocation { precision }
             .thenReturn(mockedPrecision)
 
         given(currencyDataSource)
-            .invocation { collectActiveCurrencies() }
+            .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(currencyList))
 
         given(watcherDataSource)
-            .invocation { collectWatchers() }
+            .invocation { getWatchersFlow() }
             .then { flowOf(watcherLists) }
 
         given(appConfigRepository)
@@ -135,7 +140,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     // init
     @Test
-    fun init_updates_states_correctly() = runTest {
+    fun `init updates states correctly`() = runTest {
         subject.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
@@ -147,10 +152,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun `successful synchroniseRates update the database`() = runTest {
+    fun `successful synchroniseConversions update the database`() = runTest {
         subject.data.synced = false
 
-        val currencyResponse = CurrencyResponse("EUR", null, Rates())
+        val exchangeRate = ExchangeRate("EUR", null, Conversion())
         val currency = Currency("EUR", "", "")
 
         given(currencyDataSource)
@@ -158,8 +163,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(currencyList)
 
         given(backendApiService)
-            .coroutine { getRates(currency.name) }
-            .thenReturn(currencyResponse)
+            .coroutine { getConversion(currency.code) }
+            .thenReturn(exchangeRate)
 
         subject.effect.before {
             subject.event.onSyncClick()
@@ -168,13 +173,13 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { offlineRatesDataSource.insertOfflineRates(currencyResponse) }
+        verify(conversionDataSource)
+            .coroutine { conversionDataSource.insertConversion(exchangeRate) }
             .wasInvoked()
     }
 
     @Test
-    fun `failed synchroniseRates should pass Synchronised effect`() = runTest {
+    fun `failed synchroniseConversions should pass Synchronised effect`() = runTest {
         subject.data.synced = false
 
         given(currencyDataSource)
@@ -182,7 +187,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .thenReturn(currencyList)
 
         given(backendApiService)
-            .coroutine { getRates("") }
+            .coroutine { getConversion("") }
             .thenThrow(Exception("test"))
 
         subject.effect.before {
@@ -192,8 +197,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(offlineRatesDataSource)
-            .coroutine { offlineRatesDataSource.insertOfflineRates(CurrencyResponse("", "", Rates())) }
+        verify(conversionDataSource)
+            .coroutine { conversionDataSource.insertConversion(ExchangeRate("", "", Conversion())) }
             .wasNotInvoked()
     }
 
@@ -217,28 +222,28 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .wasInvoked()
 
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + DAY)
 
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.AlreadyAdFree>(it)
+            assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun isRewardExpired() {
+    fun isPremiumExpired() {
         assertEquals(
-            appStorage.adFreeEndDate.isRewardExpired(),
-            subject.isRewardExpired()
+            appStorage.premiumEndDate.isPremiumExpired(),
+            subject.isPremiumExpired()
         )
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -258,56 +263,41 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun shouldShowRemoveAds() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, subject.shouldShowRemoveAds())
-
-        verify(adRepository)
-            .invocation { shouldShowRemoveAds() }
-            .wasInvoked()
-    }
-
-    @Test
-    fun isAdFreeNeverActivated_returns_false_when_adFreeEndDate_is_not_zero() {
+    fun `isPremiumEverActivated returns false when premiumEndDate is not zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(1)
 
-        assertFalse { subject.isAdFreeNeverActivated() }
+        assertFalse { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun isAdFreeNeverActivated_returns_true_when_adFreeEndDate_is_zero() {
+    fun `isPremiumEverActivated returns true when premiumEndDate is zero`() {
         given(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .thenReturn(0)
 
-        assertTrue { subject.isAdFreeNeverActivated() }
+        assertTrue { subject.isPremiumEverActivated() }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
     @Test
-    fun updateAddFreeDate() {
+    fun updatePremiumEndDate() {
         subject.state.before {
-            subject.updateAddFreeDate()
+            subject.updatePremiumEndDate()
         }.after {
             assertNotNull(it)
-            assertTrue { it.addFreeEndDate.isNotEmpty() }
+            assertTrue { it.premiumEndDate.isNotEmpty() }
 
             verify(appStorage)
-                .invocation { adFreeEndDate = RemoveAdType.VIDEO.calculateAdRewardEnd(nowAsLong()) }
+                .invocation { premiumEndDate = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()) }
                 .wasInvoked()
         }
     }
@@ -333,8 +323,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onWatchersClicked() = subject.effect.before {
-        subject.event.onWatchersClicked()
+    fun onWatchersClick() = subject.effect.before {
+        subject.event.onWatchersClick()
     }.after {
         assertEquals(SettingsEffect.OpenWatchers, it)
     }
@@ -386,15 +376,15 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onRemoveAdsClick() {
+    fun onPremiumClick() {
         subject.effect.before {
-            subject.event.onRemoveAdsClick()
+            subject.event.onPremiumClick()
         }.after {
-            assertIs<SettingsEffect.RemoveAds>(it)
+            assertIs<SettingsEffect.Premium>(it)
         }
 
         verify(appStorage)
-            .invocation { adFreeEndDate }
+            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
@@ -449,8 +439,8 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             assertEquals(value.indexToNumber(), it.precision)
 
             println("-----")
-            verify(appStorage)
-                .setter(appStorage::precision)
+            verify(calculatorStorage)
+                .setter(calculatorStorage::precision)
                 .with(eq(value.indexToNumber()))
                 .wasInvoked()
         }

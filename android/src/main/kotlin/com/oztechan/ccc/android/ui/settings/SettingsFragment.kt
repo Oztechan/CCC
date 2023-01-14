@@ -17,9 +17,11 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.R
+import com.oztechan.ccc.android.databinding.FragmentSettingsBinding
+import com.oztechan.ccc.android.ui.compose.content.ComposeActivity
 import com.oztechan.ccc.android.util.destroyBanner
 import com.oztechan.ccc.android.util.getThemeMode
-import com.oztechan.ccc.android.util.gone
 import com.oztechan.ccc.android.util.setBannerAd
 import com.oztechan.ccc.android.util.showDialog
 import com.oztechan.ccc.android.util.showSingleChoiceDialog
@@ -32,8 +34,6 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import mustafaozhan.github.com.mycurrencies.R
-import mustafaozhan.github.com.mycurrencies.databinding.FragmentSettingsBinding
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -74,6 +74,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemSubTitle.text = getString(R.string.settings_item_currencies_sub_title)
         }
 
+        with(itemWatchers) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
+            settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
+        }
+
         with(itemTheme) {
             root.visibleIf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             imgSettingsItem.setBackgroundResource(R.drawable.ic_dark_mode)
@@ -81,14 +87,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemSubTitle.text = getString(R.string.settings_item_theme_sub_title)
         }
 
-        if (settingsViewModel.shouldShowRemoveAds()) {
-            with(itemDisableAds) {
-                imgSettingsItem.setBackgroundResource(R.drawable.ic_disable_ads)
-                settingsItemTitle.text = getString(R.string.settings_item_remove_ads_title)
-                settingsItemSubTitle.text = getString(R.string.settings_item_remove_ads_sub_title)
-            }
-        } else {
-            itemDisableAds.root.gone()
+        with(itemDisableAds) {
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_premium)
+            settingsItemTitle.text = getString(R.string.settings_item_premium_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_premium_sub_title_no_ads_and_widget)
         }
 
         with(itemPrecision) {
@@ -141,15 +143,15 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
                 binding.itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isAdFreeNeverActivated()) {
+                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isPremiumEverActivated()) {
                     ""
                 } else {
-                    if (settingsViewModel.isRewardExpired()) {
-                        getString(R.string.settings_item_remove_ads_value_expired)
+                    if (settingsViewModel.isPremiumExpired()) {
+                        getString(R.string.settings_item_premium_value_expired)
                     } else {
                         getString(
-                            R.string.settings_item_remove_ads_value_will_expire,
-                            addFreeEndDate
+                            R.string.settings_item_premium_value_will_expire,
+                            premiumEndDate
                         )
                     }
                 }
@@ -176,6 +178,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.id.settingsFragment,
                     SettingsFragmentDirections.actionCurrenciesFragmentToCurrenciesFragment()
                 )
+
                 SettingsEffect.FeedBack -> sendFeedBack()
                 is SettingsEffect.Share -> share(viewEffect.marketLink)
                 is SettingsEffect.SupportUs -> activity?.showDialog(
@@ -185,26 +188,30 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 ) {
                     startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
                 }
+
                 SettingsEffect.OnGitHub -> startIntent(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(getString(R.string.github_url))
                     )
                 )
-                SettingsEffect.RemoveAds -> navigate(
+
+                SettingsEffect.Premium -> navigate(
                     R.id.settingsFragment,
-                    SettingsFragmentDirections.actionCurrenciesFragmentToAdRremoveBottomSheet()
+                    SettingsFragmentDirections.actionCurrenciesFragmentToPremiumBottomSheet()
                 )
+
                 SettingsEffect.ThemeDialog -> changeTheme()
                 is SettingsEffect.ChangeTheme -> AppCompatDelegate.setDefaultNightMode(
                     getThemeMode(viewEffect.themeValue)
                 )
+
                 SettingsEffect.Synchronising -> view?.showSnack(R.string.txt_synchronising)
                 SettingsEffect.Synchronised -> view?.showSnack(R.string.txt_synced)
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
-                SettingsEffect.AlreadyAdFree -> view?.showSnack(R.string.txt_ads_already_disabled)
+                SettingsEffect.AlreadyPremium -> view?.showSnack(R.string.txt_you_already_have_premium)
                 SettingsEffect.SelectPrecision -> showPrecisionDialog()
-                SettingsEffect.OpenWatchers -> TODO("No Android implementation yet")
+                SettingsEffect.OpenWatchers -> startActivity(Intent(context, ComposeActivity::class.java))
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -213,8 +220,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             backButton.setOnClickListener { onBackClick() }
 
             itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
+            itemWatchers.root.setOnClickListener { onWatchersClick() }
             itemTheme.root.setOnClickListener { onThemeClick() }
-            itemDisableAds.root.setOnClickListener { onRemoveAdsClick() }
+            itemDisableAds.root.setOnClickListener { onPremiumClick() }
             itemSync.root.setOnClickListener { onSyncClick() }
             itemSupportUs.root.setOnClickListener { onSupportUsClick() }
             itemFeedback.root.setOnClickListener { onFeedBackClick() }

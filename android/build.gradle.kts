@@ -8,19 +8,21 @@ import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
-    with(Dependencies.Plugins) {
-        id(ANDROID_APP)
-        id(CRASHLYTICS)
-        id(GOOGLE_SERVICES)
-        id(FIREBASE_PER_PLUGIN)
-        id(SAFE_ARGS)
-        kotlin(ANDROID)
+    @Suppress("DSL_SCOPE_VIOLATION")
+    libs.plugins.apply {
+        id(androidApp.get().pluginId)
+        id(crashlytics.get().pluginId)
+        id(googleServices.get().pluginId)
+        id(firebasePerPlugin.get().pluginId)
+        id(safeArgs.get().pluginId) // todo can be removed once compose migration done
+        id(android.get().pluginId)
     }
 }
 
 @Suppress("UnstableApiUsage")
 android {
-    with(ProjectSettings) {
+    ProjectSettings.apply {
+        namespace = Modules.ANDROID.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -43,12 +45,16 @@ android {
 
         buildFeatures {
             viewBinding = true
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion = libs.versions.compose.get()
         }
     }
 
     signingConfigs {
         create(BuildType.release) {
-            with(Keys(project)) {
+            Keys(project).apply {
                 storeFile = file(androidKeyStorePath.value)
                 storePassword = androidStorePassword.value
                 keyAlias = androidKeyAlias.value
@@ -57,7 +63,7 @@ android {
         }
     }
 
-    with(DeviceFlavour) {
+    DeviceFlavour.apply {
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -89,26 +95,38 @@ android {
 }
 
 dependencies {
-    with(Dependencies.Android) {
-        implementation(ANDROID_MATERIAL)
-        implementation(CONSTRAINT_LAYOUT)
-        implementation(NAVIGATION)
-        implementation(KOIN_ANDROID)
-        implementation(LIFECYCLE_RUNTIME)
-        implementation(WORK_RUNTIME) // android 12 crash fix
-        implementation(SPLASH_SCREEN)
-        implementation(FIREBASE_PER)
-        coreLibraryDesugaring(DESUGARING)
-        debugImplementation(LEAK_CANARY)
+    libs.apply {
+        common.apply {
+            implementation(kotlinXDateTime)
+        }
+
+        android.apply {
+            implementation(composeToolingPreview)
+            debugImplementation(composeTooling)
+            implementation(glance)
+            implementation(material3)
+            implementation(androidMaterial)
+            implementation(composeActivity)
+            implementation(composeNavigation)
+            implementation(constraintLayout)
+            implementation(navigation)
+            implementation(koinAndroid)
+            implementation(koinCompose)
+            implementation(lifecycleRuntime)
+            implementation(workRuntime) // android 12 crash fix
+            implementation(splashScreen)
+            implementation(firebasePer)
+            coreLibraryDesugaring(desugaring)
+            debugImplementation(leakCanary)
+        }
+
+        android.google.apply {
+            @Suppress("UnstableApiUsage")
+            googleImplementation(playCore)
+        }
     }
 
-    googleImplementation(Dependencies.Android.GOOGLE.PLAY_CORE)
-
-    with(Dependencies.Common) {
-        implementation(KOTLIN_X_DATE_TIME)
-    }
-
-    with(Dependencies.Modules) {
+    Modules.apply {
         implementation(project(CLIENT))
         implementation(project(RES))
         implementation(project(BILLING))

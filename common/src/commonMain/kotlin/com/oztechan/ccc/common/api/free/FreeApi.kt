@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.api.free
 
-import com.oztechan.ccc.common.api.model.CurrencyResponse
+import com.oztechan.ccc.common.api.model.ExchangeRate
 
 internal interface FreeApi {
-    suspend fun getRates(base: String): CurrencyResponse
+    suspend fun getConversion(base: String): ExchangeRate
 }
