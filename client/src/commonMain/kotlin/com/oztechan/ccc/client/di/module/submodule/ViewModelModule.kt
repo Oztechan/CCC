@@ -25,7 +25,7 @@ internal val viewModelModule = module {
     viewModelDefinition { WatchersViewModel(get(), get(), get()) }
 
     // has to be singleton
-    single { WidgetViewModel(get(), get(), get()) }
+    single { WidgetViewModel(get(), get(), get(), get()) }
 }
 
 expect inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
