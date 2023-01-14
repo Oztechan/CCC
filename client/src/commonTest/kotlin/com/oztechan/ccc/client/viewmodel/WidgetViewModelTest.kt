@@ -40,7 +40,6 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
 
     private val mockBase = "mock"
 
-    @Test
     override fun setup() {
         super.setup()
 
