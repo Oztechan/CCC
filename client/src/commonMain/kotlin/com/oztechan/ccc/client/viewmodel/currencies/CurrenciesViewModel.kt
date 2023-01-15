@@ -71,9 +71,6 @@ class CurrenciesViewModel(
                 currencyList.filter { it.isActive }
                     .let {
                         analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
-                        analyticsManager.setUserProperty(
-                            UserProperty.ActiveCurrencies(it.joinToString(",") { currency -> currency.code })
-                        )
                     }
             }.launchIn(viewModelScope)
 
