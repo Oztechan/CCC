@@ -17,6 +17,7 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.BuildConfig
 import com.oztechan.ccc.android.R
 import com.oztechan.ccc.android.databinding.FragmentSettingsBinding
 import com.oztechan.ccc.android.ui.compose.content.ComposeActivity
@@ -74,10 +75,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemSubTitle.text = getString(R.string.settings_item_currencies_sub_title)
         }
 
-        with(itemWatchers) {
-            imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
-            settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
-            settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
+        if (BuildConfig.DEBUG) {
+            with(itemWatchers) {
+                imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
+                settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
+                settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
+            }
         }
 
         with(itemTheme) {
