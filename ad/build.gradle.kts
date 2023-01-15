@@ -13,7 +13,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = projectModules.ad.packageName
+        namespace = Modules.ad.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -67,5 +67,5 @@ dependencies {
     @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
 
-    implementation(project(projectModules.logmob.path))
+    implementation(project(Modules.logmob.path))
 }

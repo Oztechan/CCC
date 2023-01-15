@@ -43,7 +43,7 @@ kotlin {
                     implementation(sqlDelightCoroutinesExt)
                     implementation(coroutines)
                 }
-                implementation(project(projectModules.logmob.path))
+                implementation(project(Modules.logmob.path))
             }
         }
         val commonTest by getting {
@@ -52,7 +52,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(projectModules.test.path))
+                implementation(project(Modules.test.path))
             }
         }
 
@@ -113,7 +113,7 @@ ksp {
 
 android {
     ProjectSettings.apply {
-        namespace = projectModules.common.packageName
+        namespace = Modules.common.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -126,13 +126,13 @@ android {
 
 sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${projectModules.common.packageName}.database.sql"
+        packageName = "${Modules.common.packageName}.database.sql"
         sourceFolders = listOf("sql")
     }
 }
 
 configure<BuildKonfigExtension> {
-    packageName = projectModules.common.packageName
+    packageName = Modules.common.packageName
 
     defaultConfigs {
         Keys(project).apply {

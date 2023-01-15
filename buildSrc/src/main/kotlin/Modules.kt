@@ -1,6 +1,8 @@
-val projectModules = Modules()
+object Modules {
+    val android = Module("android")
+    val ios = Module("ios")
+    val backend = Module("backend")
 
-class Modules {
     val client = Module("client")
     val res = Module("res")
     val common = Module("common")
@@ -16,11 +18,6 @@ class Modules {
     val scopemob = Module("scopemob")
     val basemob = Module("basemob")
     val parsermob = Module("parsermob")
-
-    // targets
-    val android = Module("android")
-    val ios = Module("ios")
-    val backend = Module("backend")
 
     class Module(name: String) {
         val path = ":$name"

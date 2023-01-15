@@ -34,7 +34,7 @@ kotlin {
                     implementation(koinCore)
                     implementation(multiplatformSettings)
                 }
-                projectModules.apply {
+                Modules.apply {
                     implementation(project(common.path))
                     implementation(project(config.path))
                     implementation(project(logmob.path))
@@ -50,7 +50,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(projectModules.test.path))
+                implementation(project(Modules.test.path))
             }
         }
 
@@ -97,7 +97,7 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = projectModules.client.packageName
+        namespace = Modules.client.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -128,7 +128,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = projectModules.client.packageName
+    packageName = Modules.client.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)

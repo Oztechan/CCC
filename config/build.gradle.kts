@@ -23,12 +23,12 @@ kotlin {
                     implementation(ktorJson)
                     implementation(koinCore)
                 }
-                implementation(project(projectModules.logmob.path))
+                implementation(project(Modules.logmob.path))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(projectModules.test.path))
+                implementation(project(Modules.test.path))
             }
         }
 
@@ -62,7 +62,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = projectModules.config.packageName
+        namespace = Modules.config.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
