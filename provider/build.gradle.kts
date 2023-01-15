@@ -21,9 +21,9 @@ kotlin {
 
         framework {
             Modules.apply {
-                baseName = PROVIDER.frameworkName
-                export(project(CLIENT))
-                export(project(ANALYTICS))
+                baseName = provider.frameworkName
+                export(project(client.path))
+                export(project(analytics.path))
             }
         }
     }
@@ -42,9 +42,9 @@ kotlin {
                 implementation(libs.common.koinCore)
 
                 Modules.apply {
-                    implementation(project(LOGMOB))
-                    api(project(CLIENT))
-                    api(project(ANALYTICS))
+                    implementation(project(logmob.path))
+                    api(project(client.path))
+                    api(project(analytics.path))
                 }
             }
         }

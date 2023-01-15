@@ -23,7 +23,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.TEST))
+                implementation(project(Modules.test.path))
             }
         }
 
@@ -61,7 +61,7 @@ kotlin {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.ANALYTICS.packageName
+        namespace = Modules.analytics.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

@@ -11,7 +11,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.BILLING.packageName
+        namespace = Modules.billing.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -52,7 +52,7 @@ dependencies {
     }
 
     Modules.apply {
-        implementation(project(LOGMOB))
-        implementation(project(SCOPEMOB))
+        implementation(project(logmob.path))
+        implementation(project(scopemob.path))
     }
 }
