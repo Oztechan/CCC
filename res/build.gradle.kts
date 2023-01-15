@@ -23,7 +23,7 @@ kotlin {
             version = getVersionName(project)
         }
         framework {
-            baseName = Modules.RES.frameworkName
+            baseName = projectModules.res.frameworkName
         }
     }
 
@@ -36,7 +36,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.TEST))
+                implementation(project(projectModules.test.path))
             }
         }
 
@@ -66,7 +66,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.RES.packageName
+        namespace = projectModules.res.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -83,7 +83,7 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Modules.RES.packageName
+    multiplatformResourcesPackage = projectModules.res.packageName
     disableStaticFrameworkWarning = true
-    multiplatformResourcesClassName = Modules.RES.frameworkName
+    multiplatformResourcesClassName = projectModules.res.frameworkName
 }

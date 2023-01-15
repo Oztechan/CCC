@@ -25,7 +25,7 @@ kotlin {
                     api(testAnnotations)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.LOGMOB))
+                implementation(project(projectModules.logmob.path))
             }
         }
         val commonTest by getting
@@ -67,7 +67,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.TEST.packageName
+        namespace = projectModules.test.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")

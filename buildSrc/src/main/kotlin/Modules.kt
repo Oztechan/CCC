@@ -1,28 +1,30 @@
-object Modules {
-    const val CLIENT = ":client"
-    const val RES = ":res"
-    const val COMMON = ":common"
-    const val BILLING = ":billing"
-    const val AD = ":ad"
-    const val ANALYTICS = ":analytics"
-    const val CONFIG = ":config"
-    const val TEST = ":test"
-    const val PROVIDER = ":provider"
+val projectModules = Modules()
+
+class Modules {
+    val client = Module("client")
+    val res = Module("res")
+    val common = Module("common")
+    val billing = Module("billing")
+    val ad = Module("ad")
+    val analytics = Module("analytics")
+    val config = Module("config")
+    val test = Module("test")
+    val provider = Module("provider")
 
     // sub modules
-    const val LOGMOB = ":logmob"
-    const val SCOPEMOB = ":scopemob"
-    const val BASEMOB = ":basemob"
-    const val PARSERMOB = ":parsermob"
+    val logmob = Module("logmob")
+    val scopemob = Module("scopemob")
+    val basemob = Module("basemob")
+    val parsermob = Module("parsermob")
 
     // targets
-    const val ANDROID = ":android"
-    const val IOS = ":ios"
-    const val BACKEND = ":backend"
+    val android = Module("android")
+    val ios = Module("ios")
+    val backend = Module("backend")
 }
 
-val String.packageName: String
-    get() = "${ProjectSettings.PROJECT_ID}${replace(":", ".")}"
-
-val String.frameworkName: String
-    get() = split(":").joinToString("") { it.capitalize() }
+class Module(name: String) {
+    val path = ":$name"
+    val packageName = "${ProjectSettings.PROJECT_ID}${path.replace(":", ".")}"
+    val frameworkName = path.split(":").joinToString("") { it.capitalize() }
+}

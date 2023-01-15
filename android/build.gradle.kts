@@ -22,7 +22,7 @@ plugins {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.ANDROID.packageName
+        namespace = projectModules.android.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -126,16 +126,16 @@ dependencies {
         }
     }
 
-    Modules.apply {
-        implementation(project(CLIENT))
-        implementation(project(RES))
-        implementation(project(BILLING))
-        implementation(project(AD))
-        implementation(project(LOGMOB))
-        implementation(project(SCOPEMOB))
-        implementation(project(BASEMOB))
-        implementation(project(ANALYTICS))
+    projectModules.apply {
+        implementation(project(client.path))
+        implementation(project(res.path))
+        implementation(project(billing.path))
+        implementation(project(ad.path))
+        implementation(project(logmob.path))
+        implementation(project(scopemob.path))
+        implementation(project(basemob.path))
+        implementation(project(analytics.path))
 
-        testImplementation(project(TEST))
+        testImplementation(project(test.path))
     }
 }
