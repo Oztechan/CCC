@@ -25,7 +25,7 @@ class WidgetViewModel(
         isPremium = !appStorage.premiumEndDate.isPremiumExpired()
     )
 
-    suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
+    suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
         if (changeBaseToNext != null) {
             updateBase(changeBaseToNext)
         }
