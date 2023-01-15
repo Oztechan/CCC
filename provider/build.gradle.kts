@@ -42,10 +42,10 @@ kotlin {
                 implementation(libs.common.koinCore)
 
                 Modules.apply {
-                    implementation(project(logmob.path))
                     api(project(client.path))
                     api(project(analytics.path))
                 }
+                implementation(project(Modules.Submodules.logmob.path))
             }
         }
         val iosX64Test by getting

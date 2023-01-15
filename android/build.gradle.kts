@@ -131,11 +131,13 @@ dependencies {
         implementation(project(res.path))
         implementation(project(billing.path))
         implementation(project(ad.path))
+        implementation(project(analytics.path))
+        testImplementation(project(test.path))
+    }
+
+    Modules.Submodules.apply {
         implementation(project(logmob.path))
         implementation(project(scopemob.path))
         implementation(project(basemob.path))
-        implementation(project(analytics.path))
-
-        testImplementation(project(test.path))
     }
 }

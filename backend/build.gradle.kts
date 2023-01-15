@@ -41,10 +41,8 @@ kotlin {
                     implementation(koinKtor)
                 }
 
-                Modules.apply {
-                    implementation(project(common.path))
-                    implementation(project(logmob.path))
-                }
+                implementation(project(Modules.common.path))
+                implementation(project(Modules.Submodules.logmob.path))
             }
         }
 

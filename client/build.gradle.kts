@@ -37,10 +37,12 @@ kotlin {
                 Modules.apply {
                     implementation(project(common.path))
                     implementation(project(config.path))
+                    implementation(project(analytics.path))
+                }
+                Modules.Submodules.apply {
                     implementation(project(logmob.path))
                     implementation(project(scopemob.path))
                     implementation(project(parsermob.path))
-                    implementation(project(analytics.path))
                 }
             }
         }

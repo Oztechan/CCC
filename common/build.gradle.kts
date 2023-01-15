@@ -43,7 +43,7 @@ kotlin {
                     implementation(sqlDelightCoroutinesExt)
                     implementation(coroutines)
                 }
-                implementation(project(Modules.logmob.path))
+                implementation(project(Modules.Submodules.logmob.path))
             }
         }
         val commonTest by getting {
