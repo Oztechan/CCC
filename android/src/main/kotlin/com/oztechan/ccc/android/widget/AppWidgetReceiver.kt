@@ -6,11 +6,10 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.ui.main.MainActivity
-import com.oztechan.ccc.android.widget.action.NextBaseAction
-import com.oztechan.ccc.android.widget.action.OpenAppAction
-import com.oztechan.ccc.android.widget.action.PreviousBaseAction
-import com.oztechan.ccc.android.widget.action.RefreshAction
+import com.oztechan.ccc.android.widget.action.WidgetAction
+import com.oztechan.ccc.android.widget.action.WidgetAction.Companion.getWidgetActionOrNull
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
@@ -46,19 +45,24 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        when (intent.action) {
-            RefreshAction.REFRESH_ACTION -> refreshData(context)
-            NextBaseAction.NEXT_BASE_ACTION -> refreshData(context, true)
-            PreviousBaseAction.PREVIOUS_BASE_ACTION -> refreshData(context, false)
-            OpenAppAction.OPEN_APP_ACTION -> context.startActivity(
-                Intent(context.applicationContext, MainActivity::class.java).apply {
-                    addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                            Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                }
-            )
+        when (intent.action.getWidgetActionOrNull()) {
+            WidgetAction.REFRESH -> refreshData(context)
+            WidgetAction.NEXT_BASE -> refreshData(context, true)
+            WidgetAction.PREVIOUS_BASE -> refreshData(context, false)
+            WidgetAction.OPEN_APP ->
+                context.startActivity(
+                    Intent(context.applicationContext, MainActivity::class.java).apply {
+                        addFlags(
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                        )
+                    }
+                )
+
+            else -> {
+                Logger.w("undefined widget action")
+            }
         }
     }
 }

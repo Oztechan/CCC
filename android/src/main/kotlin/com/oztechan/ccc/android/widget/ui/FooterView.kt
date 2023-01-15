@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.ImageProvider
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -17,8 +16,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.widget.action.OpenAppAction
-import com.oztechan.ccc.android.widget.action.RefreshAction
+import com.oztechan.ccc.android.widget.action.WidgetAction
+import com.oztechan.ccc.android.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 
 @Composable
@@ -31,7 +30,7 @@ fun FooterView(lastUpdate: String) {
             provider = ImageProvider(R.drawable.ic_sync_widget),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(actionRunCallback<RefreshAction>())
+                .clickable(WidgetAction.REFRESH.toActionCallback())
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
@@ -47,7 +46,7 @@ fun FooterView(lastUpdate: String) {
             provider = ImageProvider(R.drawable.ic_app_logo),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(actionRunCallback<OpenAppAction>())
+                .clickable(WidgetAction.OPEN_APP.toActionCallback())
         )
     }
 }

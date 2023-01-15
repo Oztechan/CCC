@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.ImageProvider
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -17,8 +16,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.R
-import com.oztechan.ccc.android.widget.action.NextBaseAction
-import com.oztechan.ccc.android.widget.action.PreviousBaseAction
+import com.oztechan.ccc.android.widget.action.WidgetAction
+import com.oztechan.ccc.android.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.res.getImageIdByName
 
@@ -33,7 +32,7 @@ fun HeaderView(currentBase: String) {
             provider = ImageProvider(R.drawable.ic_back),
             modifier = GlanceModifier
                 .size(16.dp)
-                .clickable(actionRunCallback<PreviousBaseAction>())
+                .clickable(WidgetAction.PREVIOUS_BASE.toActionCallback())
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
@@ -57,7 +56,7 @@ fun HeaderView(currentBase: String) {
             provider = ImageProvider(R.drawable.ic_next),
             modifier = GlanceModifier
                 .size(16.dp)
-                .clickable(actionRunCallback<NextBaseAction>())
+                .clickable(WidgetAction.NEXT_BASE.toActionCallback())
         )
     }
 }
