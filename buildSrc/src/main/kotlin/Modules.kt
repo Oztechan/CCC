@@ -21,10 +21,10 @@ class Modules {
     val android = Module("android")
     val ios = Module("ios")
     val backend = Module("backend")
-}
 
-class Module(name: String) {
-    val path = ":$name"
-    val packageName = "${ProjectSettings.PROJECT_ID}${path.replace(":", ".")}"
-    val frameworkName = path.split(":").joinToString("") { it.capitalize() }
+    class Module(name: String) {
+        val path = ":$name"
+        val packageName = "${ProjectSettings.PROJECT_ID}${path.replace(":", ".")}"
+        val frameworkName = path.split(":").joinToString("") { it.capitalize() }
+    }
 }
