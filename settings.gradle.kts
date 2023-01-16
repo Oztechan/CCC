@@ -23,7 +23,7 @@ dependencyResolutionManagement {
 
 include(
     // Targets
-    ":android", // android app
+    ":android:app", // android app
     ":backend", // backend app
     // ios -> not a gradle module
 

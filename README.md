@@ -132,7 +132,7 @@ Be sure that you have latest Android Studio Canary build installed and XCode 13.
 
 ### Android
 
-Open CCC folder with Android Studio and select `android` from configurations and run
+Open CCC folder with Android Studio and select `android:app` from configurations and run
 
 ### iOS
 
