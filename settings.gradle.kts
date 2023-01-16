@@ -44,13 +44,13 @@ include(
     ":ad", // android only ad module
 
     // submodules
-    ":logmob", // KMP, logger library
-    ":scopemob", // KMP, hand scope functions
-    ":basemob", // android only
-    ":parsermob" // KMP, parsing library
+    ":submodule:logmob", // KMP, logger library
+    ":submodule:scopemob", // KMP, hand scope functions
+    ":submodule:basemob", // android only
+    ":submodule:parsermob" // KMP, parsing library
 )
 
-project(":logmob").projectDir = file("submodule/logmob/logmob")
-project(":scopemob").projectDir = file("submodule/scopemob/scopemob")
-project(":basemob").projectDir = file("submodule/basemob/basemob")
-project(":parsermob").projectDir = file("submodule/parsermob/parsermob")
+project(":submodule:logmob").projectDir = file("submodule/logmob/logmob")
+project(":submodule:scopemob").projectDir = file("submodule/scopemob/scopemob")
+project(":submodule:basemob").projectDir = file("submodule/basemob/basemob")
+project(":submodule:parsermob").projectDir = file("submodule/parsermob/parsermob")

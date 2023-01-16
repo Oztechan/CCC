@@ -23,7 +23,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.test.path))
+                implementation(project(Modules.test))
             }
         }
 

@@ -35,12 +35,14 @@ kotlin {
                     implementation(multiplatformSettings)
                 }
                 Modules.apply {
-                    implementation(project(common.path))
-                    implementation(project(config.path))
-                    implementation(project(logmob.path))
-                    implementation(project(scopemob.path))
-                    implementation(project(parsermob.path))
-                    implementation(project(analytics.path))
+                    implementation(project(common))
+                    implementation(project(config))
+                    implementation(project(analytics))
+                }
+                Modules.Submodules.apply {
+                    implementation(project(logmob))
+                    implementation(project(scopemob))
+                    implementation(project(parsermob))
                 }
             }
         }
@@ -50,7 +52,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.test.path))
+                implementation(project(Modules.test))
             }
         }
 

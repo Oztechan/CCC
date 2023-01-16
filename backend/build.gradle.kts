@@ -41,10 +41,8 @@ kotlin {
                     implementation(koinKtor)
                 }
 
-                Modules.apply {
-                    implementation(project(common.path))
-                    implementation(project(logmob.path))
-                }
+                implementation(project(Modules.common))
+                implementation(project(Modules.Submodules.logmob))
             }
         }
 
@@ -54,7 +52,7 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.test.path))
+                implementation(project(Modules.test))
             }
         }
     }
