@@ -1,14 +1,12 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
-        alias(dependencyUpdates)
         alias(kover)
         alias(detekt)
         alias(sonarqube)
@@ -91,9 +89,4 @@ allprojects {
             allWarningsAsErrors = true
         }
     }
-}
-
-tasks.withType<DependencyUpdatesTask> {
-    gradleReleaseChannel = "current"
-    rejectVersionIf { candidate.version.isNonStable() }
 }

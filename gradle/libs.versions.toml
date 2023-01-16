@@ -33,7 +33,6 @@ leakCanary = "2.10"
 sqlDelight = "1.5.4"
 lifecycle = "2.5.1"
 mokoResources = "0.20.1"
-dependencyUpdates = "0.44.0"
 buildKonfig = "0.13.3"
 workRuntime = "2.7.1"
 splashScreen = "1.0.0"
@@ -140,7 +139,6 @@ firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
 kotlinXSerialization = { id = "kotlinx-serialization" }
 sqlDelight = { id = "com.squareup.sqldelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
-dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

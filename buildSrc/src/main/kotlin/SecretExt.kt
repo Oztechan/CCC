@@ -1,6 +1,5 @@
 import org.gradle.api.Project
 import java.io.IOException
-import java.util.Locale
 import java.util.Properties
 
 private const val PATH_SECRET_PROPERTIES = "../secret.properties"
@@ -21,18 +20,4 @@ private fun Project.getSecretProperties() = try {
 } catch (e: IOException) {
     logger.debug(e.message, e)
     null
-}
-
-fun String.isNonStable(): Boolean {
-    val stableKeyword = listOf(
-        "RELEASE",
-        "FINAL",
-        "GA"
-    ).any {
-        this.toUpperCase(Locale.ROOT).contains(it)
-    }
-
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(this)
-    return isStable.not()
 }
