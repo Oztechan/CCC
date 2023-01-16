@@ -1,27 +1,28 @@
 object Modules {
-    val android = Module(":android")
-    val ios = Module(":ios")
-    val backend = Module(":backend")
+    val android = ":android"
+    val ios = ":ios"
+    val backend = ":backend"
 
-    val client = Module(":client")
-    val res = Module(":res")
-    val common = Module(":common")
-    val billing = Module(":billing")
-    val ad = Module(":ad")
-    val analytics = Module(":analytics")
-    val config = Module(":config")
-    val test = Module(":test")
-    val provider = Module(":provider")
+    val client = ":client"
+    val res = ":res"
+    val common = ":common"
+    val billing = ":billing"
+    val ad = ":ad"
+    val analytics = ":analytics"
+    val config = ":config"
+    val test = ":test"
+    val provider = ":provider"
 
     object Submodules {
-        val logmob = Module(":submodule:logmob")
-        val scopemob = Module(":submodule:scopemob")
-        val basemob = Module(":submodule:basemob")
-        val parsermob = Module(":submodule:parsermob")
-    }
-
-    class Module(val path: String) {
-        val packageName = "${ProjectSettings.PROJECT_ID}${path.replace(":", ".")}"
-        val frameworkName = path.split(":").joinToString("") { it.capitalize() }
+        val logmob = ":submodule:logmob"
+        val scopemob = ":submodule:scopemob"
+        val basemob = ":submodule:basemob"
+        val parsermob = ":submodule:parsermob"
     }
 }
+
+val String.packageName: String
+    get() = "${ProjectSettings.PROJECT_ID}${replace(":", ".")}"
+
+val String.frameworkName: String
+    get() = split(":").joinToString("") { it.capitalize() }

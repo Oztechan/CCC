@@ -22,8 +22,8 @@ kotlin {
         framework {
             Modules.apply {
                 baseName = provider.frameworkName
-                export(project(client.path))
-                export(project(analytics.path))
+                export(project(client))
+                export(project(analytics))
             }
         }
     }
@@ -42,10 +42,10 @@ kotlin {
                 implementation(libs.common.koinCore)
 
                 Modules.apply {
-                    api(project(client.path))
-                    api(project(analytics.path))
+                    api(project(client))
+                    api(project(analytics))
                 }
-                implementation(project(Modules.Submodules.logmob.path))
+                implementation(project(Modules.Submodules.logmob))
             }
         }
         val iosX64Test by getting

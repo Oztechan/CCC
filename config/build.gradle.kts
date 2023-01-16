@@ -23,12 +23,12 @@ kotlin {
                     implementation(ktorJson)
                     implementation(koinCore)
                 }
-                implementation(project(Modules.Submodules.logmob.path))
+                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.test.path))
+                implementation(project(Modules.test))
             }
         }
 

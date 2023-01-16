@@ -67,5 +67,5 @@ dependencies {
     @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
 
-    implementation(project(Modules.Submodules.logmob.path))
+    implementation(project(Modules.Submodules.logmob))
 }

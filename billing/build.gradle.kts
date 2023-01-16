@@ -52,7 +52,7 @@ dependencies {
     }
 
     Modules.Submodules.apply {
-        implementation(project(logmob.path))
-        implementation(project(scopemob.path))
+        implementation(project(logmob))
+        implementation(project(scopemob))
     }
 }
