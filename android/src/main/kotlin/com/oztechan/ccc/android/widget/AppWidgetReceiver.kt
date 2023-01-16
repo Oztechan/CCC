@@ -7,7 +7,6 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.android.ui.main.MainActivity
 import com.oztechan.ccc.android.widget.action.WidgetAction
 import com.oztechan.ccc.android.widget.action.WidgetAction.Companion.getWidgetActionOrNull
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
@@ -50,15 +49,17 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
             WidgetAction.NEXT_BASE -> refreshData(context, true)
             WidgetAction.PREVIOUS_BASE -> refreshData(context, false)
             WidgetAction.OPEN_APP ->
-                context.startActivity(
-                    Intent(context.applicationContext, MainActivity::class.java).apply {
+                context.packageManager
+                    .getLaunchIntentForPackage(context.packageName)
+                    ?.apply {
                         addFlags(
                             Intent.FLAG_ACTIVITY_CLEAR_TASK or
                                 Intent.FLAG_ACTIVITY_CLEAR_TOP or
                                 Intent.FLAG_ACTIVITY_NEW_TASK
                         )
+                    }?.let {
+                        context.startActivity(it)
                     }
-                )
 
             else -> {
                 Logger.w("undefined widget action")
