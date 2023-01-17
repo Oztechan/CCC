@@ -14,7 +14,7 @@ import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.oztechan.ccc.android.app.R
+import com.oztechan.ccc.android.widget.R
 import com.oztechan.ccc.android.widget.ui.components.ImageView
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.res.getImageIdByName

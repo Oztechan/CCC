@@ -15,48 +15,38 @@ import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.oztechan.ccc.android.app.R
+import com.oztechan.ccc.android.widget.R
 import com.oztechan.ccc.android.widget.action.WidgetAction
 import com.oztechan.ccc.android.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.widget.ui.components.ImageView
-import com.oztechan.ccc.res.getImageIdByName
 
 @Composable
-fun HeaderView(currentBase: String) {
+fun FooterView(lastUpdate: String) {
     Row(
-        modifier = GlanceModifier.fillMaxWidth().padding(12.dp),
-        horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
-        verticalAlignment = Alignment.Vertical.CenterVertically
+        modifier = GlanceModifier.fillMaxWidth().padding(8.dp),
+        verticalAlignment = Alignment.Vertical.CenterVertically,
     ) {
         ImageView(
-            provider = ImageProvider(R.drawable.ic_back),
+            provider = ImageProvider(R.drawable.ic_sync_widget),
             modifier = GlanceModifier
-                .size(16.dp)
-                .clickable(WidgetAction.PREVIOUS_BASE.toActionCallback())
+                .size(20.dp)
+                .clickable(WidgetAction.REFRESH.toActionCallback())
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
-
-        ImageView(
-            provider = ImageProvider(currentBase.getImageIdByName()),
-            modifier = GlanceModifier
-                .size(32.dp)
-                .padding(horizontal = 2.dp)
-        )
 
         Text(
-            text = currentBase,
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 13.sp),
-            modifier = GlanceModifier.padding(horizontal = 2.dp)
+            text = lastUpdate,
+            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 9.sp),
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         ImageView(
-            provider = ImageProvider(R.drawable.ic_next),
+            provider = ImageProvider(R.drawable.ic_app_logo),
             modifier = GlanceModifier
-                .size(16.dp)
-                .clickable(WidgetAction.NEXT_BASE.toActionCallback())
+                .size(20.dp)
+                .clickable(WidgetAction.OPEN_APP.toActionCallback())
         )
     }
 }
