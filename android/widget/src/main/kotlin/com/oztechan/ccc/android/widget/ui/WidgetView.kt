@@ -12,7 +12,7 @@ import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
-import com.oztechan.ccc.android.app.R
+import com.oztechan.ccc.android.widget.R
 import com.oztechan.ccc.client.viewmodel.widget.WidgetState
 
 @Composable

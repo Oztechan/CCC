@@ -24,6 +24,7 @@ dependencyResolutionManagement {
 include(
     // Targets
     ":android:app", // android app
+    ":android:widget", // android widget
     ":backend", // backend app
     // ios -> not a gradle module
 

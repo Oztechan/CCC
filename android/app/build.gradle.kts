@@ -21,8 +21,9 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
+    namespace = Modules.Android.app.packageName
+
     ProjectSettings.apply {
-        namespace = Modules.android.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -32,24 +33,23 @@ android {
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
         }
+    }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
-        compileOptions {
-            isCoreLibraryDesugaringEnabled = true
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
-        }
-
-        buildFeatures {
-            viewBinding = true
-            compose = true
-        }
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.versions.compose.get()
-        }
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     signingConfigs {
@@ -103,7 +103,6 @@ dependencies {
         android.apply {
             implementation(composeToolingPreview)
             debugImplementation(composeTooling)
-            implementation(glance)
             implementation(material3)
             implementation(androidMaterial)
             implementation(composeActivity)
@@ -125,6 +124,8 @@ dependencies {
             googleImplementation(playCore)
         }
     }
+
+    implementation(project(Modules.Android.widget))
 
     Modules.apply {
         implementation(project(client))
