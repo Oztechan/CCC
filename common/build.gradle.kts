@@ -12,7 +12,6 @@ plugins {
         id(multiplatform.get().pluginId)
         id(kotlinXSerialization.get().pluginId)
         id(androidLib.get().pluginId)
-        id(sqlDelight.get().pluginId)
         id(buildKonfig.get().pluginId)
         alias(ksp)
     }
@@ -39,10 +38,10 @@ kotlin {
                     implementation(ktorLogging)
                     implementation(ktorJson)
                     implementation(ktorContentNegotiation)
-                    implementation(sqlDelightRuntime)
                     implementation(sqlDelightCoroutinesExt)
                     implementation(coroutines)
                 }
+                implementation(project(Modules.Common.Core.database))
                 implementation(project(Modules.Submodules.logmob))
             }
         }
@@ -58,10 +57,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                libs.android.apply {
-                    implementation(sqlDelight)
-                    implementation(ktor)
-                }
+                implementation(libs.android.ktor)
             }
         }
         val androidTest by getting
@@ -71,10 +67,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                libs.ios.apply {
-                    implementation(ktor)
-                    implementation(sqlDelight)
-                }
+                implementation(libs.ios.ktor)
             }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
@@ -93,10 +86,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                libs.jvm.apply {
-                    implementation(ktor)
-                    implementation(sqlliteDriver)
-                }
+                implementation(libs.jvm.ktor)
             }
         }
         val jvmTest by getting
@@ -121,13 +111,6 @@ android {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-    }
-}
-
-sqldelight {
-    database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${Modules.common.packageName}.database.sql"
-        sourceFolders = listOf("sql")
     }
 }
 

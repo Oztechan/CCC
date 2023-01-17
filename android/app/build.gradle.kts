@@ -91,6 +91,10 @@ dependencies {
         debugImplementation(leakCanary)
     }
 
+    Modules.Common.Core.apply {
+        implementation(project(database))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))

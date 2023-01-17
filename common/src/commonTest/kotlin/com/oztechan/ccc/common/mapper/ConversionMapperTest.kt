@@ -5,7 +5,7 @@ import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.common.database.sql.Conversion as ConversionDBModel
+import com.oztechan.ccc.common.core.database.sql.Conversion as ConversionDBModel
 
 internal class ConversionMapperTest : BaseTest() {
     private val dbModel = ConversionDBModel(

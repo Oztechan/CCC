@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.mapper
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.api.model.Conversion as ConversionAPIModel
 import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateAPIModel
-import com.oztechan.ccc.common.database.sql.Conversion as ConversionDBModel
+import com.oztechan.ccc.common.core.database.sql.Conversion as ConversionDBModel
 
 internal fun ConversionDBModel.toConversionModel() = Conversion(
     base, date, AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,

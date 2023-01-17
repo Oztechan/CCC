@@ -47,6 +47,11 @@ kotlin {
 
                     implementation(project(common))
                 }
+
+                Modules.Common.Core.apply {
+                    implementation(project(database))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }

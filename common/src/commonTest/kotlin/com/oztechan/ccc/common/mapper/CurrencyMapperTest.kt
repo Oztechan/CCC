@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.mapper
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.common.database.sql.Currency as CurrencyDBModel
+import com.oztechan.ccc.common.core.database.sql.Currency as CurrencyDBModel
 
 internal class CurrencyMapperTest : BaseTest() {
     @Test

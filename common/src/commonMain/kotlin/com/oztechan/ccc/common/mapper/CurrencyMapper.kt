@@ -4,7 +4,7 @@
 
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.database.sql.Currency as CurrencyDBModel
+import com.oztechan.ccc.common.core.database.sql.Currency as CurrencyDBModel
 import com.oztechan.ccc.common.model.Currency as CurrencyModel
 
 internal fun CurrencyDBModel.toCurrencyModel() = CurrencyModel(

@@ -56,7 +56,6 @@ common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.
 common-ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-common-sqlDelightRuntime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqlDelight" }
 common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
@@ -83,7 +82,7 @@ android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.re
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-android-sqlDelight = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
+android-sqlliteDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 android-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 android-workRuntime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 android-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
@@ -98,7 +97,7 @@ android-google-playCore = { module = "com.google.android.play:core", version.ref
 
 # IOS
 ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
-ios-sqlDelight = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
+ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
 
 # JVM
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }

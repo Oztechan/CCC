@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.database.sql.CurrencyQueries
+import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.mapper.toCurrencyModel
 import com.oztechan.ccc.common.mapper.toLong

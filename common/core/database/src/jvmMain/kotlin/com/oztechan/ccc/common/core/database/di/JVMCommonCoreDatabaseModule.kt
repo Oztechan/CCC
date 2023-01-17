@@ -1,6 +1,6 @@
-package com.oztechan.ccc.common.di
+package com.oztechan.ccc.common.core.database.di
 
-import com.oztechan.ccc.common.database.sql.CurrencyConverterCalculatorDatabase
+import com.oztechan.ccc.common.core.database.sql.CurrencyConverterCalculatorDatabase
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import org.koin.core.scope.Scope
 

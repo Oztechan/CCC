@@ -31,6 +31,8 @@ include(
 
     // KMP modules
     ":common", // Shared with all FE & BE targets
+    ":common:core:database",
+
     ":client", // Shared with all FE targets
 
     ":res", // Shared with all FE targets for resources
