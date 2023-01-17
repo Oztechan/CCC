@@ -5,7 +5,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
-import config.DeviceFlavour
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -105,20 +104,6 @@ android {
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
-        }
-    }
-
-    DeviceFlavour.apply {
-        flavorDimensions.addAll(listOf(flavorDimension))
-
-        productFlavors {
-            create(google) {
-                dimension = flavorDimension
-            }
-
-            create(huawei) {
-                dimension = flavorDimension
-            }
         }
     }
 }
