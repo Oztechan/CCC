@@ -21,9 +21,8 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    namespace = Modules.Android.app.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Android.app.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -48,6 +47,7 @@ android {
         viewBinding = true
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
