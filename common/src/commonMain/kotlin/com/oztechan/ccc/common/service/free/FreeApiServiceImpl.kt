@@ -2,7 +2,7 @@ package com.oztechan.ccc.common.service.free
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.api.free.FreeApi
-import com.oztechan.ccc.common.mapper.toModel
+import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -14,6 +14,6 @@ internal class FreeApiServiceImpl(
         base: String
     ) = apiRequest {
         Logger.v { "FreeApiServiceImpl getConversion $base" }
-        freeApi.getConversion(base.withEmptyParameterCheck()).toModel(base)
+        freeApi.getConversion(base.withEmptyParameterCheck()).toExchangeRateModel(base)
     }
 }

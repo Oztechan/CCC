@@ -1,13 +1,9 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import com.oztechan.ccc.common.api.model.Conversion as APIConversion
 import com.oztechan.ccc.common.database.sql.Conversion as DBConversion
 
@@ -102,17 +98,6 @@ internal class ConversionTest : BaseTest() {
         assertEquals(dbConversion.base, response?.base)
         assertEquals(dbConversion.date, response?.date)
         assertEquals(dbConversion.toConversionEntity(), response?.conversion)
-    }
-
-    @Test
-    fun toSerializedString() {
-        val subject = dbConversion.toExchangeRateEntity()
-        val serializedString = subject.toSerializedString()
-        assertTrue {
-            Json.decodeFromString<ExchangeRate>(
-                serializedString
-            ) == subject
-        }
     }
 
     @Suppress("LongMethod")
