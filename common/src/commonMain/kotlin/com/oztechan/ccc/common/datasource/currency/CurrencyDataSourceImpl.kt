@@ -3,10 +3,8 @@ package com.oztechan.ccc.common.datasource.currency
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.common.mapper.toModel
-import com.oztechan.ccc.common.mapper.toModelList
 import com.oztechan.ccc.common.model.Currency
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,7 +22,9 @@ internal class CurrencyDataSourceImpl(
             .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
-            .mapToModel()
+            .map { currencyList ->
+                currencyList.map { it.toModel() }
+            }
     }
 
     override fun getActiveCurrenciesFlow(): Flow<List<Currency>> {
@@ -33,12 +33,16 @@ internal class CurrencyDataSourceImpl(
             .toDBFlow()
             .mapToList(ioDispatcher)
             .map { it.sortedBy { (name) -> name } }
-            .mapToModel()
+            .map { currencyList ->
+                currencyList.map { it.toModel() }
+            }
     }
 
     override suspend fun getActiveCurrencies() = dbQuery {
         Logger.v { "CurrencyDataSourceImpl getActiveCurrencies" }
-        currencyQueries.getActiveCurrencies().executeAsList().toModelList()
+        currencyQueries.getActiveCurrencies()
+            .executeAsList()
+            .map { it.toModel() }
     }
 
     override suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean) = dbQuery {
