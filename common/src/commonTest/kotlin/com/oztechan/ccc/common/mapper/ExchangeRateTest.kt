@@ -32,8 +32,8 @@ internal class ExchangeRateTest : BaseTest() {
 
     @Suppress("LongMethod")
     @Test
-    fun toModel() {
-        val model = apiModel.toModel()
+    fun toExchangeRateModel() {
+        val model = apiModel.toExchangeRateModel()
 
         assertEquals(apiModel.base, model.base)
         assertEquals(apiModel.date, model.date)
@@ -43,7 +43,7 @@ internal class ExchangeRateTest : BaseTest() {
     @Suppress("LongMethod")
     @Test
     fun toConversionDBModel() {
-        val conversionDBModel = apiModel.toModel().toConversionDBModel()
+        val conversionDBModel = apiModel.toExchangeRateModel().toConversionDBModel()
 
         assertAllTrue(
             conversionDBModel.base == apiModel.base, conversionDBModel.date == apiModel.date,

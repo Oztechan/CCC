@@ -2,7 +2,7 @@ package com.oztechan.ccc.common.service.backend
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.api.backend.BackendApi
-import com.oztechan.ccc.common.mapper.toModel
+import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -14,6 +14,6 @@ internal class BackendApiServiceImpl(
         base: String
     ) = apiRequest {
         Logger.v { "BackendApiServiceImpl getConversion $base" }
-        backendApi.getConversion(base.withEmptyParameterCheck()).toModel(base)
+        backendApi.getConversion(base.withEmptyParameterCheck()).toExchangeRateModel(base)
     }
 }
