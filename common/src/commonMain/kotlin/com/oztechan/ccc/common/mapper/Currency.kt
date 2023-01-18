@@ -4,23 +4,13 @@
 
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.model.Currency
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import com.oztechan.ccc.common.database.sql.Currency as CurrencyEntity
+import com.oztechan.ccc.common.database.sql.Currency as CurrencyDBModel
+import com.oztechan.ccc.common.model.Currency as CurrencyModel
 
-internal fun CurrencyEntity.toModel() = Currency(
+internal fun CurrencyDBModel.toCurrencyModel() = CurrencyModel(
     code = code,
     name = name,
     symbol = symbol,
     rate = rate,
     isActive = isActive == 1.toLong()
 )
-
-internal fun List<CurrencyEntity>.toModelList(): List<Currency> {
-    return map { it.toModel() }
-}
-
-internal fun Flow<List<CurrencyEntity>>.mapToModel(): Flow<List<Currency>> {
-    return this.map { it.toModelList() }
-}
