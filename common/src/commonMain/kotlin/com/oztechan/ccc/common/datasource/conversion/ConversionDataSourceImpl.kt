@@ -4,8 +4,8 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.database.sql.ConversionQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.mapper.toConversionDBModel
-import com.oztechan.ccc.common.mapper.toExchangeRateEntity
-import com.oztechan.ccc.common.mapper.toModel
+import com.oztechan.ccc.common.mapper.toConversionModel
+import com.oztechan.ccc.common.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.mapper.toSerializedString
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.ExchangeRate
@@ -25,14 +25,14 @@ internal class ConversionDataSourceImpl(
         Logger.v { "ConversionDataSourceImpl getConversionByBase $baseName" }
         conversionQueries.getConversionByBase(baseName)
             .executeAsOneOrNull()
-            ?.toModel()
+            ?.toConversionModel()
     }
 
     override suspend fun getExchangeRateTextByBase(baseName: String) = dbQuery {
         Logger.v { "ConversionDataSourceImpl getExchangeRateTextByBase $baseName" }
         conversionQueries.getConversionByBase(baseName.uppercase())
             .executeAsOneOrNull()
-            ?.toExchangeRateEntity()
+            ?.toExchangeRateAPIModel()
             ?.toSerializedString()
     }
 }
