@@ -1,10 +1,12 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.database.sql.Conversion
 import com.oztechan.ccc.common.model.ExchangeRate
-import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateEntity
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateAPIModel
+import com.oztechan.ccc.common.database.sql.Conversion as ConversionDBModel
 
-internal fun ExchangeRateEntity.toModel(
+internal fun ExchangeRateAPIModel.toModel(
     fallbackBase: String = base
 ) = ExchangeRate(
     base = fallbackBase,
@@ -12,7 +14,7 @@ internal fun ExchangeRateEntity.toModel(
     conversion = conversion.toModel()
 )
 
-internal fun ExchangeRate.toConversion() = Conversion(
+internal fun ExchangeRate.toConversionDBModel() = ConversionDBModel(
     base,
     date,
     conversion.aed, conversion.afn, conversion.all, conversion.amd, conversion.ang, conversion.aoa, conversion.ars,
@@ -41,3 +43,6 @@ internal fun ExchangeRate.toConversion() = Conversion(
     conversion.xdr, conversion.xof, conversion.xpd, conversion.xpf, conversion.xpt, conversion.yer, conversion.zar,
     conversion.zmw, conversion.zwl
 )
+
+internal fun ExchangeRateAPIModel?.toSerializedString() = Json.encodeToString(this)
+

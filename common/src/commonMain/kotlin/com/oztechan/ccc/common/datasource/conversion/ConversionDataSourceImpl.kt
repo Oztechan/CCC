@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.datasource.conversion
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.database.sql.ConversionQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.mapper.toConversion
+import com.oztechan.ccc.common.mapper.toConversionDBModel
 import com.oztechan.ccc.common.mapper.toExchangeRateEntity
 import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.mapper.toSerializedString
@@ -18,7 +18,7 @@ internal class ConversionDataSourceImpl(
 
     override suspend fun insertConversion(exchangeRate: ExchangeRate) = dbQuery {
         Logger.v { "ConversionDataSourceImpl insertConversion ${exchangeRate.base}" }
-        conversionQueries.insertConversion(exchangeRate.toConversion())
+        conversionQueries.insertConversion(exchangeRate.toConversionDBModel())
     }
 
     override suspend fun getConversionByBase(baseName: String): Conversion? = dbQuery {
