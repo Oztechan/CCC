@@ -45,4 +45,3 @@ internal fun ExchangeRateModel.toConversionDBModel() = ConversionDBModel(
 )
 
 internal fun ExchangeRateAPIModel?.toSerializedString() = Json.encodeToString(this)
-
