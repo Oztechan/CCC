@@ -3,13 +3,13 @@ package com.oztechan.ccc.common.datasource.watcher
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.database.sql.WatcherQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.oztechan.ccc.common.mapper.mapToModel
 import com.oztechan.ccc.common.mapper.toLong
-import com.oztechan.ccc.common.mapper.toModelList
+import com.oztechan.ccc.common.mapper.toModel
 import com.oztechan.ccc.common.model.Watcher
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 internal class WatcherDataSourceImpl(
     private val watcherQueries: WatcherQueries,
@@ -21,7 +21,9 @@ internal class WatcherDataSourceImpl(
         return watcherQueries.getWatchers()
             .toDBFlow()
             .mapToList(ioDispatcher)
-            .mapToModel()
+            .map { watcherList ->
+                watcherList.map { it.toModel() }
+            }
     }
 
     override suspend fun addWatcher(base: String, target: String) = dbQuery {
@@ -33,7 +35,7 @@ internal class WatcherDataSourceImpl(
         Logger.v { "WatcherDataSourceImpl getWatchers" }
         watcherQueries.getWatchers()
             .executeAsList()
-            .toModelList()
+            .map { it.toModel() }
     }
 
     override suspend fun deleteWatcher(id: Long) = dbQuery {
