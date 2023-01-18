@@ -7,10 +7,10 @@ import com.oztechan.ccc.common.database.sql.Currency as CurrencyDBModel
 
 internal class CurrencyTest : BaseTest() {
     @Test
-    fun toModel() {
+    fun toCurrencyModel() {
         val entity = CurrencyDBModel("USD", "United State Dollar", "$", 12.3, 1)
 
-        val model = entity.toModel()
+        val model = entity.toCurrencyModel()
 
         assertEquals(entity.code, model.code)
         assertEquals(entity.name, model.name)
