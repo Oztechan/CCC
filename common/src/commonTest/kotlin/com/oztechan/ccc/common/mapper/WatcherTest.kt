@@ -7,7 +7,7 @@ import com.oztechan.ccc.common.database.sql.Watcher as WatcherDBModel
 
 internal class WatcherTest : BaseTest() {
     @Test
-    fun toModel() {
+    fun toWatcherModel() {
         val dbModel = WatcherDBModel(
             id = 1L,
             base = "EUR",
@@ -16,7 +16,7 @@ internal class WatcherTest : BaseTest() {
             rate = 1.1
         )
 
-        val model = dbModel.toModel()
+        val model = dbModel.toWatcherModel()
 
         assertEquals(dbModel.id, model.id)
         assertEquals(dbModel.base, model.base)

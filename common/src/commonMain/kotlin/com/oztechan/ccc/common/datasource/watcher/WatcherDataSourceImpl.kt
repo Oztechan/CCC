@@ -4,7 +4,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.database.sql.WatcherQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.mapper.toLong
-import com.oztechan.ccc.common.mapper.toModel
+import com.oztechan.ccc.common.mapper.toWatcherModel
 import com.oztechan.ccc.common.model.Watcher
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,7 +22,7 @@ internal class WatcherDataSourceImpl(
             .toDBFlow()
             .mapToList(ioDispatcher)
             .map { watcherList ->
-                watcherList.map { it.toModel() }
+                watcherList.map { it.toWatcherModel() }
             }
     }
 
@@ -35,7 +35,7 @@ internal class WatcherDataSourceImpl(
         Logger.v { "WatcherDataSourceImpl getWatchers" }
         watcherQueries.getWatchers()
             .executeAsList()
-            .map { it.toModel() }
+            .map { it.toWatcherModel() }
     }
 
     override suspend fun deleteWatcher(id: Long) = dbQuery {
