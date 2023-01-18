@@ -11,7 +11,7 @@ internal fun ExchangeRateAPIModel.toExchangeRateModel(
 ) = ExchangeRateModel(
     base = fallbackBase,
     date = date,
-    conversion = conversion.toModel()
+    conversion = conversion.toConversionModel()
 )
 
 internal fun ExchangeRateModel.toConversionDBModel() = ConversionDBModel(

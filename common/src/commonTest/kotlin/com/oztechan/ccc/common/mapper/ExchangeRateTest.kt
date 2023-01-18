@@ -37,7 +37,7 @@ internal class ExchangeRateTest : BaseTest() {
 
         assertEquals(apiModel.base, model.base)
         assertEquals(apiModel.date, model.date)
-        assertEquals(apiModel.conversion.toModel(), model.conversion)
+        assertEquals(apiModel.conversion.toConversionModel(), model.conversion)
     }
 
     @Suppress("LongMethod")
