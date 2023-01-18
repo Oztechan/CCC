@@ -1,22 +1,12 @@
 package com.oztechan.ccc.common.mapper
 
-import com.oztechan.ccc.common.model.Watcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import com.oztechan.ccc.common.database.sql.Watcher as WatcherEntity
+import com.oztechan.ccc.common.database.sql.Watcher as WatcherDBModel
+import com.oztechan.ccc.common.model.Watcher as WatcherModel
 
-internal fun WatcherEntity.toModel() = Watcher(
+internal fun WatcherDBModel.toWatcherModel() = WatcherModel(
     id = id,
     base = base,
     target = target,
     isGreater = isGreater.toBoolean(),
     rate = rate,
 )
-
-internal fun List<WatcherEntity>.toModelList(): List<Watcher> {
-    return map { it.toModel() }
-}
-
-internal fun Flow<List<WatcherEntity>>.mapToModel(): Flow<List<Watcher>> {
-    return this.map { it.toModelList() }
-}
