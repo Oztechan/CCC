@@ -37,8 +37,8 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
     @Mock
     private val sqlCursor = mock(classOf<SqlCursor>())
 
-    private val exchangeRateEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
-    private val exchangeRate = exchangeRateEntity.toExchangeRateModel()
+    private val exchangeRateAPIModel = ExchangeRate("EUR", "12.21.2121", Conversion())
+    private val exchangeRate = exchangeRateAPIModel.toExchangeRateModel()
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
         exchangeRate.toConversionDBModel()

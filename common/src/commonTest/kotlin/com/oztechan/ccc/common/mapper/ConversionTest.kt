@@ -40,7 +40,7 @@ internal class ConversionTest : BaseTest() {
     }
 
     @Test
-    fun toExchangeRateEntity() {
+    fun toExchangeRateAPIModel() {
         val response = dbModel.toExchangeRateAPIModel()
 
         assertEquals(dbModel.base, response.base)
