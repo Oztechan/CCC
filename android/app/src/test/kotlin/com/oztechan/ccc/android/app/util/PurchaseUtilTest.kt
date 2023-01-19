@@ -1,7 +1,7 @@
 package com.oztechan.ccc.android.app.util
 
-import com.oztechan.ccc.billing.model.PurchaseHistory
-import com.oztechan.ccc.billing.model.PurchaseMethod
+import com.oztechan.ccc.billing.model.ProductDetails
+import com.oztechan.ccc.billing.model.PurchaseHistoryRecord
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
@@ -10,13 +10,13 @@ import kotlin.test.assertEquals
 internal class PurchaseUtilTest : BaseTest() {
     @Test
     fun `toPremiumDataList maps correctly`() {
-        val purchaseMethodList = listOf(
-            PurchaseMethod("1", "asd", "123213"),
-            PurchaseMethod("2", "zxc", "98989")
+        val productDetailsLists = listOf(
+            ProductDetails("1", "asd", "123213"),
+            ProductDetails("2", "zxc", "98989")
         )
-        val premiumDataList = purchaseMethodList.toPremiumDataList()
+        val premiumDataList = productDetailsLists.toPremiumDataList()
 
-        purchaseMethodList.zip(premiumDataList) { first, second ->
+        productDetailsLists.zip(premiumDataList) { first, second ->
             assertEquals(first.id, second.id)
             assertEquals(first.price, second.cost)
             assertEquals(first.description, second.duration)
@@ -25,14 +25,14 @@ internal class PurchaseUtilTest : BaseTest() {
 
     @Test
     fun `toOldPurchaseList maps correctly`() {
-        val purchaseHistoryList = listOf(
-            PurchaseHistory(listOf("1", "2"), 123L),
-            PurchaseHistory(listOf("9", "8"), 987L)
+        val purchaseHistoryRecordLists = listOf(
+            PurchaseHistoryRecord(listOf("1", "2"), 123L),
+            PurchaseHistoryRecord(listOf("9", "8"), 987L)
         )
 
-        val oldPurchaseList = purchaseHistoryList.toOldPurchaseList()
+        val oldPurchaseList = purchaseHistoryRecordLists.toOldPurchaseList()
 
-        purchaseHistoryList.zip(oldPurchaseList) { first, second ->
+        purchaseHistoryRecordLists.zip(oldPurchaseList) { first, second ->
             assertEquals(first.date, second.date)
             val type = PremiumType.getById(first.ids.firstOrNull())
             assertEquals(type, second.type)

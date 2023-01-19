@@ -1,17 +1,17 @@
 package com.oztechan.ccc.billing
 
-import com.oztechan.ccc.billing.model.PurchaseHistory
-import com.oztechan.ccc.billing.model.PurchaseMethod
+import com.oztechan.ccc.billing.model.ProductDetails
+import com.oztechan.ccc.billing.model.PurchaseHistoryRecord
 
 sealed class BillingEffect {
     object SuccessfulPurchase : BillingEffect()
 
     data class RestorePurchase(
-        val purchaseHistoryRecordList: List<PurchaseHistory>
+        val purchaseHistoryRecordRecordList: List<PurchaseHistoryRecord>
     ) : BillingEffect()
 
     data class AddPurchaseMethods(
-        val purchaseMethodList: List<PurchaseMethod>
+        val productDetailsList: List<ProductDetails>
     ) : BillingEffect()
 
     data class UpdatePremiumEndDate(
