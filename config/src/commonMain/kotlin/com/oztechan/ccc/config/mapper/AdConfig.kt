@@ -1,9 +1,9 @@
 package com.oztechan.ccc.config.mapper
 
-import com.oztechan.ccc.config.service.ad.AdConfigEntity
 import com.oztechan.ccc.config.model.AdConfig as AdConfigModel
+import com.oztechan.ccc.config.service.ad.AdConfig as AdConfigRCModel
 
-internal fun AdConfigEntity.toModel() = AdConfigModel(
+internal fun AdConfigRCModel.toAdConfigModel() = AdConfigModel(
     bannerAdSessionCount = bannerAdSessionCount,
     interstitialAdSessionCount = interstitialAdSessionCount,
     interstitialAdInitialDelay = interstitialAdInitialDelay,
