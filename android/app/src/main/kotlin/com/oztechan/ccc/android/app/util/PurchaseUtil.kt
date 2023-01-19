@@ -6,11 +6,11 @@ import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType
 
-fun List<ProductDetails>.toPremiumDataList(): List<PremiumData> = map {
+internal fun List<ProductDetails>.toPremiumDataList(): List<PremiumData> = map {
     PremiumData(it.price, it.description, it.id)
 }
 
-fun List<PurchaseHistoryRecord>.toOldPurchaseList(): List<OldPurchase> =
+internal fun List<PurchaseHistoryRecord>.toOldPurchaseList(): List<OldPurchase> =
     mapNotNull { purchaseHistoryRecord ->
         PremiumType.getById(purchaseHistoryRecord.ids.firstOrNull())?.let {
             OldPurchase(purchaseHistoryRecord.date, it)

@@ -12,5 +12,5 @@ internal fun CurrencyDBModel.toCurrencyModel() = CurrencyModel(
     name = name,
     symbol = symbol,
     rate = rate,
-    isActive = isActive == 1.toLong()
+    isActive = isActive.toBoolean()
 )

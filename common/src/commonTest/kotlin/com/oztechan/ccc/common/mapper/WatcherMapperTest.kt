@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.common.database.sql.Watcher as WatcherDBModel
 
-internal class WatcherTest : BaseTest() {
+internal class WatcherMapperTest : BaseTest() {
     @Test
     fun toWatcherModel() {
         val dbModel = WatcherDBModel(

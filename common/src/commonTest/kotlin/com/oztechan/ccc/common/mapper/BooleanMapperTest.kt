@@ -4,7 +4,7 @@ import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class BooleanTest : BaseTest() {
+internal class BooleanMapperTest : BaseTest() {
     @Test
     fun toLong() {
         assertEquals(0L, false.toLong())
