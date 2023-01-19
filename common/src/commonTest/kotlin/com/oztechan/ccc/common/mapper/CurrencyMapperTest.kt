@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.common.database.sql.Currency as CurrencyDBModel
 
-internal class CurrencyTest : BaseTest() {
+internal class CurrencyMapperTest : BaseTest() {
     @Test
     fun toCurrencyModel() {
         val dbModel = CurrencyDBModel("USD", "United State Dollar", "$", 12.3, 1)

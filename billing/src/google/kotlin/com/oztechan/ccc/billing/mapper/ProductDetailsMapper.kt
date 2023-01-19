@@ -3,6 +3,7 @@ package com.oztechan.ccc.billing.mapper
 import com.android.billingclient.api.ProductDetails as ProductDetailsIAPModel
 import com.oztechan.ccc.billing.model.ProductDetails as ProductDetailsModel
 
+// no test since ProductDetailsIAPModel can not be initiated
 internal fun ProductDetailsIAPModel.toProductDetailsModel() = ProductDetailsModel(
     price = oneTimePurchaseOfferDetails?.formattedPrice.orEmpty(),
     description = description,

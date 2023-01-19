@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.config.service.update.UpdateConfig as AppUpdateRCModel
 
-class UpdateConfigTest : BaseTest() {
+class UpdateConfigMapperTest : BaseTest() {
 
     @Test
     fun toUpdateConfigModel() {

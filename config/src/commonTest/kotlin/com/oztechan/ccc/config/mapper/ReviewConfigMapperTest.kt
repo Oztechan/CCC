@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.config.service.review.ReviewConfig as AppReviewRCModel
 
-class ReviewConfigTest : BaseTest() {
+class ReviewConfigMapperTest : BaseTest() {
 
     @Test
     fun toReviewConfigModel() {

@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.config.service.ad.AdConfig as AdConfigRCModel
 
-class AdConfigTest : BaseTest() {
+class AdConfigMapperTest : BaseTest() {
 
     @Test
     fun toAdConfigModel() {
