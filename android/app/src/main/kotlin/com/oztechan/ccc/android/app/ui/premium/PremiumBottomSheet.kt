@@ -116,11 +116,11 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
                 is BillingEffect.RestorePurchase -> premiumViewModel.restorePurchase(
-                    viewEffect.purchaseHistoryRecordList.toOldPurchaseList()
+                    viewEffect.purchaseHistoryRecordRecordList.toOldPurchaseList()
                 )
 
                 is BillingEffect.AddPurchaseMethods -> premiumViewModel.addPurchaseMethods(
-                    viewEffect.purchaseMethodList.toPremiumDataList()
+                    viewEffect.productDetailsList.toPremiumDataList()
                 )
 
                 is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.updatePremiumEndDate(

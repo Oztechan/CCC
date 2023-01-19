@@ -19,8 +19,8 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.github.submob.scopemob.whether
-import com.oztechan.ccc.billing.model.PurchaseHistory
-import com.oztechan.ccc.billing.model.PurchaseMethod
+import com.oztechan.ccc.billing.mapper.toProductDetailsModel
+import com.oztechan.ccc.billing.mapper.toPurchaseHistoryRecordModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -169,13 +169,8 @@ internal class BillingManagerImpl(private val context: Context) :
                 productDetailList = detailsList
 
                 detailsList
-                    .map {
-                        PurchaseMethod(
-                            price = it.oneTimePurchaseOfferDetails?.formattedPrice.orEmpty(),
-                            description = it.description,
-                            id = it.productId
-                        )
-                    }.let {
+                    .map { it.toProductDetailsModel() }
+                    .let {
                         _effect.emit(BillingEffect.AddPurchaseMethods(it))
                     }
             }
@@ -189,7 +184,7 @@ internal class BillingManagerImpl(private val context: Context) :
         Logger.i { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList
-            ?.map { PurchaseHistory(it.products, it.purchaseTime) }
+            ?.map { it.toPurchaseHistoryRecordModel() }
             ?.let {
                 scope.launch {
                     _effect.emit(BillingEffect.RestorePurchase(it))
