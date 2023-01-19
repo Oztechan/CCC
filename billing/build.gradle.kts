@@ -55,6 +55,4 @@ dependencies {
         implementation(project(logmob))
         implementation(project(scopemob))
     }
-
-    testImplementation(project(Modules.test))
 }
