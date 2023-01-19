@@ -1,9 +1,9 @@
 package com.oztechan.ccc.config.mapper
 
-import com.oztechan.ccc.config.model.ReviewConfig as AppReviewUIModel
-import com.oztechan.ccc.config.service.review.ReviewConfigEntity as AppReviewModel
+import com.oztechan.ccc.config.model.ReviewConfig as ReviewConfigModel
+import com.oztechan.ccc.config.service.review.ReviewConfig as ReviewConfigRCModel
 
-internal fun AppReviewModel.toModel() = AppReviewUIModel(
+internal fun ReviewConfigRCModel.toReviewConfigModel() = ReviewConfigModel(
     appReviewSessionCount = appReviewSessionCount,
     appReviewDialogDelay = appReviewDialogDelay,
 )

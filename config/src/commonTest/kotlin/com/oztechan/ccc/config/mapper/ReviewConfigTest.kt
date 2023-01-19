@@ -3,16 +3,16 @@ package com.oztechan.ccc.config.mapper
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.config.service.review.ReviewConfigEntity as AppReviewEntity
+import com.oztechan.ccc.config.service.review.ReviewConfig as AppReviewRCModel
 
 class ReviewConfigTest : BaseTest() {
 
     @Test
-    fun toModel() {
-        val entity = AppReviewEntity()
-        val model = entity.toModel()
+    fun toReviewConfigModel() {
+        val rcModel = AppReviewRCModel()
+        val model = rcModel.toReviewConfigModel()
 
-        assertEquals(entity.appReviewSessionCount, model.appReviewSessionCount)
-        assertEquals(entity.appReviewDialogDelay, model.appReviewDialogDelay)
+        assertEquals(rcModel.appReviewSessionCount, model.appReviewSessionCount)
+        assertEquals(rcModel.appReviewDialogDelay, model.appReviewDialogDelay)
     }
 }
