@@ -44,6 +44,8 @@ kotlin {
                 Modules.apply {
                     api(project(client))
                     api(project(analytics))
+
+                    implementation(project(common))
                 }
                 implementation(project(Modules.Submodules.logmob))
             }
