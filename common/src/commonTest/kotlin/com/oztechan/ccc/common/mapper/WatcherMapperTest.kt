@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.mapper
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.common.database.sql.Watcher as WatcherDBModel
+import com.oztechan.ccc.common.core.database.sql.Watcher as WatcherDBModel
 
 internal class WatcherMapperTest : BaseTest() {
     @Test

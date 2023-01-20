@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.datasource.conversion
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.database.sql.ConversionQueries
+import com.oztechan.ccc.common.core.database.sql.ConversionQueries
 import com.oztechan.ccc.common.datasource.BaseDBDataSource
 import com.oztechan.ccc.common.mapper.toConversionDBModel
 import com.oztechan.ccc.common.mapper.toConversionModel

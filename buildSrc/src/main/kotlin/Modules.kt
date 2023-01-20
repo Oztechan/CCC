@@ -12,9 +12,16 @@ object Modules {
     const val ios = ":ios"
     const val backend = ":backend"
 
+    const val common = ":common"
+
+    object Common {
+        object Core {
+            const val database = ":common:core:database"
+        }
+    }
+
     const val client = ":client"
     const val res = ":res"
-    const val common = ":common"
     const val billing = ":billing"
     const val ad = ":ad"
     const val analytics = ":analytics"

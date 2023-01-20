@@ -41,6 +41,10 @@ kotlin {
                     implementation(koinKtor)
                 }
 
+                Modules.Common.Core.apply {
+                    implementation(project(database))
+                }
+
                 implementation(project(Modules.common))
                 implementation(project(Modules.Submodules.logmob))
             }
