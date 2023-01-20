@@ -77,7 +77,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.common.packageName
+        namespace = Modules.Common.Core.network.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -89,7 +89,7 @@ android {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = Modules.common.packageName
+    packageName = Modules.Common.Core.network.packageName
 
     defaultConfigs {
         Keys(project).apply {
