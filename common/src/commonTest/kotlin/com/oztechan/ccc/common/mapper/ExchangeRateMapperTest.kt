@@ -7,8 +7,8 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import com.oztechan.ccc.common.api.model.Conversion as ConversionAPIModel
-import com.oztechan.ccc.common.api.model.ExchangeRate as ExchangeRateAPIModel
+import com.oztechan.ccc.common.core.network.model.Conversion as ConversionAPIModel
+import com.oztechan.ccc.common.core.network.model.ExchangeRate as ExchangeRateAPIModel
 
 internal class ExchangeRateMapperTest : BaseTest() {
     private val conversionAPIModel = ConversionAPIModel(

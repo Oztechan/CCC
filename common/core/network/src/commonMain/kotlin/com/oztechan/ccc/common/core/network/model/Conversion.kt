@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.api.model
+package com.oztechan.ccc.common.core.network.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonNames
 
 @Suppress("ConstructorParameterNaming", "OPT_IN_USAGE")
 @Serializable
-internal data class Conversion(
+data class Conversion(
     @SerialName("base") var base: String = "",
     @SerialName("date") var date: String? = null,
     @JsonNames("aed", "AED") var aed: Double? = null,

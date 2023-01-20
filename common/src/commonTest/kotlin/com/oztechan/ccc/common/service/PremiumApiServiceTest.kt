@@ -4,9 +4,9 @@
 
 package com.oztechan.ccc.common.service
 
-import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.ExchangeRate
-import com.oztechan.ccc.common.api.premium.PremiumApi
+import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
+import com.oztechan.ccc.common.core.network.model.Conversion
+import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.service.premium.PremiumApiService

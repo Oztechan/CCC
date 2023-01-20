@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource
 
-import com.oztechan.ccc.common.api.model.Conversion
-import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
+import com.oztechan.ccc.common.core.network.model.Conversion
+import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
 import com.oztechan.ccc.common.mapper.toConversionDBModel

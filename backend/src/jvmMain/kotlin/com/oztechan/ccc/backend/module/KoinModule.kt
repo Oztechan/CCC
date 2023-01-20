@@ -3,7 +3,7 @@ package com.oztechan.ccc.backend.module
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.di.backendModule
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
-import com.oztechan.ccc.common.di.apiModule
+import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.di.dataSourceModule
 import com.oztechan.ccc.common.di.dispatcherModule
 import com.oztechan.ccc.common.di.scopeModule
@@ -21,9 +21,9 @@ internal fun Application.koinModule() {
             backendModule,
 
             commonCoreDatabaseModule,
-            dataSourceModule,
+            commonCoreNetworkModule,
 
-            apiModule,
+            dataSourceModule,
             serviceModule,
 
             dispatcherModule,

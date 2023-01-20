@@ -17,6 +17,7 @@ object Modules {
     object Common {
         object Core {
             const val database = ":common:core:database"
+            const val network = ":common:core:network"
         }
     }
 
