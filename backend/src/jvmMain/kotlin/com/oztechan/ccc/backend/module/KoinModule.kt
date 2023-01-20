@@ -1,8 +1,13 @@
 package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.di.module.backendModules
-import com.oztechan.ccc.common.di.module.commonModules
+import com.oztechan.ccc.backend.di.backendModule
+import com.oztechan.ccc.common.di.apiModule
+import com.oztechan.ccc.common.di.dataSourceModule
+import com.oztechan.ccc.common.di.databaseModule
+import com.oztechan.ccc.common.di.dispatcherModule
+import com.oztechan.ccc.common.di.scopeModule
+import com.oztechan.ccc.common.di.serviceModule
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import org.koin.ktor.plugin.Koin
@@ -13,10 +18,16 @@ internal fun Application.koinModule() {
 
     install(Koin) {
         modules(
-            buildList {
-                addAll(backendModules)
-                addAll(commonModules)
-            }
+            backendModule,
+
+            databaseModule,
+            dataSourceModule,
+
+            apiModule,
+            serviceModule,
+
+            dispatcherModule,
+            scopeModule
         )
     }.also {
         Logger.i { "Koin initialised" }
