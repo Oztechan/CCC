@@ -36,7 +36,7 @@
             android:required="false" />
 
         <receiver
-            android:name="com.oztechan.ccc.android.widget.AppWidgetReceiver"
+            android:name="com.oztechan.ccc.android.feature.widget.AppWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

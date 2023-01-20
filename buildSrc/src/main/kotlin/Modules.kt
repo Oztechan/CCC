@@ -2,7 +2,10 @@ object Modules {
 
     object Android {
         const val app = ":android:app"
-        const val widget = ":android:widget"
+
+        object Feature {
+            const val widget = ":android:feature:widget"
+        }
     }
 
     const val ios = ":ios"
