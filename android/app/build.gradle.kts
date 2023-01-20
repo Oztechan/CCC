@@ -4,7 +4,6 @@
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
-import config.DeviceFlavour.Companion.googleImplementation
 import config.Keys
 
 plugins {
@@ -14,7 +13,6 @@ plugins {
         id(crashlytics.get().pluginId)
         id(googleServices.get().pluginId)
         id(firebasePerPlugin.get().pluginId)
-        id(safeArgs.get().pluginId) // todo can be removed once compose migration done
         id(android.get().pluginId)
     }
 }
@@ -41,15 +39,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     signingConfigs {
@@ -95,50 +84,26 @@ android {
 }
 
 dependencies {
-    libs.apply {
-        common.apply {
-            implementation(kotlinXDateTime)
-        }
-
-        android.apply {
-            implementation(composeToolingPreview)
-            debugImplementation(composeTooling)
-            implementation(material3)
-            implementation(androidMaterial)
-            implementation(composeActivity)
-            implementation(composeNavigation)
-            implementation(constraintLayout)
-            implementation(navigation)
-            implementation(koinAndroid)
-            implementation(koinCompose)
-            implementation(lifecycleRuntime)
-            implementation(workRuntime) // android 12 crash fix
-            implementation(splashScreen)
-            implementation(firebasePer)
-            coreLibraryDesugaring(desugaring)
-            debugImplementation(leakCanary)
-        }
-
-        android.google.apply {
-            @Suppress("UnstableApiUsage")
-            googleImplementation(playCore)
-        }
+    libs.android.apply {
+        implementation(koinAndroid)
+        implementation(firebasePer)
+        coreLibraryDesugaring(desugaring)
+        debugImplementation(leakCanary)
     }
 
-    implementation(project(Modules.Android.Feature.widget))
+    Modules.Android.Feature.apply {
+        implementation(project(mobile))
+        implementation(project(widget))
+    }
 
     Modules.apply {
         implementation(project(client))
-        implementation(project(res))
         implementation(project(billing))
         implementation(project(ad))
         implementation(project(analytics))
-        testImplementation(project(test))
     }
 
     Modules.Submodules.apply {
         implementation(project(logmob))
-        implementation(project(scopemob))
-        implementation(project(basemob))
     }
 }
