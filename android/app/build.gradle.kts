@@ -125,7 +125,7 @@ dependencies {
         }
     }
 
-    implementation(project(Modules.Android.widget))
+    implementation(project(Modules.Android.Feature.widget))
 
     Modules.apply {
         implementation(project(client))
