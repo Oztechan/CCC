@@ -8,6 +8,7 @@ object Modules {
     const val ios = ":ios"
     const val backend = ":backend"
 
+    const val injector = ":injector"
     const val client = ":client"
     const val res = ":res"
     const val common = ":common"

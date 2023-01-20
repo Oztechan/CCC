@@ -28,6 +28,8 @@ include(
     ":backend", // backend app
     // ios -> not a gradle module
 
+    ":injector",
+
     // KMP modules
     ":common", // Shared with all FE & BE targets
     ":client", // Shared with all FE targets
