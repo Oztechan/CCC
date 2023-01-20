@@ -49,15 +49,15 @@ jobs:
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-          mkdir android/src/release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+          mkdir android/app/src/release
           echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-          mkdir android/src/debug
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
+          mkdir android/app/src/debug
           echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Assemble
         uses: gradle/gradle-build-action@v2
@@ -70,7 +70,7 @@ jobs:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: android/build/outputs/apk/google/release/android-google-release.apk
+          file: android/app/build/outputs/apk/google/release/app-google-release.apk
 
       - name: Firebase App Distribution Huawei
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -78,7 +78,7 @@ jobs:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: android/build/outputs/apk/huawei/release/android-huawei-release.apk
+          file: android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
       - name: Set Job Status
         id: status

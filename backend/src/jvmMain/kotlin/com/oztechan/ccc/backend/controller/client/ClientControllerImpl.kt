@@ -2,9 +2,9 @@ package com.oztechan.ccc.backend.controller.client
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
-import com.oztechan.ccc.backend.util.fillMissingConversionWith
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.model.CurrencyType
+import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.common.util.SECOND
@@ -51,5 +51,25 @@ internal class ClientControllerImpl(
                 .onFailure { Logger.e(it) }
                 .onSuccess { conversionDataSource.insertConversion(it) }
         }
+    }
+
+    private fun ExchangeRate.fillMissingConversionWith(
+        nonPremiumResponse: ExchangeRate
+    ) = apply {
+        conversion = conversion.copy(
+            btc = nonPremiumResponse.conversion.btc,
+            clf = nonPremiumResponse.conversion.clf,
+            cnh = nonPremiumResponse.conversion.cnh,
+            jep = nonPremiumResponse.conversion.jep,
+            kpw = nonPremiumResponse.conversion.kpw,
+            mro = nonPremiumResponse.conversion.mro,
+            std = nonPremiumResponse.conversion.std,
+            svc = nonPremiumResponse.conversion.svc,
+            xag = nonPremiumResponse.conversion.xag,
+            xau = nonPremiumResponse.conversion.xau,
+            xpd = nonPremiumResponse.conversion.xpd,
+            xpt = nonPremiumResponse.conversion.xpt,
+            zwl = nonPremiumResponse.conversion.zwl
+        )
     }
 }

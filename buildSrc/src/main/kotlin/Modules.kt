@@ -1,5 +1,10 @@
 object Modules {
-    const val android = ":android"
+
+    object Android {
+        const val app = ":android:app"
+        const val widget = ":android:widget"
+    }
+
     const val ios = ":ios"
     const val backend = ":backend"
 

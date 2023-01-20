@@ -5,8 +5,8 @@ import com.oztechan.ccc.common.api.model.ExchangeRate
 import com.oztechan.ccc.common.database.sql.ConversionQueries
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
-import com.oztechan.ccc.common.mapper.toConversion
-import com.oztechan.ccc.common.mapper.toModel
+import com.oztechan.ccc.common.mapper.toConversionDBModel
+import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query
@@ -37,11 +37,11 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
     @Mock
     private val sqlCursor = mock(classOf<SqlCursor>())
 
-    private val exchangeRateEntity = ExchangeRate("EUR", "12.21.2121", Conversion())
-    private val exchangeRate = exchangeRateEntity.toModel()
+    private val exchangeRateAPIModel = ExchangeRate("EUR", "12.21.2121", Conversion())
+    private val exchangeRate = exchangeRateAPIModel.toExchangeRateModel()
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        exchangeRate.toConversion()
+        exchangeRate.toConversionDBModel()
     }
 
     @BeforeTest
@@ -64,7 +64,7 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
         }
 
         verify(conversionQueries)
-            .invocation { insertConversion(exchangeRate.toConversion()) }
+            .invocation { insertConversion(exchangeRate.toConversionDBModel()) }
             .wasInvoked()
     }
 

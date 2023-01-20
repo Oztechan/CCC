@@ -45,15 +45,15 @@ jobs:
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-          mkdir android/src/release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+          mkdir android/app/src/release
           echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-          mkdir android/src/debug
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
+          mkdir android/app/src/debug
           echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -64,19 +64,19 @@ jobs:
       - name: Generate Artifacts
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :android:bundleRelease :backend:fatJar --parallel
+          arguments: :android:app:bundleRelease :backend:fatJar --parallel
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v3
         with:
           name: googleBundle
-          path: android/build/outputs/bundle/googleRelease/android-google-release.aab
+          path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
         uses: actions/upload-artifact@v3
         with:
           name: huaweiBundle
-          path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
+          path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
         uses: actions/upload-artifact@v3
@@ -110,7 +110,7 @@ jobs:
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
-          releaseFiles: android-google-release.aab
+          releaseFiles: app-google-release.aab
           track: internal
           status: completed
 
@@ -142,8 +142,8 @@ jobs:
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
           app-id: ${{secrets.HUAWEI_APP_ID}}
           file-extension: "aab"
-          file-path: "android-huawei-release.aab"
-          file-name: "android-huawei-release"
+          file-path: "app-huawei-release.aab"
+          file-name: "app-huawei-release"
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v2
