@@ -34,6 +34,7 @@ include(
     ":common:core:database",
     ":common:core:network",
     ":common:core:infrastructure",
+    ":common:core:model",
 
     ":client", // Shared with all FE targets
 

@@ -1,6 +1,6 @@
 package com.oztechan.ccc.common.datasource.watcher
 
-import com.oztechan.ccc.common.model.Watcher
+import com.oztechan.ccc.common.core.model.Watcher
 import kotlinx.coroutines.flow.Flow
 
 interface WatcherDataSource {

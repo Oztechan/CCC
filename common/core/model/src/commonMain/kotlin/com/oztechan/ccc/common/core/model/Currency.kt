@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.common.model
+package com.oztechan.ccc.common.core.model
 
 data class Currency(
     val code: String,

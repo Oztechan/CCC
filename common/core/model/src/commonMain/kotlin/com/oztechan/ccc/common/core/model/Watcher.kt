@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.model
+package com.oztechan.ccc.common.core.model
 
 data class Watcher(
     val id: Long,

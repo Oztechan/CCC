@@ -2,8 +2,8 @@ package com.oztechan.ccc.client.mapper
 
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsInstant
-import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.ExchangeRate
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

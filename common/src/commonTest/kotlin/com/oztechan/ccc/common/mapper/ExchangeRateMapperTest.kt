@@ -1,5 +1,7 @@
 package com.oztechan.ccc.common.mapper
 
+import com.oztechan.ccc.common.core.network.mapper.toConversionModel
+import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
 import kotlinx.serialization.decodeFromString

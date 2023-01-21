@@ -33,9 +33,14 @@ kotlin {
                     implementation(ktorContentNegotiation)
                     implementation(ktorJson)
                 }
+                implementation(project(Modules.Common.Core.model))
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.common.test)
+            }
+        }
 
         val androidMain by getting {
             dependencies {

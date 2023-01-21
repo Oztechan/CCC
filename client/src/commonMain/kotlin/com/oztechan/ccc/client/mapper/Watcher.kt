@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.mapper
 
 import com.oztechan.ccc.client.util.removeScientificNotation
-import com.oztechan.ccc.common.model.Watcher
+import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.client.model.Watcher as WatcherUIModel
 
 internal fun Watcher.toUIModel() = WatcherUIModel(

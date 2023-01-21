@@ -27,7 +27,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.oztechan.ccc.common.model.Currency as CurrencyCommon
+import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
 @Suppress("OPT_IN_USAGE")
 internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyViewModel>() {
