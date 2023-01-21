@@ -1,12 +1,11 @@
-package com.oztechan.ccc.common.di
+package com.oztechan.ccc.common.core.network.di
 
-import com.oztechan.ccc.common.api.backend.BackendApi
-import com.oztechan.ccc.common.api.backend.BackendApiImpl
-import com.oztechan.ccc.common.api.free.FreeApi
-import com.oztechan.ccc.common.api.free.FreeApiImpl
-import com.oztechan.ccc.common.api.premium.PremiumApi
-import com.oztechan.ccc.common.api.premium.PremiumApiImpl
-import com.oztechan.ccc.common.util.KtorLogger
+import com.oztechan.ccc.common.core.network.api.backend.BackendApi
+import com.oztechan.ccc.common.core.network.api.backend.BackendApiImpl
+import com.oztechan.ccc.common.core.network.api.free.FreeApi
+import com.oztechan.ccc.common.core.network.api.free.FreeApiImpl
+import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
+import com.oztechan.ccc.common.core.network.api.premium.PremiumApiImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -21,7 +20,7 @@ import org.koin.dsl.module
 
 private const val TIME_OUT: Long = 3333
 
-val apiModule = module {
+val commonCoreNetworkModule = module {
     singleOf(::provideHttpClient)
 
     singleOf(::FreeApiImpl) { bind<FreeApi>() }
@@ -47,6 +46,5 @@ private fun provideHttpClient() = HttpClient {
     }
     install(Logging) {
         level = LogLevel.INFO
-        logger = KtorLogger()
     }
 }

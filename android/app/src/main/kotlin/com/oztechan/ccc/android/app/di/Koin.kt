@@ -13,7 +13,7 @@ import com.oztechan.ccc.client.di.storageModule
 import com.oztechan.ccc.client.di.viewModelModule
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
-import com.oztechan.ccc.common.di.apiModule
+import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.di.dataSourceModule
 import com.oztechan.ccc.common.di.dispatcherModule
 import com.oztechan.ccc.common.di.scopeModule
@@ -42,9 +42,9 @@ fun initKoin(context: Context) = startKoin {
 
         // common
         commonCoreDatabaseModule,
-        dataSourceModule,
+        commonCoreNetworkModule,
 
-        apiModule,
+        dataSourceModule,
         serviceModule,
 
         dispatcherModule,

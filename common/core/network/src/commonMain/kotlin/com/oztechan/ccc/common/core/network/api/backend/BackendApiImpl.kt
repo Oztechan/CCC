@@ -1,7 +1,7 @@
-package com.oztechan.ccc.common.api.backend
+package com.oztechan.ccc.common.core.network.api.backend
 
-import com.oztechan.ccc.common.BuildKonfig
-import com.oztechan.ccc.common.api.model.ExchangeRate
+import com.oztechan.ccc.common.core.network.BuildKonfig
+import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

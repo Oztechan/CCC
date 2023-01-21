@@ -1,6 +1,6 @@
 package com.oztechan.ccc.common.service
 
-import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.core.network.api.free.FreeApi
 import com.oztechan.ccc.common.error.ModelMappingException
 import com.oztechan.ccc.common.error.NetworkException
 import com.oztechan.ccc.common.error.TerminationException

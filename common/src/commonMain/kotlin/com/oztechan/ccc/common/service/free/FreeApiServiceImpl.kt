@@ -1,7 +1,7 @@
 package com.oztechan.ccc.common.service.free
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.api.free.FreeApi
+import com.oztechan.ccc.common.core.network.api.free.FreeApi
 import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher

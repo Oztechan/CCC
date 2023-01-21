@@ -1,7 +1,6 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
+import config.Keys
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -9,7 +8,7 @@ plugins {
         id(multiplatform.get().pluginId)
         id(kotlinXSerialization.get().pluginId)
         id(androidLib.get().pluginId)
-        alias(ksp)
+        id(buildKonfig.get().pluginId)
     }
 }
 
@@ -29,37 +28,29 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 libs.common.apply {
-                    implementation(kotlinXDateTime)
                     implementation(koinCore)
                     implementation(ktorLogging)
+                    implementation(ktorContentNegotiation)
                     implementation(ktorJson)
-                    implementation(sqlDelightCoroutinesExt)
-                    implementation(coroutines)
                 }
-                Modules.Common.Core.apply {
-                    implementation(project(database))
-                    implementation(project(network))
-                }
-                implementation(project(Modules.Submodules.logmob))
             }
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(mockative)
-                    implementation(coroutinesTest)
-                }
-                implementation(project(Modules.test))
-            }
-        }
+        val commonTest by getting
 
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.android.ktor)
+            }
+        }
         val androidTest by getting
 
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
+            dependencies {
+                implementation(libs.ios.ktor)
+            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -75,22 +66,18 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
 
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.jvm.ktor)
+            }
+        }
         val jvmTest by getting
     }
 }
 
-dependencies {
-    ksp(libs.processors.mockative)
-}
-
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
-}
-
 android {
     ProjectSettings.apply {
-        namespace = Modules.common.packageName
+        namespace = Modules.Common.Core.network.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
@@ -101,6 +88,15 @@ android {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
+configure<BuildKonfigExtension> {
+    packageName = Modules.Common.Core.network.packageName
+
+    defaultConfigs {
+        Keys(project).apply {
+            buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value, const = true)
+            buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value, const = true)
+            buildConfigField(STRING, baseUrlApiPremium.key, baseUrlApiPremium.value, const = true)
+            buildConfigField(STRING, apiKeyPremium.key, apiKeyPremium.value, const = true)
+        }
+    }
 }

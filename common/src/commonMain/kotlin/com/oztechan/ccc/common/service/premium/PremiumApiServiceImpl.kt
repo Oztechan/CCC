@@ -4,7 +4,7 @@
 package com.oztechan.ccc.common.service.premium
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.api.premium.PremiumApi
+import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.service.BaseNetworkService
 import kotlinx.coroutines.CoroutineDispatcher

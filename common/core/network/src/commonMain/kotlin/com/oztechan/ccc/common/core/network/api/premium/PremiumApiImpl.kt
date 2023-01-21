@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.api.premium
+package com.oztechan.ccc.common.core.network.api.premium
 
-import com.oztechan.ccc.common.BuildKonfig
-import com.oztechan.ccc.common.api.model.ExchangeRate
+import com.oztechan.ccc.common.core.network.BuildKonfig
+import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
