@@ -4,13 +4,13 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
+import com.oztechan.ccc.common.core.infrastructure.util.DAY
+import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.model.Conversion
 import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.util.DAY
-import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
 import io.mockative.Mock
 import io.mockative.classOf

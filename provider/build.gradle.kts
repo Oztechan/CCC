@@ -51,6 +51,7 @@ kotlin {
                 Modules.Common.Core.apply {
                     implementation(project(database))
                     implementation(project(network))
+                    implementation(project(infrastructure))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

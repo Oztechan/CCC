@@ -29,16 +29,15 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 libs.common.apply {
-                    implementation(kotlinXDateTime)
                     implementation(koinCore)
                     implementation(ktorLogging)
                     implementation(ktorJson)
                     implementation(sqlDelightCoroutinesExt)
-                    implementation(coroutines)
                 }
                 Modules.Common.Core.apply {
                     implementation(project(database))
                     implementation(project(network))
+                    implementation(project(infrastructure))
                 }
                 implementation(project(Modules.Submodules.logmob))
             }

@@ -6,7 +6,7 @@ import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.backend.routes.getVersion
-import com.oztechan.ccc.common.di.DISPATCHER_IO
+import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineDispatcher

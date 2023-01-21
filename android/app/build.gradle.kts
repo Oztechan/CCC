@@ -94,6 +94,7 @@ dependencies {
     Modules.Common.Core.apply {
         implementation(project(database))
         implementation(project(network))
+        implementation(project(infrastructure))
     }
 
     Modules.Android.Feature.apply {

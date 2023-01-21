@@ -33,6 +33,7 @@ include(
     ":common", // Shared with all FE & BE targets
     ":common:core:database",
     ":common:core:network",
+    ":common:core:infrastructure",
 
     ":client", // Shared with all FE targets
 
