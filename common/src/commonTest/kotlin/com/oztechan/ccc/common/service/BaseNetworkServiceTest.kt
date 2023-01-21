@@ -1,11 +1,11 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.core.network.api.free.FreeApi
-import com.oztechan.ccc.common.error.ModelMappingException
-import com.oztechan.ccc.common.error.NetworkException
-import com.oztechan.ccc.common.error.TerminationException
-import com.oztechan.ccc.common.error.TimeoutException
-import com.oztechan.ccc.common.error.UnknownNetworkException
+import com.oztechan.ccc.common.core.network.error.ModelMappingException
+import com.oztechan.ccc.common.core.network.error.NetworkException
+import com.oztechan.ccc.common.core.network.error.TerminationException
+import com.oztechan.ccc.common.core.network.error.TimeoutException
+import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import com.oztechan.ccc.common.service.free.FreeApiService
 import com.oztechan.ccc.common.service.free.FreeApiServiceImpl
 import com.oztechan.ccc.test.BaseSubjectTest
@@ -47,6 +47,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
+            assertNotNull(it.cause!!.cause)
             assertEquals(exception, it.cause!!.cause)
             assertEquals(exception.message, it.cause!!.cause!!.message)
         }
@@ -62,7 +63,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause.message)
+            assertEquals(exception.message, it.cause!!.message)
         }
     }
 
@@ -76,7 +77,7 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause.message)
+            assertEquals(exception.message, it.cause!!.message)
         }
     }
 
@@ -90,8 +91,9 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertNotNull(it.cause!!.cause)
+            assertEquals(exception, it.cause!!.cause)
+            assertEquals(exception.message, it.cause!!.cause!!.message)
         }
     }
 
@@ -105,8 +107,9 @@ class BaseNetworkServiceTest : BaseSubjectTest<FreeApiService>() {
             subject.getConversion(base)
         }.let {
             assertNotNull(it.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertNotNull(it.cause!!.cause)
+            assertEquals(exception, it.cause!!.cause)
+            assertEquals(exception.message, it.cause!!.cause!!.message)
         }
     }
 }

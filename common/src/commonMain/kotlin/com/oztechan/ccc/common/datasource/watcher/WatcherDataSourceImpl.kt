@@ -1,26 +1,24 @@
 package com.oztechan.ccc.common.datasource.watcher
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.mapper.toWatcherModel
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
 import com.oztechan.ccc.common.core.model.Watcher
-import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class WatcherDataSourceImpl(
     private val watcherQueries: WatcherQueries,
-    private val ioDispatcher: CoroutineDispatcher
+    ioDispatcher: CoroutineDispatcher
 ) : WatcherDataSource, BaseDBDataSource(ioDispatcher) {
 
     override fun getWatchersFlow(): Flow<List<Watcher>> {
         Logger.v { "WatcherDataSourceImpl getWatchersFlow" }
         return watcherQueries.getWatchers()
-            .toDBFlow()
-            .mapToList(ioDispatcher)
+            .toDBFlowList()
             .map { watcherList ->
                 watcherList.map { it.toWatcherModel() }
             }

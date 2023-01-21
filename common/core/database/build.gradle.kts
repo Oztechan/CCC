@@ -22,7 +22,10 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(libs.common.koinCore)
+                libs.common.apply {
+                    implementation(koinCore)
+                    implementation(sqlDelightCoroutinesExt)
+                }
                 implementation(project(Modules.Common.Core.model))
             }
         }

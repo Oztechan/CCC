@@ -1,3 +1,3 @@
-package com.oztechan.ccc.common.error
+package com.oztechan.ccc.common.core.network.error
 
 class TerminationException(cause: Throwable) : Throwable(cause)
