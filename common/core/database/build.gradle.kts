@@ -23,9 +23,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.common.koinCore)
+                implementation(project(Modules.Common.Core.model))
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.common.test)
+            }
+        }
 
         val androidMain by getting {
             dependencies {

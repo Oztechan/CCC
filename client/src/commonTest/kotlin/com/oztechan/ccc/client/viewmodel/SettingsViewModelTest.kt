@@ -19,13 +19,13 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.core.infrastructure.util.DAY
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.core.model.Currency
+import com.oztechan.ccc.common.core.model.ExchangeRate
+import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.model.Conversion
-import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.ExchangeRate
-import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after

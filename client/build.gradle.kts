@@ -43,7 +43,10 @@ kotlin {
                     implementation(project(scopemob))
                     implementation(project(parsermob))
                 }
-                implementation(project(Modules.Common.Core.infrastructure))
+                Modules.Common.Core.apply {
+                    implementation(project(infrastructure))
+                    implementation(project(model))
+                }
             }
         }
         val commonTest by getting {

@@ -1,10 +1,10 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Watcher
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSourceImpl
-import com.oztechan.ccc.common.mapper.toLong
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query

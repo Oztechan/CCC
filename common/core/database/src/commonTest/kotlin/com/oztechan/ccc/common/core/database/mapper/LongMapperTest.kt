@@ -1,12 +1,11 @@
-package com.oztechan.ccc.common.mapper
+package com.oztechan.ccc.common.core.database.mapper
 
-import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class LongMapperTest : BaseTest() {
+internal class LongMapperTest {
     @Test
     fun toBoolean() {
         assertTrue { 1L.toBoolean() }

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.model
+package com.oztechan.ccc.common.core.model
 
 data class ExchangeRate(
     var base: String,

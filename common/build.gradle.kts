@@ -38,6 +38,7 @@ kotlin {
                     implementation(project(database))
                     implementation(project(network))
                     implementation(project(infrastructure))
+                    implementation(project(model))
                 }
                 implementation(project(Modules.Submodules.logmob))
             }

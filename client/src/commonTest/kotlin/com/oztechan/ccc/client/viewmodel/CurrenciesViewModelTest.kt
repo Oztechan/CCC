@@ -35,7 +35,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
-import com.oztechan.ccc.common.model.Currency as CommonCurrency
+import com.oztechan.ccc.common.core.model.Currency as CommonCurrency
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {

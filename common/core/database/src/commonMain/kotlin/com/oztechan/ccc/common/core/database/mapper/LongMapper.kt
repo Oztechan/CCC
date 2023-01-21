@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.mapper
+package com.oztechan.ccc.common.core.database.mapper
 
 internal fun Long.toBoolean() = when (this) {
     1L -> true

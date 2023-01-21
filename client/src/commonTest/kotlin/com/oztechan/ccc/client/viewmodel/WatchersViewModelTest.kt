@@ -6,10 +6,10 @@ import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
+import com.oztechan.ccc.common.core.model.Currency
+import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.model.Currency
-import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before

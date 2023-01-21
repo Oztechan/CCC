@@ -1,12 +1,12 @@
 package com.oztechan.ccc.common.datasource
 
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
+import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
 import com.oztechan.ccc.common.mapper.toConversionDBModel
-import com.oztechan.ccc.common.mapper.toExchangeRateModel
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query
