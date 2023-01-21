@@ -16,7 +16,7 @@ import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
-import com.oztechan.ccc.common.util.nowAsLong
+import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

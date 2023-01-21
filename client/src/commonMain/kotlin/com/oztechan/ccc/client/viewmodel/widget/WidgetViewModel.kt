@@ -9,9 +9,9 @@ import com.oztechan.ccc.client.util.getRateFromCode
 import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.toValidList
+import com.oztechan.ccc.common.core.infrastructure.util.nowAsInstant
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.util.nowAsInstant
 
 class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,

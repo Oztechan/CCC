@@ -1,5 +1,6 @@
 package com.oztechan.ccc.common.di
 
+import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource

@@ -17,6 +17,8 @@ import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.isPremiumExpired
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.common.core.infrastructure.util.DAY
+import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
@@ -25,8 +27,6 @@ import com.oztechan.ccc.common.model.Currency
 import com.oztechan.ccc.common.model.ExchangeRate
 import com.oztechan.ccc.common.model.Watcher
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.util.DAY
-import com.oztechan.ccc.common.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
