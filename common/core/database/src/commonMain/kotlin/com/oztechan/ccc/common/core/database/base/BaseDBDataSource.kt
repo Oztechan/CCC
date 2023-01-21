@@ -1,17 +1,16 @@
-package com.oztechan.ccc.common.datasource
+package com.oztechan.ccc.common.core.database.base
 
-import com.oztechan.ccc.common.error.DatabaseException
+import com.oztechan.ccc.common.core.database.error.DatabaseException
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 
-internal open class BaseDBDataSource(
-    private val ioDispatcher: CoroutineDispatcher
-) {
+open class BaseDBDataSource(private val ioDispatcher: CoroutineDispatcher) {
     @Suppress("TooGenericExceptionCaught")
     protected suspend fun <T> dbQuery(
         suspendBlock: suspend () -> T
@@ -28,4 +27,6 @@ internal open class BaseDBDataSource(
         .catch {
             throw DatabaseException(it)
         }
+
+    protected fun <T : Any> Query<T>.toDBFlowList(): Flow<List<T>> = toDBFlow().mapToList(ioDispatcher)
 }

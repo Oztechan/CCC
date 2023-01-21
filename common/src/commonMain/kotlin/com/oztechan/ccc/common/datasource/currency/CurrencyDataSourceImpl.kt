@@ -1,26 +1,24 @@
 package com.oztechan.ccc.common.datasource.currency
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
 import com.oztechan.ccc.common.core.database.mapper.toCurrencyModel
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.common.datasource.BaseDBDataSource
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class CurrencyDataSourceImpl(
     private val currencyQueries: CurrencyQueries,
-    private val ioDispatcher: CoroutineDispatcher
+    ioDispatcher: CoroutineDispatcher
 ) : CurrencyDataSource, BaseDBDataSource(ioDispatcher) {
 
     override fun getCurrenciesFlow(): Flow<List<Currency>> {
         Logger.v { "CurrencyDataSourceImpl getCurrenciesFlow" }
         return currencyQueries.getCurrencies()
-            .toDBFlow()
-            .mapToList(ioDispatcher)
+            .toDBFlowList()
             .map { it.sortedBy { (name) -> name } }
             .map { currencyList ->
                 currencyList.map { it.toCurrencyModel() }
@@ -30,8 +28,7 @@ internal class CurrencyDataSourceImpl(
     override fun getActiveCurrenciesFlow(): Flow<List<Currency>> {
         Logger.v { "CurrencyDataSourceImpl getActiveCurrenciesFlow" }
         return currencyQueries.getActiveCurrencies()
-            .toDBFlow()
-            .mapToList(ioDispatcher)
+            .toDBFlowList()
             .map { it.sortedBy { (name) -> name } }
             .map { currencyList ->
                 currencyList.map { it.toCurrencyModel() }

@@ -32,7 +32,6 @@ kotlin {
                     implementation(koinCore)
                     implementation(ktorLogging)
                     implementation(ktorJson)
-                    implementation(sqlDelightCoroutinesExt)
                 }
                 Modules.Common.Core.apply {
                     implementation(project(database))

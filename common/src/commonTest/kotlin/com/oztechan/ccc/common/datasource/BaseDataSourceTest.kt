@@ -1,9 +1,9 @@
 package com.oztechan.ccc.common.datasource
 
+import com.oztechan.ccc.common.core.database.error.DatabaseException
 import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSourceImpl
-import com.oztechan.ccc.common.error.DatabaseException
 import com.oztechan.ccc.test.BaseSubjectTest
 import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
@@ -37,7 +37,7 @@ class BaseDataSourceTest : BaseSubjectTest<CurrencyDataSource>() {
         }.let {
             assertNotNull(it.cause)
             assertEquals(exception, it.cause)
-            assertEquals(exception.message, it.cause.message)
+            assertEquals(exception.message, it.cause!!.message)
         }
     }
 }
