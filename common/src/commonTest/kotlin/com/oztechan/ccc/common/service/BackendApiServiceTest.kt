@@ -1,10 +1,10 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
+import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
 import com.oztechan.ccc.test.BaseSubjectTest

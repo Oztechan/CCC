@@ -1,11 +1,11 @@
-package com.oztechan.ccc.common.service
+package com.oztechan.ccc.common.core.network.base
 
-import com.oztechan.ccc.common.error.EmptyParameterException
-import com.oztechan.ccc.common.error.ModelMappingException
-import com.oztechan.ccc.common.error.NetworkException
-import com.oztechan.ccc.common.error.TerminationException
-import com.oztechan.ccc.common.error.TimeoutException
-import com.oztechan.ccc.common.error.UnknownNetworkException
+import com.oztechan.ccc.common.core.network.error.EmptyParameterException
+import com.oztechan.ccc.common.core.network.error.ModelMappingException
+import com.oztechan.ccc.common.core.network.error.NetworkException
+import com.oztechan.ccc.common.core.network.error.TerminationException
+import com.oztechan.ccc.common.core.network.error.TimeoutException
+import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CancellationException
@@ -13,10 +13,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 
-internal open class BaseNetworkService(
-    private val ioDispatcher: CoroutineDispatcher
-) {
-    protected suspend fun <T> apiRequest(
+open class BaseNetworkService(private val ioDispatcher: CoroutineDispatcher) {
+    suspend fun <T> apiRequest(
         suspendBlock: suspend () -> T
     ): T = withContext(ioDispatcher) {
         makeRequest {

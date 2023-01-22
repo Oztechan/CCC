@@ -5,10 +5,10 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
+import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.error.UnknownNetworkException
 import com.oztechan.ccc.common.service.premium.PremiumApiService
 import com.oztechan.ccc.common.service.premium.PremiumApiServiceImpl
 import com.oztechan.ccc.test.BaseSubjectTest
