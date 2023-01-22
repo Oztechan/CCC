@@ -24,6 +24,7 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(koinCore)
+                    implementation(coroutines)
                     implementation(sqlDelightCoroutinesExt)
                 }
                 implementation(project(Modules.Common.Core.model))
@@ -33,7 +34,6 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(test)
-                    implementation(coroutines)
                     implementation(coroutinesTest)
                 }
             }
