@@ -24,8 +24,8 @@ import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DE
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.data.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.data.service.backend.BackendApiService
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
