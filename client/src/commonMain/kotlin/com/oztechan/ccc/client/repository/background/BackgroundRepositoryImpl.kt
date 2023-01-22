@@ -3,7 +3,7 @@ package com.oztechan.ccc.client.repository.background
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.util.getRateFromCode
 import com.oztechan.ccc.common.data.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.data.service.backend.BackendApiService
 import kotlinx.coroutines.runBlocking
 
 internal class BackgroundRepositoryImpl(

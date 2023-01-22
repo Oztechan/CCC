@@ -8,7 +8,6 @@ import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.data.service.free.di.commonDataServiceFreeModule
 import com.oztechan.ccc.common.data.service.premium.di.commonDataServicePremiumModule
 import com.oztechan.ccc.common.di.dataSourceModule
-import com.oztechan.ccc.common.di.serviceModule
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import org.koin.ktor.plugin.Koin
@@ -27,8 +26,7 @@ internal fun Application.koinModule() {
             commonDataServiceFreeModule,
             commonDataServicePremiumModule,
 
-            dataSourceModule,
-            serviceModule,
+            dataSourceModule
         )
     }.also {
         Logger.i { "Koin initialised" }
