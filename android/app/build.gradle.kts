@@ -101,6 +101,10 @@ dependencies {
         implementation(project(backend))
     }
 
+    Modules.Common.Data.Datasource.apply {
+        implementation(project(currency))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))

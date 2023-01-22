@@ -7,7 +7,10 @@ import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
 import com.oztechan.ccc.backend.routes.getVersion
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +21,10 @@ import org.koin.ktor.ext.inject
 @Suppress("unused")
 internal fun Application.serverModule() {
     Logger.i { "ServerModuleKt Application.serverModule" }
+
+    install(ContentNegotiation) {
+        json()
+    }
 
     val serverController: ServerController by inject()
     val globalScope: CoroutineScope by inject()

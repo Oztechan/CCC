@@ -28,6 +28,10 @@ object Modules {
                 const val premium = ":common:data:service:premium"
                 const val backend = ":common:data:service:backend"
             }
+
+            object Datasource {
+                const val currency = ":common:data:datasource:currency"
+            }
         }
     }
 

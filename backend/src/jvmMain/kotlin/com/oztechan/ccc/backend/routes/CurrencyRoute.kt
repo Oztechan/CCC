@@ -6,11 +6,9 @@ package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.server.ServerController
-import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
-import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
@@ -25,13 +23,8 @@ internal suspend fun Route.getCurrencyByName(
     call.parameters[PARAMETER_BASE]?.let { base ->
         Logger.i { "Parameter: $PARAMETER_BASE $base" }
 
-        serverController.getExchangeRateTextByBase(base)
-            ?.let {
-                call.respondText(
-                    contentType = ContentType.Application.Json,
-                    status = HttpStatusCode.OK,
-                    text = it
-                )
-            } ?: call.respond(HttpStatusCode.NotFound)
+        serverController.getExchangeRateByBase(base)
+            ?.let { call.respond(HttpStatusCode.OK, it) }
+            ?: call.respond(HttpStatusCode.NotFound)
     } ?: call.respond(HttpStatusCode.BadRequest)
 }

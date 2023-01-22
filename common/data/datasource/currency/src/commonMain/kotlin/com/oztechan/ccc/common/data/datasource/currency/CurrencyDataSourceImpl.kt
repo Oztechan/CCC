@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.currency
+package com.oztechan.ccc.common.data.datasource.currency
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.base.BaseDBDataSource

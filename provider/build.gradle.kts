@@ -58,6 +58,10 @@ kotlin {
                     implementation(project(backend))
                 }
 
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(currency))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }
