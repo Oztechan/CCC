@@ -6,8 +6,8 @@ import com.oztechan.ccc.common.core.infrastructure.util.SECOND
 import com.oztechan.ccc.common.core.model.CurrencyType
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.data.service.free.FreeApiService
+import com.oztechan.ccc.common.data.service.premium.PremiumApiService
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.common.service.premium.PremiumApiService
 import kotlinx.coroutines.delay
 
 internal class ClientControllerImpl(

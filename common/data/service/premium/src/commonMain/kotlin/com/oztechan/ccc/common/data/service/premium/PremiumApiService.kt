@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.service.premium
+package com.oztechan.ccc.common.data.service.premium
 
 import com.oztechan.ccc.common.core.model.ExchangeRate
 

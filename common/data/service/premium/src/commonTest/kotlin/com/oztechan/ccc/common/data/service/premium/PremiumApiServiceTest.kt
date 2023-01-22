@@ -2,21 +2,18 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.common.service
+package com.oztechan.ccc.common.data.service.premium
 
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.service.premium.PremiumApiService
-import com.oztechan.ccc.common.service.premium.PremiumApiServiceImpl
-import com.oztechan.ccc.test.BaseSubjectTest
-import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -25,10 +22,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
+internal class PremiumApiServiceTest {
 
-    override val subject: PremiumApiService by lazy {
-        PremiumApiServiceImpl(premiumAPI, createTestDispatcher())
+    private val subject: PremiumApiService by lazy {
+        PremiumApiServiceImpl(premiumAPI, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     @Mock

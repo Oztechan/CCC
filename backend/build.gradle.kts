@@ -50,6 +50,7 @@ kotlin {
 
                 Modules.Common.Data.Service.apply {
                     implementation(project(free))
+                    implementation(project(premium))
                 }
 
                 implementation(project(Modules.common))
