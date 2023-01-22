@@ -36,6 +36,7 @@ include(
     ":common:core:infrastructure",
     ":common:core:model",
     ":common:data:service:free",
+    ":common:data:service:premium",
     ":common:data:datasource:currency",
     ":common:data:datasource:watcher",
 

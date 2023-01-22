@@ -7,6 +7,4 @@ interface ConversionDataSource {
     suspend fun insertConversion(exchangeRate: ExchangeRate)
 
     suspend fun getConversionByBase(baseName: String): Conversion?
-
-    suspend fun getExchangeRateTextByBase(baseName: String): String?
 }

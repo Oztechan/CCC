@@ -4,11 +4,8 @@ import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.test.BaseTest
 import com.oztechan.ccc.test.util.assertAllTrue
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import com.oztechan.ccc.common.core.network.model.Conversion as ConversionAPIModel
 import com.oztechan.ccc.common.core.network.model.ExchangeRate as ExchangeRateAPIModel
 
@@ -135,13 +132,5 @@ internal class ExchangeRateMapperTest : BaseTest() {
             conversionDBModel.YER == apiModel.conversion.yer, conversionDBModel.ZAR == apiModel.conversion.zar,
             conversionDBModel.ZMW == apiModel.conversion.zmw, conversionDBModel.ZWL == apiModel.conversion.zwl
         )
-    }
-
-    @Test
-    fun toSerializedString() {
-        val serializedString = apiModel.toSerializedString()
-        assertTrue {
-            Json.decodeFromString<ExchangeRateAPIModel>(serializedString) == apiModel
-        }
     }
 }
