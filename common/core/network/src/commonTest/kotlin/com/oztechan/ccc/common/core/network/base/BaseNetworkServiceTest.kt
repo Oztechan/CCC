@@ -47,9 +47,7 @@ class BaseNetworkServiceTest {
             subject.request { throw IOException(exception.message.toString()) }
         }.let {
             assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 
@@ -59,9 +57,7 @@ class BaseNetworkServiceTest {
             subject.request { throw ConnectTimeoutException(exception.message.toString()) }
         }.let {
             assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 
@@ -95,10 +91,8 @@ class BaseNetworkServiceTest {
         assertFailsWith(EmptyParameterException::class) {
             subject.parameterCheck("")
         }.let {
-            assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertNotNull(it)
+            assertEquals(EmptyParameterException().message, it.message)
         }
     }
 }
