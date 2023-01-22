@@ -31,7 +31,11 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.common.test)
+                libs.common.apply {
+                    implementation(test)
+                    implementation(coroutines)
+                    implementation(coroutinesTest)
+                }
             }
         }
 
