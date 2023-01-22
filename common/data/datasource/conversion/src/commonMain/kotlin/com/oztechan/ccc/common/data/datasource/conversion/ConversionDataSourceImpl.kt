@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.conversion
+package com.oztechan.ccc.common.data.datasource.conversion
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.core.database.mapper.toConversionModel
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate
-import com.oztechan.ccc.common.mapper.toConversionDBModel
+import com.oztechan.ccc.common.data.datasource.conversion.mapper.toConversionDBModel
 import kotlinx.coroutines.CoroutineDispatcher
 
 internal class ConversionDataSourceImpl(

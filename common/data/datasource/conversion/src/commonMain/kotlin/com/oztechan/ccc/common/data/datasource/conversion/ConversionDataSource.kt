@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.conversion
+package com.oztechan.ccc.common.data.datasource.conversion
 
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate

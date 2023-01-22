@@ -39,6 +39,7 @@ include(
     ":common:data:service:premium",
     ":common:data:datasource:currency",
     ":common:data:datasource:watcher",
+    ":common:data:datasource:conversion",
 
     ":client", // Shared with all FE targets
 

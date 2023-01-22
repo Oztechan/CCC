@@ -1,14 +1,10 @@
-package com.oztechan.ccc.common.datasource
+package com.oztechan.ccc.common.data.datasource.conversion
 
+import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
-import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
-import com.oztechan.ccc.common.core.network.model.Conversion
-import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
-import com.oztechan.ccc.common.mapper.toConversionDBModel
-import com.oztechan.ccc.test.BaseSubjectTest
-import com.oztechan.ccc.test.util.createTestDispatcher
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.core.model.ExchangeRate
+import com.oztechan.ccc.common.data.datasource.conversion.mapper.toConversionDBModel
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
@@ -17,15 +13,16 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>() {
+internal class ConversionDataSourceTest {
 
-    override val subject: ConversionDataSource by lazy {
-        ConversionDataSourceImpl(conversionQueries, createTestDispatcher())
+    private val subject: ConversionDataSource by lazy {
+        ConversionDataSourceImpl(conversionQueries, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     @Mock
@@ -37,16 +34,15 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
     @Mock
     private val sqlCursor = mock(classOf<SqlCursor>())
 
-    private val exchangeRateAPIModel = ExchangeRate("EUR", "12.21.2121", Conversion())
-    private val exchangeRate = exchangeRateAPIModel.toExchangeRateModel()
+    private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
         exchangeRate.toConversionDBModel()
     }
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        initTestLogger()
 
         given(sqlDriver)
             .invocation { executeQuery(-1, "", 0, null) }

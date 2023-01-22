@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.mapper
+package com.oztechan.ccc.common.data.datasource.conversion.mapper
 
 import com.oztechan.ccc.common.core.database.sql.Conversion as ConversionDBModel
 import com.oztechan.ccc.common.core.model.ExchangeRate as ExchangeRateModel

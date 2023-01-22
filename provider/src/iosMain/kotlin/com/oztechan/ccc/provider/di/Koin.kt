@@ -18,6 +18,7 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
+import com.oztechan.ccc.common.data.datasource.conversion.di.commonDataDatasourceConversionModule
 import com.oztechan.ccc.common.data.datasource.currency.di.commonDataDatasourceCurrencyModule
 import com.oztechan.ccc.common.data.datasource.watcher.di.commonDataDatasourceWatcherModule
 import com.oztechan.ccc.common.di.dataSourceModule
@@ -54,6 +55,7 @@ fun initKoin(
         commonCoreInfrastructureModule,
         commonDataDatasourceCurrencyModule,
         commonDataDatasourceWatcherModule,
+        commonDataDatasourceConversionModule,
 
         dataSourceModule,
         serviceModule
