@@ -82,19 +82,4 @@ internal class ConversionDataSourceTest : BaseSubjectTest<ConversionDataSource>(
             .invocation { getConversionByBase(exchangeRate.base) }
             .wasInvoked()
     }
-
-    @Test
-    fun getExchangeRateTextByBase() {
-        given(conversionQueries)
-            .invocation { getConversionByBase(exchangeRate.base) }
-            .then { query }
-
-        runTest {
-            subject.getExchangeRateTextByBase(exchangeRate.base)
-        }
-
-        verify(conversionQueries)
-            .invocation { getConversionByBase(exchangeRate.base) }
-            .wasInvoked()
-    }
 }
