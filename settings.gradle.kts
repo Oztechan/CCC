@@ -36,6 +36,7 @@ include(
     ":common:core:infrastructure",
     ":common:core:model",
     ":common:data:service:free",
+    ":common:data:datasource:currency",
 
     ":client", // Shared with all FE targets
 

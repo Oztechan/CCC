@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.currency
+package com.oztechan.ccc.common.data.datasource.currency
 
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.Flow

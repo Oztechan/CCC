@@ -26,6 +26,10 @@ object Modules {
             object Service {
                 const val free = ":common:data:service:free"
             }
+
+            object Datasource {
+                const val currency = ":common:data:datasource:currency"
+            }
         }
     }
 
