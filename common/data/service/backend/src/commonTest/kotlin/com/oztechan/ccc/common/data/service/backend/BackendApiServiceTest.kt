@@ -1,5 +1,6 @@
 package com.oztechan.ccc.common.data.service.backend
 
+import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
@@ -11,6 +12,7 @@ import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -30,6 +32,11 @@ internal class BackendApiServiceTest {
     private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val throwable = Throwable("mock")
     private val base = "EUR"
+
+    @BeforeTest
+    fun setup() {
+        initTestLogger()
+    }
 
     @Test
     fun `getConversion parameter can not be empty`() = runTest {
