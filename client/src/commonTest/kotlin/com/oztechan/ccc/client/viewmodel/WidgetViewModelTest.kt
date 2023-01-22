@@ -10,7 +10,7 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.data.service.backend.BackendApiService
 import com.oztechan.ccc.test.BaseViewModelTest
 import io.mockative.Mock
 import io.mockative.classOf
