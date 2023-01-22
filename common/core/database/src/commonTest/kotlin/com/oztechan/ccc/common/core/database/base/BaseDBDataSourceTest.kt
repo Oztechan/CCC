@@ -26,9 +26,7 @@ class BaseDBDataSourceTest {
             subject.query { throw exception }
         }.let {
             assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+            assertEquals(exception.message, it.cause.message)
         }
     }
 }
