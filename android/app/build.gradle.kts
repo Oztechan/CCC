@@ -97,6 +97,10 @@ dependencies {
         implementation(project(infrastructure))
     }
 
+    Modules.Common.Data.Service.apply {
+        implementation(project(backend))
+    }
+
     Modules.Common.Data.Datasource.apply {
         implementation(project(currency))
     }

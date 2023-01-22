@@ -38,6 +38,7 @@ include(
     ":common:data:service:free",
     ":common:data:datasource:currency",
     ":common:data:service:premium",
+    ":common:data:service:backend",
 
     ":client", // Shared with all FE targets
 

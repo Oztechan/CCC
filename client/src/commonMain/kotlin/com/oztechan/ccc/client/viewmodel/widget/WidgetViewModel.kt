@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsInstant
 import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.service.backend.BackendApiService
+import com.oztechan.ccc.common.data.service.backend.BackendApiService
 
 class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,

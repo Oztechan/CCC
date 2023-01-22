@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.service.backend
+package com.oztechan.ccc.common.data.service.backend
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
