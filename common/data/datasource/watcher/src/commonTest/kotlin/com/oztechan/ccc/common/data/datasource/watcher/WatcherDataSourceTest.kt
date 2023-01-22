@@ -1,12 +1,9 @@
-package com.oztechan.ccc.common.datasource
+package com.oztechan.ccc.common.data.datasource.watcher
 
+import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Watcher
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
-import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.datasource.watcher.WatcherDataSourceImpl
-import com.oztechan.ccc.test.BaseSubjectTest
-import com.oztechan.ccc.test.util.createTestDispatcher
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
@@ -15,16 +12,17 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @Suppress("OPT_IN_USAGE")
-internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
+internal class WatcherDataSourceTest {
 
-    override val subject: WatcherDataSource by lazy {
-        WatcherDataSourceImpl(watcherQueries, createTestDispatcher())
+    private val subject: WatcherDataSource by lazy {
+        WatcherDataSourceImpl(watcherQueries, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     @Mock
@@ -45,8 +43,8 @@ internal class WatcherDataSourceTest : BaseSubjectTest<WatcherDataSource>() {
     }
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        initTestLogger()
 
         given(sqlDriver)
             .invocation { executeQuery(-1, "", 0, null) }

@@ -5,13 +5,10 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSourceImpl
 import com.oztechan.ccc.common.datasource.exchangerate.ExchangeRateDataSource
 import com.oztechan.ccc.common.datasource.exchangerate.ExchangeRateDataSourceImpl
-import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.datasource.watcher.WatcherDataSourceImpl
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataSourceModule = module {
     single<ConversionDataSource> { ConversionDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
-    single<WatcherDataSource> { WatcherDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
     single<ExchangeRateDataSource> { ExchangeRateDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
 }
