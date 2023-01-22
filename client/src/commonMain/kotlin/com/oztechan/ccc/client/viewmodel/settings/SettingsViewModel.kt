@@ -22,8 +22,8 @@ import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
+import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
 import kotlinx.coroutines.delay

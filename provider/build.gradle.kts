@@ -54,6 +54,10 @@ kotlin {
                     implementation(project(infrastructure))
                 }
 
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(currency))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }
