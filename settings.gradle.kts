@@ -35,6 +35,7 @@ include(
     ":common:core:network",
     ":common:core:infrastructure",
     ":common:core:model",
+    ":common:data:service:free",
 
     ":client", // Shared with all FE targets
 

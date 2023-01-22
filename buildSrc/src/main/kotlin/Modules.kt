@@ -21,6 +21,12 @@ object Modules {
             const val infrastructure = ":common:core:infrastructure"
             const val model = ":common:core:model"
         }
+
+        object Data {
+            object Service {
+                const val free = ":common:data:service:free"
+            }
+        }
     }
 
     const val client = ":client"

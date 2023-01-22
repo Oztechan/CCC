@@ -48,6 +48,10 @@ kotlin {
                     implementation(project(model))
                 }
 
+                Modules.Common.Data.Service.apply {
+                    implementation(project(free))
+                }
+
                 implementation(project(Modules.common))
                 implementation(project(Modules.Submodules.logmob))
             }
