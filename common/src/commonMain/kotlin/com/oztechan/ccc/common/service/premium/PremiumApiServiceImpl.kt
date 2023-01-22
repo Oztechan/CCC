@@ -18,6 +18,6 @@ internal class PremiumApiServiceImpl(
         base: String
     ) = apiRequest {
         Logger.v { "PremiumApiServiceImpl getConversion $base" }
-        premiumAPI.getConversion(base.withEmptyParameterCheck()).toExchangeRateModel(base)
+        premiumAPI.getConversion(withEmptyParameterCheck(base)).toExchangeRateModel(base)
     }
 }
