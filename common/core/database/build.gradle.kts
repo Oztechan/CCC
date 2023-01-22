@@ -24,6 +24,7 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(koinCore)
+                    implementation(coroutines)
                     implementation(sqlDelightCoroutinesExt)
                 }
                 implementation(project(Modules.Common.Core.model))
@@ -31,7 +32,10 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.common.test)
+                libs.common.apply {
+                    implementation(test)
+                    implementation(coroutinesTest)
+                }
             }
         }
 
