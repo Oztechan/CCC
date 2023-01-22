@@ -53,7 +53,7 @@ common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings"
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
 common-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-common-ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+common-ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
@@ -104,6 +104,7 @@ jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-ktorCore = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 jvm-ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
+common-ktorServerContentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 

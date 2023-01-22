@@ -2,7 +2,9 @@ package com.oztechan.ccc.backend.controller
 
 import com.oztechan.ccc.backend.controller.server.ServerController
 import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
-import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
+import com.oztechan.ccc.common.core.network.model.Conversion
+import com.oztechan.ccc.common.core.network.model.ExchangeRate
+import com.oztechan.ccc.common.datasource.exchangerate.ExchangeRateDataSource
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -16,26 +18,26 @@ import kotlin.test.assertEquals
 @Suppress("OPT_IN_USAGE")
 internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
     override val subject: ServerController by lazy {
-        ServerControllerImpl(conversionDataSource)
+        ServerControllerImpl(exchangeRateDataSource)
     }
 
     @Mock
-    private val conversionDataSource = mock(classOf<ConversionDataSource>())
+    private val exchangeRateDataSource = mock(classOf<ExchangeRateDataSource>())
 
     @Test
-    fun `getExchangeRateTextByBase returns getExchangeRateTextByBase from ConversionDataSource`() =
+    fun `getExchangeRateByBase returns getExchangeRateByBase from ExchangeRateDataSource`() =
         runTest {
             val base = "EUR"
-            val result = "result"
+            val result = ExchangeRate(base, "date", Conversion(base))
 
-            given(conversionDataSource)
-                .coroutine { getExchangeRateTextByBase(base) }
+            given(exchangeRateDataSource)
+                .coroutine { getExchangeRateByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getExchangeRateTextByBase(base))
+            assertEquals(result, subject.getExchangeRateByBase(base))
 
-            verify(conversionDataSource)
-                .coroutine { getExchangeRateTextByBase(base) }
+            verify(exchangeRateDataSource)
+                .coroutine { getExchangeRateByBase(base) }
                 .wasInvoked()
         }
 }

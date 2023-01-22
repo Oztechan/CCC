@@ -30,7 +30,7 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(ktorLogging)
-                    implementation(ktorContentNegotiation)
+                    implementation(ktorClientContentNegotiation)
                     implementation(ktorJson)
                 }
                 implementation(project(Modules.Common.Core.model))

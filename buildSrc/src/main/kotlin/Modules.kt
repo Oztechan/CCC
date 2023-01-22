@@ -25,6 +25,7 @@ object Modules {
         object Data {
             object Service {
                 const val free = ":common:data:service:free"
+                const val premium = ":common:data:service:premium"
             }
 
             object Datasource {

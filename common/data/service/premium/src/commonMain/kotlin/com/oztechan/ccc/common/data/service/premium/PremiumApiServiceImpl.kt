@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.common.service.premium
+package com.oztechan.ccc.common.data.service.premium
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi

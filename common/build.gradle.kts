@@ -7,7 +7,6 @@ plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
-        id(kotlinXSerialization.get().pluginId)
         id(androidLib.get().pluginId)
         alias(ksp)
     }
@@ -31,7 +30,6 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(ktorLogging)
-                    implementation(ktorJson)
                 }
                 Modules.Common.Core.apply {
                     implementation(project(database))

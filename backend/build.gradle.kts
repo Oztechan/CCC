@@ -41,6 +41,11 @@ kotlin {
                     implementation(koinKtor)
                 }
 
+                libs.common.apply {
+                    implementation(ktorServerContentNegotiation)
+                    implementation(ktorJson)
+                }
+
                 Modules.Common.Core.apply {
                     implementation(project(database))
                     implementation(project(network))
@@ -50,6 +55,7 @@ kotlin {
 
                 Modules.Common.Data.Service.apply {
                     implementation(project(free))
+                    implementation(project(premium))
                 }
 
                 implementation(project(Modules.common))
