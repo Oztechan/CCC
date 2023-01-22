@@ -14,6 +14,6 @@ internal class BackendApiServiceImpl(
         base: String
     ) = apiRequest {
         Logger.v { "BackendApiServiceImpl getConversion $base" }
-        backendApi.getConversion(base.withEmptyParameterCheck()).toExchangeRateModel(base)
+        backendApi.getConversion(withEmptyParameterCheck(base)).toExchangeRateModel(base)
     }
 }

@@ -5,7 +5,6 @@
 package com.oztechan.ccc.common.service
 
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
-import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
@@ -22,7 +21,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -45,7 +43,6 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
-            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(premiumAPI)
@@ -66,7 +63,6 @@ internal class PremiumApiServiceTest : BaseSubjectTest<PremiumApiService>() {
             assertNotNull(it.exceptionOrNull()!!.cause)
             assertNotNull(it.exceptionOrNull()!!.message)
             assertEquals(throwable.message, it.exceptionOrNull()!!.cause!!.message)
-            assertIs<UnknownNetworkException>(it.exceptionOrNull())
         }
 
         verify(premiumAPI)

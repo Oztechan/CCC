@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 
 open class BaseNetworkService(private val ioDispatcher: CoroutineDispatcher) {
-    suspend fun <T> apiRequest(
+    protected suspend fun <T> apiRequest(
         suspendBlock: suspend () -> T
     ): T = withContext(ioDispatcher) {
         makeRequest {
@@ -37,7 +37,7 @@ open class BaseNetworkService(private val ioDispatcher: CoroutineDispatcher) {
         }
     }
 
-    protected fun String.withEmptyParameterCheck() = ifEmpty {
+    protected fun withEmptyParameterCheck(parameter: String) = parameter.ifEmpty {
         throw EmptyParameterException()
     }
 }
