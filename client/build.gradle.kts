@@ -47,6 +47,9 @@ kotlin {
                     implementation(project(infrastructure))
                     implementation(project(model))
                 }
+                Modules.Common.Data.Service.apply {
+                    implementation(project(backend))
+                }
             }
         }
         val commonTest by getting {

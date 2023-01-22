@@ -37,6 +37,7 @@ include(
     ":common:core:model",
     ":common:data:service:free",
     ":common:data:service:premium",
+    ":common:data:service:backend",
 
     ":client", // Shared with all FE targets
 

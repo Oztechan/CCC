@@ -26,6 +26,7 @@ object Modules {
             object Service {
                 const val free = ":common:data:service:free"
                 const val premium = ":common:data:service:premium"
+                const val backend = ":common:data:service:backend"
             }
         }
     }

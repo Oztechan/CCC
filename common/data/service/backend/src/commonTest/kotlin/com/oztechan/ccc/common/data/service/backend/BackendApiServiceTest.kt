@@ -1,18 +1,15 @@
-package com.oztechan.ccc.common.service
+package com.oztechan.ccc.common.data.service.backend
 
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.common.service.backend.BackendApiServiceImpl
-import com.oztechan.ccc.test.BaseSubjectTest
-import com.oztechan.ccc.test.util.createTestDispatcher
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,10 +18,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-internal class BackendApiServiceTest : BaseSubjectTest<BackendApiService>() {
+internal class BackendApiServiceTest {
 
-    override val subject: BackendApiService by lazy {
-        BackendApiServiceImpl(backendApi, createTestDispatcher())
+    private val subject: BackendApiService by lazy {
+        BackendApiServiceImpl(backendApi, newSingleThreadContext(this::class.simpleName.toString()))
     }
 
     @Mock

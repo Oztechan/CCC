@@ -97,6 +97,10 @@ dependencies {
         implementation(project(infrastructure))
     }
 
+    Modules.Common.Data.Service.apply {
+        implementation(project(backend))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))
