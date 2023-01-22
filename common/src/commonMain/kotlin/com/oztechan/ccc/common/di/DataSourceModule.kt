@@ -7,5 +7,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataSourceModule = module {
+    single<ConversionDataSource> { ConversionDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
     single<ExchangeRateDataSource> { ExchangeRateDataSourceImpl(get(), get(named(DISPATCHER_IO))) }
 }
