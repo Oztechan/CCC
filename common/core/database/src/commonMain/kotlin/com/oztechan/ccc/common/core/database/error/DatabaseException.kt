@@ -1,3 +1,3 @@
 package com.oztechan.ccc.common.core.database.error
 
-class DatabaseException(cause: Throwable) : Throwable(cause)
+internal class DatabaseException(cause: Throwable) : Throwable(cause)

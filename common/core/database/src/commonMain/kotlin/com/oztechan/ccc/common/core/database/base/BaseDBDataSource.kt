@@ -22,11 +22,9 @@ open class BaseDBDataSource(private val ioDispatcher: CoroutineDispatcher) {
         }
     }
 
-    protected fun <T : Any> Query<T>.toDBFlow(): Flow<Query<T>> = asFlow()
+    protected fun <T : Any> Query<T>.toDBFlowList(): Flow<List<T>> = asFlow()
         .flowOn(ioDispatcher)
         .catch {
             throw DatabaseException(it)
-        }
-
-    protected fun <T : Any> Query<T>.toDBFlowList(): Flow<List<T>> = toDBFlow().mapToList(ioDispatcher)
+        }.mapToList(ioDispatcher)
 }
