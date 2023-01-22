@@ -47,6 +47,9 @@ kotlin {
                     implementation(project(infrastructure))
                     implementation(project(model))
                 }
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(currency))
+                }
             }
         }
         val commonTest by getting {
