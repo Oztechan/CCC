@@ -1,8 +1,8 @@
 package com.oztechan.ccc.common.datasource.exchangerate
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.core.database.sql.ConversionQueries
 import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
+import com.oztechan.ccc.common.core.database.sql.ConversionQueries
 import com.oztechan.ccc.common.mapper.toExchangeRateAPIModel
 import kotlinx.coroutines.CoroutineDispatcher
 
