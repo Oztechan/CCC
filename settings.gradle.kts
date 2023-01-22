@@ -37,6 +37,7 @@ include(
     ":common:core:model",
     ":common:data:service:free",
     ":common:data:datasource:currency",
+    ":common:data:datasource:watcher",
 
     ":client", // Shared with all FE targets
 

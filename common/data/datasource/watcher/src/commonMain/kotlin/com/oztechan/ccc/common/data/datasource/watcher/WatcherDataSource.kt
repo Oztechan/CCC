@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.watcher
+package com.oztechan.ccc.common.data.datasource.watcher
 
 import com.oztechan.ccc.common.core.model.Watcher
 import kotlinx.coroutines.flow.Flow

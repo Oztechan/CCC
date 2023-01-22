@@ -99,6 +99,7 @@ dependencies {
 
     Modules.Common.Data.Datasource.apply {
         implementation(project(currency))
+        implementation(project(watcher))
     }
 
     Modules.Android.Feature.apply {

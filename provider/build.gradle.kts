@@ -56,6 +56,7 @@ kotlin {
 
                 Modules.Common.Data.Datasource.apply {
                     implementation(project(currency))
+                    implementation(project(watcher))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

@@ -19,6 +19,7 @@ import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.data.datasource.currency.di.commonDataDatasourceCurrencyModule
+import com.oztechan.ccc.common.data.datasource.watcher.di.commonDataDatasourceWatcherModule
 import com.oztechan.ccc.common.di.dataSourceModule
 import com.oztechan.ccc.common.di.serviceModule
 import com.oztechan.ccc.config.di.configModule
@@ -52,6 +53,7 @@ fun initKoin(
         commonCoreNetworkModule,
         commonCoreInfrastructureModule,
         commonDataDatasourceCurrencyModule,
+        commonDataDatasourceWatcherModule,
 
         dataSourceModule,
         serviceModule

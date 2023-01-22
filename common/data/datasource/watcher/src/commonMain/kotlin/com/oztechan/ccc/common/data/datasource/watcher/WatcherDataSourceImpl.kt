@@ -1,4 +1,4 @@
-package com.oztechan.ccc.common.datasource.watcher
+package com.oztechan.ccc.common.data.datasource.watcher
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
