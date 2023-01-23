@@ -11,9 +11,9 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
-import com.oztechan.ccc.common.util.DAY
-import com.oztechan.ccc.common.util.SECOND
-import com.oztechan.ccc.common.util.nowAsLong
+import com.oztechan.ccc.common.core.infrastructure.util.DAY
+import com.oztechan.ccc.common.core.infrastructure.util.SECOND
+import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before

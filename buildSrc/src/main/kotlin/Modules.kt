@@ -2,15 +2,43 @@ object Modules {
 
     object Android {
         const val app = ":android:app"
-        const val widget = ":android:widget"
+
+        object Feature {
+            const val mobile = ":android:feature:mobile"
+            const val widget = ":android:feature:widget"
+        }
     }
 
     const val ios = ":ios"
     const val backend = ":backend"
 
+    const val common = ":common"
+
+    object Common {
+        object Core {
+            const val database = ":common:core:database"
+            const val network = ":common:core:network"
+            const val infrastructure = ":common:core:infrastructure"
+            const val model = ":common:core:model"
+        }
+
+        object Data {
+            object Service {
+                const val free = ":common:data:service:free"
+                const val premium = ":common:data:service:premium"
+                const val backend = ":common:data:service:backend"
+            }
+
+            object Datasource {
+                const val currency = ":common:data:datasource:currency"
+                const val watcher = ":common:data:datasource:watcher"
+                const val conversion = ":common:data:datasource:conversion"
+            }
+        }
+    }
+
     const val client = ":client"
     const val res = ":res"
-    const val common = ":common"
     const val billing = ":billing"
     const val ad = ":ad"
     const val analytics = ":analytics"

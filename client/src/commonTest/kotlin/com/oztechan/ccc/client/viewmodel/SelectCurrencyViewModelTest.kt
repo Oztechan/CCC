@@ -7,7 +7,7 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
-import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -27,7 +27,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import com.oztechan.ccc.common.model.Currency as CurrencyCommon
+import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
 @Suppress("OPT_IN_USAGE")
 internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyViewModel>() {

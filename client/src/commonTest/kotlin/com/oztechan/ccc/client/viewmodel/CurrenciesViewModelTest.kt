@@ -11,8 +11,8 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.util.SECOND
+import com.oztechan.ccc.common.core.infrastructure.util.SECOND
+import com.oztechan.ccc.common.data.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.test.BaseViewModelTest
 import com.oztechan.ccc.test.util.after
 import com.oztechan.ccc.test.util.before
@@ -35,7 +35,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.client.model.Currency as ClientCurrency
-import com.oztechan.ccc.common.model.Currency as CommonCurrency
+import com.oztechan.ccc.common.core.model.Currency as CommonCurrency
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {

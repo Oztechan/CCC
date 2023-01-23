@@ -34,7 +34,6 @@ kotlin {
                     implementation(multiplatformSettings)
                 }
                 Modules.apply {
-                    implementation(project(common))
                     implementation(project(config))
                     implementation(project(analytics))
                 }
@@ -42,6 +41,18 @@ kotlin {
                     implementation(project(logmob))
                     implementation(project(scopemob))
                     implementation(project(parsermob))
+                }
+                Modules.Common.Core.apply {
+                    implementation(project(infrastructure))
+                    implementation(project(model))
+                }
+                Modules.Common.Data.Service.apply {
+                    implementation(project(backend))
+                }
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(currency))
+                    implementation(project(watcher))
+                    implementation(project(conversion))
                 }
             }
         }

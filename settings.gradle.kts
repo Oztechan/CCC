@@ -24,12 +24,24 @@ dependencyResolutionManagement {
 include(
     // Targets
     ":android:app", // android app
-    ":android:widget", // android widget
+    ":android:feature:mobile", // android mobile app
+    ":android:feature:widget", // android widget
     ":backend", // backend app
     // ios -> not a gradle module
 
     // KMP modules
-    ":common", // Shared with all FE & BE targets
+    // Shared with all FE & BE targets
+    ":common:core:database",
+    ":common:core:network",
+    ":common:core:infrastructure",
+    ":common:core:model",
+    ":common:data:service:free",
+    ":common:data:service:premium",
+    ":common:data:service:backend",
+    ":common:data:datasource:currency",
+    ":common:data:datasource:watcher",
+    ":common:data:datasource:conversion",
+
     ":client", // Shared with all FE targets
 
     ":res", // Shared with all FE targets for resources

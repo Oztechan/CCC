@@ -45,6 +45,23 @@ kotlin {
                     api(project(client))
                     api(project(analytics))
                 }
+
+                Modules.Common.Core.apply {
+                    implementation(project(database))
+                    implementation(project(network))
+                    implementation(project(infrastructure))
+                }
+
+                Modules.Common.Data.Service.apply {
+                    implementation(project(backend))
+                }
+
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(currency))
+                    implementation(project(watcher))
+                    implementation(project(conversion))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }

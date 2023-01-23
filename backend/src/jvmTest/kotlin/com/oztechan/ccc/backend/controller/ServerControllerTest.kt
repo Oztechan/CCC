@@ -2,7 +2,9 @@ package com.oztechan.ccc.backend.controller
 
 import com.oztechan.ccc.backend.controller.server.ServerController
 import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
-import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
+import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.data.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -23,19 +25,36 @@ internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
     private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Test
-    fun `getExchangeRateTextByBase returns getExchangeRateTextByBase from ConversionDataSource`() =
+    fun `getExchangeRateByBase returns getConversionByBase from ConversionDataSource`() =
         runTest {
             val base = "EUR"
-            val result = "result"
+            val result = Conversion(base)
 
             given(conversionDataSource)
-                .coroutine { getExchangeRateTextByBase(base) }
+                .coroutine { getConversionByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getExchangeRateTextByBase(base))
+            assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
             verify(conversionDataSource)
-                .coroutine { getExchangeRateTextByBase(base) }
+                .coroutine { getConversionByBase(base) }
+                .wasInvoked()
+        }
+
+    @Test
+    fun `base is converted to uppercase`() =
+        runTest {
+            val base = "eur"
+            val result = Conversion(base.uppercase())
+
+            given(conversionDataSource)
+                .coroutine { getConversionByBase(base.uppercase()) }
+                .thenReturn(result)
+
+            assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
+
+            verify(conversionDataSource)
+                .coroutine { getConversionByBase(base.uppercase()) }
                 .wasInvoked()
         }
 }
