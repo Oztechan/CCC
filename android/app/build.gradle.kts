@@ -97,11 +97,11 @@ dependencies {
         implementation(project(infrastructure))
     }
 
-    Modules.Common.Data.Service.apply {
+    Modules.Common.Service.apply {
         implementation(project(backend))
     }
 
-    Modules.Common.Data.Datasource.apply {
+    Modules.Common.Datasource.apply {
         implementation(project(currency))
         implementation(project(watcher))
         implementation(project(conversion))

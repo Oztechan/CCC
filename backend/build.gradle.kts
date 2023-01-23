@@ -53,12 +53,12 @@ kotlin {
                     implementation(project(model))
                 }
 
-                Modules.Common.Data.Service.apply {
+                Modules.Common.Service.apply {
                     implementation(project(free))
                     implementation(project(premium))
                 }
 
-                Modules.Common.Data.Datasource.apply {
+                Modules.Common.Datasource.apply {
                     implementation(project(conversion))
                 }
 

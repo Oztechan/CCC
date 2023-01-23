@@ -35,12 +35,12 @@ include(
     ":common:core:network",
     ":common:core:infrastructure",
     ":common:core:model",
-    ":common:data:service:free",
-    ":common:data:service:premium",
-    ":common:data:service:backend",
-    ":common:data:datasource:currency",
-    ":common:data:datasource:watcher",
-    ":common:data:datasource:conversion",
+    ":common:service:free",
+    ":common:service:premium",
+    ":common:service:backend",
+    ":common:datasource:currency",
+    ":common:datasource:watcher",
+    ":common:datasource:conversion",
 
     ":client", // Shared with all FE targets
 

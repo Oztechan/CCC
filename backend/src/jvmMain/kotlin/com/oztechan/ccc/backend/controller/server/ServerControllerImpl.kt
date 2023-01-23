@@ -7,7 +7,7 @@ package com.oztechan.ccc.backend.controller.server
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.data.datasource.conversion.ConversionDataSource
+import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 
 internal class ServerControllerImpl(
     private val conversionDataSource: ConversionDataSource
