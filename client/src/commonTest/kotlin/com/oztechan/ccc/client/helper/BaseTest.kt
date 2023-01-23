@@ -1,4 +1,4 @@
-package com.oztechan.ccc.test
+package com.oztechan.ccc.client.helper
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.initTestLogger

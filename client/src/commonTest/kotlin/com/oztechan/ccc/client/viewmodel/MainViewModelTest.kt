@@ -6,6 +6,9 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.client.helper.BaseViewModelTest
+import com.oztechan.ccc.client.helper.util.after
+import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.ad.AdRepository
@@ -19,9 +22,6 @@ import com.oztechan.ccc.config.model.AdConfig
 import com.oztechan.ccc.config.model.ReviewConfig
 import com.oztechan.ccc.config.service.ad.AdConfigService
 import com.oztechan.ccc.config.service.review.ReviewConfigService
-import com.oztechan.ccc.test.BaseViewModelTest
-import com.oztechan.ccc.test.util.after
-import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

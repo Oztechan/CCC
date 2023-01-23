@@ -3,10 +3,10 @@
  */
 package com.oztechan.ccc.client.util
 
+import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.CurrencyType
-import com.oztechan.ccc.test.BaseTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

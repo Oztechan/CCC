@@ -1,10 +1,10 @@
 package com.oztechan.ccc.client.util
 
+import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.common.core.infrastructure.util.DAY
 import com.oztechan.ccc.common.core.infrastructure.util.SECOND
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
-import com.oztechan.ccc.test.BaseTest
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone

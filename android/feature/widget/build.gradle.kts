@@ -36,8 +36,9 @@ dependencies {
     Modules.apply {
         implementation(project(client))
         implementation(project(res))
-        implementation(project(test))
     }
 
     implementation(project(Modules.Submodules.logmob))
+
+    testImplementation(libs.common.test)
 }

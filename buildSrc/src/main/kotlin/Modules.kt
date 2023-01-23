@@ -41,7 +41,6 @@ object Modules {
     const val ad = ":ad"
     const val analytics = ":analytics"
     const val config = ":config"
-    const val test = ":test"
     const val provider = ":provider"
 
     object Submodules {

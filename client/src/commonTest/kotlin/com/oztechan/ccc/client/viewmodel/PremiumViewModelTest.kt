@@ -4,6 +4,9 @@
 
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.client.helper.BaseViewModelTest
+import com.oztechan.ccc.client.helper.util.after
+import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType
@@ -14,9 +17,6 @@ import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.common.core.infrastructure.util.DAY
 import com.oztechan.ccc.common.core.infrastructure.util.SECOND
 import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
-import com.oztechan.ccc.test.BaseViewModelTest
-import com.oztechan.ccc.test.util.after
-import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

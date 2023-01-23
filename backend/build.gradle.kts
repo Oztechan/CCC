@@ -71,8 +71,8 @@ kotlin {
                 libs.common.apply {
                     implementation(mockative)
                     implementation(coroutinesTest)
+                    implementation(test)
                 }
-                implementation(project(Modules.test))
             }
         }
     }

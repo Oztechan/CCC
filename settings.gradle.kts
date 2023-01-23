@@ -49,8 +49,6 @@ include(
     ":config", // Shared with all FE targets for Firebase Remote Config
     ":analytics", // Shared with all FE targets for Google Analytics
 
-    ":test", // common test classes
-
     ":provider", // umbrella framework for iOS libraries
 
     ":billing", // android only billing module
