@@ -1,5 +1,8 @@
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.client.helper.BaseViewModelTest
+import com.oztechan.ccc.client.helper.util.after
+import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.toStandardDigits
@@ -10,9 +13,6 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.test.BaseViewModelTest
-import com.oztechan.ccc.test.util.after
-import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

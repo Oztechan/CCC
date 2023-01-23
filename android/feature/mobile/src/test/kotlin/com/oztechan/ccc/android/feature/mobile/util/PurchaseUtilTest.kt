@@ -3,11 +3,10 @@ package com.oztechan.ccc.android.feature.mobile.util
 import com.oztechan.ccc.billing.model.ProductDetails
 import com.oztechan.ccc.billing.model.PurchaseHistoryRecord
 import com.oztechan.ccc.client.model.PremiumType
-import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class PurchaseUtilTest : BaseTest() {
+internal class PurchaseUtilTest {
     @Test
     fun `toPremiumDataList maps correctly`() {
         val productDetailsLists = listOf(

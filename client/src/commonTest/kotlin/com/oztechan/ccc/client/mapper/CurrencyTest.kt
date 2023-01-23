@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.mapper
 
+import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

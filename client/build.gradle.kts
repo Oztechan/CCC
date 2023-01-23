@@ -59,10 +59,10 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 libs.common.apply {
+                    implementation(test)
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.test))
             }
         }
 

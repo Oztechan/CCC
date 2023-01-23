@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.storage
 
+import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_CURRENT_BASE
@@ -8,7 +9,6 @@ import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companio
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_PRECISION
-import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf

@@ -3,14 +3,14 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.client.helper.BaseViewModelTest
+import com.oztechan.ccc.client.helper.util.after
+import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.test.BaseViewModelTest
-import com.oztechan.ccc.test.util.after
-import com.oztechan.ccc.test.util.before
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

@@ -1,11 +1,10 @@
 package com.oztechan.ccc.analytics.model
 
-import com.oztechan.ccc.test.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-internal class EventTest : BaseTest() {
+internal class EventTest {
     @Test
     fun `event keys are set correctly`() {
         assertEquals("base_change", Event.BaseChange(Param.Base("")).key)

@@ -50,6 +50,7 @@ dependencies {
     libs.apply {
         common.apply {
             implementation(kotlinXDateTime)
+            testImplementation(test)
         }
 
         android.apply {
@@ -80,7 +81,6 @@ dependencies {
         implementation(project(billing))
         implementation(project(ad))
         implementation(project(analytics))
-        testImplementation(project(test))
     }
 
     Modules.Submodules.apply {

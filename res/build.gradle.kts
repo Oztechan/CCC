@@ -36,7 +36,7 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(project(Modules.test))
+                implementation(libs.common.test)
             }
         }
 

@@ -3,6 +3,7 @@
  */
 package com.oztechan.ccc.client.storage
 
+import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.app.AppStorageImpl
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
@@ -13,7 +14,6 @@ import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_APP_THEM
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_FIRST_RUN
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_PREMIUM_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
-import com.oztechan.ccc.test.BaseSubjectTest
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf

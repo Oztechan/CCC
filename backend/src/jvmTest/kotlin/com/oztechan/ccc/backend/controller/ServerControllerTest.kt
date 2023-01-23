@@ -5,7 +5,6 @@ import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
 import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -16,8 +15,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("OPT_IN_USAGE")
-internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
-    override val subject: ServerController by lazy {
+internal class ServerControllerTest {
+    private val subject: ServerController by lazy {
         ServerControllerImpl(conversionDataSource)
     }
 

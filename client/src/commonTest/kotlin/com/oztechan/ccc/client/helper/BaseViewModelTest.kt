@@ -1,4 +1,4 @@
-package com.oztechan.ccc.test
+package com.oztechan.ccc.client.helper
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

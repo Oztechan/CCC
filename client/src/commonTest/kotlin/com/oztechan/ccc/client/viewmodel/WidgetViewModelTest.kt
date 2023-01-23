@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.isPremiumExpired
@@ -11,7 +12,6 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.service.backend.BackendApiService
-import com.oztechan.ccc.test.BaseViewModelTest
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
