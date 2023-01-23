@@ -113,7 +113,6 @@ dependencies {
     }
 
     Modules.apply {
-        implementation(project(common))
         implementation(project(client))
         implementation(project(config))
         implementation(project(billing))

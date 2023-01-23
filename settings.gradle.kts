@@ -30,7 +30,7 @@ include(
     // ios -> not a gradle module
 
     // KMP modules
-    ":common", // Shared with all FE & BE targets
+    // Shared with all FE & BE targets
     ":common:core:database",
     ":common:core:network",
     ":common:core:infrastructure",

@@ -5,14 +5,17 @@
 package com.oztechan.ccc.backend.controller.server
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.datasource.exchangerate.ExchangeRateDataSource
+import com.oztechan.ccc.common.data.datasource.conversion.ConversionDataSource
 
 internal class ServerControllerImpl(
-    private val exchangeRateDataSource: ExchangeRateDataSource
+    private val conversionDataSource: ConversionDataSource
 ) : ServerController {
     override suspend fun getExchangeRateByBase(base: String): ExchangeRate? {
         Logger.i { "ServerControllerImpl getExchangeRateByBase" }
-        return exchangeRateDataSource.getExchangeRateByBase(base)
+        return conversionDataSource
+            .getConversionByBase(base.uppercase())
+            ?.toExchangeRateAPIModel()
     }
 }

@@ -22,7 +22,6 @@ import com.oztechan.ccc.common.data.datasource.conversion.di.commonDataDatasourc
 import com.oztechan.ccc.common.data.datasource.currency.di.commonDataDatasourceCurrencyModule
 import com.oztechan.ccc.common.data.datasource.watcher.di.commonDataDatasourceWatcherModule
 import com.oztechan.ccc.common.data.service.backend.di.commonDataServiceBackendModule
-import com.oztechan.ccc.common.di.dataSourceModule
 import com.oztechan.ccc.config.di.configModule
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.ObjCObject
@@ -56,9 +55,7 @@ fun initKoin(
         commonDataServiceBackendModule,
         commonDataDatasourceCurrencyModule,
         commonDataDatasourceWatcherModule,
-        commonDataDatasourceConversionModule,
-
-        dataSourceModule
+        commonDataDatasourceConversionModule
     )
 }.also {
     Logger.i { "Koin initialised" }

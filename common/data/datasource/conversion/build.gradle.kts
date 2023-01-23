@@ -14,6 +14,8 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    jvm()
+
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
 
@@ -62,6 +64,9 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+
+        val jvmMain by getting
+        val jvmTest by getting
     }
 }
 

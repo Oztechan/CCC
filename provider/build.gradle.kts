@@ -44,8 +44,6 @@ kotlin {
                 Modules.apply {
                     api(project(client))
                     api(project(analytics))
-
-                    implementation(project(common))
                 }
 
                 Modules.Common.Core.apply {

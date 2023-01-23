@@ -58,7 +58,10 @@ kotlin {
                     implementation(project(premium))
                 }
 
-                implementation(project(Modules.common))
+                Modules.Common.Data.Datasource.apply {
+                    implementation(project(conversion))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }

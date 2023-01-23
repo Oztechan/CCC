@@ -34,7 +34,6 @@ kotlin {
                     implementation(multiplatformSettings)
                 }
                 Modules.apply {
-                    implementation(project(common))
                     implementation(project(config))
                     implementation(project(analytics))
                 }
