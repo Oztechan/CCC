@@ -34,7 +34,6 @@ kotlin {
                     implementation(multiplatformSettings)
                 }
                 Modules.apply {
-                    implementation(project(common))
                     implementation(project(config))
                     implementation(project(analytics))
                 }
@@ -53,6 +52,7 @@ kotlin {
                 Modules.Common.Data.Datasource.apply {
                     implementation(project(currency))
                     implementation(project(watcher))
+                    implementation(project(conversion))
                 }
             }
         }

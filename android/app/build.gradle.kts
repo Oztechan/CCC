@@ -104,6 +104,7 @@ dependencies {
     Modules.Common.Data.Datasource.apply {
         implementation(project(currency))
         implementation(project(watcher))
+        implementation(project(conversion))
     }
 
     Modules.Android.Feature.apply {
@@ -112,7 +113,6 @@ dependencies {
     }
 
     Modules.apply {
-        implementation(project(common))
         implementation(project(client))
         implementation(project(config))
         implementation(project(billing))

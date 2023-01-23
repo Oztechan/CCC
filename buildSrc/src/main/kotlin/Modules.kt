@@ -32,6 +32,7 @@ object Modules {
             object Datasource {
                 const val currency = ":common:data:datasource:currency"
                 const val watcher = ":common:data:datasource:watcher"
+                const val conversion = ":common:data:datasource:conversion"
             }
         }
     }

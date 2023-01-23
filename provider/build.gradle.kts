@@ -44,8 +44,6 @@ kotlin {
                 Modules.apply {
                     api(project(client))
                     api(project(analytics))
-
-                    implementation(project(common))
                 }
 
                 Modules.Common.Core.apply {
@@ -61,6 +59,7 @@ kotlin {
                 Modules.Common.Data.Datasource.apply {
                     implementation(project(currency))
                     implementation(project(watcher))
+                    implementation(project(conversion))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

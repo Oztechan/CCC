@@ -2,9 +2,9 @@ package com.oztechan.ccc.backend.controller
 
 import com.oztechan.ccc.backend.controller.server.ServerController
 import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
-import com.oztechan.ccc.common.core.network.model.Conversion
-import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import com.oztechan.ccc.common.datasource.exchangerate.ExchangeRateDataSource
+import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.data.datasource.conversion.ConversionDataSource
 import com.oztechan.ccc.test.BaseSubjectTest
 import io.mockative.Mock
 import io.mockative.classOf
@@ -18,26 +18,43 @@ import kotlin.test.assertEquals
 @Suppress("OPT_IN_USAGE")
 internal class ServerControllerTest : BaseSubjectTest<ServerController>() {
     override val subject: ServerController by lazy {
-        ServerControllerImpl(exchangeRateDataSource)
+        ServerControllerImpl(conversionDataSource)
     }
 
     @Mock
-    private val exchangeRateDataSource = mock(classOf<ExchangeRateDataSource>())
+    private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Test
-    fun `getExchangeRateByBase returns getExchangeRateByBase from ExchangeRateDataSource`() =
+    fun `getExchangeRateByBase returns getConversionByBase from ConversionDataSource`() =
         runTest {
             val base = "EUR"
-            val result = ExchangeRate(base, "date", Conversion(base))
+            val result = Conversion(base)
 
-            given(exchangeRateDataSource)
-                .coroutine { getExchangeRateByBase(base) }
+            given(conversionDataSource)
+                .coroutine { getConversionByBase(base) }
                 .thenReturn(result)
 
-            assertEquals(result, subject.getExchangeRateByBase(base))
+            assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
-            verify(exchangeRateDataSource)
-                .coroutine { getExchangeRateByBase(base) }
+            verify(conversionDataSource)
+                .coroutine { getConversionByBase(base) }
+                .wasInvoked()
+        }
+
+    @Test
+    fun `base is converted to uppercase`() =
+        runTest {
+            val base = "eur"
+            val result = Conversion(base.uppercase())
+
+            given(conversionDataSource)
+                .coroutine { getConversionByBase(base.uppercase()) }
+                .thenReturn(result)
+
+            assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
+
+            verify(conversionDataSource)
+                .coroutine { getConversionByBase(base.uppercase()) }
                 .wasInvoked()
         }
 }
