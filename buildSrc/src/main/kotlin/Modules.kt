@@ -22,18 +22,16 @@ object Modules {
             const val model = ":common:core:model"
         }
 
-        object Data {
-            object Service {
-                const val free = ":common:data:service:free"
-                const val premium = ":common:data:service:premium"
-                const val backend = ":common:data:service:backend"
-            }
+        object Service {
+            const val free = ":common:service:free"
+            const val premium = ":common:service:premium"
+            const val backend = ":common:service:backend"
+        }
 
-            object Datasource {
-                const val currency = ":common:data:datasource:currency"
-                const val watcher = ":common:data:datasource:watcher"
-                const val conversion = ":common:data:datasource:conversion"
-            }
+        object Datasource {
+            const val currency = ":common:datasource:currency"
+            const val watcher = ":common:datasource:watcher"
+            const val conversion = ":common:datasource:conversion"
         }
     }
 
