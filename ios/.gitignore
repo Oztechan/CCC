@@ -1,9 +1,0 @@
-Pods/
-build
-CCC/Resources/Release/
-CCC/Resources/GoogleService-Info.plist
-CCC/Resources/Config.xcconfig
-fastlane/.env
-fastlane/README.md
-fastlane/report.xml
-xcuserdata
