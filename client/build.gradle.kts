@@ -31,7 +31,6 @@ kotlin {
                     implementation(kotlinXDateTime)
                     implementation(coroutines)
                     implementation(koinCore)
-                    implementation(multiplatformSettings)
                 }
                 Modules.apply {
                     implementation(project(config))
@@ -55,6 +54,9 @@ kotlin {
                 }
                 Modules.Client.Service.apply {
                     implementation(project(backend))
+                }
+                Modules.Client.Core.apply {
+                    implementation(project(persistence))
                 }
             }
         }

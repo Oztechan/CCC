@@ -39,6 +39,10 @@ object Modules {
     object Client {
         const val self = ":client"
 
+        object Core {
+            val persistence = ":client:core:persistence"
+        }
+
         object DataSource {
             const val currency = ":client:datasource:currency"
             const val watcher = ":client:datasource:watcher"

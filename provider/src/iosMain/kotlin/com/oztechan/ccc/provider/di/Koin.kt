@@ -9,11 +9,11 @@ package com.oztechan.ccc.provider.di
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.di.getAnalyticsModule
+import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
+import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
-import com.oztechan.ccc.client.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.di.repositoryModule
-import com.oztechan.ccc.client.di.settingsModule
 import com.oztechan.ccc.client.di.storageModule
 import com.oztechan.ccc.client.di.viewModelModule
 import com.oztechan.ccc.client.model.Device
@@ -43,12 +43,12 @@ fun initKoin(
 
         viewModelModule,
         repositoryModule,
-        settingsModule,
         storageModule,
 
         configModule,
 
         // client
+        clientCorePersistenceModule,
         clientServiceBackendModule,
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,

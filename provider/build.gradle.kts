@@ -60,6 +60,9 @@ kotlin {
                     implementation(project(backend))
                 }
 
+                Modules.Client.Core.apply {
+                    implementation(project(persistence))
+                }
                 implementation(project(Modules.Submodules.logmob))
             }
         }

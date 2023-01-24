@@ -4,27 +4,27 @@
 
 package com.oztechan.ccc.client.storage.app
 
-import com.russhwolf.settings.Settings
+import com.oztechan.ccc.client.core.persistence.Persistence
 
 internal class AppStorageImpl(
-    private val settings: Settings
+    private val persistence: Persistence
 ) : AppStorage {
 
     override var firstRun
-        get() = settings.getBoolean(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
-        set(value) = settings.putBoolean(KEY_FIRST_RUN, value)
+        get() = persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
+        set(value) = persistence.setValue(KEY_FIRST_RUN, value)
 
     override var appTheme
-        get() = settings.getInt(KEY_APP_THEME, DEFAULT_APP_THEME)
-        set(value) = settings.putInt(KEY_APP_THEME, value)
+        get() = persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME)
+        set(value) = persistence.setValue(KEY_APP_THEME, value)
 
     override var premiumEndDate
-        get() = settings.getLong(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
-        set(value) = settings.putLong(KEY_PREMIUM_END_DATE, value)
+        get() = persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
+        set(value) = persistence.setValue(KEY_PREMIUM_END_DATE, value)
 
     override var sessionCount: Long
-        get() = settings.getLong(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
-        set(value) = settings.putLong(KEY_SESSION_COUNT, value)
+        get() = persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
+        set(value) = persistence.setValue(KEY_SESSION_COUNT, value)
 
     companion object {
         internal const val KEY_FIRST_RUN = "firs_run"
