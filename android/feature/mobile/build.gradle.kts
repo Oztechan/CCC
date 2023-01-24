@@ -75,8 +75,9 @@ dependencies {
         }
     }
 
+    implementation(project(Modules.Client.self))
+
     Modules.apply {
-        implementation(project(client))
         implementation(project(res))
         implementation(project(billing))
         implementation(project(ad))

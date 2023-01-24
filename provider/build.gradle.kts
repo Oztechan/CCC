@@ -20,11 +20,9 @@ kotlin {
         }
 
         framework {
-            Modules.apply {
-                baseName = provider.frameworkName
-                export(project(client))
-                export(project(analytics))
-            }
+            baseName = Modules.provider.frameworkName
+            export(project(Modules.Client.self))
+            export(project(Modules.analytics))
         }
     }
 
@@ -41,10 +39,8 @@ kotlin {
 
                 implementation(libs.common.koinCore)
 
-                Modules.apply {
-                    api(project(client))
-                    api(project(analytics))
-                }
+                api(project(Modules.Client.self))
+                api(project(Modules.analytics))
 
                 Modules.Common.Core.apply {
                     implementation(project(database))
@@ -52,14 +48,16 @@ kotlin {
                     implementation(project(infrastructure))
                 }
 
-                Modules.Common.Service.apply {
-                    implementation(project(backend))
+                Modules.Common.DataSource.apply {
+                    implementation(project(conversion))
                 }
 
-                Modules.Common.Datasource.apply {
+                Modules.Client.DataSource.apply {
                     implementation(project(currency))
                     implementation(project(watcher))
-                    implementation(project(conversion))
+                }
+                Modules.Client.Service.apply {
+                    implementation(project(backend))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

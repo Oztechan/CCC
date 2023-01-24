@@ -26,7 +26,11 @@ include(
     ":android:app", // android app
     ":android:feature:mobile", // android mobile app
     ":android:feature:widget", // android widget
+
     ":backend", // backend app
+    ":backend:service:free",
+    ":backend:service:premium",
+
     // ios -> not a gradle module
 
     // KMP modules
@@ -35,14 +39,12 @@ include(
     ":common:core:network",
     ":common:core:infrastructure",
     ":common:core:model",
-    ":common:service:free",
-    ":common:service:premium",
-    ":common:service:backend",
-    ":common:datasource:currency",
-    ":common:datasource:watcher",
     ":common:datasource:conversion",
 
     ":client", // Shared with all FE targets
+    ":client:datasource:currency",
+    ":client:datasource:watcher",
+    ":client:service:backend",
 
     ":res", // Shared with all FE targets for resources
 

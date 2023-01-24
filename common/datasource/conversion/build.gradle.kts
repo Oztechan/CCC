@@ -80,7 +80,7 @@ ksp {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.Common.Datasource.conversion.packageName
+        namespace = Modules.Common.DataSource.conversion.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")
