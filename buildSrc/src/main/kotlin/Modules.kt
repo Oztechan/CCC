@@ -43,6 +43,11 @@ object Modules {
             const val persistence = ":client:core:persistence"
         }
 
+        object Storage {
+            const val app = ":client:storage:app"
+            const val calculator = ":client:storage:calculator"
+        }
+
         object DataSource {
             const val currency = ":client:datasource:currency"
             const val watcher = ":client:datasource:watcher"

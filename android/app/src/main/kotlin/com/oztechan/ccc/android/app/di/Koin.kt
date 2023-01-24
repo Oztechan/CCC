@@ -11,10 +11,11 @@ import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
 import com.oztechan.ccc.client.di.repositoryModule
-import com.oztechan.ccc.client.di.storageModule
 import com.oztechan.ccc.client.di.viewModelModule
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.service.backend.di.clientServiceBackendModule
+import com.oztechan.ccc.client.storage.app.di.clientStorageAppModule
+import com.oztechan.ccc.client.storage.calculator.di.clientStorageCalculatorModule
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
@@ -36,12 +37,13 @@ fun initKoin(context: Context) = startKoin {
 
         viewModelModule,
         repositoryModule,
-        storageModule,
 
         configModule,
 
         // client
         clientCorePersistenceModule,
+        clientStorageAppModule,
+        clientStorageCalculatorModule,
         clientServiceBackendModule,
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,

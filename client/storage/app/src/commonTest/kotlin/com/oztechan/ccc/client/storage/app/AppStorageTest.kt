@@ -1,12 +1,6 @@
-/*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
- */
-package com.oztechan.ccc.client.storage
+package com.oztechan.ccc.client.storage.app
 
 import com.oztechan.ccc.client.core.persistence.Persistence
-import com.oztechan.ccc.client.helper.BaseSubjectTest
-import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.app.AppStorageImpl
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_PREMIUM_END_DATE
@@ -25,9 +19,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-internal class AppStorageTest : BaseSubjectTest<AppStorage>() {
+internal class AppStorageTest {
 
-    override val subject: AppStorage by lazy {
+    private val subject: AppStorage by lazy {
         AppStorageImpl(persistence)
     }
 

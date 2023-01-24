@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-
 package com.oztechan.ccc.client.storage.app
 
 import com.oztechan.ccc.client.core.persistence.Persistence
