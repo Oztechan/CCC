@@ -1,10 +1,11 @@
-package com.oztechan.ccc.config.service.ad
+package com.oztechan.ccc.client.configservice.ad
 
+import com.oztechan.ccc.client.configservice.ad.mapper.toAdConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
-import com.oztechan.ccc.config.mapper.toAdConfigModel
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import com.oztechan.ccc.client.configservice.ad.model.AdConfig as AdConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.model.AdConfig as AdConfigRCModel
-import com.oztechan.ccc.config.model.AdConfig as AdConfigModel
 
 internal class AdConfigServiceImpl :
     BaseConfigService<AdConfigModel>(
@@ -12,6 +13,8 @@ internal class AdConfigServiceImpl :
         AdConfigRCModel().toAdConfigModel()
     ),
     AdConfigService {
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     override fun decode(
         value: String

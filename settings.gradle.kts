@@ -49,6 +49,7 @@ include(
     ":client:datasource:currency",
     ":client:datasource:watcher",
     ":client:service:backend",
+    ":client:configservice:ad",
 
     ":res", // Shared with all FE targets for resources
 

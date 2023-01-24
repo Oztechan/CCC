@@ -67,6 +67,9 @@ kotlin {
                 Modules.Client.Service.apply {
                     implementation(project(backend))
                 }
+                Modules.Client.ConfigService.apply {
+                    implementation(project(ad))
+                }
 
                 implementation(project(Modules.Submodules.logmob))
             }

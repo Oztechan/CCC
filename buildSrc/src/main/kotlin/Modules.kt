@@ -57,6 +57,10 @@ object Modules {
         object Service {
             const val backend = ":client:service:backend"
         }
+
+        object ConfigService {
+            const val ad = ":client:configservice:ad"
+        }
     }
 
     const val res = ":res"

@@ -7,6 +7,7 @@ import com.oztechan.ccc.ad.di.adModule
 import com.oztechan.ccc.analytics.di.analyticsModule
 import com.oztechan.ccc.android.app.BuildConfig
 import com.oztechan.ccc.billing.di.billingModule
+import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
@@ -45,6 +46,7 @@ fun initKoin(context: Context) = startKoin {
         clientStorageAppModule,
         clientStorageCalculatorModule,
         clientServiceBackendModule,
+        clientConfigServiceAdModule,
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,
 
