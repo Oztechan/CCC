@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.model
+package com.oztechan.ccc.client.configservice.review.model
 
 data class ReviewConfig(
     val appReviewSessionCount: Int,

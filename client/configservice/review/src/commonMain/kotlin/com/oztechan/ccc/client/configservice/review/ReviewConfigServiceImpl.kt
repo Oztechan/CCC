@@ -1,11 +1,11 @@
-package com.oztechan.ccc.config.service.review
+package com.oztechan.ccc.client.configservice.review
 
+import com.oztechan.ccc.client.configservice.review.mapper.toReviewConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
-import com.oztechan.ccc.config.mapper.toReviewConfigModel
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import com.oztechan.ccc.client.configservice.review.model.ReviewConfig as ReviewConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.model.ReviewConfig as ReviewConfigRCModel
-import com.oztechan.ccc.config.model.ReviewConfig as ReviewConfigModel
 
 internal class ReviewConfigServiceImpl :
     BaseConfigService<ReviewConfigModel>(

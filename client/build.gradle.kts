@@ -60,6 +60,7 @@ kotlin {
                 }
                 Modules.Client.ConfigService.apply {
                     implementation(project(ad))
+                    implementation(project(review))
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))

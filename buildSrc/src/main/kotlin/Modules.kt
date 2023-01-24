@@ -60,6 +60,7 @@ object Modules {
 
         object ConfigService {
             const val ad = ":client:configservice:ad"
+            const val review = ":client:configservice:review"
         }
     }
 

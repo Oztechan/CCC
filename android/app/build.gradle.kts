@@ -123,6 +123,7 @@ dependencies {
 
     Modules.Client.ConfigService.apply {
         implementation(project(ad))
+        implementation(project(review))
     }
 
     Modules.Android.Feature.apply {
