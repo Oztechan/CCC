@@ -57,7 +57,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.ConfigService.ad.packageName
+        namespace = Modules.config.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")

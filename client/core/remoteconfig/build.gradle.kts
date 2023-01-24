@@ -19,7 +19,6 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(libs.common.ktorJson)
                 implementation(project(Modules.Submodules.logmob))
             }
         }
