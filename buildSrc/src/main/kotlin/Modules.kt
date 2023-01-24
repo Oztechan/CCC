@@ -40,7 +40,7 @@ object Modules {
         const val self = ":client"
 
         object Core {
-            val persistence = ":client:core:persistence"
+            const val persistence = ":client:core:persistence"
         }
 
         object DataSource {
