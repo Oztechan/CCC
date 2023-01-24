@@ -48,6 +48,9 @@ kotlin {
                 Modules.Common.DataSource.apply {
                     implementation(project(conversion))
                 }
+                Modules.Client.Core.apply {
+                    implementation(project(persistence))
+                }
                 Modules.Client.DataSource.apply {
                     implementation(project(currency))
                     implementation(project(watcher))
@@ -55,13 +58,6 @@ kotlin {
                 Modules.Client.Service.apply {
                     implementation(project(backend))
                 }
-                Modules.Client.Core.apply {
-                    implementation(project(persistence))
-                }
-                Modules.Client.Core.apply {
-                    implementation(project(persistence))
-                }
-
                 Modules.Client.Storage.apply {
                     implementation(project(app))
                     implementation(project(calculator))

@@ -1,7 +1,7 @@
 package com.oztechan.ccc.config.mapper
 
+import com.oztechan.ccc.client.core.remoteconfig.model.AdConfig as AdConfigRCModel
 import com.oztechan.ccc.config.model.AdConfig as AdConfigModel
-import com.oztechan.ccc.config.service.ad.AdConfig as AdConfigRCModel
 
 internal fun AdConfigRCModel.toAdConfigModel() = AdConfigModel(
     bannerAdSessionCount = bannerAdSessionCount,
