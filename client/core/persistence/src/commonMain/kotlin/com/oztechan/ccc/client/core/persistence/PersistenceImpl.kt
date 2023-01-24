@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.core.persistence
 
-import com.oztechan.ccc.client.core.persistence.error.PersistenceException
+import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
 import com.russhwolf.settings.Settings
 
 internal class PersistenceImpl(private val settings: Settings) : Persistence {
@@ -20,6 +20,6 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Int -> settings.putInt(key, value)
         is Boolean -> settings.putBoolean(key, value)
         is Float -> settings.putFloat(key, value)
-        else -> throw PersistenceException()
+        else -> throw UnsupportedPersistenceException()
     }
 }
