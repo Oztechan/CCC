@@ -43,6 +43,8 @@ include(
 
     ":client", // Shared with all FE targets
     ":client:core:persistence",
+    ":client:storage:app",
+    ":client:storage:calculator",
     ":client:datasource:currency",
     ":client:datasource:watcher",
     ":client:service:backend",

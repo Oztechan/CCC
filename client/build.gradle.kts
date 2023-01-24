@@ -58,6 +58,14 @@ kotlin {
                 Modules.Client.Core.apply {
                     implementation(project(persistence))
                 }
+                Modules.Client.Core.apply {
+                    implementation(project(persistence))
+                }
+
+                Modules.Client.Storage.apply {
+                    implementation(project(app))
+                    implementation(project(calculator))
+                }
             }
         }
         val commonTest by getting {

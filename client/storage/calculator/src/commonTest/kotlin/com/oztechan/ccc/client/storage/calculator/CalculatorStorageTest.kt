@@ -1,9 +1,6 @@
-package com.oztechan.ccc.client.storage
+package com.oztechan.ccc.client.storage.calculator
 
 import com.oztechan.ccc.client.core.persistence.Persistence
-import com.oztechan.ccc.client.helper.BaseSubjectTest
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_PRECISION
@@ -20,8 +17,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
-    override val subject: CalculatorStorage by lazy {
+internal class CalculatorStorageTest {
+    private val subject: CalculatorStorage by lazy {
         CalculatorStorageImpl(persistence)
     }
 

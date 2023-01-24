@@ -103,6 +103,15 @@ dependencies {
 
     implementation(project(Modules.Client.self))
 
+    Modules.Client.Core.apply {
+        implementation(project(persistence))
+    }
+
+    Modules.Client.Storage.apply {
+        implementation(project(app))
+        implementation(project(calculator))
+    }
+
     Modules.Client.DataSource.apply {
         implementation(project(currency))
         implementation(project(watcher))
@@ -110,10 +119,6 @@ dependencies {
 
     Modules.Client.Service.apply {
         implementation(project(backend))
-    }
-
-    Modules.Client.Core.apply {
-        implementation(project(persistence))
     }
 
     Modules.Android.Feature.apply {
