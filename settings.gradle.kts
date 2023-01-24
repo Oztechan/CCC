@@ -42,6 +42,7 @@ include(
     ":common:datasource:conversion",
 
     ":client", // Shared with all FE targets
+    ":client:core:persistence",
     ":client:datasource:currency",
     ":client:datasource:watcher",
     ":client:service:backend",

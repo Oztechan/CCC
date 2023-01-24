@@ -7,10 +7,10 @@ import com.oztechan.ccc.ad.di.adModule
 import com.oztechan.ccc.analytics.di.analyticsModule
 import com.oztechan.ccc.android.app.BuildConfig
 import com.oztechan.ccc.billing.di.billingModule
+import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
 import com.oztechan.ccc.client.di.repositoryModule
-import com.oztechan.ccc.client.di.settingsModule
 import com.oztechan.ccc.client.di.storageModule
 import com.oztechan.ccc.client.di.viewModelModule
 import com.oztechan.ccc.client.model.Device
@@ -36,12 +36,12 @@ fun initKoin(context: Context) = startKoin {
 
         viewModelModule,
         repositoryModule,
-        settingsModule,
         storageModule,
 
         configModule,
 
         // client
+        clientCorePersistenceModule,
         clientServiceBackendModule,
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,

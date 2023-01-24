@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.storage
 
+import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl
@@ -9,7 +10,6 @@ import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companio
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_PRECISION
-import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -22,49 +22,49 @@ import kotlin.test.assertEquals
 @Suppress("TooManyFunctions")
 internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
     override val subject: CalculatorStorage by lazy {
-        CalculatorStorageImpl(settings)
+        CalculatorStorageImpl(persistence)
     }
 
     @Mock
-    private val settings = mock(classOf<Settings>())
+    private val persistence = mock(classOf<Persistence>())
 
     // defaults
     @Test
     fun `default currentBase`() {
-        given(settings)
-            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+        given(persistence)
+            .invocation { getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .thenReturn(DEFAULT_CURRENT_BASE)
 
         assertEquals(DEFAULT_CURRENT_BASE, subject.currentBase)
 
-        verify(settings)
-            .invocation { getString(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+        verify(persistence)
+            .invocation { getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
     @Test
     fun `default precision`() {
-        given(settings)
-            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
+        given(persistence)
+            .invocation { getValue(KEY_PRECISION, DEFAULT_PRECISION) }
             .thenReturn(DEFAULT_PRECISION)
 
         assertEquals(DEFAULT_PRECISION, subject.precision)
 
-        verify(settings)
-            .invocation { getInt(KEY_PRECISION, DEFAULT_PRECISION) }
+        verify(persistence)
+            .invocation { getValue(KEY_PRECISION, DEFAULT_PRECISION) }
             .wasInvoked()
     }
 
     @Test
     fun `default lastInput`() {
-        given(settings)
-            .invocation { getString(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+        given(persistence)
+            .invocation { getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
             .thenReturn(DEFAULT_LAST_INPUT)
 
         assertEquals(DEFAULT_LAST_INPUT, subject.lastInput)
 
-        verify(settings)
-            .invocation { getString(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+        verify(persistence)
+            .invocation { getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
             .wasInvoked()
     }
 
@@ -74,8 +74,8 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
         val mockValue = "mock"
         subject.currentBase = mockValue
 
-        verify(settings)
-            .invocation { putString(KEY_CURRENT_BASE, mockValue) }
+        verify(persistence)
+            .invocation { setValue(KEY_CURRENT_BASE, mockValue) }
             .wasInvoked()
     }
 
@@ -84,8 +84,8 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
         val mockValue = Random.nextInt()
         subject.precision = mockValue
 
-        verify(settings)
-            .invocation { putInt(KEY_PRECISION, mockValue) }
+        verify(persistence)
+            .invocation { setValue(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 
@@ -94,8 +94,8 @@ internal class CalculatorStorageTest : BaseSubjectTest<CalculatorStorage>() {
         val mockValue = "mock"
         subject.lastInput = mockValue
 
-        verify(settings)
-            .invocation { putString(KEY_LAST_INPUT, mockValue) }
+        verify(persistence)
+            .invocation { setValue(KEY_LAST_INPUT, mockValue) }
             .wasInvoked()
     }
 }

@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.di
+package com.oztechan.ccc.client.core.persistence.di
 
 import platform.Foundation.NSUserDefaults
 

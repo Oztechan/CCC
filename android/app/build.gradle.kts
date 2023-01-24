@@ -112,6 +112,10 @@ dependencies {
         implementation(project(backend))
     }
 
+    Modules.Client.Core.apply {
+        implementation(project(persistence))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))
