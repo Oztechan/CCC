@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.model
+package com.oztechan.ccc.client.configservice.update.model
 
 data class UpdateConfig(
     val updateLatestVersion: Int,

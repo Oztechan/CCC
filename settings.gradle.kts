@@ -51,10 +51,10 @@ include(
     ":client:service:backend",
     ":client:configservice:ad",
     ":client:configservice:review",
+    ":client:configservice:update",
 
     ":res", // Shared with all FE targets for resources
 
-    ":config", // Shared with all FE targets for Firebase Remote Config
     ":analytics", // Shared with all FE targets for Google Analytics
 
     ":provider", // umbrella framework for iOS libraries

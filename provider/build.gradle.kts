@@ -70,6 +70,7 @@ kotlin {
                 Modules.Client.ConfigService.apply {
                     implementation(project(ad))
                     implementation(project(review))
+                    implementation(project(update))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

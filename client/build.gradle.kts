@@ -33,7 +33,6 @@ kotlin {
                     implementation(koinCore)
                 }
                 Modules.apply {
-                    implementation(project(config))
                     implementation(project(analytics))
                 }
                 Modules.Submodules.apply {
@@ -61,6 +60,7 @@ kotlin {
                 Modules.Client.ConfigService.apply {
                     implementation(project(ad))
                     implementation(project(review))
+                    implementation(project(update))
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))
