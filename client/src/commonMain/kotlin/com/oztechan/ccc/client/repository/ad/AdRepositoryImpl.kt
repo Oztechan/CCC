@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.repository.ad
 
+import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.isPremiumExpired
-import com.oztechan.ccc.config.service.ad.AdConfigService
 
 internal class AdRepositoryImpl(
     private val appStorage: AppStorage,
