@@ -19,19 +19,11 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                libs.common.apply {
-                    implementation(ktorJson)
-                    implementation(koinCore)
-                }
-                implementation(project(Modules.Client.Core.remoteConfig))
+                implementation(libs.common.ktorJson)
                 implementation(project(Modules.Submodules.logmob))
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
-        }
+        val commonTest by getting
 
         val androidMain by getting {
             dependencies {
@@ -63,7 +55,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.config.packageName
+        namespace = Modules.Client.Core.remoteConfig.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")

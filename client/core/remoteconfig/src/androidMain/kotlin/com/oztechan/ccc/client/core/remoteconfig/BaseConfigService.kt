@@ -1,13 +1,12 @@
-package com.oztechan.ccc.config.service
+package com.oztechan.ccc.client.core.remoteconfig
 
 import co.touchlab.kermit.Logger
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.oztechan.ccc.config.BuildConfig
 import kotlinx.serialization.json.Json
 
-internal actual abstract class BaseConfigService<T>
+actual abstract class BaseConfigService<T>
 actual constructor(
     configKey: String,
     default: T

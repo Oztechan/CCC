@@ -1,8 +1,8 @@
-package com.oztechan.ccc.config.service
+package com.oztechan.ccc.client.core.remoteconfig
 
 import kotlinx.serialization.json.Json
 
-internal expect abstract class BaseConfigService<T>(
+expect abstract class BaseConfigService<T>(
     configKey: String,
     default: T
 ) {

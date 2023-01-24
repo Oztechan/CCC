@@ -1,9 +1,9 @@
-package com.oztechan.ccc.config.service
+package com.oztechan.ccc.client.core.remoteconfig
 
 import co.touchlab.kermit.Logger
 import kotlinx.serialization.json.Json
 
-internal actual abstract class BaseConfigService<T> actual constructor(
+actual abstract class BaseConfigService<T> actual constructor(
     configKey: String,
     default: T
 ) {
