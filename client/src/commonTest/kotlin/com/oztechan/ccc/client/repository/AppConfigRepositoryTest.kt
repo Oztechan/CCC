@@ -128,9 +128,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
 
         given(reviewConfigService)
             .invocation { config }
-            .then {
-                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
-            }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appStorage)
             .invocation { sessionCount }
@@ -153,9 +151,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
 
         given(reviewConfigService)
             .invocation { config }
-            .then {
-                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
-            }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appStorage)
             .invocation { sessionCount }
@@ -178,9 +174,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
 
         given(reviewConfigService)
             .invocation { config }
-            .then {
-                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
-            }
+            .then { ReviewConfig(appReviewSessionCount = mockInteger, 0L) }
 
         given(appStorage)
             .invocation { sessionCount }
