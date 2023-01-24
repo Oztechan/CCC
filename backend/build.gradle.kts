@@ -20,7 +20,7 @@ plugins {
 
 ProjectSettings.apply {
     application {
-        mainClass.set("${Modules.backend.packageName}.ApplicationKt")
+        mainClass.set("${Modules.Backend.self.packageName}.ApplicationKt")
     }
     group = PROJECT_ID
     version = getVersionName(project)
@@ -53,12 +53,12 @@ kotlin {
                     implementation(project(model))
                 }
 
-                Modules.Common.Service.apply {
+                Modules.Backend.Service.apply {
                     implementation(project(free))
                     implementation(project(premium))
                 }
 
-                Modules.Common.Datasource.apply {
+                Modules.Common.DataSource.apply {
                     implementation(project(conversion))
                 }
 
@@ -91,7 +91,7 @@ tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Implementation-Title"] = "Gradle Jar File Example"
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${Modules.backend.packageName}.ApplicationKt"
+        attributes["Main-Class"] = "${Modules.Backend.self.packageName}.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
@@ -114,7 +114,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = Modules.backend.packageName
+    packageName = Modules.Backend.self.packageName
 
     defaultConfigs { } // none
 

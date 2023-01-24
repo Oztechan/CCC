@@ -9,10 +9,19 @@ object Modules {
         }
     }
 
-    const val ios = ":ios"
-    const val backend = ":backend"
+    @Suppress("unused")
+    object IOS {
+        const val self = ":ios" // not used just for presentation
+    }
 
-    const val common = ":common"
+    object Backend {
+        const val self = ":backend"
+
+        object Service {
+            const val free = ":backend:service:free"
+            const val premium = ":backend:service:premium"
+        }
+    }
 
     object Common {
         object Core {
@@ -22,20 +31,24 @@ object Modules {
             const val model = ":common:core:model"
         }
 
-        object Service {
-            const val free = ":common:service:free"
-            const val premium = ":common:service:premium"
-            const val backend = ":common:service:backend"
-        }
-
-        object Datasource {
-            const val currency = ":common:datasource:currency"
-            const val watcher = ":common:datasource:watcher"
+        object DataSource {
             const val conversion = ":common:datasource:conversion"
         }
     }
 
-    const val client = ":client"
+    object Client {
+        const val self = ":client"
+
+        object DataSource {
+            const val currency = ":client:datasource:currency"
+            const val watcher = ":client:datasource:watcher"
+        }
+
+        object Service {
+            const val backend = ":client:service:backend"
+        }
+    }
+
     const val res = ":res"
     const val billing = ":billing"
     const val ad = ":ad"

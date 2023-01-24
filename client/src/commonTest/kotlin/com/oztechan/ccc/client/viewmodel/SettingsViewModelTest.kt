@@ -5,6 +5,8 @@ package com.oztechan.ccc.client.viewmodel
 
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
+import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
@@ -13,6 +15,7 @@ import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
+import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
@@ -27,9 +30,6 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.common.service.backend.BackendApiService
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.eq

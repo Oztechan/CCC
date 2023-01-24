@@ -33,10 +33,9 @@ dependencies {
         implementation(koinAndroid)
     }
 
-    Modules.apply {
-        implementation(project(client))
-        implementation(project(res))
-    }
+    implementation(project(Modules.Client.self))
+
+    implementation(project(Modules.res))
 
     implementation(project(Modules.Submodules.logmob))
 

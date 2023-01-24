@@ -97,14 +97,19 @@ dependencies {
         implementation(project(infrastructure))
     }
 
-    Modules.Common.Service.apply {
-        implementation(project(backend))
+    Modules.Common.DataSource.apply {
+        implementation(project(conversion))
     }
 
-    Modules.Common.Datasource.apply {
+    implementation(project(Modules.Client.self))
+
+    Modules.Client.DataSource.apply {
         implementation(project(currency))
         implementation(project(watcher))
-        implementation(project(conversion))
+    }
+
+    Modules.Client.Service.apply {
+        implementation(project(backend))
     }
 
     Modules.Android.Feature.apply {
@@ -113,7 +118,6 @@ dependencies {
     }
 
     Modules.apply {
-        implementation(project(client))
         implementation(project(config))
         implementation(project(billing))
         implementation(project(ad))

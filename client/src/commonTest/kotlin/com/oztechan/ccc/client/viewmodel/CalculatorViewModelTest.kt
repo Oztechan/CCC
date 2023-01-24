@@ -7,6 +7,7 @@ import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
@@ -14,6 +15,7 @@ import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateRate
 import com.oztechan.ccc.client.util.getConversionStringFromBase
@@ -27,8 +29,6 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import com.oztechan.ccc.common.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.common.service.backend.BackendApiService
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

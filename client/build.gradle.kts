@@ -46,13 +46,15 @@ kotlin {
                     implementation(project(infrastructure))
                     implementation(project(model))
                 }
-                Modules.Common.Service.apply {
-                    implementation(project(backend))
+                Modules.Common.DataSource.apply {
+                    implementation(project(conversion))
                 }
-                Modules.Common.Datasource.apply {
+                Modules.Client.DataSource.apply {
                     implementation(project(currency))
                     implementation(project(watcher))
-                    implementation(project(conversion))
+                }
+                Modules.Client.Service.apply {
+                    implementation(project(backend))
                 }
             }
         }
@@ -109,7 +111,7 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.client.packageName
+        namespace = Modules.Client.self.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
@@ -126,7 +128,7 @@ tasks.withType<KotlinCompile> {
 }
 
 configure<BuildKonfigExtension> {
-    packageName = Modules.client.packageName
+    packageName = Modules.Client.self.packageName
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
