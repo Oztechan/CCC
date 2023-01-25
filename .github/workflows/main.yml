@@ -160,10 +160,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check koverMergedXmlReport detektAll sonar --parallel
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          arguments: check koverMergedXmlReport detektAll --parallel
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
