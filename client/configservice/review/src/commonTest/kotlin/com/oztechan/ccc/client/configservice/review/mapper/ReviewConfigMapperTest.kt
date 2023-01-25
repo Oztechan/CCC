@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.mapper
+package com.oztechan.ccc.client.configservice.review.mapper
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

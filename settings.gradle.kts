@@ -50,6 +50,7 @@ include(
     ":client:datasource:watcher",
     ":client:service:backend",
     ":client:configservice:ad",
+    ":client:configservice:review",
 
     ":res", // Shared with all FE targets for resources
 
