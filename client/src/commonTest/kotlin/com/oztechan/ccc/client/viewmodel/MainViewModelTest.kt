@@ -4,12 +4,12 @@
 
 package com.oztechan.ccc.client.viewmodel
 
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.helper.BaseViewModelTest

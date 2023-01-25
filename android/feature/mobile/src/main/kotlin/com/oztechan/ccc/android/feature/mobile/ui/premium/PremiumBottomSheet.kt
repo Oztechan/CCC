@@ -10,8 +10,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.billing.BillingEffect
 import com.oztechan.ccc.android.core.billing.BillingManager
@@ -22,6 +20,8 @@ import com.oztechan.ccc.android.feature.mobile.util.showSnack
 import com.oztechan.ccc.android.feature.mobile.util.toOldPurchaseList
 import com.oztechan.ccc.android.feature.mobile.util.toPremiumDataList
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel

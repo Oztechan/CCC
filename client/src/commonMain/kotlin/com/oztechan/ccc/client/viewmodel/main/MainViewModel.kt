@@ -4,12 +4,12 @@
 package com.oztechan.ccc.client.viewmodel.main
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
