@@ -32,10 +32,10 @@ import com.oztechan.ccc.android.feature.mobile.ui.compose.component.SnackViewHos
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toColor
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toPainter
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toText
-import com.oztechan.ccc.client.model.Watcher
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
+import com.oztechan.ccc.common.core.model.Watcher
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -141,8 +141,8 @@ fun WatchersViewContentPreview() = Preview {
         state = mutableStateOf(
             WatchersState(
                 watcherList = listOf(
-                    Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = "123"),
-                    Watcher(id = 0, base = "USD", target = "EUR", isGreater = false, rate = "123")
+                    Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = 123.0),
+                    Watcher(id = 0, base = "USD", target = "EUR", isGreater = false, rate = 123.0)
                 )
             )
         ),

@@ -77,6 +77,11 @@ dependencies {
 
     implementation(project(Modules.Client.self))
 
+    implementation(project(Modules.Common.Core.model))
+
+    Modules.apply {
+        implementation(project(res))
+    }
     Modules.Android.Core.apply {
         implementation(project(billing))
         implementation(project(ad))

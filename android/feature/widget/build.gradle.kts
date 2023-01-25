@@ -33,6 +33,8 @@ dependencies {
         implementation(koinAndroid)
     }
 
+    implementation(project(Modules.Common.Core.model))
+
     implementation(project(Modules.Client.self))
 
     implementation(project(Modules.res))

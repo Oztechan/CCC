@@ -20,17 +20,17 @@ struct CalculatorItemView: View {
     var body: some View {
         HStack {
 
-            Text(item.rate)
+            Text(String(item.rate))
                 .font(relative: .body)
                 .foregroundColor(Res.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(item.rate) }
+                .onLongPressGesture { onItemAmountLongClick(String(item.rate)) }
 
             Text(item.symbol)
                 .font(relative: .subheadline)
                 .foregroundColor(Res.colors().text.get())
                 .onTapGesture { onItemClick(item) }
-                .onLongPressGesture { onItemAmountLongClick(item.rate) }
+                .onLongPressGesture { onItemAmountLongClick(String(item.rate)) }
 
             Spacer()
 

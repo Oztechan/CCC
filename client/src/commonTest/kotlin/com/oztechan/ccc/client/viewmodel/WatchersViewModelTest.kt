@@ -5,7 +5,6 @@ import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.mapper.toUIModel
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
@@ -44,7 +43,6 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     private val adRepository = mock(classOf<AdRepository>())
 
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
-    private val watcherUIModel = watcher.toUIModel()
 
     @BeforeTest
     override fun setup() {
@@ -81,30 +79,30 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
     @Test
     fun onBaseClick() = subject.effect.before {
-        subject.event.onBaseClick(watcherUIModel)
+        subject.event.onBaseClick(watcher)
     }.after {
         assertNotNull(it)
         assertIs<WatchersEffect.SelectBase>(it)
-        assertEquals(watcherUIModel, it.watcher)
+        assertEquals(watcher, it.watcher)
     }
 
     @Test
     fun onTargetClick() = subject.effect.before {
-        subject.event.onTargetClick(watcherUIModel)
+        subject.event.onTargetClick(watcher)
     }.after {
         assertNotNull(it)
         assertIs<WatchersEffect.SelectTarget>(it)
-        assertEquals(watcherUIModel, it.watcher)
+        assertEquals(watcher, it.watcher)
     }
 
     @Test
     fun onBaseChanged() {
         val mockBase = "mock"
-        subject.event.onBaseChanged(watcherUIModel, mockBase)
+        subject.event.onBaseChanged(watcher, mockBase)
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateWatcherBaseById(mockBase, watcherUIModel.id) }
+                .coroutine { updateWatcherBaseById(mockBase, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -112,11 +110,11 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     @Test
     fun onTargetChanged() {
         val mockBase = "mock"
-        subject.event.onTargetChanged(watcherUIModel, mockBase)
+        subject.event.onTargetChanged(watcher, mockBase)
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateWatcherTargetById(mockBase, watcherUIModel.id) }
+                .coroutine { updateWatcherTargetById(mockBase, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -171,11 +169,11 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
     @Test
     fun onDeleteClick() {
-        subject.event.onDeleteClick(watcherUIModel)
+        subject.event.onDeleteClick(watcher)
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { deleteWatcher(watcherUIModel.id) }
+                .coroutine { deleteWatcher(watcher.id) }
                 .wasInvoked()
         }
     }
@@ -183,11 +181,11 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     @Test
     fun onRelationChange() {
         val mockBoolean = Random.nextBoolean()
-        subject.event.onRelationChange(watcherUIModel, mockBoolean)
+        subject.event.onRelationChange(watcher, mockBoolean)
 
         runTest {
             verify(watcherDataSource)
-                .coroutine { updateWatcherRelationById(mockBoolean, watcherUIModel.id) }
+                .coroutine { updateWatcherRelationById(mockBoolean, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -196,13 +194,13 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     fun onRateChange() = runTest {
         // when rate is normal
         var rate = "12"
-        assertEquals(rate, subject.event.onRateChange(watcherUIModel, rate))
+        assertEquals(rate, subject.event.onRateChange(watcher, rate))
 
         verify(watcherDataSource)
             .coroutine {
                 updateWatcherRateById(
                     rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-                    watcherUIModel.id
+                    watcher.id
                 )
             }
             .wasInvoked()
@@ -210,7 +208,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         // when rate is not valid
         rate = "asd"
         subject.effect.before {
-            assertEquals(rate, subject.event.onRateChange(watcherUIModel, rate))
+            assertEquals(rate, subject.event.onRateChange(watcher, rate))
         }.after {
             assertNotNull(it)
             assertIs<WatchersEffect.InvalidInput>(it)
@@ -218,7 +216,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
         // when rate is too long
         rate = "12345678910"
         subject.effect.before {
-            assertEquals(rate.dropLast(1), subject.event.onRateChange(watcherUIModel, rate))
+            assertEquals(rate.dropLast(1), subject.event.onRateChange(watcher, rate))
         }.after {
             assertNotNull(it)
             assertIs<WatchersEffect.TooBigNumber>(it)

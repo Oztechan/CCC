@@ -6,8 +6,8 @@ import com.oztechan.ccc.client.base.BaseEffect
 import com.oztechan.ccc.client.base.BaseEvent
 import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.core.model.Currency
 
 // State
 data class CalculatorState(
