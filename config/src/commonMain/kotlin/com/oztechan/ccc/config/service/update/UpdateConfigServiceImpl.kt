@@ -3,6 +3,7 @@ package com.oztechan.ccc.config.service.update
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
 import com.oztechan.ccc.config.mapper.toUpdateConfigModel
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import com.oztechan.ccc.client.core.remoteconfig.model.UpdateConfig as UpdateConfigRCModel
 import com.oztechan.ccc.config.model.UpdateConfig as UpdateConfigModel
 
@@ -12,6 +13,8 @@ internal class UpdateConfigServiceImpl :
         UpdateConfigRCModel().toUpdateConfigModel()
     ),
     UpdateConfigService {
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     override fun decode(
         value: String

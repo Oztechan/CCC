@@ -58,6 +58,9 @@ kotlin {
                 Modules.Client.Service.apply {
                     implementation(project(backend))
                 }
+                Modules.Client.ConfigService.apply {
+                    implementation(project(ad))
+                }
                 Modules.Client.Storage.apply {
                     implementation(project(app))
                     implementation(project(calculator))

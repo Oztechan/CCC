@@ -1,4 +1,4 @@
-package com.oztechan.ccc.config.model
+package com.oztechan.ccc.client.configservice.ad.model
 
 data class AdConfig(
     val bannerAdSessionCount: Int,
