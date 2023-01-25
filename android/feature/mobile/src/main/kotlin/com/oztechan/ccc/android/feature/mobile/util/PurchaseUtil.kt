@@ -1,7 +1,7 @@
 package com.oztechan.ccc.android.feature.mobile.util
 
-import com.oztechan.ccc.billing.model.ProductDetails
-import com.oztechan.ccc.billing.model.PurchaseHistoryRecord
+import com.oztechan.ccc.android.core.billing.model.ProductDetails
+import com.oztechan.ccc.android.core.billing.model.PurchaseHistoryRecord
 import com.oztechan.ccc.client.model.OldPurchase
 import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType

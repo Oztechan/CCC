@@ -81,8 +81,14 @@ dependencies {
 
     Modules.apply {
         implementation(project(res))
+    }
+    Modules.Android.Core.apply {
         implementation(project(billing))
         implementation(project(ad))
+    }
+
+    Modules.apply {
+        implementation(project(res))
         implementation(project(analytics))
     }
 
