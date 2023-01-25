@@ -9,7 +9,6 @@ plugins {
     libs.plugins.apply {
         alias(kover)
         alias(detekt)
-        alias(sonarqube)
     }
 }
 
@@ -70,17 +69,6 @@ allprojects {
 
         dependencies {
             detektPlugins(rootProject.libs.common.detektFormatting)
-        }
-    }
-
-    apply(plugin = rootProject.libs.plugins.sonarqube.get().pluginId).also {
-        sonar {
-            properties {
-                property("sonar.sources", "src,$rootDir/ios")
-                property("sonar.projectKey", "Oztechan_CCC")
-                property("sonar.organization", "oztechan")
-                property("sonar.host.url", "https://sonarcloud.io")
-            }
         }
     }
 
