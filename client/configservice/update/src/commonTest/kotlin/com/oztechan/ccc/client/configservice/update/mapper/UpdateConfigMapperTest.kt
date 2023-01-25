@@ -1,8 +1,8 @@
-package com.oztechan.ccc.config.mapper
+package com.oztechan.ccc.client.configservice.update.mapper
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.client.core.remoteconfig.model.UpdateConfig as AppUpdateRCModel
+import com.oztechan.ccc.client.configservice.update.UpdateConfig as AppUpdateRCModel
 
 class UpdateConfigMapperTest {
 

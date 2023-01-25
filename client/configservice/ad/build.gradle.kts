@@ -3,6 +3,7 @@ plugins {
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -57,7 +58,7 @@ kotlin {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.ConfigService.ad.packageName
+        namespace = Modules.config.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")

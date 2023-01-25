@@ -124,6 +124,7 @@ dependencies {
     Modules.Client.ConfigService.apply {
         implementation(project(ad))
         implementation(project(review))
+        implementation(project(update))
     }
 
     Modules.Android.Feature.apply {
@@ -132,7 +133,6 @@ dependencies {
     }
 
     Modules.apply {
-        implementation(project(config))
         implementation(project(billing))
         implementation(project(ad))
         implementation(project(analytics))

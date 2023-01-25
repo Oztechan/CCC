@@ -3,7 +3,6 @@ plugins {
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
-        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -19,7 +18,6 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(libs.common.ktorJson)
                 implementation(project(Modules.Submodules.logmob))
             }
         }
