@@ -2,6 +2,7 @@ package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
+import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
 import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
@@ -128,10 +129,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         given(reviewConfigService)
             .invocation { config }
             .then {
-                com.oztechan.ccc.client.configservice.review.model.ReviewConfig(
-                    appReviewSessionCount = mockInteger,
-                    0L
-                )
+                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
             }
 
         given(appStorage)
@@ -156,10 +154,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         given(reviewConfigService)
             .invocation { config }
             .then {
-                com.oztechan.ccc.client.configservice.review.model.ReviewConfig(
-                    appReviewSessionCount = mockInteger,
-                    0L
-                )
+                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
             }
 
         given(appStorage)
@@ -184,10 +179,7 @@ internal class AppConfigRepositoryTest : BaseSubjectTest<AppConfigRepository>() 
         given(reviewConfigService)
             .invocation { config }
             .then {
-                com.oztechan.ccc.client.configservice.review.model.ReviewConfig(
-                    appReviewSessionCount = mockInteger,
-                    0L
-                )
+                ReviewConfig(appReviewSessionCount = mockInteger, 0L)
             }
 
         given(appStorage)
