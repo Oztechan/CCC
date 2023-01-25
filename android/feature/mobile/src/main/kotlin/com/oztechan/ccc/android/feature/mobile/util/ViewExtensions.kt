@@ -22,8 +22,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.submob.scopemob.castTo
-import com.oztechan.ccc.ad.AdManager
-import com.oztechan.ccc.ad.BannerAdView
+import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.core.ad.BannerAdView
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.res.getImageIdByName

@@ -7,6 +7,11 @@ object Modules {
             const val mobile = ":android:feature:mobile"
             const val widget = ":android:feature:widget"
         }
+
+        object Core {
+            const val billing = ":android:core:billing"
+            const val ad = ":android:core:ad"
+        }
     }
 
     @Suppress("unused")
@@ -60,8 +65,6 @@ object Modules {
     }
 
     const val res = ":res"
-    const val billing = ":billing"
-    const val ad = ":ad"
     const val analytics = ":analytics"
     const val config = ":config"
     const val provider = ":provider"
