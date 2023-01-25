@@ -4,8 +4,8 @@ import com.oztechan.ccc.client.configservice.update.mapper.toUpdateConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import com.oztechan.ccc.client.configservice.update.UpdateConfig as UpdateConfigRCModel
 import com.oztechan.ccc.client.configservice.update.model.UpdateConfig as UpdateConfigModel
-import com.oztechan.ccc.client.core.remoteconfig.model.UpdateConfig as UpdateConfigRCModel
 
 internal class UpdateConfigServiceImpl :
     BaseConfigService<UpdateConfigModel>(

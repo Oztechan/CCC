@@ -2,7 +2,7 @@ package com.oztechan.ccc.client.configservice.review.mapper
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import com.oztechan.ccc.client.core.remoteconfig.model.ReviewConfig as AppReviewRCModel
+import com.oztechan.ccc.client.configservice.review.ReviewConfig as AppReviewRCModel
 
 class ReviewConfigMapperTest {
 

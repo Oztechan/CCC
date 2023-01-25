@@ -4,8 +4,8 @@ import com.oztechan.ccc.client.configservice.ad.mapper.toAdConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import com.oztechan.ccc.client.configservice.ad.AdConfig as AdConfigRCModel
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig as AdConfigModel
-import com.oztechan.ccc.client.core.remoteconfig.model.AdConfig as AdConfigRCModel
 
 internal class AdConfigServiceImpl :
     BaseConfigService<AdConfigModel>(

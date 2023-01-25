@@ -3,13 +3,13 @@ package com.oztechan.ccc.client.repository
 import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
+import com.oztechan.ccc.client.configservice.update.UpdateConfigService
+import com.oztechan.ccc.client.configservice.update.model.UpdateConfig
 import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.model.Device
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.config.model.UpdateConfig
-import com.oztechan.ccc.config.service.update.UpdateConfigService
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
