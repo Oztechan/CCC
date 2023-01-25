@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.viewmodel.widget
 
-import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.common.core.model.Currency
 
 data class WidgetState(
     var currencyList: List<Currency> = listOf(),

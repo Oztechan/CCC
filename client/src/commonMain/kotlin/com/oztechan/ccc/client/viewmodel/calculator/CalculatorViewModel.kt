@@ -15,9 +15,7 @@ import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.mapper.toConversion
 import com.oztechan.ccc.client.mapper.toTodayResponse
-import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
@@ -36,6 +34,7 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAX
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -85,7 +84,7 @@ class CalculatorViewModel(
             }
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
-                _state.update { copy(currencyList = it.toUIModelList()) }
+                _state.update { copy(currencyList = it) }
 
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
             }
@@ -178,7 +177,7 @@ class CalculatorViewModel(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
                     .getFormatted(calculatorStorage.precision)
-                    .toStandardDigits()
+                    .toStandardDigits().toDoubleOrNull() ?: 0.0
             },
             conversionState = conversionState
         )
@@ -223,7 +222,7 @@ class CalculatorViewModel(
     override fun onItemClick(currency: Currency) = with(currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.code}" }
 
-        val newInput = rate.toSupportedCharacters().let {
+        val newInput = rate.toString().toSupportedCharacters().let {
             if (it.last() == CHAR_DOT) {
                 it.dropLast(1)
             } else {

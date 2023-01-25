@@ -16,7 +16,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.feature.widget.R
 import com.oztechan.ccc.android.feature.widget.ui.components.ImageView
-import com.oztechan.ccc.client.model.Currency
+import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.res.getImageIdByName
 
 @Composable
@@ -31,7 +31,7 @@ fun WidgetItem(
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = item.rate,
+            text = item.rate.toString(),
             style = TextStyle(color = ColorProvider(R.color.text), fontSize = 12.sp),
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )

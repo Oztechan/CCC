@@ -8,8 +8,8 @@ import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.ItemCurrenciesBinding
 import com.oztechan.ccc.android.feature.mobile.util.setBackgroundByName
-import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEvent
+import com.oztechan.ccc.common.core.model.Currency
 
 class CurrenciesAdapter(
     private val currenciesEvent: CurrenciesEvent

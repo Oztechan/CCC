@@ -7,8 +7,6 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.mapper.toUIModel
-import com.oztechan.ccc.client.mapper.toUIModelList
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import io.mockative.Mock
@@ -42,8 +40,6 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
 
-    private val currencyUIModel = currencyDollar.toUIModel()
-
     private val currencyListNotEnough = listOf(currencyDollar)
     private val currencyListEnough = listOf(currencyDollar, currencyEuro)
 
@@ -73,7 +69,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
             assertNotNull(it)
             assertFalse { it.loading }
             assertFalse { it.enoughCurrency }
-            assertEquals(currencyListNotEnough.toUIModelList(), it.currencyList)
+            assertEquals(currencyListNotEnough, it.currencyList)
         }
 
         verify(currencyDataSource)
@@ -88,7 +84,7 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
                 assertNotNull(it)
                 assertFalse { it.loading }
                 assertTrue { it.enoughCurrency }
-                assertEquals(currencyListEnough.toUIModelList(), it.currencyList)
+                assertEquals(currencyListEnough, it.currencyList)
             }
         }
 
@@ -100,10 +96,10 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     @Test
     fun onItemClick() {
         subject.effect.before {
-            subject.event.onItemClick(currencyUIModel)
+            subject.event.onItemClick(currencyDollar)
         }.after {
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyUIModel.code, it.newBase)
+            assertEquals(currencyDollar.code, it.newBase)
         }
     }
 

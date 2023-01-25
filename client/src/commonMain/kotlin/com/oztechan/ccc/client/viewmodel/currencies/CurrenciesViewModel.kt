@@ -14,20 +14,18 @@ import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.mapper.toUIModelList
-import com.oztechan.ccc.client.model.Currency
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 @Suppress("TooManyFunctions")
@@ -52,7 +50,6 @@ class CurrenciesViewModel(
 
     init {
         currencyDataSource.getCurrenciesFlow()
-            .map { it.toUIModelList() }
             .onEach { currencyList ->
 
                 _state.update {

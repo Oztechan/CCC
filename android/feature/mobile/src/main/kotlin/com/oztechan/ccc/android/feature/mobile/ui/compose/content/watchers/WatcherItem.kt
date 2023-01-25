@@ -28,7 +28,7 @@ import com.oztechan.ccc.android.feature.mobile.ui.compose.component.ImageView
 import com.oztechan.ccc.android.feature.mobile.ui.compose.component.Preview
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toPainter
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toText
-import com.oztechan.ccc.client.model.Watcher
+import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.res.getImageIdByName
 
 @Composable
@@ -74,15 +74,13 @@ fun WatcherItem(
         Spacer(Modifier.weight(1f))
 
         OutlinedTextField(
-            value = watcher.rate,
+            value = watcher.rate.toString(),
             onValueChange = onRateChange,
             modifier = Modifier
                 .padding(itemPadding)
                 .width(105.dp),
             placeholder = {
-                Text(
-                    text = R.string.txt_rate.toText(),
-                )
+                Text(text = R.string.txt_rate.toText())
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             textStyle = TextStyle(textAlign = TextAlign.Center)
@@ -114,7 +112,7 @@ fun WatcherItemPreview() = Preview {
             base = "EUR",
             target = "USD",
             isGreater = false,
-            rate = "123456789"
+            rate = 123456789.0
         ),
         onRateChange = {},
         onBaseClick = {},
