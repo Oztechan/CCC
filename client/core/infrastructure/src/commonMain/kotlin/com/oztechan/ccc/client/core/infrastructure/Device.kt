@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.model
+package com.oztechan.ccc.client.core.infrastructure
 
 sealed class Device(
     open val name: String,

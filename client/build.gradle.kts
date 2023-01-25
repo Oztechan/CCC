@@ -49,6 +49,7 @@ kotlin {
                 }
                 Modules.Client.Core.apply {
                     implementation(project(persistence))
+                    implementation(project(infrastructure))
                 }
                 Modules.Client.DataSource.apply {
                     implementation(project(currency))

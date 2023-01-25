@@ -108,6 +108,7 @@ dependencies {
 
     Modules.Client.Core.apply {
         implementation(project(persistence))
+        implementation(project(infrastructure))
     }
 
     Modules.Client.Storage.apply {

@@ -47,6 +47,7 @@ object Modules {
         object Core {
             const val persistence = ":client:core:persistence"
             const val remoteConfig = ":client:core:remoteconfig"
+            const val infrastructure = ":client:core:infrastructure"
         }
 
         object Storage {
