@@ -124,13 +124,18 @@ dependencies {
         implementation(project(backend))
     }
 
+    Modules.Client.ConfigService.apply {
+        implementation(project(ad))
+        implementation(project(review))
+        implementation(project(update))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))
     }
 
     Modules.apply {
-        implementation(project(config))
         implementation(project(analytics))
     }
 
