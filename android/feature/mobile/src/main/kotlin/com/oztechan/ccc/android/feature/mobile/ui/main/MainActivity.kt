@@ -14,7 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
-import com.oztechan.ccc.ad.AdManager
+import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.util.getThemeMode
 import com.oztechan.ccc.android.feature.mobile.util.requestAppReview

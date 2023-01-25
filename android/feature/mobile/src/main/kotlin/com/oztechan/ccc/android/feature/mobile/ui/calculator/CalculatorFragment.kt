@@ -11,9 +11,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
-import com.oztechan.ccc.ad.AdManager
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.ScreenName
+import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.FragmentCalculatorBinding
 import com.oztechan.ccc.android.feature.mobile.util.copyToClipBoard
