@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.repository.ad
 
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
+import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.isItOver
 
 internal class AdRepositoryImpl(
     private val appStorage: AppStorage,

@@ -1,25 +1,25 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.core.shared.util
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-internal fun nowAsLong() = nowAsInstant().toEpochMilliseconds()
+fun nowAsLong() = nowAsInstant().toEpochMilliseconds()
 
-internal fun nowAsInstant() = Clock.System.now()
+fun nowAsInstant() = Clock.System.now()
 
-internal fun Long.isItOver(): Boolean {
+fun Long.isItOver(): Boolean {
     return nowAsLong() >= this
 }
 
-internal fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
+fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
 
-internal fun Long.toDateString(
+fun Long.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toInstant().toDateString(timeZone)
 
-internal fun Instant.toDateString(
+fun Instant.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
     "${hour.toDoubleDigits()}:${minute.toDoubleDigits()} " +

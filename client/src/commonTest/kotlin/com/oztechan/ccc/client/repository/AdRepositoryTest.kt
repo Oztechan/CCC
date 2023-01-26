@@ -2,11 +2,11 @@ package com.oztechan.ccc.client.repository
 
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
+import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.helper.BaseSubjectTest
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf

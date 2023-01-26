@@ -14,8 +14,17 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.common.kotlinXDateTime)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.common.test)
+                implementation(project(Modules.Common.Core.infrastructure))
+            }
+        }
 
         val androidMain by getting
         val androidTest by getting

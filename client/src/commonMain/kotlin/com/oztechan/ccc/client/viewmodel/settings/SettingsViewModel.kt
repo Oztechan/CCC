@@ -8,6 +8,9 @@ import com.github.submob.logmob.e
 import com.oztechan.ccc.analytics.AnalyticsManager
 import com.oztechan.ccc.analytics.model.Event
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.nowAsLong
+import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.model.AppTheme
@@ -19,10 +22,7 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isItOver
 import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.nowAsLong
-import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
