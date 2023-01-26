@@ -14,7 +14,7 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
-import com.oztechan.ccc.common.core.infrastructure.util.SECOND
+import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
 import io.mockative.classOf

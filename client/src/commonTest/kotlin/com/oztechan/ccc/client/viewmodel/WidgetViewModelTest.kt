@@ -5,10 +5,10 @@ import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
+import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
-import com.oztechan.ccc.common.core.infrastructure.util.DAY
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
+import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -63,7 +63,7 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
             .thenReturn(mockEndDate)
 
         assertEquals(base, subject.state.currentBase)
-        assertEquals(!appStorage.premiumEndDate.isPremiumExpired(), subject.state.isPremium)
+        assertEquals(!appStorage.premiumEndDate.isItOver(), subject.state.isPremium)
     }
 
     @Test

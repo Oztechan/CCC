@@ -1,17 +1,15 @@
 package com.oztechan.ccc.client.util
 
-import com.oztechan.ccc.client.model.PremiumType
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
-internal const val REWARDED_AD_PREMIUM_IN_DAYS = 2
-private const val BIGGEST_DIGIT = 9
+internal fun nowAsLong() = nowAsInstant().toEpochMilliseconds()
 
-internal fun Long.isPremiumExpired(): Boolean {
+internal fun nowAsInstant() = Clock.System.now()
+
+internal fun Long.isItOver(): Boolean {
     return nowAsLong() >= this
 }
 
@@ -28,43 +26,6 @@ internal fun Instant.toDateString(
         "${dayOfMonth.toDoubleDigits()}.${monthNumber.toDoubleDigits()}.${year.toDoubleDigits()}"
 }
 
+private const val BIGGEST_DIGIT = 9
+
 internal fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
-
-@Suppress("MagicNumber")
-internal fun PremiumType.calculatePremiumEnd(startDate: Long = nowAsLong()) = when (this) {
-    PremiumType.VIDEO -> startDate.toInstant().plus(
-        REWARDED_AD_PREMIUM_IN_DAYS,
-        DateTimeUnit.DAY,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-
-    PremiumType.MONTH -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-
-    PremiumType.QUARTER -> startDate.toInstant().plus(
-        3,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-
-    PremiumType.HALF_YEAR -> startDate.toInstant().plus(
-        6,
-        DateTimeUnit.MONTH,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-
-    PremiumType.YEAR -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.YEAR,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-
-    PremiumType.LIFE_TIME -> startDate.toInstant().plus(
-        1,
-        DateTimeUnit.CENTURY,
-        TimeZone.currentSystemDefault()
-    ).toEpochMilliseconds()
-}

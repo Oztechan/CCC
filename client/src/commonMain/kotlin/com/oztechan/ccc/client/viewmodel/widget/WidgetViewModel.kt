@@ -7,10 +7,10 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.getRateFromCode
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
+import com.oztechan.ccc.client.util.nowAsInstant
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.toValidList
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsInstant
 
 class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,
@@ -21,7 +21,7 @@ class WidgetViewModel(
 
     var state = WidgetState(
         currentBase = calculatorStorage.currentBase,
-        isPremium = !appStorage.premiumEndDate.isPremiumExpired()
+        isPremium = !appStorage.premiumEndDate.isItOver()
     )
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
@@ -33,7 +33,7 @@ class WidgetViewModel(
             currencyList = listOf(),
             lastUpdate = "",
             currentBase = calculatorStorage.currentBase,
-            isPremium = !appStorage.premiumEndDate.isPremiumExpired()
+            isPremium = !appStorage.premiumEndDate.isItOver()
         )
 
         if (state.isPremium) {

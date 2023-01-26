@@ -14,7 +14,7 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -101,7 +101,7 @@ class MainViewModel(
 
     fun getAppTheme() = appStorage.appTheme
 
-    fun isPremium() = !appStorage.premiumEndDate.isPremiumExpired()
+    fun isPremium() = !appStorage.premiumEndDate.isItOver()
 
     // region Event
     override fun onPause() {

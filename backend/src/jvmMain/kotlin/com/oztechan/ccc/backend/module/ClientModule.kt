@@ -2,8 +2,8 @@ package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.client.ClientController
+import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
-import com.oztechan.ccc.common.core.infrastructure.util.DAY
 import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
