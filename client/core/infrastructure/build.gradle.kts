@@ -14,13 +14,7 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                }
-            }
-        }
+        val commonMain by getting
         val commonTest by getting
 
         val androidMain by getting
