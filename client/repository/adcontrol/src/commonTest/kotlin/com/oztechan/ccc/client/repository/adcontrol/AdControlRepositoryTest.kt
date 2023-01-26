@@ -1,10 +1,4 @@
-<<<<<<<< HEAD:client/repository/adcontrol/src/commonTest/kotlin/com/oztechan/ccc/client/repository/adcontrol/AdControlRepositoryTest.kt
 package com.oztechan.ccc.client.repository.adcontrol
-|||||||| parent of eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/src/commonTest/kotlin/com/oztechan/ccc/client/repository/AdRepositoryTest.kt
-package com.oztechan.ccc.client.repository
-========
-package com.oztechan.ccc.client.repository.ad
->>>>>>>> eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/repository/ad/src/commonTest/kotlin/com/oztechan/ccc/client/repository/ad/AdRepositoryTest.kt
 
 import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
@@ -24,24 +18,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-<<<<<<<< HEAD:client/repository/adcontrol/src/commonTest/kotlin/com/oztechan/ccc/client/repository/adcontrol/AdControlRepositoryTest.kt
 internal class AdControlRepositoryTest {
-|||||||| parent of eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/src/commonTest/kotlin/com/oztechan/ccc/client/repository/AdRepositoryTest.kt
-internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
-========
-internal class AdRepositoryTest {
->>>>>>>> eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/repository/ad/src/commonTest/kotlin/com/oztechan/ccc/client/repository/ad/AdRepositoryTest.kt
 
-<<<<<<<< HEAD:client/repository/adcontrol/src/commonTest/kotlin/com/oztechan/ccc/client/repository/adcontrol/AdControlRepositoryTest.kt
     private val subject: AdControlRepository by lazy {
         AdControlRepositoryImpl(appStorage, adConfigService)
-|||||||| parent of eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/src/commonTest/kotlin/com/oztechan/ccc/client/repository/AdRepositoryTest.kt
-    override val subject: AdRepository by lazy {
-        AdRepositoryImpl(appStorage, adConfigService)
-========
-    private val subject: AdRepository by lazy {
-        AdRepositoryImpl(appStorage, adConfigService)
->>>>>>>> eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/repository/ad/src/commonTest/kotlin/com/oztechan/ccc/client/repository/ad/AdRepositoryTest.kt
     }
 
     @Mock
@@ -53,17 +33,9 @@ internal class AdRepositoryTest {
     private var mockedSessionCount = Random.nextInt()
 
     @BeforeTest
-<<<<<<<< HEAD:client/repository/adcontrol/src/commonTest/kotlin/com/oztechan/ccc/client/repository/adcontrol/AdControlRepositoryTest.kt
-    fun setup() {
-|||||||| parent of eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/src/commonTest/kotlin/com/oztechan/ccc/client/repository/AdRepositoryTest.kt
-    override fun setup() {
-        super.setup()
-
-========
     fun setup() {
         initTestLogger()
 
->>>>>>>> eaa04e68d ([Oztechan/CCC#1828] Create :client:repository:ad module):client/repository/ad/src/commonTest/kotlin/com/oztechan/ccc/client/repository/ad/AdRepositoryTest.kt
         given(adConfigService)
             .invocation { config }
             .thenReturn(AdConfig(mockedSessionCount, mockedSessionCount, 0L, 0L))
