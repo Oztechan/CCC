@@ -1,6 +1,5 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.core.shared.util
 
-import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import kotlinx.datetime.Clock
@@ -11,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class DateUtilTest : BaseTest() {
+internal class DateUtilTest {
 
     @Test
     fun nowAsLongTest() = assertTrue {

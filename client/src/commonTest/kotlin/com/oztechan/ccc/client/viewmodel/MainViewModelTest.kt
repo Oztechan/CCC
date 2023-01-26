@@ -11,6 +11,7 @@ import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
 import com.oztechan.ccc.client.core.shared.Device
+import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
@@ -18,7 +19,6 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
