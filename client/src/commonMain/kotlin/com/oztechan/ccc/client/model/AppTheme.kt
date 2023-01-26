@@ -3,6 +3,8 @@
  */
 package com.oztechan.ccc.client.model
 
+import com.oztechan.ccc.client.core.shared.Device
+
 @Suppress("MagicNumber")
 enum class AppTheme(val themeName: String, val themeValue: Int) {
     LIGHT("Light", 1),

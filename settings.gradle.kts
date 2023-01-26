@@ -44,6 +44,7 @@ include(
     ":common:datasource:conversion",
 
     ":client", // Shared with all FE targets
+    ":client:core:shared",
     ":client:core:persistence",
     ":client:core:remoteconfig",
     ":client:storage:app",
