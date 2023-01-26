@@ -1,3 +1,5 @@
+import org.gradle.configurationcache.extensions.capitalized
+
 object Modules {
 
     object Android {
@@ -85,4 +87,4 @@ val String.packageName: String
     get() = "${ProjectSettings.PROJECT_ID}${replace(":", ".")}"
 
 val String.frameworkName: String
-    get() = split(":").joinToString("") { it.capitalize() }
+    get() = split(":").lastOrNull()?.capitalized().orEmpty()
