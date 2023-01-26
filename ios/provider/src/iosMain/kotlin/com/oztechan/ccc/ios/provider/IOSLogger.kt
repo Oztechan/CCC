@@ -1,4 +1,4 @@
-package com.oztechan.ccc.provider
+package com.oztechan.ccc.ios.provider
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.initCrashlytics

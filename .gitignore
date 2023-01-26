@@ -23,7 +23,7 @@ secret.properties
 
 # Pods files
 res/res.podspec
-provider/provider.podspec
+ios/provider/provider.podspec
 
 # iOS Project
 ios/Pods/

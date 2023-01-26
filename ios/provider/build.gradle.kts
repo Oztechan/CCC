@@ -20,7 +20,7 @@ kotlin {
         }
 
         framework {
-            baseName = Modules.provider.frameworkName
+            baseName = Modules.IOS.provider.frameworkName
             export(project(Modules.Client.self))
             export(project(Modules.analytics))
             export(project(Modules.Common.Core.model))

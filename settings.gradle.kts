@@ -29,11 +29,11 @@ include(
     ":android:feature:mobile", // android mobile app
     ":android:feature:widget", // android widget
 
+    ":ios:provider",
+
     ":backend", // backend app
     ":backend:service:free",
     ":backend:service:premium",
-
-    // ios -> not a gradle module
 
     // KMP modules
     // Shared with all FE & BE targets
@@ -59,8 +59,6 @@ include(
     ":res", // Shared with all FE targets for resources
 
     ":analytics", // Shared with all FE targets for Google Analytics
-
-    ":provider", // umbrella framework for iOS libraries
 
     // submodules
     ":submodule:logmob", // KMP, logger library

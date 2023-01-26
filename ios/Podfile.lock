@@ -1,21 +1,21 @@
 PODS:
-  - provider (0.0.2550)
-  - res (0.0.2550)
+  - provider (0.0.2560)
+  - res (0.0.2560)
 
 DEPENDENCIES:
-  - provider (from `../provider/provider.podspec`)
+  - provider (from `../ios/provider/provider.podspec`)
   - res (from `../res/res.podspec`)
 
 EXTERNAL SOURCES:
   provider:
-    :path: "../provider/provider.podspec"
+    :path: "../ios/provider/provider.podspec"
   res:
     :path: "../res/res.podspec"
 
 SPEC CHECKSUMS:
-  provider: 1ca7194a92e6fad170c09239557834fe7d3325f9
-  res: 2972a378a10f204d87a88b355203bb648b11faa5
+  provider: 8510b9e2b0336ce90c591eb287d8ab73d57ff33d
+  res: b995a743342baba9f488fb193fa3ed8a37f78d97
 
-PODFILE CHECKSUM: f61a561b41da1e6b24e8a3e586530271ce1c87a7
+PODFILE CHECKSUM: 45f24e3ef3ed93e3339b32c95a6136ffb3c04056
 
 COCOAPODS: 1.11.3

@@ -1,3 +1,5 @@
+import org.gradle.configurationcache.extensions.capitalized
+
 object Modules {
 
     object Android {
@@ -14,9 +16,8 @@ object Modules {
         }
     }
 
-    @Suppress("unused")
     object IOS {
-        const val self = ":ios" // not used just for presentation
+        const val provider = ":ios:provider"
     }
 
     object Backend {
@@ -73,8 +74,6 @@ object Modules {
 
     const val res = ":res"
     const val analytics = ":analytics"
-    const val config = ":config"
-    const val provider = ":provider"
 
     object Submodules {
         const val logmob = ":submodule:logmob"
@@ -88,4 +87,4 @@ val String.packageName: String
     get() = "${ProjectSettings.PROJECT_ID}${replace(":", ".")}"
 
 val String.frameworkName: String
-    get() = split(":").joinToString("") { it.capitalize() }
+    get() = split(":").lastOrNull()?.capitalized().orEmpty()
