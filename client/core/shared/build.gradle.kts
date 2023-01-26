@@ -44,7 +44,7 @@ kotlin {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.Core.infrastructure.packageName
+        namespace = Modules.Client.Core.shared.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

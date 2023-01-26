@@ -56,7 +56,7 @@ kotlin {
 
                 Modules.Client.Core.apply {
                     implementation(project(persistence))
-                    implementation(project(infrastructure))
+                    implementation(project(shared))
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))

@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.repository.appconfig
 
-import com.oztechan.ccc.client.core.infrastructure.Device
+import com.oztechan.ccc.client.core.shared.Device
 
 interface AppConfigRepository {
 

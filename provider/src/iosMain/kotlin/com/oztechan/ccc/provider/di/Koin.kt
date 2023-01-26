@@ -12,9 +12,9 @@ import com.oztechan.ccc.analytics.di.getAnalyticsModule
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
-import com.oztechan.ccc.client.core.infrastructure.Device
 import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
+import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
 import com.oztechan.ccc.client.di.repositoryModule

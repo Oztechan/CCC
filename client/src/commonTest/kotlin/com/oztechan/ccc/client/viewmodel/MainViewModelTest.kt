@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
-import com.oztechan.ccc.client.core.infrastructure.Device
+import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before

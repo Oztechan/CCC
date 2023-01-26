@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.model
 
-import com.oztechan.ccc.client.core.infrastructure.Device
+import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.helper.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
