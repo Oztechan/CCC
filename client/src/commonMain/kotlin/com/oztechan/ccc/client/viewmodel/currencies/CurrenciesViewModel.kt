@@ -14,7 +14,7 @@ import com.oztechan.ccc.analytics.model.Param
 import com.oztechan.ccc.analytics.model.UserProperty
 import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.launchIgnored
@@ -33,7 +33,7 @@ class CurrenciesViewModel(
     private val appStorage: AppStorage,
     private val calculatorStorage: CalculatorStorage,
     private val currencyDataSource: CurrencyDataSource,
-    private val adRepository: AdRepository,
+    private val adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(), CurrenciesEvent {
     // region SEED
@@ -114,7 +114,7 @@ class CurrenciesViewModel(
         copy(selectionVisibility = false)
     }
 
-    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     fun isFirstRun() = appStorage.firstRun
 

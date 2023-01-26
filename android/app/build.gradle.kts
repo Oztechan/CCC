@@ -132,7 +132,7 @@ dependencies {
     }
 
     Modules.Client.Repository.apply {
-        implementation(project(ad))
+        implementation(project(adControl))
     }
 
     Modules.Android.Feature.apply {

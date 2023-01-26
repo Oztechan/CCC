@@ -24,7 +24,6 @@ kotlin {
                 implementation(project(Modules.Client.ConfigService.ad))
                 implementation(project(Modules.Client.Core.shared))
                 implementation(project(Modules.Common.Core.infrastructure))
-                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {
@@ -70,7 +69,7 @@ ksp {
 
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.Repository.ad.packageName
+        namespace = Modules.Client.Repository.adControl.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         @Suppress("UnstableApiUsage")

@@ -9,7 +9,7 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
@@ -39,7 +39,7 @@ import kotlin.test.assertTrue
 internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>() {
 
     override val subject: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(appStorage, calculatorStorage, currencyDataSource, adRepository, analyticsManager)
+        CurrenciesViewModel(appStorage, calculatorStorage, currencyDataSource, adControlRepository, analyticsManager)
     }
 
     @Mock
@@ -52,7 +52,7 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val adRepository = mock(classOf<AdRepository>())
+    private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -199,13 +199,13 @@ internal class CurrenciesViewModelTest : BaseViewModelTest<CurrenciesViewModel>(
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
-        verify(adRepository)
+        verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }

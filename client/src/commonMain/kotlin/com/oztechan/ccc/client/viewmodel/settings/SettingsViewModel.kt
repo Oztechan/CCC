@@ -15,7 +15,7 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.PremiumType
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -42,7 +42,7 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
-    private val adRepository: AdRepository,
+    private val adControlRepository: AdControlRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
@@ -105,7 +105,7 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
 
-    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     fun isPremiumExpired() = appStorage.premiumEndDate.isItOver()
 

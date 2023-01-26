@@ -77,7 +77,7 @@ kotlin {
                 }
 
                 Modules.Client.Repository.apply {
-                    implementation(project(ad))
+                    implementation(project(adControl))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

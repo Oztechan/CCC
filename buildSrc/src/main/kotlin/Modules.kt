@@ -72,7 +72,7 @@ object Modules {
         }
 
         object Repository {
-            const val ad = ":client:repository:ad"
+            const val adControl = ":client:repository:adcontrol"
         }
     }
 

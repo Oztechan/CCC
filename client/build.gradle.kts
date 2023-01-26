@@ -68,7 +68,7 @@ kotlin {
                     implementation(project(calculator))
                 }
                 Modules.Client.Repository.apply {
-                    implementation(project(ad))
+                    implementation(project(adControl))
                 }
             }
         }

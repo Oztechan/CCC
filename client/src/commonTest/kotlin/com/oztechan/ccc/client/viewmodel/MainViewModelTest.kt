@@ -16,7 +16,7 @@ import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
@@ -45,7 +45,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             reviewConfigService,
             appConfigRepository,
             adConfigService,
-            adRepository,
+            adControlRepository,
             analyticsManager
         )
     }
@@ -63,7 +63,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     private val appConfigRepository = mock(classOf<AppConfigRepository>())
 
     @Mock
-    private val adRepository = mock(classOf<AdRepository>())
+    private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -91,7 +91,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { getDeviceType() }
             .then { mockDevice }
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowInterstitialAd() }
             .thenReturn(false)
     }
@@ -254,7 +254,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { checkAppUpdate(false) }
             .thenReturn(null)
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowInterstitialAd() }
             .thenReturn(true)
 
@@ -282,7 +282,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { config }
             .wasInvoked()
 
-        verify(adRepository)
+        verify(adControlRepository)
             .invocation { shouldShowInterstitialAd() }
             .wasInvoked()
 
