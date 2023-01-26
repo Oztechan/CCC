@@ -214,7 +214,7 @@ jobs:
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: provider:podGenIOS res:podGenIOS --parallel
+          arguments: :ios:provider:podGenIOS res:podGenIOS --parallel
 
       - name: Install Cocoapods
         run: cd ios/CCC; pod install --repo-update
