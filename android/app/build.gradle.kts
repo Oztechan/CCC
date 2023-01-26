@@ -131,6 +131,10 @@ dependencies {
         implementation(project(update))
     }
 
+    Modules.Client.Repository.apply {
+        implementation(project(ad))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))

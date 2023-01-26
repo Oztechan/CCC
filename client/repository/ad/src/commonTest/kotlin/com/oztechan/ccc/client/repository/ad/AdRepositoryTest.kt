@@ -1,11 +1,9 @@
-package com.oztechan.ccc.client.repository
+package com.oztechan.ccc.client.repository.ad
 
+import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
-import com.oztechan.ccc.client.helper.BaseSubjectTest
-import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import io.mockative.Mock
@@ -20,9 +18,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions")
-internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
+internal class AdRepositoryTest {
 
-    override val subject: AdRepository by lazy {
+    private val subject: AdRepository by lazy {
         AdRepositoryImpl(appStorage, adConfigService)
     }
 
@@ -35,8 +33,8 @@ internal class AdRepositoryTest : BaseSubjectTest<AdRepository>() {
     private var mockedSessionCount = Random.nextInt()
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        initTestLogger()
 
         given(adConfigService)
             .invocation { config }

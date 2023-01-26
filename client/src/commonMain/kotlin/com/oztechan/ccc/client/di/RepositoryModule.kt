@@ -1,7 +1,5 @@
 package com.oztechan.ccc.client.di
 
-import com.oztechan.ccc.client.repository.ad.AdRepository
-import com.oztechan.ccc.client.repository.ad.AdRepositoryImpl
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepositoryImpl
 import com.oztechan.ccc.client.repository.background.BackgroundRepository
@@ -12,6 +10,5 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     singleOf(::AppConfigRepositoryImpl) { bind<AppConfigRepository>() }
-    singleOf(::AdRepositoryImpl) { bind<AdRepository>() }
     singleOf(::BackgroundRepositoryImpl) { bind<BackgroundRepository>() }
 }
