@@ -23,16 +23,11 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(koinCore)
-                    implementation(kotlinXDateTime)
                     implementation(coroutines)
                 }
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
-        }
+        val commonTest by getting
 
         val androidMain by getting
         val androidTest by getting

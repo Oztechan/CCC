@@ -13,10 +13,10 @@ import com.oztechan.ccc.client.model.PremiumData
 import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.util.update
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -53,7 +53,7 @@ class PremiumViewModel(
         .maxByOrNull {
             it.type.calculatePremiumEnd(it.date)
         }?.whether(
-            { !type.calculatePremiumEnd(date).isPremiumExpired() },
+            { !type.calculatePremiumEnd(date).isItOver() },
             { date > appStorage.premiumEndDate },
             { PremiumType.getPurchaseIds().any { it == type.data.id } }
         )?.apply {

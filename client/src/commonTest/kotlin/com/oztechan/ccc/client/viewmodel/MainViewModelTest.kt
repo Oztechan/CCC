@@ -18,10 +18,10 @@ import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.repository.ad.AdRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
-import com.oztechan.ccc.common.core.infrastructure.util.SECOND
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
+import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

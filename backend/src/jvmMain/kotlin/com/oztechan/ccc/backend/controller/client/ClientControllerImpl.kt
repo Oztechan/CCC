@@ -4,7 +4,7 @@ import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
 import com.oztechan.ccc.backend.service.free.FreeApiService
 import com.oztechan.ccc.backend.service.premium.PremiumApiService
-import com.oztechan.ccc.common.core.infrastructure.util.SECOND
+import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
 import com.oztechan.ccc.common.core.model.CurrencyType
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource

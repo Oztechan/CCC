@@ -20,11 +20,11 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
+import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
-import com.oztechan.ccc.common.core.infrastructure.util.DAY
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
+import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -239,7 +239,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     @Test
     fun isPremiumExpired() {
         assertEquals(
-            appStorage.premiumEndDate.isPremiumExpired(),
+            appStorage.premiumEndDate.isItOver(),
             subject.isPremiumExpired()
         )
         verify(appStorage)

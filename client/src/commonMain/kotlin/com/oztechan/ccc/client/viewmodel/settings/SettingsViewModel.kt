@@ -19,12 +19,12 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.isPremiumExpired
+import com.oztechan.ccc.client.util.isItOver
 import com.oztechan.ccc.client.util.launchIgnored
+import com.oztechan.ccc.client.util.nowAsLong
 import com.oztechan.ccc.client.util.toDateString
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
-import com.oztechan.ccc.common.core.infrastructure.util.nowAsLong
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -107,7 +107,7 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
 
-    fun isPremiumExpired() = appStorage.premiumEndDate.isPremiumExpired()
+    fun isPremiumExpired() = appStorage.premiumEndDate.isItOver()
 
     fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
 
