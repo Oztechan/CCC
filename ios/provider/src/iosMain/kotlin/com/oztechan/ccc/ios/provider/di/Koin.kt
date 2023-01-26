@@ -4,7 +4,7 @@
 
 @file:Suppress("unused")
 
-package com.oztechan.ccc.provider.di
+package com.oztechan.ccc.ios.provider.di
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.analytics.AnalyticsManager
