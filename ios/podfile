@@ -7,6 +7,6 @@ target 'CCC' do
 
   # Pods for CCC
   pod 'provider', :path => '../ios/provider/provider.podspec'
-  pod 'res', :path => '../res/res.podspec'
+  pod 'res', :path => '../client/core/res/res.podspec'
 
 end
