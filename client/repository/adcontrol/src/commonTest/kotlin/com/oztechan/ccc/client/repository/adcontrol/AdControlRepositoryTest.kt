@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.repository.adcontrol
 
-import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
@@ -34,8 +33,6 @@ internal class AdControlRepositoryTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
-
         given(adConfigService)
             .invocation { config }
             .thenReturn(AdConfig(mockedSessionCount, mockedSessionCount, 0L, 0L))
