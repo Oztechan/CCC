@@ -25,8 +25,8 @@ import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.ad.BannerAdView
 import com.oztechan.ccc.android.feature.mobile.R
+import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.res.getImageIdByName
 
 private const val ANIMATION_DURATION = 500L
 

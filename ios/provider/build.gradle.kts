@@ -22,7 +22,8 @@ kotlin {
         framework {
             baseName = Modules.IOS.provider.frameworkName
             export(project(Modules.Client.self))
-            export(project(Modules.analytics))
+            export(project(Modules.Client.Repository.background))
+            export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
         }
     }
@@ -41,8 +42,9 @@ kotlin {
                 implementation(libs.common.koinCore)
 
                 api(project(Modules.Client.self))
+                api(project(Modules.Client.Repository.background))
+                api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
-                api(project(Modules.analytics))
 
                 Modules.Common.Core.apply {
                     implementation(project(database))

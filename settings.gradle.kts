@@ -45,6 +45,8 @@ include(
 
     ":client", // Shared with all FE targets
     ":client:core:shared",
+    ":client:core:res",
+    ":client:core:analytics",
     ":client:core:persistence",
     ":client:core:remoteconfig",
     ":client:storage:app",
@@ -58,10 +60,6 @@ include(
     ":client:repository:adcontrol",
     ":client:repository:background",
     ":client:repository:appconfig",
-
-    ":res", // Shared with all FE targets for resources
-
-    ":analytics", // Shared with all FE targets for Google Analytics
 
     // submodules
     ":submodule:logmob", // KMP, logger library

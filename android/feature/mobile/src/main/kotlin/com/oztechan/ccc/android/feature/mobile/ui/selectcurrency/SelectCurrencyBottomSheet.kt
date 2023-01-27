@@ -9,13 +9,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.BottomSheetSelectCurrencyBinding
 import com.oztechan.ccc.android.feature.mobile.ui.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.feature.mobile.util.setNavigationResult
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import kotlinx.coroutines.flow.launchIn

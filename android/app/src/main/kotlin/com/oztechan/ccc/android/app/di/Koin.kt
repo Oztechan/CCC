@@ -3,13 +3,13 @@ package com.oztechan.ccc.android.app.di
 import android.content.Context
 import android.os.Build
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.analytics.di.analyticsModule
 import com.oztechan.ccc.android.app.BuildConfig
 import com.oztechan.ccc.android.core.ad.di.androidCoreAdModule
 import com.oztechan.ccc.android.core.billing.di.androidCoreBillingModule
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
+import com.oztechan.ccc.client.core.analytics.di.analyticsModule
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule

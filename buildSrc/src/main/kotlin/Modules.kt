@@ -48,6 +48,8 @@ object Modules {
         object Core {
             const val persistence = ":client:core:persistence"
             const val remoteConfig = ":client:core:remoteconfig"
+            const val analytics = ":client:core:analytics"
+            const val res = ":client:core:res"
             const val shared = ":client:core:shared"
         }
 
@@ -77,9 +79,6 @@ object Modules {
             const val appConfig = ":client:repository:appconfig"
         }
     }
-
-    const val res = ":res"
-    const val analytics = ":analytics"
 
     object Submodules {
         const val logmob = ":submodule:logmob"

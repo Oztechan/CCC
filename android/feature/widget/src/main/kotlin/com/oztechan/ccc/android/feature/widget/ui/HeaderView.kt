@@ -19,7 +19,7 @@ import com.oztechan.ccc.android.feature.widget.R
 import com.oztechan.ccc.android.feature.widget.action.WidgetAction
 import com.oztechan.ccc.android.feature.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.feature.widget.ui.components.ImageView
-import com.oztechan.ccc.res.getImageIdByName
+import com.oztechan.ccc.client.core.res.getImageIdByName
 
 @Composable
 fun HeaderView(currentBase: String) {
