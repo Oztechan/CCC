@@ -14,9 +14,9 @@ import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
-import com.oztechan.ccc.client.di.repositoryModule
 import com.oztechan.ccc.client.di.viewModelModule
 import com.oztechan.ccc.client.repository.adcontrol.di.clientRepositoryAdControlModule
+import com.oztechan.ccc.client.repository.appconfig.di.clientRepositoryAppConfigModule
 import com.oztechan.ccc.client.service.backend.di.clientServiceBackendModule
 import com.oztechan.ccc.client.storage.app.di.clientStorageAppModule
 import com.oztechan.ccc.client.storage.calculator.di.clientStorageCalculatorModule
@@ -37,7 +37,6 @@ fun initKoin(context: Context) = startKoin {
         analyticsModule,
 
         viewModelModule,
-        repositoryModule,
 
         androidCoreAdModule,
         androidCoreBillingModule,
@@ -53,6 +52,7 @@ fun initKoin(context: Context) = startKoin {
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,
         clientRepositoryAdControlModule,
+        clientRepositoryAppConfigModule,
 
         // common
         commonCoreDatabaseModule,

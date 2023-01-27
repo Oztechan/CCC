@@ -2,9 +2,6 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
-import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -12,7 +9,6 @@ plugins {
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
-        id(buildKonfig.get().pluginId)
         alias(ksp)
     }
 }
@@ -69,6 +65,7 @@ kotlin {
                 }
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
+                    implementation(project(appConfig))
                 }
             }
         }
@@ -138,14 +135,5 @@ android {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-}
-
-configure<BuildKonfigExtension> {
-    packageName = Modules.Client.self.packageName
-
-    defaultConfigs {
-        buildConfigField(INT, "versionCode", ProjectSettings.getVersionCode(project).toString(), const = true)
-        buildConfigField(STRING, "versionName", ProjectSettings.getVersionName(project), const = true)
     }
 }

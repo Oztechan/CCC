@@ -57,6 +57,7 @@ include(
     ":client:configservice:update",
     ":client:repository:adcontrol",
     ":client:repository:background",
+    ":client:repository:appconfig",
 
     ":res", // Shared with all FE targets for resources
 
