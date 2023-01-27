@@ -16,8 +16,8 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.feature.widget.R
 import com.oztechan.ccc.android.feature.widget.ui.components.ImageView
+import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.res.getImageIdByName
 
 @Composable
 fun WidgetItem(

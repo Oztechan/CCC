@@ -90,10 +90,12 @@ dependencies {
         coreLibraryDesugaring(desugaring)
         debugImplementation(leakCanary)
     }
+
     Modules.Android.Core.apply {
         implementation(project(billing))
         implementation(project(ad))
     }
+
     Modules.Common.Core.apply {
         implementation(project(database))
         implementation(project(network))
@@ -108,6 +110,7 @@ dependencies {
 
     Modules.Client.Core.apply {
         implementation(project(persistence))
+        implementation(project(analytics))
         implementation(project(shared))
     }
 
@@ -138,10 +141,6 @@ dependencies {
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))
-    }
-
-    Modules.apply {
-        implementation(project(analytics))
     }
 
     Modules.Submodules.apply {

@@ -15,8 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.FragmentCurrenciesBinding
@@ -27,6 +25,8 @@ import com.oztechan.ccc.android.feature.mobile.util.setBannerAd
 import com.oztechan.ccc.android.feature.mobile.util.setNavigationResult
 import com.oztechan.ccc.android.feature.mobile.util.showSnack
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import kotlinx.coroutines.flow.launchIn

@@ -37,7 +37,7 @@ dependencies {
 
     implementation(project(Modules.Client.self))
 
-    implementation(project(Modules.res))
+    implementation(project(Modules.Client.Core.res))
 
     implementation(project(Modules.Submodules.logmob))
 

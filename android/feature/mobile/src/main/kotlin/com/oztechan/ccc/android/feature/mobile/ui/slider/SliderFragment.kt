@@ -15,10 +15,10 @@ import androidx.viewpager.widget.ViewPager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.github.submob.scopemob.whether
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.FragmentSliderBinding
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import org.koin.android.ext.android.inject
 
 class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {

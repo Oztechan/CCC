@@ -7,11 +7,11 @@
 package com.oztechan.ccc.ios.provider.di
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.di.getAnalyticsModule
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.di.getAnalyticsModule
 import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
