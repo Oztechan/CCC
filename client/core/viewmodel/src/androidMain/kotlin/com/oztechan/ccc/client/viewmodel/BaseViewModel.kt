@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.base
+package com.oztechan.ccc.client.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.base
+package com.oztechan.ccc.client.viewmodel
 
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineScope

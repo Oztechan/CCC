@@ -5,7 +5,6 @@ package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
 import com.github.submob.logmob.e
-import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.util.isItOver
@@ -24,6 +23,7 @@ import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay

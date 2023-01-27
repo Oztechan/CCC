@@ -6,8 +6,6 @@ package com.oztechan.ccc.client.viewmodel.premium
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
-import com.oztechan.ccc.client.base.BaseData
-import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.model.OldPurchase
@@ -17,6 +15,8 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.BaseData
+import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

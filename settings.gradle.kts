@@ -44,6 +44,7 @@ include(
     ":common:datasource:conversion",
 
     ":client", // Shared with all FE targets
+    ":client:core:viewmodel",
     ":client:core:shared",
     ":client:core:res",
     ":client:core:analytics",

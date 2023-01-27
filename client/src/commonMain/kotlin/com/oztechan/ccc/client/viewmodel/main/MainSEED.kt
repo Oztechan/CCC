@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.viewmodel.main
 
-import com.oztechan.ccc.client.base.BaseData
-import com.oztechan.ccc.client.base.BaseEffect
-import com.oztechan.ccc.client.base.BaseEvent
+import com.oztechan.ccc.client.viewmodel.BaseData
+import com.oztechan.ccc.client.viewmodel.BaseEffect
+import com.oztechan.ccc.client.viewmodel.BaseEvent
 import kotlinx.coroutines.Job
 
 // State

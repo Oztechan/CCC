@@ -84,6 +84,8 @@ dependencies {
         implementation(project(ad))
     }
 
+    implementation(project(Modules.Client.Core.viewmodel))
+
     Modules.Client.Core.apply {
         implementation(project(res))
         implementation(project(analytics))
