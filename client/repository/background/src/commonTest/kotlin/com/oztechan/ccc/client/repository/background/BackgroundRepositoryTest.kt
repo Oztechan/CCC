@@ -1,9 +1,7 @@
-package com.oztechan.ccc.client.repository
+package com.oztechan.ccc.client.repository.background
 
+import com.github.submob.logmob.initTestLogger
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.client.helper.BaseSubjectTest
-import com.oztechan.ccc.client.repository.background.BackgroundRepository
-import com.oztechan.ccc.client.repository.background.BackgroundRepositoryImpl
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -14,14 +12,15 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.test.runTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>() {
+internal class BackgroundRepositoryTest {
 
-    override val subject: BackgroundRepository by lazy {
+    private val subject: BackgroundRepository by lazy {
         BackgroundRepositoryImpl(watcherDataSource, backendApiService)
     }
 
@@ -30,6 +29,11 @@ internal class BackgroundRepositoryTest : BaseSubjectTest<BackgroundRepository>(
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
+
+    @BeforeTest
+    fun setup() {
+        initTestLogger()
+    }
 
     @Test
     fun `if getWatchers throw an error should return false`() = runTest {
