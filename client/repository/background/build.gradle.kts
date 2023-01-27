@@ -1,10 +1,12 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
+        id(multiplatform.get().pluginId)
+        alias(ksp)
     }
 }
+
 kotlin {
     android()
 
@@ -14,16 +16,27 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
+
         val commonMain by getting {
             dependencies {
-                implementation(libs.common.kotlinXDateTime)
+                libs.common.apply {
+                    implementation(koinCore)
+                    implementation(coroutines)
+                }
+                implementation(project(Modules.Client.DataSource.watcher))
+                implementation(project(Modules.Client.Service.backend))
+                implementation(project(Modules.Client.Core.shared))
                 implementation(project(Modules.Common.Core.model))
+                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.common.test)
-                implementation(project(Modules.Common.Core.infrastructure))
+                libs.common.apply {
+                    implementation(test)
+                    implementation(coroutinesTest)
+                    implementation(mockative)
+                }
             }
         }
 
@@ -51,12 +64,20 @@ kotlin {
     }
 }
 
-@Suppress("UnstableApiUsage")
+dependencies {
+    ksp(libs.processors.mockative)
+}
+
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
+}
+
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.Core.shared.packageName
+        namespace = Modules.Client.Repository.background.packageName
         compileSdk = COMPILE_SDK_VERSION
 
+        @Suppress("UnstableApiUsage")
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION

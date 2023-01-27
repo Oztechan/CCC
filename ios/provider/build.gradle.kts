@@ -22,6 +22,7 @@ kotlin {
         framework {
             baseName = Modules.IOS.provider.frameworkName
             export(project(Modules.Client.self))
+            export(project(Modules.Client.Repository.background))
             export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
         }
@@ -41,6 +42,7 @@ kotlin {
                 implementation(libs.common.koinCore)
 
                 api(project(Modules.Client.self))
+                api(project(Modules.Client.Repository.background))
                 api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
 
@@ -78,6 +80,7 @@ kotlin {
 
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
+                    implementation(project(background))
                 }
 
                 implementation(project(Modules.Submodules.logmob))
