@@ -28,8 +28,8 @@ import com.oztechan.ccc.android.feature.mobile.ui.compose.component.ImageView
 import com.oztechan.ccc.android.feature.mobile.ui.compose.component.Preview
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toPainter
 import com.oztechan.ccc.android.feature.mobile.ui.compose.util.toText
+import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.common.core.model.Watcher
-import com.oztechan.ccc.res.getImageIdByName
 
 @Composable
 fun WatcherItem(

@@ -22,7 +22,7 @@ secret.properties
 /submodule
 
 # Pods files
-res/res.podspec
+client/core/res/res.podspec
 ios/provider/provider.podspec
 
 # iOS Project

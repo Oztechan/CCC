@@ -79,15 +79,12 @@ dependencies {
 
     implementation(project(Modules.Common.Core.model))
 
-    Modules.apply {
-        implementation(project(res))
-    }
     Modules.Android.Core.apply {
         implementation(project(billing))
         implementation(project(ad))
     }
 
-    Modules.apply {
+    Modules.Client.Core.apply {
         implementation(project(res))
         implementation(project(analytics))
     }

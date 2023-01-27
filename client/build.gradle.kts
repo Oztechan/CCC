@@ -32,9 +32,7 @@ kotlin {
                     implementation(coroutines)
                     implementation(koinCore)
                 }
-                Modules.apply {
-                    implementation(project(analytics))
-                }
+
                 Modules.Submodules.apply {
                     implementation(project(logmob))
                     implementation(project(scopemob))
@@ -49,6 +47,7 @@ kotlin {
                 }
                 Modules.Client.Core.apply {
                     implementation(project(persistence))
+                    implementation(project(analytics))
                     implementation(project(shared))
                 }
                 Modules.Client.DataSource.apply {

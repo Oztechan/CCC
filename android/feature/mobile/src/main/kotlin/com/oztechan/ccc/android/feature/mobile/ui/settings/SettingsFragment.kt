@@ -14,8 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.feature.mobile.BuildConfig
 import com.oztechan.ccc.android.feature.mobile.R
@@ -28,6 +26,8 @@ import com.oztechan.ccc.android.feature.mobile.util.showDialog
 import com.oztechan.ccc.android.feature.mobile.util.showSingleChoiceDialog
 import com.oztechan.ccc.android.feature.mobile.util.showSnack
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.numberToIndex

@@ -3,8 +3,8 @@
  */
 package com.oztechan.ccc.client.viewmodel
 
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.UserProperty
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after

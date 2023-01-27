@@ -11,8 +11,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
-import com.oztechan.ccc.analytics.AnalyticsManager
-import com.oztechan.ccc.analytics.model.ScreenName
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.feature.mobile.R
 import com.oztechan.ccc.android.feature.mobile.databinding.FragmentCalculatorBinding
@@ -24,10 +22,12 @@ import com.oztechan.ccc.android.feature.mobile.util.setBackgroundByName
 import com.oztechan.ccc.android.feature.mobile.util.setBannerAd
 import com.oztechan.ccc.android.feature.mobile.util.showSnack
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.ScreenName
+import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.res.getImageIdByName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
