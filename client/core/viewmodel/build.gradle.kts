@@ -17,6 +17,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 libs.apply {
+                    implementation(common.koinCore)
                     implementation(common.coroutines)
                     implementation(android.koinAndroid)
                 }
