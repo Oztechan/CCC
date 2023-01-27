@@ -73,6 +73,7 @@ object Modules {
 
         object Repository {
             const val adControl = ":client:repository:adcontrol"
+            const val background = ":client:repository:background"
         }
     }
 
