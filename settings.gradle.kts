@@ -55,6 +55,7 @@ include(
     ":client:configservice:ad",
     ":client:configservice:review",
     ":client:configservice:update",
+    ":client:repository:adcontrol",
 
     ":res", // Shared with all FE targets for resources
 

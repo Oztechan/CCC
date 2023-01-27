@@ -16,7 +16,7 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.mapper.toConversion
 import com.oztechan.ccc.client.mapper.toTodayResponse
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
@@ -54,7 +54,7 @@ class CalculatorViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
-    private val adRepository: AdRepository,
+    private val adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
     // region SEED
@@ -200,7 +200,7 @@ class CalculatorViewModel(
         }
     }
 
-    fun shouldShowBannerAd() = adRepository.shouldShowBannerAd()
+    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {

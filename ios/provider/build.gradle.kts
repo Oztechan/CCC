@@ -76,6 +76,10 @@ kotlin {
                     implementation(project(update))
                 }
 
+                Modules.Client.Repository.apply {
+                    implementation(project(adControl))
+                }
+
                 implementation(project(Modules.Submodules.logmob))
             }
         }

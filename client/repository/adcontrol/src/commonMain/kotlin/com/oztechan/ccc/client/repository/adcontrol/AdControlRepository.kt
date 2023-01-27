@@ -1,6 +1,6 @@
-package com.oztechan.ccc.client.repository.ad
+package com.oztechan.ccc.client.repository.adcontrol
 
-interface AdRepository {
+interface AdControlRepository {
     fun shouldShowBannerAd(): Boolean
 
     fun shouldShowInterstitialAd(): Boolean

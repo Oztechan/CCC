@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
@@ -30,7 +30,7 @@ import kotlin.test.assertNotNull
 internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
     override val subject: WatchersViewModel by lazy {
-        WatchersViewModel(currencyDataSource, watcherDataSource, adRepository)
+        WatchersViewModel(currencyDataSource, watcherDataSource, adControlRepository)
     }
 
     @Mock
@@ -40,7 +40,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
 
     @Mock
-    private val adRepository = mock(classOf<AdRepository>())
+    private val adControlRepository = mock(classOf<AdControlRepository>())
 
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
@@ -57,13 +57,13 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     fun shouldShowBannerAd() {
         val mockBool = Random.nextBoolean()
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBool)
 
         assertEquals(mockBool, subject.shouldShowBannerAd())
 
-        verify(adRepository)
+        verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }

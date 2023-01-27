@@ -67,6 +67,9 @@ kotlin {
                     implementation(project(app))
                     implementation(project(calculator))
                 }
+                Modules.Client.Repository.apply {
+                    implementation(project(adControl))
+                }
             }
         }
         val commonTest by getting {

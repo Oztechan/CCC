@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.model.ConversionState
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateRate
@@ -52,7 +52,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             backendApiService,
             currencyDataSource,
             conversionDataSource,
-            adRepository,
+            adControlRepository,
             analyticsManager
         )
     }
@@ -70,7 +70,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val conversionDataSource = mock(classOf<ConversionDataSource>())
 
     @Mock
-    private val adRepository = mock(classOf<AdRepository>())
+    private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -288,13 +288,13 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
-        verify(adRepository)
+        verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }

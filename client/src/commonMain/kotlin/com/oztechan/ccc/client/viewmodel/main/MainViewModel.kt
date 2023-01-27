@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import kotlinx.coroutines.delay
@@ -27,7 +27,7 @@ class MainViewModel(
     private val reviewConfigService: ReviewConfigService,
     private val appConfigRepository: AppConfigRepository,
     private val adConfigService: AdConfigService,
-    private val adRepository: AdRepository,
+    private val adControlRepository: AdControlRepository,
     analyticsManager: AnalyticsManager,
 ) : BaseSEEDViewModel<BaseState, MainEffect, MainEvent, MainData>(), MainEvent {
     // region SEED
@@ -63,7 +63,7 @@ class MainViewModel(
         data.adJob = viewModelScope.launch {
             delay(adConfigService.config.interstitialAdInitialDelay)
 
-            while (isActive && adRepository.shouldShowInterstitialAd()) {
+            while (isActive && adControlRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility && !isPremium()) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }

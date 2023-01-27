@@ -70,6 +70,10 @@ object Modules {
             const val review = ":client:configservice:review"
             const val update = ":client:configservice:update"
         }
+
+        object Repository {
+            const val adControl = ":client:repository:adcontrol"
+        }
     }
 
     const val res = ":res"

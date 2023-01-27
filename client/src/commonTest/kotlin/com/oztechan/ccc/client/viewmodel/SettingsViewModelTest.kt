@@ -15,7 +15,7 @@ import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.model.AppTheme
 import com.oztechan.ccc.client.model.PremiumType
-import com.oztechan.ccc.client.repository.ad.AdRepository
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -59,7 +59,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             currencyDataSource,
             conversionDataSource,
             watcherDataSource,
-            adRepository,
+            adControlRepository,
             appConfigRepository,
             analyticsManager
         )
@@ -87,7 +87,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     private val appConfigRepository = mock(classOf<AppConfigRepository>())
 
     @Mock
-    private val adRepository = mock(classOf<AdRepository>())
+    private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
     private val analyticsManager = mock(classOf<AnalyticsManager>())
@@ -251,13 +251,13 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
-        given(adRepository)
+        given(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
         assertEquals(mockBoolean, subject.shouldShowBannerAd())
 
-        verify(adRepository)
+        verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
