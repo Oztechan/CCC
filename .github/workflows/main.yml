@@ -80,19 +80,14 @@ jobs:
         with:
           arguments: assemble
 
-      - name: Upload Google APK
+      - name: Upload Android Artifacts
         uses: actions/upload-artifact@v3
         if: github.event_name == 'push'
         with:
-          name: googleAPK
-          path: android/app/build/outputs/apk/google/release/app-google-release.apk
-
-      - name: Upload Huawei APK
-        uses: actions/upload-artifact@v3
-        if: github.event_name == 'push'
-        with:
-          name: huaweiAPK
-          path: android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
+          name: androidArtifacts
+          path: |
+            android/app/build/outputs/apk/google/release/app-google-release.apk
+            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
       - name: Set Job Status
         id: status
@@ -148,19 +143,14 @@ jobs:
           lane: 'build'
           subdirectory: 'ios'
 
-      - name: Upload iOS IPA
+      - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v3
         if: github.event_name == 'push'
         with:
-          name: iOSIPA
-          path: ios/CCC.ipa
-
-      - name: Upload iOS dSYM
-        uses: actions/upload-artifact@v3
-        if: github.event_name == 'push'
-        with:
-          name: dSYM
-          path: ios/CCC.app.dSYM.zip
+          name: iOSArtifacts
+          path: |
+            ios/CCC.ipa
+            ios/CCC.app.dSYM.zip
 
       - name: Set Job Status
         id: status
@@ -176,12 +166,7 @@ jobs:
       - name: Download Google APK
         uses: actions/download-artifact@v3
         with:
-          name: googleAPK
-
-      - name: Download Huawei APK
-        uses: actions/download-artifact@v3
-        with:
-          name: huaweiAPK
+          name: androidArtifacts
 
       - name: Firebase App Distribution Google
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -202,12 +187,7 @@ jobs:
       - name: Delete Google APK
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: googleAPK
-
-      - name: Delete Huawei APK
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: huaweiAPK
+          name: androidArtifacts
 
       - name: Set Job Status
         id: status
@@ -229,13 +209,7 @@ jobs:
       - name: Download iOS IPA
         uses: actions/download-artifact@v3
         with:
-          name: iOSIPA
-          path: ios
-
-      - name: Download iOS dSYM
-        uses: actions/download-artifact@v3
-        with:
-          name: dSYM
+          name: iOSArtifacts
           path: ios
 
       - name: Distrubute
@@ -247,12 +221,7 @@ jobs:
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: iOSIPA
-
-      - name: Delete iOS dSYM
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: dSYM
+          name: iOSArtifacts
 
       - name: Set Job Status
         id: status
