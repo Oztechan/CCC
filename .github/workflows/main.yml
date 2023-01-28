@@ -31,6 +31,16 @@ env:
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
   API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
+  APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+  APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+  APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+  GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+  SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
 
 jobs:
@@ -69,6 +79,20 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: assemble
+
+      - name: Upload Google APK
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          name: googleAPK
+          path: android/app/build/outputs/apk/google/release/app-google-release.apk
+
+      - name: Upload Huawei APK
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          name: huaweiAPK
+          path: android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
       - name: Set Job Status
         id: status
@@ -123,17 +147,93 @@ jobs:
         with:
           lane: 'build'
           subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
+
+      - name: Upload iOS IPA
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          name: iOSIPA
+          path: ../ios/CCC.ipa
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeAndroid:
+    runs-on: ubuntu-latest
+    needs: [ GradleBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Download Google APK
+        uses: actions/download-artifact@v3
+        with:
+          name: googleAPK
+
+      - name: Download Huawei APK
+        uses: actions/download-artifact@v3
+        with:
+          name: huaweiAPK
+
+      - name: Firebase App Distribution Google
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-google-release.apk
+
+      - name: Firebase App Distribution Huawei
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-huawei-release.apk
+
+      - name: Delete Google APK
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: googleAPK
+
+      - name: Delete Huawei APK
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: huaweiAPK
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeIOS:
+    runs-on: macos-12
+    needs: [ XCodeBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Download iOS IPA
+        uses: actions/download-artifact@v3
+        with:
+          name: iOSIPA
+
+      - name: Distrubute
+        uses: maierj/fastlane-action@v2.3.0
+        with:
+          lane: 'distribute'
+          subdirectory: 'ios'
+
+      - name: Delete iOS IPA
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: iOSIPA
 
       - name: Set Job Status
         id: status
@@ -180,14 +280,16 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Quality ]
+    needs: [ GradleBuild, XCodeBuild, Quality, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Quality.outputs.status == 'success')
+          false == (needs.Quality.outputs.status == 'success') ||
+          (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
+          (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v2
