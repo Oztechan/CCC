@@ -171,6 +171,12 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
       - name: Download Google APK
         uses: actions/download-artifact@v3
         with:
@@ -241,7 +247,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
+      - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
