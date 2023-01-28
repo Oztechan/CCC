@@ -1,15 +1,10 @@
-/*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
- */
+package com.oztechan.ccc.client.viewmodel.util
 
-package com.oztechan.ccc.client.util
-
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersData
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 
-internal actual fun Double.getFormatted(precision: Int): String {
+actual fun Double.getFormatted(precision: Int): String {
     var decimalFormat = "###,###."
     repeat(precision) {
         decimalFormat = "$decimalFormat#"
@@ -26,8 +21,3 @@ internal actual fun Double.getFormatted(precision: Int): String {
     }
     return DecimalFormat(decimalFormat, symbols).format(this)
 }
-
-internal actual fun Double.removeScientificNotation(): String = DecimalFormat("#.#").apply {
-    maximumFractionDigits = WatchersData.MAXIMUM_INPUT
-    decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
-}.format(this)

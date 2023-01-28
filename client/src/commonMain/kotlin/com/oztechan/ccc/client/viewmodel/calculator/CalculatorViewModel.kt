@@ -18,13 +18,10 @@ import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.calculateRate
 import com.oztechan.ccc.client.util.getConversionStringFromBase
-import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
-import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
@@ -33,6 +30,9 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
+import com.oztechan.ccc.client.viewmodel.util.MAXIMUM_FLOATING_POINT
+import com.oztechan.ccc.client.viewmodel.util.getFormatted
+import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate

@@ -1,32 +1,17 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-@file:Suppress("TooManyFunctions")
-
 package com.oztechan.ccc.client.util
 
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
+import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-
-const val MAXIMUM_FLOATING_POINT = 9
-
-internal expect fun Double.getFormatted(precision: Int): String
-
-internal expect fun Double.removeScientificNotation(): String
 
 internal fun Conversion?.calculateRate(code: String, input: String?) = this
     ?.whetherNot { input.isNullOrEmpty() }
     ?.getRateFromCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
-
-internal fun String.toSupportedCharacters() = replace(",", ".")
-    .replace("٫", ".")
-    .replace(" ", "")
-    .replace("−", "-")
 
 internal fun String.toStandardDigits(): String {
     val builder = StringBuilder()

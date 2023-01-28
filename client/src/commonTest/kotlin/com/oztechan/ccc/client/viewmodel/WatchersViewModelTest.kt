@@ -7,7 +7,7 @@ import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.util.toStandardDigits
-import com.oztechan.ccc.client.util.toSupportedCharacters
+import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import com.oztechan.ccc.common.core.model.Currency
