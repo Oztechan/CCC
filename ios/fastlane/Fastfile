@@ -60,7 +60,7 @@ platform :ios do
                 groups: "QA",
                 release_notes: changelog_from_git_commits(commits_count: 1),
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
-                ipa_path: "CCC.ipa"
+                ipa_path: "../ios/CCC.ipa"
             )
             upload_crashlytics_symbols
         end
