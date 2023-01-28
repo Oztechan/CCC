@@ -1,11 +1,11 @@
 package com.oztechan.ccc.client.viewmodel.calculator
 
 import com.github.submob.parsermob.ParserMob
-import com.oztechan.ccc.client.base.BaseData
-import com.oztechan.ccc.client.base.BaseEffect
-import com.oztechan.ccc.client.base.BaseEvent
-import com.oztechan.ccc.client.base.BaseState
 import com.oztechan.ccc.client.model.ConversionState
+import com.oztechan.ccc.client.viewmodel.BaseData
+import com.oztechan.ccc.client.viewmodel.BaseEffect
+import com.oztechan.ccc.client.viewmodel.BaseEvent
+import com.oztechan.ccc.client.viewmodel.BaseState
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 

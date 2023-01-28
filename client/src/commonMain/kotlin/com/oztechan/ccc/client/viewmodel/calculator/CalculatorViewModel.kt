@@ -7,7 +7,6 @@ import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
-import com.oztechan.ccc.client.base.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
@@ -27,6 +26,7 @@ import com.oztechan.ccc.client.util.launchIgnored
 import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.util.toSupportedCharacters
 import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL

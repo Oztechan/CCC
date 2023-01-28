@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.viewmodel.widget
 
-import com.oztechan.ccc.client.base.BaseViewModel
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsInstant
@@ -17,7 +16,7 @@ class WidgetViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val appStorage: AppStorage
-) : BaseViewModel() {
+) {
 
     var state = WidgetState(
         currentBase = calculatorStorage.currentBase,

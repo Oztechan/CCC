@@ -46,6 +46,7 @@ object Modules {
         const val self = ":client"
 
         object Core {
+            const val viewmodel = ":client:core:viewmodel"
             const val persistence = ":client:core:persistence"
             const val remoteConfig = ":client:core:remoteconfig"
             const val analytics = ":client:core:analytics"

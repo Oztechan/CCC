@@ -1,6 +1,5 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.viewmodel.util
 
-import com.squareup.sqldelight.db.Closeable
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +17,8 @@ fun <T> Flow<T>.observeWithCloseable(onChange: ((T) -> Unit)): Closeable {
             scope.cancel()
         }
     }
+}
+
+interface Closeable {
+    fun close()
 }
