@@ -2,7 +2,6 @@ package com.oztechan.ccc.client.repository.appconfig
 
 import com.github.submob.scopemob.mapTo
 import com.github.submob.scopemob.whether
-import com.oztechan.ccc.client.BuildKonfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.update.UpdateConfigService
 import com.oztechan.ccc.client.core.shared.Device

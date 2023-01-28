@@ -81,6 +81,7 @@ kotlin {
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
                     implementation(project(background))
+                    implementation(project(appConfig))
                 }
 
                 implementation(project(Modules.Submodules.logmob))

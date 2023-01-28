@@ -136,6 +136,7 @@ dependencies {
 
     Modules.Client.Repository.apply {
         implementation(project(adControl))
+        implementation(project(appConfig))
     }
 
     Modules.Android.Feature.apply {

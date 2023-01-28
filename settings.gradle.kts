@@ -59,6 +59,7 @@ include(
     ":client:configservice:update",
     ":client:repository:adcontrol",
     ":client:repository:background",
+    ":client:repository:appconfig",
 
     // submodules
     ":submodule:logmob", // KMP, logger library
