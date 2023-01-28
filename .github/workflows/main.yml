@@ -153,7 +153,7 @@ jobs:
         if: github.event_name == 'push'
         with:
           name: iOSIPA
-          path: ../ios/CCC.ipa
+          path: ios/CCC.ipa
 
       - name: Set Job Status
         id: status
@@ -209,7 +209,7 @@ jobs:
   DistributeIOS:
     runs-on: macos-12
     needs: [ XCodeBuild ]
-    if: github.event_name == 'push'
+    #    if: github.event_name == 'push'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
