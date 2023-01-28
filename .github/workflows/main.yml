@@ -89,6 +89,10 @@ jobs:
             android/app/build/outputs/apk/google/release/app-google-release.apk
             android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.2
+
       - name: Set Job Status
         id: status
         run: echo "::set-output name=status::success"
@@ -151,6 +155,10 @@ jobs:
           path: |
             ios/CCC.ipa
             ios/CCC.app.dSYM.zip
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.2
 
       - name: Set Job Status
         id: status
@@ -261,6 +269,10 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: build/reports/kover/merged/xml/report.xml
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.2
 
       - name: Set Job Status
         id: status
