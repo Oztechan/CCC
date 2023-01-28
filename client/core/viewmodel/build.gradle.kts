@@ -16,10 +16,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                libs.apply {
-                    implementation(common.koinCore)
-                    implementation(common.coroutines)
-                    implementation(android.koinAndroid)
+                libs.common.apply {
+                    implementation(koinCore)
+                    implementation(coroutines)
                 }
                 implementation(project(Modules.Submodules.logmob))
             }
