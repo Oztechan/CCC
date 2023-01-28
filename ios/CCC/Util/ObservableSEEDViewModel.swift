@@ -26,8 +26,8 @@ final class ObservableSEEDViewModel<
 
     let data: Data?
 
-    private var stateClosable: RuntimeCloseable?
-    private var effectClosable: RuntimeCloseable?
+    private var stateClosable: Closeable?
+    private var effectClosable: Closeable?
 
     // swiftlint:disable force_cast
     init() {
