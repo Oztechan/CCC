@@ -150,10 +150,17 @@ jobs:
 
       - name: Upload iOS IPA
         uses: actions/upload-artifact@v3
-#        if: github.event_name == 'push'
+        if: github.event_name == 'push'
         with:
           name: iOSIPA
           path: ios/CCC.ipa
+
+      - name: Upload iOS dSYM
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          name: dSYM
+          path: ios/CCC.app.dSYM.zip
 
       - name: Set Job Status
         id: status
@@ -209,7 +216,7 @@ jobs:
   DistributeIOS:
     runs-on: macos-12
     needs: [ XCodeBuild ]
-    #    if: github.event_name == 'push'
+    if: github.event_name == 'push'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -223,6 +230,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: iOSIPA
+          path: ios
+
+      - name: Download iOS dSYM
+        uses: actions/download-artifact@v3
+        with:
+          name: dSYM
+          path: ios
 
       - name: Distrubute
         uses: maierj/fastlane-action@v2.3.0
@@ -234,6 +248,11 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: iOSIPA
+
+      - name: Delete iOS dSYM
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: dSYM
 
       - name: Set Job Status
         id: status
