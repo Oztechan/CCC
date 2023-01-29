@@ -317,7 +317,7 @@ jobs:
           args: >
             -Dsonar.organization=oztechan
             -Dsonar.projectKey=Oztechan_CCC
-            -Dsonar.python.coverage.reportPaths=report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=report.xml
 
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v2
